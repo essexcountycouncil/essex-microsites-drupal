@@ -17,6 +17,8 @@
 /web/update.php
 /web/web.config
 /bin
+.editorconfig
+.gitattributes
 # Ignore dependencies that are managed with Composer.
 # Generally you should only ignore the root vendor directory. It's important
 # that core/assets/vendor and any other vendor directories within contrib or
