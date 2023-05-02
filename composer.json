@@ -83,7 +83,8 @@
                     "path": "assets/composer/settings.lando.php",
                     "overwrite": false
                 },
-                "[web-root]/sites/development.services.yml": "assets/composer/development.services.yml"
+                "[web-root]/sites/development.services.yml": "assets/composer/development.services.yml",
+                "[web-root]/README.md": false
             }
         },
         "installer-paths": {

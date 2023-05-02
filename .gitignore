@@ -1,8 +1,22 @@
-# Core and contrib.
+# Core, contrib, Drupal scaffold files/dirs & LGD Microsite stuff.
 /web/core
 /web/modules/contrib/
 /web/themes/contrib/
-
+/web/profiles/contrib/
+/web/libraries/
+/web/.csslintrc
+/web/.eslintignore
+/web/.eslintrc.json
+/web/.ht.router.php
+/web/.htaccess
+/web/INSTALL.txt
+/web/example.gitignore
+/web/index.php
+/web/profiles
+/web/robots.txt
+/web/update.php
+/web/web.config
+/bin
 # Ignore dependencies that are managed with Composer.
 # Generally you should only ignore the root vendor directory. It's important
 # that core/assets/vendor and any other vendor directories within contrib or
@@ -38,5 +52,3 @@ sites/simpletest
 
 # Ignore node_modules
 node_modules
-
-
