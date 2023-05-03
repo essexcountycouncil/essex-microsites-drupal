@@ -56,3 +56,6 @@ sites/simpletest
 
 # Ignore node_modules
 node_modules
+
+# Miscellaneous files/folders.
+.DS_Store

@@ -99,6 +99,9 @@
         }
     },
     "scripts": {
+        "post-drupal-scaffold-cmd": [
+            "cp assets/composer/localgov_microsites.info.yml web/profiles/contrib/localgov_microsites/localgov_microsites.info.yml"
+        ],
         "checker-security": "bin/drush pm:security",
         "phpcs": "bin/phpcs --standard=Drupal,DrupalPractice modules/custom"
     }
