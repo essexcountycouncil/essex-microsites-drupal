@@ -27,13 +27,10 @@ build-and-push-images:
       fi
     - docker pull ${DOCKER_REGISTRY}/microsites-nginx-drupal || true
     - docker pull ${DOCKER_REGISTRY}/microsites-drupal-fpm || true
-    - docker pull ${DOCKER_REGISTRY}/microsites-nginx-redirect || true
     - docker build -t ${DOCKER_REGISTRY}/microsites-drupal-fpm${tag} -t microsites-drupal-fpm -f Dockerfile-drupal .
     - docker build -t ${DOCKER_REGISTRY}/microsites-nginx-drupal${tag} -t microsites-nginx-drupal -f Dockerfile-nginx .
-    - docker build -t ${DOCKER_REGISTRY}/microsites-nginx-redirect${tag} -t microsites-nginx-redirect -f Dockerfile-nginx-redirect .
     - docker push ${DOCKER_REGISTRY}/microsites-nginx-drupal${tag}
     - docker push ${DOCKER_REGISTRY}/microsites-drupal-fpm${tag}
-    - docker push ${DOCKER_REGISTRY}/microsites-nginx-redirect${tag}
   only:
     - develop
     - /^release\//
@@ -130,7 +127,6 @@ deploy-to-preprod:
     - echo "Importing image from Development  into Pre-Production"
     - az acr import --force --name acreccukspre --source acreccuksdev.azurecr.io/microsites-nginx-drupal:${CI_COMMIT_REF_SLUG} --image microsites-nginx-drupal:${CI_COMMIT_REF_SLUG} --subscription "Essex County Council (Common)"
     - az acr import --force --name acreccukspre --source acreccuksdev.azurecr.io/microsites-drupal-fpm:${CI_COMMIT_REF_SLUG} --image microsites-drupal-fpm:${CI_COMMIT_REF_SLUG} --subscription "Essex County Council (Common)"
-    - az acr import --force --name acreccukspre --source acreccuksdev.azurecr.io/microsites-nginx-redirect:${CI_COMMIT_REF_SLUG} --image microsites-nginx-redirect:${CI_COMMIT_REF_SLUG} --subscription "Essex County Council (Common)"
     - |
       cat > revision.yml <<EOF
       properties:
@@ -148,8 +144,6 @@ deploy-to-preprod:
               env:
               - name: X_ROBOTS_TAG
                 value: noindex
-              - name: LIMITED_BETA_MODE
-                value: 1
             - image: acreccukspre.azurecr.io/microsites-drupal-fpm:${CI_COMMIT_REF_SLUG}
               name: drupal
               resources:
@@ -205,7 +199,6 @@ deploy-to-prod:
     - echo "Importing image from Pre-Production into Production"
     - az acr import --force --name acreccuksprod --source acreccukspre.azurecr.io/microsites-nginx-drupal:${CI_COMMIT_REF_SLUG} --image microsites-nginx-drupal:${CI_COMMIT_REF_SLUG} --subscription "Essex County Council (Common)"
     - az acr import --force --name acreccuksprod --source acreccukspre.azurecr.io/microsites-drupal-fpm:${CI_COMMIT_REF_SLUG} --image microsites-drupal-fpm:${CI_COMMIT_REF_SLUG} --subscription "Essex County Council (Common)"
-    - az acr import --force --name acreccuksprod --source acreccukspre.azurecr.io/microsites-nginx-redirect:${CI_COMMIT_REF_SLUG} --image microsites-nginx-redirect:${CI_COMMIT_REF_SLUG} --subscription "Essex County Council (Common)"
     - echo "Creating new revision of Container App"
     - |
       cat > revision.yml <<EOF
@@ -224,8 +217,6 @@ deploy-to-prod:
               env:
               - name: X_ROBOTS_TAG
                 value: noindex
-              - name: LIMITED_BETA_MODE
-                value: 1
             - image: acreccuksprod.azurecr.io/microsites-drupal-fpm:${CI_COMMIT_REF_SLUG}
               name: drupal
               resources:
@@ -247,7 +238,6 @@ deploy-to-prod:
                 secretRef: openid-connect-params
       EOF
     - az containerapp revision copy --name microsites --resource-group rg-ecc-microsites-uks-prod --yaml revision.yml --subscription "Essex County Council (Microsites)"
-    - az containerapp revision copy --name microsites-nginx-redirect --resource-group rg-ecc-microsites-redirect-uks-prod --image acreccuksprod.azurecr.io/microsites-nginx-redirect:${CI_COMMIT_REF_SLUG} --subscription "Essex County Council (Microsites)"
   rules:
     - if: '$CI_COMMIT_BRANCH =~ /^release\//'
       when: manual

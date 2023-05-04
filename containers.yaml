@@ -40,10 +40,6 @@ properties:
     - protocol: tcp
       port: 443
     dnsNameLabel: ecc-microsites-drupal-dev
-  imageRegistryCredentials:
-  - server: eccgovreg.azurecr.io
-    username: eccmicrositesreg
-    password: <PASSWORD>
   volumes:
   - name: filesharevol
     azurefile:
