@@ -91,7 +91,7 @@
                 },
                 "[web-root]/sites/default/settings.local.php": {
                     "mode": "replace",
-                    "path": "assets/composer/settings.lando.php",
+                    "path": "assets/composer/settings.local.php",
                     "overwrite": false
                 },
                 "[web-root]/sites/development.services.yml": "assets/composer/development.services.yml",
