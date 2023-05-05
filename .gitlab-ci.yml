@@ -50,7 +50,9 @@ build-and-push-images:
 deploy-to-dev:
   image: mcr.microsoft.com/azure-cli
   stage: development
-  needs: ["build-and-push-images"]
+  needs:
+    - job: build-and-push-images
+      optional: true
   environment:
     name: development
     url: https://essex-gov.nomensa.xyz/
