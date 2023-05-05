@@ -34,6 +34,7 @@
         "drupal/core-dev": "^9.3",
         "drupal/webprofiler": "^9.0",
         "mglaman/phpstan-drupal": "^1.1",
+        "phpcompatibility/php-compatibility": "^9.3",
         "phpspec/prophecy-phpunit": "^2",
         "phpstan/phpstan": "^1.5",
         "phpstan/phpstan-deprecation-rules": "^1.0"
@@ -99,7 +100,20 @@
         }
     },
     "scripts": {
-        "checker-security": "bin/drush pm:security",
-        "phpcs": "bin/phpcs --standard=Drupal,DrupalPractice modules/custom"
+        "phpcs": "bin/phpcs --standard=Drupal,DrupalPractice web/modules/custom",
+        "checker-php-lint": "bin/parallel-lint web/modules/custom",
+        "phpunit-unit": "bin/phpunit -v --debug -c phpunit-unit.xml",
+        "checker-security": [
+            "bin/drush pm:security",
+            "bin/drush pm:security-php"
+        ],
+        "checker-php-compatibility-lenient": [
+            "bin/phpcs --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ruleset.xml --warning-severity=6 --runtime-set testVersion 8.1 modules",
+            "bin/phpcs --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ruleset.xml --warning-severity=6 --ignore=*/node_modules/* --runtime-set testVersion 8.1 themes"
+        ],
+        "tests-required": [
+            "composer validate",
+            "composer checker-security",
+        ]
     }
 }

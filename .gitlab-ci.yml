@@ -1,4 +1,5 @@
 stages:
+  - Test1
   - build
   - development
   - development-postdeploy
@@ -6,6 +7,16 @@ stages:
   - preproduction-postdeploy
   - production
   - production-postdeploy
+
+Test:Required:
+  stage: Test1
+  image: wodby/php:8.1
+  before_script:
+    - ''
+  script:
+    - composer install && composer tests-required
+  allow_failure: false
+
 
 build-and-push-images:
   stage: build
