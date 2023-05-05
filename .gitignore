@@ -30,7 +30,7 @@
 # Ignore configuration files that may contain sensitive information.
 sites/*/settings*.php
 sites/*/services*.yml
-web/sites/default/settings.php
+web/sites/default/settings*.php
 
 # Ignore paths that contain user-generated content.
 /web/sites/default/files/
