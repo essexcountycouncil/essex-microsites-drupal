@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e3d355b2be8a352036b19621a872cfbc",
+    "content-hash": "2369e3f9cb2def3545fd67008f085c27",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2572,10 +2572,13 @@
             },
             "require": {
                 "drupal/core": "^8.8 || ^9",
-                "drupal/domain": "*"
+                "drupal/domain": "^1.0-beta"
             },
             "require-dev": {
-                "drupal/pathauto": "^1.8"
+                "drupal/pathauto": "1.x-dev"
+            },
+            "suggest": {
+                "drupal/pathauto": "Automatic path aliases with Domain Path Pathauto submodule."
             },
             "type": "drupal-module",
             "extra": {
@@ -2583,8 +2586,8 @@
                     "dev-1.x": "1.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-1.1-beta1+4-dev",
-                    "datestamp": "1661770650",
+                    "version": "8.x-1.1+1-dev",
+                    "datestamp": "1683146590",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Project has not opted into security advisory coverage!"
@@ -2609,6 +2612,10 @@
                     "homepage": "https://www.drupal.org/user/103553"
                 },
                 {
+                    "name": "i-trokhanenko",
+                    "homepage": "https://www.drupal.org/user/3546872"
+                },
+                {
                     "name": "quadrexdev",
                     "homepage": "https://www.drupal.org/user/3683807"
                 },
@@ -2629,7 +2636,7 @@
                     "homepage": "https://www.drupal.org/user/462700"
                 }
             ],
-            "description": "Allows separate path aliases per domain.",
+            "description": "Path aliases for content using domain.",
             "homepage": "https://www.drupal.org/project/domain_path",
             "support": {
                 "source": "https://git.drupalcode.org/project/domain_path"
