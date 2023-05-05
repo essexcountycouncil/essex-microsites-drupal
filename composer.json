@@ -59,6 +59,11 @@
     },
     "extra": {
         "enable-patching": true,
+        "patches": {
+            "drupal/core": {
+                "Allow chmod to fail in the public namespace if the resultant mode is 777": "patches/filesystem-chmod-0001.patch"
+            }
+        },
         "drupal-scaffold": {
             "locations": {
                 "web-root": "web/"
@@ -80,6 +85,11 @@
                     "overwrite": false
                 },
                 "[web-root]/sites/default/settings.lando.php": {
+                    "mode": "replace",
+                    "path": "assets/composer/settings.lando.php",
+                    "overwrite": false
+                },
+                "[web-root]/sites/default/settings.local.php": {
                     "mode": "replace",
                     "path": "assets/composer/settings.lando.php",
                     "overwrite": false
