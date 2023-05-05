@@ -17,6 +17,10 @@
         "drupal/group_permissions": {
           "type": "vcs",
           "url": "https://git.drupalcode.org/project/group_permissions.git"
+        },
+        "matthewwilkes/openid_connect_azure_b2c": {
+            "type": "github",
+            "url":  "https://github.com/MatthewWilkes/openid_connect_azure_b2c"
         }
     },
     "require": {
@@ -27,6 +31,7 @@
         "drupal/core-recommended": "^9.3",
         "drush/drush": "^11.5",
         "localgovdrupal/localgov_microsites": "^2.0.0-beta1",
+        "matthewwilkes/openid_connect_azure_b2c": "dev-main",
         "php-parallel-lint/php-parallel-lint": "^1.3"
     },
     "require-dev": {
