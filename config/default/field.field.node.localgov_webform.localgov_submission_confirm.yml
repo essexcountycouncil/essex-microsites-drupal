@@ -1,0 +1,21 @@
+uuid: a90cae80-6242-4989-89a2-ea8ee8784c8e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.localgov_submission_confirm
+    - node.type.localgov_webform
+_core:
+  default_config_hash: eZV8pr4zeQK3356hk-Y6gqHQIVaaWbIxkVwBZmHtXcE
+id: node.localgov_webform.localgov_submission_confirm
+field_name: localgov_submission_confirm
+entity_type: node
+bundle: localgov_webform
+label: 'Submission confirmation'
+description: 'Please provide a confirmation message to display on successful submission.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

@@ -1,0 +1,8 @@
+uuid: c5ab93ef-1970-4f58-8f5f-fdaa894541f6
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: 6sLApOyeHmgOthHUYfjCwuhgO8BOG8gwXcxEnni6oPk
+id: lgms_main_menu
+label: 'Main menu'

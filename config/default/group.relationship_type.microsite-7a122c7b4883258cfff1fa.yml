@@ -1,0 +1,19 @@
+uuid: 26562c75-b169-44bb-9daf-22e456358304
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.microsite
+    - node.type.localgov_directories_venue
+  module:
+    - gnode
+    - node
+_core:
+  default_config_hash: fwxORZz86z-BFf8foRkHCcg9K1ui33wUahy6s1icxko
+id: microsite-7a122c7b4883258cfff1fa
+group_type: microsite
+content_plugin: 'group_node:localgov_directories_venue'
+plugin_config:
+  group_cardinality: 0
+  entity_cardinality: 1
+  use_creation_wizard: false

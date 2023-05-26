@@ -1,0 +1,22 @@
+uuid: a7ab53fb-4ce4-41e2-8909-c2ba0202da82
+langcode: en
+status: true
+dependencies:
+  module:
+    - localgov_search
+  theme:
+    - essex
+_core:
+  default_config_hash: WIUemtpkGaKQek-XxYZGd-m4yy2GKnF4i-uBZ-7-l4I
+id: essex_sitewide_search_block
+theme: essex
+region: search
+weight: 0
+provider: null
+plugin: localgov_sitewide_search_block
+settings:
+  id: localgov_sitewide_search_block
+  label: 'Sitewide search block'
+  label_display: '0'
+  provider: localgov_search
+visibility: {  }

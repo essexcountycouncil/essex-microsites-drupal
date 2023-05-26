@@ -1,0 +1,21 @@
+uuid: 94ba9851-6c1e-487c-aadd-7a36df4b234c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_link_colour
+    - group.type.microsite
+_core:
+  default_config_hash: uiWYcJghU6WtnveHsRstg6J9zVdZQ0jD8d1Q7hs8CpM
+id: group.microsite.lgms_link_colour
+field_name: lgms_link_colour
+entity_type: group
+bundle: microsite
+label: 'Link colour'
+description: 'Choose a colour to indicate links, which contrasts with the page background colour.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

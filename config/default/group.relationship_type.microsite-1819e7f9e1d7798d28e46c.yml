@@ -1,0 +1,19 @@
+uuid: 98349c3e-09aa-41d3-8f55-8a0918d6ff4f
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.microsite
+    - taxonomy.vocabulary.localgov_event_category
+  module:
+    - group_term
+    - taxonomy
+_core:
+  default_config_hash: ug1HUOZdMLVko1Bh50ojFEcHBytm9qXDJDqugqp8EwY
+id: microsite-1819e7f9e1d7798d28e46c
+group_type: microsite
+content_plugin: 'group_term:localgov_event_category'
+plugin_config:
+  group_cardinality: 0
+  entity_cardinality: 1
+  use_creation_wizard: false

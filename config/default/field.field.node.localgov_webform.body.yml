@@ -1,0 +1,25 @@
+uuid: 1f0b4787-2972-4193-9a35-26c9cf572e3b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.localgov_webform
+  module:
+    - text
+_core:
+  default_config_hash: QipRItMCAM4zFrPmElvZ1aPScExvq4HdlH5AjkX4z_A
+id: node.localgov_webform.body
+field_name: body
+entity_type: node
+bundle: localgov_webform
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: false
+field_type: text_with_summary

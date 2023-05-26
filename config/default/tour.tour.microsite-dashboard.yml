@@ -1,0 +1,23 @@
+uuid: a6761c1c-ae37-45a8-a558-22d6cd0b81c0
+langcode: en
+status: true
+dependencies:
+  module:
+    - localgov_microsites_group
+_core:
+  default_config_hash: 0_g4GtP814Yjkykz5X8aqRSV2IgBAEgR1uk2eYe3K_Y
+id: microsite-dashboard
+label: 'Microsite dashboard'
+module: localgov_microsites_group
+routes:
+  -
+    route_name: entity.group.canonical
+tips:
+  welcome:
+    id: welcome
+    plugin: text
+    label: Welcome
+    weight: -100
+    position: auto
+    selector: null
+    body: 'Welcome to your microsite dashboard!'

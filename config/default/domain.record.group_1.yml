@@ -1,0 +1,16 @@
+uuid: 34189155-925e-4df9-a38e-533c655828f7
+langcode: en
+status: true
+dependencies:
+  module:
+    - domain_group
+third_party_settings:
+  domain_group:
+    group: 1
+id: group_1
+domain_id: 4567776
+hostname: one.beta.essex-microsites.nomensa.xyz
+name: 'Test Campaign'
+scheme: variable
+weight: 2
+is_default: false

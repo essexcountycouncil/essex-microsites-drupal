@@ -1,0 +1,20 @@
+uuid: 6afbfab9-8d3b-4f67-b33f-cfa32834f756
+langcode: en
+status: true
+dependencies:
+  theme:
+    - localgov_claro
+_core:
+  default_config_hash: U2JhXA6Y3On5PA3YBJTFrz1O8LV9AG2ai3KkiqIFoMY
+id: localgov_claro_local_actions
+theme: localgov_claro
+region: content
+weight: -10
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  label_display: '0'
+  provider: core
+visibility: {  }

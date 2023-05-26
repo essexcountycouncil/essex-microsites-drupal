@@ -1,0 +1,19 @@
+uuid: c6fd4e1c-2689-45e6-bfa5-3a604bd29d26
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.microsite
+    - media.type.document
+  module:
+    - groupmedia
+    - media
+_core:
+  default_config_hash: GWWTK0lmfud95fvlaBh_y33-Cxaxvfb6-znXgACQy4U
+id: microsite-group_media-document
+group_type: microsite
+content_plugin: 'group_media:document'
+plugin_config:
+  group_cardinality: 0
+  entity_cardinality: 1
+  use_creation_wizard: false

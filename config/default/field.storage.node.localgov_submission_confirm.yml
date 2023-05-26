@@ -1,0 +1,21 @@
+uuid: e063bcb3-aec6-419c-b61f-375514b57ae9
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+_core:
+  default_config_hash: tZAuSTTeZsfvYvBnMT0Mrc34DdqV904HgdQprN-nvV4
+id: node.localgov_submission_confirm
+field_name: localgov_submission_confirm
+entity_type: node
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,22 @@
+uuid: 18c308df-2f03-4e77-8613-aea9f6ff634f
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - essex
+_core:
+  default_config_hash: ArvC1EhXmlkTir18Pef9hMJ2__Ma9op-Cz8o2viG2jc
+id: essex_main_page_content
+theme: essex
+region: content
+weight: 0
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  label_display: '0'
+  provider: system
+visibility: {  }

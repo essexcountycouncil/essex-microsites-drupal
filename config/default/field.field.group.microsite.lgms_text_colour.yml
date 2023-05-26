@@ -1,0 +1,21 @@
+uuid: 38bb69aa-92a4-4ac8-add4-8d1a49702612
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_text_colour
+    - group.type.microsite
+_core:
+  default_config_hash: dGn1zGwU4OGudSYUfd0gVbIpatZMj_5T3w88m-ryEHg
+id: group.microsite.lgms_text_colour
+field_name: lgms_text_colour
+entity_type: group
+bundle: microsite
+label: 'Text colour'
+description: 'Choose a colour with sufficient colour contrast with the Page background colour.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

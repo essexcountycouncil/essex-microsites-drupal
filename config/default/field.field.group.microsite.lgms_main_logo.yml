@@ -1,0 +1,31 @@
+uuid: 4e5c6bf9-c855-4647-9460-44929b045328
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_main_logo
+    - group.type.microsite
+    - media.type.image
+_core:
+  default_config_hash: g84FuC0BKovMY123PiM0to8jDNQu1HCMPrG2S8I5TNM
+id: group.microsite.lgms_main_logo
+field_name: lgms_main_logo
+entity_type: group
+bundle: microsite
+label: 'Main Logo'
+description: 'Upload your microsite logo. '
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

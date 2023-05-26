@@ -1,0 +1,21 @@
+uuid: c09373a4-10ad-472b-aeee-bcd3586e72c0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_footer_link_hover_colour
+    - group.type.microsite
+_core:
+  default_config_hash: VVCq3FiIhnFuitQAk0hrZUydv-yY7k7NdB0_mu0DEjo
+id: group.microsite.lgms_footer_link_hover_colour
+field_name: lgms_footer_link_hover_colour
+entity_type: group
+bundle: microsite
+label: 'Footer Link Hover Colour'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

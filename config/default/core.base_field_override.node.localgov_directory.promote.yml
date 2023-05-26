@@ -1,0 +1,24 @@
+uuid: ca9b0125-46f9-4cb8-a7c6-ab2021206a76
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.localgov_directory
+_core:
+  default_config_hash: OCndP-fcwPW00gnAmEqQo74w1GrWiYtYRUNytfpRgfQ
+id: node.localgov_directory.promote
+field_name: promote
+entity_type: node
+bundle: localgov_directory
+label: 'Promoted to front page'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

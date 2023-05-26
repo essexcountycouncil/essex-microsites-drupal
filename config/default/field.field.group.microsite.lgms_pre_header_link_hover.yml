@@ -1,0 +1,21 @@
+uuid: 355bb431-bb4e-415e-a8f4-7ea51bbbddad
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_pre_header_link_hover
+    - group.type.microsite
+_core:
+  default_config_hash: q2rvWwdvhydAAgmUjMZnJfhhyHYx4dFyz6f00NJQpSA
+id: group.microsite.lgms_pre_header_link_hover
+field_name: lgms_pre_header_link_hover
+entity_type: group
+bundle: microsite
+label: 'Pre-header Link Hover Colour'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

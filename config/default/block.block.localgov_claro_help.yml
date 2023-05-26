@@ -1,0 +1,22 @@
+uuid: 00cc0292-d4ab-48dd-8e41-b8539262de6e
+langcode: en
+status: true
+dependencies:
+  module:
+    - help
+  theme:
+    - localgov_claro
+_core:
+  default_config_hash: hwOfGB49B97fJYLWGtoGwELnedxJR7gZo4ITvx_95Wk
+id: localgov_claro_help
+theme: localgov_claro
+region: help
+weight: 0
+provider: null
+plugin: help_block
+settings:
+  id: help_block
+  label: Help
+  label_display: '0'
+  provider: help
+visibility: {  }

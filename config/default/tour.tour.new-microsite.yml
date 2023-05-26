@@ -1,0 +1,31 @@
+uuid: 3a79ddd1-0e87-439f-9dd9-25c29ce46b51
+langcode: en
+status: true
+dependencies:
+  module:
+    - localgov_microsites_group
+_core:
+  default_config_hash: UHBxDEblzz9rowoxfVCZFtOTVsoscm-OSUOXqjBmgcA
+id: new-microsite
+label: 'New Microsites'
+module: localgov_microsites_group
+routes:
+  -
+    route_name: view.localgov_microsites_overview.collection
+tips:
+  welcome:
+    id: microsite-dashboard
+    plugin: text
+    label: 'Microsite Dashboard'
+    weight: -100
+    position: auto
+    selector: null
+    body: 'This is the microsites dashboard. Once you''ve created some microsites you''ll be able to see them all here.'
+  add-a-microsite:
+    id: add-a-microsite
+    plugin: text
+    label: 'Add a microsite'
+    weight: -100
+    position: auto
+    selector: .button--primary
+    body: 'Add a microsite here - you''ll need to set a name, a hostname and an email address. These can be changed later.'

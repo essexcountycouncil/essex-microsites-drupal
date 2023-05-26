@@ -1,0 +1,25 @@
+uuid: 089c7149-91fc-4e5d-a257-935092357e0e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_site_slogan
+    - group.type.microsite
+_core:
+  default_config_hash: LV88N9pX4sb58NRN-hg_VQ8rpJiHhwEdRZmAK3VBWwo
+id: group.microsite.lgms_site_slogan
+field_name: lgms_site_slogan
+entity_type: group
+bundle: microsite
+label: 'Display site slogan'
+description: 'If checked, the site slogan will appear in the header. The site slogan can be updated in the site settings tab.'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

@@ -1,0 +1,21 @@
+uuid: 72d61baf-87a0-4d10-a836-3c9b7dff6faf
+langcode: en
+status: true
+dependencies:
+  module:
+    - link
+    - paragraphs
+_core:
+  default_config_hash: 9D7o5K-o4VFQQ6qdLXMBaguRD_IvioPDgJHQWxxd5mQ
+id: paragraph.localgov_contact_instagram
+field_name: localgov_contact_instagram
+entity_type: paragraph
+type: link
+settings: {  }
+module: link
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

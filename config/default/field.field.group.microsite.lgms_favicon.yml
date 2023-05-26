@@ -1,0 +1,29 @@
+uuid: 51ac75dc-0a34-474a-a428-9416473781ca
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_favicon
+    - group.type.microsite
+  module:
+    - file
+_core:
+  default_config_hash: _WQTu5-lltv7wdv-rlVGbD4wxxSKuHYl1s5IvG1L6LQ
+id: group.microsite.lgms_favicon
+field_name: lgms_favicon
+entity_type: group
+bundle: microsite
+label: Favicon
+description: 'An image here will be used to override the default favicon for the site.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: favicon
+  file_extensions: png
+  max_filesize: ''
+  description_field: false
+field_type: file

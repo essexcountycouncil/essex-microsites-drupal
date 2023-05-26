@@ -1,0 +1,104 @@
+uuid: 13a9d45b-356d-45a0-997e-bf2baa7e069e
+langcode: en
+status: true
+dependencies:
+  config:
+    - media.type.document
+    - media.type.image
+    - media.type.remote_video
+  module:
+    - domain
+    - domain_group
+    - domain_path
+    - entity_browser
+    - group
+    - localgov_directories
+    - localgov_geo
+    - media
+    - role_delegation
+    - system
+    - toolbar
+    - tour
+    - webform
+    - webform_node
+_core:
+  default_config_hash: vzdm4fIiAWbM13b57F_aXCS4kLv3IsvwziTSzex7774
+id: microsites_controller
+label: 'Microsites controller'
+weight: 2
+is_admin: null
+permissions:
+  - 'access administration pages'
+  - 'access any webform configuration'
+  - 'access localgov_geo_library entity browser pages'
+  - 'access media overview'
+  - 'access own webform configuration'
+  - 'access toolbar'
+  - 'access tour'
+  - 'access user profiles'
+  - 'access webform help'
+  - 'access webform overview'
+  - 'access webform submission user'
+  - 'administer domains'
+  - 'administer media'
+  - 'administer users'
+  - 'administer webform'
+  - 'administer webform element access'
+  - 'administer webform submission'
+  - 'assign microsites_controller role'
+  - 'assign microsites_trusted_editor role'
+  - 'bypass domain group permissions'
+  - 'bypass group access'
+  - 'cancel account'
+  - 'change own username'
+  - 'create directory facets'
+  - 'create document media'
+  - 'create domains'
+  - 'create geo'
+  - 'create image media'
+  - 'create media'
+  - 'create microsite group'
+  - 'create remote_video media'
+  - 'create webform'
+  - 'delete any webform'
+  - 'delete any webform submission'
+  - 'delete directory facets'
+  - 'delete geo'
+  - 'delete own webform'
+  - 'delete own webform submission'
+  - 'delete webform submissions any node'
+  - 'delete webform submissions own node'
+  - 'edit any document media'
+  - 'edit any image media'
+  - 'edit any remote_video media'
+  - 'edit any webform'
+  - 'edit any webform submission'
+  - 'edit directory facets'
+  - 'edit domain path entity'
+  - 'edit geo'
+  - 'edit layout paragraphs plugin config'
+  - 'edit own document media'
+  - 'edit own image media'
+  - 'edit own remote_video media'
+  - 'edit own webform'
+  - 'edit webform assets'
+  - 'edit webform source'
+  - 'edit webform submissions any node'
+  - 'edit webform submissions own node'
+  - 'edit webform twig'
+  - 'edit webform variants'
+  - 'select account cancellation method'
+  - 'update any media'
+  - 'update media'
+  - 'view all media revisions'
+  - 'view any webform submission'
+  - 'view assigned domains'
+  - 'view directory facets'
+  - 'view domain list'
+  - 'view media'
+  - 'view own unpublished media'
+  - 'view own webform submission'
+  - 'view the administration theme'
+  - 'view user email addresses'
+  - 'view webform submissions any node'
+  - 'view webform submissions own node'

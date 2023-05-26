@@ -1,0 +1,26 @@
+uuid: ea6984b2-7884-4ab5-97ff-ee2abf9e7e77
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.group_relationship.microsite-group_membership.group_roles
+    - group.relationship_type.microsite-group_membership
+_core:
+  default_config_hash: pnfR1yQQUcb7y1aBnGdGicKVQ7Tc8LzuSeS3pHYnT0s
+id: group_relationship.microsite-group_membership.default
+targetEntityType: group_relationship
+bundle: microsite-group_membership
+mode: default
+content:
+  group_roles:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: false
+    third_party_settings: {  }
+    weight: -4
+    region: content
+hidden:
+  entity_id: true
+  search_api_excerpt: true
+  uid: true

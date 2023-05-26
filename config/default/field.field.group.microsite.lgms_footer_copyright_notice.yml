@@ -1,0 +1,23 @@
+uuid: d84d8194-596f-448a-bd05-7ce2ecfa4af1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_footer_copyright_notice
+    - group.type.microsite
+  module:
+    - text
+_core:
+  default_config_hash: bQPbIi4LVV_6jOEaQGsCvJcg_0bVhbchSSmFDUaa2oI
+id: group.microsite.lgms_footer_copyright_notice
+field_name: lgms_footer_copyright_notice
+entity_type: group
+bundle: microsite
+label: 'Copyright notice'
+description: 'If required, add your copyright or other site disclaimer notice.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

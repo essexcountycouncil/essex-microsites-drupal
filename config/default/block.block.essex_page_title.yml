@@ -1,0 +1,20 @@
+uuid: 00c689a8-cc76-47a7-a39f-c694fdfbbfab
+langcode: en
+status: true
+dependencies:
+  theme:
+    - essex
+_core:
+  default_config_hash: 7EXWAwg1nS_-vBjr2MeAe_CQ6K6psm7fet4TugM5JrA
+id: essex_page_title
+theme: essex
+region: tabs
+weight: -4
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  label_display: '0'
+  provider: core
+visibility: {  }

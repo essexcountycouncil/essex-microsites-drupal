@@ -1,0 +1,21 @@
+uuid: 6e5e4aca-630f-4b16-b5d9-b2530dc013be
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_header_link_colour
+    - group.type.microsite
+_core:
+  default_config_hash: '-VOJ6-6_gjv_M3duRO1WDXo2-u5z1lcARqQ_tQDuiPI'
+id: group.microsite.lgms_header_link_colour
+field_name: lgms_header_link_colour
+entity_type: group
+bundle: microsite
+label: 'Header Link Colour'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
