@@ -1,0 +1,10 @@
+uuid: 74016be1-da0a-4e5c-89b4-02265951b896
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: AgrpujpS36IsYG9xOI4dUow6XaN8oIdU8-EVgHqduKY
+name: 'Event price'
+vid: localgov_event_price
+description: 'Price used for filtering events.'
+weight: 0

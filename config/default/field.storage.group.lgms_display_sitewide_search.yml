@@ -1,0 +1,20 @@
+uuid: a11785f8-516f-4353-bda0-bb32fb4c83a1
+langcode: en
+status: true
+dependencies:
+  module:
+    - group
+_core:
+  default_config_hash: k53V7skVPWiHUQVEEjVs3Uz4L8tHxdG59oxEpRgkHhs
+id: group.lgms_display_sitewide_search
+field_name: lgms_display_sitewide_search
+entity_type: group
+type: boolean
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,32 @@
+uuid: 938c2ee5-f83e-409a-81fe-83aaf871ee55
+langcode: en
+status: true
+dependencies:
+  module:
+    - localgov_directories
+    - node
+  theme:
+    - localgov_microsites_base
+_core:
+  default_config_hash: MLsLgTNEeJcGMU_wbjpiyMd09XtlYP9egfUbaOczoos
+id: localgov_directories_channel_search_block
+theme: localgov_microsites_base
+region: sidebar_first
+weight: 0
+provider: null
+plugin: localgov_directories_channel_search_block
+settings:
+  id: localgov_directories_channel_search_block
+  label: 'Directory channel search'
+  label_display: '0'
+  provider: localgov_directories
+  context_mapping:
+    node: '@node.node_route_context:node'
+visibility:
+  node_type:
+    id: node_type
+    bundles:
+      localgov_directory: localgov_directory
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'

@@ -1,0 +1,32 @@
+uuid: b2061d77-9bc7-4c5c-87ac-30d7a6f0a884
+langcode: en
+status: true
+dependencies:
+  module:
+    - group
+    - options
+_core:
+  default_config_hash: Q2slkvtNRaB1pPMDIuf3Aqr3OME2TmZAxhNf1CgozcA
+id: group.lgms_heading_4_font_weight
+field_name: lgms_heading_4_font_weight
+entity_type: group
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: '400'
+      label: Normal
+    -
+      value: '600'
+      label: Semi-bold
+    -
+      value: '700'
+      label: Bold
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

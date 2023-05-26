@@ -1,0 +1,21 @@
+uuid: d8923ade-3fac-4f6d-82ce-0d3e156682b7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_base_spacing
+    - group.type.microsite
+_core:
+  default_config_hash: 9H4b-Le4v_u_g2WM6xR7TY4jv0T19Sv0SZ4TA8CBnJ0
+id: group.microsite.lgms_base_spacing
+field_name: lgms_base_spacing
+entity_type: group
+bundle: microsite
+label: 'Base Spacing'
+description: 'Add a font size and unit here, for example: 18px, 1rem, 1.3em, etc. The default is <strong>1rem</strong> which usually equates to 16px. This spacing value is used to calculate the spacing between items (such as columns in a grid).'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

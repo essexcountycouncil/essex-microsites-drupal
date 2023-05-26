@@ -1,0 +1,22 @@
+uuid: da84fe57-5c03-4eb6-8038-a0843960b539
+langcode: en
+status: true
+dependencies:
+  module:
+    - geofield
+    - localgov_geo
+_core:
+  default_config_hash: PC72HRucTHnf9xj5kbJLajsbMXOfmfm0KhrnvKpK0Vg
+id: localgov_geo.location
+field_name: location
+entity_type: localgov_geo
+type: geofield
+settings:
+  backend: geofield_backend_default
+module: geofield
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

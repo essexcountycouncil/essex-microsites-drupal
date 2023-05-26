@@ -1,0 +1,28 @@
+uuid: 3fdea58a-38f9-4199-9f40-85e0c1881e98
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.localgov_news_article
+  module:
+    - text
+  enforced:
+    module:
+      - localgov_news
+_core:
+  default_config_hash: eAEuOeFmUTm3yKzeUZYGSMHCsJnXxSMGKcKmXh8TsRw
+id: node.localgov_news_article.body
+field_name: body
+entity_type: node
+bundle: localgov_news_article
+label: Body
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: true
+field_type: text_with_summary

@@ -1,0 +1,10 @@
+uuid: 4360535b-2a33-47c3-8407-ef7c7ae7aa6d
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: yL3oLEPxbqOMO783TDG32Rgj2Na0JLHNma6HT7x0wWc
+name: 'Blog author'
+vid: localgov_blog_author
+description: 'Blog authors for blog posts.'
+weight: 0

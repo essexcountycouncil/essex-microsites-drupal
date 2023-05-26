@@ -1,0 +1,25 @@
+uuid: 8499f172-5f0f-4c3b-962b-5a21bd2ff914
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.localgov_events_locality
+  module:
+    - facets
+  theme:
+    - stable9
+_core:
+  default_config_hash: gCy3bWuDlr13OxBZlh8JAqEckQFCpMpyAX15Frbv3xE
+id: stable9_localgov_events_neighbourhood_microsites_base
+theme: stable9
+region: sidebar_first
+weight: -6
+provider: null
+plugin: 'facet_block:localgov_events_locality'
+settings:
+  id: 'facet_block:localgov_events_locality'
+  label: 'Events neighbourhood'
+  label_display: '0'
+  provider: facets
+  block_id: localgov_events_neighbourhood
+visibility: {  }

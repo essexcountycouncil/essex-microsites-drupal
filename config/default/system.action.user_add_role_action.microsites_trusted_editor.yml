@@ -1,0 +1,16 @@
+uuid: 41d82ce4-dfc4-45de-925c-208849ad322e
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.microsites_trusted_editor
+  module:
+    - user
+_core:
+  default_config_hash: nTnX3jiVzKX-nBHAYGBb1PPidf0jT531yZ9b5vNE79E
+id: user_add_role_action.microsites_trusted_editor
+label: 'Add the Microsites administrator role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: microsites_trusted_editor

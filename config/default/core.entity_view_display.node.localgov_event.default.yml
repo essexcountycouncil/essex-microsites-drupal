@@ -1,0 +1,192 @@
+uuid: 3d92858c-dad0-4a31-aa40-97e341a3c895
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.date_format.localgov_event_date_full
+    - core.date_format.localgov_event_date_hour
+    - field.field.node.localgov_event.body
+    - field.field.node.localgov_event.lgms_banner
+    - field.field.node.localgov_event.localgov_event_call_to_action
+    - field.field.node.localgov_event.localgov_event_categories
+    - field.field.node.localgov_event.localgov_event_date
+    - field.field.node.localgov_event.localgov_event_image
+    - field.field.node.localgov_event.localgov_event_locality
+    - field.field.node.localgov_event.localgov_event_location
+    - field.field.node.localgov_event.localgov_event_price
+    - field.field.node.localgov_event.localgov_event_provider
+    - field.field.node.localgov_event.localgov_event_venue
+    - field.field.node.localgov_event.localgov_paragraph_content
+    - node.type.localgov_event
+  module:
+    - date_recur
+    - field_group
+    - layout_paragraphs
+    - link
+    - text
+    - user
+third_party_settings:
+  field_group:
+    group_banner:
+      children:
+        - lgms_banner
+      label: Banner
+      parent_name: ''
+      region: content
+      weight: 0
+      format_type: html_element
+      format_settings:
+        classes: full__banner
+        show_empty_fields: false
+        id: ''
+        element: div
+        show_label: false
+        label_element: h3
+        label_element_classes: ''
+        attributes: ''
+        effect: none
+        speed: fast
+    group_page_top:
+      children:
+        - localgov_event_image
+        - localgov_event_categories
+        - localgov_event_date
+        - localgov_event_location
+        - localgov_event_locality
+        - localgov_event_price
+        - localgov_event_provider
+        - localgov_event_venue
+      label: 'Page Top'
+      parent_name: ''
+      region: content
+      weight: 0
+      format_type: html_element
+      format_settings:
+        classes: full__page-top
+        show_empty_fields: false
+        id: ''
+        element: div
+        show_label: false
+        label_element: h3
+        label_element_classes: ''
+        attributes: ''
+        effect: none
+        speed: fast
+_core:
+  default_config_hash: ZidxXfdXmkSCEcxtHbLaPne28S4d3CnKsB-tmG57yc0
+id: node.localgov_event.default
+targetEntityType: node
+bundle: localgov_event
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  lgms_banner:
+    type: layout_paragraphs
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  localgov_event_call_to_action:
+    type: link
+    label: hidden
+    settings:
+      trim_length: null
+      url_only: false
+      url_plain: false
+      rel: '0'
+      target: '0'
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  localgov_event_categories:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  localgov_event_date:
+    type: date_recur_basic_formatter
+    label: hidden
+    settings:
+      timezone_override: ''
+      format_type: localgov_event_date_full
+      separator: to
+      show_next: 10
+      count_per_item: false
+      occurrence_format_type: localgov_event_date_full
+      same_end_date_format_type: localgov_event_date_hour
+      interpreter: ''
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  localgov_event_image:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: scale_crop_7_3_large
+      link: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  localgov_event_locality:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  localgov_event_location:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: embed
+      link: false
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  localgov_event_price:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  localgov_event_provider:
+    type: entity_reference_label
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  localgov_event_venue:
+    type: entity_reference_label
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  localgov_paragraph_content:
+    type: layout_paragraphs
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 5
+    region: content
+hidden:
+  links: true
+  search_api_excerpt: true

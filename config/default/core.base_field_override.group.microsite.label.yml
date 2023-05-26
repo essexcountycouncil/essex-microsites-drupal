@@ -1,0 +1,20 @@
+uuid: 10d17595-f854-435f-86e5-9db60e18d737
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.microsite
+_core:
+  default_config_hash: KlMLR4OGuchV0fXsh2njVQ9ZhL48ky3R7zKqQOcyxUs
+id: group.microsite.label
+field_name: label
+entity_type: group
+bundle: microsite
+label: Name
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

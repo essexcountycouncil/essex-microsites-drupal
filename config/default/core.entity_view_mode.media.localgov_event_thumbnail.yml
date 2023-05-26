@@ -1,0 +1,12 @@
+uuid: 1540a6c1-b274-44fd-9ee1-d4ab68f827ee
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+_core:
+  default_config_hash: Yzvvpxwzq-D8nwjNgKjVkQTScJluiYQLWqqKQ8Gg2wU
+id: media.localgov_event_thumbnail
+label: 'Event thumbnail'
+targetEntityType: media
+cache: true

@@ -1,0 +1,22 @@
+uuid: 8f31b288-1149-4b65-9121-92af56bead0e
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - essex
+_core:
+  default_config_hash: EczozzKn1Ia4oRFm_sGdUCCYy3smq8CcquVkRbN1GSY
+id: essex_messages
+theme: essex
+region: messages
+weight: 0
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: Messages
+  label_display: '0'
+  provider: system
+visibility: {  }

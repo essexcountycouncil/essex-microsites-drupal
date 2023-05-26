@@ -1,0 +1,32 @@
+uuid: f8e49253-5908-4082-bb39-c1e2e579e933
+langcode: en
+status: true
+dependencies:
+  module:
+    - group
+    - options
+_core:
+  default_config_hash: j_nKoK4n27-cwMCtEtSaRVO9Vp8J9kxSyGNcRmu9RGk
+id: group.lgms_header_vertical_alignment
+field_name: lgms_header_vertical_alignment
+entity_type: group
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: center
+      label: Center
+    -
+      value: start
+      label: Top
+    -
+      value: end
+      label: Bottom
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

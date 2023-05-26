@@ -1,0 +1,31 @@
+uuid: 38ce6cb9-8354-4722-abe6-54a9eb82d96f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.localgov_blog_categories
+    - node.type.localgov_blog_post
+    - taxonomy.vocabulary.localgov_topic
+_core:
+  default_config_hash: TBfFrRpCVYeNoJ5i_0ZNOLcI5RvvAn9zsGXd4XwyueA
+id: node.localgov_blog_post.localgov_blog_categories
+field_name: localgov_blog_categories
+entity_type: node
+bundle: localgov_blog_post
+label: Categories
+description: 'Categories that this blog post relates to.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'group:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      localgov_topic: localgov_topic
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

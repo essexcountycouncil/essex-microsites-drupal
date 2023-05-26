@@ -1,0 +1,17 @@
+uuid: c7fca635-246e-42b2-ad8b-112c6363fd0a
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.microsite
+    - user.role.microsites_controller
+_core:
+  default_config_hash: nLPcQbfzdJWBo8e9cZM9l_Wh4hESREp9cbwMBLaK4rk
+id: microsite-controller_insider
+label: 'Controller (insider)'
+weight: -98
+admin: true
+scope: insider
+global_role: microsites_controller
+group_type: microsite
+permissions: {  }

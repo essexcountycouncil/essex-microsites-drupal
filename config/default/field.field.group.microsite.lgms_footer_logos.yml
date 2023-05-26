@@ -1,0 +1,31 @@
+uuid: 0459f86e-10b1-41d8-b8d0-897cd1356adb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_footer_logos
+    - group.type.microsite
+    - media.type.image
+_core:
+  default_config_hash: ngVnJH-p2lqYS6c-AwW81Q2iWUVOWwM2Q81yRKEBGzI
+id: group.microsite.lgms_footer_logos
+field_name: lgms_footer_logos
+entity_type: group
+bundle: microsite
+label: 'Footer Logo(s)'
+description: 'Upload any additional logos to display in a list in the footer. For example, you may like to display your main council logo.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

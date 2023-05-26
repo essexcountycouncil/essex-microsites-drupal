@@ -1,0 +1,29 @@
+uuid: 6f533af2-22c1-4389-842a-cbef7a9fe6a8
+langcode: en
+status: true
+dependencies:
+  config:
+    - group_content_menu.group_content_menu_type.lgms_footer_housekeeping
+  module:
+    - group_content_menu
+  theme:
+    - localgov_microsites_base
+_core:
+  default_config_hash: xahzWQaPs0Y_K9CkA0OOnVkhLY-MPIgelGGJvv2d8NM
+id: localgov_microsites_base_footer_housekeeping_menu
+theme: localgov_microsites_base
+region: footer_menu
+weight: 0
+provider: null
+plugin: 'group_content_menu:lgms_footer_housekeeping'
+settings:
+  id: 'group_content_menu:lgms_footer_housekeeping'
+  label: 'Footer housekeeping'
+  label_display: '0'
+  provider: group_content_menu
+  level: 1
+  depth: 1
+  expand_all_items: false
+  context_mapping:
+    group: '@domain_group.domain_group_context:group'
+visibility: {  }
