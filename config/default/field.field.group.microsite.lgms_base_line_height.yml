@@ -1,0 +1,25 @@
+uuid: 06c33834-d0e0-47aa-8694-c3db8d386de5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_base_line_height
+    - group.type.microsite
+_core:
+  default_config_hash: rmteYVVTXP9YhavrtWAu-CghgcroiFoa6NenZqVYP0A
+id: group.microsite.lgms_base_line_height
+field_name: lgms_base_line_height
+entity_type: group
+bundle: microsite
+label: 'Base line-height'
+description: "Line height is used to set the distance between lines of text.<br/>\r\nIn general, we recommend <strong>1.5</strong>. Please <strong>do not</strong> use any units: use 1.3, not 1.3em; use 24, not 24px; etc."
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: !!float 1
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: float

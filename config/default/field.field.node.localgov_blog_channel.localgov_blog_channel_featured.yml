@@ -1,0 +1,27 @@
+uuid: 1908a544-7aab-44c0-acf8-ec6475178e14
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.localgov_blog_channel_featured
+    - node.type.localgov_blog_channel
+_core:
+  default_config_hash: jwz_6Zew70TH4zqhOkChaymwKkh3_tYIplw0OuwMGuM
+id: node.localgov_blog_channel.localgov_blog_channel_featured
+field_name: localgov_blog_channel_featured
+entity_type: node
+bundle: localgov_blog_channel
+label: Featured
+description: 'Up to 3 featured posts to list at the top of the channel page.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: views
+  handler_settings:
+    view:
+      view_name: localgov_blog_list
+      display_name: blog_channel_entity_reference
+      arguments: {  }
+field_type: entity_reference

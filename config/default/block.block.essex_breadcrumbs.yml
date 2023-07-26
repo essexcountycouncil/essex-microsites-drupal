@@ -1,0 +1,26 @@
+uuid: 62d7b581-073b-4c77-95a6-a372ebac87e8
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - essex
+_core:
+  default_config_hash: kubgpUvHxunCY22GxiIf1Z9UbsvN-fTFJRN0CwX-MUg
+id: essex_breadcrumbs
+theme: essex
+region: breadcrumb
+weight: 0
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  label_display: '0'
+  provider: system
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    pages: '<front>'

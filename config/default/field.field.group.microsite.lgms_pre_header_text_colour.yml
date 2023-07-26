@@ -1,0 +1,21 @@
+uuid: d691db99-a36a-49b9-9cdb-2ed3065aa7ff
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_pre_header_text_colour
+    - group.type.microsite
+_core:
+  default_config_hash: KhDaO8Tuw7l85LTd5XGF5eKBCwdlcT53gURybm1SvmI
+id: group.microsite.lgms_pre_header_text_colour
+field_name: lgms_pre_header_text_colour
+entity_type: group
+bundle: microsite
+label: 'Pre-header Text Colour'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

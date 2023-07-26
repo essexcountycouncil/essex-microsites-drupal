@@ -1,0 +1,31 @@
+uuid: 64d8ca41-76af-4f96-b362-a169616c71f3
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.localgov_events_listing
+  module:
+    - system
+    - views
+  theme:
+    - essex
+_core:
+  default_config_hash: 2dhlawH1HDbNCbC4jsU3JmUXrZhqOVBjy9ZwocQxv8w
+id: essex_localgov_events_listing_filters_microsites_base
+theme: essex
+region: sidebar_first
+weight: -9
+provider: null
+plugin: 'views_exposed_filter_block:localgov_events_listing-page_all_events'
+settings:
+  id: 'views_exposed_filter_block:localgov_events_listing-page_all_events'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /events

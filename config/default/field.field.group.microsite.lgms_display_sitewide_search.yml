@@ -1,0 +1,25 @@
+uuid: 561a8935-e1cf-41a9-8932-7631c4a73d67
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_display_sitewide_search
+    - group.type.microsite
+_core:
+  default_config_hash: so9An9dahQYDwafhD8affZ0QlTZEXY6PE-ru6e4I6HE
+id: group.microsite.lgms_display_sitewide_search
+field_name: lgms_display_sitewide_search
+entity_type: group
+bundle: microsite
+label: 'Display sitewide search'
+description: 'Display the sitewide search in the Preheader region.'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

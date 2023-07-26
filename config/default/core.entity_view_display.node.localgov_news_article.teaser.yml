@@ -1,0 +1,63 @@
+uuid: 8d5052ca-5bba-414b-82a0-252fe51428a7
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.localgov_news_article.body
+    - field.field.node.localgov_news_article.field_media_image
+    - field.field.node.localgov_news_article.lgms_banner
+    - field.field.node.localgov_news_article.localgov_news_categories
+    - field.field.node.localgov_news_article.localgov_news_date
+    - field.field.node.localgov_news_article.localgov_news_related
+    - field.field.node.localgov_news_article.localgov_newsroom
+    - field.field.node.localgov_news_article.localgov_paragraph_content
+    - node.type.localgov_news_article
+  module:
+    - datetime
+    - text
+    - user
+  enforced:
+    module:
+      - localgov_news
+_core:
+  default_config_hash: 1ft_isnDAp89IdWjxMCHKU-tBWXy-2rNiEKuG_76zzo
+id: node.localgov_news_article.teaser
+targetEntityType: node
+bundle: localgov_news_article
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_media_image:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: localgov_newsroom_teaser
+      link: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  localgov_news_date:
+    type: datetime_custom
+    label: hidden
+    settings:
+      timezone_override: ''
+      date_format: 'j F Y'
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden:
+  lgms_banner: true
+  links: true
+  localgov_news_categories: true
+  localgov_news_related: true
+  localgov_newsroom: true
+  localgov_paragraph_content: true
+  search_api_excerpt: true

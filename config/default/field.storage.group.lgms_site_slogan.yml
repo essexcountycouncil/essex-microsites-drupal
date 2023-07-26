@@ -1,0 +1,20 @@
+uuid: 5e3bbf67-b66b-4db0-8728-701c921c0529
+langcode: en
+status: true
+dependencies:
+  module:
+    - group
+_core:
+  default_config_hash: GvCOyrJNIISMORiMAd614wlEOqS4mNfSJpkjjKgNsTs
+id: group.lgms_site_slogan
+field_name: lgms_site_slogan
+entity_type: group
+type: boolean
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

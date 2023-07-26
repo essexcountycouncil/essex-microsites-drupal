@@ -1,0 +1,23 @@
+uuid: 4a1b0840-752a-4d85-b9cb-3b589de7cef1
+langcode: en
+status: true
+dependencies:
+  module:
+    - group
+_core:
+  default_config_hash: AZOjZc1H_P-Bo5lt1fkDenaVVM8mjqVuI_npMZPkAo0
+id: group.lgms_heading_4_font_colour
+field_name: lgms_heading_4_font_colour
+entity_type: group
+type: string
+settings:
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

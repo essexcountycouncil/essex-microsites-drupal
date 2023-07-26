@@ -1,0 +1,29 @@
+uuid: 9d310d41-cdea-4de6-91b9-2ecb6167ef9b
+langcode: en
+status: true
+dependencies:
+  config:
+    - group_content_menu.group_content_menu_type.lgms_main_menu
+  module:
+    - group_content_menu
+  theme:
+    - essex
+_core:
+  default_config_hash: acf0DCMc3uEct3vMJ34mG8j-nQMoLtsnpyjX0M3XhWQ
+id: essex_off_canvas_main_menu
+theme: essex
+region: tabs
+weight: 0
+provider: null
+plugin: 'group_content_menu:lgms_main_menu'
+settings:
+  id: 'group_content_menu:lgms_main_menu'
+  label: 'Main menu'
+  label_display: '0'
+  provider: group_content_menu
+  context_mapping:
+    group: '@domain_group.domain_group_context:group'
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility: {  }

@@ -1,0 +1,22 @@
+uuid: 174b648d-a710-4a13-9d14-96717b0a36f6
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - localgov_claro
+_core:
+  default_config_hash: hy4uziRO_4uBBz3eB_q2g2eHBT1VgkFjYiMNzaxtHKs
+id: localgov_claro_content
+theme: localgov_claro
+region: content
+weight: 0
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  label_display: '0'
+  provider: system
+visibility: {  }

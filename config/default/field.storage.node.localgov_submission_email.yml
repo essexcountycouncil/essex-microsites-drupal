@@ -1,0 +1,20 @@
+uuid: 5b401aea-b6aa-4e41-a26a-c94be4c4bcd1
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+_core:
+  default_config_hash: bDpwNYXKrHgdLIiLlWZLAmJCGEYeMa4tM1LZCSf66Zg
+id: node.localgov_submission_email
+field_name: localgov_submission_email
+entity_type: node
+type: email
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

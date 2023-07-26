@@ -1,0 +1,21 @@
+uuid: 25220945-202f-4292-9651-01bac9ec20bd
+langcode: en
+status: true
+dependencies:
+  module:
+    - geolocation
+    - paragraphs
+_core:
+  default_config_hash: 5d5S1PMiH1ua77IY4VqmSSQZcppgYapZ7POpwiILubM
+id: paragraph.localgov_contact_location
+field_name: localgov_contact_location
+entity_type: paragraph
+type: geolocation
+settings: {  }
+module: geolocation
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

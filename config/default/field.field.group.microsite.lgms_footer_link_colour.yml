@@ -1,0 +1,21 @@
+uuid: 3ce10abe-0f02-4466-ac70-64fbdf5966f0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_footer_link_colour
+    - group.type.microsite
+_core:
+  default_config_hash: wZyJz4pqsqbCFX5XRrxmhaNbANo8wXkb1PmGrDMd7gM
+id: group.microsite.lgms_footer_link_colour
+field_name: lgms_footer_link_colour
+entity_type: group
+bundle: microsite
+label: 'Footer Link Colour'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,19 @@
+uuid: 6f9edda3-c2f1-4679-bce7-8fc864b40f98
+langcode: en
+status: true
+dependencies:
+  module:
+    - openid_connect_azure_b2c
+id: nomensa
+label: Nomensa
+plugin: b2c
+settings:
+  client_id: placeholder
+  client_secret: placeholder
+  iss_allowed_domains: ''
+  tenant: placeholder
+  flow: B2C_1_signup_signin
+  scopes:
+    - openid
+    - email
+    - profile

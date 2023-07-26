@@ -1,0 +1,21 @@
+uuid: c2402abe-766d-42ef-a993-641862c41962
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_header_text_colour
+    - group.type.microsite
+_core:
+  default_config_hash: UilkHpN8AeVBmK4Eott6z3QoqgkAFWaaThrz5k50coo
+id: group.microsite.lgms_header_text_colour
+field_name: lgms_header_text_colour
+entity_type: group
+bundle: microsite
+label: 'Header Text Colour'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

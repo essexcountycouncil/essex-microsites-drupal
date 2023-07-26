@@ -1,0 +1,12 @@
+uuid: b156203e-7a8e-4cd4-baaa-6cf9f5a4ef49
+langcode: en
+status: true
+dependencies:
+  module:
+    - group
+_core:
+  default_config_hash: lVof_pPuCTFQoqxmaVdMlegOGNDunTV7Wy7Wtcom43U
+id: group.microsite
+label: Microsite
+targetEntityType: group
+cache: true

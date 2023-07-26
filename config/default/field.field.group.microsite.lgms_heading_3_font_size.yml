@@ -1,0 +1,21 @@
+uuid: 198a3b1e-ae90-42f0-b703-2010dde05a1a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_heading_3_font_size
+    - group.type.microsite
+_core:
+  default_config_hash: 2VIQG1XfhpzTX9BPPts7HPqpuqbpC7NNZPseAbUZoo4
+id: group.microsite.lgms_heading_3_font_size
+field_name: lgms_heading_3_font_size
+entity_type: group
+bundle: microsite
+label: 'Heading 3 font size'
+description: 'Add a font size and unit here, for example: 18px, 1rem, 1.3em, etc.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

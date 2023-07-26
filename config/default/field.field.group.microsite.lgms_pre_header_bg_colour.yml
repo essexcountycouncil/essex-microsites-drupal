@@ -1,0 +1,21 @@
+uuid: 66f86aec-d3e4-43f8-a02f-72276e28df91
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_pre_header_bg_colour
+    - group.type.microsite
+_core:
+  default_config_hash: 9XwZji-vL-5UDqYXq8sYa9UL4XHnMmVUX8tQlaXX_mE
+id: group.microsite.lgms_pre_header_bg_colour
+field_name: lgms_pre_header_bg_colour
+entity_type: group
+bundle: microsite
+label: 'Pre-header Background Colour'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

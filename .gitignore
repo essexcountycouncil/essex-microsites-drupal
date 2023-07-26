@@ -47,6 +47,7 @@ sites/simpletest
 # Ignore paths that contain user-generated content.
 */files
 */private
+/private
 
 # Ignore SimpleTest multi-site environment.
 # simpletest
