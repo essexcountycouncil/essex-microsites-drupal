@@ -81,7 +81,7 @@
                     "path": "assets/composer/settings.php",
                     "overwrite": false
                 },
-                "[web-root]/sites/default/settings.lando.php": {
+                "[web-root]/sites/default/settings.platformsh.php": {
                     "mode": "replace",
                     "path": "assets/composer/settings.platformsh.php",
                     "overwrite": false
