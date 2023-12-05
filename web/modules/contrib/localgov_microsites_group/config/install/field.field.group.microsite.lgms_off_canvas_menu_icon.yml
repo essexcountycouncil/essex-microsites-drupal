@@ -1,0 +1,21 @@
+uuid: ce38e681-2d77-4814-a083-6de9ad875d37
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_off_canvas_menu_icon
+    - group.type.microsite
+  module:
+    - options
+id: group.microsite.lgms_off_canvas_menu_icon
+field_name: lgms_off_canvas_menu_icon
+entity_type: group
+bundle: microsite
+label: 'Off canvas Menu Icon'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

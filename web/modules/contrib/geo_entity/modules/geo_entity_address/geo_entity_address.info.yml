@@ -1,0 +1,14 @@
+name: 'Geo Entity: Address'
+type: module
+description: 'Geo bundle for storing point and address.'
+package: Geo
+core_version_requirement: ^10
+dependencies:
+  - geo_entity:geo_entity
+  - geocoder:geocoder
+  - address:address
+
+# Information added by Drupal.org packaging script on 2023-10-31
+version: '1.0.0-beta5'
+project: 'geo_entity'
+datestamp: 1698746667

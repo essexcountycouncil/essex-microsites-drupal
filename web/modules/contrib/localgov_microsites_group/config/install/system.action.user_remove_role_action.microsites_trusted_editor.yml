@@ -1,0 +1,13 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.microsites_trusted_editor
+  module:
+    - user
+id: user_remove_role_action.microsites_trusted_editor
+label: 'Remove the Microsites administrator role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: microsites_trusted_editor

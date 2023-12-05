@@ -1,0 +1,220 @@
+<?php
+
+/**
+ * @file
+ * LocalGov Microsites Directories module file.
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\group\Entity\GroupType;
+use Drupal\localgov_microsites_group\RolesHelper;
+
+/**
+ * Implements hook_entity_insert().
+ */
+function localgov_microsites_directories_entity_insert(EntityInterface $entity) {
+
+  if ($entity->getEntityTypeId() != 'localgov_directories_facets') {
+    return;
+  }
+
+  $group = \Drupal::service('group.group_route_context')->getGroupFromRoute();
+  if (empty($group)) {
+    return;
+  }
+
+  $group_type = GroupType::load($group->bundle());
+  $plugin_id = 'group_' . $entity->getEntityTypeId();
+  if ($group_type->hasPlugin($plugin_id)) {
+    $group->addRelationship($entity, $plugin_id);
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function localgov_microsites_directories_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+  // Add submit handler to new directory facet type form.
+  if ($form_id == 'localgov_directories_facets_type_add_form') {
+    $form['actions']['submit']['#submit'][] = 'localgov_microsites_directories_submit_new_directory_facet_type';
+  }
+
+  // Add submit handler to new directory facet form.
+  elseif (preg_match('/^localgov_directories_facets_[a-zA-Z0-9_]*_add_form$/', $form_id) === 1) {
+    $form['actions']['submit']['#submit'][] = 'localgov_microsites_directories_submit_new_directory_facet';
+  }
+}
+
+/**
+ * Submit handler for the localgov_directories_facets_type_add_form.
+ */
+function localgov_microsites_directories_submit_new_directory_facet_type($form, FormStateInterface $form_state) {
+
+  // Redirect back to the directory facet type listing page.
+  $group = \Drupal::routeMatch()->getParameter('group');
+  if (!is_null($group)) {
+    $form_state->setRedirect('entity.group_relationship.group_localgov_directories_facet_type.list', [
+      'group' => $group->id(),
+    ]);
+  }
+}
+
+/**
+ * Submit handler for the localgov_directories_facets_TYPE_add_form.
+ */
+function localgov_microsites_directories_submit_new_directory_facet($form, FormStateInterface $form_state) {
+
+  // Redirect back to the directory facets listing page.
+  $group = \Drupal::routeMatch()->getParameter('group');
+  $localgov_directories_facets_type = \Drupal::routeMatch()->getParameter('localgov_directories_facets_type');
+  if (!is_null($group) && !is_null($localgov_directories_facets_type)) {
+    $form_state->setRedirect('view.lgms_group_directory_facets.page', [
+      'group' => $group->id(),
+      'localgov_directories_facets_type' => $localgov_directories_facets_type,
+    ]);
+  }
+}
+
+/**
+ * Implements hook_localgov_microsites_roles_default().
+ */
+function localgov_microsites_directories_localgov_microsites_roles_default() {
+  return [
+    'global' => [
+      RolesHelper::MICROSITES_CONTROLLER_ROLE => [
+        'access geo_entity_library entity browser pages',
+        'create directory facets',
+        'create geo',
+        'delete directory facets',
+        'delete geo',
+        'edit directory facets',
+        'edit geo',
+        'view directory facets',
+      ],
+      RolesHelper::MICROSITES_EDITOR_ROLE => [
+        'access geo_entity_library entity browser pages',
+        'create directory facets',
+        'create geo',
+        'delete directory facets',
+        'delete geo',
+        'edit directory facets',
+        'edit geo',
+        'view directory facets',
+      ],
+    ],
+    'group' => [
+      RolesHelper::GROUP_ADMIN_ROLE => [
+        'create group_node:localgov_directories_page entity',
+        'create group_node:localgov_directory_promo_page entity',
+        'create group_node:localgov_directories_venue entity',
+        'create group_node:localgov_directory entity',
+        'delete any group_node:localgov_directories_page relationship',
+        'delete any group_node:localgov_directories_page entity',
+        'delete any group_node:localgov_directory_promo_page relationship',
+        'delete any group_node:localgov_directory_promo_page entity',
+        'delete any group_node:localgov_directories_venue relationship',
+        'delete any group_node:localgov_directories_venue entity',
+        'delete any group_node:localgov_directory relationship',
+        'delete any group_node:localgov_directory entity',
+        'delete own group_node:localgov_directories_page relationship',
+        'delete own group_node:localgov_directories_page entity',
+        'delete own group_node:localgov_directory_promo_page relationship',
+        'delete own group_node:localgov_directory_promo_page entity',
+        'delete own group_node:localgov_directories_venue relationship',
+        'delete own group_node:localgov_directories_venue entity',
+        'delete own group_node:localgov_directory relationship',
+        'delete own group_node:localgov_directory entity',
+        'manage directory facets',
+        'update any group_node:localgov_directories_page relationship',
+        'update any group_node:localgov_directories_page entity',
+        'update any group_node:localgov_directory_promo_page relationship',
+        'update any group_node:localgov_directory_promo_page entity',
+        'update any group_node:localgov_directories_venue relationship',
+        'update any group_node:localgov_directories_venue entity',
+        'update any group_node:localgov_directory relationship',
+        'update any group_node:localgov_directory entity',
+        'update own group_node:localgov_directories_page relationship',
+        'update own group_node:localgov_directories_page entity',
+        'update own group_node:localgov_directory_promo_page relationship',
+        'update own group_node:localgov_directory_promo_page entity',
+        'update own group_node:localgov_directories_venue relationship',
+        'update own group_node:localgov_directories_venue entity',
+        'update own group_node:localgov_directory relationship',
+        'update own group_node:localgov_directory entity',
+        'view group_node:localgov_directories_page relationship',
+        'view group_node:localgov_directories_page entity',
+        'view group_node:localgov_directory_promo_page relationship',
+        'view group_node:localgov_directory_promo_page entity',
+        'view group_node:localgov_directories_venue relationship',
+        'view group_node:localgov_directories_venue entity',
+        'view group_node:localgov_directory relationship',
+        'view group_node:localgov_directory entity',
+        'view unpublished group_node:localgov_directories_page entity',
+        'view unpublished group_node:localgov_directory_promo_page entity',
+        'view unpublished group_node:localgov_directories_venue entity',
+        'view unpublished group_node:localgov_directory entity',
+      ],
+      RolesHelper::GROUP_ANONYMOUS_ROLE => [
+        'view group_node:localgov_directories_page entity',
+        'view group_node:localgov_directory_promo_page entity',
+        'view group_node:localgov_directories_venue entity',
+        'view group_node:localgov_directory entity',
+      ],
+      RolesHelper::GROUP_MEMBER_ROLE => [
+        'create group_node:localgov_directories_page entity',
+        'create group_node:localgov_directory_promo_page entity',
+        'create group_node:localgov_directories_venue entity',
+        'create group_node:localgov_directory entity',
+        'manage directory facets',
+        'update any group_node:localgov_directories_page relationship',
+        'update any group_node:localgov_directories_page entity',
+        'update any group_node:localgov_directory_promo_page relationship',
+        'update any group_node:localgov_directory_promo_page entity',
+        'update any group_node:localgov_directories_venue relationship',
+        'update any group_node:localgov_directories_venue entity',
+        'update any group_node:localgov_directory relationship',
+        'update any group_node:localgov_directory entity',
+        'update own group_node:localgov_directories_page relationship',
+        'update own group_node:localgov_directories_page entity',
+        'update own group_node:localgov_directory_promo_page relationship',
+        'update own group_node:localgov_directories_promo_page entity',
+        'update own group_node:localgov_directories_venue relationship',
+        'update own group_node:localgov_directories_venue entity',
+        'update own group_node:localgov_directory relationship',
+        'update own group_node:localgov_directory entity',
+        'view group_node:localgov_directories_page entity',
+        'view group_node:localgov_directory_promo_page entity',
+        'view group_node:localgov_directories_venue entity',
+        'view group_node:localgov_directory entity',
+        'view unpublished group_node:localgov_directories_page entity',
+        'view unpublished group_node:localgov_directory_promo_page entity',
+        'view unpublished group_node:localgov_directories_venue entity',
+        'view unpublished group_node:localgov_directory entity',
+        'delete any group_node:localgov_directories_page relationship',
+        'delete any group_node:localgov_directories_page entity',
+        'delete any group_node:localgov_directory_promo_page relationship',
+        'delete any group_node:localgov_directory_promo_page entity',
+        'delete any group_node:localgov_directories_venue relationship',
+        'delete any group_node:localgov_directories_venue entity',
+        'delete any group_node:localgov_directory relationship',
+        'delete any group_node:localgov_directory entity',
+        'delete own group_node:localgov_directories_page relationship',
+        'delete own group_node:localgov_directories_page entity',
+        'delete own group_node:localgov_directory_promo_page relationship',
+        'delete own group_node:localgov_directory_promo_page entity',
+        'delete own group_node:localgov_directories_venue relationship',
+        'delete own group_node:localgov_directories_venue entity',
+        'delete own group_node:localgov_directory relationship',
+        'delete own group_node:localgov_directory entity',
+      ],
+      RolesHelper::GROUP_OUTSIDER_ROLE => [
+        'view group_node:localgov_directories_page entity',
+        'view group_node:localgov_directory_promo_page entity',
+        'view group_node:localgov_directories_venue entity',
+        'view group_node:localgov_directory entity',
+      ],
+    ],
+  ];
+}

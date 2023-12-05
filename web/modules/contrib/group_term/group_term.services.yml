@@ -1,0 +1,11 @@
+services:
+  group_term.route_subscriber:
+    class: 'Drupal\group_term\Routing\RouteSubscriber'
+    tags:
+      - { name: 'event_subscriber' }
+
+  # Specific group relation handlers.
+  group.relation_handler.operation_provider.group_term:
+    class: 'Drupal\group_term\Plugin\Group\RelationHandler\GroupTermOperationProvider'
+    arguments: [ '@group.relation_handler.operation_provider', '@current_user', '@string_translation', '@entity_type.manager']
+    shared: false

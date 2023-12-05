@@ -1,0 +1,12 @@
+{
+    "name": "localgovdrupal/localgov_blogs",
+    "description": "Provides blog channel and blog post content types with related views for LocalGov Drupal.",
+    "type": "drupal-module",
+    "homepage": "https://github.com/localgovdrupal/localgov_blogs",
+    "license": "GPL-2.0-or-later",
+    "minimum-stability": "dev",
+    "require": {
+        "localgovdrupal/localgov_core": "^2.1",
+        "localgovdrupal/localgov_topics": "^1.0"
+    }
+}

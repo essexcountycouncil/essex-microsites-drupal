@@ -1,0 +1,189 @@
+<?php
+
+/**
+ * @file
+ * Theme hooks to support the LocalGov Base Theme.
+ */
+
+use Drupal\Component\Utility\Crypt;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\views\ViewExecutable;
+
+/**
+ * Implements hook_form_system_theme_settings_alter().
+ */
+function localgov_base_form_system_theme_settings_alter(&$form, FormStateInterface $form_state, $form_id = NULL) {
+  // Work-around for a core bug affecting admin themes. See issue #943212.
+  if (isset($form_id)) {
+    return;
+  }
+
+  $form['localgov_base_remove_css'] = [
+    '#type'          => 'checkbox',
+    '#title'         => t('Remove CSS libraries from base theme.'),
+    '#default_value' => theme_get_setting('localgov_base_remove_css'),
+    '#description'   => t("Check this box to disable the base theme's CSS"),
+  ];
+
+  $form['localgov_base_remove_js'] = [
+    '#type'          => 'checkbox',
+    '#title'         => t('Remove JS libraries from base theme.'),
+    '#default_value' => theme_get_setting('localgov_base_remove_js'),
+    '#description'   => t("Check this box to disable the base theme's JavaScript"),
+  ];
+
+  $form['localgov_base_add_unpublished_background_colour'] = [
+    '#type'          => 'checkbox',
+    '#title'         => t('Add background colour to unpublished content.'),
+    '#default_value' => theme_get_setting('localgov_base_add_unpublished_background_colour'),
+    '#description'   => t("If you remove the background colour, you should probably also check the box below to add '[Draft]' to the title of unpublished content."),
+  ];
+
+  $form['localgov_base_add_draft_note_to_unpublished_content'] = [
+    '#type'          => 'checkbox',
+    '#title'         => t('Add "Draft" to title of unpublished content.'),
+    '#default_value' => theme_get_setting('localgov_base_add_draft_note_to_unpublished_content'),
+    '#description'   => t('This adds the word "Draft" to the title of any unpublished content. This is useful if you have removed the pink background from unpublished content.'),
+  ];
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function localgov_base_preprocess_page(&$variables) {
+  // Work around for Drupal core issue.
+  // Blocks employ lazy building.  This makes it difficult to determine from
+  // **Twig templates** if they will eventually produce empty content or not.
+  // @see https://www.drupal.org/node/953034
+  // @see https://www.drupal.org/forum/support/module-development-and-code-questions/2016-04-07/drupal-8-regions-with-and-empty#comment-12149518
+  $active_theme = \Drupal::service('theme.manager')->getActiveTheme()->getName();
+  $regions = array_keys(system_region_list($active_theme, REGIONS_VISIBLE));
+
+  $excluded_regions = [
+    'messages',
+    'disabled',
+  ];
+
+  foreach ($regions as $region) {
+    if (in_array($region, $excluded_regions)) {
+      continue;
+    }
+    $copy = $variables['page'][$region];
+    $rendered = \Drupal::service('renderer')->renderPlain($copy);
+    $variables['has_' . $region] = !empty(trim(strip_tags($rendered, '<drupal-render-placeholder><embed><hr><iframe><img><input><link><object><script><source><style><video>')));
+  }
+  $variables['has_sidebars'] = $variables['has_sidebar_first'] || $variables['has_sidebar_second'];
+
+  if (!isset($variables['localgov_base_remove_css'])) {
+    $variables['#attached']['library'][] = 'localgov_base/global';
+  }
+
+  // We have a theme setting boolean for removing the pink background from
+  // unpublished content. If that setting is false,
+  // we will add the 'unpublished' library to our page.
+  if (theme_get_setting('localgov_base_add_unpublished_background_colour') == TRUE) {
+    $variables['#attached']['library'][] = 'localgov_base/unpublished-bg';
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function localgov_base_preprocess_node(&$variables) {
+  $node_status = $variables['node']->isPublished();
+  if ($node_status === FALSE) {
+    if (theme_get_setting('localgov_base_add_draft_note_to_unpublished_content') == TRUE) {
+      $variables['label'] = t('[Draft]') . " " . $variables['node']->label();
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function localgov_base_preprocess_block(&$variables) {
+  if ($variables['plugin_id'] === 'localgov_page_header_block') {
+    $route_match = Drupal::routeMatch();
+    // Check if we are on a node page, latest version or a preview link.
+    $route = $route_match->getRouteName();
+    if ($route == 'entity.node.canonical' || $route == 'entity.node.latest_version' || $route == 'entity.node.preview_link') {
+      $node = $route_match->getParameter('node');
+      $node_status = $node->isPublished();
+      if ($node_status === FALSE) {
+        if (theme_get_setting('localgov_base_add_draft_note_to_unpublished_content') == TRUE) {
+          $current_title = $variables['content'][0]['#title'];
+          $variables['content'][0]['#title'] = t('[Draft]') . " " . $current_title;
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_file_link().
+ *
+ * Changes:
+ * - Inserts file *type* and size into the theme variable.
+ * - Reformats file size.  Example: 123.4KB.
+ * - Appends file metadata to the file link text.
+ *
+ * @see template_preprocess_file_link()
+ */
+function localgov_base_preprocess_file_link(&$variables) {
+
+  $file = $variables['file'];
+  $filename = $file->getFilename();
+  $file_extension = pathinfo($filename, PATHINFO_EXTENSION);
+
+  $variables['file_type'] = strtoupper($file_extension);
+
+  // 123.45 KB -> 123.45KB
+  $variables['file_size'] = strtr($variables['file_size'], [' ' => '']);
+
+  if (isset($variables['link']['#title'])) {
+    $variables['link']['#title'] = [
+      '#markup' => "{$variables['link']['#title']} <span class=\"file-meta\">(<span class=\"file-type\">{$variables['file_type']}</span>, <span class=\"file-size\">{$variables['file_size']}</span>)</span>",
+    ];
+  }
+  else {
+    $file_title = $variables['link'];
+    $variables['link'] = [
+      '#markup' => "{$file_title} <span class=\"file-meta\">(<span class=\"file-type\">{$variables['file_type']}</span>, <span class=\"file-size\">{$variables['file_size']}</span>)</span>",
+    ];
+  }
+}
+
+/**
+ * Implements hook_views_pre_render().
+ */
+function localgov_base_views_pre_render(ViewExecutable $view) {
+  if ($view->storage->id() == 'localgov_sitewide_search') {
+    $view->element['#attached']['library'][] = 'localgov_base/sitewide-search';
+  }
+}
+
+/**
+ * Implements hook_preprocess_container().
+ */
+function localgov_base_preprocess_container(&$variables) {
+
+  // Randomize form container IDs for accessibility.
+  // See https://www.drupal.org/project/drupal/issues/1852090
+  if (isset($variables['element']['#id'])) {
+    $id = $variables['element']['#id'];
+    if ($id == 'edit-actions') {
+      $id .= '--' . Crypt::randomBytesBase64(8);
+    }
+    $variables['attributes']['id'] = $id;
+    $variables['attributes']['data-drupal-selector'] = $id;
+    $variables['element']['#attributes']['data-drupal-selector'] = $id;
+    $variables['element']['#id'] = $id;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function localgov_base_form_preview_link_entity_form_alter(&$form, $form_state, $form_id) {
+  $form['#attached']['library'][''] = 'localgov_base/preview-link';
+}

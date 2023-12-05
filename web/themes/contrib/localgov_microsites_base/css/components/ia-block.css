@@ -1,0 +1,8 @@
+.ia-block--promoted {
+  color: var(--ia-block-color);
+  border: var(--ia-block-border);
+}
+
+.ia-block--promoted * {
+  color: inherit;
+}

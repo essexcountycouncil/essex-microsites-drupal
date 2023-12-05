@@ -1,0 +1,107 @@
+{#
+/**
+ * @file
+ * Theme override to display a region.
+ *
+ * Available variables:
+ * - content: The content for this region, typically blocks.
+ * - attributes: HTML attributes for the region <div>.
+ * - region: The name of the region variable as defined in the theme's
+ *   .info.yml file.
+ *
+ * @see template_preprocess_region()
+ */
+#}
+
+{% set header_attributes = create_attribute() %}
+
+{%
+  set header_classes = [
+    'region-microsites-header',
+    microsites.header.width.content_centered ? 'lgd-container' : '',
+  ]
+%}
+
+{# Begin pre-header #}
+{% if has_search and microsites.pre_header.items.lgms_display_sitewide_search.0['#markup'] == 'On' %}
+
+  {% if microsites.pre_header.width.content_centered %}
+    <div class="lgd-container">
+  {% endif %}
+  <div class="microsite-header__pre-header">
+
+    {% if microsites.pre_header.width.full_width_content_contained %}
+      <div class="lgd-container padding-horizontal">
+    {% endif %}
+    {% if has_search and microsites.pre_header.items.lgms_display_sitewide_search.0['#markup'] == 'On' %}
+      <div class="microsite-header__search">
+        {{ page.search }}
+      </div>
+    {% endif %}
+    {% if microsites.pre_header.width.full_width_content_contained %}
+      </div>
+    {% endif %}
+  </div>
+
+  {% if microsites.pre_header.width.content_centered %}
+    </div>
+  {% endif %}
+{% endif %}
+{# End pre-header #}
+
+{# Begin Header #}
+<div{{ header_attributes.addClass(header_classes) }}>
+  {% if microsites.header.width.full_width_content_contained %}
+    <div class="lgd-container padding-horizontal">
+  {% endif %}
+
+  <div class="lgd-region__inner lgd-region__inner--{{ region|clean_class }}">
+    {# Begin Microsite Header Main #}
+    <div class="microsite-header__main">
+      {% if microsites.header.items.lgms_main_logo %}
+        <div class="microsite-header__logo">
+          <a href="/">
+            {{ microsites.header.items.lgms_main_logo }}
+          </a>
+        </div>
+      {% endif %}
+      {% if microsites.header.items.lgms_site_name or microsites.header.items.lgms_site_slogan %}
+        <div class="microsite-header__name-slogan">
+          {% if microsites.header.items.lgms_site_name.0['#markup'] == 'On' %}
+            <div class="microsite-header__name">
+              {{ site_name }}
+            </div>
+          {% endif %}
+          {% if microsites.header.items.lgms_site_slogan.0['#markup'] == 'On' %}
+            <div class="microsite-header__slogan">
+              {{ site_slogan}}
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+      {% if has_main_menu or has_utility_menu %}
+        <div class="microsite-header__menus">
+          {% if has_utility_menu %}
+            <div class="microsite-header__menu microsite-header__menu--utility">
+              {{ page.utility_menu }}
+            </div>
+          {% endif %}
+          {% if has_main_menu %}
+            <div class="microsite-header__menu microsite-header__menu--main">
+              {{ page.main_menu }}
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+      <div class="microsite-header__off-canvas">
+        <button class="microsite-header__off-canvas-toggle" aria-controls="off-canvas" aria-expanded="false" aria-label="{{ 'off-canvas menu toggle'|t }}">{{ 'Menu'|t }}</button>
+      </div>
+    </div>
+    {# End Microsite Header Main #}
+  </div>
+
+  {% if microsites.header.width.full_width_content_contained %}
+    </div>
+  {% endif %}
+</div>
+{# End Header #}

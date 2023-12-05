@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_base_font_size
+    - group.type.microsite
+id: group.microsite.lgms_base_font_size
+field_name: lgms_base_font_size
+entity_type: group
+bundle: microsite
+label: 'Base font size'
+description: 'Add a font size and unit here, for example: 18px, 1rem, 1.3em, etc. Font sizes for headings and other site elements will be created based on a ratio of this.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

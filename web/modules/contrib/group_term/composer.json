@@ -1,0 +1,29 @@
+{
+  "name": "drupal/group_term",
+  "type": "drupal-module",
+  "description": "Enables Group functionality for the Taxonomy terms module.",
+  "homepage": "https://www.drupal.org/project/group_term",
+  "authors": [
+    {
+      "name": "Nikolay Lobachev",
+      "homepage": "https://www.drupal.org/u/lobsterr",
+      "role": "Maintainer"
+    }
+  ],
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/group_term",
+    "source": "https://git.drupalcode.org/project/group_term"
+  },
+  "license": "GPL-2.0-or-later",
+  "minimum-stability": "dev",
+  "require": {
+    "drupal/group": "^3.0",
+    "drupal/core": "^9 || ^10"
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://packages.drupal.org/8"
+    }
+  ]
+}

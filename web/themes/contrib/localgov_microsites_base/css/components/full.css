@@ -1,0 +1,77 @@
+.full__banner img {
+  width: 100%;
+}
+
+.full__banner,
+.full__title,
+.full__breadcrumbs {
+  margin-bottom: var(--spacing-large);
+}
+
+.full__page-top > *,
+.full__page-top > .field--name-localgov-event-location > article > * {
+  margin-bottom: var(--spacing-large);
+}
+
+.full .field--name-localgov-directory-standfirst,
+.full .field--name-localgov-page-summary {
+  font-size: var(--font-size-h3);
+}
+
+.full .field--name-body,
+.full .field--name-localgov-page-summary,
+.full .field--name-localgov-directory-standfirst,
+.full .field--name-localgov-text,
+.full .field--name-body {
+  max-width: var(--width-restricted-width-section);
+}
+
+.layout {
+  gap: 0 var(--spacing-larger);
+}
+
+@media screen and (min-width: 40rem) {
+  .layout--twocol > .layout__region--first,
+  .layout--twocol > .layout__region--second {
+    flex: 1 1 calc(50% - var(--spacing-larger) * 2);
+  }
+}
+
+@media screen and (min-width: 40rem) {
+  .layout--threecol-33-34-33 > .layout__region--first,
+  .layout--threecol-33-34-33 > .layout__region--second,
+  .layout--threecol-33-34-33 > .layout__region--third {
+    flex: 1 1 calc(calc(100% / 3) - var(--spacing-larger) * 3);
+  }
+}
+
+.layout__region > * {
+  margin-bottom: var(--spacing-larger);
+}
+
+/* Probably move to a directory css file (esp if we add any more CSS for directories */
+.full .field--name-localgov-directory-files {
+  margin-bottom: var(--spacing-larger);
+}
+
+.full__page-top .field--name-localgov-news-categories,
+.full__page-top .field--name-localgov-event-categories {
+  display: flex;
+  gap: var(--spacing);
+}
+
+.field__label {
+  font-weight: var(--label-font-weight);
+}
+
+fieldset .field + .field {
+  margin-top: var(--spacing);
+}
+
+.full--localgov-news-article .full__related {
+  margin-top: var(--spacing-largest);
+}
+
+.full .field--name-localgov-news-related > .field__items > .field__item + .field__item {
+  margin-top: var(--spacing);
+}

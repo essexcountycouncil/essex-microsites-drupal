@@ -1,0 +1,7 @@
+{
+    "name": "localgovdrupal/localgov_claro",
+    "description": "Sutheme of Claro for LGD sites.",
+    "type": "drupal-theme",
+    "homepage": "https://github.com/localgovdrupal/localgov_claro",
+    "license": "GPL-2.0-or-later"
+}

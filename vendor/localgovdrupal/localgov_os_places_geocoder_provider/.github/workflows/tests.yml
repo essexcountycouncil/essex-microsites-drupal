@@ -1,0 +1,31 @@
+name: Test runner for localgovdrupal/localgov_os_places_geocoder_provider
+
+on:
+  push:
+    branches: [ 1.x ]
+  pull_request:
+    branches: [ 1.x ]
+
+jobs:
+  test:
+    name: PHP ${{ matrix.php-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ['7.4', '8.0']
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Use PHP ${{ matrix.php-version }}
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-version }}
+        extensions: curl
+
+    - name: Install dependencies
+      run: composer update --prefer-dist --no-progress
+
+    - name: Run test suite
+      run: ./vendor/bin/phpunit

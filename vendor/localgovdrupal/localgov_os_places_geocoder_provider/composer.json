@@ -1,0 +1,30 @@
+{
+  "name": "localgovdrupal/localgov_os_places_geocoder_provider",
+  "type": "library",
+  "description": "Temporary home for our OS Places Geocoder provider.",
+  "homepage": "https://github.com/localgovdrupal/localgov_os_places_geocoder_provider",
+  "license": "GPL-2.0-or-later",
+  "minimum-stability": "dev",
+  "require": {
+    "geocoder-php/common-http": "^4.1",
+    "willdurand/geocoder": "^4.0"
+  },
+  "require-dev": {
+    "geocoder-php/provider-integration-tests": "^1.0",
+    "php-http/message": "^1.0",
+    "phpunit/phpunit": "^9.5",
+    "php-http/curl-client": "^2.2"
+  },
+  "provide": {
+    "geocoder-php/provider-implementation": "1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "LocalgovDrupal\\OsPlacesGeocoder\\": "src/",
+      "LocalgovDrupal\\OsPlacesGeocoder\\Tests\\": "tests/"
+    },
+    "exclude-from-classmap": [
+      "/tests/"
+    ]
+  }
+}

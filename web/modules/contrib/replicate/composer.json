@@ -1,0 +1,10 @@
+{
+    "name": "drupal/replicate",
+    "description": "Replicate provide an API to replicate (duplicate) entities. This modules also provide hooks to control exactly how parts of an entity are duplicated.",
+    "type": "drupal-module",
+    "homepage": "https://www.drupal.org/project/replicate",
+    "license": "GPL-2.0+",
+    "require": {
+        "drupal/core": "^9 || ^10"
+    }
+}

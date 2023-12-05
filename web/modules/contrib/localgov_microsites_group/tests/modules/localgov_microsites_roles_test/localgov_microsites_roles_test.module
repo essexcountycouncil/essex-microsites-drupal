@@ -1,0 +1,50 @@
+<?php
+
+/**
+ * @file
+ * Hooks for localgov_microsites_roles_test.
+ */
+
+use Drupal\localgov_microsites_group\RolesHelper;
+
+/**
+ * Implements hook_localgov_microsites_roles_default().
+ */
+function localgov_microsites_roles_test_localgov_microsites_roles_default() {
+  return [
+    'global' => [
+      RolesHelper::MICROSITES_CONTROLLER_ROLE => [
+        'create microsites roles test',
+        'delete microsites roles test',
+        'edit microsites roles test',
+        'view microsites roles test',
+      ],
+      RolesHelper::MICROSITES_EDITOR_ROLE => [
+        'create microsites roles test',
+        'edit microsites roles test',
+        'view microsites roles test',
+      ],
+    ],
+    'group' => [
+      RolesHelper::GROUP_ADMIN_ROLE => [
+        'administer microsite roles test',
+        'create microsite roles test',
+        'delete microsite roles test',
+        'edit microsite roles test',
+        'view microsite roles test',
+      ],
+      RolesHelper::GROUP_ANONYMOUS_ROLE => [
+        'view microsite roles test',
+      ],
+      RolesHelper::GROUP_MEMBER_ROLE => [
+        'create microsite roles test',
+        'delete microsite roles test',
+        'edit microsite roles test',
+        'view microsite roles test',
+      ],
+      RolesHelper::GROUP_OUTSIDER_ROLE => [
+        'view microsite roles test',
+      ],
+    ],
+  ];
+}

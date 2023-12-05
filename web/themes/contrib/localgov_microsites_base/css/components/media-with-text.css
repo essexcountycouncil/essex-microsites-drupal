@@ -1,0 +1,11 @@
+.media-with-text__link {
+  font-weight: var(--media-with-text-link-weight);
+}
+
+.media-with-text--media-left .media-with-text__body {
+  padding-left: var(--spacing-larger);
+}
+
+.media-with-text--media-right .media-with-text__body {
+  padding-right: var(--spacing-larger);
+}

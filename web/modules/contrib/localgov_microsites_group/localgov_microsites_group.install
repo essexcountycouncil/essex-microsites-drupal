@@ -1,0 +1,92 @@
+<?php
+
+/**
+ * @file
+ * LocalGov Microsites Group install file.
+ */
+
+use Drupal\Core\Serialization\Yaml;
+use Drupal\search_api\Entity\Index;
+
+/**
+ * Implements hook_install().
+ */
+function localgov_microsites_group_install($is_syncing) {
+
+  if ($is_syncing) {
+    return;
+  }
+
+  // Add domain access to exclude other sites results.
+  $index = Index::load('localgov_sitewide_search');
+  $processor = \Drupal::getContainer()
+    ->get('search_api.plugin_helper')
+    ->createProcessorPlugin($index, 'domain_group_entity_access');
+  $index->addProcessor($processor);
+  $index->save();
+}
+
+/**
+ * Uninstall the menu_link_reference module.
+ */
+function localgov_microsites_group_update_9001(&$sandbox) {
+
+  if (\Drupal::service('module_handler')->moduleExists('menu_link_reference')) {
+
+    // Uninstall old field definition.
+    // @see https://www.drupal.org/project/group_content_menu/issues/3333968#comment-14942988
+    $entity_definition_update_manager = \Drupal::entityDefinitionUpdateManager();
+    if ($entity_definition_update_manager->getEntityType('group_content_menu') !== NULL) {
+      $storage_definition = $entity_definition_update_manager->getFieldStorageDefinition('parent', 'group_content_menu');
+      if ($storage_definition !== NULL) {
+        $entity_definition_update_manager->uninstallFieldStorageDefinition($storage_definition);
+      }
+    }
+
+    // Uninstall the menu_link_reference module.
+    \Drupal::service('module_installer')->uninstall(['menu_link_reference']);
+  }
+}
+
+/**
+ * Add missing displays to group content views.
+ */
+function localgov_microsites_group_update_9002(&$sandbox) {
+
+  $module_path = \Drupal::service('extension.list.module')->getPath('localgov_microsites_group');
+  $view_storage = \Drupal::entityTypeManager()->getStorage('view');
+
+  $group_node_view = $view_storage->load('group_nodes');
+  if ($group_node_view) {
+    $displays = $group_node_view->get('display');
+    if (!isset($displays['microsite_page']) || !isset($displays['microsite_dashboard_embed'])) {
+      $view_override = Yaml::decode(file_get_contents($module_path . '/config/overrides/views.view.group_nodes.yml'));
+      $displays['microsite_page'] = $view_override['display']['microsite_page'];
+      $displays['microsite_dashboard_embed'] = $view_override['display']['microsite_dashboard_embed'];
+      $group_node_view->set('display', $displays);
+      $group_node_view->save();
+    }
+  }
+
+  $group_member_view = $view_storage->load('group_members');
+  if ($group_member_view) {
+    $displays = $group_member_view->get('display');
+    if (!isset($displays['microsite_dashboard_embed'])) {
+      $view_override = Yaml::decode(file_get_contents($module_path . '/config/overrides/views.view.group_members.yml'));
+      $displays['microsite_dashboard_embed'] = $view_override['display']['microsite_dashboard_embed'];
+      $group_member_view->set('display', $displays);
+      $group_member_view->save();
+    }
+  }
+
+  $my_invitations_view = $view_storage->load('my_invitations');
+  if ($my_invitations_view) {
+    $view_override = Yaml::decode(file_get_contents($module_path . '/config/overrides/views.view.my_invitations.yml'));
+    $displays = $my_invitations_view->get('display');
+    $displays['default']['display_options']['arguments'] = $view_override['display']['default']['display_options']['arguments'];
+    $displays['default']['display_options']['filters'] = $view_override['display']['default']['display_options']['filters'];
+    $displays['default']['display_options']['query'] = $view_override['display']['default']['display_options']['query'];
+    $my_invitations_view->set('display', $displays);
+    $my_invitations_view->save();
+  }
+}

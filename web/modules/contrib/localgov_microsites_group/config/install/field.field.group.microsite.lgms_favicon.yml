@@ -1,0 +1,26 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_favicon
+    - group.type.microsite
+  module:
+    - file
+id: group.microsite.lgms_favicon
+field_name: lgms_favicon
+entity_type: group
+bundle: microsite
+label: Favicon
+description: 'An image here will be used to override the default favicon for the site.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: favicon
+  file_extensions: png
+  max_filesize: ''
+  description_field: false
+field_type: file

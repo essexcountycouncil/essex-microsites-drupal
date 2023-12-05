@@ -1,0 +1,479 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for LocalGov Microsites Group module.
+ */
+
+use Drupal\Component\Serialization\Yaml;
+use Drupal\Core\Cache\Cache;
+use Drupal\Core\Cache\RefinableCacheableDependencyInterface;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\Element;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\Core\Url;
+use Drupal\group\Entity\Group;
+use Drupal\group\Entity\GroupInterface;
+use Drupal\group\Entity\GroupRelationshipInterface;
+use Drupal\localgov_microsites_group\DomainSettingsHelper;
+use Drupal\localgov_microsites_group\Entity\MicrositeGroup;
+use Drupal\localgov_microsites_group\Entity\MicrositeGroupInterface;
+use Drupal\localgov_microsites_group\Form\DomainGroupAdd;
+use Drupal\localgov_microsites_group\Form\DomainGroupContentAdd;
+use Drupal\localgov_microsites_group\GroupExtraFieldDisplay;
+use Drupal\localgov_microsites_group\RolesHelper;
+use Drupal\menu_link_content\MenuLinkContentInterface;
+use Drupal\user\Entity\User;
+use Drupal\views\Entity\View;
+use Drupal\views\ViewExecutable;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+
+/**
+ * Implements hook_modules_installed().
+ */
+function localgov_microsites_group_modules_installed($modules, $is_syncing) {
+  // Assume configuration is correct if the site is being config sync'd.
+  if ($is_syncing) {
+    return;
+  }
+
+  foreach ($modules as $module) {
+    RolesHelper::assignModuleRoles($module);
+  }
+}
+
+/**
+ * Update default group views before initial creation.
+ */
+function localgov_microsites_group_view_presave(View $view) {
+  if (!$view->isNew()) {
+    return;
+  }
+
+  $module_path = \Drupal::service('extension.list.module')->getPath('localgov_microsites_group');
+  if ($view->id() == 'group_nodes') {
+    $group_node_view = Yaml::decode(file_get_contents($module_path . '/config/overrides/views.view.group_nodes.yml'));
+    $displays = $view->get('display');
+    $displays['microsite_page'] = $group_node_view['display']['microsite_page'];
+    $displays['microsite_dashboard_embed'] = $group_node_view['display']['microsite_dashboard_embed'];
+    $view->set('display', $displays);
+  }
+  if ($view->id() == 'group_members') {
+    $group_member_view = Yaml::decode(file_get_contents($module_path . '/config/overrides/views.view.group_members.yml'));
+    $displays = $view->get('display');
+    $displays['microsite_dashboard_embed'] = $group_member_view['display']['microsite_dashboard_embed'];
+    $view->set('display', $displays);
+  }
+  if ($view->id() == 'my_invitations') {
+    $my_invitations_view = Yaml::decode(file_get_contents($module_path . '/config/overrides/views.view.my_invitations.yml'));
+    $displays = $view->get('display');
+    $displays['default']['display_options']['arguments'] = $my_invitations_view['display']['default']['display_options']['arguments'];
+    $displays['default']['display_options']['filters'] = $my_invitations_view['display']['default']['display_options']['filters'];
+    $displays['default']['display_options']['query'] = $my_invitations_view['display']['default']['display_options']['query'];
+    $view->set('display', $displays);
+  }
+}
+
+/**
+ * Implements hook_entity_bundle_info_alter().
+ */
+function localgov_microsites_group_entity_bundle_info_alter(array &$bundles): void {
+  if (isset($bundles['group'])) {
+    // @todo loop over and check if is a domain group.
+    $bundles['group']['microsite']['class'] = MicrositeGroup::class;
+    $bundles['group']['microsite']['label'] = 'Microsite';
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function localgov_microsites_group_theme($existing, $type, $theme, $path) {
+  return [
+    'microsites_task_block' => [
+      'variables' => [
+        'links' => NULL,
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_entity_type_build().
+ */
+function localgov_microsites_group_entity_type_build(array &$entity_types) {
+  /** @var \Drupal\Core\Entity\EntityTypeInterface[] $entity_types */
+  $entity_types['group']->setFormClass('new_domain', DomainGroupAdd::class);
+  $entity_types['group_relationship']->setFormClass('new_domain', DomainGroupContentAdd::class);
+}
+
+/**
+ * Implements hook_menu_local_actions_alter().
+ */
+function localgov_microsites_group_menu_local_actions_alter(array &$local_actions) {
+  if (!empty($local_actions['group_relationship.group_node_create_page']) &&
+    !in_array('view.group_nodes.microsite_page', $local_actions['group_relationship.group_node_create_page']['appears_on'])
+  ) {
+    $local_actions['group_relationship.group_node_create_page']['appears_on'][] = 'view.group_nodes.microsite_page';
+  }
+  if (!empty($local_actions['group_relationship.group_node_add_page']) &&
+    !in_array('view.group_nodes.microsite_page', $local_actions['group_relationship.group_node_add_page']['appears_on'])
+  ) {
+    $local_actions['group_relationship.group_node_add_page']['appears_on'][] = 'view.group_nodes.microsite_page';
+  }
+}
+
+/**
+ * Implements hook_entity_extra_field_info().
+ */
+function localgov_microsites_group_entity_extra_field_info() {
+  return \Drupal::service('class_resolver')
+    ->getInstanceFromDefinition(GroupExtraFieldDisplay::class)
+    ->entityExtraFieldInfo();
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_presave() for menu_link_content entities.
+ */
+function localgov_microsites_group_menu_link_content_presave(MenuLinkContentInterface $entity) {
+
+  // Find active group.
+  $group_id = \Drupal::service('domain_group_resolver')->getActiveDomainGroupId();
+  if (is_null($group_id)) {
+    $group = \Drupal::request()->attributes->get('group');
+    if ($group) {
+      $group_id = $group->id();
+    }
+  }
+
+  // Clear group cache so menu links are visible.
+  if ($group_id) {
+    Cache::invalidateTags(['group:' . $group_id]);
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_view().
+ */
+function localgov_microsites_group_view(array &$build, GroupInterface $group, EntityViewDisplayInterface $display, $view_mode) {
+  return \Drupal::service('class_resolver')
+    ->getInstanceFromDefinition(GroupExtraFieldDisplay::class)
+    ->groupView($build, $group, $display, $view_mode);
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_insert() for group entities.
+ */
+function localgov_microsites_group_group_insert(GroupInterface $group) {
+  if ($group->hasField('lgms_favicon')) {
+    \Drupal::classResolver(DomainSettingsHelper::class)->faviconField($group, $group->lgms_favicon);
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_update() for group entities.
+ */
+function localgov_microsites_group_group_update(GroupInterface $group) {
+  if ($group->hasField('lgms_favicon')) {
+    \Drupal::classResolver(DomainSettingsHelper::class)->faviconField($group, $group->lgms_favicon);
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_insert() for group_relationship entities.
+ */
+function localgov_microsites_group_group_relationship_insert(GroupRelationshipInterface $entity) {
+
+  // Add the Trusted Editor Role to group members.
+  $type = $entity->get('type')->getValue();
+  if (isset($type[0]['target_id']) && $type[0]['target_id'] == 'microsite-group_membership') {
+
+    /** @var \Drupal\user\Entity\User $member */
+    $member = $entity->getEntity();
+    $member->addRole('microsites_trusted_editor');
+    $member->save();
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_delete() for group_relationship entities.
+ */
+function localgov_microsites_group_group_relationship_delete(GroupRelationshipInterface $entity) {
+
+  // Remove the Trusted Editor Role when a user is no longer a member of groups.
+  $type = $entity->get('type')->getValue();
+  if (isset($type[0]['target_id']) && $type[0]['target_id'] == 'microsite-group_membership') {
+
+    /** @var \Drupal\user\Entity\User $member */
+    $member = $entity->getEntity();
+    $groups = \Drupal::service('group.membership_loader')->loadByUser($member);
+    if (empty($groups)) {
+      $member->removeRole('microsites_trusted_editor');
+      $member->save();
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function localgov_microsites_group_form_user_login_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $form['#submit'][] = 'localgov_microsites_group_user_login_form_submit';
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function localgov_microsites_group_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+  // Set domain path pathauto as on by default.
+  if (isset($form['domain_path'])) {
+    $domain_ids = Element::children($form['domain_path']);
+    $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
+    foreach ($domain_ids as $id) {
+      if (isset($form['domain_path'][$id]['pathauto']) && $id == $active_domain->id()) {
+        $form['domain_path'][$id]['pathauto']['#default_value'] = TRUE;
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function localgov_microsites_group_form_media_library_add_form_upload_alter(&$form, FormStateInterface $form_state) {
+  $form['#submit'][] = 'localgov_microsites_group_media_library_add_form_submit';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function localgov_microsites_group_form_media_library_add_form_oembed_alter(&$form, FormStateInterface $form_state) {
+  $form['#submit'][] = 'localgov_microsites_group_media_library_add_form_submit';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for group-microsite-edit-form form.
+ */
+function localgov_microsites_group_form_group_microsite_edit_form_alter(&$form, FormStateInterface $form_state) {
+  $form['actions']['submit']['#submit'][] = 'localgov_microsites_group_form_group_microsite_edit_form_submit';
+}
+
+/**
+ * Redirect for user login form.
+ */
+function localgov_microsites_group_user_login_form_submit($form, FormStateInterface $form_state) {
+  // Don't redirect if a different redirect has been set, by something other
+  // than the user.module standard.
+  if ($redirect = $form_state->getRedirect()) {
+    if ($redirect instanceof Url && $redirect->getRouteName() != 'entity.user.canonical') {
+      return;
+    }
+  }
+
+  $domain_negotiator = \Drupal::service('domain.negotiator');
+  $active = $domain_negotiator->getActiveDomain();
+  if (empty($active)) {
+    return;
+  }
+  // If active is default, control, domain. Redirect to admin.
+  if ($active->isDefault()) {
+    $form_state->setRedirect('system.admin');
+  }
+  // Login to a domain group.
+  $group_id = \Drupal::service('domain_group_resolver')->getActiveDomainGroupId();
+  if ($group_id) {
+    $form_state->setRedirect('entity.group.canonical', ['group' => $group_id]);
+  }
+}
+
+/**
+ * Additional submit handler to associate media with group when in domain group.
+ */
+function localgov_microsites_group_media_library_add_form_submit($form, FormStateInterface $form_state) {
+  if (($group_id = \Drupal::service('domain_group_resolver')->getActiveDomainGroupId()) &&
+    ($added_media = $form_state->get('media'))
+  ) {
+    $groups[] = Group::load($group_id);
+    \Drupal::service('groupmedia.attach_group')->assignMediaToGroups($added_media, $groups);
+  }
+}
+
+/**
+ * Add submit handler for group edit form.
+ */
+function localgov_microsites_group_form_group_microsite_edit_form_submit($form, FormStateInterface $form_state) {
+  $group = $form_state->getformObject()->getEntity();
+  $form_state->setRedirect('entity.group.edit_form', ['group' => $group->id()]);
+}
+
+/**
+ * Implements hook_menu_locol_tasks_alter().
+ */
+function localgov_microsites_group_menu_local_tasks_alter(&$data, $route_name, RefinableCacheableDependencyInterface &$cacheability) {
+  if (($group = \Drupal::routeMatch()->getParameter('group')) &&
+    $group instanceof MicrositeGroupInterface &&
+    !empty($data['tabs'][0])
+  ) {
+    foreach ($data['tabs'][0] as $task_id => $link) {
+      if ($custom_title = localgov_microsites_group_local_task_title($task_id)) {
+        $data['tabs'][0][$task_id]['#link']['title'] = $custom_title;
+        // Really just needs to be the bundle.
+        // But should alreday be per group for user perms.
+        $cacheability->addCacheableDependency($group);
+      }
+
+      if (localgov_microsites_group_local_task_hidden($task_id)) {
+        $data['tabs'][0][$task_id]['#access'] = FALSE;
+        $cacheability->addCacheableDependency($group);
+      }
+    }
+  }
+}
+
+/**
+ * Group local tasks to hide.
+ */
+function localgov_microsites_group_local_task_hidden($task_id) {
+  return in_array($task_id,
+    [
+      'group.delete_form',
+      'group.content',
+      'group.version_history',
+      'group_permissions.link.group_permissions_parent',
+      'views_view:view.group_nodes.page_1',
+    ]);
+}
+
+/**
+ * Group local task titles to change.
+ */
+function localgov_microsites_group_local_task_title($task_id) {
+  switch ($task_id) {
+
+    case 'group.view':
+      return t('Dashboard');
+
+    case 'domain_group.group_domain_settings':
+      return t('Site settings');
+
+    case 'group.edit_form':
+      return t('Site design');
+
+    case 'entity.group_content_menu.collection':
+      return t('Menus');
+  }
+}
+
+/**
+ * Group local task titles to change.
+ */
+function localgov_microsites_group_local_tasks_alter(&$local_tasks) {
+  $local_tasks['group.view']['weight'] = -3;
+  $local_tasks['views_view:view.group_nodes.page_1']['weight'] = 0;
+  $local_tasks['views_view:view.group_invitations.page_1']['weight'] = 80;
+  $local_tasks['views_view:view.group_members.page_1']['weight'] = 75;
+  $local_tasks['group.edit_form']['weight'] = 170;
+  $local_tasks['domain_group.group_domain_settings']['weight'] = 150;
+}
+
+/**
+ * Implements hook_preprocess_page_title().
+ */
+function localgov_microsites_group_preprocess_page_title(&$variables) {
+
+  // Change page title.
+  if ($variables['title'] instanceof TranslatableMarkup && $variables['title']->__toString() == 'Group content menus') {
+    $variables['title'] = t('Menus');
+  }
+}
+
+/**
+ * Controller callback that redirects group content canonical to content.
+ *
+ * @see Drupal\localgov_microsites_group\Routing\RouteSubscriber::alterRoutes
+ */
+function localgov_microsites_group_redirect_group_relationship(GroupRelationshipInterface $group_relationship) {
+  $entity = $group_relationship->getEntity();
+  return new RedirectResponse($entity->toUrl()->toString());
+}
+
+/**
+ * Implements hook_preprocess_menu().
+ */
+function localgov_microsites_group_preprocess_menu(&$variables) {
+
+  // Hide Microsite administration link if Drupal user 1.
+  if (
+    \Drupal::currentUser()->id() == 1 &&
+    isset($variables['menu_name']) &&
+    $variables['menu_name'] == 'admin' &&
+    isset($variables['items']['localgov_microsites_group.microsite_admin'])
+  ) {
+    unset($variables['items']['localgov_microsites_group.microsite_admin']);
+  }
+}
+
+/**
+ * Implements hook_views_query_substitutions().
+ */
+function localgov_microsites_group_views_query_substitutions(ViewExecutable $view) {
+  if ($view->id() == 'my_invitations') {
+    return [
+      '***GINVITE_USER_EMAIL***' => User::load($view->argument['entity_id']->getValue())->getEmail(),
+    ];
+  }
+}
+
+/**
+ * Implements hook_toolbar().
+ *
+ * - Adds a Control site indicator to the toolbar.
+ */
+function localgov_microsites_group_toolbar() {
+
+  if (!Drupal::hasService('domain.negotiator')) {
+    return;
+  }
+
+  $active_domain = Drupal::service('domain.negotiator')->getActiveDomain();
+  if (empty($active_domain) || !$active_domain->get('is_default')) {
+    return;
+  }
+
+  return [
+    'localgov-microsites-group-toolbar-override' => [
+      '#attached' => [
+        'library' => 'localgov_microsites_group/control_site_toolbar_override',
+      ],
+    ],
+    'localgov-microsites-group-control-site-indicator' => [
+      '#type' => 'toolbar_item',
+      '#weight' => 101,
+      'tab'   => [
+        '#type' => 'html_tag',
+        '#tag'  => 'div',
+        '#value' => t("Control site: Don't edit content"),
+        '#attributes' => ['class' => ['toolbar-icon', 'toolbar-icon-warning']],
+        '#attached' => [
+          'library' => 'localgov_microsites_group/toolbar_icons',
+        ],
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_localgov_microsites_roles_default().
+ */
+function localgov_microsites_group_localgov_microsites_roles_default() {
+  return [
+    'global' => [
+      RolesHelper::MICROSITES_CONTROLLER_ROLE => [
+        'assign microsites_controller role',
+        'assign microsites_trusted_editor role',
+      ],
+    ],
+  ];
+}

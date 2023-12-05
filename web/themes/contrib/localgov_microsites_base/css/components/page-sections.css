@@ -1,0 +1,54 @@
+/* Background colours on page sections */
+.lgd-page-section--bg-colour-1 .ia-block--promoted,
+.lgd-page-section--bg-colour-1 .pull-out-quote,
+.lgd-page-section--bg-colour-1 .call-out-box__link,
+.lgd-page-section--bg-colour-1 .callout-primary,
+.lgd-page-section--bg-colour-1 .featured-teaser,
+.lgd-page-section--bg-colour-1 .call-out-box__content {
+  color: var(--color-page-section-background-color-1);
+  background: var(--color-page-section-background-color-1-text-color);
+}
+
+.lgd-page-section--bg-colour-1 .call-out-box--has-image .call-out-box__content {
+  background: linear-gradient(to right, var(--color-page-section-background-color-1-text-color) 75%, transparent);
+}
+
+.lgd-page-section--bg-colour-2 .call-out-box--has-image .call-out-box__content {
+  background: linear-gradient(to right, var(--color-page-section-background-color-2-text-color) 75%, transparent);
+}
+
+.lgd-page-section--bg-colour-1 .call-out-box__content h2,
+.lgd-page-section--bg-colour-1 .call-out-box__content h3,
+.lgd-page-section--bg-colour-2 .call-out-box__content h2,
+.lgd-page-section--bg-colour-2 .call-out-box__content h3,
+.lgd-page-section--bg-colour-2 .pull-out-quote__content,
+.lgd-page-section--bg-colour-2 .pull-out-quote__author,
+.lgd-page-section--bg-colour-2 .ia-block--promoted a,
+/*.lgd-page-section--bg-colour-2 .call-out-box__link,*/
+.lgd-page-section--bg-colour-3 .call-out-box__link,
+.lgd-page-section--bg-colour-3 .ia-block--promoted *,
+.lgd-page-section--has-bg-colour .featured-teaser a,
+.lgd-page-section--has-bg-colour .featured-teaser h2,
+.lgd-page-section--has-bg-colour .featured-teaser h3,
+.lgd-page-section--has-bg-colour .ia-block--promoted h2,
+.lgd-page-section--has-bg-colour .ia-block--promoted h3 {
+  color: inherit;
+}
+
+.lgd-page-section--bg-colour-2 .call-out-box__link,
+.lgd-page-section--bg-colour-2 .call-out-box__content,
+.lgd-page-section--bg-colour-2 .ia-block--promoted,
+.lgd-page-section--bg-colour-2 .featured-teaser,
+.lgd-page-section--bg-colour-2 .lgd-image__image + *,
+.lgd-page-section--bg-colour-2 .pull-out-quote {
+  color: var(--color-page-section-background-color-2);
+  background-color: var(--color-page-section-background-color-2-text-color);
+}
+
+.lgd-page-section--has-bg-colour .ia-block:not(.ia-block--promoted) {
+  background-color: transparent;
+}
+
+.lgd-page-section--has-bg-colour .lgd-icon {
+  fill: inherit;
+}

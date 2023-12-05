@@ -1,0 +1,17 @@
+@media screen and (min-width: 61rem) {
+  .layout-region--node-main .layout-region__content,
+  .layout-region--node-footer .layout-region__content {
+    max-width: 90%;
+  }
+}
+
+/* Webform adds some non-contrasty styling to messages */
+
+.messages.messages--info a {
+  color: initial;
+}
+
+.messages.messages--info a:hover {
+  text-decoration: none;
+  color: initial;
+}

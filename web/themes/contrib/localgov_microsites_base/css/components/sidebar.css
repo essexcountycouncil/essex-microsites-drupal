@@ -1,0 +1,17 @@
+aside.lgd-row__one-third {
+  border-right: var(--sidebar-border);
+}
+
+.lgd-row__two-thirds ~ aside.lgd-row__one-third {
+  border-right: 0;
+  border-left: var(--sidebar-border);
+}
+
+.sidebar .lgd-region__inner > *,
+.newsroom__sidebar > * {
+  padding-left: 0;
+}
+
+.blog-channel__sidebar > * {
+  padding-right: 0;
+}

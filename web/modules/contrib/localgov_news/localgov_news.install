@@ -1,0 +1,37 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the localgov_news module.
+ */
+
+use Drupal\user\RoleInterface;
+
+/**
+ * Implements hook_install().
+ */
+function localgov_news_install($is_syncing) {
+
+  if ($is_syncing) {
+    return;
+  }
+
+  if (\Drupal::moduleHandler()->moduleExists('user')) {
+    user_role_grant_permissions(RoleInterface::ANONYMOUS_ID, ['use search_api_autocomplete for localgov_news_search']);
+  }
+
+  // Install default config for simple_sitemap, as this does not appear to work
+  // in the config/optional folder.
+  // Discussed on https://www.drupal.org/project/simple_sitemap/issues/3156080
+  if (\Drupal::moduleHandler()->moduleExists('simple_sitemap')) {
+    $generator = \Drupal::service('simple_sitemap.entity_manager');
+    $generator->setBundleSettings('node', 'localgov_newsroom', [
+      'index' => TRUE,
+      'priority' => 0.5,
+    ]);
+    $generator->setBundleSettings('node', 'localgov_news_article', [
+      'index' => TRUE,
+      'priority' => 0.5,
+    ]);
+  }
+}

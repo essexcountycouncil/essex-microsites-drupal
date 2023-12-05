@@ -1,0 +1,22 @@
+entity.group_content_menu.edit_form:
+  title: Edit menu
+  route_name: entity.group_content_menu.edit_form
+  base_route: entity.group_content_menu.edit_form
+entity.group_content_menu.delete_form:
+  title: Delete menu
+  route_name: entity.group_content_menu.delete_form
+  base_route: entity.group_content_menu.edit_form
+  weight: 10
+entity.group_content_menu.collection:
+  title: Group menus
+  route_name: entity.group_content_menu.collection
+  base_route: entity.group.canonical
+  weight: 30
+entity.group_content_menu_type.edit_form:
+  title: Edit menu type
+  route_name: entity.group_content_menu_type.edit_form
+  base_route: entity.group_content_menu_type.edit_form
+entity.group_content_menu_type.collection:
+  title: List menu types
+  route_name: entity.group_content_menu_type.collection
+  base_route: entity.group_content_menu_type.collection

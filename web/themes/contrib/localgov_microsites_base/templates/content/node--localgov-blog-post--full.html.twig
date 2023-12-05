@@ -1,0 +1,35 @@
+{% extends "@localgov_microsites_base/content/node--full.html.twig" %}
+
+{% block library_extend %}
+  {{ attach_library('localgov_base/blog') }}
+{% endblock %}
+
+
+{% block blog_meta %}
+  <div class="blog-post__meta">
+    {% if node.localgov_blog_author.value %}
+      <div class="blog-post__meta-item blog-post__meta-item--author">
+        {% for key,value in node.localgov_blog_author.value %}
+          {{ content.group_page_top.localgov_blog_author[key] }}
+          {% if not loop.last %}{{',' | t}}{% endif %}
+        {% endfor %}
+        {{'-' | t}}
+      </div>
+    {% endif %}
+
+    {% if node.localgov_blog_date.value %}
+      <div class="blog-post__meta-item blog-post__meta-item--date">
+        {{ content.group_page_top.localgov_blog_date }}
+      </div>
+    {% endif %}
+
+    {% if node.localgov_blog_categories.value %}{{'-' | t}}
+      <div class="blog-post__meta-item blog-post__meta-item--topics">
+        {% for key,value in node.localgov_blog_categories.value %}
+          {{ content.group_page_top.localgov_blog_categories[key] }}
+          {% if not loop.last %}{{',' | t}}{% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

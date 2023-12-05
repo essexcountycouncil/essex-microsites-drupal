@@ -1,0 +1,16 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.microsite
+    - taxonomy.vocabulary.localgov_event_category
+  module:
+    - group_term
+    - taxonomy
+id: microsite-1819e7f9e1d7798d28e46c
+group_type: microsite
+content_plugin: 'group_term:localgov_event_category'
+plugin_config:
+  group_cardinality: 0
+  entity_cardinality: 1
+  use_creation_wizard: false

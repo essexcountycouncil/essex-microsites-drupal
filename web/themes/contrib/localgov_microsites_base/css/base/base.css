@@ -1,0 +1,69 @@
+body {
+  background-color: var(--page-background-color);
+}
+
+/* Typography tweaks */
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: var(--spacing-smaller);
+}
+
+h5,
+h6 {
+  text-decoration: none;
+  font-variant: none;
+}
+
+/* Table */
+table caption {
+  margin-bottom: var(--spacing-smaller);
+  text-align: start;
+}
+
+table th p {
+  margin: 0;
+  color: var(--table-header-text-color);
+}
+table p {
+  margin-bottom: var(--spacing-smaller);
+}
+
+thead {
+  border: var(--border);
+}
+
+input[type="date"],
+input[type="datetime-local"],
+input[type="email"],
+input[type="number"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="text"],
+textarea,
+select,
+.select2-container--default .select2-search--dropdown .select2-search__field {
+  border: var(--input-border);
+}
+
+a:focus-visible {
+  outline: -webkit-focus-ring-color auto 2px;
+}
+
+a:focus {
+  color: inherit;
+  outline: -webkit-focus-ring-color auto 2px;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.callout-primary {
+  color: var(--color-accent-contrast);
+}
+
+main {
+  padding-bottom: var(--spacing);
+}

@@ -1,0 +1,17 @@
+group_content_menu.type_add:
+  route_name: entity.group_content_menu_type.add_form
+  title: Add group menu type
+  appears_on:
+    - entity.group_content_menu_type.collection
+
+entity.group_content_menu.add_page:
+  route_name: entity.group_content_menu.add_page
+  title: 'Add new menu'
+  appears_on:
+    - entity.group_content_menu.collection
+entity.group_content_menu.add_menu_link:
+  route_name: entity.group_content_menu.add_menu_link
+  title: 'Add link'
+  class: \Drupal\menu_ui\Plugin\Menu\LocalAction\MenuLinkAdd
+  appears_on:
+    - entity.group_content_menu.edit_form

@@ -1,0 +1,17 @@
+name: "Domain Access module tests"
+description: "Support module for domain access testing."
+type: module
+package: Testing
+# version: VERSION
+core_version_requirement: ^9 || ^10
+hidden: TRUE
+
+dependencies:
+  - domain
+  - domain_access
+  - taxonomy
+
+# Information added by Drupal.org packaging script on 2023-06-06
+version: '2.0.0-beta1'
+project: 'domain'
+datestamp: 1686067465

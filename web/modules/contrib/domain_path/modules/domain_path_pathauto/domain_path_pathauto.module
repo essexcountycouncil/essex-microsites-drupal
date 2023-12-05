@@ -1,0 +1,42 @@
+<?php
+
+/**
+ * @file
+ * Pathauto alias handling for multiple domains.
+ */
+
+use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
+use Drupal\Component\Utility\NestedArray;
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_form_alter().
+ */
+function domain_path_pathauto_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // Firstly check if default pathauto UI is hidden or not. Depending on it
+  // we're altering different form elements.
+  // @see DomainPathautoHelper::alterEntityForm().
+  $keys = ['path', 'widget', 0, 'domain_path'];
+  $default_ui_hidden = \Drupal::config('domain_path.settings')->get('hide_path_alias_ui');
+  if ($default_ui_hidden) {
+    $keys = ['domain_path'];
+  }
+  if (!empty(NestedArray::getValue($form, $keys)) && ($object = $form_state->getFormObject()) && is_callable([
+    $object,
+    'getEntity',
+  ])
+    && ($entity = $object->getEntity())) {
+    $domain_path_helper = \Drupal::service('domain_path.helper');
+    $domain_path_pathauto_helper = \Drupal::service('domain_path_pathauto.helper');
+    /** @var \Drupal\domain_path_pathauto\DomainPathautoHelper $domain_path_pathauto_helper */
+    if ($domain_path_helper->domainPathsIsEnabled($entity)) {
+      try {
+        $domain_path_pathauto_helper->alterEntityForm($form, $form_state, $entity, $keys);
+      }
+      catch (InvalidPluginDefinitionException | PluginNotFoundException $e) {
+      }
+
+    }
+  }
+}

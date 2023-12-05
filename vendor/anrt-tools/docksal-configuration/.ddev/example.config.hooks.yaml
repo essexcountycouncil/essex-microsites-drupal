@@ -1,0 +1,10 @@
+hooks:
+  pre-start:
+    - exec-host: "cp .ddev/settings.ddev.annertech.php web/sites/default/settings.local.php"
+  post-start:
+     - exec-host: "ddev auth ssh"
+  post-import-db:
+    - exec: "drush cr"
+    - exec: "drush en stage_file_proxy -y"
+    - exec: "drush sql:sanitize -y"
+    - exec: "drush uli"

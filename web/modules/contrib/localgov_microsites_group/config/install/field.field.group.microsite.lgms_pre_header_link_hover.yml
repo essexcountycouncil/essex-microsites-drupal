@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_pre_header_link_hover
+    - group.type.microsite
+id: group.microsite.lgms_pre_header_link_hover
+field_name: lgms_pre_header_link_hover
+entity_type: group
+bundle: microsite
+label: 'Pre-header Link Hover Colour'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

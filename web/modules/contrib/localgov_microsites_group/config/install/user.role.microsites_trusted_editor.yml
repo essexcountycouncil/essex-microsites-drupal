@@ -1,0 +1,45 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - media.type.document
+    - media.type.image
+    - media.type.remote_video
+  module:
+    - media
+    - system
+    - domain_path
+    - layout_paragraphs_permissions
+    - localgov_sa11y
+    - override_node_options
+id: microsites_trusted_editor
+label: 'Microsites trusted editor'
+weight: 3
+is_admin: null
+permissions:
+  - 'access media overview'
+  - 'access toolbar'
+  - 'administer media'
+  - 'create document media'
+  - 'create image media'
+  - 'create media'
+  - 'create remote_video media'
+  - 'edit any document media'
+  - 'edit any image media'
+  - 'edit any remote_video media'
+  - 'edit domain path entity'
+  - 'edit layout paragraphs plugin config'
+  - 'edit own document media'
+  - 'edit own image media'
+  - 'edit own remote_video media'
+  - 'override all published option'
+  - 'update any media'
+  - 'update media'
+  - 'use_localgov_sa11y'
+  - 'view all media revisions'
+  - 'view media'
+  - 'view own unpublished media'
+  - 'view the administration theme'
+  - 'delete all revisions'
+  - 'revert all revisions'
+  - 'view all revisions'

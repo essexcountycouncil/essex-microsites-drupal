@@ -1,0 +1,16 @@
+{
+    "name": "drupal/domain_path",
+    "description": "Path aliases for content using domain.",
+    "type": "drupal-module",
+    "homepage": "https://www.drupal.org/project/domain_path",
+    "license": "GPL-2.0-or-later",
+    "require": {
+        "drupal/domain": "^1.0-beta || ^2"
+    },
+    "require-dev": {
+        "drupal/pathauto": "1.x-dev"
+    },
+    "suggest": {
+        "drupal/pathauto": "Automatic path aliases with Domain Path Pathauto submodule."
+    }
+}

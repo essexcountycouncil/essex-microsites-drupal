@@ -1,0 +1,16 @@
+group_content_menu_block:
+  type: block_settings
+  label: 'Group content menu'
+  mapping:
+    level:
+      type: integer
+      label: 'Starting level'
+    depth:
+      type: integer
+      label: 'Maximum number of levels'
+    expand_all_items:
+      type: boolean
+      label: 'Expand all items'
+
+block.settings.group_content_menu:*:
+  type: group_content_menu_block

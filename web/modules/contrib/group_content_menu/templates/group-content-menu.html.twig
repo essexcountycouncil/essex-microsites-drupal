@@ -1,0 +1,21 @@
+{#
+/**
+ * @file
+ * Default theme implementation to present a group content menu entity.
+ *
+ * This template is used when viewing a registered group content menu's page,
+ * e.g., /admin/group/menus)/123. 123 being the group content menu's ID.
+ *
+ * Available variables:
+ * - content: A list of content items. Use 'content' to print all content, or
+ *   print a subset such as 'content.title'.
+ * - attributes: HTML attributes for the container element.
+ *
+ * @see template_preprocess_group_content_menu()
+ */
+#}
+<div{{ attributes.addClass('group-content-menu') }}>
+  {% if content %}
+    {{- content -}}
+  {% endif %}
+</div>

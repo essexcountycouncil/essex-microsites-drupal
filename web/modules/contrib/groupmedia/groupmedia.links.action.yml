@@ -1,0 +1,11 @@
+group_relationship.group_media_relate_page:
+  route_name: 'entity.group_relationship.group_media_add_page'
+  title: 'Relate media'
+  appears_on:
+    - 'view.group_media.page_1'
+
+group_relationship.group_media_add_page:
+  route_name: 'entity.group_relationship.group_media_create_page'
+  title: 'Create media'
+  appears_on:
+    - 'view.group_media.page_1'

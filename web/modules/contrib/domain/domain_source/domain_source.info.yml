@@ -1,0 +1,15 @@
+name: Domain Source
+description: 'Domain-based path rewrites for content.'
+type: module
+package: Domain
+# version: VERSION
+core_version_requirement: ^9 || ^10
+dependencies:
+  - drupal:node
+  - drupal:path_alias
+  - domain:domain
+
+# Information added by Drupal.org packaging script on 2023-06-06
+version: '2.0.0-beta1'
+project: 'domain'
+datestamp: 1686067465

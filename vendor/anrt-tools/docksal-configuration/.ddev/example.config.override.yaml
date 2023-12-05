@@ -1,0 +1,8 @@
+override_config: true
+web_environment:
+- STAGE_FILE_PROXY_URL=https://www.overriden-example.com
+
+hooks:
+  post-import-db:
+    - exec: drush cr
+    - exec: drush updb

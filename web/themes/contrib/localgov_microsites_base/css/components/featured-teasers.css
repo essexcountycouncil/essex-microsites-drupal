@@ -1,0 +1,16 @@
+.featured-teaser {
+  color: var(--featured-teaser-color);
+  border: var(--featured-teaser-border);
+  background-color: var(--featured-teaser-background);
+}
+
+.featured-teaser a {
+  font-weight: var(--featured-teaser-link-weight);
+}
+.featured-teaser * {
+  color: inherit;
+}
+
+.featured-teasers__teasers > .field__items > .field__item + .field__item {
+  margin-top: var(--spacing-larger);
+}

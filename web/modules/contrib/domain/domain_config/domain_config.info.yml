@@ -1,0 +1,13 @@
+name: Domain Configuration
+description: 'Allows domain specific configuration.'
+type: module
+package: Domain
+# version: VERSION
+core_version_requirement: ^9 || ^10
+dependencies:
+  - domain:domain
+
+# Information added by Drupal.org packaging script on 2023-06-06
+version: '2.0.0-beta1'
+project: 'domain'
+datestamp: 1686067465

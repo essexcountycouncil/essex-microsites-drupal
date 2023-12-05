@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.microsite
+    - user.role.authenticated
+id: microsite-anonymous
+label: Anonymous
+weight: -102
+admin: false
+scope: outsider
+global_role: anonymous
+group_type: microsite
+permissions:
+  - 'view group_node:localgov_page entity'
+  - 'view group_media:document entity'
+  - 'view group_media:image entity'
+  - 'view group_media:remote_video entity'

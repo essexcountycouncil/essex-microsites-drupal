@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_hide_title
+    - group.type.microsite
+id: group.microsite.lgms_hide_title
+field_name: lgms_hide_title
+entity_type: group
+bundle: microsite
+label: 'Hide page title on home page'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

@@ -1,0 +1,8 @@
+name: 'LocalGov Micosites Roles Test'
+type: module
+description: 'Support module for LocalGov Microsites role tests'
+package: Testing
+core_version_requirement: ^9 || ^10
+dependencies:
+  - localgov_microsites_group:localgov_microsites_group
+hidden: true

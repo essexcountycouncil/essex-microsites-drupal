@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd" backupGlobals="false" colors="true" bootstrap="vendor/autoload.php">
+  <php>
+    <!-- Replace the empty API key with a real value to capture responses and then save them inside the tests/cached-query-responses/ directory -->
+    <env name="OS_PLACES_API_KEY" value=""/>
+  </php>
+  <testsuites>
+    <testsuite name="OS Places test suite">
+      <directory>./tests/</directory>
+    </testsuite>
+  </testsuites>
+</phpunit>

@@ -1,0 +1,22 @@
+group_content_menu.group_content_menu_type.*:
+  type: config_entity
+  label: 'Group content menu type config'
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    label:
+      type: label
+      label: 'Label'
+    uuid:
+      type: string
+
+group_relation.config.auto_create_group_menu:
+  type: boolean
+  label: Auto create a group menu
+group_relation.config.auto_create_home_link:
+  type: boolean
+  label: Home link
+group_relation.config.auto_create_home_link_title:
+  type: string
+  label: Home title

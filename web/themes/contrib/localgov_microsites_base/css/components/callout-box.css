@@ -1,0 +1,12 @@
+.call-out-box__content h2,
+.call-out-box__content h3 {
+  color: var(--call-out-box-text-color);
+  /* todo add this to the localgov_base */
+}
+
+.call-out-box__link {
+  color: var(--call-out-box-text-color);
+  background-color: var(--call-out-box-bg-color);
+  font-weight: var(--call-out-box-link-weight);
+  /* maybe an inverted colour or not choice ? todo add this to the localgov_base */
+}

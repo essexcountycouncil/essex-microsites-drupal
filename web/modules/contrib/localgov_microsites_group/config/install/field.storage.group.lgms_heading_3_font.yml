@@ -1,0 +1,89 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - group
+    - options
+id: group.lgms_heading_3_font
+field_name: lgms_heading_3_font
+entity_type: group
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: 'Alegreya sans'
+      label: 'Alegreya sans'
+    -
+      value: 'Archivo Black'
+      label: 'Archivo Black'
+    -
+      value: 'Archivo Narrow'
+      label: 'Archivo Narrow'
+    -
+      value: Arvo
+      label: Arvo
+    -
+      value: Barlow
+      label: Barlow
+    -
+      value: Cabin
+      label: Cabin
+    -
+      value: 'IBM Plex Sans'
+      label: 'IBM Plex Sans'
+    -
+      value: Inter
+      label: Inter
+    -
+      value: Junction
+      label: Junction
+    -
+      value: 'Libre Baskerville'
+      label: 'Libre Baskerville'
+    -
+      value: Lora
+      label: Lora
+    -
+      value: Merriweather
+      label: Merriweather
+    -
+      value: 'Open sans'
+      label: 'Open sans'
+    -
+      value: 'Playfair Display'
+      label: 'Playfair Display'
+    -
+      value: 'PT Sans'
+      label: 'PT Sans'
+    -
+      value: 'PT serif'
+      label: 'PT serif'
+    -
+      value: 'Public sans'
+      label: 'Public sans'
+    -
+      value: Roboto
+      label: Roboto
+    -
+      value: 'Source Serif Pro'
+      label: 'Source Serif Pro'
+    -
+      value: 'Space mono'
+      label: 'Space mono'
+    -
+      value: 'Sporting Grotesk'
+      label: 'Sporting Grotesk'
+    -
+      value: Vollkorn
+      label: Vollkorn
+    -
+      value: 'Work sans'
+      label: 'Work sans'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

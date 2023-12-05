@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.localgov_submission_confirm
+    - node.type.localgov_webform
+id: node.localgov_webform.localgov_submission_confirm
+field_name: localgov_submission_confirm
+entity_type: node
+bundle: localgov_webform
+label: 'Submission confirmation'
+description: 'Please provide a confirmation message to display on successful submission.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

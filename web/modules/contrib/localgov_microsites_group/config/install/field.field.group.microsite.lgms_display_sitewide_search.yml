@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_display_sitewide_search
+    - group.type.microsite
+id: group.microsite.lgms_display_sitewide_search
+field_name: lgms_display_sitewide_search
+entity_type: group
+bundle: microsite
+label: 'Display sitewide search'
+description: 'Display the sitewide search in the Preheader region.'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

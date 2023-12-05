@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_secondary_colour_contrast
+    - group.type.microsite
+id: group.microsite.lgms_secondary_colour_contrast
+field_name: lgms_secondary_colour_contrast
+entity_type: group
+bundle: microsite
+label: 'Secondary colour contrast'
+description: 'Choose a colour with sufficient colour contrast with the Secondary colour.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

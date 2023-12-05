@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_footer_text_block_1
+    - group.type.microsite
+  module:
+    - text
+id: group.microsite.lgms_footer_text_block_1
+field_name: lgms_footer_text_block_1
+entity_type: group
+bundle: microsite
+label: "Footer Text Block 1"
+description: "There are four optional footer columns in which you can use for any textual content, such as contact details, addresses etc."
+required: false
+translatable: false
+default_value: {}
+default_value_callback: ""
+settings: {}
+field_type: text_long

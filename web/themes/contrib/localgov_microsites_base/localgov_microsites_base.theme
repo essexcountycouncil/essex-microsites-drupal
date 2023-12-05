@@ -1,0 +1,707 @@
+<?php
+
+/**
+ * @file
+ * Theme function for the LocalGov Microsites Base theme.
+ */
+
+use Drupal\localgov_microsites_group\Entity\MicrositeGroupInterface;
+use Drupal\views\ViewExecutable;
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function localgov_microsites_base_preprocess_html(&$variables) {
+
+  $parent_group_id = \Drupal::service('domain_group_resolver')->getActiveDomainGroupId();
+  if ($parent_group_id) {
+    $group = \Drupal::entityTypeManager()->getStorage('group')->load($parent_group_id);
+  }
+  if (empty($group)) {
+    $group = \Drupal::request()->attributes->get('group');
+  }
+
+  if ($group instanceof MicrositeGroupInterface) {
+    // Adds classes that can be used to let CSS target specific microsites.
+    $variables['attributes']['class'][] = 'lgd-ms';
+    $variables['attributes']['class'][] = 'lgd-ms--' . $parent_group_id;
+
+    // Styleguide primary colour.
+    if (!is_null($group->get('lgms_primary_colour')[0])) {
+      $primary_colour = $group->get('lgms_primary_colour')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--color-accent: ' . $primary_colour . ';';
+    }
+
+    if (!is_null($group->get('lgms_primary_colour_contrast')[0])) {
+      $primary_colour_contrast = $group->get('lgms_primary_colour_contrast')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--color-accent-contrast: ' . $primary_colour_contrast . ';';
+    }
+
+    // Styleguide secondary colour.
+    if (!is_null($group->get('lgms_secondary_colour')[0])) {
+      $secondary_colour = $group->get('lgms_secondary_colour')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--color-accent-2: ' . $secondary_colour . ';';
+    }
+
+    if (!is_null($group->get('lgms_secondary_colour_contrast')[0])) {
+      $secondary_colour_contrast = $group->get('lgms_secondary_colour_contrast')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--color-accent-2-contrast: ' . $secondary_colour_contrast . ';';
+    }
+
+    // Styleguide page background colour.
+    if (!is_null($group->get('lgms_page_background_colour')[0])) {
+      $page_background_colour = $group->get('lgms_page_background_colour')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--page-background-color: ' . $page_background_colour . ';';
+      $variables['attributes']['style'][] = '--breadcrumbs-background-color: ' . $page_background_colour . ';';
+    }
+
+    // Styleguide base spacing.
+    if (!is_null($group->get('lgms_base_spacing')[0])) {
+      $spacing = $group->get('lgms_base_spacing')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--spacing: ' . $spacing . ';';
+    }
+
+    // Styleguide text colour.
+    if (!is_null($group->get('lgms_text_colour')[0])) {
+      $text_colour = $group->get('lgms_text_colour')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--color-text: ' . $text_colour . ';';
+    }
+
+    // Styleguide link colour.
+    if (!is_null($group->get('lgms_link_colour')[0])) {
+      $link_colour = $group->get('lgms_link_colour')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--color-link: ' . $link_colour . ';';
+    }
+
+    // Styleguide heading font.
+    if (!is_null($group->get('lgms_heading_font')[0])) {
+      $heading_font = $group->get('lgms_heading_font')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = "--font-secondary: '$heading_font';";
+    }
+
+    // Styleguide heading font weight.
+    if (!is_null($group->get('lgms_heading_font_weight')[0])) {
+      $heading_font_weight = $group->get('lgms_heading_font_weight')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = "--heading-font-weight: $heading_font_weight;";
+    }
+
+    // Styleguide font-size.
+    if (!is_null($group->get('lgms_base_font_size')[0])) {
+      $font_size = $group->get('lgms_base_font_size')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--font-size: ' . $font_size . ';';
+    }
+
+    // Styleguide body font.
+    if (!is_null($group->get('lgms_body_font')[0])) {
+      $body_font = $group->get('lgms_body_font')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = "--font-primary: '$body_font';";
+    }
+
+    // Styleguide line-height.
+    if (!is_null($group->get('lgms_base_line_height')[0])) {
+      $line_height = $group->get('lgms_base_line_height')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--line-height: ' . $line_height . ';';
+    }
+
+    // Heading Overrides heading 1 font.
+    if (!is_null($group->get('lgms_heading_1_font')[0])) {
+      $heading_1_font = $group->get('lgms_heading_1_font')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = "--font-heading-1: '$heading_1_font';";
+    }
+
+    // Heading Overrides heading 2 font.
+    if (!is_null($group->get('lgms_heading_2_font')[0])) {
+      $heading_2_font = $group->get('lgms_heading_2_font')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = "--font-heading-2: '$heading_2_font';";
+    }
+
+    // Heading Overrides heading 3 font.
+    if (!is_null($group->get('lgms_heading_3_font')[0])) {
+      $heading_3_font = $group->get('lgms_heading_3_font')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = "--font-heading-3: '$heading_3_font';";
+    }
+
+    // Heading Overrides heading 4 font.
+    if (!is_null($group->get('lgms_heading_4_font')[0])) {
+      $heading_4_font = $group->get('lgms_heading_4_font')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = "--font-heading-4: '$heading_4_font';";
+    }
+
+    // Heading Overrides heading 5 font.
+    if (!is_null($group->get('lgms_heading_5_font')[0])) {
+      $heading_5_font = $group->get('lgms_heading_5_font')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = "--font-heading-5: '$heading_5_font';";
+    }
+
+    // Heading Overrides heading 6 font.
+    if (!is_null($group->get('lgms_heading_6_font')[0])) {
+      $heading_6_font = $group->get('lgms_heading_6_font')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = "--font-heading-6: '$heading_6_font';";
+    }
+
+    // Heading Overrides heading 1 font weight.
+    if (!is_null($group->get('lgms_heading_1_font_weight')[0])) {
+      $font_weight = $group->get('lgms_heading_1_font_weight')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--heading-1-font-weight:' . $font_weight . ';';
+    }
+
+    // Heading Overrides heading 2 font weight.
+    if (!is_null($group->get('lgms_heading_2_font_weight')[0])) {
+      $font_weight = $group->get('lgms_heading_2_font_weight')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--heading-2-font-weight:' . $font_weight . ';';
+    }
+
+    // Heading Overrides heading 3 font weight.
+    if (!is_null($group->get('lgms_heading_3_font_weight')[0])) {
+      $font_weight = $group->get('lgms_heading_3_font_weight')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--heading-3-font-weight:' . $font_weight . ';';
+    }
+
+    // Heading Overrides heading 4 font weight.
+    if (!is_null($group->get('lgms_heading_4_font_weight')[0])) {
+      $font_weight = $group->get('lgms_heading_4_font_weight')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--heading-4-font-weight:' . $font_weight . ';';
+    }
+
+    // Heading Overrides heading 5 font weight.
+    if (!is_null($group->get('lgms_heading_5_font_weight')[0])) {
+      $font_weight = $group->get('lgms_heading_5_font_weight')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--heading-5-font-weight:' . $font_weight . ';';
+    }
+
+    // Heading Overrides heading 6 font weight.
+    if (!is_null($group->get('lgms_heading_6_font_weight')[0])) {
+      $font_weight = $group->get('lgms_heading_6_font_weight')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--heading-6-font-weight:' . $font_weight . ';';
+    }
+
+    // Heading Overrides heading 1 font colour.
+    if (!is_null($group->get('lgms_heading_1_font_colour')[0])) {
+      $font_colour = $group->get('lgms_heading_1_font_colour')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--heading-1-color: ' . $font_colour . ';';
+    }
+
+    // Heading Overrides heading 2 font colour.
+    if (!is_null($group->get('lgms_heading_2_font_colour')[0])) {
+      $font_colour = $group->get('lgms_heading_2_font_colour')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--heading-2-color: ' . $font_colour . ';';
+    }
+
+    // Heading Overrides heading 3 font colour.
+    if (!is_null($group->get('lgms_heading_3_font_colour')[0])) {
+      $font_colour = $group->get('lgms_heading_3_font_colour')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--heading-3-color: ' . $font_colour . ';';
+    }
+
+    // Heading Overrides heading 4 font colour.
+    if (!is_null($group->get('lgms_heading_4_font_colour')[0])) {
+      $font_colour = $group->get('lgms_heading_4_font_colour')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--heading-4-color: ' . $font_colour . ';';
+    }
+
+    // Heading Overrides heading 5 font colour.
+    if (!is_null($group->get('lgms_heading_5_font_colour')[0])) {
+      $font_colour = $group->get('lgms_heading_5_font_colour')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--heading-5-color: ' . $font_colour . ';';
+    }
+
+    // Heading Overrides heading 6 font colour.
+    if (!is_null($group->get('lgms_heading_6_font_colour')[0])) {
+      $font_colour = $group->get('lgms_heading_6_font_colour')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--heading-6-color: ' . $font_colour . ';';
+    }
+
+    // Heading Overrides heading 1 line height.
+    if (!is_null($group->get('lgms_heading_1_line_height')[0])) {
+      $line_height = $group->get('lgms_heading_1_line_height')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--heading-1-line-height: ' . $line_height . ';';
+    }
+
+    // Heading Overrides heading 2 line height.
+    if (!is_null($group->get('lgms_heading_2_line_height')[0])) {
+      $line_height = $group->get('lgms_heading_2_line_height')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--heading-2-line-height: ' . $line_height . ';';
+    }
+
+    // Heading Overrides heading 3 line height.
+    if (!is_null($group->get('lgms_heading_3_line_height')[0])) {
+      $line_height = $group->get('lgms_heading_3_line_height')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--heading-3-line-height: ' . $line_height . ';';
+    }
+
+    // Heading Overrides heading 4 line height.
+    if (!is_null($group->get('lgms_heading_4_line_height')[0])) {
+      $line_height = $group->get('lgms_heading_4_line_height')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--heading-4-line-height: ' . $line_height . ';';
+    }
+
+    // Heading Overrides heading 5 line height.
+    if (!is_null($group->get('lgms_heading_5_line_height')[0])) {
+      $line_height = $group->get('lgms_heading_5_line_height')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--heading-5-line-height: ' . $line_height . ';';
+    }
+
+    // Heading Overrides heading 6 line height.
+    if (!is_null($group->get('lgms_heading_6_line_height')[0])) {
+      $line_height = $group->get('lgms_heading_6_line_height')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--heading-6-line-height: ' . $line_height . ';';
+    }
+
+    // Heading Overrides heading 1 font-size.
+    if (!is_null($group->get('lgms_heading_1_font_size')[0])) {
+      $font_size = $group->get('lgms_heading_1_font_size')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--font-size-largest: ' . $font_size . ';';
+    }
+
+    // Heading Overrides heading 2 font-size.
+    if (!is_null($group->get('lgms_heading_2_font_size')[0])) {
+      $font_size = $group->get('lgms_heading_2_font_size')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--font-size-larger: ' . $font_size . ';';
+    }
+
+    // Heading Overrides heading 3 font-size.
+    if (!is_null($group->get('lgms_heading_3_font_size')[0])) {
+      $font_size = $group->get('lgms_heading_3_font_size')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--font-size-large: ' . $font_size . ';';
+    }
+
+    // Heading Overrides heading 4 font-size.
+    if (!is_null($group->get('lgms_heading_4_font_size')[0])) {
+      $font_size = $group->get('lgms_heading_4_font_size')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--font-size-h4: ' . $font_size . ';';
+    }
+
+    // Heading Overrides heading 5 font-size.
+    if (!is_null($group->get('lgms_heading_5_font_size')[0])) {
+      $font_size = $group->get('lgms_heading_5_font_size')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--font-size-h5: ' . $font_size . ';';
+    }
+
+    // Heading Overrides heading 6 font-size.
+    if (!is_null($group->get('lgms_heading_6_font_size')[0])) {
+      $font_size = $group->get('lgms_heading_6_font_size')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--font-size-h6: ' . $font_size . ';';
+    }
+
+    // Pre-header Background colour.
+    if (!is_null($group->get('lgms_pre_header_bg_colour')[0])) {
+      $pre_header_background_colour = $group->get('lgms_pre_header_bg_colour')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--pre-header-background-color: ' . $pre_header_background_colour . ';';
+    }
+
+    // Pre-header text colour.
+    if (!is_null($group->get('lgms_pre_header_text_colour')[0])) {
+      $pre_header_text_colour = $group->get('lgms_pre_header_text_colour')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--pre-header-text-color: ' . $pre_header_text_colour . ';';
+    }
+
+    // Pre-header link colour.
+    if (!is_null($group->get('lgms_pre_header_link_colour')[0])) {
+      $pre_header_link_colour = $group->get('lgms_pre_header_link_colour')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--pre-header-link-color: ' . $pre_header_link_colour . ';';
+    }
+
+    // Pre-header link hover state colour.
+    if (!is_null($group->get('lgms_pre_header_link_hover')[0])) {
+      $pre_header_link_hover_colour = $group->get('lgms_pre_header_link_hover')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--pre-header-link-hover-color: ' . $pre_header_link_hover_colour . ';';
+    }
+
+    // Header Background colour.
+    if (!is_null($group->get('lgms_header_bg_colour')[0])) {
+      $header_background_colour = $group->get('lgms_header_bg_colour')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--header-background-color: ' . $header_background_colour . ';';
+    }
+
+    // Header text colour.
+    if (!is_null($group->get('lgms_header_text_colour')[0])) {
+      $header_text_colour = $group->get('lgms_header_text_colour')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--header-text-color: ' . $header_text_colour . ';';
+    }
+
+    // Header link colour.
+    if (!is_null($group->get('lgms_header_link_colour')[0])) {
+      $header_link_colour = $group->get('lgms_header_link_colour')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--header-link-color: ' . $header_link_colour . ';';
+    }
+
+    // Header link hover state colour.
+    if (!is_null($group->get('lgms_header_link_hover_colour')[0])) {
+      $header_link_hover_colour = $group->get('lgms_header_link_hover_colour')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--header-link-hover-color: ' . $header_link_hover_colour . ';';
+    }
+
+    // Header site name font size.
+    if (!is_null($group->get('lgms_site_name_font_size')[0])) {
+      $site_name_font_size = $group->get('lgms_site_name_font_size')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--site-name-font-size: ' . $site_name_font_size . ';';
+    }
+
+    // Header site name font weight.
+    if (!is_null($group->get('lgms_site_name_font_weight')[0])) {
+      $site_name_font_weight = $group->get('lgms_site_name_font_weight')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--site-name-font-weight: ' . $site_name_font_weight . ';';
+    }
+
+    // Header vertical alignment.
+    if (!is_null($group->get('lgms_header_vertical_alignment')[0])) {
+      $header_vertical_alignment = $group->get('lgms_header_vertical_alignment')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--header-items-alignment: ' . $header_vertical_alignment . ';';
+    }
+
+    // Main menu site font size.
+    if (!is_null($group->get('lgms_main_menu_font_size')[0])) {
+      $main_menu_font_size = $group->get('lgms_main_menu_font_size')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--menu-main-font-size: ' . $main_menu_font_size . ';';
+    }
+
+    // Main menu site font weight.
+    if (!is_null($group->get('lgms_main_menu_font_weight')[0])) {
+      $main_menu_font_weight = $group->get('lgms_main_menu_font_weight')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--menu-main-font-weight: ' . $main_menu_font_weight . ';';
+    }
+
+    // Main menu submenu background colour.
+    if (!is_null($group->get('lgms_submenu_background_colour')[0])) {
+      $submenu_background_colour = $group->get('lgms_submenu_background_colour')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--menu-sub-menu-background-colour: ' . $submenu_background_colour . ';';
+    }
+
+    // Main menu submenu text colour.
+    if (!is_null($group->get('lgms_submenu_link_colour')[0])) {
+      $submenu_link_colour = $group->get('lgms_submenu_link_colour')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--menu-sub-menu-link-colour: ' . $submenu_link_colour . ';';
+    }
+
+    // Main menu submenu icon.
+    if (!is_null($group->get('lgms_submenu_icon')[0])) {
+      $submenu_icon = $group->get('lgms_submenu_icon')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--menu-sub-menu-icon: url(../../includes/icons/' . $submenu_icon . '.svg) ;';
+    }
+
+    // Main menu submenu icon rotation.
+    if (!is_null($group->get('lgms_submenu_icon_rotation')[0])) {
+      $submenu_icon_rotation = $group->get('lgms_submenu_icon_rotation')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--menu-item-toggle-icon-rotation:' . $submenu_icon_rotation . ';';
+    }
+
+    // Off canvas menu icon.
+    if (!is_null($group->get('lgms_off_canvas_menu_icon')[0])) {
+      $off_canvas_menu_icon = $group->get('lgms_off_canvas_menu_icon')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--off-canvas-menu-icon: url(../../includes/icons/' . $off_canvas_menu_icon . '.svg) ;';
+    }
+
+    // Off canvas background colour.
+    if (!is_null($group->get('lgms_off_canvas_bg_colour')[0])) {
+      $off_canvas_bg_colour = $group->get('lgms_off_canvas_bg_colour')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--off-canvas-background-color: ' . $off_canvas_bg_colour . ';';
+    }
+
+    // Off canvas text colour.
+    if (!is_null($group->get('lgms_off_canvas_text_colour')[0])) {
+      $off_canvas_text_colour = $group->get('lgms_off_canvas_text_colour')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--off-canvas-link-color: ' . $off_canvas_text_colour . ';';
+    }
+
+    // Footer background colour.
+    if (!is_null($group->get('lgms_footer_background_colour')[0])) {
+      $footer_background_colour = $group->get('lgms_footer_background_colour')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--footer-background-color: ' . $footer_background_colour . ';';
+    }
+
+    // Footer text colour.
+    if (!is_null($group->get('lgms_footer_text_colour')[0])) {
+      $footer_text_colour = $group->get('lgms_footer_text_colour')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--footer-text-color: ' . $footer_text_colour . ';';
+    }
+
+    // Footer link colour.
+    if (!is_null($group->get('lgms_footer_link_colour')[0])) {
+      $footer_link_colour = $group->get('lgms_footer_link_colour')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--footer-link-color: ' . $footer_link_colour . ';';
+    }
+
+    // Footer link hover state colour.
+    if (!is_null($group->get('lgms_footer_link_hover_colour')[0])) {
+      $footer_link_hover_colour = $group->get('lgms_footer_link_hover_colour')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--footer-link-hover-color: ' . $footer_link_hover_colour . ';';
+    }
+
+    // Header vertical alignment.
+    if (!is_null($group->get('lgms_footer_items_alignment')[0])) {
+      $footer_items_alignment = $group->get('lgms_footer_items_alignment')[0]->getValue()['value'];
+      $variables['attributes']['style'][] = '--footer-grid-column-justification: ' . $footer_items_alignment . ';';
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function localgov_microsites_base_preprocess_node(&$variables) {
+  $variables['node'] = $variables['elements']['#node'];
+  $variables['view_mode'] = $variables['elements']['#view_mode'];
+  $variables['content_type'] = $variables['node']->getType();
+  $variables['teaser'] = $variables['view_mode'] == 'teaser';
+
+  $parent_group_id = \Drupal::service('domain_group_resolver')->getActiveDomainGroupId();
+  if ($parent_group_id) {
+    $group = \Drupal::entityTypeManager()->getStorage('group')->load($parent_group_id);
+  }
+  if (empty($group)) {
+    $group = \Drupal::request()->attributes->get('group');
+  }
+
+  if ($group instanceof MicrositeGroupInterface) {
+    $front_page = \Drupal::config('domain.config.group_' . $parent_group_id . '.system.site')->get('page.front');
+    $current_path = \Drupal::service('path.current')->getPath();
+    $current_path_alias = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
+
+    if (($front_page === $current_path || $front_page === $current_path_alias) && $variables['view_mode'] === 'full') {
+      if (isset($group->get('lgms_hide_title')[0])) {
+        if ($group->get('lgms_hide_title')[0]->getValue()['value'] === "1") {
+          $variables['label']['#markup'] = '<div class="visually-hidden">' . $variables['label']['#markup'] . '</div>';
+        }
+      }
+    }
+
+    if (!is_null($group->get('lgms_teaser_image_style')[0])) {
+      $teaser_image_style = $group->get('lgms_teaser_image_style')[0]->getValue()['value'];
+
+      switch ($teaser_image_style) {
+        case 'square':
+          $variables['microsites']['advanced']['teaser_image_style'] = 'square_medium';
+          break;
+
+        case '3x2':
+          $variables['microsites']['advanced']['teaser_image_style'] = 'medium_3_2_600x400';
+          break;
+
+        case '7x3':
+          $variables['microsites']['advanced']['teaser_image_style'] = 'small_21_9';
+          break;
+      }
+
+      if ($variables['teaser']) {
+        switch ($variables['content_type']) {
+          case 'localgov_event':
+            $media_id = $variables['node']->localgov_event_image[0]->getValue()['target_id'];
+            break;
+
+          case 'localgov_news_article':
+            $media_id = $variables['node']->field_media_image[0]->getValue()['target_id'];
+            break;
+
+          case 'localgov_blog_post':
+            $media_id = $variables['node']->field_media_image[0]->getValue()['target_id'];
+            break;
+
+          case 'localgov_directory_promo_page':
+            $banner_paragraph_id = $variables['node']->localgov_directory_banner[0]->getValue()['target_id'];
+            $banner_paragraph = \Drupal::entityTypeManager()->getStorage('paragraph')->load($banner_paragraph_id);
+            $media_id = $banner_paragraph->localgov_image[0]->getValue()['target_id'];
+            break;
+        }
+        if (isset($media_id)) {
+          $teaser_image_field = \Drupal::entityTypeManager()->getStorage('media')->load($media_id);
+          $variables['microsites']['advanced']['teaser_image'] = $teaser_image_field->field_media_image->view([
+            'type' => 'image',
+            'label' => 'hidden',
+            'settings' => [
+              'image_style' => $variables['microsites']['advanced']['teaser_image_style'],
+            ],
+          ]);
+        }
+      }
+    }
+  }
+
+}
+
+/**
+ * Implements hook_views_pre_render().
+ */
+function localgov_microsites_base_views_pre_render(ViewExecutable $view) {
+
+  if ($view->id() === 'localgov_events_listing' && $view->current_display === 'page_all_events' || $view->id() === 'lgms_embed_view_events' && $view->current_display === 'upcoming_events') {
+
+    $view->element['#attached']['library'][] = 'localgov_microsites_base/view-events';
+
+    $parent_group_id = \Drupal::service('domain_group_resolver')->getActiveDomainGroupId();
+    if ($parent_group_id) {
+      $group = \Drupal::entityTypeManager()->getStorage('group')->load($parent_group_id);
+    }
+    else {
+      $group = \Drupal::request()->attributes->get('group');
+    }
+
+    if (!is_null($group) && !empty($group->get('lgms_teaser_image_style')->getValue())) {
+
+      $teaser_image_style = $group->get('lgms_teaser_image_style')[0]->getValue()['value'];
+      switch ($teaser_image_style) {
+        case 'square':
+          $image_style = 'square_medium';
+          break;
+
+        case '3x2':
+          $image_style = 'manual_3_2_crop';
+          break;
+
+        case '7x3':
+          $image_style = 'manual_7_3_crop';
+          break;
+      }
+
+      // Set image to display as thumbnail.
+      $image_field = $view->field['localgov_event_image'];
+      $image_field->options['type'] = 'media_thumbnail';
+      $image_field->options['settings'] = [
+        'image_link' => '',
+        'image_style' => $image_style,
+        'image_loading' => [
+          'attribute' => 'lazy',
+        ],
+      ];
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_page().
+ */
+function localgov_microsites_base_preprocess_page(&$variables) {
+
+  // Load the site name out of configuration.
+  $config = \Drupal::config('system.site');
+  $variables['site_name'] = $config->get('name');
+  $variables['site_slogan'] = $config->get('slogan');
+
+  $parent_group_id = \Drupal::service('domain_group_resolver')->getActiveDomainGroupId();
+  if ($parent_group_id) {
+    $group = \Drupal::entityTypeManager()->getStorage('group')->load($parent_group_id);
+  }
+  if (empty($group)) {
+    $group = \Drupal::request()->attributes->get('group');
+  }
+
+  if ($group instanceof MicrositeGroupInterface) {
+
+    // Header.
+    if (!empty($group->get('lgms_header_width')->getValue())) {
+      $width = $group->get('lgms_header_width')->getValue()[0]['value'];
+      switch ($width) {
+        case 'full-width':
+          $variables['microsites']['header']['width']['full_width'] = TRUE;
+          break;
+
+        case 'full-width-content-contained':
+          $variables['microsites']['header']['width']['full_width_content_contained'] = TRUE;
+          break;
+
+        case 'content-centered':
+          $variables['microsites']['header']['width']['content_centered'] = TRUE;
+          break;
+
+        default:
+          $variables['microsites']['header']['width']['full_width_content_contained'] = TRUE;
+          break;
+      }
+    }
+
+    $header_fields = [
+      'lgms_site_name',
+      'lgms_site_slogan',
+      'lgms_main_logo',
+    ];
+    foreach ($header_fields as $header_field) {
+      if (!empty($group->get($header_field)->getValue())) {
+        $variables['microsites']['header']['items'][$header_field] = $group->get($header_field)->view('microsite');
+      }
+    }
+
+    // Footer Items.
+    if (!empty($group->get('lgms_footer_width')->getValue())) {
+      $width = $group->get('lgms_footer_width')->getValue()[0]['value'];
+      switch ($width) {
+        case 'full-width':
+          $variables['microsites']['footer']['width']['full_width'] = TRUE;
+          break;
+
+        case 'full-width-content-contained':
+          $variables['microsites']['footer']['width']['full_width_content_contained'] = TRUE;
+          break;
+
+        case 'content-centered':
+          $variables['microsites']['footer']['width']['content_centered'] = TRUE;
+          break;
+
+        default:
+          $variables['microsites']['footer']['width']['full_width_content_contained'] = TRUE;
+          break;
+      }
+    }
+
+    $footer_fields = [
+      'lgms_footer_banner',
+      'lgms_footer_text_block_1',
+      'lgms_footer_text_block_2',
+      'lgms_footer_text_block_3',
+      'lgms_footer_text_block_4',
+      'lgms_footer_logos',
+      'lgms_footer_copyright_notice',
+    ];
+    foreach ($footer_fields as $footer_field) {
+      if (!empty($group->get($footer_field)->getValue())) {
+        $variables['microsites']['footer']['items'][$footer_field] = $group->get($footer_field)->view('microsite');
+      }
+    }
+    if (!empty($group->get('lgms_powered_by')->getValue()) && $group->get('lgms_powered_by')->getValue()[0]['value'] === '1') {
+      $variables['microsites']['footer']['items']['lgms_powered_by'] = t('<span>Powered by <a href="https://localgovdrupal.org">LocalGov Drupal</a></span>');
+    }
+
+    // Pre-header.
+    if (!empty($group->get('lgms_pre_header_width')->getValue())) {
+      $width = $group->get('lgms_pre_header_width')->getValue()[0]['value'];
+      switch ($width) {
+        case 'full-width':
+          $variables['microsites']['pre_header']['width']['full_width'] = TRUE;
+          break;
+
+        case 'full-width-content-contained':
+          $variables['microsites']['pre_header']['width']['full_width_content_contained'] = TRUE;
+          break;
+
+        case 'content-centered':
+          $variables['microsites']['pre_header']['width']['content_centered'] = TRUE;
+          break;
+
+        default:
+          $variables['microsites']['pre_header']['width']['full_width_content_contained'] = TRUE;
+          break;
+      }
+    }
+
+    $pre_header_fields = [
+      'lgms_display_sitewide_search',
+    ];
+    foreach ($pre_header_fields as $pre_header_field) {
+      if ($group->hasField($pre_header_field) && !empty($group->get($pre_header_field)->getValue())) {
+        $variables['microsites']['pre_header']['items'][$pre_header_field] = $group->get($pre_header_field)->view('microsite');
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_page_alter().
+ */
+function localgov_microsites_base_theme_suggestions_page_alter(array &$suggestions, array $variables) {
+  $routeMatch = \Drupal::routeMatch();
+  $node_preview = $routeMatch->getParameter('node_preview');
+  if ($node_preview instanceof NodeInterface) {
+    $suggestions[] = 'page__node__preview__' . $node_preview->bundle();
+    if ($view_mode_id = $routeMatch->getParameter('view_mode_id')) {
+      $suggestions[] = 'page__node__preview__' . $node_preview->bundle() . '__' . $view_mode_id;
+    }
+  }
+}
