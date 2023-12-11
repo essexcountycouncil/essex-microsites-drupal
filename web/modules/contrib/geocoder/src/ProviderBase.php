@@ -158,13 +158,28 @@ abstract class ProviderBase extends PluginBase implements ProviderInterface, Con
    *   the longitude.
    *
    * @return string
-   *   An unique cache id.
+   *   A unique cache id.
    */
   protected function getCacheId($method, array $data): string {
+    // Set cache id also on the basis of the locale/language param (#3406296).
+    $locale = $this->getLocale();
     $cid = [$method, $this->getPluginId()];
-    $cid[] = sha1(serialize($this->configuration) . serialize($data));
+    $cid[] = sha1(serialize($this->configuration) . serialize($data) . $locale);
 
     return implode(':', $cid);
+  }
+
+  /**
+   * Set the Locale/language parameter for Geocoding/Reverse-Geocoding ops.
+   *
+   * Define it on the basis of the geocoder additional option,
+   * or falling back to the current Interface language code/id.
+   *
+   * @return string
+   *   The locale id.
+   */
+  protected function getLocale(): string {
+    return !empty($this->configuration['geocoder']['locale']) ? $this->configuration['geocoder']['locale'] : $this->languageManager->getCurrentLanguage()->getId();
   }
 
 }

@@ -16,9 +16,9 @@ class SettingsForm extends ConfigFormBase {
   /**
    * The typed config service.
    *
-   * @var \Drupal\Core\Config\TypedConfigManagerInterface|null
+   * @var \Drupal\Core\Config\TypedConfigManagerInterface
    */
-  protected ?TypedConfigManagerInterface $typedConfigManager;
+  protected $typedConfigManager;
 
   /**
    * SettingsForm constructor.

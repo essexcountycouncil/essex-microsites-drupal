@@ -98,13 +98,10 @@ abstract class ProviderUsingHandlerBase extends ProviderBase {
    * @throws \ReflectionException
    */
   protected function getHandlerWrapper(): StatefulGeocoder {
-    // Define the locale on the basis of the geocoder additional option,
-    // or falling back to the current Interface language code/id.
-    $locale = $this->configuration['geocoder']['locale'] ?? $this->languageManager->getCurrentLanguage()->getId();
     if ($this->handlerWrapper === NULL) {
       $this->handlerWrapper = new StatefulGeocoder(
         $this->getHandler(),
-        $locale
+        $this->getLocale()
       );
     }
 

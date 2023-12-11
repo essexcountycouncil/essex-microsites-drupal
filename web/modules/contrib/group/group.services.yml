@@ -95,7 +95,7 @@ services:
 
   group_permission.hash_generator:
     class: 'Drupal\group\Access\GroupPermissionsHashGenerator'
-    arguments: ['@private_key', '@cache.static', '@group_permission.calculator']
+    arguments: ['@private_key', '@cache.static', '@group_permission.calculator', '@entity_type.manager', '@database']
 
   # Wrappers for Flexible permissions services.
   group_permission.calculator:
