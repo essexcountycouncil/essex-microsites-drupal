@@ -3657,10 +3657,10 @@
                     }
                 },
                 "patches_applied": {
-                    "domain_path_pathauto creates duplicate aliases #3285213": "https://www.drupal.org/files/issues/2022-06-11/domain_path_pathauto-obey-current-domain_id-querying-for-reserved-aliases-3285213.patch",
-                    "Warning: Undefined array key 'pathauto' #3315752": "https://www.drupal.org/files/issues/2022-10-17/undefined-array-key-pathauto-3265497-2.patch",
                     "https://github.com/localgovdrupal/localgov_microsites/pull/175#issuecomment-1172879196": "https://raw.githubusercontent.com/localgovdrupal/localgov_microsites/995261d0909065e3124fba3fc0dce3e823aefa1d/patches/domain_path.146-url-aliases.patch",
-                    "https://github.com/localgovdrupal/localgov_microsites_group/issues/326": "https://raw.githubusercontent.com/localgovdrupal/localgov_microsites/4cbdbe6ae3c3e95e7d2ed15d918c66805ad8e7f1/patches/localgov_microsites_group_326.domain_path_pathauto.unserializable.patch"
+                    "https://github.com/localgovdrupal/localgov_microsites_group/issues/326": "https://raw.githubusercontent.com/localgovdrupal/localgov_microsites/4cbdbe6ae3c3e95e7d2ed15d918c66805ad8e7f1/patches/localgov_microsites_group_326.domain_path_pathauto.unserializable.patch",
+                    "domain_path_pathauto creates duplicate aliases #3285213": "https://www.drupal.org/files/issues/2022-06-11/domain_path_pathauto-obey-current-domain_id-querying-for-reserved-aliases-3285213.patch",
+                    "Warning: Undefined array key 'pathauto' #3315752": "https://www.drupal.org/files/issues/2022-10-17/undefined-array-key-pathauto-3265497-2.patch"
                 }
             },
             "installation-source": "dist",
@@ -16969,6 +16969,51 @@
                 }
             ],
             "install-path": "../theseer/tokenizer"
+        },
+        {
+            "name": "topfloor/composer-cleanup-vcs-dirs",
+            "version": "1.1.0",
+            "version_normalized": "1.1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/VolantisDev/composer-cleanup-vcs-dirs.git",
+                "reference": "dfa7c8c0fe22e048310d00f133f7df14f0b2f57a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/VolantisDev/composer-cleanup-vcs-dirs/zipball/dfa7c8c0fe22e048310d00f133f7df14f0b2f57a",
+                "reference": "dfa7c8c0fe22e048310d00f133f7df14f0b2f57a",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1 | ^2",
+                "php": ">=5.5",
+                "symfony/finder": "*"
+            },
+            "require-dev": {
+                "composer/composer": "dev-master"
+            },
+            "time": "2021-07-09T16:11:23+00:00",
+            "type": "composer-plugin",
+            "extra": {
+                "class": "TopFloor\\ComposerCleanupVcsDirs\\Plugin"
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "TopFloor\\ComposerCleanupVcsDirs\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "description": "Automatically deletes .git directories in newly installed or updated dependencies.",
+            "support": {
+                "issues": "https://github.com/VolantisDev/composer-cleanup-vcs-dirs/issues",
+                "source": "https://github.com/VolantisDev/composer-cleanup-vcs-dirs/tree/1.1.0"
+            },
+            "install-path": "../topfloor/composer-cleanup-vcs-dirs"
         },
         {
             "name": "twig/twig",

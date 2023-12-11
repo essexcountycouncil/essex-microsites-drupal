@@ -3,7 +3,7 @@
         'name' => 'localgovdrupal/localgov_microsites_project',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '5fa32109bf9275c0064b5d99a8bcfbed24b97c45',
+        'reference' => 'fd8aa319bbde96899a361ad91e6594df331f3331',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -1391,7 +1391,7 @@
         'localgovdrupal/localgov_microsites_project' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '5fa32109bf9275c0064b5d99a8bcfbed24b97c45',
+            'reference' => 'fd8aa319bbde96899a361ad91e6594df331f3331',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -1804,8 +1804,8 @@
         'psr/container-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0',
-                1 => '^1.0',
+                0 => '^1.0',
+                1 => '1.0',
             ),
         ),
         'psr/event-dispatcher-implementation' => array(
@@ -1842,8 +1842,8 @@
         'psr/http-factory-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '*',
-                1 => '1.0',
+                0 => '1.0',
+                1 => '*',
             ),
         ),
         'psr/http-message' => array(
@@ -1858,8 +1858,8 @@
         'psr/http-message-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '*',
-                1 => '1.0',
+                0 => '1.0',
+                1 => '*',
             ),
         ),
         'psr/log' => array(
@@ -2506,6 +2506,15 @@
             'install_path' => __DIR__ . '/../theseer/tokenizer',
             'aliases' => array(),
             'dev_requirement' => true,
+        ),
+        'topfloor/composer-cleanup-vcs-dirs' => array(
+            'pretty_version' => '1.1.0',
+            'version' => '1.1.0.0',
+            'reference' => 'dfa7c8c0fe22e048310d00f133f7df14f0b2f57a',
+            'type' => 'composer-plugin',
+            'install_path' => __DIR__ . '/../topfloor/composer-cleanup-vcs-dirs',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'twig/twig' => array(
             'pretty_version' => 'v2.15.6',

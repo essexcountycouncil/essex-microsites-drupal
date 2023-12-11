@@ -76,6 +76,7 @@ class ComposerStaticInitd0a74afab30d5542a6c9ec30d9e3e1b8
         'T' => 
         array (
             'Twig\\' => 5,
+            'TopFloor\\ComposerCleanupVcsDirs\\' => 32,
             'TYPO3\\PharStreamWrapper\\' => 24,
         ),
         'S' => 
@@ -243,8 +244,8 @@ class ComposerStaticInitd0a74afab30d5542a6c9ec30d9e3e1b8
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
         ),
         'mglaman\\PHPStanDrupal\\' => 
         array (
@@ -269,6 +270,10 @@ class ComposerStaticInitd0a74afab30d5542a6c9ec30d9e3e1b8
         'Twig\\' => 
         array (
             0 => __DIR__ . '/..' . '/twig/twig/src',
+        ),
+        'TopFloor\\ComposerCleanupVcsDirs\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/topfloor/composer-cleanup-vcs-dirs/src',
         ),
         'TYPO3\\PharStreamWrapper\\' => 
         array (
@@ -464,8 +469,8 @@ class ComposerStaticInitd0a74afab30d5542a6c9ec30d9e3e1b8
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -553,8 +558,8 @@ class ComposerStaticInitd0a74afab30d5542a6c9ec30d9e3e1b8
         ),
         'Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/php-http/message-factory/src',
-            1 => __DIR__ . '/..' . '/php-http/message/src',
+            0 => __DIR__ . '/..' . '/php-http/message/src',
+            1 => __DIR__ . '/..' . '/php-http/message-factory/src',
         ),
         'Http\\Discovery\\' => 
         array (
@@ -742,8 +747,8 @@ class ComposerStaticInitd0a74afab30d5542a6c9ec30d9e3e1b8
         ),
         'Behat\\Mink\\Driver\\' => 
         array (
-            0 => __DIR__ . '/..' . '/friends-of-behat/mink-browserkit-driver/src',
-            1 => __DIR__ . '/..' . '/behat/mink-selenium2-driver/src',
+            0 => __DIR__ . '/..' . '/behat/mink-selenium2-driver/src',
+            1 => __DIR__ . '/..' . '/friends-of-behat/mink-browserkit-driver/src',
         ),
         'Behat\\Mink\\' => 
         array (
