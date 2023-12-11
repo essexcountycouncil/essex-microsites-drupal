@@ -1,5 +1,0 @@
-group.directory_facets:
-  title: 'Directory facets'
-  base_route: 'entity.group.canonical'
-  route_name: 'entity.group_relationship.group_localgov_directories_facet_type.list'
-  weight: 50

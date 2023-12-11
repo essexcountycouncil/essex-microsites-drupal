@@ -1,5 +1,0 @@
-services:
-  domain_source.commands:
-    class: \Drupal\domain_source\Commands\DomainSourceCommands
-    tags:
-      - { name: drush.command }

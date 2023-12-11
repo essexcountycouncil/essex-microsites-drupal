@@ -1,6 +1,0 @@
-groupmedia.settings:
-  title: 'Media Settings'
-  description: 'Configure the groupmedia module settings.'
-  route_name: 'groupmedia.settings'
-  parent: 'group.settings'
-  weight: 10
