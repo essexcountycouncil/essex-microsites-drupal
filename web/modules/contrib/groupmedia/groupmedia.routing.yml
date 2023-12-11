@@ -1,0 +1,10 @@
+groupmedia.settings:
+  path: '/admin/group/settings/media'
+  defaults:
+    _title: 'Group Media'
+    _form: 'Drupal\groupmedia\Form\GroupMediaSettingsForm'
+  requirements:
+    _permission: 'administer groupmedia'
+
+route_callbacks:
+  - '\Drupal\groupmedia\Routing\GroupMediaRouteProvider::getRoutes'

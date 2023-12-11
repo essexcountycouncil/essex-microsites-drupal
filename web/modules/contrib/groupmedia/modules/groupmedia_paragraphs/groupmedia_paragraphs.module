@@ -1,0 +1,94 @@
+<?php
+
+/**
+ * @file
+ * Allows to associate media content from paragraphs to group.
+ */
+
+use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\group\Entity\GroupRelationshipInterface;
+use Drupal\paragraphs\ParagraphInterface;
+
+/**
+ * Implements hook_ENTITY_TYPE_insert().
+ */
+function groupmedia_paragraphs_paragraph_insert(EntityInterface $entity) {
+  // In addition to groupmedia_entity_insert react on paragraphs insert, because
+  // it can be related to parent entity that belongs to a group.
+  \Drupal::service('groupmedia.attach_group')->attach($entity);
+}
+
+/**
+ * Implements hook_groupmedia_entity_group_alter().
+ */
+function groupmedia_paragraphs_groupmedia_entity_group_alter(&$groups, EntityInterface $entity) {
+  if (!$entity instanceof ParagraphInterface) {
+    return;
+  }
+
+  $parent = $entity->getParentEntity();
+  if (empty($parent)) {
+    return;
+  }
+
+  $group_relationship_storage = \Drupal::entityTypeManager()->getStorage('group_relationship');
+  // Check for nested paragraphs.
+  // @TODO: Fix when the parent paragraph was not yet saved.
+  while ($parent->getEntityTypeId() == 'paragraph') {
+    $parent = $parent->getParentEntity();
+    if (empty($parent)) {
+      break;
+    }
+  }
+
+  // We found parent that is not paragraph.
+  if ($parent instanceof ContentEntityInterface) {
+    // Get parent groups if any.
+    $group_relationships = $group_relationship_storage->loadByEntity($parent);
+    foreach ($group_relationships as $group_relationship) {
+      $groups[] = $group_relationship->getGroup();
+    }
+  }
+
+  // If parent entity was not yet added to a group, e.g. on group relationship
+  // add form, content is saved before the group relation.
+  if (!empty($groups)) {
+    return;
+  }
+
+  // When this issue is resolved https://dgo.to/2475719
+  // it would be possible to get the group id from the group_entity
+  // collection like this:
+  // $items = \Drupal::service('tempstore.private')->get('group_entity')
+  // ->getAllUser();
+  // and then loop through items and get the group id knowing the structure
+  // of item key.
+  // For now try to get the group id from route. Not reliable, but at
+  // least something.
+  $route_matcher = \Drupal::service('current_route_match');
+  $group = $route_matcher->getParameter('group');
+  if (!empty($group)) {
+    $groups[] = $group;
+  }
+  else {
+    // This could happen when creating the new content that still has no id,
+    // parentEntity() method will return null, therefore let's try to get
+    // the most top parent from route, if applicable.
+    $parameters = $route_matcher->getParameters();
+    foreach ($parameters as $parameter) {
+      // If paragraph belongs to group relationship.
+      if ($parameter instanceof GroupRelationshipInterface) {
+        $groups[] = $parameter->getGroup();
+        break;
+      }
+      elseif ($parameter instanceof ContentEntityInterface) {
+        // If paragraph belongs to node, media, taxonomy term, etc.
+        $group_relationships = $group_relationship_storage->loadByEntity($parameter);
+        foreach ($group_relationships as $group_relationship) {
+          $groups[] = $group_relationship->getGroup();
+        }
+      }
+    }
+  }
+}
