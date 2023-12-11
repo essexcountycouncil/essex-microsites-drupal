@@ -199,7 +199,7 @@ class ManageDisplayTest extends WebDriverTestBase {
     $field_test_format_type->setValue('field_empty_setting');
     $assert_session->assertWaitOnAjaxRequest();
     $assert_session->responseNotContains('Default empty setting now has a value.');
-    $this->assertTrue($field_test_settings->isVisible());
+    $this->assertTrue($field_test_settings->isVisible(), TRUE);
 
     // Set the empty_setting option to a non-empty value again and validate
     // the formatting summary now display's this correctly.
@@ -232,7 +232,7 @@ class ManageDisplayTest extends WebDriverTestBase {
 
     // Ensure the button is still there after the module has been disabled.
     $this->drupalGet($manage_display);
-    $this->assertTrue($field_test_settings->isVisible());
+    $this->assertTrue($field_test_settings->isVisible(), TRUE);
 
     // Ensure that third-party form elements are not present anymore.
     $field_test_settings->click();

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\Tests\serialization\Unit\Normalizer\NormalizerBaseTest.
+ */
+
 namespace Drupal\Tests\serialization\Unit\Normalizer;
 
 use Drupal\Tests\UnitTestCase;

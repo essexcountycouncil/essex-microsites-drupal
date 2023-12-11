@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\Tests\user\Unit\PermissionHandlerTest.
+ */
+
 namespace Drupal\Tests\user\Unit;
 
 use Drupal\Core\Extension\Extension;

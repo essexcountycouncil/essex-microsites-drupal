@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\KernelTests\Core\Routing\RouteProviderTest.
+ */
+
 namespace Drupal\KernelTests\Core\Routing;
 
 use Drupal\Core\Cache\MemoryBackend;

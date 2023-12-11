@@ -32,9 +32,11 @@ class ContentTranslationUntranslatableFieldsTest extends ContentTranslationPendi
 
     // Configure one field as untranslatable.
     $this->drupalLogin($this->administrator);
-
-    $field = FieldConfig::loadByName($this->entityTypeId, $this->bundle, $this->fieldName);
-    $field->setTranslatable(FALSE)->save();
+    $edit = [
+      'settings[' . $this->entityTypeId . '][' . $this->bundle . '][fields][' . $this->fieldName . ']' => 0,
+    ];
+    $this->drupalGet('admin/config/regional/content-language');
+    $this->submitForm($edit, 'Save configuration');
 
     /** @var \Drupal\Core\Entity\EntityFieldManagerInterface $entity_field_manager */
     $entity_field_manager = $this->container->get('entity_field.manager');

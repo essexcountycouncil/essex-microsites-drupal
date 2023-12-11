@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\Tests\Core\Entity\EntityTypeManagerTest.
+ */
+
 namespace Drupal\Tests\Core\Entity;
 
 use Drupal\Component\Plugin\Discovery\DiscoveryInterface;

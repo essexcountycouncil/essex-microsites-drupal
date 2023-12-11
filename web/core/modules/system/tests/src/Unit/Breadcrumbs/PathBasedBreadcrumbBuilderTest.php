@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\Tests\system\Unit\Breadcrumbs\PathBasedBreadcrumbBuilderTest.
+ */
+
 namespace Drupal\Tests\system\Unit\Breadcrumbs;
 
 use Drupal\Core\Access\AccessResult;

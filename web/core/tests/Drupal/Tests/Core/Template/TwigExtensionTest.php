@@ -102,7 +102,7 @@ class TwigExtensionTest extends UnitTestCase {
     $nodes = $twig->parse($twig->tokenize(new Source($template, $name)));
 
     $this->assertSame($expected, $nodes->getNode('body')
-      ->getNode('0')
+      ->getNode(0)
       ->getNode('expr') instanceof FilterExpression);
   }
 

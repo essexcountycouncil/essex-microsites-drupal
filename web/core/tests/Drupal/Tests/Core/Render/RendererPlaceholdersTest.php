@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\Tests\Core\Render\RendererPlaceholdersTest.
+ */
+
 namespace Drupal\Tests\Core\Render;
 
 use Drupal\Component\Utility\Crypt;

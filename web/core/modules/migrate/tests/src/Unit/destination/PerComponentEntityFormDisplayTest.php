@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\Tests\migrate\Unit\destination\PerComponentEntityFormDisplayTest.
+ */
+
 namespace Drupal\Tests\migrate\Unit\destination;
 
 use Drupal\migrate\Plugin\migrate\destination\PerComponentEntityFormDisplay;

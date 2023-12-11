@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\Tests\views\Unit\EventSubscriber\RouteSubscriberTest.
+ */
+
 namespace Drupal\Tests\views\Unit\EventSubscriber;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;

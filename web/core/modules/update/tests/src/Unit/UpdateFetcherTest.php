@@ -188,7 +188,7 @@ class UpdateFetcherTest extends UnitTestCase implements LoggerInterface {
     // First, try without the HTTP fallback setting, and HTTPS mocked to fail.
     $settings = new Settings([]);
     $this->mockClient(
-      new Response(500, [], 'HTTPS failed'),
+      new Response('500', [], 'HTTPS failed'),
     );
     $update_fetcher = new UpdateFetcher($this->mockConfigFactory, $this->mockHttpClient, $settings);
 
@@ -213,8 +213,8 @@ class UpdateFetcherTest extends UnitTestCase implements LoggerInterface {
   public function testUpdateFetcherHttpFallback() {
     $settings = new Settings(['update_fetch_with_http_fallback' => TRUE]);
     $this->mockClient(
-      new Response(500, [], 'HTTPS failed'),
-      new Response(200, [], 'HTTP worked'),
+      new Response('500', [], 'HTTPS failed'),
+      new Response('200', [], 'HTTP worked'),
     );
     $update_fetcher = new UpdateFetcher($this->mockConfigFactory, $this->mockHttpClient, $settings);
 

@@ -662,7 +662,6 @@ function hook_theme_suggestions_HOOK(array $variables) {
  *
  * In the following example, we provide an alternative template suggestion to
  * node and taxonomy term templates based on the user being logged in.
- *
  * @code
  * function MYMODULE_theme_suggestions_alter(array &$suggestions, array $variables, $hook) {
  *   if (\Drupal::currentUser()->isAuthenticated() && in_array($hook, array('node', 'taxonomy_term'))) {
@@ -672,9 +671,8 @@ function hook_theme_suggestions_HOOK(array $variables) {
  *
  * @endcode
  *
- * @param array &$suggestions
- *   An array of alternate, more specific names for template files, passed by
- *   reference.
+ * @param array $suggestions
+ *   An array of alternate, more specific names for template files.
  * @param array $variables
  *   An array of variables passed to the theme hook. Note that this hook is
  *   invoked before any variable preprocessing.

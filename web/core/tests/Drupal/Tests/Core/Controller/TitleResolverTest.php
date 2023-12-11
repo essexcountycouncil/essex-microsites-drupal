@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\Tests\Core\Controller\TitleResolverTest.
+ */
+
 namespace Drupal\Tests\Core\Controller;
 
 use Drupal\Core\Controller\TitleResolver;

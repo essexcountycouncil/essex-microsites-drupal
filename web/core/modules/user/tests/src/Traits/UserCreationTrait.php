@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\user\Traits;
 
+use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Database\DatabaseExceptionWrapper;
 use Drupal\Core\Database\SchemaObjectExistsException;
 use Drupal\Core\Entity\EntityStorageException;

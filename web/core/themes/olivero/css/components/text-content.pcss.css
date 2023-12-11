@@ -111,7 +111,7 @@
 
     @media (--lg) {
       font-size: 40px;
-      line-height: var(--sp3-5);
+      line-height: calc(3.5 * var(--sp));
     }
   }
 

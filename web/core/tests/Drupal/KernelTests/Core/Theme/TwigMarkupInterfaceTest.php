@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\KernelTests\Core\Theme\TwigMarkupInterfaceTest.
+ */
+
 namespace Drupal\KernelTests\Core\Theme;
 
 use Drupal\Component\Render\FormattableMarkup;

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\Tests\views\Unit\Plugin\field\FieldPluginBaseTest.
+ */
+
 namespace Drupal\Tests\views\Unit\Plugin\field;
 
 use Drupal\Core\GeneratedUrl;

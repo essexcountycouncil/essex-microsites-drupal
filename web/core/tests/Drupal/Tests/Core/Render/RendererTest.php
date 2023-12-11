@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\Tests\Core\Render\RendererTest.
+ */
+
 namespace Drupal\Tests\Core\Render;
 
 use Drupal\Component\Render\MarkupInterface;
@@ -496,7 +501,7 @@ class RendererTest extends RendererTestBase {
         '#markup' => $first,
       ],
     ];
-    $output = (string) $this->renderer->renderRoot($elements);
+    $output = $this->renderer->renderRoot($elements);
 
     // The lowest weight element should appear last in $output.
     $this->assertGreaterThan(strpos($output, $first), strpos($output, $second));
@@ -532,7 +537,7 @@ class RendererTest extends RendererTestBase {
       ],
       '#sorted' => TRUE,
     ];
-    $output = (string) $this->renderer->renderRoot($elements);
+    $output = $this->renderer->renderRoot($elements);
 
     // The elements should appear in output in the same order as the array.
     $this->assertLessThan(strpos($output, $first), strpos($output, $second));

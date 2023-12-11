@@ -72,11 +72,8 @@ class DatabaseStorage implements StorageInterface {
       ], $this->options)->fetchField();
     }
     catch (\Exception $e) {
-      if ($this->connection->schema()->tableExists($this->table)) {
-        throw $e;
-      }
-      // If we attempt a read without actually having the table available,
-      // return false so the caller can handle it.
+      // If we attempt a read without actually having the database or the table
+      // available, just return FALSE so the caller can handle it.
       return FALSE;
     }
   }
@@ -93,11 +90,8 @@ class DatabaseStorage implements StorageInterface {
       }
     }
     catch (\Exception $e) {
-      if ($this->connection->schema()->tableExists($this->table)) {
-        throw $e;
-      }
-      // If we attempt a read without actually having the table available,
-      // return false so the caller can handle it.
+      // If we attempt a read without actually having the database or the table
+      // available, just return FALSE so the caller can handle it.
     }
     return $data;
   }
@@ -114,11 +108,8 @@ class DatabaseStorage implements StorageInterface {
       }
     }
     catch (\Exception $e) {
-      if ($this->connection->schema()->tableExists($this->table)) {
-        throw $e;
-      }
-      // If we attempt a read without actually having the table available,
-      // return an empty array so the caller can handle it.
+      // If we attempt a read without actually having the database or the table
+      // available, just return an empty array so the caller can handle it.
     }
     return $list;
   }
@@ -286,11 +277,6 @@ class DatabaseStorage implements StorageInterface {
       return $query->execute()->fetchCol();
     }
     catch (\Exception $e) {
-      if ($this->connection->schema()->tableExists($this->table)) {
-        throw $e;
-      }
-      // If we attempt a read without actually having the table available,
-      // return an empty array so the caller can handle it.
       return [];
     }
   }
@@ -309,11 +295,6 @@ class DatabaseStorage implements StorageInterface {
         ->execute();
     }
     catch (\Exception $e) {
-      if ($this->connection->schema()->tableExists($this->table)) {
-        throw $e;
-      }
-      // If we attempt a delete without actually having the table available,
-      // return false so the caller can handle it.
       return FALSE;
     }
   }
@@ -347,11 +328,6 @@ class DatabaseStorage implements StorageInterface {
       ])->fetchCol();
     }
     catch (\Exception $e) {
-      if ($this->connection->schema()->tableExists($this->table)) {
-        throw $e;
-      }
-      // If we attempt a read without actually having the table available,
-      // return an empty array so the caller can handle it.
       return [];
     }
   }

@@ -3807,18 +3807,13 @@
         {
             "name": "drupal/group",
             "version": "3.2.2",
-            "version": "3.2.2",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/group.git",
                 "reference": "3.2.2"
-                "reference": "3.2.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/group-3.2.2.zip",
-                "reference": "3.2.2",
-                "shasum": "d44d51828ca6554c32aa2d27e3a898e1d38b9efa"
                 "url": "https://ftp.drupal.org/files/projects/group-3.2.2.zip",
                 "reference": "3.2.2",
                 "shasum": "d44d51828ca6554c32aa2d27e3a898e1d38b9efa"
@@ -3831,8 +3826,6 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "3.2.2",
-                    "datestamp": "1701886939",
                     "version": "3.2.2",
                     "datestamp": "1701886939",
                     "security-coverage": {
@@ -4454,18 +4447,13 @@
         {
             "name": "drupal/layout_paragraphs",
             "version": "2.0.4",
-            "version": "2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/layout_paragraphs.git",
                 "reference": "2.0.4"
-                "reference": "2.0.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/layout_paragraphs-2.0.4.zip",
-                "reference": "2.0.4",
-                "shasum": "60062a4c6ca1779ba74881572ebf71b730566cca"
                 "url": "https://ftp.drupal.org/files/projects/layout_paragraphs-2.0.4.zip",
                 "reference": "2.0.4",
                 "shasum": "60062a4c6ca1779ba74881572ebf71b730566cca"
@@ -4482,8 +4470,6 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "2.0.4",
-                    "datestamp": "1702252843",
                     "version": "2.0.4",
                     "datestamp": "1702252843",
                     "security-coverage": {
@@ -5870,18 +5856,13 @@
         {
             "name": "drupal/webform",
             "version": "6.2.2",
-            "version": "6.2.2",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/webform.git",
                 "reference": "6.2.2"
-                "reference": "6.2.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/webform-6.2.2.zip",
-                "reference": "6.2.2",
-                "shasum": "cfd766802232dfdf39edd5a1acf7c738d14dc6eb"
                 "url": "https://ftp.drupal.org/files/projects/webform-6.2.2.zip",
                 "reference": "6.2.2",
                 "shasum": "cfd766802232dfdf39edd5a1acf7c738d14dc6eb"
@@ -5933,8 +5914,6 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "6.2.2",
-                    "datestamp": "1701948363",
                     "version": "6.2.2",
                     "datestamp": "1701948363",
                     "security-coverage": {
@@ -8073,17 +8052,13 @@
         {
             "name": "nikic/php-parser",
             "version": "v4.18.0",
-            "version": "v4.18.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
                 "reference": "1bcbb2179f97633e98bbbc87044ee2611c7d7999"
-                "reference": "1bcbb2179f97633e98bbbc87044ee2611c7d7999"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/1bcbb2179f97633e98bbbc87044ee2611c7d7999",
-                "reference": "1bcbb2179f97633e98bbbc87044ee2611c7d7999",
                 "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/1bcbb2179f97633e98bbbc87044ee2611c7d7999",
                 "reference": "1bcbb2179f97633e98bbbc87044ee2611c7d7999",
                 "shasum": ""
@@ -8127,9 +8102,7 @@
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
                 "source": "https://github.com/nikic/PHP-Parser/tree/v4.18.0"
-                "source": "https://github.com/nikic/PHP-Parser/tree/v4.18.0"
             },
-            "time": "2023-12-10T21:03:43+00:00"
             "time": "2023-12-10T21:03:43+00:00"
         },
         {
@@ -12418,17 +12391,13 @@
         {
             "name": "behat/mink",
             "version": "v1.11.0",
-            "version": "v1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/minkphp/Mink.git",
                 "reference": "d8527fdf8785aad38455fb426af457ab9937aece"
-                "reference": "d8527fdf8785aad38455fb426af457ab9937aece"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/minkphp/Mink/zipball/d8527fdf8785aad38455fb426af457ab9937aece",
-                "reference": "d8527fdf8785aad38455fb426af457ab9937aece",
                 "url": "https://api.github.com/repos/minkphp/Mink/zipball/d8527fdf8785aad38455fb426af457ab9937aece",
                 "reference": "d8527fdf8785aad38455fb426af457ab9937aece",
                 "shasum": ""
@@ -12436,16 +12405,11 @@
             "require": {
                 "php": ">=7.2",
                 "symfony/css-selector": "^4.4 || ^5.0 || ^6.0 || ^7.0"
-                "symfony/css-selector": "^4.4 || ^5.0 || ^6.0 || ^7.0"
             },
             "require-dev": {
                 "phpstan/phpstan": "^1.10",
                 "phpstan/phpstan-phpunit": "^1.3",
-                "phpstan/phpstan": "^1.10",
-                "phpstan/phpstan-phpunit": "^1.3",
                 "phpunit/phpunit": "^8.5.22 || ^9.5.11",
-                "symfony/error-handler": "^4.4 || ^5.0 || ^6.0 || ^7.0",
-                "symfony/phpunit-bridge": "^5.4 || ^6.0 || ^7.0"
                 "symfony/error-handler": "^4.4 || ^5.0 || ^6.0 || ^7.0",
                 "symfony/phpunit-bridge": "^5.4 || ^6.0 || ^7.0"
             },
@@ -12487,33 +12451,26 @@
             "support": {
                 "issues": "https://github.com/minkphp/Mink/issues",
                 "source": "https://github.com/minkphp/Mink/tree/v1.11.0"
-                "source": "https://github.com/minkphp/Mink/tree/v1.11.0"
             },
             "time": "2023-12-09T11:23:23+00:00"
         },
         {
             "name": "behat/mink-selenium2-driver",
             "version": "v1.7.0",
-            "version": "v1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/minkphp/MinkSelenium2Driver.git",
-                "reference": "4ca4083f305de7dff4434ac402dc4e3f39c0866a"
                 "reference": "4ca4083f305de7dff4434ac402dc4e3f39c0866a"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/minkphp/MinkSelenium2Driver/zipball/4ca4083f305de7dff4434ac402dc4e3f39c0866a",
                 "reference": "4ca4083f305de7dff4434ac402dc4e3f39c0866a",
-                "url": "https://api.github.com/repos/minkphp/MinkSelenium2Driver/zipball/4ca4083f305de7dff4434ac402dc4e3f39c0866a",
-                "reference": "4ca4083f305de7dff4434ac402dc4e3f39c0866a",
                 "shasum": ""
             },
             "require": {
                 "behat/mink": "^1.11@dev",
-                "behat/mink": "^1.11@dev",
                 "ext-json": "*",
-                "instaclick/php-webdriver": "^1.4.14",
                 "instaclick/php-webdriver": "^1.4.14",
                 "php": ">=7.2"
             },
@@ -12521,10 +12478,7 @@
                 "mink/driver-testsuite": "dev-master",
                 "phpstan/phpstan": "^1.10",
                 "phpstan/phpstan-phpunit": "^1.3",
-                "phpstan/phpstan": "^1.10",
-                "phpstan/phpstan-phpunit": "^1.3",
                 "phpunit/phpunit": "^8.5.22 || ^9.5.11",
-                "symfony/error-handler": "^4.4 || ^5.0 || ^6.0 || ^7.0"
                 "symfony/error-handler": "^4.4 || ^5.0 || ^6.0 || ^7.0"
             },
             "type": "mink-driver",
@@ -12567,9 +12521,7 @@
             "support": {
                 "issues": "https://github.com/minkphp/MinkSelenium2Driver/issues",
                 "source": "https://github.com/minkphp/MinkSelenium2Driver/tree/v1.7.0"
-                "source": "https://github.com/minkphp/MinkSelenium2Driver/tree/v1.7.0"
             },
-            "time": "2023-12-09T11:58:45+00:00"
             "time": "2023-12-09T11:58:45+00:00"
         },
         {
@@ -14142,17 +14094,13 @@
         {
             "name": "phpspec/prophecy",
             "version": "v1.18.0",
-            "version": "v1.18.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
                 "reference": "d4f454f7e1193933f04e6500de3e79191648ed0c"
-                "reference": "d4f454f7e1193933f04e6500de3e79191648ed0c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/d4f454f7e1193933f04e6500de3e79191648ed0c",
-                "reference": "d4f454f7e1193933f04e6500de3e79191648ed0c",
                 "url": "https://api.github.com/repos/phpspec/prophecy/zipball/d4f454f7e1193933f04e6500de3e79191648ed0c",
                 "reference": "d4f454f7e1193933f04e6500de3e79191648ed0c",
                 "shasum": ""
@@ -14160,17 +14108,13 @@
             "require": {
                 "doctrine/instantiator": "^1.2 || ^2.0",
                 "php": "^7.2 || 8.0.* || 8.1.* || 8.2.* || 8.3.*",
-                "php": "^7.2 || 8.0.* || 8.1.* || 8.2.* || 8.3.*",
                 "phpdocumentor/reflection-docblock": "^5.2",
-                "sebastian/comparator": "^3.0 || ^4.0 || ^5.0",
-                "sebastian/recursion-context": "^3.0 || ^4.0 || ^5.0"
                 "sebastian/comparator": "^3.0 || ^4.0 || ^5.0",
                 "sebastian/recursion-context": "^3.0 || ^4.0 || ^5.0"
             },
             "require-dev": {
                 "phpspec/phpspec": "^6.0 || ^7.0",
                 "phpstan/phpstan": "^1.9",
-                "phpunit/phpunit": "^8.0 || ^9.0 || ^10.0"
                 "phpunit/phpunit": "^8.0 || ^9.0 || ^10.0"
             },
             "type": "library",
@@ -14205,7 +14149,6 @@
                 "Double",
                 "Dummy",
                 "dev",
-                "dev",
                 "fake",
                 "mock",
                 "spy",
@@ -14214,33 +14157,25 @@
             "support": {
                 "issues": "https://github.com/phpspec/prophecy/issues",
                 "source": "https://github.com/phpspec/prophecy/tree/v1.18.0"
-                "source": "https://github.com/phpspec/prophecy/tree/v1.18.0"
             },
-            "time": "2023-12-07T16:22:33+00:00"
             "time": "2023-12-07T16:22:33+00:00"
         },
         {
             "name": "phpspec/prophecy-phpunit",
             "version": "v2.1.0",
-            "version": "v2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy-phpunit.git",
-                "reference": "29f8114c2c319a4308e6b070902211e062efa392"
                 "reference": "29f8114c2c319a4308e6b070902211e062efa392"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/phpspec/prophecy-phpunit/zipball/29f8114c2c319a4308e6b070902211e062efa392",
                 "reference": "29f8114c2c319a4308e6b070902211e062efa392",
-                "url": "https://api.github.com/repos/phpspec/prophecy-phpunit/zipball/29f8114c2c319a4308e6b070902211e062efa392",
-                "reference": "29f8114c2c319a4308e6b070902211e062efa392",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.3 || ^8",
-                "phpspec/prophecy": "^1.18",
-                "phpunit/phpunit": "^9.1 || ^10.1"
                 "phpspec/prophecy": "^1.18",
                 "phpunit/phpunit": "^9.1 || ^10.1"
             },
@@ -14273,7 +14208,6 @@
             ],
             "support": {
                 "issues": "https://github.com/phpspec/prophecy-phpunit/issues",
-                "source": "https://github.com/phpspec/prophecy-phpunit/tree/v2.1.0"
                 "source": "https://github.com/phpspec/prophecy-phpunit/tree/v2.1.0"
             },
             "time": "2023-12-08T12:48:02+00:00"
@@ -14328,17 +14262,13 @@
         {
             "name": "phpstan/phpstan",
             "version": "1.10.48",
-            "version": "1.10.48",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
                 "reference": "087ed4b5f4a7a6e8f3bbdfbfe98ce5c181380bc6"
-                "reference": "087ed4b5f4a7a6e8f3bbdfbfe98ce5c181380bc6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/087ed4b5f4a7a6e8f3bbdfbfe98ce5c181380bc6",
-                "reference": "087ed4b5f4a7a6e8f3bbdfbfe98ce5c181380bc6",
                 "url": "https://api.github.com/repos/phpstan/phpstan/zipball/087ed4b5f4a7a6e8f3bbdfbfe98ce5c181380bc6",
                 "reference": "087ed4b5f4a7a6e8f3bbdfbfe98ce5c181380bc6",
                 "shasum": ""
@@ -14389,7 +14319,6 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-12-08T14:34:28+00:00"
             "time": "2023-12-08T14:34:28+00:00"
         },
         {
@@ -16136,18 +16065,13 @@
         {
             "name": "squizlabs/php_codesniffer",
             "version": "3.8.0",
-            "version": "3.8.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/PHPCSStandards/PHP_CodeSniffer.git",
-                "reference": "5805f7a4e4958dbb5e944ef1e6edae0a303765e7"
                 "url": "https://github.com/PHPCSStandards/PHP_CodeSniffer.git",
                 "reference": "5805f7a4e4958dbb5e944ef1e6edae0a303765e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/5805f7a4e4958dbb5e944ef1e6edae0a303765e7",
-                "reference": "5805f7a4e4958dbb5e944ef1e6edae0a303765e7",
                 "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/5805f7a4e4958dbb5e944ef1e6edae0a303765e7",
                 "reference": "5805f7a4e4958dbb5e944ef1e6edae0a303765e7",
                 "shasum": ""
@@ -16159,7 +16083,6 @@
                 "php": ">=5.4.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0"
                 "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0"
             },
             "bin": [
@@ -16188,19 +16111,9 @@
                 {
                     "name": "Contributors",
                     "homepage": "https://github.com/PHPCSStandards/PHP_CodeSniffer/graphs/contributors"
-                    "role": "Former lead"
-                },
-                {
-                    "name": "Juliette Reinders Folmer",
-                    "role": "Current lead"
-                },
-                {
-                    "name": "Contributors",
-                    "homepage": "https://github.com/PHPCSStandards/PHP_CodeSniffer/graphs/contributors"
                 }
             ],
             "description": "PHP_CodeSniffer tokenizes PHP, JavaScript and CSS files and detects violations of a defined set of coding standards.",
-            "homepage": "https://github.com/PHPCSStandards/PHP_CodeSniffer",
             "homepage": "https://github.com/PHPCSStandards/PHP_CodeSniffer",
             "keywords": [
                 "phpcs",
@@ -16212,26 +16125,7 @@
                 "security": "https://github.com/PHPCSStandards/PHP_CodeSniffer/security/policy",
                 "source": "https://github.com/PHPCSStandards/PHP_CodeSniffer",
                 "wiki": "https://github.com/PHPCSStandards/PHP_CodeSniffer/wiki"
-                "issues": "https://github.com/PHPCSStandards/PHP_CodeSniffer/issues",
-                "security": "https://github.com/PHPCSStandards/PHP_CodeSniffer/security/policy",
-                "source": "https://github.com/PHPCSStandards/PHP_CodeSniffer",
-                "wiki": "https://github.com/PHPCSStandards/PHP_CodeSniffer/wiki"
             },
-            "funding": [
-                {
-                    "url": "https://github.com/PHPCSStandards",
-                    "type": "github"
-                },
-                {
-                    "url": "https://github.com/jrfnl",
-                    "type": "github"
-                },
-                {
-                    "url": "https://opencollective.com/php_codesniffer",
-                    "type": "open_collective"
-                }
-            ],
-            "time": "2023-12-08T12:32:31+00:00"
             "funding": [
                 {
                     "url": "https://github.com/PHPCSStandards",
