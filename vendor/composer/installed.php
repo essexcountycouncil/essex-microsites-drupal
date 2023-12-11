@@ -3,7 +3,7 @@
         'name' => 'localgovdrupal/localgov_microsites_project',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '8af73ce5c4550d8b8ae2521cd98f19a27371542d',
+        'reference' => '0d695550370cbedc12bb5efa70e302677efe7005',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'anrt-tools/docksal-configuration' => array(
-            'pretty_version' => '7.x-dev',
-            'version' => '7.9999999.9999999.9999999-dev',
-            'reference' => 'b23c502a404b7a7926098f32a88616b03b8df092',
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => '71758effd3f21158e2d8aa4b6f3ef014a024f7e8',
             'type' => 'project',
             'install_path' => __DIR__ . '/../anrt-tools/docksal-configuration',
             'aliases' => array(),
@@ -1391,7 +1391,7 @@
         'localgovdrupal/localgov_microsites_project' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '8af73ce5c4550d8b8ae2521cd98f19a27371542d',
+            'reference' => '0d695550370cbedc12bb5efa70e302677efe7005',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

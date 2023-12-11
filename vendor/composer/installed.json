@@ -2,21 +2,21 @@
     "packages": [
         {
             "name": "anrt-tools/docksal-configuration",
-            "version": "7.x-dev",
-            "version_normalized": "7.9999999.9999999.9999999-dev",
+            "version": "dev-master",
+            "version_normalized": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://code.anner.ie/annertech/infra/docksal-configuration.git",
-                "reference": "b23c502a404b7a7926098f32a88616b03b8df092"
+                "reference": "71758effd3f21158e2d8aa4b6f3ef014a024f7e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://code.anner.ie/api/v4/projects/8/packages/composer/archives/anrt-tools/docksal-configuration.zip?sha=b23c502a404b7a7926098f32a88616b03b8df092",
-                "reference": "b23c502a404b7a7926098f32a88616b03b8df092",
+                "url": "https://code.anner.ie/api/v4/projects/8/packages/composer/archives/anrt-tools/docksal-configuration.zip?sha=71758effd3f21158e2d8aa4b6f3ef014a024f7e8",
+                "reference": "71758effd3f21158e2d8aa4b6f3ef014a024f7e8",
                 "shasum": ""
             },
             "require": {
-                "symfony/filesystem": "^3.0 || ^4.0 || ^5.0"
+                "symfony/filesystem": "^3.0 || ^4.0 || ^5.0 || ^6.0"
             },
             "type": "project",
             "installation-source": "dist",
@@ -3657,10 +3657,10 @@
                     }
                 },
                 "patches_applied": {
-                    "domain_path_pathauto creates duplicate aliases #3285213": "https://www.drupal.org/files/issues/2022-06-11/domain_path_pathauto-obey-current-domain_id-querying-for-reserved-aliases-3285213.patch",
-                    "Warning: Undefined array key 'pathauto' #3315752": "https://www.drupal.org/files/issues/2022-10-17/undefined-array-key-pathauto-3265497-2.patch",
                     "https://github.com/localgovdrupal/localgov_microsites/pull/175#issuecomment-1172879196": "https://raw.githubusercontent.com/localgovdrupal/localgov_microsites/995261d0909065e3124fba3fc0dce3e823aefa1d/patches/domain_path.146-url-aliases.patch",
-                    "https://github.com/localgovdrupal/localgov_microsites_group/issues/326": "https://raw.githubusercontent.com/localgovdrupal/localgov_microsites/4cbdbe6ae3c3e95e7d2ed15d918c66805ad8e7f1/patches/localgov_microsites_group_326.domain_path_pathauto.unserializable.patch"
+                    "https://github.com/localgovdrupal/localgov_microsites_group/issues/326": "https://raw.githubusercontent.com/localgovdrupal/localgov_microsites/4cbdbe6ae3c3e95e7d2ed15d918c66805ad8e7f1/patches/localgov_microsites_group_326.domain_path_pathauto.unserializable.patch",
+                    "domain_path_pathauto creates duplicate aliases #3285213": "https://www.drupal.org/files/issues/2022-06-11/domain_path_pathauto-obey-current-domain_id-querying-for-reserved-aliases-3285213.patch",
+                    "Warning: Undefined array key 'pathauto' #3315752": "https://www.drupal.org/files/issues/2022-10-17/undefined-array-key-pathauto-3265497-2.patch"
                 }
             },
             "installation-source": "dist",

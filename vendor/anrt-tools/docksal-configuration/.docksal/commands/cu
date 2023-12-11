@@ -21,9 +21,10 @@ if [[ -z $1 ]]; then
   exit
 elif [[ $1 =~ .*drupal\//* ]]; then
   echo "Update drupal module: ${1/drupal\//}"
-  composer update $1 --with-dependencies
-  fin cc all
+  fin composer update $1 --with-dependencies
+  fin drush cr
   fin drush updb
+  fin drush cex
   git status
 elif [[ $1 =~ .*\//*. ]]; then
   echo "Update package: $1"
@@ -31,8 +32,8 @@ elif [[ $1 =~ .*\//*. ]]; then
   git status
 else
   echo "Update drupal module: ${1}"
-  composer update drupal/${module_name} --with-dependencies
-  fin cc all
+  fin composer update drupal/${module_name} --with-dependencies
+  fin drush cr
   fin drush updb
   fin drush cex
   git status

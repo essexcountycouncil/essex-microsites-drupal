@@ -4,24 +4,24 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d6e4024521cce8c72b4738ac986228a3",
+    "content-hash": "82debc6f874483012db9d2538efea4e4",
     "packages": [
         {
             "name": "anrt-tools/docksal-configuration",
-            "version": "7.x-dev",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://code.anner.ie/annertech/infra/docksal-configuration.git",
-                "reference": "b23c502a404b7a7926098f32a88616b03b8df092"
+                "reference": "71758effd3f21158e2d8aa4b6f3ef014a024f7e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://code.anner.ie/api/v4/projects/8/packages/composer/archives/anrt-tools/docksal-configuration.zip?sha=b23c502a404b7a7926098f32a88616b03b8df092",
-                "reference": "b23c502a404b7a7926098f32a88616b03b8df092",
+                "url": "https://code.anner.ie/api/v4/projects/8/packages/composer/archives/anrt-tools/docksal-configuration.zip?sha=71758effd3f21158e2d8aa4b6f3ef014a024f7e8",
+                "reference": "71758effd3f21158e2d8aa4b6f3ef014a024f7e8",
                 "shasum": ""
             },
             "require": {
-                "symfony/filesystem": "^3.0 || ^4.0 || ^5.0"
+                "symfony/filesystem": "^3.0 || ^4.0 || ^5.0 || ^6.0"
             },
             "type": "project",
             "autoload": {
@@ -16610,10 +16610,12 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "anrt-tools/docksal-configuration": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }

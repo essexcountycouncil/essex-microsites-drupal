@@ -124,6 +124,9 @@ copy_environment_no_cache_configuration()
         "${PROJECT_ROOT}/.docksal/templates/nocache.settings.local.php" \
     | tee "${SITEDIR_PATH}/settings.local.php" >/dev/null
 
+    echo-yellow "Copying development.services.yml file"
+    cp "${PROJECT_ROOT}/.docksal/templates/development.services.yml" "${SITEDIR_PATH}/development.services.yml"
+
     copy_project_configuration
 }
 
@@ -141,7 +144,9 @@ build_extras()
 {
     # Any extra things which need to be completed locally for set-up
     cd ${DOCROOT_PATH}
+    fin drush -y cim
     fin drush -y updb
+    fin drush -y entity-updates
 }
 
 # run a command and test for output
@@ -170,7 +175,7 @@ check_override() {
   [[ -f ${PROJECT_ROOT}/.docksal/commands/override/${SCRIPT_NAME} ]] && SCRIPT_NAME=override/$(basename "$0") OVERRIDE_CMD="$SCRIPT_NAME $@";
 
   # If help flag given, show command help info.
-  # Prevent actual script from running.
+  # Prevent actual script from running. 
   if [[ "$*" == *"--help"* ]]; then
     fin help ${SCRIPT_NAME}
     exit

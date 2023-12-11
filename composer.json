@@ -24,7 +24,7 @@
         }
     },
     "require": {
-        "anrt-tools/docksal-configuration": "*",
+        "anrt-tools/docksal-configuration": "dev-master",
         "composer/installers": "^1.12",
         "cweagans/composer-patches": "^1.7",
         "drupal/core-composer-scaffold": "^9.3",

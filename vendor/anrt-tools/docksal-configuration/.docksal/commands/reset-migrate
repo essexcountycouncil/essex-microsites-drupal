@@ -28,7 +28,7 @@ if [ -z "$2" ]; then
   exit 1
 fi
 
-fin cr
+fin drush cr
 fin drush migrate:rollback $2
 fin drush config-devel-import $1
 if [ "${debugOption}" = 1 ] || [ "${debugOption}" = "TRUE" ] || [ "${debugOption}" = "true" ]; then
@@ -37,4 +37,4 @@ else
   fin drush migrate:import $2
 fi
 
-fin cr
+fin drush cr

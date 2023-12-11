@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
 ## Run 'drush cr' for the project
-##      Alias for 'fin cc [scope]'
 ##
-## Usage: fin cr [scope] (default: all)
+## Usage: fin cr
 ##
 
 source ${DOCKSAL_PATH}/.docksal/helpers
@@ -11,10 +10,4 @@ ensure_containers_up
 
 check_override $@
 
-if [[ -z $1 ]]; then
-  echo-green "clear all caches"
-  fin cc all
-else
-  echo-green "clear $@ cache"
-  fin cc $@
-fi
+fin drush cr
