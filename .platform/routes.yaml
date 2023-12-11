@@ -19,3 +19,6 @@ https://www.{default}/:
     paths: {}
   to: https://{default}/
   type: redirect
+https://*.{default}/:
+  type: upstream
+  upstream: app:http
