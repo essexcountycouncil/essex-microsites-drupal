@@ -21,6 +21,7 @@ class DbLogViewsTest extends DbLogTest {
   protected static $modules = [
     'dblog',
     'node',
+    'forum',
     'help',
     'block',
     'views',

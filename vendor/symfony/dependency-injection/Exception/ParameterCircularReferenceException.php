@@ -18,7 +18,7 @@ namespace Symfony\Component\DependencyInjection\Exception;
  */
 class ParameterCircularReferenceException extends RuntimeException
 {
-    private array $parameters;
+    private $parameters;
 
     public function __construct(array $parameters, \Throwable $previous = null)
     {
@@ -27,9 +27,6 @@ class ParameterCircularReferenceException extends RuntimeException
         $this->parameters = $parameters;
     }
 
-    /**
-     * @return array
-     */
     public function getParameters()
     {
         return $this->parameters;

@@ -10,26 +10,36 @@
  * Header Mobile Buttons.
  */
 
+[dir="ltr"] .mobile-buttons {
+  margin-left: auto;
+}
+
+[dir="rtl"] .mobile-buttons {
+  margin-right: auto;
+}
+
 .mobile-buttons {
-  margin-block-start: var(--sp0-5);
-  margin-inline-start: auto;
+  margin-top: 0.5625rem;
 }
 
 @media (min-width: 31.25rem) {
+
   .mobile-buttons {
-    margin-block-start: var(--sp2);
+    margin-top: 2.25rem;
   }
 }
 
 @media (min-width: 43.75rem) {
+
   .mobile-buttons {
-    margin-block-start: var(--sp4);
+    margin-top: 4.5rem;
   }
 }
 
 @media (min-width: 75rem) {
+
   .mobile-buttons {
-    margin-block-start: var(--sp6);
+    margin-top: 6.75rem;
   }
 }
 

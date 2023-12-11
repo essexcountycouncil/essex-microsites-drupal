@@ -5,7 +5,6 @@
  * Enables Group functionality for the Taxonomy term entities.
  */
 
-use Drupal\Core\Database\Query\AlterableInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Url;
 use Drupal\taxonomy\Entity\Vocabulary;
@@ -49,13 +48,4 @@ function group_term_entity_operation(EntityInterface $entity) {
     }
   }
   return $operations;
-}
-
-/**
- * Implements hook_query_TAG_alter().
- */
-function group_term_query_taxonomy_term_access_alter(AlterableInterface $query) {
-  $query->addTag('entity_query');
-  $query->addMetaData('entity_type', 'taxonomy_term');
-  group_query_entity_query_alter($query);
 }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drush\Utils;
 
 use Drush\Drush;
@@ -310,7 +308,7 @@ class FsUtils
                 '.sql'     => 'application/octet-stream',
             ];
             foreach ($extension_mimetype as $extension => $ct) {
-                if (str_ends_with($path, $extension)) {
+                if (substr($path, -strlen($extension)) === $extension) {
                     $content_type = $ct;
                     break;
                 }

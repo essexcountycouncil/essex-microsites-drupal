@@ -3,6 +3,8 @@
  * Claro styles for Tables.
  */
 
+@import "../base/variables.pcss.css";
+
 table {
   width: 100%;
   margin-top: var(--space-l);
@@ -63,6 +65,12 @@ th {
   content: "";
   border-bottom: 0.125rem solid transparent;
 }
+/* stylelint-disable-next-line selector-type-no-unknown */
+_:-ms-fullscreen, /* Only IE 11 */
+.sortable-heading > a::before {
+  top: auto;
+  height: 100%;
+}
 .sortable-heading > a::after {
   position: absolute;
   top: 50%;
@@ -81,6 +89,14 @@ th {
     mask: url(../../images/icons/000f33/sort--inactive--ltr.svg) no-repeat 50% 50%;
   }
 }
+/* stylelint-disable-next-line selector-type-no-unknown */
+_:-ms-fullscreen, /* Only IE 11 */
+.sortable-heading > a::after {
+  position: static;
+  float: right;
+  margin-top: 0.125rem; /* 2px */
+  margin-right: -1.5rem; /* -24px */
+}
 [dir="rtl"] .sortable-heading > a::after {
   right: auto;
   left: 1rem;
@@ -90,6 +106,13 @@ th {
     background: linktext;
     mask: url(../../images/icons/000f33/sort--inactive--rtl.svg) no-repeat 50% 50%;
   }
+}
+/* stylelint-disable-next-line selector-type-no-unknown */
+_:-ms-fullscreen, /* Only IE 11 */
+[dir="rtl"] .sortable-heading > a::after {
+  float: left;
+  margin-right: 0;
+  margin-left: -1.5rem; /* -24px */
 }
 /* Sortable cell's link focus/hover state. */
 .sortable-heading > a:focus,
@@ -174,8 +197,15 @@ td > .ajax-new-content > .form-item > .form-element {
 
 td > .form-item > .form-element--type-select,
 td > .ajax-new-content > .form-item > .form-element--type-select {
-  width: max-content;
-  min-width: 100%;
+  width: auto;
+}
+
+@supports (min-width: max-content) {
+  td > .form-item > .form-element--type-select,
+  td > .ajax-new-content > .form-item > .form-element--type-select {
+    width: max-content;
+    min-width: 100%;
+  }
 }
 
 /* Win over table-file-multiple-widget. */

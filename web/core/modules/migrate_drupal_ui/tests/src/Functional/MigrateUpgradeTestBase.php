@@ -46,7 +46,7 @@ abstract class MigrateUpgradeTestBase extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp(): void {
+  protected function setUp() {
     parent::setUp();
     $this->createMigrationConnection();
     $this->sourceDatabase = Database::getConnection('default', 'migrate_drupal_ui');
@@ -99,8 +99,8 @@ abstract class MigrateUpgradeTestBase extends BrowserTestBase {
     $connection_info = Database::getConnectionInfo('default')['default'];
     if ($connection_info['driver'] === 'sqlite') {
       // Create database file in the test site's public file directory so that
-      // \Drupal\Tests\BrowserTestBase::cleanupEnvironment() will delete this
-      // once the test is complete.
+      // \Drupal\simpletest\TestBase::restoreEnvironment() will delete this once
+      // the test is complete.
       $file = $this->publicFilesDirectory . '/' . $this->testId . '-migrate.db.sqlite';
       touch($file);
       $connection_info['database'] = $file;
@@ -108,9 +108,9 @@ abstract class MigrateUpgradeTestBase extends BrowserTestBase {
     }
     else {
       $prefix = $connection_info['prefix'];
-      // Test databases use fixed length prefixes. Create a new prefix for the
+      // Simpletest uses fixed length prefixes. Create a new prefix for the
       // source database. Adding to the end of the prefix ensures that
-      // \Drupal\Tests\BrowserTestBase::cleanupEnvironment() will remove the
+      // \Drupal\simpletest\TestBase::restoreEnvironment() will remove the
       // additional tables.
       $connection_info['prefix'] = $prefix . '0';
     }
@@ -121,7 +121,7 @@ abstract class MigrateUpgradeTestBase extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function tearDown(): void {
+  protected function tearDown() {
     Database::removeConnection('migrate_drupal_ui');
     parent::tearDown();
   }
@@ -301,8 +301,6 @@ abstract class MigrateUpgradeTestBase extends BrowserTestBase {
     $drivers = drupal_get_database_types();
     $form = $drivers[$driver]->getFormOptions($connection_options);
     $connection_options = array_intersect_key($connection_options, $form + $form['advanced_options']);
-    // Remove isolation_level since that option is not configurable in the UI.
-    unset($connection_options['isolation_level']);
     $edit = [
       $driver => $connection_options,
       'source_private_file_path' => $this->getSourceBasePath(),

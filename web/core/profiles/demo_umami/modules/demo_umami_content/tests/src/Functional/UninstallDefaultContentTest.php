@@ -151,7 +151,7 @@ class UninstallDefaultContentTest extends BrowserTestBase {
   }
 
   /**
-   * Returns the expected properties of this profile's content blocks.
+   * Returns the expected properties of this profile's custom blocks.
    */
   protected function expectedBlocks() {
     return [

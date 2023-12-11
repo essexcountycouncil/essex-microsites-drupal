@@ -23,7 +23,7 @@ class FilterFormatPermission extends ProcessPluginBase implements ContainerFacto
   /**
    * The current migration.
    */
-  protected MigrationInterface $migration;
+  protected $migration;
 
   /**
    * The migrate lookup service.

@@ -7,7 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Attribute' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
-    'CURLStringFile' => $vendorDir . '/symfony/polyfill-php81/Resources/stubs/CURLStringFile.php',
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'Drupal' => $baseDir . '/web/core/lib/Drupal.php',
     'DrupalFinder\\DrupalFinder' => $vendorDir . '/webflo/drupal-finder/src/DrupalFinder.php',
@@ -25,10 +24,12 @@ return array(
     'Drupal\\Core\\Cache\\DatabaseCacheTagsChecksum' => $baseDir . '/web/core/lib/Drupal/Core/Cache/DatabaseCacheTagsChecksum.php',
     'Drupal\\Core\\Database\\Connection' => $baseDir . '/web/core/lib/Drupal/Core/Database/Connection.php',
     'Drupal\\Core\\Database\\Database' => $baseDir . '/web/core/lib/Drupal/Core/Database/Database.php',
+    'Drupal\\Core\\Database\\Statement' => $baseDir . '/web/core/lib/Drupal/Core/Database/Statement.php',
     'Drupal\\Core\\Database\\StatementInterface' => $baseDir . '/web/core/lib/Drupal/Core/Database/StatementInterface.php',
     'Drupal\\Core\\DependencyInjection\\Container' => $baseDir . '/web/core/lib/Drupal/Core/DependencyInjection/Container.php',
     'Drupal\\Core\\DrupalKernel' => $baseDir . '/web/core/lib/Drupal/Core/DrupalKernel.php',
     'Drupal\\Core\\DrupalKernelInterface' => $baseDir . '/web/core/lib/Drupal/Core/DrupalKernelInterface.php',
+    'Drupal\\Core\\Http\\InputBag' => $baseDir . '/web/core/lib/Drupal/Core/Http/InputBag.php',
     'Drupal\\Core\\Installer\\InstallerRedirectTrait' => $baseDir . '/web/core/lib/Drupal/Core/Installer/InstallerRedirectTrait.php',
     'Drupal\\Core\\Site\\Settings' => $baseDir . '/web/core/lib/Drupal/Core/Site/Settings.php',
     'JsonException' => $vendorDir . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
@@ -455,7 +456,6 @@ return array(
     'PharIo\\Version\\VersionConstraintValue' => $vendorDir . '/phar-io/version/src/VersionConstraintValue.php',
     'PharIo\\Version\\VersionNumber' => $vendorDir . '/phar-io/version/src/VersionNumber.php',
     'PhpToken' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
-    'ReturnTypeWillChange' => $vendorDir . '/symfony/polyfill-php81/Resources/stubs/ReturnTypeWillChange.php',
     'SebastianBergmann\\CliParser\\AmbiguousOptionException' => $vendorDir . '/sebastian/cli-parser/src/exceptions/AmbiguousOptionException.php',
     'SebastianBergmann\\CliParser\\Exception' => $vendorDir . '/sebastian/cli-parser/src/exceptions/Exception.php',
     'SebastianBergmann\\CliParser\\OptionDoesNotAllowArgumentException' => $vendorDir . '/sebastian/cli-parser/src/exceptions/OptionDoesNotAllowArgumentException.php',

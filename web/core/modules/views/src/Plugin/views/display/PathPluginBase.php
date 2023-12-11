@@ -159,7 +159,7 @@ abstract class PathPluginBase extends DisplayPluginBase implements DisplayRouter
           $bits[$pos] = '{' . $arg_id . '}';
           $argument_map[$arg_id] = $arg_id;
         }
-        elseif (str_starts_with($bit, '%')) {
+        elseif (strpos($bit, '%') === 0) {
           // Use the name defined in the path.
           $parameter_name = substr($bit, 1);
           $arg_id = 'arg_' . $arg_counter++;
@@ -492,7 +492,7 @@ abstract class PathPluginBase extends DisplayPluginBase implements DisplayRouter
    */
   protected function validatePath($path) {
     $errors = [];
-    if (str_starts_with($path, '%')) {
+    if (strpos($path, '%') === 0) {
       $errors[] = $this->t('"%" may not be used for the first segment of a path.');
     }
 

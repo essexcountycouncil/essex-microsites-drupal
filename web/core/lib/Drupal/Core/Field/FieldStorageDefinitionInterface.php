@@ -74,7 +74,7 @@ interface FieldStorageDefinitionInterface extends CacheableDependencyInterface {
    *   The setting name.
    *
    * @return mixed
-   *   The setting value or NULL if the setting name doesn't exist.
+   *   The setting value.
    */
   public function getSetting($setting_name);
 

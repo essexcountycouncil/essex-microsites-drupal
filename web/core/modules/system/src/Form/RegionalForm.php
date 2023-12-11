@@ -3,7 +3,6 @@
 namespace Drupal\system\Form;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Datetime\TimeZoneFormHelper;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Locale\CountryManagerInterface;
 use Drupal\Core\Form\ConfigFormBase;
@@ -68,7 +67,7 @@ class RegionalForm extends ConfigFormBase {
     $system_date = $this->config('system.date');
 
     // Date settings:
-    $zones = TimeZoneFormHelper::getOptionsListByRegion();
+    $zones = system_time_zones(NULL, TRUE);
 
     $form['locale'] = [
       '#type' => 'details',

@@ -75,7 +75,10 @@ abstract class FilteredStream implements StreamInterface
         $this->stream = $stream;
     }
 
-    public function read(int $length): string
+    /**
+     * {@inheritdoc}
+     */
+    public function read($length)
     {
         if (strlen($this->buffer) >= $length) {
             $read = substr($this->buffer, 0, $length);
@@ -98,7 +101,10 @@ abstract class FilteredStream implements StreamInterface
         return $read.$this->read($length - strlen($read));
     }
 
-    public function eof(): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function eof()
     {
         return $this->stream->eof() && '' === $this->buffer;
     }
@@ -110,7 +116,7 @@ abstract class FilteredStream implements StreamInterface
      * This allow to get last data in the PHP buffer otherwise this
      * bug is present : https://bugs.php.net/bug.php?id=48725
      */
-    protected function fill(): void
+    protected function fill()
     {
         $readFilterCallback = $this->readFilterCallback;
         $this->buffer .= $readFilterCallback($this->stream->read(self::BUFFER_SIZE));
@@ -123,7 +129,7 @@ abstract class FilteredStream implements StreamInterface
     /**
      * {@inheritdoc}
      */
-    public function getContents(): string
+    public function getContents()
     {
         $buffer = '';
 
@@ -143,12 +149,15 @@ abstract class FilteredStream implements StreamInterface
     /**
      * Always returns null because we can't tell the size of a stream when we filter.
      */
-    public function getSize(): ?int
+    public function getSize()
     {
         return null;
     }
 
-    public function __toString(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function __toString()
     {
         return $this->getContents();
     }
@@ -158,24 +167,24 @@ abstract class FilteredStream implements StreamInterface
      *
      * We would need to buffer and process everything to allow seeking.
      */
-    public function isSeekable(): bool
+    public function isSeekable()
     {
         return false;
     }
 
     /**
-     * Filtered streams are not seekable and can thus not be rewound.
+     * {@inheritdoc}
      */
-    public function rewind(): void
+    public function rewind()
     {
         @trigger_error('Filtered streams are not seekable. This method will start raising an exception in the next major version', E_USER_DEPRECATED);
         $this->doRewind();
     }
 
     /**
-     * Filtered streams are not seekable.
+     * {@inheritdoc}
      */
-    public function seek(int $offset, int $whence = SEEK_SET): void
+    public function seek($offset, $whence = SEEK_SET)
     {
         @trigger_error('Filtered streams are not seekable. This method will start raising an exception in the next major version', E_USER_DEPRECATED);
         $this->doSeek($offset, $whence);
@@ -184,9 +193,11 @@ abstract class FilteredStream implements StreamInterface
     /**
      * Returns the read filter name.
      *
+     * @return string
+     *
      * @deprecated since version 1.5, will be removed in 2.0
      */
-    public function getReadFilter(): string
+    public function getReadFilter()
     {
         @trigger_error('The '.__CLASS__.'::'.__METHOD__.' method is deprecated since version 1.5 and will be removed in 2.0.', E_USER_DEPRECATED);
 
@@ -195,15 +206,19 @@ abstract class FilteredStream implements StreamInterface
 
     /**
      * Returns the write filter name.
+     *
+     * @return string
      */
-    abstract protected function readFilter(): string;
+    abstract protected function readFilter();
 
     /**
      * Returns the write filter name.
      *
+     * @return string
+     *
      * @deprecated since version 1.5, will be removed in 2.0
      */
-    public function getWriteFilter(): string
+    public function getWriteFilter()
     {
         @trigger_error('The '.__CLASS__.'::'.__METHOD__.' method is deprecated since version 1.5 and will be removed in 2.0.', E_USER_DEPRECATED);
 
@@ -212,6 +227,8 @@ abstract class FilteredStream implements StreamInterface
 
     /**
      * Returns the write filter name.
+     *
+     * @return string
      */
-    abstract protected function writeFilter(): string;
+    abstract protected function writeFilter();
 }

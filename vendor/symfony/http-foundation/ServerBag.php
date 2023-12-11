@@ -22,8 +22,10 @@ class ServerBag extends ParameterBag
 {
     /**
      * Gets the HTTP headers.
+     *
+     * @return array
      */
-    public function getHeaders(): array
+    public function getHeaders()
     {
         $headers = [];
         foreach ($this->parameters as $key => $value) {
@@ -49,7 +51,7 @@ class ServerBag extends ParameterBag
              * RewriteCond %{HTTP:Authorization} .+
              * RewriteRule ^ - [E=HTTP_AUTHORIZATION:%0]
              * RewriteCond %{REQUEST_FILENAME} !-f
-             * RewriteRule ^(.*)$ index.php [QSA,L]
+             * RewriteRule ^(.*)$ app.php [QSA,L]
              */
 
             $authorizationHeader = null;

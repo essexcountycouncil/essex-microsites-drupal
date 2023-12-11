@@ -16,12 +16,12 @@ class StatisticsLastUpdated extends Date {
   /**
    * The node table.
    */
-  protected ?string $node_table;
+  protected $node_table;
 
   /**
    * The field alias.
    */
-  protected string $field_alias;
+  protected $field_alias;
 
   public function query() {
     $this->ensureMyTable();

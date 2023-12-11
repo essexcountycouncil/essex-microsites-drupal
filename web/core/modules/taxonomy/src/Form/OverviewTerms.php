@@ -3,6 +3,7 @@
 namespace Drupal\taxonomy\Form;
 
 use Drupal\Component\Utility\Unicode;
+use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormBase;
@@ -299,14 +300,13 @@ class OverviewTerms extends FormBase {
 
     // Only allow access to change parents and reorder the tree if there are no
     // pending revisions and there are no terms with multiple parents.
-    $update_tree_access = $taxonomy_vocabulary->access('reset all weights', NULL, TRUE);
+    $update_tree_access = AccessResult::allowedIf(empty($pending_term_ids) && $vocabulary_hierarchy !== VocabularyInterface::HIERARCHY_MULTIPLE);
+
     $form['help'] = [
       '#type' => 'container',
       'message' => ['#markup' => $help_message],
     ];
-
-    $operations_access = !empty($pending_term_ids) || $vocabulary_hierarchy === VocabularyInterface::HIERARCHY_MULTIPLE;
-    if ($operations_access) {
+    if (!$update_tree_access->isAllowed()) {
       $form['help']['#attributes']['class'] = ['messages', 'messages--warning'];
     }
 
@@ -327,7 +327,7 @@ class OverviewTerms extends FormBase {
       '#header' => [
         'term' => $this->t('Name'),
         'operations' => $this->t('Operations'),
-        'weight' => !$operations_access ? $this->t('Weight') : NULL,
+        'weight' => $update_tree_access->isAllowed() ? $this->t('Weight') : NULL,
       ],
       '#attributes' => [
         'id' => 'taxonomy',
@@ -394,6 +394,8 @@ class OverviewTerms extends FormBase {
           ],
         ];
       }
+      $update_access = $term->access('update', NULL, TRUE);
+      $update_tree_access = $update_tree_access->andIf($update_access);
 
       if ($update_tree_access->isAllowed()) {
         $form['terms'][$key]['weight'] = [
@@ -433,7 +435,7 @@ class OverviewTerms extends FormBase {
 
       // Add an error class if this row contains a form error.
       foreach ($errors as $error_key => $error) {
-        if (str_starts_with($error_key, $key)) {
+        if (strpos($error_key, $key) === 0) {
           $form['terms'][$key]['#attributes']['class'][] = 'error';
         }
       }

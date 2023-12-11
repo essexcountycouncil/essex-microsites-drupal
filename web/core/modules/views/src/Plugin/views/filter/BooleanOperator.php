@@ -55,16 +55,6 @@ class BooleanOperator extends FilterPluginBase {
   public $accept_null = FALSE;
 
   /**
-   * The value title.
-   */
-  public string $value_value;
-
-  /**
-   * The value options.
-   */
-  public ?array $valueOptions;
-
-  /**
    * {@inheritdoc}
    */
   public function operatorOptions($which = 'title') {

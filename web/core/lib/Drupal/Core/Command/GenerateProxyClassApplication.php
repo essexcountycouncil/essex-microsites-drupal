@@ -4,7 +4,6 @@ namespace Drupal\Core\Command;
 
 use Drupal\Component\ProxyBuilder\ProxyBuilder;
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 
 /**
@@ -37,14 +36,14 @@ class GenerateProxyClassApplication extends Application {
   /**
    * {@inheritdoc}
    */
-  protected function getCommandName(InputInterface $input): ?string {
+  protected function getCommandName(InputInterface $input) {
     return 'generate-proxy-class';
   }
 
   /**
    * {@inheritdoc}
    */
-  protected function getDefaultCommands(): array {
+  protected function getDefaultCommands() {
     // Even though this is a single command, keep the HelpCommand (--help).
     $default_commands = parent::getDefaultCommands();
     $default_commands[] = new GenerateProxyClassCommand($this->proxyBuilder);
@@ -57,7 +56,7 @@ class GenerateProxyClassApplication extends Application {
    * Overridden so the application doesn't expect the command name as the first
    * argument.
    */
-  public function getDefinition(): InputDefinition {
+  public function getDefinition() {
     $definition = parent::getDefinition();
     // Clears the normal first argument (the command name).
     $definition->setArguments();

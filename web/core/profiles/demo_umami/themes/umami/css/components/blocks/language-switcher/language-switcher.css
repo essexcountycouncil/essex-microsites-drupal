@@ -11,7 +11,7 @@
 }
 
 .block-language > .links li + li {
-  margin-inline-start: 1rem;
+  margin-left: 1rem;
 }
 
 .language-link,

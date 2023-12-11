@@ -6,16 +6,13 @@
  */
 
 use Drupal\Component\Utility\Html;
-use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Link;
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
-use Drupal\group\Entity\Group;
-use Drupal\group\Entity\GroupInterface;
-use Drupal\group\Entity\GroupRelationshipType;
+use Drupal\group\Entity\GroupRelationshipInterface;
+use Drupal\media\MediaInterface;
 use Drupal\media\MediaTypeInterface;
 
 /**
@@ -107,8 +104,7 @@ function groupmedia_entity_operation(EntityInterface $entity) {
       // Exit early without checking group relationship plugins.
       return $operations;
     }
-    // Get the list of the group_relationship plugins enabled for this group
-    // type.
+    // Get the list of the group_relationship plugins enabled for this group type.
     $plugin_ids = $entity->getGroupType()
       ->getInstalledPlugins()
       ->getInstanceIds();
@@ -142,79 +138,11 @@ function groupmedia_entity_operation(EntityInterface $entity) {
 }
 
 /**
- * Implements hook_ENTITY_TYPE_create_access().
+ * Implements hook_groupmedia_finder_add_alter().
  */
-function groupmedia_group_relationship_create_access(AccountInterface $account, array $context, $entity_bundle) {
-
-  if (\Drupal::routeMatch()->getRouteName() == 'entity.group_relationship.group_media_add_page') {
-    // Get the group relationship type from the entity_bundle.
-    /** @var \Drupal\group\Entity\GroupRelationshipTypeInterface $group_relation_type */
-    $group_relation_type = GroupRelationshipType::load($entity_bundle);
-
-    // Check if we are dealing with a group_media relationship plugin.
-    /** @var \Drupal\group\Plugin\Group\Relation\GroupRelationTypeInterface $plugin_definition */
-    $plugin_definition = $group_relation_type->getPlugin()->getPluginDefinition();
-
-    if ($plugin_definition->id() === 'group_media' && $plugin_definition->getEntityTypeId() === 'media') {
-      $media_bundle = $plugin_definition->getEntityBundle();
-      $plugin_id = "group_media:$media_bundle";
-      $permission = "create $plugin_id entity";
-
-      // Check if user has permission to create this media bundle.
-      /** @var \Drupal\group\Entity\GroupInterface $group */
-      $group = $context['group'];
-      return $group->hasPermission($permission, $account) ? AccessResult::allowed() : AccessResult::neutral();
-    }
+function groupmedia_groupmedia_finder_add_alter(&$result, MediaInterface $media, array &$context) {
+  $bundles = \Drupal::config('groupmedia.settings')->get('bundles');
+  if (in_array($media->bundle(), $bundles, TRUE)) {
+    $result[] = FALSE;
   }
-  return AccessResult::neutral();
-}
-
-/**
- * Implements hook_ENTITY_TYPE_insert().
- */
-function groupmedia_group_insert(GroupInterface $group) {
-  // React on group insert.
-  // When inserting a group, all media entities added to the group entity itself
-  // (e.g. referenced media) should become a group content.
-  // This is mainly used for new groups.
-  \Drupal::service('groupmedia.attach_group')->attach($group);
-}
-
-/**
- * Implements hook_form_FORM_ID_alter().
- */
-function groupmedia_form_views_exposed_form_alter(&$form, FormStateInterface $form_state) {
-  $view = $form_state->getStorage()['view'] ?? NULL;
-  if (!empty($view) && $view->id() === 'group_media') {
-    $group_id = $view->args[0] ?? NULL;
-    if (empty($group_id)) {
-      return;
-    }
-
-    $group = Group::load($group_id);
-    if (empty($group)) {
-      return;
-    }
-
-    if (empty($form['bundle']['#options'])) {
-      // If the bundle filter is not in the view, we bail out.
-      return;
-    }
-
-    // Build an array with the possible media types for the exposed filter.
-    $media_bundles = ['All'];
-    $group_relation_types = $group->getGroupType()->getInstalledPlugins();
-    foreach ($group_relation_types as $group_relation_type) {
-      if ($group_relation_type->getPluginDefinition()->getEntityTypeId() === 'media') {
-        $media_bundles[] = $group_relation_type->getPluginDefinition()->getEntityBundle();
-      }
-    }
-
-    foreach (array_keys($form['bundle']['#options']) as $option) {
-      if (!in_array($option, $media_bundles)) {
-        unset($form['bundle']['#options'][$option]);
-      }
-    }
-  }
-
 }

@@ -26,25 +26,27 @@ interface ClassMetadataInterface
 {
     /**
      * Returns the name of the backing PHP class.
+     *
+     * @return string The name of the backing class
      */
     public function getName(): string;
 
     /**
      * Adds an {@link AttributeMetadataInterface}.
      */
-    public function addAttributeMetadata(AttributeMetadataInterface $attributeMetadata): void;
+    public function addAttributeMetadata(AttributeMetadataInterface $attributeMetadata);
 
     /**
      * Gets the list of {@link AttributeMetadataInterface}.
      *
-     * @return array<string, AttributeMetadataInterface>
+     * @return AttributeMetadataInterface[]
      */
     public function getAttributesMetadata(): array;
 
     /**
      * Merges a {@link ClassMetadataInterface} in the current one.
      */
-    public function merge(self $classMetadata): void;
+    public function merge(self $classMetadata);
 
     /**
      * Returns a {@link \ReflectionClass} instance for this class.
@@ -53,5 +55,5 @@ interface ClassMetadataInterface
 
     public function getClassDiscriminatorMapping(): ?ClassDiscriminatorMapping;
 
-    public function setClassDiscriminatorMapping(?ClassDiscriminatorMapping $mapping): void;
+    public function setClassDiscriminatorMapping(ClassDiscriminatorMapping $mapping = null);
 }

@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\Core\Entity;
 
-use Drupal\Core\Config\Entity\ConfigEntityBase;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Language\Language;
@@ -94,7 +93,7 @@ class EntityLinkTest extends UnitTestCase {
       ->willReturn($entity_type);
 
     /** @var \Drupal\Core\Entity\Entity $entity */
-    $entity = $this->getMockForAbstractClass(ConfigEntityBase::class, [
+    $entity = $this->getMockForAbstractClass('Drupal\Core\Entity\EntityBase', [
       ['id' => $entity_id, 'label' => $entity_label, 'langcode' => 'es'],
       $entity_type_id,
     ]);

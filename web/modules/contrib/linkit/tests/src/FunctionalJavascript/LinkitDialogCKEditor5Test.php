@@ -170,7 +170,7 @@ class LinkitDialogCKEditor5Test extends WebDriverTestBase {
     $this->assertSame($expected_url, $autocomplete_field->getValue());
     $balloon->pressButton('Save');
     // Assert balloon was closed by pressing its "Save" button.
-    $this->assertTrue($assert_session->waitForElementRemoved('css', '.ck-button-save'));
+    $this->assertFalse($page->find('css', '.ck-balloon-panel')->isVisible());
 
     // Make sure all attributes are populated.
     $linkit_link = $assert_session->waitForElementVisible('css', '.ck-content a');
@@ -212,7 +212,7 @@ class LinkitDialogCKEditor5Test extends WebDriverTestBase {
     $this->assertVisibleBalloon('.ck-link-actions');
     // Assert balloon can be closed by clicking elsewhere in the editor.
     $page->find('css', '.ck-editor__editable')->click();
-    $this->assertTrue($assert_session->waitForElementRemoved('css', '.ck-button-save'));
+    $this->assertFalse($page->find('css', '.ck-balloon-panel')->isVisible());
 
     $changed_link = $assert_session->waitForElementVisible('css', '.ck-content [href="http://example.com"]');
     $this->assertNotNull($changed_link);

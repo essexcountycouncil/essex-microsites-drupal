@@ -125,6 +125,7 @@ final class SmartDefaultSettings {
       // @todo Remove in https://www.drupal.org/project/drupal/issues/3231347.
       $reflector = new \ReflectionObject($text_editor);
       $property = $reflector->getProperty('filterFormat');
+      $property->setAccessible(TRUE);
       $property->setValue($text_editor, $text_format);
     }
 
@@ -570,7 +571,7 @@ final class SmartDefaultSettings {
 
       foreach ($attributes_config as $attribute_name => $attribute_config) {
         // 10^4 per surplus wildcard attribute.
-        if (str_contains($attribute_name, '*')) {
+        if (strpos($attribute_name, '*') !== FALSE) {
           $surplus_score += pow(10, 4);
         }
         // 10^3 per surplus attribute.
@@ -589,7 +590,7 @@ final class SmartDefaultSettings {
 
         foreach ($attribute_config as $allowed_attribute_value => $allowed_attribute_value_config) {
           // 10^1 per surplus wildcard attribute value.
-          if (str_contains($allowed_attribute_value, '*')) {
+          if (strpos($allowed_attribute_value, '*') !== FALSE) {
             $surplus_score += pow(10, 1);
           }
           // 10^0 per surplus attribute value.

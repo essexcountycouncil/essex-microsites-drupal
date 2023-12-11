@@ -4,7 +4,6 @@ namespace Drupal\datetime\Plugin\Field\FieldFormatter;
 
 use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\Datetime\DrupalDateTime;
-use Drupal\Core\Datetime\TimeZoneFormHelper;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemListInterface;
@@ -98,7 +97,7 @@ abstract class DateTimeFormatterBase extends FormatterBase {
       '#type' => 'select',
       '#title' => $this->t('Time zone override'),
       '#description' => $this->t('The time zone selected here will always be used'),
-      '#options' => TimeZoneFormHelper::getOptionsListByRegion(TRUE),
+      '#options' => system_time_zones(TRUE, TRUE),
       '#default_value' => $this->getSetting('timezone_override'),
     ];
 

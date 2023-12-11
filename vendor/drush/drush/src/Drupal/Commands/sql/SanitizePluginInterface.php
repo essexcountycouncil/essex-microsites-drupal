@@ -1,11 +1,8 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drush\Drupal\Commands\sql;
 
 use Consolidation\AnnotatedCommand\CommandData;
-use Consolidation\AnnotatedCommand\Hooks\HookManager;
 use Symfony\Component\Console\Input\InputInterface;
 
 /**
@@ -19,12 +16,12 @@ interface SanitizePluginInterface
      * @param $result Exit code from the main operation for sql-sanitize.
      * @param CommandData $commandData Information about the current request.
      *
-     * Use `#[CLI\Hook(type: HookManager::POST_COMMAND_HOOK, target: SanitizeCommands::SANITIZE)]`
+     * @hook post-command sql-sanitize
      */
     public function sanitize($result, CommandData $commandData);
 
     /**
-     * Use #[CLI\Hook(type: HookManager::ON_EVENT, target: SanitizeCommands::CONFIRMS)]
+     * @hook on-event sql-sanitize-confirms
      *
      * @param array $messages An array of messages to show during confirmation.
      * @param InputInterface $input The effective commandline input for this request.

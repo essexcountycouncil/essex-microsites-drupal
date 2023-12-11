@@ -17,7 +17,10 @@ use Symfony\Component\Routing\RouteCollection;
 
 class DirectoryLoader extends FileLoader
 {
-    public function load(mixed $file, string $type = null): mixed
+    /**
+     * {@inheritdoc}
+     */
+    public function load($file, $type = null)
     {
         $path = $this->locator->locate($file);
 
@@ -43,7 +46,10 @@ class DirectoryLoader extends FileLoader
         return $collection;
     }
 
-    public function supports(mixed $resource, string $type = null): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function supports($resource, $type = null)
     {
         // only when type is forced to directory, not to conflict with AnnotationLoader
 

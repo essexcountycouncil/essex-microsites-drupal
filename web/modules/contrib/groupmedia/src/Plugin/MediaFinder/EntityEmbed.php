@@ -10,7 +10,7 @@ namespace Drupal\groupmedia\Plugin\MediaFinder;
  *   label = @Translation("Groupmedia: Entity Embed"),
  *   description = @Translation("Tracks relationships created with 'Entity Embed' in formatted text fields."),
  *   field_types = {"text", "text_long", "text_with_summary"},
- *   element = "drupal-media",
+ *   element = "drupal-entity",
  * )
  */
 class EntityEmbed extends TextFieldEmbedBase {}

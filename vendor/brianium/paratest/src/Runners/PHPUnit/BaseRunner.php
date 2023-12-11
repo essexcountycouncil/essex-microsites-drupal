@@ -18,7 +18,9 @@ use function mt_srand;
 use function shuffle;
 use function sprintf;
 
-/** @internal */
+/**
+ * @internal
+ */
 abstract class BaseRunner implements RunnerInterface
 {
     protected const CYCLE_SLEEP = 10000;
@@ -182,62 +184,46 @@ abstract class BaseRunner implements RunnerInterface
 
         $reporter = new CoverageReporter($codeCoverage, $codeCoverageConfiguration);
 
-        $output = $this->output;
-        $timer  = new Timer();
-        $start  = static function (string $format) use ($output, $timer): void {
-            $output->write(sprintf("\nGenerating code coverage report in %s format ... ", $format));
+        $this->output->write('Generating code coverage report ... ');
 
-            $timer->start();
-        };
-        $stop   = static function () use ($output, $timer): void {
-            $output->write(sprintf("done [%s]\n", $timer->stop()->asString()));
-        };
+        $timer = new Timer();
+        $timer->start();
 
         if (($coverageClover = $this->options->coverageClover()) !== null) {
-            $start('Clover XML');
             $reporter->clover($coverageClover);
-            $stop();
         }
 
         if (($coverageCobertura = $this->options->coverageCobertura()) !== null) {
-            $start('Cobertura XML');
             $reporter->cobertura($coverageCobertura);
-            $stop();
         }
 
         if (($coverageCrap4j = $this->options->coverageCrap4j()) !== null) {
-            $start('Crap4J XML');
             $reporter->crap4j($coverageCrap4j);
-            $stop();
         }
 
         if (($coverageHtml = $this->options->coverageHtml()) !== null) {
-            $start('HTML');
             $reporter->html($coverageHtml);
-            $stop();
-        }
-
-        if (($coveragePhp = $this->options->coveragePhp()) !== null) {
-            $start('PHP');
-            $reporter->php($coveragePhp);
-            $stop();
         }
 
         if (($coverageText = $this->options->coverageText()) !== null) {
             if ($coverageText === '') {
-                $this->output->write($reporter->text($this->options->colors()));
+                $this->output->write($reporter->text());
             } else {
-                file_put_contents($coverageText, $reporter->text($this->options->colors()));
+                file_put_contents($coverageText, $reporter->text());
             }
         }
 
-        if (($coverageXml = $this->options->coverageXml()) === null) {
-            return;
+        if (($coverageXml = $this->options->coverageXml()) !== null) {
+            $reporter->xml($coverageXml);
         }
 
-        $start('PHPUnit XML');
-        $reporter->xml($coverageXml);
-        $stop();
+        if (($coveragePhp = $this->options->coveragePhp()) !== null) {
+            $reporter->php($coveragePhp);
+        }
+
+        $this->output->writeln(
+            sprintf('done [%s]', $timer->stop()->asString())
+        );
     }
 
     final protected function hasCoverage(): bool

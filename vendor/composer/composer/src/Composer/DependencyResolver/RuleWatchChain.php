@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -27,8 +27,9 @@ class RuleWatchChain extends \SplDoublyLinkedList
      * Moves the internal iterator to the specified offset
      *
      * @param int $offset The offset to seek to.
+     * @return void
      */
-    public function seek(int $offset): void
+    public function seek($offset)
     {
         $this->rewind();
         for ($i = 0; $i < $offset; $i++, $this->next());
@@ -41,8 +42,10 @@ class RuleWatchChain extends \SplDoublyLinkedList
      * incorrectly sets the internal iterator if you delete the current value
      * this method sets the internal iterator back to the following element
      * using the seek method.
+     *
+     * @return void
      */
-    public function remove(): void
+    public function remove()
     {
         $offset = $this->key();
         $this->offsetUnset($offset);

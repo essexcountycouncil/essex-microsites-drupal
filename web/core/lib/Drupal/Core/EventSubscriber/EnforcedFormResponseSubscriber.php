@@ -36,7 +36,7 @@ class EnforcedFormResponseSubscriber implements EventSubscriberInterface {
   /**
    * {@inheritdoc}
    */
-  public static function getSubscribedEvents(): array {
+  public static function getSubscribedEvents() {
     $events[KernelEvents::EXCEPTION] = ['onKernelException', 128];
     $events[KernelEvents::RESPONSE] = ['onKernelResponse', 128];
 

@@ -178,7 +178,7 @@ class LocaleLookup extends CacheCollector {
       }
     }
 
-    if (is_string($value) && str_contains($value, PoItem::DELIMITER)) {
+    if (is_string($value) && strpos($value, PoItem::DELIMITER) !== FALSE) {
       // Community translations imported from localize.drupal.org as well as
       // migrated translations may contain @count[number].
       $value = preg_replace('!@count\[\d+\]!', '@count', $value);

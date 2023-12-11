@@ -46,8 +46,6 @@ class DenyNodePreviewTest extends UnitTestCase {
    * {@inheritdoc}
    */
   protected function setUp(): void {
-    parent::setUp();
-
     $this->routeMatch = $this->createMock('Drupal\Core\Routing\RouteMatchInterface');
     $this->policy = new DenyNodePreview($this->routeMatch);
     $this->response = new Response();

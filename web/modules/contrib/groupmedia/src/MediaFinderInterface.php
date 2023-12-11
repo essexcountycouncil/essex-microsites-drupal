@@ -6,7 +6,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\media\MediaInterface;
 
 /**
- * Interface Media Finder Interface.
+ * Interface MediaFinderInterface.
  *
  * @package Drupal\groupmedia
  */

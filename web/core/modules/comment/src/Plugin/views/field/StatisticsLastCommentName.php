@@ -18,17 +18,12 @@ class StatisticsLastCommentName extends FieldPluginBase {
   /**
    * The users table.
    */
-  protected ?string $user_table;
+  protected $user_table;
 
   /**
    * The user name field.
    */
-  protected string $user_field;
-
-  /**
-   * The user id.
-   */
-  public string $uid;
+  protected $user_field;
 
   /**
    * {@inheritdoc}

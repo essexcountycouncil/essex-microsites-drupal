@@ -9,17 +9,26 @@ namespace Http\Message\Encoding;
  */
 class ChunkStream extends FilteredStream
 {
-    protected function readFilter(): string
+    /**
+     * {@inheritdoc}
+     */
+    protected function readFilter()
     {
         return 'chunk';
     }
 
-    protected function writeFilter(): string
+    /**
+     * {@inheritdoc}
+     */
+    protected function writeFilter()
     {
         return 'dechunk';
     }
 
-    protected function fill(): void
+    /**
+     * {@inheritdoc}
+     */
+    protected function fill()
     {
         parent::fill();
 

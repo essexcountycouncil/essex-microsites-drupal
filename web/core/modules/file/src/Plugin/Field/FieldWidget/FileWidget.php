@@ -32,7 +32,7 @@ class FileWidget extends WidgetBase {
   /**
    * The element info manager.
    */
-  protected ElementInfoManagerInterface $elementInfo;
+  protected $elementInfo;
 
   /**
    * {@inheritdoc}

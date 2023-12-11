@@ -26,8 +26,6 @@ class AjaxResponseTest extends UnitTestCase {
    * {@inheritdoc}
    */
   protected function setUp(): void {
-    parent::setUp();
-
     $this->ajaxResponse = new AjaxResponse();
   }
 
@@ -88,7 +86,7 @@ class AjaxResponseTest extends UnitTestCase {
     $event = new ResponseEvent(
       $this->createMock('\Symfony\Component\HttpKernel\HttpKernelInterface'),
       $request,
-      HttpKernelInterface::MAIN_REQUEST,
+      HttpKernelInterface::MASTER_REQUEST,
       $response
     );
     $subscriber->onResponse($event);

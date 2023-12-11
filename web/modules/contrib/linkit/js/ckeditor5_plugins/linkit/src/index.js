@@ -14,8 +14,6 @@ class Linkit extends Plugin {
     this._state = {};
     const editor = this.editor;
     const options = editor.config.get('linkit');
-    // TRICKY: Work-around until the CKEditor team offers a better solution: force the ContextualBalloon to get instantiated early thanks to DrupalImage not yet being optimized like https://github.com/ckeditor/ckeditor5/commit/c276c45a934e4ad7c2a8ccd0bd9a01f6442d4cd3#diff-1753317a1a0b947ca8b66581b533616a5309f6d4236a527b9d21ba03e13a78d8.
-    editor.plugins.get('LinkUI')._createViews();
     this._enableLinkAutocomplete();
     this._handleExtraFormFieldSubmit();
     this._handleDataLoadingIntoExtraFormField();
@@ -24,21 +22,19 @@ class Linkit extends Plugin {
   _enableLinkAutocomplete() {
     const editor = this.editor;
     const options = editor.config.get('linkit');
-    const linkFormView = editor.plugins.get('LinkUI').formView;
+    const linkFormView = editor.plugins.get( 'LinkUI' ).formView;
     let wasAutocompleteAdded = false;
 
-    linkFormView.extendTemplate({
+    linkFormView.extendTemplate( {
       attributes: {
-        class: ['ck-vertical-form', 'ck-link-form_layout-vertical'],
-      },
-    });
+        class: ['ck-vertical-form', 'ck-link-form_layout-vertical']
+      }
+    } );
 
-    editor.plugins
-      .get('ContextualBalloon')
-      .on('set:visibleView', (evt, propertyName, newValue, oldValue) => {
-        if (newValue !== linkFormView || wasAutocompleteAdded) {
-          return;
-        }
+    editor.plugins.get( 'ContextualBalloon' )._rotatorView.content.on('add', ( evt, view ) => {
+      if ( view !== linkFormView || wasAutocompleteAdded ) {
+        return;
+      }
 
       /**
        * Used to know if a selection was made from the autocomplete results.

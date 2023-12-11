@@ -26,7 +26,7 @@ abstract class FileMediaFormatterTestBase extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp(): void {
+  protected function setUp() {
     parent::setUp();
     $this->drupalLogin($this->drupalCreateUser(['view test entity']));
   }

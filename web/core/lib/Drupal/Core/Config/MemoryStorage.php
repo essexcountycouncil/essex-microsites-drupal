@@ -31,7 +31,6 @@ class MemoryStorage implements StorageInterface {
   public function __construct($collection = StorageInterface::DEFAULT_COLLECTION) {
     $this->collection = $collection;
     $this->config = new \ArrayObject();
-    $this->config[$collection] = [];
   }
 
   /**
@@ -119,7 +118,7 @@ class MemoryStorage implements StorageInterface {
     $names = array_keys($this->config[$this->collection]);
     if ($prefix !== '') {
       $names = array_filter($names, function ($name) use ($prefix) {
-        return str_starts_with($name, $prefix);
+        return strpos($name, $prefix) === 0;
       });
     }
     return $names;
@@ -139,7 +138,7 @@ class MemoryStorage implements StorageInterface {
     }
     $success = FALSE;
     foreach (array_keys($this->config[$this->collection]) as $name) {
-      if (str_starts_with($name, $prefix)) {
+      if (strpos($name, $prefix) === 0) {
         $success = TRUE;
         unset($this->config[$this->collection][$name]);
       }

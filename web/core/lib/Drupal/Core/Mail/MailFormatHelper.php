@@ -12,7 +12,7 @@ use Drupal\Core\Site\Settings;
 class MailFormatHelper {
 
   /**
-   * Internal array of URLs replaced with tokens.
+   * Internal array of urls replaced with tokens.
    *
    * @var array
    */
@@ -54,9 +54,9 @@ class MailFormatHelper {
     $text = str_replace("\r", '', $text);
     // See if soft-wrapping is allowed.
     $clean_indent = static::htmlToTextClean($indent);
-    $soft = !str_contains($clean_indent, ' ');
+    $soft = strpos($clean_indent, ' ') === FALSE;
     // Check if the string has line breaks.
-    if (str_contains($text, "\n")) {
+    if (strpos($text, "\n") !== FALSE) {
       // Remove trailing spaces to make existing breaks hard, but leave
       // signature marker untouched (RFC 3676, Section 4.3).
       $text = preg_replace('/(?(?<!^--) +\n|  +\n)/m', "\n", $text);
@@ -125,7 +125,7 @@ class MailFormatHelper {
     // 'See the Drupal site [1]' with the URL included as a footnote.
     static::htmlToMailUrls(NULL, TRUE);
     $pattern = '@(<a[^>]+?href="([^"]*)"[^>]*?>(.+?)</a>)@i';
-    $string = preg_replace_callback($pattern, [static::class, 'htmlToMailUrls'], $string);
+    $string = preg_replace_callback($pattern, 'static::htmlToMailUrls', $string);
     $urls = static::htmlToMailUrls();
     $footnotes = '';
     if (count($urls)) {
@@ -302,7 +302,7 @@ class MailFormatHelper {
 
     // Do not break MIME headers which could be longer than 77 characters.
     foreach ($mime_headers as $header) {
-      if (str_starts_with($line, $header . ': ')) {
+      if (strpos($line, $header . ': ') === 0) {
         $line_is_mime_header = TRUE;
         break;
       }

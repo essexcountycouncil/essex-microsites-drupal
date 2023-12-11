@@ -30,8 +30,6 @@ class UuidResolverTest extends UnitTestCase {
    * {@inheritdoc}
    */
   protected function setUp(): void {
-    parent::setUp();
-
     $this->entityRepository = $this->createMock(EntityRepositoryInterface::class);
 
     $this->resolver = new UuidResolver($this->entityRepository);

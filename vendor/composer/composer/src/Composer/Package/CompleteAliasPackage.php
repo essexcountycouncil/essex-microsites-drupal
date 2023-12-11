@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -27,7 +27,7 @@ class CompleteAliasPackage extends AliasPackage implements CompletePackageInterf
      * @param string          $version       The version the alias must report
      * @param string          $prettyVersion The alias's non-normalized version
      */
-    public function __construct(CompletePackage $aliasOf, string $version, string $prettyVersion)
+    public function __construct(CompletePackage $aliasOf, $version, $prettyVersion)
     {
         parent::__construct($aliasOf, $version, $prettyVersion);
     }
@@ -40,127 +40,127 @@ class CompleteAliasPackage extends AliasPackage implements CompletePackageInterf
         return $this->aliasOf;
     }
 
-    public function getScripts(): array
+    public function getScripts()
     {
         return $this->aliasOf->getScripts();
     }
 
-    public function setScripts(array $scripts): void
+    public function setScripts(array $scripts)
     {
         $this->aliasOf->setScripts($scripts);
     }
 
-    public function getRepositories(): array
+    public function getRepositories()
     {
         return $this->aliasOf->getRepositories();
     }
 
-    public function setRepositories(array $repositories): void
+    public function setRepositories(array $repositories)
     {
         $this->aliasOf->setRepositories($repositories);
     }
 
-    public function getLicense(): array
+    public function getLicense()
     {
         return $this->aliasOf->getLicense();
     }
 
-    public function setLicense(array $license): void
+    public function setLicense(array $license)
     {
         $this->aliasOf->setLicense($license);
     }
 
-    public function getKeywords(): array
+    public function getKeywords()
     {
         return $this->aliasOf->getKeywords();
     }
 
-    public function setKeywords(array $keywords): void
+    public function setKeywords(array $keywords)
     {
         $this->aliasOf->setKeywords($keywords);
     }
 
-    public function getDescription(): ?string
+    public function getDescription()
     {
         return $this->aliasOf->getDescription();
     }
 
-    public function setDescription(?string $description): void
+    public function setDescription($description)
     {
         $this->aliasOf->setDescription($description);
     }
 
-    public function getHomepage(): ?string
+    public function getHomepage()
     {
         return $this->aliasOf->getHomepage();
     }
 
-    public function setHomepage(?string $homepage): void
+    public function setHomepage($homepage)
     {
         $this->aliasOf->setHomepage($homepage);
     }
 
-    public function getAuthors(): array
+    public function getAuthors()
     {
         return $this->aliasOf->getAuthors();
     }
 
-    public function setAuthors(array $authors): void
+    public function setAuthors(array $authors)
     {
         $this->aliasOf->setAuthors($authors);
     }
 
-    public function getSupport(): array
+    public function getSupport()
     {
         return $this->aliasOf->getSupport();
     }
 
-    public function setSupport(array $support): void
+    public function setSupport(array $support)
     {
         $this->aliasOf->setSupport($support);
     }
 
-    public function getFunding(): array
+    public function getFunding()
     {
         return $this->aliasOf->getFunding();
     }
 
-    public function setFunding(array $funding): void
+    public function setFunding(array $funding)
     {
         $this->aliasOf->setFunding($funding);
     }
 
-    public function isAbandoned(): bool
+    public function isAbandoned()
     {
         return $this->aliasOf->isAbandoned();
     }
 
-    public function getReplacementPackage(): ?string
+    public function getReplacementPackage()
     {
         return $this->aliasOf->getReplacementPackage();
     }
 
-    public function setAbandoned($abandoned): void
+    public function setAbandoned($abandoned)
     {
         $this->aliasOf->setAbandoned($abandoned);
     }
 
-    public function getArchiveName(): ?string
+    public function getArchiveName()
     {
         return $this->aliasOf->getArchiveName();
     }
 
-    public function setArchiveName(?string $name): void
+    public function setArchiveName($name)
     {
         $this->aliasOf->setArchiveName($name);
     }
 
-    public function getArchiveExcludes(): array
+    public function getArchiveExcludes()
     {
         return $this->aliasOf->getArchiveExcludes();
     }
 
-    public function setArchiveExcludes(array $excludes): void
+    public function setArchiveExcludes(array $excludes)
     {
         $this->aliasOf->setArchiveExcludes($excludes);
     }

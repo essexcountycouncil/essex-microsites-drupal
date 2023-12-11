@@ -309,7 +309,7 @@ class ConfigFactory implements ConfigFactoryInterface, EventSubscriberInterface 
     return array_filter(array_keys($this->cache), function ($key) use ($name) {
       // Return TRUE if the key is the name or starts with the configuration
       // name plus the delimiter.
-      return $key === $name || str_starts_with($key, $name . ':');
+      return $key === $name || strpos($key, $name . ':') === 0;
     });
   }
 
@@ -382,7 +382,7 @@ class ConfigFactory implements ConfigFactoryInterface, EventSubscriberInterface 
   /**
    * {@inheritdoc}
    */
-  public static function getSubscribedEvents(): array {
+  public static function getSubscribedEvents() {
     $events[ConfigEvents::SAVE][] = ['onConfigSave', 255];
     $events[ConfigEvents::DELETE][] = ['onConfigDelete', 255];
     return $events;

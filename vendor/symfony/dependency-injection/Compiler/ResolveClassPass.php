@@ -21,7 +21,7 @@ use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 class ResolveClassPass implements CompilerPassInterface
 {
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function process(ContainerBuilder $container)
     {

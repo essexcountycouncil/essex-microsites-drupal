@@ -91,7 +91,7 @@ class InstallHelper implements ContainerInjectionInterface {
   /**
    * The module's path.
    */
-  protected string $module_path;
+  protected $module_path;
 
   /**
    * Constructs a new InstallHelper object.

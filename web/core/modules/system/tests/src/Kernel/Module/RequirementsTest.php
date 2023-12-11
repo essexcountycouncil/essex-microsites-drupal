@@ -5,7 +5,8 @@ namespace Drupal\Tests\system\Kernel\Module;
 use Drupal\KernelTests\KernelTestBase;
 
 /**
- * Covers hook_requirements and hook_requirements_alter.
+ * @covers \hook_requirements
+ * @covers \hook_requirements_alter
  * @group Module
  */
 class RequirementsTest extends KernelTestBase {

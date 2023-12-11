@@ -117,7 +117,7 @@ class NodeTranslationExceptionSubscriber implements EventSubscriberInterface {
   /**
    * {@inheritdoc}
    */
-  public static function getSubscribedEvents(): array {
+  public static function getSubscribedEvents() {
     $events = [];
 
     $events[KernelEvents::EXCEPTION] = ['onException'];

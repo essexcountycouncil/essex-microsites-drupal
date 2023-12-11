@@ -50,7 +50,6 @@ display:
           order: asc
           expose:
             label: 'id'
-            field_identifier: id
           exposed: true
           plugin_id: standard
     display_plugin: default

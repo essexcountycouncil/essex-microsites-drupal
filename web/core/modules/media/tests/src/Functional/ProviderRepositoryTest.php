@@ -4,7 +4,6 @@ namespace Drupal\Tests\media\Functional;
 
 use Drupal\media\OEmbed\ProviderException;
 use GuzzleHttp\Psr7\Utils;
-use Prophecy\PhpUnit\ProphecyTrait;
 
 /**
  * Tests the oEmbed provider repository.
@@ -14,8 +13,6 @@ use Prophecy\PhpUnit\ProphecyTrait;
  * @group media
  */
 class ProviderRepositoryTest extends MediaFunctionalTestBase {
-
-  use ProphecyTrait;
 
   /**
    * {@inheritdoc}

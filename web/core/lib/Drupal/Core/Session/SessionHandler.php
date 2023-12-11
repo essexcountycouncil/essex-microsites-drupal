@@ -55,7 +55,7 @@ class SessionHandler extends AbstractProxy implements \SessionHandlerInterface {
    * {@inheritdoc}
    */
   #[\ReturnTypeWillChange]
-  public function read(#[\SensitiveParameter] $sid) {
+  public function read($sid) {
     $data = '';
     if (!empty($sid)) {
       // Read the session data from the database.
@@ -70,7 +70,7 @@ class SessionHandler extends AbstractProxy implements \SessionHandlerInterface {
    * {@inheritdoc}
    */
   #[\ReturnTypeWillChange]
-  public function write(#[\SensitiveParameter] $sid, $value) {
+  public function write($sid, $value) {
     // The exception handler is not active at this point, so we need to do it
     // manually.
     try {
@@ -111,7 +111,7 @@ class SessionHandler extends AbstractProxy implements \SessionHandlerInterface {
    * {@inheritdoc}
    */
   #[\ReturnTypeWillChange]
-  public function destroy(#[\SensitiveParameter] $sid) {
+  public function destroy($sid) {
     // Delete session data.
     $this->connection->delete('sessions')
       ->condition('sid', Crypt::hashBase64($sid))

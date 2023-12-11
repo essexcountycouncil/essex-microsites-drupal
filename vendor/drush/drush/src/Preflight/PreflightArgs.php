@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drush\Preflight;
 
 use Symfony\Component\Console\Input\ArgvInput;
@@ -344,6 +342,22 @@ class PreflightArgs extends Config implements PreflightArgsInterface
     }
 
     /**
+     * Add multiple additional locations for alias paths.
+     */
+    public function mergeAliasPaths(string $aliasPaths): self
+    {
+        $aliasPaths = array_map(
+            function ($item) {
+                return StringUtils::replaceTilde($item, $this->homeDir());
+            },
+            $aliasPaths
+        );
+        $paths = $this->aliasPaths();
+        $merged_paths = array_merge($paths, $aliasPaths);
+        return $this->set(self::ALIAS_PATH, $merged_paths);
+    }
+
+    /**
      * Get the path where Drush commandfiles e.g. FooCommands.php may be found.
      */
     public function commandPaths()
@@ -455,7 +469,7 @@ class PreflightArgs extends Config implements PreflightArgsInterface
             array_map(
                 function ($item) {
                     // Ignore configuration definitions
-                    if (str_starts_with($item, '-D')) {
+                    if (substr($item, 0, 2) == '-D') {
                         return null;
                     }
                     // Regular expression matches:

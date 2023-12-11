@@ -32,9 +32,9 @@
             "version": "2.4.0",
             "url": "https://github.com/php-http/httplug/archive/2.4.0.zip"
         },
-        "php-http/guzzle7-adapter": {
-            "version": "v1.0.0",
-            "url": "https://github.com/php-http/guzzle7-adapter/archive/refs/tags/1.0.0.zip"
+        "php-http/guzzle6-adapter": {
+            "version": "v2.0.2",
+            "url": "https://github.com/php-http/guzzle6-adapter/archive/v2.0.2.zip"
         }
     }
 }

@@ -974,7 +974,7 @@ class Database extends BackendPluginBase implements AutocompleteBackendInterface
             }
           }
         }
-        catch (PluginException) {
+        catch (PluginException $e) {
           // Ignore.
         }
         throw new SearchApiException("Unknown field type '$type'.");
@@ -1383,9 +1383,8 @@ class Database extends BackendPluginBase implements AutocompleteBackendInterface
 
       if ($this->configuration['phrase'] === 'bigram') {
         // Now add a bigram for this word and the last. In case this is the
-        // first word, or the bigram wouldn't fit into the maximum token length,
-        // there is no bigram to add.
-        if ($prev_word === NULL || mb_strlen($prev_word) + 1 >= static::TOKEN_LENGTH_MAX) {
+        // first word, there is no bigram to add.
+        if ($prev_word === NULL) {
           continue;
         }
 
@@ -1710,7 +1709,7 @@ class Database extends BackendPluginBase implements AutocompleteBackendInterface
             }
           }
         }
-        catch (PluginException) {
+        catch (PluginException $e) {
           // Ignore.
         }
         throw new SearchApiException("Unknown field type '$type'.");
@@ -2283,7 +2282,7 @@ class Database extends BackendPluginBase implements AutocompleteBackendInterface
           $db_query->groupBy("{$column['table']}.{$column['field']}");
         }
 
-        foreach ($words as $word) {
+        foreach ($words as $i => $word) {
           $like = $this->database->escapeLike($word);
           $like = $prefix_search ? "$like%" : "%$like%";
           $db_or->condition('t.word', $like, 'LIKE');
@@ -2873,7 +2872,7 @@ class Database extends BackendPluginBase implements AutocompleteBackendInterface
       return FALSE;
     }
     $expressions = &$db_query->getExpressions();
-    unset($expressions['score']);
+    $expressions = [];
 
     // Remove the ORDER BY clause, as it may refer to expressions that are
     // unset above.
@@ -2885,19 +2884,11 @@ class Database extends BackendPluginBase implements AutocompleteBackendInterface
     $group_by = &$db_query->getGroupBy();
     $group_by = array_intersect_key($group_by, ['t.item_id' => TRUE]);
 
-    // In case there are any expressions left (like a computed distance column),
-    // we nest the query to get rid of them.
-    if ($expressions) {
-      $db_query = $this->database->select($db_query, 't')
-        ->fields('t', ['item_id']);
-    }
-
     $db_query->distinct();
     if (!$db_query->preExecute()) {
       return FALSE;
     }
     $args = $db_query->getArguments();
-
     try {
       $result = $this->database->queryTemporary((string) $db_query, $args);
     }
@@ -3124,7 +3115,7 @@ class Database extends BackendPluginBase implements AutocompleteBackendInterface
         try {
           $distance_field->setType('decimal');
         }
-        catch (SearchApiException) {
+        catch (SearchApiException $e) {
           // Cannot happen.
         }
         $distance_field->setDatasourceId($field->getDatasourceId());

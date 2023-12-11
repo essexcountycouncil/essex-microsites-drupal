@@ -125,7 +125,7 @@ class LinkWidget extends WidgetBase {
       //   https://www.drupal.org/node/2421941
       // - '<front>' -> '/'
       // - '<front>#foo' -> '/#foo'
-      if (str_starts_with($string, '<front>')) {
+      if (strpos($string, '<front>') === 0) {
         $string = '/' . substr($string, strlen('<front>'));
       }
       $uri = 'internal:' . $string;

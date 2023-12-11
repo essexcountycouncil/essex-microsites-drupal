@@ -214,10 +214,3 @@ function locale_test_tokens($type, $tokens, array $data = [], array $options = [
 
   return $return;
 }
-
-/**
- * Implements hook_countries_alter().
- */
-function locale_test_countries_alter(&$countries) {
-  $countries['EB'] = 'Elbonia';
-}

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -32,10 +32,13 @@ interface PluginInterface
      *
      * @var string
      */
-    public const PLUGIN_API_VERSION = '2.6.0';
+    const PLUGIN_API_VERSION = '2.2.0';
 
     /**
      * Apply plugin modifications to Composer
+     *
+     * @param Composer    $composer
+     * @param IOInterface $io
      *
      * @return void
      */
@@ -48,6 +51,9 @@ interface PluginInterface
      * uninstalled, but also before it gets upgraded to a new version
      * so the old one can be deactivated and the new one activated.
      *
+     * @param Composer    $composer
+     * @param IOInterface $io
+     *
      * @return void
      */
     public function deactivate(Composer $composer, IOInterface $io);
@@ -56,6 +62,9 @@ interface PluginInterface
      * Prepare the plugin to be uninstalled
      *
      * This will be called after deactivate.
+     *
+     * @param Composer    $composer
+     * @param IOInterface $io
      *
      * @return void
      */

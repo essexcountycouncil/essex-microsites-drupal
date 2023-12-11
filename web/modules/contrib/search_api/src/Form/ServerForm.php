@@ -147,7 +147,7 @@ class ServerForm extends EntityForm {
         $backend = $this->backendPluginManager
           ->createInstance($backend_id, $config);
       }
-      catch (PluginException) {
+      catch (PluginException $e) {
         continue;
       }
       if ($backend->isHidden()) {

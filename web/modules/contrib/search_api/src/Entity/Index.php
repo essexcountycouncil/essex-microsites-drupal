@@ -514,7 +514,7 @@ class Index extends ConfigEntityBase implements IndexInterface {
    */
   public function setServer(ServerInterface $server = NULL) {
     $this->serverInstance = $server;
-    $this->server = $server?->id();
+    $this->server = $server ? $server->id() : NULL;
     return $this;
   }
 
@@ -1016,9 +1016,12 @@ class Index extends ConfigEntityBase implements IndexInterface {
       Cache::invalidateTags(['search_api_list:' . $this->id]);
     }
 
-    // Clear the static entity cache, to avoid running out of memory when
-    // indexing lots of items in one process (especially via Drush).
-    \Drupal::getContainer()->get('entity.memory_cache')->deleteAll();
+    // When indexing via Drush, multiple iterations of a batch will happen in
+    // the same PHP process, so the static cache will quickly fill up. To
+    // prevent this, clear it after each batch of items gets indexed.
+    if (function_exists('drush_backend_batch_process') && batch_get()) {
+      \Drupal::getContainer()->get('entity.memory_cache')->deleteAll();
+    }
 
     return $processed_ids;
   }
@@ -1606,7 +1609,7 @@ class Index extends ConfigEntityBase implements IndexInterface {
       try {
         $temp_store->delete($entity->id());
       }
-      catch (TempStoreException) {
+      catch (TempStoreException $e) {
         // Can't really be helped, I guess. But is also very unlikely to happen.
         // Ignore it.
       }

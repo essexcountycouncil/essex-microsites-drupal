@@ -21,9 +21,6 @@ trait DenormalizerAwareTrait
      */
     protected $denormalizer;
 
-    /**
-     * @return void
-     */
     public function setDenormalizer(DenormalizerInterface $denormalizer)
     {
         $this->denormalizer = $denormalizer;

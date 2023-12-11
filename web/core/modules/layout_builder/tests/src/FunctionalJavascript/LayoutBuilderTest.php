@@ -68,7 +68,7 @@ class LayoutBuilderTest extends WebDriverTestBase {
     $bundle->save();
     block_content_add_body_field($bundle->id());
     BlockContent::create([
-      'info' => 'My content block',
+      'info' => 'My custom block',
       'type' => 'basic',
       'body' => [
         [
@@ -228,7 +228,7 @@ class LayoutBuilderTest extends WebDriverTestBase {
     $this->drupalGet($layout_url);
     $this->markCurrentPage();
 
-    $this->openAddBlockForm('My content block');
+    $this->openAddBlockForm('My custom block');
     $page->pressButton('Add block');
     $assert_session->assertWaitOnAjaxRequest();
     $assert_session->pageTextContains('This is the block content');

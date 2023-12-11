@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -22,7 +22,7 @@ class Silencer
     /**
      * @var int[] Unpop stack
      */
-    private static $stack = [];
+    private static $stack = array();
 
     /**
      * Suppresses given mask or errors.
@@ -30,7 +30,7 @@ class Silencer
      * @param  int|null $mask Error levels to suppress, default value NULL indicates all warnings and below.
      * @return int      The old error reporting level.
      */
-    public static function suppress(?int $mask = null): int
+    public static function suppress($mask = null)
     {
         if (!isset($mask)) {
             $mask = E_WARNING | E_NOTICE | E_USER_WARNING | E_USER_NOTICE | E_DEPRECATED | E_USER_DEPRECATED | E_STRICT;
@@ -44,8 +44,10 @@ class Silencer
 
     /**
      * Restores a single state.
+     *
+     * @return void
      */
-    public static function restore(): void
+    public static function restore()
     {
         if (!empty(self::$stack)) {
             error_reporting(array_pop(self::$stack));
@@ -55,16 +57,17 @@ class Silencer
     /**
      * Calls a specified function while silencing warnings and below.
      *
+     * Future improvement: when PHP requirements are raised add Callable type hint (5.4) and variadic parameters (5.6)
+     *
      * @param  callable   $callable Function to execute.
-     * @param  mixed      $parameters Function to execute.
      * @throws \Exception Any exceptions from the callback are rethrown.
      * @return mixed      Return value of the callback.
      */
-    public static function call(callable $callable, ...$parameters)
+    public static function call($callable /*, ...$parameters */)
     {
         try {
             self::suppress();
-            $result = $callable(...$parameters);
+            $result = call_user_func_array($callable, array_slice(func_get_args(), 1));
             self::restore();
 
             return $result;

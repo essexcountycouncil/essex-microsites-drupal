@@ -159,7 +159,7 @@ class ThemeInstallerTest extends KernelTestBase {
   /**
    * Tests trying to install a deprecated theme.
    *
-   * @covers \Drupal\Core\Extension\ThemeInstaller::install
+   * @covers ::install
    *
    * @group legacy
    */
@@ -242,7 +242,7 @@ class ThemeInstallerTest extends KernelTestBase {
     $this->assertTrue(isset($themes[$other_name]));
 
     try {
-      $message = 'ThemeInstaller::uninstall() throws InvalidArgumentException upon uninstalling default theme.';
+      $message = 'ThemeInstaller::uninstall() throws InvalidArgumentException upon disabling default theme.';
       $this->themeInstaller()->uninstall([$name]);
       $this->fail($message);
     }

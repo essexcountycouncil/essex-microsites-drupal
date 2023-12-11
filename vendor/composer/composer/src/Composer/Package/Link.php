@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -21,19 +21,22 @@ use Composer\Semver\Constraint\ConstraintInterface;
  */
 class Link
 {
-    public const TYPE_REQUIRE = 'requires';
-    public const TYPE_DEV_REQUIRE = 'devRequires';
-    public const TYPE_PROVIDE = 'provides';
-    public const TYPE_CONFLICT = 'conflicts';
-    public const TYPE_REPLACE = 'replaces';
+    const TYPE_REQUIRE = 'requires';
+    const TYPE_DEV_REQUIRE = 'devRequires';
+    const TYPE_PROVIDE = 'provides';
+    const TYPE_CONFLICT = 'conflicts';
+    const TYPE_REPLACE = 'replaces';
 
     /**
      * Special type
      * @internal
      */
-    public const TYPE_DOES_NOT_REQUIRE = 'does not require';
-
-    private const TYPE_UNKNOWN = 'relates to';
+    const TYPE_DOES_NOT_REQUIRE = 'does not require';
+    /**
+     * TODO should be marked private once 5.3 is dropped
+     * @private
+     */
+    const TYPE_UNKNOWN = 'relates to';
 
     /**
      * Will be converted into a constant once the min PHP version allows this
@@ -42,13 +45,13 @@ class Link
      * @var string[]
      * @phpstan-var array<self::TYPE_REQUIRE|self::TYPE_DEV_REQUIRE|self::TYPE_PROVIDE|self::TYPE_CONFLICT|self::TYPE_REPLACE>
      */
-    public static $TYPES = [
+    public static $TYPES = array(
         self::TYPE_REQUIRE,
         self::TYPE_DEV_REQUIRE,
         self::TYPE_PROVIDE,
         self::TYPE_CONFLICT,
         self::TYPE_REPLACE,
-    ];
+    );
 
     /**
      * @var string
@@ -79,15 +82,18 @@ class Link
     /**
      * Creates a new package link.
      *
+     * @param string              $source
+     * @param string              $target
      * @param ConstraintInterface $constraint       Constraint applying to the target of this link
      * @param self::TYPE_*        $description      Used to create a descriptive string representation
+     * @param string|null         $prettyConstraint
      */
     public function __construct(
-        string $source,
-        string $target,
+        $source,
+        $target,
         ConstraintInterface $constraint,
         $description = self::TYPE_UNKNOWN,
-        ?string $prettyConstraint = null
+        $prettyConstraint = null
     ) {
         $this->source = strtolower($source);
         $this->target = strtolower($target);
@@ -96,30 +102,43 @@ class Link
         $this->prettyConstraint = $prettyConstraint;
     }
 
-    public function getDescription(): string
+    /**
+     * @return string
+     */
+    public function getDescription()
     {
         return $this->description;
     }
 
-    public function getSource(): string
+    /**
+     * @return string
+     */
+    public function getSource()
     {
         return $this->source;
     }
 
-    public function getTarget(): string
+    /**
+     * @return string
+     */
+    public function getTarget()
     {
         return $this->target;
     }
 
-    public function getConstraint(): ConstraintInterface
+    /**
+     * @return ConstraintInterface
+     */
+    public function getConstraint()
     {
         return $this->constraint;
     }
 
     /**
      * @throws \UnexpectedValueException If no pretty constraint was provided
+     * @return string
      */
-    public function getPrettyConstraint(): string
+    public function getPrettyConstraint()
     {
         if (null === $this->prettyConstraint) {
             throw new \UnexpectedValueException(sprintf('Link %s has been misconfigured and had no prettyConstraint given.', $this));
@@ -128,12 +147,19 @@ class Link
         return $this->prettyConstraint;
     }
 
-    public function __toString(): string
+    /**
+     * @return string
+     */
+    public function __toString()
     {
         return $this->source.' '.$this->description.' '.$this->target.' ('.$this->constraint.')';
     }
 
-    public function getPrettyString(PackageInterface $sourcePackage): string
+    /**
+     * @param  PackageInterface $sourcePackage
+     * @return string
+     */
+    public function getPrettyString(PackageInterface $sourcePackage)
     {
         return $sourcePackage->getPrettyString().' '.$this->description.' '.$this->target.' '.$this->constraint->getPrettyString();
     }

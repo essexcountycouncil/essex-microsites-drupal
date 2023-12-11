@@ -1,8 +1,6 @@
 name: Activity Tracker
 type: module
-description: 'Displays recently added and updated content.'
-lifecycle: deprecated
-lifecycle_link: 'https://www.drupal.org/about/core/policies/core-change-policies/deprecated-and-obsolete-modules-and-themes#s-activity-tracker'
+description: 'Enables tracking of recent content for users.'
 dependencies:
   - drupal:node
   - drupal:comment

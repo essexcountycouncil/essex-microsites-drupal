@@ -88,7 +88,7 @@ abstract class DateTestBase extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp(): void {
+  protected function setUp() {
     parent::setUp();
 
     $web_user = $this->drupalCreateUser([

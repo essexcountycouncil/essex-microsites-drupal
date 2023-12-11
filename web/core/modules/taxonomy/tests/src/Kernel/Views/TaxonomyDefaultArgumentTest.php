@@ -22,10 +22,10 @@ class TaxonomyDefaultArgumentTest extends TaxonomyTestBase {
   public static $testViews = ['taxonomy_default_argument_test'];
 
   /**
-   * Init view with a request by provided URL.
+   * Init view with a request by provided url.
    *
    * @param string $request_url
-   *   The requested URL.
+   *   The requested url.
    * @param string $view_name
    *   The name of the view.
    *

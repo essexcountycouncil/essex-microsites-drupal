@@ -44,8 +44,10 @@ class ResponseHeaderBag extends HeaderBag
 
     /**
      * Returns the headers, with original capitalizations.
+     *
+     * @return array An array of headers
      */
-    public function allPreserveCase(): array
+    public function allPreserveCase()
     {
         $headers = [];
         foreach ($this->all() as $name => $value) {
@@ -55,9 +57,6 @@ class ResponseHeaderBag extends HeaderBag
         return $headers;
     }
 
-    /**
-     * @return array
-     */
     public function allPreserveCaseWithoutCookies()
     {
         $headers = $this->allPreserveCase();
@@ -69,7 +68,7 @@ class ResponseHeaderBag extends HeaderBag
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function replace(array $headers = [])
     {
@@ -86,11 +85,16 @@ class ResponseHeaderBag extends HeaderBag
         }
     }
 
-    public function all(string $key = null): array
+    /**
+     * {@inheritdoc}
+     *
+     * @param string|null $key The name of the headers to return or null to get them all
+     */
+    public function all(/* string $key = null */)
     {
         $headers = parent::all();
 
-        if (null !== $key) {
+        if (1 <= \func_num_args() && null !== $key = func_get_arg(0)) {
             $key = strtr($key, self::UPPER, self::LOWER);
 
             return 'set-cookie' !== $key ? $headers[$key] ?? [] : array_map('strval', $this->getCookies());
@@ -104,9 +108,9 @@ class ResponseHeaderBag extends HeaderBag
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
-    public function set(string $key, string|array|null $values, bool $replace = true)
+    public function set($key, $values, $replace = true)
     {
         $uniqueKey = strtr($key, self::UPPER, self::LOWER);
 
@@ -135,9 +139,9 @@ class ResponseHeaderBag extends HeaderBag
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
-    public function remove(string $key)
+    public function remove($key)
     {
         $uniqueKey = strtr($key, self::UPPER, self::LOWER);
         unset($this->headerNames[$uniqueKey]);
@@ -159,19 +163,22 @@ class ResponseHeaderBag extends HeaderBag
         }
     }
 
-    public function hasCacheControlDirective(string $key): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function hasCacheControlDirective($key)
     {
         return \array_key_exists($key, $this->computedCacheControl);
     }
 
-    public function getCacheControlDirective(string $key): bool|string|null
+    /**
+     * {@inheritdoc}
+     */
+    public function getCacheControlDirective($key)
     {
         return $this->computedCacheControl[$key] ?? null;
     }
 
-    /**
-     * @return void
-     */
     public function setCookie(Cookie $cookie)
     {
         $this->cookies[$cookie->getDomain()][$cookie->getPath()][$cookie->getName()] = $cookie;
@@ -181,11 +188,15 @@ class ResponseHeaderBag extends HeaderBag
     /**
      * Removes a cookie from the array, but does not unset it in the browser.
      *
-     * @return void
+     * @param string $name
+     * @param string $path
+     * @param string $domain
      */
-    public function removeCookie(string $name, ?string $path = '/', string $domain = null)
+    public function removeCookie($name, $path = '/', $domain = null)
     {
-        $path ??= '/';
+        if (null === $path) {
+            $path = '/';
+        }
 
         unset($this->cookies[$domain][$path][$name]);
 
@@ -205,11 +216,13 @@ class ResponseHeaderBag extends HeaderBag
     /**
      * Returns an array with all cookies.
      *
+     * @param string $format
+     *
      * @return Cookie[]
      *
      * @throws \InvalidArgumentException When the $format is invalid
      */
-    public function getCookies(string $format = self::COOKIES_FLAT): array
+    public function getCookies($format = self::COOKIES_FLAT)
     {
         if (!\in_array($format, [self::COOKIES_FLAT, self::COOKIES_ARRAY])) {
             throw new \InvalidArgumentException(sprintf('Format "%s" invalid (%s).', $format, implode(', ', [self::COOKIES_FLAT, self::COOKIES_ARRAY])));
@@ -234,21 +247,26 @@ class ResponseHeaderBag extends HeaderBag
     /**
      * Clears a cookie in the browser.
      *
-     * @return void
+     * @param string $name
+     * @param string $path
+     * @param string $domain
+     * @param bool   $secure
+     * @param bool   $httpOnly
+     * @param string $sameSite
      */
-    public function clearCookie(string $name, ?string $path = '/', string $domain = null, bool $secure = false, bool $httpOnly = true, string $sameSite = null)
+    public function clearCookie($name, $path = '/', $domain = null, $secure = false, $httpOnly = true/* , $sameSite = null */)
     {
+        $sameSite = \func_num_args() > 5 ? func_get_arg(5) : null;
+
         $this->setCookie(new Cookie($name, null, 1, $path, $domain, $secure, $httpOnly, false, $sameSite));
     }
 
     /**
      * @see HeaderUtils::makeDisposition()
-     *
-     * @return string
      */
-    public function makeDisposition(string $disposition, string $filename, string $filenameFallback = '')
+    public function makeDisposition($disposition, $filename, $filenameFallback = '')
     {
-        return HeaderUtils::makeDisposition($disposition, $filename, $filenameFallback);
+        return HeaderUtils::makeDisposition((string) $disposition, (string) $filename, (string) $filenameFallback);
     }
 
     /**
@@ -256,8 +274,10 @@ class ResponseHeaderBag extends HeaderBag
      *
      * This considers several other headers and calculates or modifies the
      * cache-control header to a sensible, conservative value.
+     *
+     * @return string
      */
-    protected function computeCacheControlValue(): string
+    protected function computeCacheControlValue()
     {
         if (!$this->cacheControl) {
             if ($this->has('Last-Modified') || $this->has('Expires')) {
@@ -283,6 +303,8 @@ class ResponseHeaderBag extends HeaderBag
 
     private function initDate(): void
     {
-        $this->set('Date', gmdate('D, d M Y H:i:s').' GMT');
+        $now = \DateTime::createFromFormat('U', time());
+        $now->setTimezone(new \DateTimeZone('UTC'));
+        $this->set('Date', $now->format('D, d M Y H:i:s').' GMT');
     }
 }

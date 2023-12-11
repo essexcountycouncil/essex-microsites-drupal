@@ -2,7 +2,7 @@ langcode: en
 status: true
 dependencies:
   config:
-    - core.entity_form_mode.geo_entity.inline
+    - core.entity_form_mode.localgov_geo.inline
     - field.field.node.localgov_directories_org.body
     - field.field.node.localgov_directories_org.localgov_directory_channels
     - field.field.node.localgov_directories_org.localgov_directory_email
@@ -38,7 +38,6 @@ third_party_settings:
         id: ''
         classes: ''
         direction: vertical
-        width_breakpoint: 1138
       label: tabs
     group_description:
       children:

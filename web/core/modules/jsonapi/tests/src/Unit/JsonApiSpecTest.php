@@ -26,7 +26,7 @@ class JsonApiSpecTest extends UnitTestCase {
   /**
    * Data provider for testIsValidMemberName.
    */
-  public static function providerTestIsValidMemberName() {
+  public function providerTestIsValidMemberName() {
     // Copied from http://jsonapi.org/format/upcoming/#document-member-names.
     $data = [];
     $data['alphanumeric-lowercase'] = ['12kittens', TRUE];
@@ -107,8 +107,8 @@ class JsonApiSpecTest extends UnitTestCase {
   /**
    * Data provider for testIsValidCustomQueryParameter.
    */
-  public static function providerTestIsValidCustomQueryParameter() {
-    $data = static::providerTestIsValidMemberName();
+  public function providerTestIsValidCustomQueryParameter() {
+    $data = $this->providerTestIsValidMemberName();
 
     // All valid member names are also valid custom query parameters, except for
     // single-character ones.

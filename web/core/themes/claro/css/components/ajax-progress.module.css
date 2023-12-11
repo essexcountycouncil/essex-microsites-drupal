@@ -32,7 +32,7 @@
   display: inline-flex;
   align-content: center;
   height: 1.125rem;
-  margin: -0.1875rem var(--ajax-progress-margin-horizontal) 0;
+  margin: -0.1875rem 0.75rem 0;
   vertical-align: middle;
   white-space: nowrap;
   line-height: 1.125rem;
@@ -44,7 +44,12 @@
  */
 
 .js .button:not(.js-hide) + .ajax-progress--throbber {
-  margin-inline-start: 0;
+  margin-left: 0; /* LTR */
+}
+
+[dir="rtl"].js .button:not(.js-hide) + .ajax-progress--throbber {
+  margin-right: 0;
+  margin-left: 0.75rem;
 }
 
 /**
@@ -53,7 +58,13 @@
 
 .js .form-type--managed-file .button:not(.js-hide) + .ajax-progress--throbber,
 .js .file-operations-cell .button:not(.js-hide) + .ajax-progress--throbber {
-  margin-inline-start: var(--ajax-progress-margin-horizontal); /* LTR */
+  margin-left: 0.75rem; /* LTR */
+}
+
+[dir="rtl"].js .form-type--managed-file .button:not(.js-hide) + .ajax-progress--throbber,
+[dir="rtl"].js .file-operations-cell .button:not(.js-hide) + .ajax-progress--throbber {
+  margin-right: 0.75rem;
+  margin-left: 0.75rem;
 }
 
 .ajax-progress__throbber {
@@ -61,15 +72,20 @@
   width: 1.125rem;
   height: 1.125rem;
   animation: claro-throbber 0.75s linear infinite;
-  border: 2px solid var(--color-absolutezero);
+  border: 2px solid #003ecc;
   border-right: 2px dotted transparent;
   border-radius: 50%;
 }
 
 .ajax-progress__message {
   display: inline-block;
-  padding-inline-start: var(--ajax-progress-margin-horizontal);
-  font-size: var(--font-size-label);
+  padding-left: 0.75rem;
+  font-size: 0.889rem;
+}
+
+[dir="rtl"] .ajax-progress__message {
+  padding-right: 0.75rem;
+  padding-left: 0;
 }
 
 /**
@@ -79,34 +95,46 @@
 .ajax-progress--fullscreen,
 .ui-dialog .ajax-progress--throbber {
   position: fixed;
-  z-index: 1261;
-  inset-block-start: 50%;
-  inset-inline-start: 50%;
+  z-index: 1000;
+  top: 50%;
+  left: 50%;
   box-sizing: border-box;
   width: 3.5rem; /* 56px */
   height: 3.5rem;
   margin: -1.75rem;
-  border: var(--input-border-size) solid var(--jui-dropdown-border-color);
+  border: 1px solid rgba(216, 217, 224, 0.8);
   border-radius: 3.5rem;
-  background: var(--color-white);
-  box-shadow: 0 0.25rem 0.625rem var(--jui-dropdown-shadow-color);
+  background: #fff;
+  box-shadow: 0 0.25rem 0.625rem rgba(34, 35, 48, 0.1);
 }
 
 .ajax-progress__throbber--fullscreen,
 .ui-dialog .ajax-progress__throbber {
   position: absolute;
-  inset-block-start: 50%;
-  inset-inline-start: 50%;
+  top: 50%;
+  left: 50%;
   width: 1.75rem; /* 28px */
   height: 1.75rem; /* 28px */
   margin: -0.875rem;
   content: "";
-  border: 3px solid var(--color-absolutezero);
+  border: 3px solid #003ecc;
   border-right: 3px dotted transparent;
 }
 
 .ui-dialog .ajax-progress__message {
   display: none;
+}
+
+@media screen and (-ms-high-contrast: active) {
+  /**
+   * Throbber animation is shaky on Edge RTL on high contrast for border width
+   * less than 4px.
+   */
+  @supports (-ms-ime-align:auto) {
+    [dir="rtl"] .ajax-progress__throbber {
+      border-width: 4px;
+    }
+  }
 }
 
 @keyframes claro-throbber {

@@ -1,11 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drush\TestTraits;
 
-use Symfony\Component\Process\Exception\ProcessTimedOutException;
 use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessTimedOutException;
 
 /**
  * CliTestTrait provides an `execute()` method that is useful
@@ -17,34 +15,50 @@ trait CliTestTrait
 
     /**
      * Default timeout for commands. By default, there is no timeout.
+     *
+     * @var int
      */
-    private int $defaultTimeout = 0;
+    private $defaultTimeout = 0;
 
     /**
      * Timeout for command.
      *
      * Reset to $defaultTimeout after executing a command.
+     *
+     * @var int
      */
-    protected int $timeout = 0;
+    protected $timeout = 0;
 
     /**
      * Default idle timeout for commands.
+     *
+     * @var int
      */
-    private int $defaultIdleTimeout = 0;
+    private $defaultIdleTimeout = 0;
 
     /**
      * Idle timeouts for commands.
      *
      * Reset to $defaultIdleTimeout after executing a command.
+     *
+     * @var int
      */
-    protected int $idleTimeout = 0;
+    protected $idleTimeout = 0;
 
-    protected ?Process $process = null;
+    /**
+     * @var Process
+     */
+    protected $process = null;
 
     /**
      * Accessor for the last output, non-trimmed.
+     *
+     * @return string
+     *   Raw output as text.
+     *
+     * @access public
      */
-    public function getOutputRaw(): string
+    public function getOutputRaw()
     {
         return $this->process ? $this->process->getOutput() : '';
     }
@@ -57,7 +71,7 @@ trait CliTestTrait
      *
      * @access public
      */
-    public function getErrorOutputRaw(): string
+    public function getErrorOutputRaw()
     {
         return $this->process ? $this->process->getErrorOutput() : '';
     }
@@ -65,16 +79,16 @@ trait CliTestTrait
     /**
      * Run a command and return the process without waiting for it to finish.
      *
-     * @param $command
+     * @param string|array $command
      *   The actual command line to run.
-     * @param cd
+     * @param sting cd
      *   The directory to run the command in.
-     * @param $env
+     * @param array $env
      *  Extra environment variables.
-     * @param $input
+     * @param string $input
      *   A string representing the STDIN that is piped to the command.
      */
-    public function startExecute(string|array $command, ?string $cd = null, ?array $env = null, ?string $input = null): Process
+    public function startExecute($command, $cd = null, $env = null, $input = null)
     {
         try {
             // Process uses a default timeout of 60 seconds, set it to 0 (none).
@@ -100,18 +114,18 @@ trait CliTestTrait
     /**
      * Actually runs the command.
      *
-     * @param $command
+     * @param array|string $command
      *   The actual command line to run.
-     * @param $expected_return
+     * @param integer $expected_return
      *   The return code to expect
-     * @param cd
+     * @param string cd
      *   The directory to run the command in.
-     * @param $env
+     * @param array $env
      *  Extra environment variables.
-     * @param $input
+     * @param string $input
      *   A string representing the STDIN that is piped to the command.
      */
-    public function execute(array|string $command, int $expected_return = 0, ?string $cd = null, ?array $env = null, ?string $input = null): void
+    public function execute($command, int $expected_return = 0, $cd = null, $env = null, $input = null)
     {
         try {
             // Process uses a default timeout of 60 seconds, set it to 0 (none).
@@ -121,7 +135,7 @@ trait CliTestTrait
             // symfony/process:4.2 array|::fromShellCommandline().
             // symfony/process:5.x array|::fromShellCommandline().
             if (!is_array($command) && method_exists(Process::class, 'fromShellCommandline')) {
-                $this->process = Process::fromShellCommandline($command, $cd, $env, $input, 0);
+                $this->process = Process::fromShellCommandline((string) $command, $cd, $env, $input, 0);
             } else {
                 $this->process = new Process($command, $cd, $env, $input, 0);
             }
@@ -156,7 +170,7 @@ trait CliTestTrait
         }
     }
 
-    public static function escapeshellarg(string $arg): string
+    public static function escapeshellarg($arg)
     {
         // Short-circuit escaping for simple params (keep stuff readable)
         if (preg_match('|^[a-zA-Z0-9.:/_-]*$|', $arg)) {
@@ -168,12 +182,12 @@ trait CliTestTrait
         }
     }
 
-    public static function isWindows(): bool
+    public static function isWindows()
     {
         return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
     }
 
-    public static function _escapeshellargWindows(string $arg): string
+    public static function _escapeshellargWindows($arg)
     {
         // Double up existing backslashes
         $arg = preg_replace('/\\\/', '\\\\\\\\', $arg);
@@ -192,8 +206,10 @@ trait CliTestTrait
 
     /**
      * Borrowed from \Symfony\Component\Process\Exception\ProcessTimedOutException
+     *
+     * @return string
      */
-    public function buildProcessMessage(): string
+    public function buildProcessMessage()
     {
         $error = sprintf(
             "%s\n\nExit Code: %s(%s)\n\nWorking directory: %s",
@@ -221,13 +237,13 @@ trait CliTestTrait
      * absolute paths and duplicate whitespace removed, to avoid false negatives
      * on minor differences.
      *
-     * @param $expected
+     * @param string $expected
      *   The expected output.
-     * @param $filter
+     * @param string $filter
      *   Optional regular expression that should be ignored in the error output.
      */
 
-    protected function assertOutputEquals(string $expected, string $filter = ''): void
+    protected function assertOutputEquals(string $expected, string $filter = '')
     {
         $output = $this->getSimplifiedOutput();
         if (!empty($filter)) {
@@ -243,12 +259,12 @@ trait CliTestTrait
      * absolute paths and duplicate whitespace removed, to avoid false negatives
      * on minor differences.
      *
-     * @param $expected
+     * @param string $expected
      *   The expected output.
-     * @param $filter
+     * @param string $filter
      *   Optional regular expression that should be ignored in the error output.
      */
-    protected function assertErrorOutputEquals(string $expected, string $filter = ''): void
+    protected function assertErrorOutputEquals(string $expected, string $filter = '')
     {
         $output = $this->getSimplifiedErrorOutput();
         if (!empty($filter)) {

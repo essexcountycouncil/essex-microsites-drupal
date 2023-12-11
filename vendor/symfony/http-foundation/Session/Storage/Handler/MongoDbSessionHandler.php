@@ -11,11 +11,6 @@
 
 namespace Symfony\Component\HttpFoundation\Session\Storage\Handler;
 
-use MongoDB\BSON\Binary;
-use MongoDB\BSON\UTCDateTime;
-use MongoDB\Client;
-use MongoDB\Collection;
-
 /**
  * Session handler using the mongodb/mongodb package and MongoDB driver extension.
  *
@@ -26,10 +21,17 @@ use MongoDB\Collection;
  */
 class MongoDbSessionHandler extends AbstractSessionHandler
 {
-    private Client $mongo;
-    private Collection $collection;
-    private array $options;
-    private int|\Closure|null $ttl;
+    private $mongo;
+
+    /**
+     * @var \MongoDB\Collection
+     */
+    private $collection;
+
+    /**
+     * @var array
+     */
+    private $options;
 
     /**
      * Constructor.
@@ -40,8 +42,7 @@ class MongoDbSessionHandler extends AbstractSessionHandler
      *  * id_field: The field name for storing the session id [default: _id]
      *  * data_field: The field name for storing the session data [default: data]
      *  * time_field: The field name for storing the timestamp [default: time]
-     *  * expiry_field: The field name for storing the expiry-timestamp [default: expires_at]
-     *  * ttl: The time to live in seconds.
+     *  * expiry_field: The field name for storing the expiry-timestamp [default: expires_at].
      *
      * It is strongly recommended to put an index on the `expiry_field` for
      * garbage-collection. Alternatively it's possible to automatically expire
@@ -62,7 +63,7 @@ class MongoDbSessionHandler extends AbstractSessionHandler
      *
      * @throws \InvalidArgumentException When "database" or "collection" not provided
      */
-    public function __construct(Client $mongo, array $options)
+    public function __construct(\MongoDB\Client $mongo, array $options)
     {
         if (!isset($options['database']) || !isset($options['collection'])) {
             throw new \InvalidArgumentException('You must provide the "database" and "collection" option for MongoDBSessionHandler.');
@@ -76,15 +77,21 @@ class MongoDbSessionHandler extends AbstractSessionHandler
             'time_field' => 'time',
             'expiry_field' => 'expires_at',
         ], $options);
-        $this->ttl = $this->options['ttl'] ?? null;
     }
 
-    public function close(): bool
+    /**
+     * @return bool
+     */
+    #[\ReturnTypeWillChange]
+    public function close()
     {
         return true;
     }
 
-    protected function doDestroy(#[\SensitiveParameter] string $sessionId): bool
+    /**
+     * {@inheritdoc}
+     */
+    protected function doDestroy($sessionId)
     {
         $this->getCollection()->deleteOne([
             $this->options['id_field'] => $sessionId,
@@ -93,22 +100,28 @@ class MongoDbSessionHandler extends AbstractSessionHandler
         return true;
     }
 
-    public function gc(int $maxlifetime): int|false
+    /**
+     * @return int|false
+     */
+    #[\ReturnTypeWillChange]
+    public function gc($maxlifetime)
     {
         return $this->getCollection()->deleteMany([
-            $this->options['expiry_field'] => ['$lt' => new UTCDateTime()],
+            $this->options['expiry_field'] => ['$lt' => new \MongoDB\BSON\UTCDateTime()],
         ])->getDeletedCount();
     }
 
-    protected function doWrite(#[\SensitiveParameter] string $sessionId, string $data): bool
+    /**
+     * {@inheritdoc}
+     */
+    protected function doWrite($sessionId, $data)
     {
-        $ttl = ($this->ttl instanceof \Closure ? ($this->ttl)() : $this->ttl) ?? \ini_get('session.gc_maxlifetime');
-        $expiry = new UTCDateTime((time() + (int) $ttl) * 1000);
+        $expiry = new \MongoDB\BSON\UTCDateTime((time() + (int) \ini_get('session.gc_maxlifetime')) * 1000);
 
         $fields = [
-            $this->options['time_field'] => new UTCDateTime(),
+            $this->options['time_field'] => new \MongoDB\BSON\UTCDateTime(),
             $this->options['expiry_field'] => $expiry,
-            $this->options['data_field'] => new Binary($data, Binary::TYPE_OLD_BINARY),
+            $this->options['data_field'] => new \MongoDB\BSON\Binary($data, \MongoDB\BSON\Binary::TYPE_OLD_BINARY),
         ];
 
         $this->getCollection()->updateOne(
@@ -120,15 +133,18 @@ class MongoDbSessionHandler extends AbstractSessionHandler
         return true;
     }
 
-    public function updateTimestamp(#[\SensitiveParameter] string $sessionId, string $data): bool
+    /**
+     * @return bool
+     */
+    #[\ReturnTypeWillChange]
+    public function updateTimestamp($sessionId, $data)
     {
-        $ttl = ($this->ttl instanceof \Closure ? ($this->ttl)() : $this->ttl) ?? \ini_get('session.gc_maxlifetime');
-        $expiry = new UTCDateTime((time() + (int) $ttl) * 1000);
+        $expiry = new \MongoDB\BSON\UTCDateTime((time() + (int) \ini_get('session.gc_maxlifetime')) * 1000);
 
         $this->getCollection()->updateOne(
             [$this->options['id_field'] => $sessionId],
             ['$set' => [
-                $this->options['time_field'] => new UTCDateTime(),
+                $this->options['time_field'] => new \MongoDB\BSON\UTCDateTime(),
                 $this->options['expiry_field'] => $expiry,
             ]]
         );
@@ -136,11 +152,14 @@ class MongoDbSessionHandler extends AbstractSessionHandler
         return true;
     }
 
-    protected function doRead(#[\SensitiveParameter] string $sessionId): string
+    /**
+     * {@inheritdoc}
+     */
+    protected function doRead($sessionId)
     {
         $dbData = $this->getCollection()->findOne([
             $this->options['id_field'] => $sessionId,
-            $this->options['expiry_field'] => ['$gte' => new UTCDateTime()],
+            $this->options['expiry_field'] => ['$gte' => new \MongoDB\BSON\UTCDateTime()],
         ]);
 
         if (null === $dbData) {
@@ -150,12 +169,19 @@ class MongoDbSessionHandler extends AbstractSessionHandler
         return $dbData[$this->options['data_field']]->getData();
     }
 
-    private function getCollection(): Collection
+    private function getCollection(): \MongoDB\Collection
     {
-        return $this->collection ??= $this->mongo->selectCollection($this->options['database'], $this->options['collection']);
+        if (null === $this->collection) {
+            $this->collection = $this->mongo->selectCollection($this->options['database'], $this->options['collection']);
+        }
+
+        return $this->collection;
     }
 
-    protected function getMongo(): Client
+    /**
+     * @return \MongoDB\Client
+     */
+    protected function getMongo()
     {
         return $this->mongo;
     }

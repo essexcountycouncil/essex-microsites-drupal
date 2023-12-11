@@ -317,9 +317,7 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          text: 'Edit media'
-          output_url_as_text: false
-          absolute: false
+          text: Edit
         delete_media:
           id: delete_media
           table: media
@@ -370,19 +368,18 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          text: 'Delete media'
-          output_url_as_text: false
-          absolute: false
-        edit_group_relationship:
-          id: edit_group_relationship
-          table: group_relationship
-          field: edit_group_relationship
+          text: Delete
+        changed:
+          id: changed
+          table: group_relationship_field_data
+          field: changed
           relationship: group_relationship
           group_type: group
           admin_label: ''
           entity_type: group_relationship
-          plugin_id: entity_link_edit
-          label: 'Link to edit Group relationship'
+          entity_field: changed
+          plugin_id: field
+          label: 'Edit relation'
           exclude: true
           alter:
             alter_text: false
@@ -423,9 +420,22 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          text: 'Edit relationship'
-          output_url_as_text: false
-          absolute: false
+          click_sort_column: value
+          type: timestamp
+          settings:
+            date_format: medium
+            custom_date_format: ''
+            timezone: ''
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
         delete_group_relationship:
           id: delete_group_relationship
           table: group_relationship
@@ -476,7 +486,7 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          text: 'Delete relationship'
+          text: delete
           output_url_as_text: false
           absolute: false
         view_group_relationship:
@@ -529,7 +539,7 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          text: 'View relationship'
+          text: view
           output_url_as_text: false
           absolute: false
         dropbutton:
@@ -540,7 +550,7 @@ display:
           group_type: group
           admin_label: ''
           plugin_id: dropbutton
-          label: Operations
+          label: Dropbutton
           exclude: false
           alter:
             alter_text: false
@@ -585,7 +595,7 @@ display:
           fields:
             edit_media: edit_media
             delete_media: delete_media
-            edit_group_relationship: edit_group_relationship
+            changed: changed
             delete_group_relationship: delete_group_relationship
             view_group_relationship: view_group_relationship
             name: '0'

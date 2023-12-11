@@ -59,7 +59,7 @@ class InternalEntitiesTest extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp(): void {
+  public function setUp(): void {
     parent::setUp();
     $this->testUser = $this->drupalCreateUser([
       'view test entity',

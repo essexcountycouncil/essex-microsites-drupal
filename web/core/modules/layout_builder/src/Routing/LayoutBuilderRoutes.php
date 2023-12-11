@@ -48,7 +48,7 @@ class LayoutBuilderRoutes implements EventSubscriberInterface {
   /**
    * {@inheritdoc}
    */
-  public static function getSubscribedEvents(): array {
+  public static function getSubscribedEvents() {
     // Run after \Drupal\field_ui\Routing\RouteSubscriber.
     $events[RoutingEvents::ALTER] = ['onAlterRoutes', -110];
     return $events;

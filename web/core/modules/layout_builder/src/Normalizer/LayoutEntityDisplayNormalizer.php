@@ -16,6 +16,11 @@ class LayoutEntityDisplayNormalizer extends ConfigEntityNormalizer {
   /**
    * {@inheritdoc}
    */
+  protected $supportedInterfaceOrClass = LayoutEntityDisplayInterface::class;
+
+  /**
+   * {@inheritdoc}
+   */
   protected static function getDataWithoutInternals(array $data) {
     $data = parent::getDataWithoutInternals($data);
     // Do not expose the actual layout sections in normalization.
@@ -28,10 +33,8 @@ class LayoutEntityDisplayNormalizer extends ConfigEntityNormalizer {
   /**
    * {@inheritdoc}
    */
-  public function getSupportedTypes(?string $format): array {
-    return [
-      LayoutEntityDisplayInterface::class => TRUE,
-    ];
+  public function hasCacheableSupportsMethod(): bool {
+    return TRUE;
   }
 
 }

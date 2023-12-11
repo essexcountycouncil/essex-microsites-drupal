@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -44,8 +44,8 @@ abstract class VcsDriver implements VcsDriverInterface
     protected $process;
     /** @var HttpDownloader */
     protected $httpDownloader;
-    /** @var array<int|string, mixed> */
-    protected $infoCache = [];
+    /** @var array<string, mixed> */
+    protected $infoCache = array();
     /** @var ?Cache */
     protected $cache;
 
@@ -75,8 +75,11 @@ abstract class VcsDriver implements VcsDriverInterface
 
     /**
      * Returns whether or not the given $identifier should be cached or not.
+     *
+     * @param  string $identifier
+     * @return bool
      */
-    protected function shouldCache(string $identifier): bool
+    protected function shouldCache($identifier)
     {
         return $this->cache && Preg::isMatch('{^[a-f0-9]{40}$}iD', $identifier);
     }
@@ -84,7 +87,7 @@ abstract class VcsDriver implements VcsDriverInterface
     /**
      * @inheritDoc
      */
-    public function getComposerInformation(string $identifier): ?array
+    public function getComposerInformation($identifier)
     {
         if (!isset($this->infoCache[$identifier])) {
             if ($this->shouldCache($identifier) && $res = $this->cache->read($identifier)) {
@@ -104,9 +107,11 @@ abstract class VcsDriver implements VcsDriverInterface
     }
 
     /**
-     * @return array<mixed>|null
+     * @param string $identifier
+     *
+     * @return array<string, mixed>|null
      */
-    protected function getBaseComposerInformation(string $identifier): ?array
+    protected function getBaseComposerInformation($identifier)
     {
         $composerFileContent = $this->getFileContent('composer.json', $identifier);
 
@@ -116,11 +121,7 @@ abstract class VcsDriver implements VcsDriverInterface
 
         $composer = JsonFile::parseJson($composerFileContent, $identifier . ':composer.json');
 
-        if ([] === $composer || !is_array($composer)) {
-            return null;
-        }
-
-        if (empty($composer['time']) && null !== ($changeDate = $this->getChangeDate($identifier))) {
+        if (empty($composer['time']) && $changeDate = $this->getChangeDate($identifier)) {
             $composer['time'] = $changeDate->format(DATE_RFC3339);
         }
 
@@ -130,10 +131,10 @@ abstract class VcsDriver implements VcsDriverInterface
     /**
      * @inheritDoc
      */
-    public function hasComposerFile(string $identifier): bool
+    public function hasComposerFile($identifier)
     {
         try {
-            return null !== $this->getComposerInformation($identifier);
+            return (bool) $this->getComposerInformation($identifier);
         } catch (TransportException $e) {
         }
 
@@ -147,7 +148,7 @@ abstract class VcsDriver implements VcsDriverInterface
      *
      * @return string The correct type of protocol
      */
-    protected function getScheme(): string
+    protected function getScheme()
     {
         if (extension_loaded('openssl')) {
             return 'https';
@@ -161,11 +162,12 @@ abstract class VcsDriver implements VcsDriverInterface
      *
      * @param string $url The URL of content
      *
+     * @return Response
      * @throws TransportException
      */
-    protected function getContents(string $url): Response
+    protected function getContents($url)
     {
-        $options = $this->repoConfig['options'] ?? [];
+        $options = isset($this->repoConfig['options']) ? $this->repoConfig['options'] : array();
 
         return $this->httpDownloader->get($url, $options);
     }
@@ -173,7 +175,8 @@ abstract class VcsDriver implements VcsDriverInterface
     /**
      * @inheritDoc
      */
-    public function cleanup(): void
+    public function cleanup()
     {
+        return;
     }
 }

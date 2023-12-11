@@ -13,7 +13,7 @@ check_override $@
 
 sanitize_db() {
   echo-green "Automatic sanitization of data…"
-  fin drush sql:sanitize -y
+  fin drush sql-sanitize -y
   cd ${DOCROOT_PATH}
   fin drush sql:dump --result-file=../db/${env}--sanitized.sql --gzip
 }
@@ -21,7 +21,7 @@ fresh_db() {
   fin db-download ${env} --fetch
   echo-green "Importing ${env} database"
   zcat <  ${PROJECT_ROOT}/db/${env}.sql.gz | fin db import --progress
-  fin drush cr
+  fin cc all
 }
 
 # Check for set vars

@@ -73,8 +73,8 @@ class TwigPhpStorageCache implements CacheInterface {
   /**
    * {@inheritdoc}
    */
-  public function generateKey(string $name, string $className): string {
-    if (str_starts_with($name, '{# inline_template_start #}')) {
+  public function generateKey($name, $className) {
+    if (strpos($name, '{# inline_template_start #}') === 0) {
       // $name is an inline template, and can have characters that are not valid
       // for a filename. $suffix is unique for each inline template so we just
       // use the generic name 'inline-template' here.
@@ -101,14 +101,14 @@ class TwigPhpStorageCache implements CacheInterface {
   /**
    * {@inheritdoc}
    */
-  public function load(string $key): void {
+  public function load($key) {
     $this->storage()->load($key);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function write(string $key, string $content): void {
+  public function write($key, $content) {
     $this->storage()->save($key, $content);
     // Save the last mtime.
     $cid = 'twig:' . $key;
@@ -118,7 +118,7 @@ class TwigPhpStorageCache implements CacheInterface {
   /**
    * {@inheritdoc}
    */
-  public function getTimestamp(string $key): int {
+  public function getTimestamp($key) {
     $cid = 'twig:' . $key;
     if ($cache = $this->cache->get($cid)) {
       return $cache->data;

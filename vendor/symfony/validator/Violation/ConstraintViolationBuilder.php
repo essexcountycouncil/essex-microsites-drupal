@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Validator\Violation;
 
+use Symfony\Component\Translation\TranslatorInterface as LegacyTranslatorInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
@@ -26,54 +27,81 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class ConstraintViolationBuilder implements ConstraintViolationBuilderInterface
 {
-    private ConstraintViolationList $violations;
-    private string|\Stringable $message;
-    private array $parameters;
-    private mixed $root;
-    private mixed $invalidValue;
-    private string $propertyPath;
-    private TranslatorInterface $translator;
-    private string|false|null $translationDomain;
-    private ?int $plural = null;
-    private ?Constraint $constraint;
-    private ?string $code = null;
-    private mixed $cause = null;
+    private $violations;
+    private $message;
+    private $parameters;
+    private $root;
+    private $invalidValue;
+    private $propertyPath;
+    private $translator;
+    private $translationDomain;
+    private $plural;
+    private $constraint;
+    private $code;
 
-    public function __construct(ConstraintViolationList $violations, ?Constraint $constraint, string|\Stringable $message, array $parameters, mixed $root, ?string $propertyPath, mixed $invalidValue, TranslatorInterface $translator, string|false $translationDomain = null)
+    /**
+     * @var mixed
+     */
+    private $cause;
+
+    /**
+     * @param string|object       $message    The error message as a string or a stringable object
+     * @param TranslatorInterface $translator
+     */
+    public function __construct(ConstraintViolationList $violations, Constraint $constraint, $message, array $parameters, $root, string $propertyPath, $invalidValue, $translator, string $translationDomain = null)
     {
+        if (null === $message) {
+            @trigger_error(sprintf('Passing a null message when instantiating a "%s" is deprecated since Symfony 4.4.', __CLASS__), \E_USER_DEPRECATED);
+            $message = '';
+        }
+        if (!$translator instanceof LegacyTranslatorInterface && !$translator instanceof TranslatorInterface) {
+            throw new \TypeError(sprintf('Argument 8 passed to "%s()" must be an instance of "%s", "%s" given.', __METHOD__, TranslatorInterface::class, \is_object($translator) ? \get_class($translator) : \gettype($translator)));
+        }
         $this->violations = $violations;
         $this->message = $message;
         $this->parameters = $parameters;
         $this->root = $root;
-        $this->propertyPath = $propertyPath ?? '';
+        $this->propertyPath = $propertyPath;
         $this->invalidValue = $invalidValue;
         $this->translator = $translator;
         $this->translationDomain = $translationDomain;
         $this->constraint = $constraint;
     }
 
-    public function atPath(string $path): static
+    /**
+     * {@inheritdoc}
+     */
+    public function atPath($path)
     {
         $this->propertyPath = PropertyPath::append($this->propertyPath, $path);
 
         return $this;
     }
 
-    public function setParameter(string $key, string $value): static
+    /**
+     * {@inheritdoc}
+     */
+    public function setParameter($key, $value)
     {
         $this->parameters[$key] = $value;
 
         return $this;
     }
 
-    public function setParameters(array $parameters): static
+    /**
+     * {@inheritdoc}
+     */
+    public function setParameters(array $parameters)
     {
         $this->parameters = $parameters;
 
         return $this;
     }
 
-    public function setTranslationDomain(string $translationDomain): static
+    /**
+     * {@inheritdoc}
+     */
+    public function setTranslationDomain($translationDomain)
     {
         $this->translationDomain = $translationDomain;
 
@@ -81,54 +109,81 @@ class ConstraintViolationBuilder implements ConstraintViolationBuilderInterface
     }
 
     /**
-     * @return $this
+     * {@inheritdoc}
      */
-    public function disableTranslation(): static
-    {
-        $this->translationDomain = false;
-
-        return $this;
-    }
-
-    public function setInvalidValue(mixed $invalidValue): static
+    public function setInvalidValue($invalidValue)
     {
         $this->invalidValue = $invalidValue;
 
         return $this;
     }
 
-    public function setPlural(int $number): static
+    /**
+     * {@inheritdoc}
+     */
+    public function setPlural($number)
     {
         $this->plural = $number;
 
         return $this;
     }
 
-    public function setCode(?string $code): static
+    /**
+     * {@inheritdoc}
+     */
+    public function setCode($code)
     {
+        if (null !== $code && !\is_string($code)) {
+            @trigger_error(sprintf('Not using a string as the error code in %s() is deprecated since Symfony 4.4. A type-hint will be added in 5.0.', __METHOD__), \E_USER_DEPRECATED);
+        }
+
         $this->code = $code;
 
         return $this;
     }
 
-    public function setCause(mixed $cause): static
+    /**
+     * {@inheritdoc}
+     */
+    public function setCause($cause)
     {
         $this->cause = $cause;
 
         return $this;
     }
 
-    public function addViolation(): void
+    /**
+     * {@inheritdoc}
+     */
+    public function addViolation()
     {
-        $parameters = null === $this->plural ? $this->parameters : (['%count%' => $this->plural] + $this->parameters);
-        if (false === $this->translationDomain) {
-            $translatedMessage = strtr($this->message, $parameters);
-        } else {
+        if (null === $this->plural) {
             $translatedMessage = $this->translator->trans(
                 $this->message,
-                $parameters,
+                $this->parameters,
                 $this->translationDomain
             );
+        } elseif ($this->translator instanceof TranslatorInterface) {
+            $translatedMessage = $this->translator->trans(
+                $this->message,
+                ['%count%' => $this->plural] + $this->parameters,
+                $this->translationDomain
+            );
+        } else {
+            try {
+                $translatedMessage = $this->translator->transChoice(
+                    $this->message,
+                    $this->plural,
+                    $this->parameters,
+                    $this->translationDomain
+                );
+            } catch (\InvalidArgumentException $e) {
+                $translatedMessage = $this->translator->trans(
+                    $this->message,
+                    $this->parameters,
+                    $this->translationDomain
+                );
+            }
         }
 
         $this->violations->add(new ConstraintViolation(

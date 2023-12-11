@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -13,8 +13,6 @@
 namespace Composer\EventDispatcher;
 
 /**
- * Thrown when a script running an external process exits with a non-0 status code
- *
  * @author Jordi Boggiano <j.boggiano@seld.be>
  */
 class ScriptExecutionException extends \RuntimeException

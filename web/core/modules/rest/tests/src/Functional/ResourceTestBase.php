@@ -98,7 +98,7 @@ abstract class ResourceTestBase extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp(): void {
+  public function setUp() {
     parent::setUp();
 
     $this->serializer = $this->container->get('serializer');
@@ -487,6 +487,9 @@ abstract class ResourceTestBase extends BrowserTestBase {
    *
    * @param array $array
    *   An array to sort.
+   *
+   * @return array
+   *   The sorted array.
    */
   protected static function recursiveKSort(array &$array) {
     // First, sort the main array.
@@ -498,6 +501,8 @@ abstract class ResourceTestBase extends BrowserTestBase {
         static::recursiveKSort($value);
       }
     }
+
+    return $array;
   }
 
 }

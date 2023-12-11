@@ -31,9 +31,7 @@ class ConnectionTest extends UnitTestCase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp(): void {
-    parent::setUp();
-
+  public function setUp(): void {
     $this->pdoStatement = $this->prophesize(\PDOStatement::class);
     $this->pdoConnection = $this->prophesize(\PDO::class);
   }

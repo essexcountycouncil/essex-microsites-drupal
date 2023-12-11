@@ -8,12 +8,12 @@ use Drupal\Core\Plugin\Discovery\ContainerDeriverInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Retrieves block plugin definitions for all content blocks.
+ * Retrieves block plugin definitions for all custom blocks.
  */
 class BlockContent extends DeriverBase implements ContainerDeriverInterface {
 
   /**
-   * The content block storage.
+   * The custom block storage.
    *
    * @var \Drupal\Core\Entity\EntityStorageInterface
    */
@@ -23,7 +23,7 @@ class BlockContent extends DeriverBase implements ContainerDeriverInterface {
    * Constructs a BlockContent object.
    *
    * @param \Drupal\Core\Entity\EntityStorageInterface $block_content_storage
-   *   The content block storage.
+   *   The custom block storage.
    */
   public function __construct(EntityStorageInterface $block_content_storage) {
     $this->blockContentStorage = $block_content_storage;

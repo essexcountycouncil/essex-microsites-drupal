@@ -3,7 +3,9 @@
 namespace Drupal\Tests;
 
 use Drupal\Composer\Plugin\VendorHardening\Config;
+use Drupal\Core\Composer\Composer;
 use Drupal\Tests\Composer\ComposerIntegrationTrait;
+use Drupal\TestTools\PhpUnitCompatibility\RunnerVersion;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -63,7 +65,7 @@ class ComposerIntegrationTest extends UnitTestCase {
       foreach ($content[$composer_key] as $dependency => $version) {
         // We allow tildes if the dependency is a Symfony component.
         // @see https://www.drupal.org/node/2887000
-        if (str_starts_with($dependency, 'symfony/')) {
+        if (strpos($dependency, 'symfony/') === 0) {
           continue;
         }
         $this->assertStringNotContainsString('~', $version, "Dependency $dependency in $path contains a tilde, use a caret.");
@@ -251,19 +253,39 @@ class ComposerIntegrationTest extends UnitTestCase {
 
   /**
    * Tests the vendor cleanup utilities do not have obsolete packages listed.
+   *
+   * @dataProvider providerTestVendorCleanup
    */
-  public function testVendorCleanup(): void {
+  public function testVendorCleanup($class, $property) {
     $lock = json_decode(file_get_contents($this->root . '/composer.lock'), TRUE);
     $packages = [];
     foreach (array_merge($lock['packages'], $lock['packages-dev']) as $package) {
       $packages[] = $package['name'];
     }
 
-    $reflection = new \ReflectionProperty(Config::class, 'defaultConfig');
+    $reflection = new \ReflectionProperty($class, $property);
+    $reflection->setAccessible(TRUE);
     $config = $reflection->getValue();
+    // PHPUnit 9.5.3 removes 'phpunit/php-token-stream' from its dependencies.
+    // @todo remove the check below when PHPUnit 9 is the minimum.
+    if (RunnerVersion::getMajor() >= 9) {
+      unset($config['phpunit/php-token-stream']);
+    }
     foreach (array_keys($config) as $package) {
       $this->assertContains(strtolower($package), $packages);
     }
+  }
+
+  /**
+   * Data provider for the vendor cleanup utility classes.
+   *
+   * @return array[]
+   */
+  public function providerTestVendorCleanup() {
+    return [
+      [Composer::class, 'packageToCleanup'],
+      [Config::class, 'defaultConfig'],
+    ];
   }
 
 }

@@ -21,7 +21,7 @@ class AdminAjaxTest extends WebDriverTestBase {
   /**
    * {@inheritdoc}
    */
-  protected $defaultTheme = 'views_ui_test_theme';
+  protected $defaultTheme = 'views_test_classy_subtheme';
 
   /**
    * {@inheritdoc}
@@ -38,10 +38,10 @@ class AdminAjaxTest extends WebDriverTestBase {
    * Confirms that form_alter is triggered after AJAX rebuilds.
    */
   public function testAjaxRebuild() {
-    \Drupal::service('theme_installer')->install(['views_ui_test_theme']);
+    \Drupal::service('theme_installer')->install(['views_test_classy_subtheme']);
 
     $this->config('system.theme')
-      ->set('default', 'views_ui_test_theme')
+      ->set('default', 'views_test_classy_subtheme')
       ->save();
 
     $page = $this->getSession()->getPage();

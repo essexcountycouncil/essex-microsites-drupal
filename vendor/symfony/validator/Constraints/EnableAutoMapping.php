@@ -24,10 +24,9 @@ use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
  *
  * @author Kévin Dunglas <dunglas@gmail.com>
  */
-#[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::TARGET_METHOD | \Attribute::TARGET_CLASS)]
 class EnableAutoMapping extends Constraint
 {
-    public function __construct(array $options = null)
+    public function __construct($options = null)
     {
         if (\is_array($options) && \array_key_exists('groups', $options)) {
             throw new ConstraintDefinitionException(sprintf('The option "groups" is not supported by the constraint "%s".', __CLASS__));
@@ -36,7 +35,10 @@ class EnableAutoMapping extends Constraint
         parent::__construct($options);
     }
 
-    public function getTargets(): string|array
+    /**
+     * {@inheritdoc}
+     */
+    public function getTargets()
     {
         return [self::PROPERTY_CONSTRAINT, self::CLASS_CONSTRAINT];
     }

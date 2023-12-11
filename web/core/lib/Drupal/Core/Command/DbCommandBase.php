@@ -14,9 +14,6 @@ class DbCommandBase extends Command {
 
   /**
    * {@inheritdoc}
-   *
-   * phpcs:ignore Drupal.Commenting.FunctionComment.VoidReturn
-   * @return void
    */
   protected function configure() {
     $this->addOption('database', NULL, InputOption::VALUE_OPTIONAL, 'The database connection name to use.', 'default')
@@ -33,7 +30,7 @@ class DbCommandBase extends Command {
    * @return \Drupal\Core\Database\Connection
    */
   protected function getDatabaseConnection(InputInterface $input) {
-    // Load connection from a URL.
+    // Load connection from a url.
     if ($input->getOption('database-url')) {
       // @todo this could probably be refactored to not use a global connection.
       // Ensure database connection isn't set.

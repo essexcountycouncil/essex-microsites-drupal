@@ -13,13 +13,11 @@
 /**
  * Quick inline admin links.
  */
-small .admin-link {
-  &::before {
-    content: " [";
-  }
-  &::after {
-    content: "]";
-  }
+small .admin-link:before {
+  content: " [";
+}
+small .admin-link:after {
+  content: "]";
 }
 
 /**

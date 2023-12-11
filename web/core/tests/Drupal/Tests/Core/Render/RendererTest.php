@@ -786,47 +786,13 @@ class RendererTest extends RendererTestBase {
   }
 
   /**
-   * Provides a list of access conditions and expected cache metadata.
-   *
-   * @return array
-   */
-  public function providerRenderCache() {
-    return [
-      'full access' => [
-        NULL,
-        [
-          'render_cache_tag',
-          'render_cache_tag_child:1',
-          'render_cache_tag_child:2',
-        ],
-      ],
-      'no child access' => [
-        AccessResult::forbidden()
-          ->addCacheTags([
-            'render_cache_tag_child_access:1',
-            'render_cache_tag_child_access:2',
-          ]),
-        [
-          'render_cache_tag',
-          'render_cache_tag_child:1',
-          'render_cache_tag_child:2',
-          'render_cache_tag_child_access:1',
-          'render_cache_tag_child_access:2',
-        ],
-      ],
-    ];
-  }
-
-  /**
    * @covers ::render
    * @covers ::doRender
    * @covers \Drupal\Core\Render\RenderCache::get
    * @covers \Drupal\Core\Render\RenderCache::set
    * @covers \Drupal\Core\Render\RenderCache::createCacheID
-   *
-   * @dataProvider providerRenderCache
    */
-  public function testRenderCache($child_access, $expected_tags) {
+  public function testRenderCache() {
     $this->setUpRequest();
     $this->setupMemoryCache();
 
@@ -838,7 +804,6 @@ class RendererTest extends RendererTestBase {
       ],
       '#markup' => '',
       'child' => [
-        '#access' => $child_access,
         '#cache' => [
           'keys' => ['render_cache_test_child'],
           'tags' => ['render_cache_tag_child:1', 'render_cache_tag_child:2'],
@@ -861,6 +826,11 @@ class RendererTest extends RendererTestBase {
 
     // Test that cache tags are correctly collected from the render element,
     // including the ones from its subchild.
+    $expected_tags = [
+      'render_cache_tag',
+      'render_cache_tag_child:1',
+      'render_cache_tag_child:2',
+    ];
     $this->assertEquals($expected_tags, $element['#cache']['tags'], 'Cache tags were collected from the element and its subchild.');
 
     // The cache item also has a 'rendered' cache tag.

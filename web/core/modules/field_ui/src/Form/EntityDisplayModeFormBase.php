@@ -67,9 +67,8 @@ abstract class EntityDisplayModeFormBase extends EntityForm {
     if ($entity_id == 'default') {
       return TRUE;
     }
-    /** @var \Drupal\Core\Config\Entity\ConfigEntityStorageInterface $storage */
-    $storage = $this->entityTypeManager->getStorage($this->entity->getEntityTypeId());
-    return (bool) $storage
+    return (bool) $this->entityTypeManager
+      ->getStorage($this->entity->getEntityTypeId())
       ->getQuery()
       ->condition('id', $element['#field_prefix'] . $entity_id)
       ->execute();

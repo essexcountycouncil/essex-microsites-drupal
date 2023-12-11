@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drush\Attributes;
 
 use Attribute;
@@ -15,17 +13,17 @@ use JetBrains\PhpStorm\ExpectedValues;
 class Kernel
 {
     /**
-     * @param $name
+     * @param $kernel
      *   The kernel name.
      */
     public function __construct(
-        #[ExpectedValues(valuesFromClass: Kernels::class)] public string $name,
+        #[ExpectedValues(valuesFromClass: Kernels::class)] public string $kernel,
     ) {
     }
 
     public static function handle(\ReflectionAttribute $attribute, CommandInfo $commandInfo)
     {
         $args = $attribute->getArguments();
-        $commandInfo->addAnnotation('kernel', $args['name']);
+        $commandInfo->addAnnotation('kernel', $args['kernel']);
     }
 }

@@ -7,7 +7,6 @@ use Drupal\editor\Entity\Editor;
 use Drupal\filter\Entity\FilterFormat;
 use Drupal\Tests\BrowserTestBase;
 use Drupal\user\RoleInterface;
-use Drupal\user\Entity\User;
 use Symfony\Component\Validator\ConstraintViolation;
 
 /**
@@ -35,14 +34,14 @@ class AddedStylesheetsTest extends BrowserTestBase {
    *
    * @var \Drupal\editor\Entity\Editor
    */
-  protected Editor $editor;
+  protected $editor;
 
   /**
    * The admin user.
    *
    * @var \Drupal\user\Entity\User
    */
-  protected User $adminUser;
+  protected $adminUser;
 
   /**
    * {@inheritdoc}

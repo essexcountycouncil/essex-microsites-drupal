@@ -59,7 +59,7 @@ class EntityFormDisplayAccessControlHandlerTest extends UnitTestCase {
    *
    * @var \Drupal\Core\Session\AccountInterface
    */
-  protected $parentMember;
+  protected $parent_member;
 
   /**
    * The EntityFormDisplay entity used for testing.
@@ -107,14 +107,14 @@ class EntityFormDisplayAccessControlHandlerTest extends UnitTestCase {
       ->method('id')
       ->willReturn(2);
 
-    $this->parentMember = $this->createMock(AccountInterface::class);
-    $this->parentMember
+    $this->parent_member = $this->createMock(AccountInterface::class);
+    $this->parent_member
       ->expects($this->any())
       ->method('hasPermission')
       ->willReturnMap([
         ['Llama', TRUE],
       ]);
-    $this->parentMember
+    $this->parent_member
       ->expects($this->any())
       ->method('id')
       ->willReturn(3);
@@ -216,7 +216,7 @@ class EntityFormDisplayAccessControlHandlerTest extends UnitTestCase {
   public function testAccess() {
     $this->assertAllowOperations([], $this->anon);
     $this->assertAllowOperations(['view', 'update', 'delete'], $this->member);
-    $this->assertAllowOperations(['view', 'update', 'delete'], $this->parentMember);
+    $this->assertAllowOperations(['view', 'update', 'delete'], $this->parent_member);
 
     $this->entity->enforceIsNew(TRUE)->save();
     // Unfortunately, EntityAccessControlHandler has a static cache, which we
@@ -225,7 +225,7 @@ class EntityFormDisplayAccessControlHandlerTest extends UnitTestCase {
 
     $this->assertAllowOperations([], $this->anon);
     $this->assertAllowOperations(['view', 'update'], $this->member);
-    $this->assertAllowOperations(['view', 'update'], $this->parentMember);
+    $this->assertAllowOperations(['view', 'update'], $this->parent_member);
   }
 
 }

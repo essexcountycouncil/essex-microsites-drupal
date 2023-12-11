@@ -19,12 +19,6 @@ field.storage_settings.text:
 field.field_settings.text:
   type: mapping
   label: 'Text (formatted) settings'
-  mapping:
-    allowed_formats:
-      type: sequence
-      label: 'Allowed text formats'
-      sequence:
-        type: string
 
 field.value.text:
   type: mapping
@@ -39,17 +33,11 @@ field.value.text:
 
 field.storage_settings.text_long:
   label: 'Text (formatted, long) settings'
-  type: field.field_settings.text
+  type: mapping
 
 field.field_settings.text_long:
   label: 'Text (formatted, long) settings'
   type: mapping
-  mapping:
-    allowed_formats:
-      type: sequence
-      label: 'Allowed text formats'
-      sequence:
-        type: string
 
 field.value.text_long:
   type: mapping
@@ -76,11 +64,6 @@ field.field_settings.text_with_summary:
     required_summary:
       type: boolean
       label: 'Require summary'
-    allowed_formats:
-      type: sequence
-      label: 'Allowed text formats'
-      sequence:
-        type: string
 
 field.value.text_with_summary:
   type: mapping

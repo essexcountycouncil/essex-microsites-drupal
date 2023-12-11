@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drush\SiteAlias;
 
 use Consolidation\SiteAlias\SiteAliasInterface;
@@ -18,18 +16,6 @@ use Symfony\Component\Process\Process;
  */
 class ProcessManager extends ConsolidationProcessManager
 {
-    protected $drupalFinder;
-
-    public function setDrupalFinder($drupalFinder): void
-    {
-        $this->drupalFinder = $drupalFinder;
-    }
-
-    public function getDrupalFinder()
-    {
-        return $this->drupalFinder;
-    }
-
     /**
      * Run a Drush command on a site alias (or @self).
      */
@@ -41,27 +27,22 @@ class ProcessManager extends ConsolidationProcessManager
 
     /**
      * drushSiteProcess should be avoided in favor of the drush method above.
-     *
-     * @internal drushSiteProcess exists specifically for use by the RedispatchHook,
+     * drushSiteProcess exists specifically for use by the RedispatchHook,
      * which does not have specific knowledge about which argument is the command.
      */
     public function drushSiteProcess(SiteAliasInterface $siteAlias, array $args = [], array $options = [], array $options_double_dash = []): ProcessBase
     {
-        $drushScript = $this->drushScript($siteAlias);
-
         // Fill in the root and URI from the site alias, if the caller
         // did not already provide them in $options.
         if ($siteAlias->has('uri')) {
             $options += [ 'uri' => $siteAlias->uri(), ];
         }
-        // Include the --root parameter only if calling a global Drush.
-        // This is deprecated in Drush 12, and will be removed in Drush 13.
-        if ($siteAlias->hasRoot() && ($drushScript == "drush")) {
+        if ($siteAlias->hasRoot()) {
             $options += [ 'root' => $siteAlias->root(), ];
         }
 
         // The executable is always 'drush' (at some path or another)
-        array_unshift($args, $drushScript);
+        array_unshift($args, $this->drushScript($siteAlias));
 
         return $this->siteProcess($siteAlias, $args, $options, $options_double_dash);
     }
@@ -78,20 +59,16 @@ class ProcessManager extends ConsolidationProcessManager
             return $siteAlias->get('paths.drush-script');
         }
 
-        // A remote site / container et. al.,
+        // If the provided site alias is for a remote site / container et. al.,
+        // then use the 'drush' in the $PATH.
         if ($this->hasTransport($siteAlias)) {
-            if ($siteAlias->hasRoot()) {
-                return Path::join($siteAlias->root(), $this->relativePathToVendorBinDrush());
-            }
-
-            // Fallback to the 'drush' in the $PATH.
             return $defaultDrushScript;
         }
 
         // If the target is a local Drupal site that has a vendor/bin/drush,
         // then use that.
         if ($siteAlias->hasRoot()) {
-            $localDrushScript = Path::join($siteAlias->root(), $this->relativePathToVendorBinDrush());
+            $localDrushScript = Path::join($siteAlias->root(), '../vendor/bin/drush');
             if (file_exists($localDrushScript)) {
                 return $localDrushScript;
             }
@@ -100,18 +77,6 @@ class ProcessManager extends ConsolidationProcessManager
         // Otherwise, use the path to the version of Drush that is running
         // right now (if available).
         return $this->getConfig()->get('runtime.drush-script', $defaultDrushScript);
-    }
-
-    /**
-     * Return the relative path to 'vendor/bin/drush' from the Drupal root.
-     */
-    protected function relativePathToVendorBinDrush()
-    {
-        // https://getcomposer.org/doc/articles/vendor-binaries.md#finding-the-composer-bin-dir-from-a-binary
-        $vendorBin = $GLOBALS['_composer_bin_dir'] ?? Path::join($this->getDrupalFinder()->getVendorDir(), 'bin');
-        $drupalRoot = $this->getDrupalFinder()->getDrupalRoot();
-        $relativeVendorBin = Path::makeRelative($vendorBin, $drupalRoot);
-        return Path::join($relativeVendorBin, 'drush');
     }
 
     /**

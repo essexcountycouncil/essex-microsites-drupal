@@ -2,7 +2,6 @@
 
 namespace Drupal\KernelTests\Core\Routing;
 
-use ColinODell\PsrTestLogger\TestLogger;
 use Drupal\Core\Cache\MemoryBackend;
 use Drupal\Core\Database\Database;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
@@ -84,13 +83,6 @@ class RouteProviderTest extends KernelTestBase {
   protected $cacheTagsInvalidator;
 
   /**
-   * The test logger.
-   *
-   * @var \ColinODell\PsrTestLogger\TestLogger
-   */
-  protected TestLogger $logger;
-
-  /**
    * {@inheritdoc}
    */
   protected function setUp(): void {
@@ -102,8 +94,6 @@ class RouteProviderTest extends KernelTestBase {
     $this->pathProcessor = \Drupal::service('path_processor_manager');
     $this->cacheTagsInvalidator = \Drupal::service('cache_tags.invalidator');
     $this->installEntitySchema('path_alias');
-
-    $this->logger = new TestLogger();
   }
 
   /**
@@ -170,7 +160,7 @@ class RouteProviderTest extends KernelTestBase {
 
     $this->fixtures->createTables($connection);
 
-    $dumper = new MatcherDumper($connection, $this->state, $this->logger, 'test_routes');
+    $dumper = new MatcherDumper($connection, $this->state, 'test_routes');
     $dumper->addRoutes($this->fixtures->sampleRouteCollection());
     $dumper->dump();
 
@@ -194,7 +184,7 @@ class RouteProviderTest extends KernelTestBase {
 
     $this->fixtures->createTables($connection);
 
-    $dumper = new MatcherDumper($connection, $this->state, $this->logger, 'test_routes');
+    $dumper = new MatcherDumper($connection, $this->state, 'test_routes');
     $dumper->addRoutes($this->fixtures->complexRouteCollection());
     $dumper->dump();
 
@@ -247,7 +237,7 @@ class RouteProviderTest extends KernelTestBase {
 
     $this->fixtures->createTables($connection);
 
-    $dumper = new MatcherDumper($connection, $this->state, $this->logger, 'test_routes');
+    $dumper = new MatcherDumper($connection, $this->state, 'test_routes');
     $dumper->addRoutes($this->fixtures->mixedCaseRouteCollection());
     $dumper->dump();
 
@@ -291,7 +281,7 @@ class RouteProviderTest extends KernelTestBase {
 
     $this->fixtures->createTables($connection);
 
-    $dumper = new MatcherDumper($connection, $this->state, $this->logger, 'test_routes');
+    $dumper = new MatcherDumper($connection, $this->state, 'test_routes');
     $dumper->addRoutes($this->fixtures->duplicatePathsRouteCollection());
     $dumper->dump();
 
@@ -313,7 +303,7 @@ class RouteProviderTest extends KernelTestBase {
 
     $this->fixtures->createTables($connection);
 
-    $dumper = new MatcherDumper($connection, $this->state, $this->logger, 'test_routes');
+    $dumper = new MatcherDumper($connection, $this->state, 'test_routes');
     $dumper->addRoutes($this->fixtures->SampleRouteCollection());
     $dumper->dump();
 
@@ -339,7 +329,7 @@ class RouteProviderTest extends KernelTestBase {
 
     $this->fixtures->createTables($connection);
 
-    $dumper = new MatcherDumper($connection, $this->state, $this->logger, 'test_routes');
+    $dumper = new MatcherDumper($connection, $this->state, 'test_routes');
     $dumper->addRoutes($this->fixtures->complexRouteCollection());
     $dumper->dump();
 
@@ -373,7 +363,7 @@ class RouteProviderTest extends KernelTestBase {
       'value' => 'poink',
     ]));
 
-    $dumper = new MatcherDumper($connection, $this->state, $this->logger, 'test_routes');
+    $dumper = new MatcherDumper($connection, $this->state, 'test_routes');
     $dumper->addRoutes($collection);
     $dumper->dump();
 
@@ -412,7 +402,7 @@ class RouteProviderTest extends KernelTestBase {
     ]));
     $collection->add('narf', new Route('/some/path/here'));
 
-    $dumper = new MatcherDumper($connection, $this->state, $this->logger, 'test_routes');
+    $dumper = new MatcherDumper($connection, $this->state, 'test_routes');
     $dumper->addRoutes($collection);
     $dumper->dump();
 
@@ -452,7 +442,7 @@ class RouteProviderTest extends KernelTestBase {
     $collection->add('narf', new Route('/some/path/here'));
     $collection->add('eep', new Route('/something/completely/different'));
 
-    $dumper = new MatcherDumper($connection, $this->state, $this->logger, 'test_routes');
+    $dumper = new MatcherDumper($connection, $this->state, 'test_routes');
     $dumper->addRoutes($collection);
     $dumper->dump();
 
@@ -491,7 +481,7 @@ class RouteProviderTest extends KernelTestBase {
     $collection->add('narf', new Route('/some/here/path'));
     $collection->add('eep', new Route('/something/completely/different'));
 
-    $dumper = new MatcherDumper($connection, $this->state, $this->logger, 'test_routes');
+    $dumper = new MatcherDumper($connection, $this->state, 'test_routes');
     $dumper->addRoutes($collection);
     $dumper->dump();
 
@@ -526,7 +516,7 @@ class RouteProviderTest extends KernelTestBase {
     $collection = new RouteCollection();
     $collection->add('poink', new Route('/some/path/{value}'));
 
-    $dumper = new MatcherDumper($connection, $this->state, $this->logger, 'test_routes');
+    $dumper = new MatcherDumper($connection, $this->state, 'test_routes');
     $dumper->addRoutes($collection);
     $dumper->dump();
 
@@ -558,7 +548,7 @@ class RouteProviderTest extends KernelTestBase {
 
     $this->fixtures->createTables($connection);
 
-    $dumper = new MatcherDumper($connection, $this->state, $this->logger, 'test_routes');
+    $dumper = new MatcherDumper($connection, $this->state, 'test_routes');
     $dumper->addRoutes($this->fixtures->complexRouteCollection());
     $dumper->dump();
 
@@ -583,7 +573,7 @@ class RouteProviderTest extends KernelTestBase {
 
     $this->fixtures->createTables($connection);
 
-    $dumper = new MatcherDumper($connection, $this->state, $this->logger, 'test_routes');
+    $dumper = new MatcherDumper($connection, $this->state, 'test_routes');
     $dumper->addRoutes($this->fixtures->sampleRouteCollection());
     $dumper->addRoutes($this->fixtures->complexRouteCollection());
     $dumper->dump();
@@ -658,7 +648,7 @@ class RouteProviderTest extends KernelTestBase {
 
     $this->fixtures->createTables($connection);
 
-    $dumper = new MatcherDumper($connection, $this->state, $this->logger, 'test_routes');
+    $dumper = new MatcherDumper($connection, $this->state, 'test_routes');
     $dumper->addRoutes($this->fixtures->sampleRouteCollection());
     $dumper->dump();
 
@@ -707,7 +697,7 @@ class RouteProviderTest extends KernelTestBase {
     $this->assertCount(0, $candidates);
 
     // Add a matching route and dump it.
-    $dumper = new MatcherDumper($connection, $this->state, $this->logger, 'test_routes');
+    $dumper = new MatcherDumper($connection, $this->state, 'test_routes');
     $collection = new RouteCollection();
     $collection->add('long_pattern', new Route('/test/{v1}/test2/{v2}/test3/{v3}/{v4}/{v5}/{v6}/test4'));
     $dumper->addRoutes($collection);
@@ -740,6 +730,53 @@ class RouteProviderTest extends KernelTestBase {
     $this->assertEquals(0, $result->count());
     $candidates = $provider->getCandidateOutlines(explode('/', trim($shortest, '/')));
     $this->assertCount(7, $candidates);
+  }
+
+  /**
+   * Tests getRoutesPaged().
+   *
+   * @group legacy
+   */
+  public function testGetRoutesPaged() {
+    $this->expectDeprecation('Drupal\Core\Routing\RouteProvider::getRoutesPaged() is deprecated in drupal:9.1.0 and is removed from drupal:10.0.0. No direct replacement is provided. See https://www.drupal.org/node/3151009');
+    $connection = Database::getConnection();
+    $provider = new RouteProvider($connection, $this->state, $this->currentPath, $this->cache, $this->pathProcessor, $this->cacheTagsInvalidator, 'test_routes');
+
+    $this->fixtures->createTables($connection);
+    $dumper = new MatcherDumper($connection, $this->state, 'test_routes');
+    $dumper->addRoutes($this->fixtures->sampleRouteCollection());
+    $dumper->dump();
+
+    $fixture_routes = $this->fixtures->staticSampleRouteCollection();
+
+    // Query all the routes.
+    $routes = $provider->getRoutesPaged(0);
+    $this->assertEquals(array_keys($fixture_routes), array_keys($routes));
+
+    // Query non routes.
+    $routes = $provider->getRoutesPaged(0, 0);
+    $this->assertEquals([], array_keys($routes));
+
+    // Query a limited sets of routes.
+    $routes = $provider->getRoutesPaged(1, 2);
+    $this->assertEquals(array_slice(array_keys($fixture_routes), 1, 2), array_keys($routes));
+  }
+
+  /**
+   * Tests getRoutesCount().
+   *
+   * @group legacy
+   */
+  public function testGetRoutesCount() {
+    $this->expectDeprecation('Drupal\Core\Routing\RouteProvider::getRoutesCount() is deprecated in drupal:9.1.0 and is removed from drupal:10.0.0. No direct replacement is provided. See https://www.drupal.org/node/3151009');
+    $connection = Database::getConnection();
+    $provider = new RouteProvider($connection, $this->state, $this->currentPath, $this->cache, $this->pathProcessor, $this->cacheTagsInvalidator, 'test_routes');
+
+    $this->fixtures->createTables($connection);
+    $dumper = new MatcherDumper($connection, $this->state, 'test_routes');
+    $dumper->addRoutes($this->fixtures->sampleRouteCollection());
+    $dumper->dump();
+    $this->assertEquals(5, $provider->getRoutesCount());
   }
 
 }

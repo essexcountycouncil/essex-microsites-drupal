@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -19,9 +19,8 @@ use Composer\Package\CompletePackageInterface;
 use Composer\Pcre\Preg;
 use Composer\Repository\CompositeRepository;
 use Composer\Semver\Constraint\MatchAllConstraint;
-use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Input\InputInterface;
-use Composer\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -30,25 +29,31 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class FundCommand extends BaseCommand
 {
-    protected function configure(): void
+    /**
+     * @return void
+     */
+    protected function configure()
     {
         $this->setName('fund')
-            ->setDescription('Discover how to help fund the maintenance of your dependencies')
-            ->setDefinition([
-                new InputOption('format', 'f', InputOption::VALUE_REQUIRED, 'Format of the output: text or json', 'text', ['text', 'json']),
-            ])
+            ->setDescription('Discover how to help fund the maintenance of your dependencies.')
+            ->setDefinition(array(
+                new InputOption('format', 'f', InputOption::VALUE_REQUIRED, 'Format of the output: text or json', 'text'),
+            ))
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    /**
+     * @return int
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $composer = $this->requireComposer();
+        $composer = $this->getComposer();
 
         $repo = $composer->getRepositoryManager()->getLocalRepository();
         $remoteRepos = new CompositeRepository($composer->getRepositoryManager()->getRepositories());
-        $fundings = [];
+        $fundings = array();
 
-        $packagesToLoad = [];
+        $packagesToLoad = array();
         foreach ($repo->getPackages() as $package) {
             if ($package instanceof AliasPackage) {
                 continue;
@@ -57,7 +62,7 @@ class FundCommand extends BaseCommand
         }
 
         // load all packages dev versions in parallel
-        $result = $remoteRepos->loadPackages($packagesToLoad, ['dev' => BasePackage::STABILITY_DEV], []);
+        $result = $remoteRepos->loadPackages($packagesToLoad, array('dev' => BasePackage::STABILITY_DEV), array());
 
         // collect funding data from default branches
         foreach ($result['packages'] as $package) {
@@ -89,7 +94,7 @@ class FundCommand extends BaseCommand
         $io = $this->getIO();
 
         $format = $input->getOption('format');
-        if (!in_array($format, ['text', 'json'])) {
+        if (!in_array($format, array('text', 'json'))) {
             $io->writeError(sprintf('Unsupported format "%s". See help for supported formats.', $format));
 
             return 1;
@@ -111,7 +116,7 @@ class FundCommand extends BaseCommand
                         $prev = $line;
                     }
 
-                    $io->write(sprintf('    <href=%s>%s</>', OutputFormatter::escape($url), $url));
+                    $io->write(sprintf('    %s', $url));
                 }
             }
 
@@ -131,10 +136,10 @@ class FundCommand extends BaseCommand
      * @param mixed[] $fundings
      * @return mixed[]
      */
-    private function insertFundingData(array $fundings, CompletePackageInterface $package): array
+    private function insertFundingData(array $fundings, CompletePackageInterface $package)
     {
         foreach ($package->getFunding() as $fundingOption) {
-            [$vendor, $packageName] = explode('/', $package->getPrettyName());
+            list($vendor, $packageName) = explode('/', $package->getPrettyName());
             // ignore malformed funding entries
             if (empty($fundingOption['url'])) {
                 continue;

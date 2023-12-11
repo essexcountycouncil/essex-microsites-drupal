@@ -5,5 +5,3 @@ package: Testing
 version: VERSION
 dependencies:
   - drupal:user
-  - drupal:field
-  - drupal:image

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -19,15 +19,14 @@ namespace Composer\DependencyResolver\Operation;
  */
 abstract class SolverOperation implements OperationInterface
 {
-    /**
-     * @abstract must be redefined by extending classes
-     */
-    protected const TYPE = '';
+    const TYPE = null;
 
     /**
      * Returns operation type.
+     *
+     * @return string
      */
-    public function getOperationType(): string
+    public function getOperationType()
     {
         return static::TYPE;
     }

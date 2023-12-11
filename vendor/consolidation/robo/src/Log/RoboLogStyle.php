@@ -11,7 +11,6 @@ use Consolidation\Log\LogOutputStyler;
 class RoboLogStyle extends LogOutputStyler
 {
     const TASK_STYLE_SIMULATED = 'options=reverse;bold';
-    const TASK_STYLE_SUCCESS = 'fg=white;bg=green;options=bold';
 
     /**
      * RoboLogStyle constructor.
@@ -25,11 +24,9 @@ class RoboLogStyle extends LogOutputStyler
 
         $this->labelStyles += [
             RoboLogLevel::SIMULATED_ACTION => self::TASK_STYLE_SIMULATED,
-            RoboLogLevel::SUCCESS => self::TASK_STYLE_SUCCESS,
         ];
         $this->messageStyles += [
             RoboLogLevel::SIMULATED_ACTION => '',
-            RoboLogLevel::SUCCESS => '',
         ];
     }
 

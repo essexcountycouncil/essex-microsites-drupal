@@ -67,7 +67,7 @@ abstract class MediaEmbedFilterTestBase extends KernelTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp(): void {
+  protected function setUp() {
     parent::setUp();
 
     $this->installSchema('file', ['file_usage']);

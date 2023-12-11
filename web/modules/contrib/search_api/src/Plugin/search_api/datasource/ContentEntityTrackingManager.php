@@ -241,7 +241,8 @@ class ContentEntityTrackingManager {
       $indexes = $this->entityTypeManager->getStorage('search_api_index')
         ->loadMultiple();
     }
-    catch (InvalidPluginDefinitionException | PluginNotFoundException) {
+    // @todo Remove $e once we depend on PHP 8.0+.
+    catch (InvalidPluginDefinitionException | PluginNotFoundException $e) {
       // Can't really happen, but play it safe to appease static code analysis.
     }
 
@@ -256,7 +257,7 @@ class ContentEntityTrackingManager {
         try {
           $config = $index->getDatasource($datasource_id)->getConfiguration();
         }
-        catch (SearchApiException) {
+        catch (SearchApiException $e) {
           // Can't really happen, but play it safe to appease static code
           // analysis.
           unset($indexes[$index_id]);
@@ -396,7 +397,7 @@ class ContentEntityTrackingManager {
     try {
       $config = $index->getDatasource($datasource_id)->getConfiguration();
     }
-    catch (SearchApiException) {
+    catch (SearchApiException $e) {
       // Can't really happen, but play it safe to appease static code analysis.
       return $item_ids;
     }

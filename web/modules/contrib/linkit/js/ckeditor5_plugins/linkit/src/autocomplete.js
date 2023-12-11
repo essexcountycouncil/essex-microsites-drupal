@@ -121,7 +121,6 @@ export default function initializeAutocomplete(element, settings) {
   instance._renderMenu = renderMenu;
   instance._renderItem = renderItem;
 
-
   $auto.autocomplete('widget').addClass('linkit-ui-autocomplete ck-reset_all-excluded');
 
   $auto.on('click', function () {

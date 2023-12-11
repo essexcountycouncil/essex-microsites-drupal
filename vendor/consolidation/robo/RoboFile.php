@@ -5,7 +5,7 @@ use Robo\Symfony\ConsoleIO;
 
 class RoboFile extends \Robo\Tasks
 {
-    const MAIN_BRANCH = '4.x';
+    const MAIN_BRANCH = '3.x';
 
     /**
      * Run the Robo unit tests.
@@ -91,7 +91,7 @@ class RoboFile extends \Robo\Tasks
     {
         $this->checkPharReadonly();
 
-        $version = \Robo\Robo::version();
+        $version = \Robo\Robo::VERSION;
         $stable = !$opts['beta'];
         if ($stable) {
             $version = preg_replace('/-.*/', '', $version);
@@ -111,15 +111,15 @@ class RoboFile extends \Robo\Tasks
             ->run();
 
         if ($stable) {
-            $this->pharBuild($io);
+            $this->pharPublish($io);
         }
 
-        $this->publish($io);
+        // Skip publishing site until it works again.
+        // $this->publish($io);
 
         $this->collectionBuilder($io)->taskGitStack()
             ->tag($version)
-            ->push('origin ' . self::MAIN_BRANCH)
-            ->push('origin ' . $version)
+            ->push('origin ' . self::MAIN_BRANCH . ' --tags')
             ->run();
 
         if ($stable) {
@@ -143,7 +143,7 @@ class RoboFile extends \Robo\Tasks
      */
     public function changed(ConsoleIO $io, $addition)
     {
-        $version = preg_replace('/-.*/', '', \Robo\Robo::version());
+        $version = preg_replace('/-.*/', '', \Robo\Robo::VERSION);
         return $this->collectionBuilder($io)->taskChangelog()
             ->version($version)
             ->change($addition)
@@ -161,7 +161,7 @@ class RoboFile extends \Robo\Tasks
     {
         // If the user did not specify a version, then update the current version.
         if (empty($version)) {
-            $version = $this->incrementVersion(\Robo\Robo::version(), $options['stage']);
+            $version = $this->incrementVersion(\Robo\Robo::VERSION, $options['stage']);
         }
         return $this->writeVersion($version);
     }
@@ -470,6 +470,23 @@ class RoboFile extends \Robo\Tasks
      */
     public function pharPublish(ConsoleIO $io)
     {
-        throw new \Exception("phar:publish is obsolete.");
+        $this->pharBuild($io);
+
+        $this->collectionBuilder($io)
+            ->taskFilesystemStack()
+                ->remove('robo-release.phar')
+                ->rename('robo.phar', 'robo-release.phar')
+            ->taskGitStack()
+                ->checkout('site')
+                ->pull('origin site')
+            ->taskFilesystemStack()
+                ->remove('robotheme/robo.phar')
+                ->rename('robo-release.phar', 'robotheme/robo.phar')
+            ->taskGitStack()
+                ->add('robotheme/robo.phar')
+                ->commit('Update robo.phar to ' . \Robo\Robo::VERSION)
+                ->push('origin site')
+                ->checkout(self::MAIN_BRANCH)
+                ->run();
     }
 }

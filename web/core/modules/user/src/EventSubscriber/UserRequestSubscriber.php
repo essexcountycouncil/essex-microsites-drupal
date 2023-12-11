@@ -59,7 +59,7 @@ class UserRequestSubscriber implements EventSubscriberInterface {
   /**
    * {@inheritdoc}
    */
-  public static function getSubscribedEvents(): array {
+  public static function getSubscribedEvents() {
     // Should go before other subscribers start to write their caches. Notably
     // before \Drupal\Core\EventSubscriber\KernelDestructionSubscriber to
     // prevent instantiation of destructed services.

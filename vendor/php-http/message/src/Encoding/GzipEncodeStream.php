@@ -30,7 +30,7 @@ class GzipEncodeStream extends FilteredStream
     /**
      * {@inheritdoc}
      */
-    protected function readFilter(): string
+    protected function readFilter()
     {
         return 'zlib.deflate';
     }
@@ -38,7 +38,7 @@ class GzipEncodeStream extends FilteredStream
     /**
      * {@inheritdoc}
      */
-    protected function writeFilter(): string
+    protected function writeFilter()
     {
         return 'zlib.inflate';
     }

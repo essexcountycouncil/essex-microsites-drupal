@@ -21,118 +21,133 @@ interface StyleInterface
     /**
      * Formats a command title.
      *
-     * @return void
+     * @param string $message
      */
-    public function title(string $message);
+    public function title($message);
 
     /**
      * Formats a section title.
      *
-     * @return void
+     * @param string $message
      */
-    public function section(string $message);
+    public function section($message);
 
     /**
      * Formats a list.
-     *
-     * @return void
      */
     public function listing(array $elements);
 
     /**
      * Formats informational text.
      *
-     * @return void
+     * @param string|array $message
      */
-    public function text(string|array $message);
+    public function text($message);
 
     /**
      * Formats a success result bar.
      *
-     * @return void
+     * @param string|array $message
      */
-    public function success(string|array $message);
+    public function success($message);
 
     /**
      * Formats an error result bar.
      *
-     * @return void
+     * @param string|array $message
      */
-    public function error(string|array $message);
+    public function error($message);
 
     /**
      * Formats an warning result bar.
      *
-     * @return void
+     * @param string|array $message
      */
-    public function warning(string|array $message);
+    public function warning($message);
 
     /**
      * Formats a note admonition.
      *
-     * @return void
+     * @param string|array $message
      */
-    public function note(string|array $message);
+    public function note($message);
 
     /**
      * Formats a caution admonition.
      *
-     * @return void
+     * @param string|array $message
      */
-    public function caution(string|array $message);
+    public function caution($message);
 
     /**
      * Formats a table.
-     *
-     * @return void
      */
     public function table(array $headers, array $rows);
 
     /**
      * Asks a question.
+     *
+     * @param string        $question
+     * @param string|null   $default
+     * @param callable|null $validator
+     *
+     * @return mixed
      */
-    public function ask(string $question, string $default = null, callable $validator = null): mixed;
+    public function ask($question, $default = null, $validator = null);
 
     /**
      * Asks a question with the user input hidden.
+     *
+     * @param string        $question
+     * @param callable|null $validator
+     *
+     * @return mixed
      */
-    public function askHidden(string $question, callable $validator = null): mixed;
+    public function askHidden($question, $validator = null);
 
     /**
      * Asks for confirmation.
+     *
+     * @param string $question
+     * @param bool   $default
+     *
+     * @return bool
      */
-    public function confirm(string $question, bool $default = true): bool;
+    public function confirm($question, $default = true);
 
     /**
      * Asks a choice question.
+     *
+     * @param string          $question
+     * @param string|int|null $default
+     *
+     * @return mixed
      */
-    public function choice(string $question, array $choices, mixed $default = null): mixed;
+    public function choice($question, array $choices, $default = null);
 
     /**
      * Add newline(s).
      *
-     * @return void
+     * @param int $count The number of newlines
      */
-    public function newLine(int $count = 1);
+    public function newLine($count = 1);
 
     /**
      * Starts the progress output.
      *
-     * @return void
+     * @param int $max Maximum steps (0 if unknown)
      */
-    public function progressStart(int $max = 0);
+    public function progressStart($max = 0);
 
     /**
      * Advances the progress output X steps.
      *
-     * @return void
+     * @param int $step Number of steps to advance
      */
-    public function progressAdvance(int $step = 1);
+    public function progressAdvance($step = 1);
 
     /**
      * Finishes the progress output.
-     *
-     * @return void
      */
     public function progressFinish();
 }

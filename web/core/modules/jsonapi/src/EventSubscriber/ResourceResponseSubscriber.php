@@ -61,7 +61,7 @@ class ResourceResponseSubscriber implements EventSubscriberInterface {
    * @see \Drupal\rest\EventSubscriber\ResourceResponseSubscriber::getSubscribedEvents()
    * @see \Drupal\dynamic_page_cache\EventSubscriber\DynamicPageCacheSubscriber
    */
-  public static function getSubscribedEvents(): array {
+  public static function getSubscribedEvents() {
     // Run before the dynamic page cache subscriber (priority 100), so that
     // Dynamic Page Cache can cache flattened responses.
     $events[KernelEvents::RESPONSE][] = ['onResponse', 128];
@@ -146,10 +146,10 @@ class ResourceResponseSubscriber implements EventSubscriberInterface {
       'account' => NULL,
       'sparse_fieldset' => NULL,
     ];
-    if ($request->query->has('fields')) {
+    if ($request->query->get('fields')) {
       $context['sparse_fieldset'] = array_map(function ($item) {
         return explode(',', $item);
-      }, $request->query->all('fields'));
+      }, $request->query->get('fields'));
     }
     return $context;
   }

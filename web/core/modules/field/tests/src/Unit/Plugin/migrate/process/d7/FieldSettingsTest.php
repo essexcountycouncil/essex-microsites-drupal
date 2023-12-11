@@ -21,7 +21,7 @@ class FieldSettingsTest extends MigrateTestCase {
    */
   public function testTransformImageSettings() {
     $migration = $this->createMock(MigrationInterface::class);
-    $plugin = new FieldSettings([], 'd7_field_settings', []);
+    $plugin = new FieldSettings([], 'd7_field_settings', [], $migration);
 
     $executable = $this->createMock(MigrateExecutableInterface::class);
     $row = $this->getMockBuilder(Row::class)

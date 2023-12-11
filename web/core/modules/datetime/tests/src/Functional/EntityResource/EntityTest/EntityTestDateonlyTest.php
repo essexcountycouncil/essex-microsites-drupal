@@ -47,7 +47,7 @@ class EntityTestDateonlyTest extends EntityTestResourceTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp(): void {
+  public function setUp(): void {
     parent::setUp();
 
     // Add datetime field.

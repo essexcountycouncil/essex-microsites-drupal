@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -19,25 +19,25 @@ namespace Composer\Package;
  */
 class RootPackage extends CompletePackage implements RootPackageInterface
 {
-    public const DEFAULT_PRETTY_VERSION = '1.0.0+no-version-set';
+    const DEFAULT_PRETTY_VERSION = '1.0.0+no-version-set';
 
     /** @var string */
     protected $minimumStability = 'stable';
     /** @var bool */
     protected $preferStable = false;
     /** @var array<string, BasePackage::STABILITY_*> Map of package name to stability constant */
-    protected $stabilityFlags = [];
+    protected $stabilityFlags = array();
     /** @var mixed[] */
-    protected $config = [];
+    protected $config = array();
     /** @var array<string, string> Map of package name to reference/commit hash */
-    protected $references = [];
-    /** @var list<array{package: string, version: string, alias: string, alias_normalized: string}> */
-    protected $aliases = [];
+    protected $references = array();
+    /** @var array<array{package: string, version: string, alias: string, alias_normalized: string}> */
+    protected $aliases = array();
 
     /**
-     * @inheritDoc
+     * {@inerhitDoc}
      */
-    public function setMinimumStability(string $minimumStability): void
+    public function setMinimumStability($minimumStability)
     {
         $this->minimumStability = $minimumStability;
     }
@@ -45,7 +45,7 @@ class RootPackage extends CompletePackage implements RootPackageInterface
     /**
      * @inheritDoc
      */
-    public function getMinimumStability(): string
+    public function getMinimumStability()
     {
         return $this->minimumStability;
     }
@@ -53,7 +53,7 @@ class RootPackage extends CompletePackage implements RootPackageInterface
     /**
      * @inheritDoc
      */
-    public function setStabilityFlags(array $stabilityFlags): void
+    public function setStabilityFlags(array $stabilityFlags)
     {
         $this->stabilityFlags = $stabilityFlags;
     }
@@ -61,15 +61,15 @@ class RootPackage extends CompletePackage implements RootPackageInterface
     /**
      * @inheritDoc
      */
-    public function getStabilityFlags(): array
+    public function getStabilityFlags()
     {
         return $this->stabilityFlags;
     }
 
     /**
-     * @inheritDoc
+     * {@inerhitDoc}
      */
-    public function setPreferStable(bool $preferStable): void
+    public function setPreferStable($preferStable)
     {
         $this->preferStable = $preferStable;
     }
@@ -77,15 +77,15 @@ class RootPackage extends CompletePackage implements RootPackageInterface
     /**
      * @inheritDoc
      */
-    public function getPreferStable(): bool
+    public function getPreferStable()
     {
         return $this->preferStable;
     }
 
     /**
-     * @inheritDoc
+     * {@inerhitDoc}
      */
-    public function setConfig(array $config): void
+    public function setConfig(array $config)
     {
         $this->config = $config;
     }
@@ -93,15 +93,15 @@ class RootPackage extends CompletePackage implements RootPackageInterface
     /**
      * @inheritDoc
      */
-    public function getConfig(): array
+    public function getConfig()
     {
         return $this->config;
     }
 
     /**
-     * @inheritDoc
+     * {@inerhitDoc}
      */
-    public function setReferences(array $references): void
+    public function setReferences(array $references)
     {
         $this->references = $references;
     }
@@ -109,15 +109,15 @@ class RootPackage extends CompletePackage implements RootPackageInterface
     /**
      * @inheritDoc
      */
-    public function getReferences(): array
+    public function getReferences()
     {
         return $this->references;
     }
 
     /**
-     * @inheritDoc
+     * {@inerhitDoc}
      */
-    public function setAliases(array $aliases): void
+    public function setAliases(array $aliases)
     {
         $this->aliases = $aliases;
     }
@@ -125,7 +125,7 @@ class RootPackage extends CompletePackage implements RootPackageInterface
     /**
      * @inheritDoc
      */
-    public function getAliases(): array
+    public function getAliases()
     {
         return $this->aliases;
     }

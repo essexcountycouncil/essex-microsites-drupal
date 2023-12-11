@@ -158,7 +158,7 @@ class RequestHandler implements ContainerInjectionInterface {
     $unserialized = NULL;
     if (!empty($received)) {
       $method = static::getNormalizedRequestMethod($route_match);
-      $format = $request->getContentTypeFormat();
+      $format = $request->getContentType();
 
       $definition = $resource->getPluginDefinition();
 

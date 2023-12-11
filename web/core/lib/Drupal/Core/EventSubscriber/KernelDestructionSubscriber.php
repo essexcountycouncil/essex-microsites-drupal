@@ -59,7 +59,7 @@ class KernelDestructionSubscriber implements EventSubscriberInterface, Container
    * @return array
    *   An array of event listener definitions.
    */
-  public static function getSubscribedEvents(): array {
+  public static function getSubscribedEvents() {
     $events[KernelEvents::TERMINATE][] = ['onKernelTerminate', 100];
     return $events;
   }

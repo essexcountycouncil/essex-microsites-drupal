@@ -17,7 +17,7 @@ class BufferedStream implements StreamInterface
     /** @var resource The buffered resource used to seek previous data */
     private $resource;
 
-    /** @var int|null size of the stream if available */
+    /** @var int size of the stream if available */
     private $size;
 
     /** @var StreamInterface The underlying stream decorated by this class */
@@ -49,7 +49,10 @@ class BufferedStream implements StreamInterface
         }
     }
 
-    public function __toString(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function __toString()
     {
         try {
             $this->rewind();
@@ -57,10 +60,15 @@ class BufferedStream implements StreamInterface
             return $this->getContents();
         } catch (\Throwable $throwable) {
             return '';
+        } catch (\Exception $exception) { // Layer to be BC with PHP 5, remove this when we only support PHP 7+
+            return '';
         }
     }
 
-    public function close(): void
+    /**
+     * {@inheritdoc}
+     */
+    public function close()
     {
         if (null === $this->resource) {
             throw new \RuntimeException('Cannot close on a detached stream');
@@ -70,10 +78,13 @@ class BufferedStream implements StreamInterface
         fclose($this->resource);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function detach()
     {
         if (null === $this->resource) {
-            return null;
+            return;
         }
 
         // Force reading the remaining data of the stream
@@ -87,10 +98,13 @@ class BufferedStream implements StreamInterface
         return $resource;
     }
 
-    public function getSize(): ?int
+    /**
+     * {@inheritdoc}
+     */
+    public function getSize()
     {
         if (null === $this->resource) {
-            return null;
+            return;
         }
 
         if (null === $this->size && $this->stream->eof()) {
@@ -100,21 +114,22 @@ class BufferedStream implements StreamInterface
         return $this->size;
     }
 
-    public function tell(): int
+    /**
+     * {@inheritdoc}
+     */
+    public function tell()
     {
         if (null === $this->resource) {
             throw new \RuntimeException('Cannot tell on a detached stream');
         }
 
-        $tell = ftell($this->resource);
-        if (false === $tell) {
-            throw new \RuntimeException('ftell failed');
-        }
-
-        return $tell;
+        return ftell($this->resource);
     }
 
-    public function eof(): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function eof()
     {
         if (null === $this->resource) {
             throw new \RuntimeException('Cannot call eof on a detached stream');
@@ -124,12 +139,18 @@ class BufferedStream implements StreamInterface
         return $this->stream->eof() && (ftell($this->resource) === $this->written);
     }
 
-    public function isSeekable(): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function isSeekable()
     {
         return null !== $this->resource;
     }
 
-    public function seek(int $offset, int $whence = SEEK_SET): void
+    /**
+     * {@inheritdoc}
+     */
+    public function seek($offset, $whence = SEEK_SET)
     {
         if (null === $this->resource) {
             throw new \RuntimeException('Cannot seek on a detached stream');
@@ -138,7 +159,10 @@ class BufferedStream implements StreamInterface
         fseek($this->resource, $offset, $whence);
     }
 
-    public function rewind(): void
+    /**
+     * {@inheritdoc}
+     */
+    public function rewind()
     {
         if (null === $this->resource) {
             throw new \RuntimeException('Cannot rewind on a detached stream');
@@ -147,22 +171,34 @@ class BufferedStream implements StreamInterface
         rewind($this->resource);
     }
 
-    public function isWritable(): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function isWritable()
     {
         return false;
     }
 
-    public function write(string $string): int
+    /**
+     * {@inheritdoc}
+     */
+    public function write($string)
     {
         throw new \RuntimeException('Cannot write on this stream');
     }
 
-    public function isReadable(): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function isReadable()
     {
         return null !== $this->resource;
     }
 
-    public function read(int $length): string
+    /**
+     * {@inheritdoc}
+     */
+    public function read($length)
     {
         if (null === $this->resource) {
             throw new \RuntimeException('Cannot read on a detached stream');
@@ -176,9 +212,6 @@ class BufferedStream implements StreamInterface
         // First read from the resource
         if (ftell($this->resource) !== $this->written) {
             $read = fread($this->resource, $length);
-        }
-        if (false === $read) {
-            throw new \RuntimeException('Failed to read from resource');
         }
 
         $bytesRead = strlen($read);
@@ -194,7 +227,10 @@ class BufferedStream implements StreamInterface
         return $read;
     }
 
-    public function getContents(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getContents()
     {
         if (null === $this->resource) {
             throw new \RuntimeException('Cannot read on a detached stream');
@@ -209,14 +245,17 @@ class BufferedStream implements StreamInterface
         return $read;
     }
 
-    public function getMetadata(?string $key = null)
+    /**
+     * {@inheritdoc}
+     */
+    public function getMetadata($key = null)
     {
         if (null === $this->resource) {
             if (null === $key) {
                 return [];
             }
 
-            return null;
+            return;
         }
 
         $metadata = stream_get_meta_data($this->resource);
@@ -226,7 +265,7 @@ class BufferedStream implements StreamInterface
         }
 
         if (!array_key_exists($key, $metadata)) {
-            return null;
+            return;
         }
 
         return $metadata[$key];

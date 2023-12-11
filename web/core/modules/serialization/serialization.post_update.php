@@ -6,10 +6,8 @@
  */
 
 /**
- * Implements hook_removed_post_updates().
+ * Remove obsolete serialization.settings configuration.
  */
-function serialization_removed_post_updates() {
-  return [
-    'serialization_post_update_delete_settings' => '10.0.0',
-  ];
+function serialization_post_update_delete_settings() {
+  \Drupal::configFactory()->getEditable('serialization.settings')->delete();
 }

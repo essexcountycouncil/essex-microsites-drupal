@@ -176,7 +176,8 @@ class EntityViewBuilder extends EntityHandlerBase implements EntityHandlerInterf
    */
   protected function getBuildDefaults(EntityInterface $entity, $view_mode) {
     // Allow modules to change the view mode.
-    $this->moduleHandler()->alter('entity_view_mode', $view_mode, $entity);
+    $context = [];
+    $this->moduleHandler()->alter('entity_view_mode', $view_mode, $entity, $context);
 
     $build = [
       "#{$this->entityTypeId}" => $entity,

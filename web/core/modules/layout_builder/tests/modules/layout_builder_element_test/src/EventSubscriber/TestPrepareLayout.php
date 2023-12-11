@@ -51,7 +51,7 @@ class TestPrepareLayout implements EventSubscriberInterface {
   /**
    * {@inheritdoc}
    */
-  public static function getSubscribedEvents(): array {
+  public static function getSubscribedEvents() {
     // Act before core's layout builder subscriber.
     $events[LayoutBuilderEvents::PREPARE_LAYOUT][] = ['onBeforePrepareLayout', 20];
     // Act after core's layout builder subscriber.

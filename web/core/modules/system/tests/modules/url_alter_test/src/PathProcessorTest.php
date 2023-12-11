@@ -25,6 +25,9 @@ class PathProcessorTest implements InboundPathProcessorInterface, OutboundPathPr
       }
     }
 
+    // Rewrite community/ to forum/.
+    $path = preg_replace('@^/community(.*)@', '/forum$1', $path);
+
     if ($path == '/url-alter-test/bar') {
       $path = '/url-alter-test/foo';
     }
@@ -51,7 +54,8 @@ class PathProcessorTest implements InboundPathProcessorInterface, OutboundPathPr
       $options['query']['foo'] = 'bar';
     }
 
-    return $path;
+    // Rewrite forum/ to community/.
+    return preg_replace('@^/forum(.*)@', '/community$1', $path);
   }
 
 }

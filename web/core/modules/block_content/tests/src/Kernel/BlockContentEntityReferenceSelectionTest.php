@@ -65,7 +65,7 @@ class BlockContentEntityReferenceSelectionTest extends KernelTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp(): void {
+  public function setUp(): void {
     parent::setUp();
     $this->installSchema('system', ['sequences']);
     $this->installEntitySchema('user');

@@ -59,8 +59,6 @@ class EditorConfigEntityUnitTest extends UnitTestCase {
    * {@inheritdoc}
    */
   protected function setUp(): void {
-    parent::setUp();
-
     $this->editorId = $this->randomMachineName();
     $this->entityTypeId = $this->randomMachineName();
 

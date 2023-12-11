@@ -3,8 +3,8 @@
 namespace Drupal\Tests\Component\DependencyInjection;
 
 use Drupal\Component\Utility\Crypt;
+use Drupal\Tests\PhpUnitCompatibilityTrait;
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Symfony\Bridge\PhpUnit\ExpectDeprecationTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
@@ -21,7 +21,7 @@ use Prophecy\Argument;
  */
 class ContainerTest extends TestCase {
   use ExpectDeprecationTrait;
-  use ProphecyTrait;
+  use PhpUnitCompatibilityTrait;
 
   /**
    * The tested container.
@@ -163,7 +163,7 @@ class ContainerTest extends TestCase {
     $this->assertEquals($some_parameter, $service->getSomeParameter(), '%some_config% was injected via constructor.');
     $this->assertEquals($this->container, $service->getContainer(), 'Container was injected via setter injection.');
     $this->assertEquals($some_other_parameter, $service->getSomeOtherParameter(), '%some_other_config% was injected via setter injection.');
-    $this->assertEquals('foo', $service->someProperty, 'Service has added properties.');
+    $this->assertEquals('foo', $service->_someProperty, 'Service has added properties.');
   }
 
   /**
@@ -740,7 +740,7 @@ class ContainerTest extends TestCase {
         $this->getServiceCall('other.service'),
         $this->getParameterCall('some_config'),
       ]),
-      'properties' => $this->getCollection(['someProperty' => 'foo']),
+      'properties' => $this->getCollection(['_someProperty' => 'foo']),
       'calls' => [
         [
           'setContainer',
@@ -881,9 +881,12 @@ class ContainerTest extends TestCase {
     $services['synthetic'] = [
       'synthetic' => TRUE,
     ];
+    // The file could have been named as a .php file. The reason it is a .data
+    // file is that SimpleTest tries to load it. SimpleTest does not like such
+    // fixtures and hence we use a neutral name like .data.
     $services['container_test_file_service_test'] = [
       'class' => '\stdClass',
-      'file' => __DIR__ . '/Fixture/container_test_file_service_test_service_function.php',
+      'file' => __DIR__ . '/Fixture/container_test_file_service_test_service_function.data',
     ];
 
     // Test multiple arguments.
@@ -1101,11 +1104,6 @@ class MockService {
    * @var string
    */
   protected $someOtherParameter;
-
-  /**
-   * @var string
-   */
-  public string $someProperty;
 
   /**
    * Constructs a MockService object.

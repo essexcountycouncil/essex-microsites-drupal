@@ -4,8 +4,6 @@ namespace Drupal\Core\Routing;
 
 use Drupal\Core\Database\DatabaseException;
 use Drupal\Core\State\StateInterface;
-use Drupal\Core\Utility\Error;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\RouteCollection;
 
 use Drupal\Core\Database\Connection;
@@ -46,13 +44,6 @@ class MatcherDumper implements MatcherDumperInterface {
   protected $tableName;
 
   /**
-   * The logger.
-   *
-   * @var \Psr\Log\LoggerInterface
-   */
-  protected LoggerInterface $logger;
-
-  /**
    * Construct the MatcherDumper.
    *
    * @param \Drupal\Core\Database\Connection $connection
@@ -60,25 +51,14 @@ class MatcherDumper implements MatcherDumperInterface {
    *   information.
    * @param \Drupal\Core\State\StateInterface $state
    *   The state.
-   * @param \Psr\Log\LoggerInterface|null $logger
-   *   The logger.
    * @param string $table
    *   (optional) The table to store the route info in. Defaults to 'router'.
    */
-  public function __construct(Connection $connection, StateInterface $state, LoggerInterface|string|null $logger = NULL, $table = 'router') {
+  public function __construct(Connection $connection, StateInterface $state, $table = 'router') {
     $this->connection = $connection;
     $this->state = $state;
-    if (is_string($logger) || is_null($logger)) {
-      @trigger_error('Calling ' . __METHOD__ . '() without the $logger argument is deprecated in drupal:10.1.0 and it will be required in drupal:11.0.0. See https://www.drupal.org/node/2932520', E_USER_DEPRECATED);
-      $this->logger = \Drupal::service('logger.channel.router');
-      $this->tableName = $logger;
-    }
-    else {
-      $this->logger = $logger;
-    }
-    if (is_null($this->tableName)) {
-      $this->tableName = $table;
-    }
+
+    $this->tableName = $table;
   }
 
   /**
@@ -108,7 +88,7 @@ class MatcherDumper implements MatcherDumperInterface {
    *   Thrown if the table could not be created or the database connection
    *   failed.
    */
-  public function dump(array $options = []): string {
+  public function dump(array $options = []) {
     // Convert all of the routes into database records.
     // Accumulate the menu masks on top of any we found before.
     $masks = array_flip($this->state->get('routing.menu_masks.' . $this->tableName, []));
@@ -172,7 +152,7 @@ class MatcherDumper implements MatcherDumperInterface {
       if (isset($transaction)) {
         $transaction->rollBack();
       }
-      Error::logException($this->logger, $e);
+      watchdog_exception('Routing', $e);
       throw $e;
     }
     // Sort the masks so they are in order of descending fit.
@@ -181,8 +161,6 @@ class MatcherDumper implements MatcherDumperInterface {
     $this->state->set('routing.menu_masks.' . $this->tableName, $masks);
 
     $this->routes = NULL;
-
-    return '';
   }
 
   /**
@@ -192,7 +170,7 @@ class MatcherDumper implements MatcherDumperInterface {
    *   A RouteCollection instance representing all routes currently in the
    *   dumper.
    */
-  public function getRoutes(): RouteCollection {
+  public function getRoutes() {
     return $this->routes;
   }
 

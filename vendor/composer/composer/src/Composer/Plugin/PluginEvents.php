@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -27,7 +27,7 @@ class PluginEvents
      *
      * @var string
      */
-    public const INIT = 'init';
+    const INIT = 'init';
 
     /**
      * The COMMAND event occurs as a command begins
@@ -37,7 +37,7 @@ class PluginEvents
      *
      * @var string
      */
-    public const COMMAND = 'command';
+    const COMMAND = 'command';
 
     /**
      * The PRE_FILE_DOWNLOAD event occurs before downloading a file
@@ -47,7 +47,7 @@ class PluginEvents
      *
      * @var string
      */
-    public const PRE_FILE_DOWNLOAD = 'pre-file-download';
+    const PRE_FILE_DOWNLOAD = 'pre-file-download';
 
     /**
      * The POST_FILE_DOWNLOAD event occurs after downloading a package dist file
@@ -57,7 +57,7 @@ class PluginEvents
      *
      * @var string
      */
-    public const POST_FILE_DOWNLOAD = 'post-file-download';
+    const POST_FILE_DOWNLOAD = 'post-file-download';
 
     /**
      * The PRE_COMMAND_RUN event occurs before a command is executed and lets you modify the input arguments/options
@@ -67,7 +67,7 @@ class PluginEvents
      *
      * @var string
      */
-    public const PRE_COMMAND_RUN = 'pre-command-run';
+    const PRE_COMMAND_RUN = 'pre-command-run';
 
     /**
      * The PRE_POOL_CREATE event occurs before the Pool of packages is created, and lets
@@ -78,5 +78,5 @@ class PluginEvents
      *
      * @var string
      */
-    public const PRE_POOL_CREATE = 'pre-pool-create';
+    const PRE_POOL_CREATE = 'pre-pool-create';
 }

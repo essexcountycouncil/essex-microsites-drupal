@@ -173,7 +173,7 @@ class ContentTranslationRouteSubscriber extends RouteSubscriberBase {
   /**
    * {@inheritdoc}
    */
-  public static function getSubscribedEvents(): array {
+  public static function getSubscribedEvents() {
     $events = parent::getSubscribedEvents();
     // Should run after AdminRouteSubscriber so the routes can inherit admin
     // status of the edit routes on entities. Therefore priority -210.

@@ -2,7 +2,7 @@
 
 namespace Robo\Log;
 
-use Robo\Log\RoboLogLevel;
+use Consolidation\Log\ConsoleLogLevel;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LogLevel;
@@ -99,7 +99,7 @@ class ResultPrinter implements LoggerAwareInterface, ProgressIndicatorAwareInter
         $context = $result->getContext() + ['timer-label' => 'in'];
         $time = $result->getExecutionTime();
         if ($time) {
-            $this->printMessage(RoboLogLevel::SUCCESS, 'Done', $context);
+            $this->printMessage(ConsoleLogLevel::SUCCESS, 'Done', $context);
         }
         return false;
     }

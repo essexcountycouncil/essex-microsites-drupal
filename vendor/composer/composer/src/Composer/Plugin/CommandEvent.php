@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -43,10 +43,12 @@ class CommandEvent extends Event
      *
      * @param string          $name        The event name
      * @param string          $commandName The command name
+     * @param InputInterface  $input
+     * @param OutputInterface $output
      * @param mixed[]         $args        Arguments passed by the user
      * @param mixed[]         $flags       Optional flags to pass data not as argument
      */
-    public function __construct(string $name, string $commandName, InputInterface $input, OutputInterface $output, array $args = [], array $flags = [])
+    public function __construct($name, $commandName, $input, $output, array $args = array(), array $flags = array())
     {
         parent::__construct($name, $args, $flags);
         $this->commandName = $commandName;
@@ -56,24 +58,30 @@ class CommandEvent extends Event
 
     /**
      * Returns the command input interface
+     *
+     * @return InputInterface
      */
-    public function getInput(): InputInterface
+    public function getInput()
     {
         return $this->input;
     }
 
     /**
      * Retrieves the command output interface
+     *
+     * @return OutputInterface
      */
-    public function getOutput(): OutputInterface
+    public function getOutput()
     {
         return $this->output;
     }
 
     /**
      * Retrieves the name of the command being run
+     *
+     * @return string
      */
-    public function getCommandName(): string
+    public function getCommandName()
     {
         return $this->commandName;
     }

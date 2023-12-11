@@ -14,6 +14,7 @@ namespace Symfony\Component\Validator\Constraints;
 use Symfony\Component\Intl\Locales;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\Validator\Exception\LogicException;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
@@ -25,9 +26,9 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
 class LocaleValidator extends ConstraintValidator
 {
     /**
-     * @return void
+     * {@inheritdoc}
      */
-    public function validate(mixed $value, Constraint $constraint)
+    public function validate($value, Constraint $constraint)
     {
         if (!$constraint instanceof Locale) {
             throw new UnexpectedTypeException($constraint, Locale::class);
@@ -37,8 +38,12 @@ class LocaleValidator extends ConstraintValidator
             return;
         }
 
-        if (!\is_scalar($value) && !$value instanceof \Stringable) {
+        if (!\is_scalar($value) && !(\is_object($value) && method_exists($value, '__toString'))) {
             throw new UnexpectedValueException($value, 'string');
+        }
+
+        if (!class_exists(Locales::class)) {
+            throw new LogicException('The Intl component is required to use the Locale constraint. Try running "composer require symfony/intl".');
         }
 
         $inputValue = (string) $value;

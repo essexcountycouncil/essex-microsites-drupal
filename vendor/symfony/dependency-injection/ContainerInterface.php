@@ -12,7 +12,7 @@
 namespace Symfony\Component\DependencyInjection;
 
 use Psr\Container\ContainerInterface as PsrContainerInterface;
-use Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
+use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Exception\ServiceCircularReferenceException;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
@@ -31,42 +31,69 @@ interface ContainerInterface extends PsrContainerInterface
     public const IGNORE_ON_UNINITIALIZED_REFERENCE = 4;
 
     /**
-     * @return void
+     * Sets a service.
+     *
+     * @param string      $id      The service identifier
+     * @param object|null $service The service instance
      */
-    public function set(string $id, ?object $service);
+    public function set($id, $service);
 
     /**
-     * @template B of self::*_REFERENCE
+     * Gets a service.
      *
-     * @param B $invalidBehavior
+     * @param string $id              The service identifier
+     * @param int    $invalidBehavior The behavior when the service does not exist
      *
-     * @psalm-return (B is self::EXCEPTION_ON_INVALID_REFERENCE|self::RUNTIME_EXCEPTION_ON_INVALID_REFERENCE ? object : object|null)
+     * @return object|null The associated service
      *
      * @throws ServiceCircularReferenceException When a circular reference is detected
      * @throws ServiceNotFoundException          When the service is not defined
      *
      * @see Reference
      */
-    public function get(string $id, int $invalidBehavior = self::EXCEPTION_ON_INVALID_REFERENCE): ?object;
+    public function get($id, $invalidBehavior = self::EXCEPTION_ON_INVALID_REFERENCE);
 
-    public function has(string $id): bool;
+    /**
+     * @param string $id The service identifier
+     *
+     * @return bool true if the service is defined, false otherwise
+     */
+    public function has($id);
 
     /**
      * Check for whether or not a service has been initialized.
+     *
+     * @param string $id
+     *
+     * @return bool true if the service has been initialized, false otherwise
      */
-    public function initialized(string $id): bool;
+    public function initialized($id);
 
     /**
+     * Gets a parameter.
+     *
+     * @param string $name The parameter name
+     *
      * @return array|bool|string|int|float|\UnitEnum|null
      *
-     * @throws ParameterNotFoundException if the parameter is not defined
+     * @throws InvalidArgumentException if the parameter is not defined
      */
-    public function getParameter(string $name);
-
-    public function hasParameter(string $name): bool;
+    public function getParameter($name);
 
     /**
-     * @return void
+     * Checks if a parameter exists.
+     *
+     * @param string $name The parameter name
+     *
+     * @return bool The presence of parameter in container
      */
-    public function setParameter(string $name, array|bool|string|int|float|\UnitEnum|null $value);
+    public function hasParameter($name);
+
+    /**
+     * Sets a parameter.
+     *
+     * @param string                                     $name  The parameter name
+     * @param array|bool|string|int|float|\UnitEnum|null $value The parameter value
+     */
+    public function setParameter($name, $value);
 }

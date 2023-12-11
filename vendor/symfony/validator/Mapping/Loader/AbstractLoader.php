@@ -11,7 +11,6 @@
 
 namespace Symfony\Component\Validator\Mapping\Loader;
 
-use Symfony\Component\Validator\Attribute\HasNamedArguments;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\MappingException;
 
@@ -36,11 +35,6 @@ abstract class AbstractLoader implements LoaderInterface
     protected $namespaces = [];
 
     /**
-     * @var array<class-string, bool>
-     */
-    private array $namedArgumentsCache = [];
-
-    /**
      * Adds a namespace alias.
      *
      * The namespace alias can be used to reference constraints from specific
@@ -50,9 +44,10 @@ abstract class AbstractLoader implements LoaderInterface
      *
      *     $constraint = $this->newConstraint('mynamespace:NotNull');
      *
-     * @return void
+     * @param string $alias     The alias
+     * @param string $namespace The PHP namespace
      */
-    protected function addNamespaceAlias(string $alias, string $namespace)
+    protected function addNamespaceAlias($alias, $namespace)
     {
         $this->namespaces[$alias] = $namespace;
     }
@@ -68,12 +63,14 @@ abstract class AbstractLoader implements LoaderInterface
      *                        {@link addNamespaceAlias()}.
      * @param mixed  $options The constraint options
      *
+     * @return Constraint
+     *
      * @throws MappingException If the namespace prefix is undefined
      */
-    protected function newConstraint(string $name, mixed $options = null): Constraint
+    protected function newConstraint($name, $options = null)
     {
         if (str_contains($name, '\\') && class_exists($name)) {
-            $className = $name;
+            $className = (string) $name;
         } elseif (str_contains($name, ':')) {
             [$prefix, $className] = explode(':', $name, 2);
 
@@ -84,10 +81,6 @@ abstract class AbstractLoader implements LoaderInterface
             $className = $this->namespaces[$prefix].$className;
         } else {
             $className = self::DEFAULT_NAMESPACE.$name;
-        }
-
-        if ($this->namedArgumentsCache[$className] ??= (bool) (new \ReflectionMethod($className, '__construct'))->getAttributes(HasNamedArguments::class)) {
-            return new $className(...$options);
         }
 
         return new $className($options);

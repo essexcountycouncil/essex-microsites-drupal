@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drush\Boot;
 
 use Psr\Log\LoggerAwareInterface;
@@ -11,8 +9,8 @@ abstract class BaseBoot implements Boot, LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    protected string|bool $uri = false;
-    protected int $phase = DrupalBootLevels::NONE;
+    protected $uri = false;
+    protected $phase = false;
 
     public function __construct()
     {
@@ -29,7 +27,7 @@ abstract class BaseBoot implements Boot, LoggerAwareInterface
         return $this->uri;
     }
 
-    public function setUri($uri): void
+    public function setUri($uri)
     {
         $this->uri = $uri;
     }
@@ -39,12 +37,12 @@ abstract class BaseBoot implements Boot, LoggerAwareInterface
         return $this->phase;
     }
 
-    public function setPhase(int $phase): void
+    public function setPhase(int $phase)
     {
         $this->phase = $phase;
     }
 
-    public function validRoot(?string $path): bool
+    public function validRoot($path)
     {
     }
 
@@ -61,32 +59,36 @@ abstract class BaseBoot implements Boot, LoggerAwareInterface
         // No longer used.
     }
 
-    public function bootstrapPhaseMap(): array
+    public function bootstrapPhases(): array
     {
         return [
-            'none' => DrupalBootLevels::NONE,
-            'drush' => DrupalBootLevels::NONE,
-            'max' => DrupalBootLevels::MAX,
-            'root' => DrupalBootLevels::ROOT,
-            'site' => DrupalBootLevels::SITE,
-            'configuration' => DrupalBootLevels::CONFIGURATION,
-            'database' => DrupalBootLevels::DATABASE,
-            'full' => DrupalBootLevels::FULL
+            DRUSH_BOOTSTRAP_DRUSH => 'bootstrapDrush',
         ];
     }
 
-    public function lookUpPhaseIndex($phase): ?int
+    public function bootstrapPhaseMap(): array
     {
-        if (is_numeric($phase)) {
-            return (int) $phase;
-        }
+        return [
+            'none' => DRUSH_BOOTSTRAP_DRUSH,
+            'drush' => DRUSH_BOOTSTRAP_DRUSH,
+            'max' => DRUSH_BOOTSTRAP_MAX,
+            'root' => DRUSH_BOOTSTRAP_DRUPAL_ROOT,
+            'site' => DRUSH_BOOTSTRAP_DRUPAL_SITE,
+            'configuration' => DRUSH_BOOTSTRAP_DRUPAL_CONFIGURATION,
+            'database' => DRUSH_BOOTSTRAP_DRUPAL_DATABASE,
+            'full' => DRUSH_BOOTSTRAP_DRUPAL_FULL
+        ];
+    }
+
+    public function lookUpPhaseIndex($phase)
+    {
         $phaseMap = $this->bootstrapPhaseMap();
         if (isset($phaseMap[$phase])) {
             return $phaseMap[$phase];
         }
 
-        if ((!str_starts_with($phase, 'DRUSH_BOOTSTRAP_')) || (!defined($phase))) {
-            return null;
+        if ((substr($phase, 0, 16) != 'DRUSH_BOOTSTRAP_') || (!defined($phase))) {
+            return;
         }
         return constant($phase);
     }

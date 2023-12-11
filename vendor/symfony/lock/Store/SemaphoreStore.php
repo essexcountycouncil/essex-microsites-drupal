@@ -15,13 +15,14 @@ use Symfony\Component\Lock\BlockingStoreInterface;
 use Symfony\Component\Lock\Exception\InvalidArgumentException;
 use Symfony\Component\Lock\Exception\LockConflictedException;
 use Symfony\Component\Lock\Key;
+use Symfony\Component\Lock\StoreInterface;
 
 /**
  * SemaphoreStore is a PersistingStoreInterface implementation using Semaphore as store engine.
  *
  * @author Jérémy Derussé <jeremy@derusse.com>
  */
-class SemaphoreStore implements BlockingStoreInterface
+class SemaphoreStore implements StoreInterface, BlockingStoreInterface
 {
     /**
      * Returns whether or not the store is supported.
@@ -41,7 +42,7 @@ class SemaphoreStore implements BlockingStoreInterface
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function save(Key $key)
     {
@@ -49,20 +50,20 @@ class SemaphoreStore implements BlockingStoreInterface
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function waitAndSave(Key $key)
     {
         $this->lock($key, true);
     }
 
-    private function lock(Key $key, bool $blocking): void
+    private function lock(Key $key, bool $blocking)
     {
         if ($key->hasState(__CLASS__)) {
             return;
         }
 
-        $keyId = unpack('i', hash('xxh128', $key, true))[1];
+        $keyId = unpack('i', md5($key, true))[1];
         $resource = @sem_get($keyId);
         $acquired = $resource && @sem_acquire($resource, !$blocking);
 
@@ -76,11 +77,10 @@ class SemaphoreStore implements BlockingStoreInterface
         }
 
         $key->setState(__CLASS__, $resource);
-        $key->markUnserializable();
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function delete(Key $key)
     {
@@ -97,14 +97,17 @@ class SemaphoreStore implements BlockingStoreInterface
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
-    public function putOffExpiration(Key $key, float $ttl)
+    public function putOffExpiration(Key $key, $ttl)
     {
         // do nothing, the semaphore locks forever.
     }
 
-    public function exists(Key $key): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function exists(Key $key)
     {
         return $key->hasState(__CLASS__);
     }

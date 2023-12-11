@@ -1,15 +1,8 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drush\Drupal\Commands\sql;
 
 use Consolidation\AnnotatedCommand\CommandData;
-use Consolidation\AnnotatedCommand\Hooks\HookManager;
-use Drupal\Core\Database\Connection;
-use Drupal\Core\Extension\ModuleHandlerInterface;
-use Drush\Attributes as CLI;
-use Drush\Boot\DrupalBootLevels;
 use Drush\Commands\DrushCommands;
 use Drush\Drush;
 use Symfony\Component\Console\Input\InputInterface;
@@ -17,18 +10,29 @@ use Symfony\Component\Console\Input\InputInterface;
 /**
  * This class is a good example of a sql-sanitize plugin.
  */
-final class SanitizeCommentsCommands extends DrushCommands implements SanitizePluginInterface
+class SanitizeCommentsCommands extends DrushCommands implements SanitizePluginInterface
 {
-    public function __construct(
-        protected Connection $database,
-        protected ModuleHandlerInterface $moduleHandler
-    ) {
+    protected $database;
+    protected $moduleHandler;
+
+    /**
+     * SanitizeCommentsCommands constructor.
+     * @param $database
+     * @param $moduleHandler
+     */
+    public function __construct($database, $moduleHandler)
+    {
+        $this->database = $database;
+        $this->moduleHandler = $moduleHandler;
     }
 
     /**
      * Sanitize comment names from the DB.
+     *
+     * @hook post-command sql-sanitize
+     *
+     * @inheritdoc
      */
-    #[CLI\Hook(type: HookManager::POST_COMMAND_HOOK, target: 'sql-sanitize')]
     public function sanitize($result, CommandData $commandData): void
     {
         if ($this->applies()) {
@@ -53,7 +57,11 @@ final class SanitizeCommentsCommands extends DrushCommands implements SanitizePl
         }
     }
 
-    #[CLI\Hook(type: HookManager::ON_EVENT, target: SanitizeCommands::CONFIRMS)]
+    /**
+     * @hook on-event sql-sanitize-confirms
+     *
+     * @inheritdoc
+     */
     public function messages(&$messages, InputInterface $input): void
     {
         if ($this->applies()) {
@@ -63,7 +71,7 @@ final class SanitizeCommentsCommands extends DrushCommands implements SanitizePl
 
     protected function applies()
     {
-        Drush::bootstrapManager()->doBootstrap(DrupalBootLevels::FULL);
+        Drush::bootstrapManager()->doBootstrap(DRUSH_BOOTSTRAP_DRUPAL_FULL);
         return $this->moduleHandler->moduleExists('comment');
     }
 }

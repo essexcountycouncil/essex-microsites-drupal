@@ -90,3 +90,44 @@ function localgov_microsites_group_update_9002(&$sandbox) {
     $my_invitations_view->save();
   }
 }
+
+/**
+ * Configure the new 'access microsites overview' permission.
+ */
+function localgov_microsites_group_update_9003() {
+
+  $permission = 'access microsites overview';
+  $old_permission = 'bypass group access';
+  /** @var \Drupal\user\Entity\Role $controller_role */
+  $controller_role = \Drupal::entityTypeManager()
+    ->getStorage('user_role')
+    ->load('microsites_controller');
+
+  // Add 'access microsites overview' permission to microsites controller role.
+  if (!$controller_role->hasPermission($permission)) {
+    $controller_role->grantPermission($permission);
+    $controller_role->save();
+  }
+
+  // Remove 'bypass group access' permission from microsites controller role.
+  if ($controller_role->hasPermission($old_permission)) {
+    $controller_role->revokePermission($old_permission);
+    $controller_role->save();
+  }
+
+  // Update access to the microsites overview view.
+  $microsites_view = \Drupal::entityTypeManager()
+    ->getStorage('view')
+    ->load('localgov_microsites_overview');
+  $displays = $microsites_view->get('display');
+  if (
+    isset($displays['default']['display_options']['access']['type']) &&
+    $displays['default']['display_options']['access']['type'] === 'perm' &&
+    isset($displays['default']['display_options']['access']['options']['perm']) &&
+    $displays['default']['display_options']['access']['options']['perm'] == $old_permission
+  ) {
+    $displays['default']['display_options']['access']['options']['perm'] = $permission;
+    $microsites_view->set('display', $displays);
+    $microsites_view->save();
+  }
+}

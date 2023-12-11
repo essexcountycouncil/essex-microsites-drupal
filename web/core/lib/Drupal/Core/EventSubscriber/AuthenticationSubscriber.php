@@ -140,7 +140,7 @@ class AuthenticationSubscriber implements EventSubscriberInterface {
   /**
    * {@inheritdoc}
    */
-  public static function getSubscribedEvents(): array {
+  public static function getSubscribedEvents() {
     // The priority for authentication must be higher than the highest event
     // subscriber accessing the current user. Especially it must be higher than
     // LanguageRequestSubscriber as LanguageManager accesses the current user if

@@ -1,29 +1,28 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace DrupalCodeGenerator\Command\Yml;
 
 use DrupalCodeGenerator\Application;
-use DrupalCodeGenerator\Asset\AssetCollection as Assets;
-use DrupalCodeGenerator\Attribute\Generator;
-use DrupalCodeGenerator\Command\BaseGenerator;
-use DrupalCodeGenerator\GeneratorType;
+use DrupalCodeGenerator\Command\ThemeGenerator;
 
-#[Generator(
-  name: 'yml:theme-libraries',
-  description: 'Generates theme libraries yml file',
-  aliases: ['theme-libraries'],
-  templatePath: Application::TEMPLATE_PATH . '/Yaml/_theme-libraries',
-  type: GeneratorType::THEME_COMPONENT,
-  label: 'Libraries (theme)',
-)]
-final class ThemeLibraries extends BaseGenerator {
+/**
+ * Implements yml:theme-libraries command.
+ */
+final class ThemeLibraries extends ThemeGenerator {
+
+  protected string $name = 'yml:theme-libraries';
+  protected string $description = 'Generates theme libraries yml file';
+  protected string $alias = 'theme-libraries';
+  protected string $label = 'Libraries (theme)';
+  protected string $templatePath = Application::TEMPLATE_PATH . '/yml/theme-libraries';
+  protected ?string $nameQuestion = NULL;
 
   /**
    * {@inheritdoc}
    */
-  protected function generate(array &$vars, Assets $assets): void {
-    $vars['machine_name'] = $this->createInterviewer($vars)->askMachineName();
-    $assets->addFile('{machine_name}.libraries.yml', 'theme-libraries.twig');
+  protected function generate(array &$vars): void {
+    $this->collectDefault($vars);
+    $this->addFile('{machine_name}.libraries.yml', 'theme-libraries');
   }
 
 }

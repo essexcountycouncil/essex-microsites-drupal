@@ -307,7 +307,7 @@ class ForumController extends ControllerBase {
         ];
         if ($forum_term && $forum_term->bundle() == $vid) {
           // We are viewing a forum term (specific forum), append the tid to
-          // the URL.
+          // the url.
           $links[$type]['#link']['localized_options']['query']['forum_id'] = $forum_term->id();
         }
       }

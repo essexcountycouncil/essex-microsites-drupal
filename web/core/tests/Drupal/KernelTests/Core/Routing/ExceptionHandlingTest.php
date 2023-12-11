@@ -43,19 +43,6 @@ class ExceptionHandlingTest extends KernelTestBase {
   }
 
   /**
-   * Tests a route with a non-supported _format parameter.
-   */
-  public function test406() {
-    $request = Request::create('/router_test/test2?_format=non_existent_format');
-
-    /** @var \Symfony\Component\HttpKernel\HttpKernelInterface $kernel */
-    $kernel = \Drupal::getContainer()->get('http_kernel');
-    $response = $kernel->handle($request);
-
-    $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $response->getStatusCode());
-  }
-
-  /**
    * Tests the exception handling for json and 403 status code.
    */
   public function testJson403() {
@@ -87,7 +74,7 @@ class ExceptionHandlingTest extends KernelTestBase {
 
     $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
     $this->assertEquals('application/json', $response->headers->get('Content-type'));
-    $this->assertEquals('{"message":"No route found for \\u0022GET http:\/\/localhost\\/not-found\\u0022"}', $response->getContent());
+    $this->assertEquals('{"message":"No route found for \\u0022GET \\/not-found\\u0022"}', $response->getContent());
   }
 
   /**
@@ -213,8 +200,7 @@ class ExceptionHandlingTest extends KernelTestBase {
     // final exception subscriber, it is printed as partial HTML, and hence
     // escaped.
     $this->assertEquals('text/plain; charset=UTF-8', $response->headers->get('Content-type'));
-    // cspell:ignore jsonalert
-    $this->assertStringStartsWith('Not acceptable format: jsonalert(123);', $response->getContent());
+    $this->assertStringStartsWith('The website encountered an unexpected error. Please try again later.<br><br><em class="placeholder">Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException</em>: Not acceptable format: json&lt;script&gt;alert(123);&lt;/script&gt; in <em class="placeholder">', $response->getContent());
   }
 
 }

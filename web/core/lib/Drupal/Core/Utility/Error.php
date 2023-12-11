@@ -4,11 +4,9 @@ namespace Drupal\Core\Utility;
 
 use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Component\Utility\Xss;
-use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\Database;
 use Drupal\Core\Database\DatabaseExceptionWrapper;
-use Psr\Log\LoggerInterface;
-use Psr\Log\LogLevel;
+use Drupal\Core\Database\Log;
 
 /**
  * Drupal error utility class.
@@ -54,7 +52,7 @@ class Error {
     // skipping internal functions of the database layer.
     if ($exception instanceof \PDOException || $exception instanceof DatabaseExceptionWrapper) {
       $driver_namespace = Database::getConnectionInfo()['default']['namespace'];
-      $backtrace = Connection::removeDatabaseEntriesFromDebugBacktrace($backtrace, $driver_namespace);
+      $backtrace = Log::removeDatabaseEntries($backtrace, $driver_namespace);
       if (isset($exception->query_string, $exception->args)) {
         $message .= ": " . $exception->query_string . "; " . print_r($exception->args, TRUE);
       }
@@ -75,24 +73,6 @@ class Error {
       '@backtrace_string' => $exception->getTraceAsString(),
       'exception' => $exception,
     ];
-  }
-
-  /**
-   * Log a formatted exception message to the provided logger.
-   *
-   * @param \Psr\Log\LoggerInterface $logger
-   *   The logger.
-   * @param \Throwable $exception
-   *   The exception.
-   * @param string $message
-   *   (optional) The message.
-   * @param array $additional_variables
-   *   (optional) Any additional variables.
-   * @param string $level
-   *   The PSR log level. Must be valid constant in \Psr\Log\LogLevel.
-   */
-  public static function logException(LoggerInterface $logger, \Throwable $exception, string $message = Error::DEFAULT_ERROR_MESSAGE, array $additional_variables = [], string $level = LogLevel::ERROR): void {
-    $logger->log($level, $message, static::decodeException($exception) + $additional_variables);
   }
 
   /**

@@ -62,7 +62,7 @@ class FieldLink extends ProcessPluginBase {
     // If the path starts with 2 slashes then it is always considered an
     // external URL without an explicit protocol part.
     // @todo Remove this when https://www.drupal.org/node/2744729 lands.
-    if (str_starts_with($uri, '//')) {
+    if (strpos($uri, '//') === 0) {
       return $this->configuration['uri_scheme'] . ltrim($uri, '/');
     }
 
@@ -77,7 +77,7 @@ class FieldLink extends ProcessPluginBase {
     }
 
     // Remove the <front> component of the URL.
-    if (str_starts_with($uri, '<front>')) {
+    if (strpos($uri, '<front>') === 0) {
       $uri = substr($uri, strlen('<front>'));
     }
     else {

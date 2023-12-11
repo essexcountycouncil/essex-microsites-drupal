@@ -12,7 +12,6 @@ use Drupal\field\Entity\FieldStorageConfig;
  * Ensures that media UI works correctly.
  *
  * @group media
- * @group #slow
  */
 class MediaUiFunctionalTest extends MediaFunctionalTestBase {
 

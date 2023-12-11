@@ -391,9 +391,6 @@ interface DisplayPluginInterface {
 
   /**
    * Renders this display.
-   *
-   * @return array
-   *   A render array.
    */
   public function render();
 
@@ -498,9 +495,6 @@ interface DisplayPluginInterface {
    * Renders the display for the purposes of a live preview.
    *
    * Also might be used for some other AJAXy reason.
-   *
-   * @return array
-   *   The render array of live preview.
    */
   public function preview();
 
@@ -588,7 +582,7 @@ interface DisplayPluginInterface {
    *     where you can configure what should be done if the argument does not
    *     exist.
    *   - description: A description about how arguments are passed
-   *     to the display. For example blocks can't get arguments from URL.
+   *     to the display. For example blocks can't get arguments from url.
    */
   public function getArgumentText();
 

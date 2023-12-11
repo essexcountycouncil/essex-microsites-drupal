@@ -33,7 +33,10 @@ class StaticMethodLoader implements LoaderInterface
         $this->methodName = $methodName;
     }
 
-    public function loadClassMetadata(ClassMetadata $metadata): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function loadClassMetadata(ClassMetadata $metadata)
     {
         /** @var \ReflectionClass $reflClass */
         $reflClass = $metadata->getReflectionClass();

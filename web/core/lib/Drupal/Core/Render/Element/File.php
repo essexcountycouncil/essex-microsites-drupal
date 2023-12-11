@@ -61,7 +61,7 @@ class File extends FormElement {
    * Prepares a #type 'file' render element for input.html.twig.
    *
    * For assistance with handling the uploaded file correctly, see the API
-   * provided by file.api.php.
+   * provided by file.inc.
    *
    * @param array $element
    *   An associative array containing the properties of the element.

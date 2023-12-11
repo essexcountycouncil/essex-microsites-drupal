@@ -4,7 +4,6 @@ namespace Drupal\Tests\system\Functional\System;
 
 use Drupal\Core\StreamWrapper\PublicStream;
 use Drupal\Core\StreamWrapper\StreamWrapperManager;
-use Drupal\node\Entity\Node;
 use Drupal\Tests\BrowserTestBase;
 use Drupal\Tests\TestFileCreationTrait;
 
@@ -43,7 +42,7 @@ class ThemeTest extends BrowserTestBase {
    *
    * @var \Drupal\node\Entity\Node
    */
-  protected Node $node;
+  protected $node;
 
   /**
    * {@inheritdoc}

@@ -23,17 +23,18 @@ interface EnvVarProcessorInterface
     /**
      * Returns the value of the given variable as managed by the current instance.
      *
-     * @param string                  $prefix The namespace of the variable
-     * @param string                  $prefix The namespace of the variable; when the empty string is passed, null values should be kept as is
-     * @param string                  $name   The name of the variable within the namespace
-     * @param \Closure(string): mixed $getEnv A closure that allows fetching more env vars
+     * @param string   $prefix The namespace of the variable
+     * @param string   $name   The name of the variable within the namespace
+     * @param \Closure $getEnv A closure that allows fetching more env vars
+     *
+     * @return mixed
      *
      * @throws RuntimeException on error
      */
-    public function getEnv(string $prefix, string $name, \Closure $getEnv): mixed;
+    public function getEnv($prefix, $name, \Closure $getEnv);
 
     /**
-     * @return array<string, string> The PHP-types managed by getEnv(), keyed by prefixes
+     * @return string[] The PHP-types managed by getEnv(), keyed by prefixes
      */
-    public static function getProvidedTypes(): array;
+    public static function getProvidedTypes();
 }

@@ -9,7 +9,7 @@ use Drupal\Core\Field\FieldItemInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class Text Field Embed Base.
+ * Class TextFieldEmbedBase.
  *
  * @package Drupal\entity_usage\Plugin\EntityUsage\Track
  */
@@ -80,8 +80,8 @@ class TextFieldEmbedBase extends MediaFinderBase {
     if ($entity instanceof ContentEntityInterface) {
       // Loop through all fields on the entity.
       foreach ($entity->getFieldDefinitions() as $key => $field) {
-        // Check if the field is an entity reference, referencing media
-        // entities, and retriever the media entity.
+        // Check if the field is an entity reference, referencing media entities,
+        // and retriever the media entity.
         if (in_array($field->getType(), $this->getApplicableFieldTypes()) && !$entity->get($key)->isEmpty()) {
           foreach ($entity->get($key)->getIterator() as $item) {
             $media_entities = $this->getTargetEntities($item);

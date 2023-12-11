@@ -35,7 +35,6 @@ class MigrateDrupal6AuditIdsTest extends MigrateDrupal6TestBase {
     // Install required schemas.
     $this->installSchema('book', ['book']);
     $this->installSchema('dblog', ['watchdog']);
-    // @todo Remove forum in https://www.drupal.org/project/drupal/issues/3261653
     $this->installSchema('forum', ['forum_index']);
     $this->installSchema('node', ['node_access']);
     $this->installSchema('search', ['search_dataset']);
@@ -130,6 +129,9 @@ class MigrateDrupal6AuditIdsTest extends MigrateDrupal6TestBase {
     );
 
     $expected = [
+      // @todo Remove aggregator in https://www.drupal.org/project/drupal/issues/3264120
+      'd6_aggregator_feed',
+      'd6_aggregator_item',
       'd6_comment',
       'd6_custom_block',
       'd6_file',

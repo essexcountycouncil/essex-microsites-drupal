@@ -1,27 +1,25 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drush\Drupal\Commands\sql;
 
 use Consolidation\AnnotatedCommand\CommandData;
-use Consolidation\AnnotatedCommand\Hooks\HookManager;
-use Drupal\Core\Entity\EntityFieldManagerInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drush\Attributes as CLI;
 use Drush\Commands\DrushCommands;
 use Symfony\Component\Console\Input\InputInterface;
 
 /**
  * This class is a good example of how to build a sql-sanitize plugin.
  */
-final class SanitizeUserFieldsCommands extends DrushCommands implements SanitizePluginInterface
+class SanitizeUserFieldsCommands extends DrushCommands implements SanitizePluginInterface
 {
-    public function __construct(
-        protected \Drupal\Core\Database\Connection $database,
-        protected EntityFieldManagerInterface $entityFieldManager,
-        protected EntityTypeManagerInterface $entityTypeManager
-    ) {
+    protected $database;
+    protected $entityFieldManager;
+    protected $entityTypeManager;
+
+    public function __construct($database, $entityFieldManager, $entityTypeManager)
+    {
+        $this->database = $database;
+        $this->entityFieldManager = $entityFieldManager;
+        $this->entityTypeManager = $entityTypeManager;
     }
 
     /**
@@ -44,14 +42,21 @@ final class SanitizeUserFieldsCommands extends DrushCommands implements Sanitize
      * Sanitize string fields associated with the user.
      *
      * @todo Use Drupal services to get field info.
+     *
+     * @hook post-command sql-sanitize
+     *
+     * @inheritdoc
      */
-    #[CLI\Hook(type: HookManager::POST_COMMAND_HOOK, target: SanitizeCommands::SANITIZE)]
     public function sanitize($result, CommandData $commandData): void
     {
         $options = $commandData->options();
         $conn = $this->getDatabase();
         $field_definitions = $this->getEntityFieldManager()->getFieldDefinitions('user', 'user');
         $field_storage = $this->getEntityFieldManager()->getFieldStorageDefinitions('user');
+        /** @deprecated Use $options['allowlist-fields'] instead. */
+        foreach (explode(',', $options['whitelist-fields']) as $key) {
+            unset($field_definitions[$key], $field_storage[$key]);
+        }
         foreach (explode(',', $options['allowlist-fields']) as $key) {
             unset($field_definitions[$key], $field_storage[$key]);
         }
@@ -119,15 +124,22 @@ final class SanitizeUserFieldsCommands extends DrushCommands implements Sanitize
         }
     }
 
-    #[CLI\Hook(type: HookManager::ON_EVENT, target: SanitizeCommands::CONFIRMS)]
+    /**
+     * @hook on-event sql-sanitize-confirms
+     *
+     * @inheritdoc
+     */
     public function messages(&$messages, InputInterface $input): void
     {
         $messages[] = dt('Sanitize text fields associated with users.');
     }
 
-    #[CLI\Hook(type: HookManager::OPTION_HOOK, target: SanitizeCommands::SANITIZE)]
-    #[CLI\Option(name: 'allowlist-fields', description: 'A comma delimited list of fields exempt from sanitization.')]
-    public function options($options = ['allowlist-fields' => '']): void
+    /**
+     * @hook option sql-sanitize
+     * @option whitelist-fields Deprecated. Use allowlist-fields instead.
+     * @option allowlist-fields A comma delimited list of fields exempt from sanitization.
+     */
+    public function options($options = ['whitelist-fields' => '', 'allowlist-fields' => '']): void
     {
     }
 }

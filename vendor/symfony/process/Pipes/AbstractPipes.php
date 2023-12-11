@@ -20,7 +20,7 @@ use Symfony\Component\Process\Exception\InvalidArgumentException;
  */
 abstract class AbstractPipes implements PipesInterface
 {
-    public array $pipes = [];
+    public $pipes = [];
 
     private $inputBuffer = '';
     private $input;
@@ -30,7 +30,7 @@ abstract class AbstractPipes implements PipesInterface
     /**
      * @param resource|string|int|float|bool|\Iterator|null $input
      */
-    public function __construct(mixed $input)
+    public function __construct($input)
     {
         if (\is_resource($input) || $input instanceof \Iterator) {
             $this->input = $input;
@@ -41,7 +41,10 @@ abstract class AbstractPipes implements PipesInterface
         }
     }
 
-    public function close(): void
+    /**
+     * {@inheritdoc}
+     */
+    public function close()
     {
         foreach ($this->pipes as $pipe) {
             if (\is_resource($pipe)) {
@@ -66,7 +69,7 @@ abstract class AbstractPipes implements PipesInterface
     /**
      * Unblocks streams.
      */
-    protected function unblock(): void
+    protected function unblock()
     {
         if (!$this->blocked) {
             return;
@@ -102,7 +105,7 @@ abstract class AbstractPipes implements PipesInterface
             } elseif (!isset($this->inputBuffer[0])) {
                 if (!\is_string($input)) {
                     if (!\is_scalar($input)) {
-                        throw new InvalidArgumentException(sprintf('"%s" yielded a value of type "%s", but only scalars and stream resources are supported.', get_debug_type($this->input), get_debug_type($input)));
+                        throw new InvalidArgumentException(sprintf('"%s" yielded a value of type "%s", but only scalars and stream resources are supported.', \get_class($this->input), \gettype($input)));
                     }
                     $input = (string) $input;
                 }
@@ -170,7 +173,7 @@ abstract class AbstractPipes implements PipesInterface
     /**
      * @internal
      */
-    public function handleError(int $type, string $msg): void
+    public function handleError(int $type, string $msg)
     {
         $this->lastError = $msg;
     }

@@ -23,7 +23,7 @@ class CacheRouterRebuildSubscriber implements EventSubscriberInterface {
   /**
    * {@inheritdoc}
    */
-  public static function getSubscribedEvents(): array {
+  public static function getSubscribedEvents() {
     $events = [];
     // Act only when the router rebuild is finished.
     $events[RoutingEvents::FINISHED][] = ['onRouterFinished', 200];

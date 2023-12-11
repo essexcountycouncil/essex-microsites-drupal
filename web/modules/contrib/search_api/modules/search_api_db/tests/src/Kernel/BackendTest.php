@@ -153,7 +153,6 @@ class BackendTest extends BackendTestBase {
     $this->regressionTest3225675();
     $this->regressionTest3258802();
     $this->regressionTest3227268();
-    $this->regressionTest3397017();
   }
 
   /**
@@ -593,7 +592,7 @@ class BackendTest extends BackendTestBase {
         ->execute();
       $this->fail('Unknown operator "!=" did not throw an exception.');
     }
-    catch (SearchApiException) {
+    catch (SearchApiException $e) {
       $this->assertTrue(TRUE, 'Unknown operator "!=" threw an exception.');
     }
   }
@@ -649,7 +648,7 @@ class BackendTest extends BackendTestBase {
       $second_server->search($query);
       $this->fail('Could execute a query for an index on a different server.');
     }
-    catch (SearchApiException) {
+    catch (SearchApiException $e) {
       $this->assertTrue(TRUE, 'Executing a query for an index on a different server throws an exception.');
     }
     $second_server->delete();
@@ -1048,34 +1047,6 @@ class BackendTest extends BackendTestBase {
   }
 
   /**
-   * Tests that bigram indexing doesn't choke on 49-characters words.
-   *
-   * @see https://www.drupal.org/node/3397017
-   */
-  protected function regressionTest3397017(): void {
-    // Index all items before adding a new one, so we can better predict the
-    // expected count.
-    $this->indexItems($this->indexId);
-
-    $entity_id = count($this->entities) + 1;
-    // @see \Drupal\search_api_db\Plugin\search_api\backend\Database::TOKEN_LENGTH_MAX
-    $long_word = str_repeat('a', 49);
-    $entity = $this->addTestEntity($entity_id, [
-      'type' => 'article',
-      'body' => "foo $long_word bar baz",
-    ]);
-
-    $count = $this->indexItems($this->indexId);
-    $this->assertEquals(1, $count);
-    $results = $this->buildSearch($long_word)
-      ->execute();
-    $this->assertResults([$entity_id], $results, 'String filter with trailing space');
-
-    $entity->delete();
-    unset($this->entities[$entity_id]);
-  }
-
-  /**
    * {@inheritdoc}
    */
   protected function checkIndexWithoutFields() {
@@ -1444,6 +1415,7 @@ class BackendTest extends BackendTestBase {
     $class = new \ReflectionClass(Database::class);
     /** @see \Drupal\search_api_db\Plugin\search_api\backend\Database::cleanNumericString() */
     $method = $class->getMethod('cleanNumericString');
+    $method->setAccessible(TRUE);
 
     $this->assertEquals('42', $method->invoke(NULL, '-042'));
     $this->assertEquals('42', $method->invoke(NULL, '00042'));

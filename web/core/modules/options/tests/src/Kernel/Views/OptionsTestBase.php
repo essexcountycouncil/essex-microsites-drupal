@@ -51,7 +51,7 @@ abstract class OptionsTestBase extends ViewsKernelTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp($import_test_views = TRUE): void {
+  protected function setUp($import_test_views = TRUE) {
     parent::setUp();
     $this->mockStandardInstall();
 

@@ -23,9 +23,16 @@ use Symfony\Component\Routing\RouteCollection;
 class AnnotationDirectoryLoader extends AnnotationFileLoader
 {
     /**
+     * Loads from annotations from a directory.
+     *
+     * @param string      $path A directory path
+     * @param string|null $type The resource type
+     *
+     * @return RouteCollection A RouteCollection instance
+     *
      * @throws \InvalidArgumentException When the directory does not exist or its routes cannot be parsed
      */
-    public function load(mixed $path, string $type = null): ?RouteCollection
+    public function load($path, $type = null)
     {
         if (!is_dir($dir = $this->locator->locate($path))) {
             return parent::supports($path, $type) ? parent::load($path, $type) : new RouteCollection();
@@ -36,11 +43,15 @@ class AnnotationDirectoryLoader extends AnnotationFileLoader
         $files = iterator_to_array(new \RecursiveIteratorIterator(
             new \RecursiveCallbackFilterIterator(
                 new \RecursiveDirectoryIterator($dir, \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::FOLLOW_SYMLINKS),
-                fn (\SplFileInfo $current) => !str_starts_with($current->getBasename(), '.')
+                function (\SplFileInfo $current) {
+                    return '.' !== substr($current->getBasename(), 0, 1);
+                }
             ),
             \RecursiveIteratorIterator::LEAVES_ONLY
         ));
-        usort($files, fn (\SplFileInfo $a, \SplFileInfo $b) => (string) $a > (string) $b ? 1 : -1);
+        usort($files, function (\SplFileInfo $a, \SplFileInfo $b) {
+            return (string) $a > (string) $b ? 1 : -1;
+        });
 
         foreach ($files as $file) {
             if (!$file->isFile() || !str_ends_with($file->getFilename(), '.php')) {
@@ -60,23 +71,22 @@ class AnnotationDirectoryLoader extends AnnotationFileLoader
         return $collection;
     }
 
-    public function supports(mixed $resource, string $type = null): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function supports($resource, $type = null)
     {
-        if (!\is_string($resource)) {
-            return false;
-        }
-
-        if (\in_array($type, ['annotation', 'attribute'], true)) {
+        if ('annotation' === $type) {
             return true;
         }
 
-        if ($type) {
+        if ($type || !\is_string($resource)) {
             return false;
         }
 
         try {
             return is_dir($this->locator->locate($resource));
-        } catch (\Exception) {
+        } catch (\Exception $e) {
             return false;
         }
     }

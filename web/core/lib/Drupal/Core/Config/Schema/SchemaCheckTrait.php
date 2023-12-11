@@ -17,13 +17,17 @@ trait SchemaCheckTrait {
 
   /**
    * The config schema wrapper object for the configuration object under test.
+   *
+   * @var \Drupal\Core\TypedData\TraversableTypedDataInterface
    */
-  protected TraversableTypedDataInterface $schema;
+  protected $schema;
 
   /**
    * The configuration object name under test.
+   *
+   * @var string
    */
-  protected string $configName;
+  protected $configName;
 
   /**
    * Checks the TypedConfigManager has a valid schema for the configuration.
@@ -56,7 +60,7 @@ trait SchemaCheckTrait {
     foreach ($config_data as $key => $value) {
       $errors[] = $this->checkValue($key, $value);
     }
-    $errors = array_merge(...$errors);
+    $errors = array_merge([], ...$errors);
     if (empty($errors)) {
       return TRUE;
     }

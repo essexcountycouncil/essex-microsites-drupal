@@ -18,7 +18,6 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 use Drupal\Tests\UnitTestCase;
 use Prophecy\Argument;
-use Prophecy\Prophet;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Controller\ArgumentResolverInterface;
@@ -103,8 +102,6 @@ class LocalActionManagerTest extends UnitTestCase {
    * {@inheritdoc}
    */
   protected function setUp(): void {
-    parent::setUp();
-
     $this->argumentResolver = $this->createMock('\Symfony\Component\HttpKernel\Controller\ArgumentResolverInterface');
     $this->request = $this->createMock('Symfony\Component\HttpFoundation\Request');
     $this->routeProvider = $this->createMock('Drupal\Core\Routing\RouteProviderInterface');
@@ -191,8 +188,8 @@ class LocalActionManagerTest extends UnitTestCase {
     $this->assertEquals($expected_actions, $this->localActionManager->getActionsForRoute($route_appears));
   }
 
-  public static function getActionsForRouteProvider() {
-    $cache_contexts_manager = (new Prophet())->prophesize(CacheContextsManager::class);
+  public function getActionsForRouteProvider() {
+    $cache_contexts_manager = $this->prophesize(CacheContextsManager::class);
     $cache_contexts_manager->assertValidTokens(Argument::any())
       ->willReturn(TRUE);
 

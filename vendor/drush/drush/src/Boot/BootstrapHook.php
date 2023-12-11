@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drush\Boot;
 
 use Consolidation\AnnotatedCommand\Hooks\InitializeHookInterface;
@@ -26,9 +24,7 @@ class BootstrapHook implements InitializeHookInterface
     {
         // Get the @bootstrap annotation/attribute. If there isn't one, then assume NONE.
         $phase_long = $annotationData->get('bootstrap', 'none');
-        // Ignore any extra: thats been passed in the attribute.
-        $phase_long = current(explode(' ', $phase_long));
-        if (is_numeric($phase_long)) {
+        if (is_int($phase_long)) {
             $phase = DrupalBootLevels::getPhaseName($phase_long);
         } else {
             $phase = current(explode(' ', $phase_long));

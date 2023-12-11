@@ -28,6 +28,7 @@ trait ProcessorTestTrait {
   protected function invokeMethod($method_name, array $args = []) {
     $class = new \ReflectionClass(get_class($this->processor));
     $method = $class->getMethod($method_name);
+    $method->setAccessible(TRUE);
     return $method->invokeArgs($this->processor, $args);
   }
 

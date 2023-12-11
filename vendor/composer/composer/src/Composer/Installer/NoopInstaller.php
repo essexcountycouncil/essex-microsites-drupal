@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -27,7 +27,7 @@ class NoopInstaller implements InstallerInterface
     /**
      * @inheritDoc
      */
-    public function supports(string $packageType)
+    public function supports($packageType)
     {
         return true;
     }
@@ -43,25 +43,25 @@ class NoopInstaller implements InstallerInterface
     /**
      * @inheritDoc
      */
-    public function download(PackageInterface $package, ?PackageInterface $prevPackage = null)
+    public function download(PackageInterface $package, PackageInterface $prevPackage = null)
     {
-        return \React\Promise\resolve(null);
+        return \React\Promise\resolve();
     }
 
     /**
      * @inheritDoc
      */
-    public function prepare($type, PackageInterface $package, ?PackageInterface $prevPackage = null)
+    public function prepare($type, PackageInterface $package, PackageInterface $prevPackage = null)
     {
-        return \React\Promise\resolve(null);
+        return \React\Promise\resolve();
     }
 
     /**
      * @inheritDoc
      */
-    public function cleanup($type, PackageInterface $package, ?PackageInterface $prevPackage = null)
+    public function cleanup($type, PackageInterface $package, PackageInterface $prevPackage = null)
     {
-        return \React\Promise\resolve(null);
+        return \React\Promise\resolve();
     }
 
     /**
@@ -73,7 +73,7 @@ class NoopInstaller implements InstallerInterface
             $repo->addPackage(clone $package);
         }
 
-        return \React\Promise\resolve(null);
+        return \React\Promise\resolve();
     }
 
     /**
@@ -90,7 +90,7 @@ class NoopInstaller implements InstallerInterface
             $repo->addPackage(clone $target);
         }
 
-        return \React\Promise\resolve(null);
+        return \React\Promise\resolve();
     }
 
     /**
@@ -103,7 +103,7 @@ class NoopInstaller implements InstallerInterface
         }
         $repo->removePackage($package);
 
-        return \React\Promise\resolve(null);
+        return \React\Promise\resolve();
     }
 
     /**

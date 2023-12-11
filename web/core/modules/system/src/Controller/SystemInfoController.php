@@ -2,19 +2,15 @@
 
 namespace Drupal\system\Controller;
 
-use Drupal\Core\Site\Settings;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\system\SystemManager;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
  * Returns responses for System Info routes.
  */
 class SystemInfoController implements ContainerInjectionInterface {
-
-  use StringTranslationTrait;
 
   /**
    * System Manager Service.
@@ -63,12 +59,11 @@ class SystemInfoController implements ContainerInjectionInterface {
   public function php() {
     if (function_exists('phpinfo')) {
       ob_start();
-      $phpinfo_flags = Settings::get('sa_core_2023_004_phpinfo_flags', ~ (INFO_VARIABLES | INFO_ENVIRONMENT));
-      phpinfo($phpinfo_flags);
+      phpinfo(~ (INFO_VARIABLES | INFO_ENVIRONMENT));
       $output = ob_get_clean();
     }
     else {
-      $output = $this->t('The phpinfo() function is disabled. For more information, visit the <a href=":phpinfo">Enabling and disabling phpinfo()</a> handbook page.', [':phpinfo' => 'https://www.drupal.org/node/243993']);
+      $output = t('The phpinfo() function has been disabled for security reasons. For more information, visit <a href=":phpinfo">Enabling and disabling phpinfo()</a> handbook page.', [':phpinfo' => 'https://www.drupal.org/node/243993']);
     }
     return new Response($output);
   }

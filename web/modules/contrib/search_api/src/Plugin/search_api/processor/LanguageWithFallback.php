@@ -131,7 +131,7 @@ class LanguageWithFallback extends ProcessorPluginBase {
     try {
       $entity = $item->getOriginalObject()->getValue();
     }
-    catch (SearchApiException) {
+    catch (SearchApiException $e) {
       return;
     }
     if (!($entity instanceof ContentEntityInterface)) {

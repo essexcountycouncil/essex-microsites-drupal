@@ -22,5 +22,6 @@ work for some things, such as enabling and disabling modules.
 
 ## Advanced - variation by environment
 
-- Drupal supports [excluding development modules from enabling on higher environments](https://www.drupal.org/node/3079028).
-- See [Config Split](https://www.drupal.org/project/config_split) module for more advanced needs.
+- As of Drupal 8.8, Drupal supports [excluding development modules from enabling on higher environments](https://www.drupal.org/node/3079028).
+- See [Config Split](https://www.drupal.org/project/config_split) module for 
+more advanced needs.

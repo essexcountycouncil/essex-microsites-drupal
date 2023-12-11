@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -12,7 +12,6 @@
 
 namespace Composer\Downloader;
 
-use React\Promise\PromiseInterface;
 use Composer\Package\PackageInterface;
 use Composer\Util\ProcessExecutor;
 use Composer\Util\Hg as HgUtils;
@@ -25,23 +24,23 @@ class HgDownloader extends VcsDownloader
     /**
      * @inheritDoc
      */
-    protected function doDownload(PackageInterface $package, string $path, string $url, ?PackageInterface $prevPackage = null): PromiseInterface
+    protected function doDownload(PackageInterface $package, $path, $url, PackageInterface $prevPackage = null)
     {
         if (null === HgUtils::getVersion($this->process)) {
             throw new \RuntimeException('hg was not found in your PATH, skipping source download');
         }
 
-        return \React\Promise\resolve(null);
+        return \React\Promise\resolve();
     }
 
     /**
      * @inheritDoc
      */
-    protected function doInstall(PackageInterface $package, string $path, string $url): PromiseInterface
+    protected function doInstall(PackageInterface $package, $path, $url)
     {
         $hgUtils = new HgUtils($this->io, $this->config, $this->process);
 
-        $cloneCommand = static function (string $url) use ($path): string {
+        $cloneCommand = function ($url) use ($path) {
             return sprintf('hg clone -- %s %s', ProcessExecutor::escape($url), ProcessExecutor::escape($path));
         };
 
@@ -53,13 +52,13 @@ class HgDownloader extends VcsDownloader
             throw new \RuntimeException('Failed to execute ' . $command . "\n\n" . $this->process->getErrorOutput());
         }
 
-        return \React\Promise\resolve(null);
+        return \React\Promise\resolve();
     }
 
     /**
      * @inheritDoc
      */
-    protected function doUpdate(PackageInterface $initial, PackageInterface $target, string $path, string $url): PromiseInterface
+    protected function doUpdate(PackageInterface $initial, PackageInterface $target, $path, $url)
     {
         $hgUtils = new HgUtils($this->io, $this->config, $this->process);
 
@@ -70,19 +69,19 @@ class HgDownloader extends VcsDownloader
             throw new \RuntimeException('The .hg directory is missing from '.$path.', see https://getcomposer.org/commit-deps for more information');
         }
 
-        $command = static function ($url) use ($ref): string {
+        $command = function ($url) use ($ref) {
             return sprintf('hg pull -- %s && hg up -- %s', ProcessExecutor::escape($url), ProcessExecutor::escape($ref));
         };
 
         $hgUtils->runCommand($command, $url, $path);
 
-        return \React\Promise\resolve(null);
+        return \React\Promise\resolve();
     }
 
     /**
      * @inheritDoc
      */
-    public function getLocalChanges(PackageInterface $package, string $path): ?string
+    public function getLocalChanges(PackageInterface $package, $path)
     {
         if (!is_dir($path.'/.hg')) {
             return null;
@@ -90,15 +89,13 @@ class HgDownloader extends VcsDownloader
 
         $this->process->execute('hg st', $output, realpath($path));
 
-        $output = trim($output);
-
-        return strlen($output) > 0 ? $output : null;
+        return trim($output) ?: null;
     }
 
     /**
      * @inheritDoc
      */
-    protected function getCommitLogs(string $fromReference, string $toReference, string $path): string
+    protected function getCommitLogs($fromReference, $toReference, $path)
     {
         $command = sprintf('hg log -r %s:%s --style compact', ProcessExecutor::escape($fromReference), ProcessExecutor::escape($toReference));
 
@@ -112,7 +109,7 @@ class HgDownloader extends VcsDownloader
     /**
      * @inheritDoc
      */
-    protected function hasMetadataRepository(string $path): bool
+    protected function hasMetadataRepository($path)
     {
         return is_dir($path . '/.hg');
     }

@@ -84,7 +84,7 @@ class SearchApiBulkForm extends BulkForm {
     try {
       $value = $values->_item->getOriginalObject()->getValue();
     }
-    catch (SearchApiException) {
+    catch (SearchApiException $e) {
       return NULL;
     }
     return $value instanceof EntityInterface ? $value : NULL;
@@ -203,7 +203,7 @@ class SearchApiBulkForm extends BulkForm {
         try {
           $entity = $this->loadEntityFromBulkFormKey($bulk_form_key);
         }
-        catch (InvalidPluginDefinitionException | PluginNotFoundException) {
+        catch (InvalidPluginDefinitionException | PluginNotFoundException $e) {
           $entity = NULL;
         }
         if (!$entity || $entity->getEntityTypeId() !== $action->getType()) {

@@ -26,7 +26,7 @@ class MigrationPluginManagerTest extends MigrateTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp(): void {
+  public function setUp(): void {
     parent::setUp();
     $this->migrationPluginManager = \Drupal::service('plugin.manager.migration');
   }

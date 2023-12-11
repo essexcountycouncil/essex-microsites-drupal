@@ -27,7 +27,7 @@ abstract class MigrateDrupalTestBase extends MigrateTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp(): void {
+  protected function setUp() {
     parent::setUp();
 
     $module_handler = \Drupal::moduleHandler();

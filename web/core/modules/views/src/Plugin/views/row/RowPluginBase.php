@@ -50,16 +50,6 @@ abstract class RowPluginBase extends PluginBase {
   protected $usesFields = FALSE;
 
   /**
-   * The actual field used.
-   */
-  public string $base_field;
-
-  /**
-   * The field alias.
-   */
-  public string $field_alias;
-
-  /**
    * Returns the usesFields property.
    *
    * @return bool
@@ -100,7 +90,7 @@ abstract class RowPluginBase extends PluginBase {
         $data = Views::viewsData()->get($relationship['table']);
         $base = $data[$relationship['field']]['relationship']['base'];
         if ($base == $this->base_table) {
-          $relationship_handler->init($executable, $this->displayHandler, $relationship);
+          $relationship_handler->init($executable, $relationship);
           $relationship_options[$relationship['id']] = $relationship_handler->adminLabel();
         }
       }

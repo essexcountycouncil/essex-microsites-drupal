@@ -2,13 +2,13 @@
 
 namespace Drupal\groupmedia\Plugin\Group\Relation;
 
-use Drupal\Component\Plugin\Derivative\DeriverBase;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\group\Plugin\Group\Relation\GroupRelationTypeInterface;
 use Drupal\media\Entity\MediaType;
+use Drupal\Component\Plugin\Derivative\DeriverBase;
 
 /**
- * Class Group Media Deriver.
+ * Class GroupMediaDeriver.
  *
  * @package Drupal\groupmedia\Plugin\Group\Relation\GroupMedia
  */

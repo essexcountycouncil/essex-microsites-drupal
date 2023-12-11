@@ -26,12 +26,12 @@ class LocalgovIntegrationTest extends BrowserTestBase {
    *
    * @var string
    */
-  protected $profile = 'testing';
+  protected $profile = 'standard';
 
   /**
    * {@inheritdoc}
    */
-  protected $defaultTheme = 'stark';
+  protected $defaultTheme = 'stable';
 
   /**
    * A user with permission to bypass content access checks.

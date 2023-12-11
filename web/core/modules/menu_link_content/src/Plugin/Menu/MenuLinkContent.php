@@ -49,13 +49,6 @@ class MenuLinkContent extends MenuLinkBase implements ContainerFactoryPluginInte
   protected $entity;
 
   /**
-   * An array of entity operations links.
-   *
-   * @var array
-   */
-  protected $listBuilderOperations;
-
-  /**
    * The entity type manager.
    *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
@@ -192,48 +185,21 @@ class MenuLinkContent extends MenuLinkBase implements ContainerFactoryPluginInte
    * {@inheritdoc}
    */
   public function getDeleteRoute() {
-    $operations = $this->getListBuilderOperations();
-    return isset($operations['delete']) ? $operations['delete']['url'] : NULL;
+    return $this->getEntity()->toUrl('delete-form');
   }
 
   /**
    * {@inheritdoc}
    */
   public function getEditRoute() {
-    $operations = $this->getListBuilderOperations();
-    return isset($operations['edit']) ? $operations['edit']['url'] : NULL;
+    return $this->getEntity()->toUrl();
   }
 
   /**
    * {@inheritdoc}
    */
   public function getTranslateRoute() {
-    $operations = $this->getListBuilderOperations();
-    return isset($operations['translate']) ? $operations['translate']['url'] : NULL;
-  }
-
-  /**
-   * Load entity operations from the list builder.
-   *
-   * @return array
-   *   An array of operations.
-   */
-  protected function getListBuilderOperations() {
-
-    if (is_null($this->listBuilderOperations)) {
-      $this->listBuilderOperations = $this->entityTypeManager
-        ->getListBuilder($this->getEntity()->getEntityTypeId())
-        ->getOperations($this->getEntity());
-    }
-
-    return $this->listBuilderOperations;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getOperations(): array {
-    return $this->getListBuilderOperations();
+    return $this->getEntity()->toUrl('drupal:content-translation-overview');
   }
 
   /**

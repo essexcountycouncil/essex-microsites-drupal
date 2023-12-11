@@ -26,7 +26,7 @@ class MediaTestConstraintValidator extends ConstraintValidator {
       return;
     }
 
-    if (!str_contains($string_to_test, 'love Drupal')) {
+    if (strpos($string_to_test, 'love Drupal') === FALSE) {
       $this->context->addViolation($constraint->message);
     }
   }

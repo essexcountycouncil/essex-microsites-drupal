@@ -92,7 +92,7 @@ abstract class JsonApiFunctionalTestBase extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp(): void {
+  protected function setUp() {
     parent::setUp();
 
     // Set up a HTTP client that accepts relative URLs.
@@ -327,7 +327,7 @@ abstract class JsonApiFunctionalTestBase extends BrowserTestBase {
       // Make sure that there is at least 1 https link for ::testRead() #19.
       $this->nodes[0]->field_link = [
         'title' => 'Drupal',
-        'uri' => 'https://example.com',
+        'uri' => 'https://drupal.org',
       ];
       $this->nodes[0]->save();
     }

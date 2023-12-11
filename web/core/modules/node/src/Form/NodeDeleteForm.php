@@ -19,18 +19,18 @@ class NodeDeleteForm extends ContentEntityDeleteForm {
     $entity = $this->getEntity();
 
     $node_type_storage = $this->entityTypeManager->getStorage('node_type');
-    $node_type = $node_type_storage->load($entity->bundle());
+    $node_type = $node_type_storage->load($entity->bundle())->label();
 
     if (!$entity->isDefaultTranslation()) {
       return $this->t('@language translation of the @type %label has been deleted.', [
         '@language' => $entity->language()->getName(),
-        '@type' => $node_type->label(),
+        '@type' => $node_type,
         '%label' => $entity->label(),
       ]);
     }
 
     return $this->t('The @type %title has been deleted.', [
-      '@type' => $node_type->label(),
+      '@type' => $node_type,
       '%title' => $this->getEntity()->label(),
     ]);
   }
@@ -41,7 +41,7 @@ class NodeDeleteForm extends ContentEntityDeleteForm {
   protected function logDeletionMessage() {
     /** @var \Drupal\node\NodeInterface $entity */
     $entity = $this->getEntity();
-    $this->logger('content')->info('@type: deleted %title.', ['@type' => $entity->getType(), '%title' => $entity->label()]);
+    $this->logger('content')->notice('@type: deleted %title.', ['@type' => $entity->getType(), '%title' => $entity->label()]);
   }
 
 }

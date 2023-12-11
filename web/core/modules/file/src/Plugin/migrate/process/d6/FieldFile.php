@@ -20,7 +20,7 @@ class FieldFile extends ProcessPluginBase implements ContainerFactoryPluginInter
   /**
    * The current migration.
    */
-  protected MigrationInterface $migration;
+  protected $migration;
 
   /**
    * The migrate lookup service.

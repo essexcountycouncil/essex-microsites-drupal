@@ -145,7 +145,7 @@ abstract class FormTestBase extends UnitTestCase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp(): void {
+  protected function setUp() {
     parent::setUp();
 
     // Add functions to the global namespace for testing.
@@ -193,7 +193,7 @@ abstract class FormTestBase extends UnitTestCase {
   /**
    * {@inheritdoc}
    */
-  protected function tearDown(): void {
+  protected function tearDown() {
     Html::resetSeenIds();
     (new FormState())->clearErrors();
   }

@@ -216,7 +216,7 @@ abstract class ResourceTestBase extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp(): void {
+  public function setUp() {
     parent::setUp();
 
     $this->serializer = $this->container->get('jsonapi.serializer');
@@ -990,18 +990,16 @@ abstract class ResourceTestBase extends BrowserTestBase {
     // @see \Drupal\jsonapi\EventSubscriber\ResourceResponseSubscriber::flattenResponse()
     $cache_items = $this->container->get('database')
       ->select('cache_dynamic_page_cache', 'cdp')
-      ->fields('cdp', ['data'])
+      ->fields('cdp', ['cid', 'data'])
       ->condition('cid', '%[route]=jsonapi.%', 'LIKE')
       ->execute()
-      ->fetchAll();
-    $this->assertLessThanOrEqual(4, count($cache_items));
+      ->fetchAllAssoc('cid');
+    $this->assertGreaterThanOrEqual(2, count($cache_items));
+    $found_cache_redirect = FALSE;
     $found_cached_200_response = FALSE;
     $other_cached_responses_are_4xx = TRUE;
-    foreach ($cache_items as $cache_item) {
+    foreach ($cache_items as $cid => $cache_item) {
       $cached_data = unserialize($cache_item->data);
-
-      // We might be finding cache redirects when querying like this, so ensure
-      // we only inspect the actual cached response to see if it got flattened.
       if (!isset($cached_data['#cache_redirect'])) {
         $cached_response = $cached_data['#response'];
         if ($cached_response->getStatusCode() === 200) {
@@ -1013,7 +1011,11 @@ abstract class ResourceTestBase extends BrowserTestBase {
         $this->assertNotInstanceOf(ResourceResponse::class, $cached_response);
         $this->assertInstanceOf(CacheableResponseInterface::class, $cached_response);
       }
+      else {
+        $found_cache_redirect = TRUE;
+      }
     }
+    $this->assertTrue($found_cache_redirect);
     $this->assertSame($dynamic_cache !== 'UNCACHEABLE' || isset($dynamic_cache_label_only) && $dynamic_cache_label_only !== 'UNCACHEABLE', $found_cached_200_response);
     $this->assertTrue($other_cached_responses_are_4xx);
 
@@ -1041,7 +1043,7 @@ abstract class ResourceTestBase extends BrowserTestBase {
     ];
     $header_cleaner = function ($headers) use ($ignored_headers) {
       foreach ($headers as $header => $value) {
-        if (str_starts_with($header, 'X-Drupal-Assertion-') || in_array($header, $ignored_headers)) {
+        if (strpos($header, 'X-Drupal-Assertion-') === 0 || in_array($header, $ignored_headers)) {
           unset($headers[$header]);
         }
       }
@@ -2377,7 +2379,7 @@ abstract class ResourceTestBase extends BrowserTestBase {
     $doc_multi_value_tests['data']['attributes']['field_rest_test_multivalue'] = $this->entity->get('field_rest_test_multivalue')->getValue();
     $doc_remove_item = $doc_multi_value_tests;
     unset($doc_remove_item['data']['attributes']['field_rest_test_multivalue'][0]);
-    $request_options[RequestOptions::BODY] = Json::encode($doc_remove_item);
+    $request_options[RequestOptions::BODY] = Json::encode($doc_remove_item, 'api_json');
     $response = $this->request('PATCH', $url, $request_options);
     $this->assertResourceResponse(200, FALSE, $response);
     $updated_entity = $this->entityLoadUnchanged($this->entity->id());
@@ -2658,7 +2660,7 @@ abstract class ResourceTestBase extends BrowserTestBase {
       $expected_cacheability->setCacheTags($this->getExpectedCacheTags($field_set));
       $expected_cacheability->setCacheContexts($this->getExpectedCacheContexts($field_set));
       // This tests sparse field sets on included entities.
-      if (str_starts_with($type, 'nested')) {
+      if (strpos($type, 'nested') === 0) {
         $this->grantPermissionsToTestedRole(['access user profiles']);
         $query['fields[user--user]'] = implode(',', $field_set);
         $query['include'] = 'uid';

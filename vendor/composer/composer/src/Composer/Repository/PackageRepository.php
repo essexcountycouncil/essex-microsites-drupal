@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -38,14 +38,14 @@ class PackageRepository extends ArrayRepository
 
         // make sure we have an array of package definitions
         if (!is_numeric(key($this->config))) {
-            $this->config = [$this->config];
+            $this->config = array($this->config);
         }
     }
 
     /**
      * Initializes repository (reads file, or remote address).
      */
-    protected function initialize(): void
+    protected function initialize()
     {
         parent::initialize();
 
@@ -61,7 +61,7 @@ class PackageRepository extends ArrayRepository
         }
     }
 
-    public function getRepoName(): string
+    public function getRepoName()
     {
         return Preg::replace('{^array }', 'package ', parent::getRepoName());
     }

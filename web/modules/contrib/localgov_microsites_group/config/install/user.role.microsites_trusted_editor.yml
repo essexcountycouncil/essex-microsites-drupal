@@ -9,7 +9,6 @@ dependencies:
     - media
     - system
     - domain_path
-    - layout_paragraphs_permissions
     - localgov_sa11y
     - override_node_options
 id: microsites_trusted_editor

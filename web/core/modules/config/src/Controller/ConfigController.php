@@ -15,14 +15,11 @@ use Drupal\Core\Url;
 use Drupal\system\FileDownloadController;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
  * Returns responses for config module routes.
  */
 class ConfigController implements ContainerInjectionInterface {
-
-  use StringTranslationTrait;
 
   /**
    * The target storage.
@@ -180,7 +177,7 @@ class ConfigController implements ContainerInjectionInterface {
 
     $build = [];
 
-    $build['#title'] = $this->t('View changes of @config_file', ['@config_file' => $source_name]);
+    $build['#title'] = t('View changes of @config_file', ['@config_file' => $source_name]);
     // Add the CSS for the inline diff.
     $build['#attached']['library'][] = 'system/diff';
 
@@ -190,8 +187,8 @@ class ConfigController implements ContainerInjectionInterface {
         'class' => ['diff'],
       ],
       '#header' => [
-        ['data' => $this->t('Active'), 'colspan' => '2'],
-        ['data' => $this->t('Staged'), 'colspan' => '2'],
+        ['data' => t('Active'), 'colspan' => '2'],
+        ['data' => t('Staged'), 'colspan' => '2'],
       ],
       '#rows' => $this->diffFormatter->format($diff),
     ];

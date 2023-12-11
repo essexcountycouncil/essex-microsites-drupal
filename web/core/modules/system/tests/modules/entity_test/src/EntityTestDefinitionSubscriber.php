@@ -79,7 +79,7 @@ class EntityTestDefinitionSubscriber implements EventSubscriberInterface, Entity
   /**
    * {@inheritdoc}
    */
-  public static function getSubscribedEvents(): array {
+  public static function getSubscribedEvents() {
     return static::getEntityTypeEvents() + static::getFieldStorageDefinitionEvents();
   }
 

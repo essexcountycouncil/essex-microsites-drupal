@@ -21,7 +21,6 @@ class InstallTest extends KernelTestBase {
     'system',
     'node',
     'field',
-    'image',
     'link',
     'media',
     'address',
@@ -48,8 +47,6 @@ class InstallTest extends KernelTestBase {
     $this->installEntitySchema('user');
     $this->installSchema('user', ['users_data']);
     $this->installConfig([
-      'image',
-      'media',
       'node',
       'localgov_directories',
       'search_api_db',

@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drush\Symfony;
 
 use Consolidation\AnnotatedCommand\CommandData;
+use Consolidation\AnnotatedCommand\CommandProcessor;
 use Consolidation\AnnotatedCommand\ParameterInjector;
 use Drush\Style\DrushStyle;
 

@@ -2,6 +2,7 @@
 
 namespace Drupal\Core\Test\RunTests;
 
+use Drupal\simpletest\TestBase;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -23,7 +24,7 @@ class TestFileParser {
   public function getTestListFromFile($file) {
     $test_list = $this->parseContents(file_get_contents($file));
     return array_filter($test_list, function ($class) {
-      return is_subclass_of($class, TestCase::class);
+      return (is_subclass_of($class, TestCase::class) || is_subclass_of($class, TestBase::class));
     });
   }
 

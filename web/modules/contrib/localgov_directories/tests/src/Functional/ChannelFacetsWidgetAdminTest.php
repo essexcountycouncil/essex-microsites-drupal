@@ -22,18 +22,11 @@ class ChannelFacetsWidgetAdminTest extends BrowserTestBase {
   use NodeCreationTrait;
 
   /**
-   * A user with minimum permissions for test.
+   * A user with mininum permissions for test.
    *
    * @var \Drupal\user\UserInterface
    */
   protected $user;
-
-  /**
-   * Directory nodes.
-   *
-   * @var \Drupal\node\NodeInterface
-   */
-  protected $directories = [];
 
   /**
    * Modules to enable.
@@ -50,7 +43,7 @@ class ChannelFacetsWidgetAdminTest extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  protected $defaultTheme = 'stark';
+  protected $defaultTheme = 'stable';
 
   /**
    * {@inheritdoc}
@@ -116,9 +109,6 @@ class ChannelFacetsWidgetAdminTest extends BrowserTestBase {
       [
         'settings[handler]' => 'localgov_directories_channels_selection',
         // No javascript update; and fieldUIAddNewField is too fast for it with.
-        // The field is in fact removed and not required (even if it is fill
-        // out. See LocalgovDirectoriesChannelsSelection::buildConfigurationForm
-        // and validateConfigurationForm.
         'settings[handler_settings][target_bundles][localgov_directory]' => TRUE,
       ]
     );
@@ -128,8 +118,8 @@ class ChannelFacetsWidgetAdminTest extends BrowserTestBase {
       'Channels',
       [
         'settings[handler]' => 'localgov_directories_channels_selection',
-        // This loads correctly first time without javascript flash of required
-        // bundles.
+        // No javascript update; and fieldUIAddNewField is too fast for it with.
+        'settings[handler_settings][target_bundles][localgov_directory]' => TRUE,
       ]
     );
     // Set the widget.
@@ -150,18 +140,12 @@ class ChannelFacetsWidgetAdminTest extends BrowserTestBase {
     // Set a default.
     $this->drupalGet('/admin/structure/types/manage/entry_1/fields/node.entry_1.field_channels');
     $this->submitForm(
-      [
-        'set_default_value' => TRUE,
-        'default_value_input[field_channels][primary]' => $this->directories[2]->id(),
-      ],
+      ['default_value_input[field_channels][primary]' => $this->directories[2]->id()],
       'edit-submit'
     );
     $this->drupalGet('/admin/structure/types/manage/entry_2/fields/node.entry_2.field_channels');
     $this->submitForm(
-      [
-        'set_default_value' => TRUE,
-        'default_value_input[field_channels][primary]' => $this->directories[2]->id(),
-      ],
+      ['default_value_input[field_channels][primary]' => $this->directories[2]->id()],
       'edit-submit'
     );
 

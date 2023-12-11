@@ -1,4 +1,4 @@
-// cspell:ignore apos
+// cSpell:words apos
 
 /**
  * HTML builder that converts document fragments into strings.

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -13,9 +13,9 @@
 namespace Composer\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
-use Composer\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Composer\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * @author Davey Shafik <me@daveyshafik.com>
@@ -29,18 +29,16 @@ class ExecCommand extends BaseCommand
     {
         $this
             ->setName('exec')
-            ->setDescription('Executes a vendored binary/script')
-            ->setDefinition([
+            ->setDescription('Executes a vendored binary/script.')
+            ->setDefinition(array(
                 new InputOption('list', 'l', InputOption::VALUE_NONE),
-                new InputArgument('binary', InputArgument::OPTIONAL, 'The binary to run, e.g. phpunit', null, function () {
-                    return $this->getBinaries(false);
-                }),
+                new InputArgument('binary', InputArgument::OPTIONAL, 'The binary to run, e.g. phpunit'),
                 new InputArgument(
                     'args',
                     InputArgument::IS_ARRAY | InputArgument::OPTIONAL,
                     'Arguments to pass to the binary. Use <info>--</info> to separate from composer arguments'
                 ),
-            ])
+            ))
             ->setHelp(
                 <<<EOT
 Executes a vendored binary/script.
@@ -51,38 +49,20 @@ EOT
         ;
     }
 
-    protected function interact(InputInterface $input, OutputInterface $output): void
-    {
-        $binaries = $this->getBinaries(false);
-        if (count($binaries) === 0) {
-            return;
-        }
-
-        if ($input->getArgument('binary') !== null || $input->getOption('list')) {
-            return;
-        }
-
-        $io = $this->getIO();
-        /** @var int $binary */
-        $binary = $io->select(
-            'Binary to run: ',
-            $binaries,
-            '',
-            1,
-            'Invalid binary name "%s"'
-        );
-
-        $input->setArgument('binary', $binaries[$binary]);
-    }
-
+    /**
+     * @return int
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $composer = $this->requireComposer();
-        if ($input->getOption('list') || null === $input->getArgument('binary')) {
-            $bins = $this->getBinaries(true);
-            if ([] === $bins) {
-                $binDir = $composer->getConfig()->get('bin-dir');
+        $composer = $this->getComposer();
+        $binDir = $composer->getConfig()->get('bin-dir');
+        if ($input->getOption('list') || !$input->getArgument('binary')) {
+            $bins = glob($binDir . '/*');
+            $bins = array_merge($bins, array_map(function ($e) {
+                return "$e (local)";
+            }, $composer->getPackage()->getBinaries()));
 
+            if (!$bins) {
                 throw new \RuntimeException("No binaries found in composer.json or in bin-dir ($binDir)");
             }
 
@@ -93,6 +73,13 @@ EOT
             );
 
             foreach ($bins as $bin) {
+                // skip .bat copies
+                if (isset($previousBin) && $bin === $previousBin.'.bat') {
+                    continue;
+                }
+
+                $previousBin = $bin;
+                $bin = basename($bin);
                 $this->getIO()->write(
                     <<<EOT
 <info>- $bin</info>
@@ -111,7 +98,7 @@ EOT
         // If the CWD was modified, we restore it to what it was initially, as it was
         // most likely modified by the global command, and we want exec to run in the local working directory
         // not the global one
-        if (getcwd() !== $this->getApplication()->getInitialWorkingDirectory() && $this->getApplication()->getInitialWorkingDirectory() !== false) {
+        if (getcwd() !== $this->getApplication()->getInitialWorkingDirectory()) {
             try {
                 chdir($this->getApplication()->getInitialWorkingDirectory());
             } catch (\Exception $e) {
@@ -120,34 +107,5 @@ EOT
         }
 
         return $dispatcher->dispatchScript('__exec_command', true, $input->getArgument('args'));
-    }
-
-    /**
-     * @return list<string>
-     */
-    private function getBinaries(bool $forDisplay): array
-    {
-        $composer = $this->requireComposer();
-        $binDir = $composer->getConfig()->get('bin-dir');
-        $bins = glob($binDir . '/*');
-        $localBins = $composer->getPackage()->getBinaries();
-        if ($forDisplay) {
-            $localBins = array_map(static function ($e) {
-                return "$e (local)";
-            }, $localBins);
-        }
-
-        $binaries = [];
-        foreach (array_merge($bins, $localBins) as $bin) {
-            // skip .bat copies
-            if (isset($previousBin) && $bin === $previousBin.'.bat') {
-                continue;
-            }
-
-            $previousBin = $bin;
-            $binaries[] = basename($bin);
-        }
-
-        return $binaries;
     }
 }

@@ -11,7 +11,7 @@
   </coverage>
   <testsuites>
     <testsuite name="Yaml Expander Test Suite">
-      <directory>tests/src</directory>
+      <directory>tests/phpunit</directory>
     </testsuite>
   </testsuites>
   <logging/>

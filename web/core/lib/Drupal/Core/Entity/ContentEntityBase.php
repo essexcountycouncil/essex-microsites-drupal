@@ -80,7 +80,7 @@ abstract class ContentEntityBase extends EntityBase implements \IteratorAggregat
    * Language code identifying the entity active language.
    *
    * This is the language field accessors will use to determine which field
-   * values to manipulate.
+   * values manipulate.
    *
    * @var string
    */
@@ -97,8 +97,8 @@ abstract class ContentEntityBase extends EntityBase implements \IteratorAggregat
    * An array of entity translation metadata.
    *
    * An associative array keyed by translation language code. Every value is an
-   * array containing the translation status and the translation object, if it
-   * has already been instantiated.
+   * array containing the translation status and the translation object, if it has
+   * already been instantiated.
    *
    * @var array
    */
@@ -439,9 +439,13 @@ abstract class ContentEntityBase extends EntityBase implements \IteratorAggregat
   public function preSave(EntityStorageInterface $storage) {
     // An entity requiring validation should not be saved if it has not been
     // actually validated.
-    assert(!$this->validationRequired || $this->validated, 'Entity validation was skipped.');
-
-    $this->validated = FALSE;
+    if ($this->validationRequired && !$this->validated) {
+      // @todo Make this an assertion in https://www.drupal.org/node/2408013.
+      throw new \LogicException('Entity validation was skipped.');
+    }
+    else {
+      $this->validated = FALSE;
+    }
 
     parent::preSave($storage);
   }
@@ -502,7 +506,7 @@ abstract class ContentEntityBase extends EntityBase implements \IteratorAggregat
   }
 
   /**
-   * Clears entity translation object cache to remove stale references.
+   * Clear entity translation object cache to remove stale references.
    */
   protected function clearTranslationCache() {
     foreach ($this->translations as &$translation) {

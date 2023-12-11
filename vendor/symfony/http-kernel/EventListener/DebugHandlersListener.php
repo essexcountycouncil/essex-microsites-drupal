@@ -11,55 +11,110 @@
 
 namespace Symfony\Component\HttpKernel\EventListener;
 
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleEvent;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
+use Symfony\Component\Debug\ErrorHandler as LegacyErrorHandler;
+use Symfony\Component\Debug\Exception\FatalThrowableError;
 use Symfony\Component\ErrorHandler\ErrorHandler;
+use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpKernel\Debug\FileLinkFormatter;
 use Symfony\Component\HttpKernel\Event\KernelEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
- * Sets an exception handler.
+ * Configures errors and exceptions handlers.
  *
  * @author Nicolas Grekas <p@tchwork.com>
  *
- * @final
- *
- * @internal
+ * @final since Symfony 4.4
  */
 class DebugHandlersListener implements EventSubscriberInterface
 {
-    private string|object|null $earlyHandler;
-    private ?\Closure $exceptionHandler;
-    private bool $firstCall = true;
-    private bool $hasTerminatedWithException = false;
+    private $earlyHandler;
+    private $exceptionHandler;
+    private $logger;
+    private $levels;
+    private $throwAt;
+    private $scream;
+    private $fileLinkFormat;
+    private $scope;
+    private $firstCall = true;
+    private $hasTerminatedWithException;
 
     /**
-     * @param callable|null $exceptionHandler A handler that must support \Throwable instances that will be called on Exception
+     * @param callable|null                 $exceptionHandler A handler that must support \Throwable instances that will be called on Exception
+     * @param array|int                     $levels           An array map of E_* to LogLevel::* or an integer bit field of E_* constants
+     * @param int|null                      $throwAt          Thrown errors in a bit field of E_* constants, or null to keep the current value
+     * @param bool                          $scream           Enables/disables screaming mode, where even silenced errors are logged
+     * @param string|FileLinkFormatter|null $fileLinkFormat   The format for links to source files
+     * @param bool                          $scope            Enables/disables scoping mode
      */
-    public function __construct(callable $exceptionHandler = null)
+    public function __construct(callable $exceptionHandler = null, LoggerInterface $logger = null, $levels = \E_ALL, ?int $throwAt = \E_ALL, bool $scream = true, $fileLinkFormat = null, bool $scope = true)
     {
         $handler = set_exception_handler('is_int');
         $this->earlyHandler = \is_array($handler) ? $handler[0] : null;
         restore_exception_handler();
 
-        $this->exceptionHandler = null === $exceptionHandler ? null : $exceptionHandler(...);
+        $this->exceptionHandler = $exceptionHandler;
+        $this->logger = $logger;
+        $this->levels = $levels ?? \E_ALL;
+        $this->throwAt = \is_int($throwAt) ? $throwAt : (null === $throwAt ? null : ($throwAt ? \E_ALL : null));
+        $this->scream = $scream;
+        $this->fileLinkFormat = $fileLinkFormat;
+        $this->scope = $scope;
     }
 
     /**
      * Configures the error handler.
      */
-    public function configure(object $event = null): void
+    public function configure(Event $event = null)
     {
         if ($event instanceof ConsoleEvent && !\in_array(\PHP_SAPI, ['cli', 'phpdbg'], true)) {
             return;
         }
-        if (!$event instanceof KernelEvent ? !$this->firstCall : !$event->isMainRequest()) {
+        if (!$event instanceof KernelEvent ? !$this->firstCall : !$event->isMasterRequest()) {
             return;
         }
         $this->firstCall = $this->hasTerminatedWithException = false;
 
+        $handler = set_exception_handler('is_int');
+        $handler = \is_array($handler) ? $handler[0] : null;
+        restore_exception_handler();
+
+        if (!$handler instanceof ErrorHandler && !$handler instanceof LegacyErrorHandler) {
+            $handler = $this->earlyHandler;
+        }
+
+        if ($this->logger || null !== $this->throwAt) {
+            if ($handler instanceof ErrorHandler || $handler instanceof LegacyErrorHandler) {
+                if ($this->logger) {
+                    $handler->setDefaultLogger($this->logger, $this->levels);
+                    if (\is_array($this->levels)) {
+                        $levels = 0;
+                        foreach ($this->levels as $type => $log) {
+                            $levels |= $type;
+                        }
+                    } else {
+                        $levels = $this->levels;
+                    }
+                    if ($this->scream) {
+                        $handler->screamAt($levels);
+                    }
+                    if ($this->scope) {
+                        $handler->scopeAt($levels & ~\E_USER_DEPRECATED & ~\E_DEPRECATED);
+                    } else {
+                        $handler->scopeAt(0, true);
+                    }
+                    $this->logger = $this->levels = null;
+                }
+                if (null !== $this->throwAt) {
+                    $handler->throwAt($this->throwAt, true);
+                }
+            }
+        }
         if (!$this->exceptionHandler) {
             if ($event instanceof KernelEvent) {
                 if (method_exists($kernel = $event->getKernel(), 'terminateWithException')) {
@@ -80,27 +135,27 @@ class DebugHandlersListener implements EventSubscriberInterface
                     $output = $output->getErrorOutput();
                 }
                 $this->exceptionHandler = static function (\Throwable $e) use ($app, $output) {
-                    $app->renderThrowable($e, $output);
+                    if (method_exists($app, 'renderThrowable')) {
+                        $app->renderThrowable($e, $output);
+                    } else {
+                        if (!$e instanceof \Exception) {
+                            $e = new FatalThrowableError($e);
+                        }
+
+                        $app->renderException($e, $output);
+                    }
                 };
             }
         }
         if ($this->exceptionHandler) {
-            $handler = set_exception_handler('is_int');
-            $handler = \is_array($handler) ? $handler[0] : null;
-            restore_exception_handler();
-
-            if (!$handler instanceof ErrorHandler) {
-                $handler = $this->earlyHandler;
-            }
-
-            if ($handler instanceof ErrorHandler) {
+            if ($handler instanceof ErrorHandler || $handler instanceof LegacyErrorHandler) {
                 $handler->setExceptionHandler($this->exceptionHandler);
             }
             $this->exceptionHandler = null;
         }
     }
 
-    public static function getSubscribedEvents(): array
+    public static function getSubscribedEvents()
     {
         $events = [KernelEvents::REQUEST => ['configure', 2048]];
 

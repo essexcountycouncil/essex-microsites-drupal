@@ -1,6 +1,6 @@
-const { execSync } = require('child_process');
-const { URL } = require('url');
-const { commandAsWebserver } = require('../globals');
+import { execSync } from 'child_process';
+import { URL } from 'url';
+import { commandAsWebserver } from '../globals';
 
 /**
  * Installs a Drupal test site.

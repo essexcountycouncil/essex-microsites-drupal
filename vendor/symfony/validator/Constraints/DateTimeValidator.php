@@ -22,9 +22,9 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
 class DateTimeValidator extends DateValidator
 {
     /**
-     * @return void
+     * {@inheritdoc}
      */
-    public function validate(mixed $value, Constraint $constraint)
+    public function validate($value, Constraint $constraint)
     {
         if (!$constraint instanceof DateTime) {
             throw new UnexpectedTypeException($constraint, DateTime::class);
@@ -34,7 +34,13 @@ class DateTimeValidator extends DateValidator
             return;
         }
 
-        if (!\is_scalar($value) && !$value instanceof \Stringable) {
+        if ($value instanceof \DateTimeInterface) {
+            @trigger_error(sprintf('Validating a \\DateTimeInterface with "%s" is deprecated since version 4.2. Use "%s" instead or remove the constraint if the underlying model is already type hinted to \\DateTimeInterface.', DateTime::class, Type::class), \E_USER_DEPRECATED);
+
+            return;
+        }
+
+        if (!\is_scalar($value) && !(\is_object($value) && method_exists($value, '__toString'))) {
             throw new UnexpectedValueException($value, 'string');
         }
 
@@ -54,7 +60,9 @@ class DateTimeValidator extends DateValidator
         }
 
         if (str_ends_with($constraint->format, '+')) {
-            $errors['warnings'] = array_filter($errors['warnings'], fn ($warning) => 'Trailing data' !== $warning);
+            $errors['warnings'] = array_filter($errors['warnings'], function ($warning) {
+                return 'Trailing data' !== $warning;
+            });
         }
 
         foreach ($errors['warnings'] as $warning) {

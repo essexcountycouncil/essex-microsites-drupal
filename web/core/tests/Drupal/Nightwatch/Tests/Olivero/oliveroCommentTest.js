@@ -27,15 +27,15 @@ module.exports = {
   'Article without comments should not display count': (browser) => {
     browser
       .drupalRelativeURL('/node/1')
-      .assert.textContains('body', 'Article without comments')
+      .assert.containsText('body', 'Article without comments')
       .assert.not.elementPresent(commentCountSelector);
   },
   'Article with comments should display count': (browser) => {
     browser
       .drupalRelativeURL('/node/2')
-      .assert.textContains('body', 'Article with comments')
+      .assert.containsText('body', 'Article with comments')
       .assert.elementPresent(commentTitleSelector)
       .assert.elementPresent(commentCountSelector)
-      .assert.textContains(commentCountSelector, '2');
+      .assert.containsText(commentCountSelector, '2');
   },
 };

@@ -81,7 +81,7 @@ class ContextDefinition implements ContextDefinitionInterface {
    *   The created context definition object.
    */
   public static function create($data_type = 'any') {
-    if (str_starts_with($data_type, 'entity:')) {
+    if (strpos($data_type, 'entity:') === 0) {
       return new EntityContextDefinition($data_type);
     }
     return new static(
@@ -113,7 +113,7 @@ class ContextDefinition implements ContextDefinitionInterface {
     $this->description = $description;
     $this->defaultValue = $default_value;
 
-    assert(!str_starts_with($data_type, 'entity:') || $this instanceof EntityContextDefinition);
+    assert(strpos($data_type, 'entity:') !== 0 || $this instanceof EntityContextDefinition);
   }
 
   /**
@@ -280,7 +280,7 @@ class ContextDefinition implements ContextDefinitionInterface {
       // Allow a more generic data type like 'entity' to be fulfilled by a more
       // specific data type like 'entity:user'. However, if this type is more
       // specific, do not consider a more generic type to be a match.
-      str_starts_with($that_type, "$this_type:")
+      strpos($that_type, "$this_type:") === 0
     );
   }
 

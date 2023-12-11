@@ -3,6 +3,8 @@
  * Styling for the Filter module.
  */
 
+@import "../base/variables.pcss.css";
+
 /**
  * Filter information under field.
  */

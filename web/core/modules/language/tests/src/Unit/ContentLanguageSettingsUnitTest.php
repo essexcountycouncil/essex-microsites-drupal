@@ -8,7 +8,6 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityTypeRepositoryInterface;
 use Drupal\language\Entity\ContentLanguageSettings;
 use Drupal\Tests\UnitTestCase;
-use Drupal\TestTools\Random;
 
 /**
  * @coversDefaultClass \Drupal\language\Entity\ContentLanguageSettings
@@ -62,8 +61,6 @@ class ContentLanguageSettingsUnitTest extends UnitTestCase {
    * {@inheritdoc}
    */
   protected function setUp(): void {
-    parent::setUp();
-
     $this->entityTypeId = $this->randomMachineName();
     $this->entityType = $this->createMock('\Drupal\Core\Entity\EntityTypeInterface');
 
@@ -149,8 +146,8 @@ class ContentLanguageSettingsUnitTest extends UnitTestCase {
     $this->assertSame($expected, $config->getDefaultLangcode());
   }
 
-  public static function providerDefaultLangcode() {
-    $langcode = Random::machineName();
+  public function providerDefaultLangcode() {
+    $langcode = $this->randomMachineName();
     $config = new ContentLanguageSettings([
       'target_entity_type_id' => 'test_entity_type',
       'target_bundle' => 'test_bundle',
@@ -212,7 +209,7 @@ class ContentLanguageSettingsUnitTest extends UnitTestCase {
     $this->assertSame($expected, $config->isDefaultConfiguration());
   }
 
-  public static function providerIsDefaultConfiguration() {
+  public function providerIsDefaultConfiguration() {
     $alteredLanguage = new ContentLanguageSettings([
       'target_entity_type_id' => 'test_entity_type',
       'target_bundle' => 'test_bundle',
@@ -223,7 +220,7 @@ class ContentLanguageSettingsUnitTest extends UnitTestCase {
       'target_entity_type_id' => 'test_entity_type',
       'target_bundle' => 'test_fixed_language_bundle',
     ], 'language_content_settings');
-    $alteredDefaultLangcode->setDefaultLangcode(Random::machineName());
+    $alteredDefaultLangcode->setDefaultLangcode($this->randomMachineName());
 
     $defaultConfig = new ContentLanguageSettings([
       'target_entity_type_id' => 'test_entity_type',
@@ -279,14 +276,14 @@ class ContentLanguageSettingsUnitTest extends UnitTestCase {
     $this->assertSame($expected_language_alterable, $config->isLanguageAlterable());
   }
 
-  public static function providerLoadByEntityTypeBundle() {
+  public function providerLoadByEntityTypeBundle() {
     $alteredLanguage = new ContentLanguageSettings([
       'target_entity_type_id' => 'test_entity_type',
       'target_bundle' => 'test_bundle',
     ], 'language_content_settings');
     $alteredLanguage->setLanguageAlterable(TRUE);
 
-    $langcode = Random::machineName();
+    $langcode = $this->randomMachineName();
     $alteredDefaultLangcode = new ContentLanguageSettings([
       'target_entity_type_id' => 'test_entity_type',
       'target_bundle' => 'test_fixed_language_bundle',

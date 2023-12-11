@@ -28,6 +28,6 @@ interface ContextualValidatorInterface extends ContextualValidatorInterfaceBase 
    *
    * @return $this
    */
-  public function validate($value, $constraints = NULL, $groups = NULL, $is_root_call = TRUE): static;
+  public function validate($value, $constraints = NULL, $groups = NULL, $is_root_call = TRUE);
 
 }

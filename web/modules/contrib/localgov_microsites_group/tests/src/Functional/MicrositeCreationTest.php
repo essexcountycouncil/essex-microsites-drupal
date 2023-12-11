@@ -84,7 +84,6 @@ class MicrositeCreationTest extends BrowserTestBase {
     $this->assertNotNull($domain);
     $group_ids = \Drupal::entityQuery('group')
       ->condition('label', $site_name, '=')
-      ->accessCheck(TRUE)
       ->execute();
     $this->assertNotEmpty($group_ids);
     $group = \Drupal::entityTypeManager()->getStorage('group')->load(reset($group_ids));

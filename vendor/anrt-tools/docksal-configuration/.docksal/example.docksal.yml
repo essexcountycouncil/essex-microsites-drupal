@@ -20,13 +20,6 @@ services:
     depends_on:
       - cli
 
-  redis:
-     hostname: redis
-     image: redis:6.0-alpine
-     volumes:
-       - ${PROJECT_ROOT}/.docksal/etc/redis/redis.conf:/usr/local/etc/redis/redis.conf
-     command: [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
-
 # If extra/updated software needed in CLI, see .docksal/services/cli/Dockerfile
 
 # Add or enable non-standard Project services here
@@ -36,10 +29,19 @@ services:
   # # Ensure version & config matches production stack
   # # See https://docs.docksal.io/service/other/apache-solr/ for extra settings
   # solr:
-  #   hostname: solr
   #   extends:
   #     file: ${HOME}/.docksal/stacks/services.yml
   #     service: solr
   #   image: docksal/solr:8.1-2.1
   #   volumes:
   #     - ${PROJECT_ROOT}/.platform/solr-conf/8.x:/var/lib/solr/conf:ro
+
+  # # Redis
+  # # Ensure version matches productions stack, and see
+  # # .docksal/templates/example.settings.project.php
+  # redis:
+  #    hostname: redis
+  #    image: redis:6.0
+  #    volumes:
+  #      - ${PROJECT_ROOT}/.docksal/etc/redis/redis.conf:/usr/local/etc/redis/redis.conf
+  #    command: [ "redis-server", "/usr/local/etc/redis/redis.conf" ]

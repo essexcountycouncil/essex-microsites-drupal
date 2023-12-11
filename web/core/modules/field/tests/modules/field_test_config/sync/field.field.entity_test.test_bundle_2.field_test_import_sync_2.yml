@@ -9,8 +9,7 @@ description: ''
 required: '0'
 default_value: {  }
 default_value_callback: ''
-settings:
-  allowed_formats: {  }
+settings: { }
 field_type: text
 dependencies:
   config:

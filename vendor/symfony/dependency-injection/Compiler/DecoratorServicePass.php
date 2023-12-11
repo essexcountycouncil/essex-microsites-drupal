@@ -25,11 +25,8 @@ use Symfony\Component\DependencyInjection\Reference;
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Diego Saint Esteben <diego@saintesteben.me>
  */
-class DecoratorServicePass extends AbstractRecursivePass
+class DecoratorServicePass implements CompilerPassInterface
 {
-    /**
-     * @return void
-     */
     public function process(ContainerBuilder $container)
     {
         $definitions = new \SplPriorityQueue();
@@ -42,11 +39,10 @@ class DecoratorServicePass extends AbstractRecursivePass
             $definitions->insert([$id, $definition], [$decorated[2], --$order]);
         }
         $decoratingDefinitions = [];
-        $decoratedIds = [];
 
         $tagsToKeep = $container->hasParameter('container.behavior_describing_tags')
             ? $container->getParameter('container.behavior_describing_tags')
-            : ['proxy', 'container.do_not_inline', 'container.service_locator', 'container.service_subscriber', 'container.service_subscriber.locator'];
+            : ['container.do_not_inline', 'container.service_locator', 'container.service_subscriber', 'container.service_subscriber.locator'];
 
         foreach ($definitions as [$id, $definition]) {
             $decoratedService = $definition->getDecoratedService();
@@ -58,11 +54,6 @@ class DecoratorServicePass extends AbstractRecursivePass
             if (!$renamedId) {
                 $renamedId = $id.'.inner';
             }
-
-            $decoratedIds[$inner] ??= $renamedId;
-            $this->currentId = $renamedId;
-            $this->processValue($definition);
-
             $definition->innerServiceId = $renamedId;
             $definition->decorationOnInvalid = $invalidBehavior;
 
@@ -71,11 +62,13 @@ class DecoratorServicePass extends AbstractRecursivePass
             if ($container->hasAlias($inner)) {
                 $alias = $container->getAlias($inner);
                 $public = $alias->isPublic();
+                $private = $alias->isPrivate();
                 $container->setAlias($renamedId, new Alias((string) $alias, false));
                 $decoratedDefinition = $container->findDefinition($alias);
             } elseif ($container->hasDefinition($inner)) {
                 $decoratedDefinition = $container->getDefinition($inner);
                 $public = $decoratedDefinition->isPublic();
+                $private = $decoratedDefinition->isPrivate();
                 $decoratedDefinition->setPublic(false);
                 $container->setDefinition($renamedId, $decoratedDefinition);
                 $decoratingDefinitions[$inner] = $decoratedDefinition;
@@ -84,12 +77,13 @@ class DecoratorServicePass extends AbstractRecursivePass
                 continue;
             } elseif (ContainerInterface::NULL_ON_INVALID_REFERENCE === $invalidBehavior) {
                 $public = $definition->isPublic();
+                $private = $definition->isPrivate();
                 $decoratedDefinition = null;
             } else {
                 throw new ServiceNotFoundException($inner, $id);
             }
 
-            if ($decoratedDefinition?->isSynthetic()) {
+            if ($decoratedDefinition && $decoratedDefinition->isSynthetic()) {
                 throw new InvalidArgumentException(sprintf('A synthetic service cannot be decorated: service "%s" cannot decorate "%s".', $id, $inner));
             }
 
@@ -112,20 +106,7 @@ class DecoratorServicePass extends AbstractRecursivePass
                 $decoratingDefinitions[$inner] = $definition;
             }
 
-            $container->setAlias($inner, $id)->setPublic($public);
+            $container->setAlias($inner, $id)->setPublic($public)->setPrivate($private);
         }
-
-        foreach ($decoratingDefinitions as $inner => $definition) {
-            $definition->addTag('container.decorator', ['id' => $inner, 'inner' => $decoratedIds[$inner]]);
-        }
-    }
-
-    protected function processValue(mixed $value, bool $isRoot = false): mixed
-    {
-        if ($value instanceof Reference && '.inner' === (string) $value) {
-            return new Reference($this->currentId, $value->getInvalidBehavior());
-        }
-
-        return parent::processValue($value, $isRoot);
     }
 }

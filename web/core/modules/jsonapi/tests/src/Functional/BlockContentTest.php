@@ -12,7 +12,6 @@ use Drupal\Tests\jsonapi\Traits\CommonCollectionFilterAccessTestPatternsTrait;
  * JSON:API integration test for the "BlockContent" content entity type.
  *
  * @group jsonapi
- * @group #slow
  */
 class BlockContentTest extends ResourceTestBase {
 
@@ -66,37 +65,7 @@ class BlockContentTest extends ResourceTestBase {
    * {@inheritdoc}
    */
   protected function setUpAuthorization($method) {
-    switch ($method) {
-      case 'GET':
-        $this->grantPermissionsToTestedRole([
-          'access block library',
-        ]);
-        break;
-
-      case 'PATCH':
-        $this->grantPermissionsToTestedRole([
-          'access block library',
-          'administer block types',
-          'administer block content',
-        ]);
-        break;
-
-      case 'POST':
-        $this->grantPermissionsToTestedRole(['access block library', 'create basic block content']);
-        break;
-
-      case 'DELETE':
-        $this->grantPermissionsToTestedRole(['access block library', 'delete any basic block content']);
-        break;
-    }
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function setUpRevisionAuthorization($method) {
-    parent::setUpRevisionAuthorization($method);
-    $this->grantPermissionsToTestedRole(['view any basic block content history']);
+    $this->grantPermissionsToTestedRole(['administer blocks']);
   }
 
   /**
@@ -113,7 +82,7 @@ class BlockContentTest extends ResourceTestBase {
       block_content_add_body_field($block_content_type->id());
     }
 
-    // Create a "Llama" content block.
+    // Create a "Llama" custom block.
     $block_content = BlockContent::create([
       'info' => 'Llama',
       'type' => 'basic',
@@ -216,19 +185,6 @@ class BlockContentTest extends ResourceTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function getExpectedUnauthorizedAccessMessage($method) {
-    return match ($method) {
-      'GET' => "The 'access block library' permission is required.",
-      'PATCH' => "The following permissions are required: 'access block library' AND 'edit any basic block content'.",
-      'POST' => "The following permissions are required: 'create basic block content' AND 'access block library'.",
-      'DELETE' => "The following permissions are required: 'access block library' AND 'delete any basic block content'.",
-      default => parent::getExpectedUnauthorizedAccessMessage($method),
-    };
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   protected function getExpectedUnauthorizedAccessCacheability() {
     // @see \Drupal\block_content\BlockContentAccessControlHandler()
     return parent::getExpectedUnauthorizedAccessCacheability()
@@ -262,7 +218,7 @@ class BlockContentTest extends ResourceTestBase {
    */
   public function testCollectionFilterAccess() {
     $this->entity->setPublished()->save();
-    $this->doTestCollectionFilterAccessForPublishableEntities('info', NULL, 'administer block content');
+    $this->doTestCollectionFilterAccessForPublishableEntities('info', NULL, 'administer blocks');
   }
 
 }

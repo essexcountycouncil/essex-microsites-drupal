@@ -7,7 +7,7 @@ use Drupal\Core\ParamConverter\ParamNotConvertedException;
 use Drupal\Core\Routing\EnhancerInterface;
 use Drupal\Core\Routing\RouteObjectInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\InputBag;
+use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -53,8 +53,7 @@ class ParamConversionEnhancer implements EnhancerInterface, EventSubscriberInter
    * @param array $defaults
    *   The route defaults array.
    *
-   * @return \Symfony\Component\HttpFoundation\InputBag
-   *   The input bag container with the raw variables.
+   * @return \Symfony\Component\HttpFoundation\ParameterBag
    */
   protected function copyRawVariables(array $defaults) {
     /** @var \Symfony\Component\Routing\Route $route */
@@ -74,7 +73,7 @@ class ParamConversionEnhancer implements EnhancerInterface, EventSubscriberInter
         $raw_variables[$name] = $value;
       }
     }
-    return new InputBag($raw_variables);
+    return new ParameterBag($raw_variables);
   }
 
   /**
@@ -93,7 +92,7 @@ class ParamConversionEnhancer implements EnhancerInterface, EventSubscriberInter
   /**
    * {@inheritdoc}
    */
-  public static function getSubscribedEvents(): array {
+  public static function getSubscribedEvents() {
     $events[KernelEvents::EXCEPTION][] = ['onException', 75];
     return $events;
   }

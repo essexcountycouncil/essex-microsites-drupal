@@ -26,7 +26,7 @@ class UserNameConstraintValidator extends ConstraintValidator {
     if (substr($name, -1) == ' ') {
       $this->context->addViolation($constraint->spaceEndMessage);
     }
-    if (str_contains($name, '  ')) {
+    if (strpos($name, '  ') !== FALSE) {
       $this->context->addViolation($constraint->multipleSpacesMessage);
     }
     if (preg_match('/[^\x{80}-\x{F7} a-z0-9@+_.\'-]/i', $name)

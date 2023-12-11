@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -32,7 +32,7 @@ interface OperationInterface
      * @param  bool   $lock Whether this is an operation on the lock file
      * @return string
      */
-    public function show(bool $lock);
+    public function show($lock);
 
     /**
      * Serializes the operation in a human readable format

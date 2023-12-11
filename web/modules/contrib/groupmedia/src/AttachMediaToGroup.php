@@ -2,19 +2,20 @@
 
 namespace Drupal\groupmedia;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Logger\LoggerChannelInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\group\Entity\GroupInterface;
 use Drupal\group\Entity\GroupRelationshipInterface;
+use Drupal\group\Entity\GroupInterface;
 use Drupal\group\Plugin\Group\Relation\GroupRelationTypeManagerInterface;
 use Drupal\media\MediaInterface;
 
 /**
- * Class Attach Media To Group.
+ * Class AttachMediaToGroup.
  *
  * @package Drupal\groupmedia
  */
@@ -46,30 +47,23 @@ class AttachMediaToGroup {
   /**
    * Group relationship storage.
    *
-   * @var \Drupal\group\Entity\Storage\GroupRelationshipStorage
+   * @var \Drupal\group\Entity\Storage\GroupRelationshipStorageInterface
    */
   protected $groupRelationshipStorage;
 
   /**
-   * Groupmedia logger channel.
+   * Group media config.
+   *
+   * @var \Drupal\Core\Config\ImmutableConfig
+   */
+  protected $config;
+
+  /**
+   * Group media logger channel.
    *
    * @var \Drupal\Core\Logger\LoggerChannelInterface
    */
   protected $logger;
-
-  /**
-   * List of plugins by group type.
-   *
-   * @var array
-   */
-  protected $pluginsByGroupType = [];
-
-  /**
-   * Media item group counts.
-   *
-   * @var array
-   */
-  protected $groupCount = [];
 
   /**
    * AttachMediaToGroup constructor.
@@ -77,11 +71,13 @@ class AttachMediaToGroup {
    * @param \Drupal\groupmedia\MediaFinderManager $media_finder_manager
    *   Media finder plugin manager.
    * @param \Drupal\group\Plugin\Group\Relation\GroupRelationTypeManagerInterface $group_relationship_type_manager
-   *   The group relation type manager.
+   *   * The group relation type manager.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler service.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager service.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The config factory service.
    * @param \Drupal\Core\Logger\LoggerChannelInterface $logger
    *   The logger channel.
    */
@@ -90,13 +86,15 @@ class AttachMediaToGroup {
     GroupRelationTypeManagerInterface $group_relationship_type_manager,
     ModuleHandlerInterface $module_handler,
     EntityTypeManagerInterface $entity_type_manager,
+    ConfigFactoryInterface $config_factory,
     LoggerChannelInterface $logger
   ) {
-    $this->mediaFinder = $media_finder_manager;
+    $this->mediaFinder              = $media_finder_manager;
     $this->groupRelationTypeManager = $group_relationship_type_manager;
-    $this->moduleHandler = $module_handler;
+    $this->moduleHandler            = $module_handler;
     $this->groupRelationshipStorage = $entity_type_manager->getStorage('group_relationship');
-    $this->logger = $logger;
+    $this->config                   = $config_factory->get('groupmedia.settings');
+    $this->logger                   = $logger;
   }
 
   /**
@@ -106,30 +104,32 @@ class AttachMediaToGroup {
    *   Entity to process.
    */
   public function attach(EntityInterface $entity) {
-
-    $groups = $this->getGroups($entity);
+    if (!$this->config->get('tracking_enabled')) {
+      return FALSE;
+    }
+    $groups = $this->getGroupsByEntity($entity);
     if (empty($groups)) {
       return FALSE;
     }
-
-    $items = $this->getMediaFromEntity($entity);
-    if (empty($items)) {
+    $media_items = $this->getMediaFromEntity($entity);
+    if (empty($media_items)) {
       return FALSE;
     }
-
-    $this->assignMediaToGroups($items, $groups);
+    $this->assignMediaToGroups($media_items, $groups);
   }
 
   /**
    * Assign media items to groups.
    *
-   * @param \Drupal\media\MediaInterface[] $media_items
+   * @param \Drupal\media\MediaInterface[]         $media_items
    *   List of media items to assign.
-   * @param \Drupal\group\Entity\GroupInterface[] $groups
-   *   List of groups to assign media.
+   * @param \Drupal\group\Entity\GroupInterface[]  $groups
+   *   List of group to assign media.
+   * @param bool                                   $check
+   *   Flag whether to check assignment conditions.
    */
-  public function assignMediaToGroups(array $media_items, array $groups) {
-    $media_plugins_cache = [];
+  public function assignMediaToGroups(array $media_items, array $groups, $check = TRUE) {
+    $plugins_by_group_type = [];
 
     // Get the list of installed group relationship instance IDs.
     $group_type_plugin_map = $this->groupRelationTypeManager->getGroupTypePluginMap();
@@ -144,64 +144,59 @@ class AttachMediaToGroup {
 
     /** @var \Drupal\media\MediaInterface $media_item */
     foreach ($media_items as $media_item) {
-      // Build the instance ID.
+      $t_arguments = [
+        '@label' => $media_item->label(),
+        '@id' => $media_item->id(),
+      ];
+
       $plugin_id = 'group_media:' . $media_item->bundle();
 
       // Check if this media type should be group relationship or not.
       if (!in_array($plugin_id, $group_relationship_instance_ids)) {
-        $this->logger->debug($this->t('Media @label (@id) was not assigned to any group because its bundle (@name) is not enabled in any group', [
-          '@label' => $media_item->label(),
-          '@id' => $media_item->id(),
-          '@name' => $media_item->bundle->entity->label(),
-        ]));
+        $t_arguments['@name'] = $media_item->bundle->entity->label();
+        $this->logger->debug($this->t('Media @label (@id) was not assigned to any group because its bundle (@name) is not enabled in any group type', $t_arguments));
         continue;
       }
 
+      // Check what relations already exist for this media to control the
+      // group cardinality.
+      $group_relationships = $this->groupRelationshipStorage->loadByEntity($media_item);
+      $group_ids = [];
+      /** @var \Drupal\group\Entity\GroupRelationshipInterface $instance */
+      foreach ($group_relationships as $instance) {
+        $group_ids[] = $instance->getGroup()->id();
+      }
+      $group_count = count(array_unique($group_ids));
       foreach ($groups as $group) {
-        if (!$this->shouldBeAttached($media_item, $group)) {
-          $this->logger->debug($this->t('Media @label (@id) was not assigned to any group because of hook results', [
-            '@label' => $media_item->label(),
-            '@id' => $media_item->id(),
-          ]));
+        $group_type_id = $group->bundle();
+
+        if ($check && !$this->shouldBeAttached($media_item, $group)) {
+          $this->logger->debug($this->t('Media @label (@id) was not assigned to any group because of hook results', $t_arguments));
           continue;
         }
-
-        if (!isset($media_plugins_cache[$plugin_id])) {
-          $media_plugins_cache[$plugin_id] = $this->getMediaGroupRelationshipEnablerPlugin($group, $plugin_id);
+        if (!isset($plugins_by_group_type[$group_type_id])) {
+          $plugins_by_group_type[$group_type_id] = $this->groupRelationTypeManager->getInstalled($group->getGroupType());
         }
 
-        $plugin = $media_plugins_cache[$plugin_id];
-        if (empty($plugin)) {
-          continue;
-        }
-
-        $group_cardinality = $plugin->getGroupCardinality();
-        $group_count = $this->getGroupCount($media_item);
-
-        // Check if group cardinality still allows to create relation.
-        if ($group_cardinality == 0 || $group_count < $group_cardinality) {
-          $group_relations = $group->getRelationshipsByEntity($media_item, $plugin_id);
-          $entity_cardinality = $plugin->getEntityCardinality();
-          // Add this media as group relationship if cardinality allows.
-          if ($entity_cardinality == 0 || count($group_relations) < $plugin->getEntityCardinality()) {
-            $group->addRelationship($media_item, $plugin_id);
-          }
-          else {
-            $this->logger->debug($this->t('Media @label (@id) was not assigned to group @group_label because max entity cardinality was reached', [
-              '@label' => $media_item->label(),
-              '@id' => $media_item->id(),
-              '@group_label' => $group->label(),
-            ]));
+        // Check if the group type supports the plugin of type $plugin_id.
+        if ($plugins_by_group_type[$group_type_id]->has($plugin_id)) {
+          $plugin = $plugins_by_group_type[$group_type_id]->get($plugin_id);
+          $group_cardinality = $plugin->getGroupCardinality();
+          // Check if group cardinality still allows to create relation.
+          $t_arguments['@group_label'] = $group->label();
+          if ($group_cardinality == 0 || $group_count < $group_cardinality) {
+            $group_relations = $group->getRelationshipsByEntity($media_item, $plugin_id);
+            $entity_cardinality = $plugin->getEntityCardinality();
+            // Add this media as group relationship if cardinality allows.
+            if ($entity_cardinality == 0 || count($group_relations) < $entity_cardinality) {
+              $group->addRelationship($media_item, $plugin_id);
+            } else {
+              $this->logger->debug($this->t('Media @label (@id) was not assigned to group @group_label because max entity cardinality was reached', $t_arguments));
+            }
+          } else {
+            $this->logger->debug($this->t('Media @label (@id) was not assigned to group @group_label because max group cardinality was reached', $t_arguments));
           }
         }
-        else {
-          $this->logger->debug($this->t('Media @label (@id) was not assigned to group @group_label because max group cardinality was reached', [
-            '@label' => $media_item->label(),
-            '@id' => $media_item->id(),
-            '@group_label' => $group->label(),
-          ]));
-        }
-
       }
     }
   }
@@ -244,12 +239,12 @@ class AttachMediaToGroup {
    * @return \Drupal\group\Entity\GroupInterface[]
    *   Groups that the current entity belongs too.
    */
-  public function getGroups(EntityInterface $entity) {
+  public function getGroupsByEntity(EntityInterface $entity) {
     $groups = [];
     if ($entity instanceof GroupRelationshipInterface) {
       $groups[] = $entity->getGroup();
     }
-    elseif ($entity instanceof GroupInterface) {
+    elseif ($entity instanceof GroupInterface){
       $groups[] = $entity;
     }
     elseif ($entity instanceof ContentEntityInterface) {
@@ -289,59 +284,6 @@ class AttachMediaToGroup {
     }
     // Otherwise - process.
     return TRUE;
-  }
-
-  /**
-   * Get media group relationship type plugin.
-   *
-   * @param \Drupal\group\Entity\GroupInterface $group
-   *   Group.
-   * @param string $instance_id
-   *   Instance id.
-   *
-   * @return \Drupal\group\Plugin\GroupRelationInterface|null
-   *   Media group relationship instance or null.
-   */
-  private function getMediaGroupRelationshipEnablerPlugin(GroupInterface $group, $instance_id) {
-    $group_type_plugins = $this->groupRelationTypeManager->getInstalled($group->getGroupType());
-
-    // Check if the group type supports the plugin of type $instance_id.
-    if ($group_type_plugins->has($instance_id)) {
-      $plugin = $group_type_plugins->get($instance_id);
-      // Tracking is not enabled.
-      if ($plugin->isTrackingEnabled()) {
-        return $plugin;
-      }
-    }
-
-    return NULL;
-  }
-
-  /**
-   * Get group count for media item.
-   *
-   * @param Drupal\Core\Entity\EntityInterface $item
-   *   Media entity.
-   *
-   * @return int
-   *   Group count.
-   */
-  private function getGroupCount(EntityInterface $item) {
-    // Check if it was calculated already.
-    if (!isset($this->groupCount[$item->id()])) {
-      // Check what relations already exist for this media to control the
-      // group cardinality.
-      $group_relationships = $this->groupRelationshipStorage->loadByEntity($item);
-      $group_ids = [];
-
-      /** @var \Drupal\group\Entity\GroupRelationshipInterface $group_relationship */
-      foreach ($group_relationships as $group_relationship) {
-        $group_ids[] = $group_relationship->getGroup()->id();
-      }
-      $this->groupCount[$item->id()] = count(array_unique($group_ids));
-    }
-
-    return $this->groupCount[$item->id()];
   }
 
 }

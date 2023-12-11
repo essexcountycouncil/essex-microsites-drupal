@@ -2,7 +2,7 @@
 
 /**
  * @file
- * LocalGov Microsites News module file.
+ * LocalGov Microsites Directories module file.
  */
 
 use Drupal\localgov_microsites_group\RolesHelper;
@@ -12,6 +12,14 @@ use Drupal\localgov_microsites_group\RolesHelper;
  */
 function localgov_microsites_news_localgov_microsites_roles_default() {
   return [
+    'global' => [
+      RolesHelper::MICROSITES_CONTROLLER_ROLE => [
+        'view directory facets',
+      ],
+      RolesHelper::MICROSITES_EDITOR_ROLE => [
+        'view directory facets',
+      ],
+    ],
     'group' => [
       RolesHelper::GROUP_ADMIN_ROLE => [
         'access group_term overview',

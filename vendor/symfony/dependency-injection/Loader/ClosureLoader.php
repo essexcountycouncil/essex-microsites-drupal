@@ -23,20 +23,25 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 class ClosureLoader extends Loader
 {
-    private ContainerBuilder $container;
+    private $container;
 
-    public function __construct(ContainerBuilder $container, string $env = null)
+    public function __construct(ContainerBuilder $container)
     {
         $this->container = $container;
-        parent::__construct($env);
     }
 
-    public function load(mixed $resource, string $type = null): mixed
+    /**
+     * {@inheritdoc}
+     */
+    public function load($resource, $type = null)
     {
-        return $resource($this->container, $this->env);
+        $resource($this->container);
     }
 
-    public function supports(mixed $resource, string $type = null): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function supports($resource, $type = null)
     {
         return $resource instanceof \Closure;
     }

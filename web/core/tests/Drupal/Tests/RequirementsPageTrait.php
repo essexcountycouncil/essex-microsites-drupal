@@ -83,7 +83,7 @@ trait RequirementsPageTrait {
    *   The type of requirement, either 'warning' or 'error'.
    */
   protected function assertRequirementSummaries(array $summaries, string $type) {
-    // The selectors are different for Claro.
+    // The selectors are different for Seven and Claro.
     $is_claro = stripos($this->getSession()->getPage()->getContent(), 'claro/css/theme/maintenance-page.css') !== FALSE;
 
     $selectors = [];

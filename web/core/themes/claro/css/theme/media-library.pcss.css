@@ -4,6 +4,8 @@
  * Styling for Media Library.
  */
 
+@import "../base/variables.pcss.css";
+
 /**
  * Negative margins compensate for modal dialog padding and compensate for
  * positioning that would otherwise hide the active tab indicator on the left.
@@ -75,6 +77,12 @@
   padding-left: var(--space-s);
   border-width: var(--vertical-tabs-border-size) var(--vertical-tabs-menu-link--active-border-size) var(--vertical-tabs-border-size) 0;
   border-radius: 0 var(--vertical-tabs-border-radius) var(--vertical-tabs-border-radius) 0;
+}
+
+@media screen and (-ms-high-contrast: active) {
+  .media-library-menu__link {
+    border-color: transparent;
+  }
 }
 
 /* Menu link states. */
@@ -225,6 +233,16 @@
 
 .media-library-add-form .file-upload-help {
   margin: 8px 0 0;
+}
+
+/* Align remove buttons with Save button and compensate for IE scrollbar and focus padding. */
+@media all and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  .ui-dialog > .ui-dialog-content {
+    padding-right: calc(var(--space-s) - calc(var(--focus-border-size) + var(--focus-border-offset-size) + 2px));
+  }
+  [dir="rtl"] .ui-dialog > .ui-dialog-content {
+    padding-left: calc(var(--space-s) - calc(var(--focus-border-size) + var(--focus-border-offset-size) + 2px));
+  }
 }
 
 /* Style the media add oEmbed form. */
@@ -413,7 +431,7 @@
   background: #fff;
 }
 
-.media-library-item--grid::before {
+.media-library-item--grid:before {
   position: absolute;
   top: 7px;
   left: 7px;
@@ -462,7 +480,7 @@
 
 /**
  * By default, the dialog is too narrow to be usable.
- * @see Drupal.ckeditor5.openDialog()
+ * @see Drupal.ckeditor.openDialog()
  */
 .ui-dialog--narrow.media-library-widget-modal {
   max-width: 75%;
@@ -531,24 +549,24 @@
   object-position: center center;
 }
 
-.media-library-item--grid.is-hover::before,
-.media-library-item--grid.checked::before,
-.media-library-item--grid.is-focus::before {
+.media-library-item--grid.is-hover:before,
+.media-library-item--grid.checked:before,
+.media-library-item--grid.is-focus:before {
   top: 5px;
   left: 5px;
   border-width: 3px;
   border-radius: 3px;
 }
-.media-library-item--grid.is-hover::before,
-.media-library-item--grid.checked.is-hover::before {
+.media-library-item--grid.is-hover:before,
+.media-library-item--grid.checked.is-hover:before {
   border-color: var(--color-absolutezero-hover);
 }
 
-.media-library-item--grid.is-focus::before {
+.media-library-item--grid.is-focus:before {
   border-color: var(--color-focus);
 }
 
-.media-library-item--grid.checked::before {
+.media-library-item--grid.checked:before {
   border-color: var(--button--focus-border-color);
 }
 
@@ -810,6 +828,7 @@
   background-image: url("../../../../misc/icons/8e929c/ex.svg");
 }
 
+/* @todo Remove in https://www.drupal.org/project/drupal/issues/3064914 */
 .views-live-preview .media-library-view div.views-row + div.views-row {
   margin-top: 0;
 }

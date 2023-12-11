@@ -1,26 +1,7 @@
-# Geocoder 4.x
+# Geocoder 3.x
 
 This is a complete rewrite of the Geocoder module, based on the
 [Geocoder PHP library](http://geocoder-php.org) - [version 4.x](https://github.com/geocoder-php/Geocoder/tree/4.x).
-
-This branch is a parallel copy of the Geocoder 3.x branch requiring the
-php-http/guzzle7-adapter, thus compatible with Guzzle 7 (that is a possible
-dependency since Drupal 9.4 and a requirement for Drupal 10).
-At the moment this branch still have incompatibilities with packages locked to
-php-http/guzzle6-adapter dependency (see issue #3283651).
-
-### How to seamlessly upgrade to Drupal 10 & Geocoder 4.x ... ###
-
-When preparing for an upgrade to Drupal 10 we recommend that you widen your composer version constraints to allow either 3.x or 4.x.
-Edit composer.json the following way:
-
-```
-"require": {
-...
-"drupal/geocoder": "^3.20 || ^4.0",
-...
-}
-```
 
 # Features
 * Solid API based on [Geocoder PHP library](http://geocoder-php.org);
@@ -113,26 +94,26 @@ Throughout geocoder submodules **the following fields types are supported**
 
 ###### for Geocode operations:
 
- * "text",
- * "text_long",
- * "text_with_summary",
- * "string",
- * "string_long",
- * "file" (with "geocoder_field" module enabled),
- * "image" (with "geocoder_field" module enabled),
- * "computed_string" (with "computed_field" module enabled);
- * "computed_string_long" (with "computed_field" module enabled);
- * "address" (with "address" module and "geocoder_address" sub-module enabled);
- * "address_country" (with "address" module and "geocoder_address" sub-module
-    enabled);
+* "text",
+* "text_long",
+* "text_with_summary",
+* "string",
+* "string_long",
+* "file" (with "geocoder_field" module enabled),
+* "image" (with "geocoder_field" module enabled),
+* "computed_string" (with "computed_field" module enabled);
+* "computed_string_long" (with "computed_field" module enabled);
+* "address" (with "address" module and "geocoder_address" sub-module enabled);
+* "address_country" (with "address" module and "geocoder_address" sub-module
+  enabled);
 
 ###### for Reverse Geocode operations:
 
- * "geofield" (with "geofield" module and "geocoder_geofield" sub-module
-    enabled);
+* "geofield" (with "geofield" module and "geocoder_geofield" sub-module
+  enabled);
 
 **Note:** Geocoder Field sub-module provides hooks to alter (change and extend)
-          the list of Geocoding and Reverse Geocoding fields types
+the list of Geocoding and Reverse Geocoding fields types
 (@see geocoder_field.api)
 
 ####Using Geocoder operations behind Proxy
@@ -270,32 +251,32 @@ to consume for performing Geocode and Reverse Geocode operations respectively.
   #####Query Parameters:
 
   - **address** (required): The Address string to geocode (the more detailed
-  and extended the better possible results.
+    and extended the better possible results.
 
   - **geocoder** (required): The Geocoder id, or a list of geocoders id
-  separated by a comma (,) that should process the request (in order of
-  priority). At least one should be provided. Each id should correspond with a
-  valid @GeocoderProvider plugin id.
+    separated by a comma (,) that should process the request (in order of
+    priority). At least one should be provided. Each id should correspond with a
+    valid @GeocoderProvider plugin id.
 
     Note: (if not differently specified in the "options") the Geocoder
     configurations ('/admin/config/system/geocoder') will be used for each
     Geocoder geocoding/reverse geocoding.
 
   - **format** (optional): The geocoding output format id for each result.
-  It should be a single value, corresponding to one of the Dumper
-  (@GeocoderDumper) plugin id defined in the Geocoder module. Default value (or
-  fallback in case of not existing id): the output format of the specific
-  @GeocoderProvider able to process the Geocode operation.
+    It should be a single value, corresponding to one of the Dumper
+    (@GeocoderDumper) plugin id defined in the Geocoder module. Default value (or
+    fallback in case of not existing id): the output format of the specific
+    @GeocoderProvider able to process the Geocode operation.
 
   - **address_format** (optional): The specific geocoder address formatter
-  plugin (@GeocoderFormatter) that should be used to output the
-  "formatted_address" property (present when no specific output
-  format/@GeocoderDumper is requested). This fallback to default (bundled))
-  "default_formatted_address" @GeocoderFormatter
+    plugin (@GeocoderFormatter) that should be used to output the
+    "formatted_address" property (present when no specific output
+    format/@GeocoderDumper is requested). This fallback to default (bundled))
+    "default_formatted_address" @GeocoderFormatter
 
   - **options** (optional): Possible overriding plugins options written
-  in the form of multi-dimensional arrays query-string (such as a[b][c]=d).
-  For instance to override the google maps locale parameter (into italian):
+    in the form of multi-dimensional arrays query-string (such as a[b][c]=d).
+    For instance to override the google maps locale parameter (into italian):
 
   ````options[googlemaps][locale]=it````
 
@@ -314,15 +295,15 @@ to consume for performing Geocode and Reverse Geocode operations respectively.
   #####Query Parameters:
 
   - **latlon** (required): The latitude and longitude values, in decimal
-  degrees, as string couple separated by a comma (,) specifying the location for
-  which you wish to obtain the closest, human-readable address.
+    degrees, as string couple separated by a comma (,) specifying the location for
+    which you wish to obtain the closest, human-readable address.
 
   - **plugins** (required): *@see the Geocode endpoint parameters description*
 
   - **format** (optional): *@see the Geocode endpoint parameters description*
 
   - **options** (optional): *@see the Geocode endpoint parameters
-  description*
+    description*
 
 #### Successful and Unsuccessful Responses
 
@@ -364,8 +345,8 @@ enabling support and configuration for the
    dependency willdurand/geocoder": "^3.0" library is removed.
    (eventually run also: `composer remove willdurand/geocoder`);
 
-2. Require the new default Geocoder 4.x version:
-   `composer require 'drupal/geocoder:^4.0'`
+2. Require the new default Geocoder 3.x version:
+   `composer require 'drupal/geocoder:^3.0'`
    (this will also install the dependency willdurand/geocoder
    in its "^4.0" version)
 

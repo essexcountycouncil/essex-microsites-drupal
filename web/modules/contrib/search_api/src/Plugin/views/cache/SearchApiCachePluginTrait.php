@@ -188,7 +188,7 @@ trait SearchApiCachePluginTrait {
         try {
           $this->getQuery()->setSearchApiQuery($results->getQuery());
         }
-        catch (SearchApiException) {
+        catch (SearchApiException $e) {
           // Ignore.
         }
 
@@ -203,7 +203,10 @@ trait SearchApiCachePluginTrait {
    */
   public function generateResultsKey() {
     if (!isset($this->resultsKey)) {
-      $this->getQuery()->getSearchApiQuery()?->preExecute();
+      $query = $this->getQuery()->getSearchApiQuery();
+      if ($query) {
+        $query->preExecute();
+      }
 
       $view = $this->getView();
       $build_info = $view->build_info;

@@ -21,7 +21,7 @@ settings:
     node: '@node.node_route_context:node'
 visibility:
   node_type:
-    id: entity_bundle:node
+    id: node_type
     bundles:
       localgov_directory: localgov_directory
     negate: false

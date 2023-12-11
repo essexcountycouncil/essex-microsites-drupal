@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -20,15 +20,15 @@ use Composer\Semver\Constraint\ConstraintInterface;
 
 class VersionParser extends SemverVersionParser
 {
-    public const DEFAULT_BRANCH_ALIAS = '9999999-dev';
+    const DEFAULT_BRANCH_ALIAS = '9999999-dev';
 
     /** @var array<string, ConstraintInterface> Constraint parsing cache */
-    private static $constraints = [];
+    private static $constraints = array();
 
     /**
      * @inheritDoc
      */
-    public function parseConstraints($constraints): ConstraintInterface
+    public function parseConstraints($constraints)
     {
         if (!isset(self::$constraints[$constraints])) {
             self::$constraints[$constraints] = parent::parseConstraints($constraints);
@@ -47,10 +47,10 @@ class VersionParser extends SemverVersionParser
      *
      * @return list<array{name: string, version?: string}>
      */
-    public function parseNameVersionPairs(array $pairs): array
+    public function parseNameVersionPairs(array $pairs)
     {
         $pairs = array_values($pairs);
-        $result = [];
+        $result = array();
 
         for ($i = 0, $count = count($pairs); $i < $count; $i++) {
             $pair = Preg::replace('{^([^=: ]+)[=: ](.*)$}', '$1 $2', trim($pairs[$i]));
@@ -60,26 +60,32 @@ class VersionParser extends SemverVersionParser
             }
 
             if (strpos($pair, ' ')) {
-                [$name, $version] = explode(' ', $pair, 2);
-                $result[] = ['name' => $name, 'version' => $version];
+                list($name, $version) = explode(' ', $pair, 2);
+                $result[] = array('name' => $name, 'version' => $version);
             } else {
-                $result[] = ['name' => $pair];
+                $result[] = array('name' => $pair);
             }
         }
 
         return $result;
     }
 
-    public static function isUpgrade(string $normalizedFrom, string $normalizedTo): bool
+    /**
+     * @param string $normalizedFrom
+     * @param string $normalizedTo
+     *
+     * @return bool
+     */
+    public static function isUpgrade($normalizedFrom, $normalizedTo)
     {
         if ($normalizedFrom === $normalizedTo) {
             return true;
         }
 
-        if (in_array($normalizedFrom, ['dev-master', 'dev-trunk', 'dev-default'], true)) {
+        if (in_array($normalizedFrom, array('dev-master', 'dev-trunk', 'dev-default'), true)) {
             $normalizedFrom = VersionParser::DEFAULT_BRANCH_ALIAS;
         }
-        if (in_array($normalizedTo, ['dev-master', 'dev-trunk', 'dev-default'], true)) {
+        if (in_array($normalizedTo, array('dev-master', 'dev-trunk', 'dev-default'), true)) {
             $normalizedTo = VersionParser::DEFAULT_BRANCH_ALIAS;
         }
 
@@ -87,7 +93,7 @@ class VersionParser extends SemverVersionParser
             return true;
         }
 
-        $sorted = Semver::sort([$normalizedTo, $normalizedFrom]);
+        $sorted = Semver::sort(array($normalizedTo, $normalizedFrom));
 
         return $sorted[0] === $normalizedFrom;
     }

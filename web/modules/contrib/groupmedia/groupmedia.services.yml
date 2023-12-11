@@ -1,8 +1,4 @@
 services:
-  groupmedia.route_subscriber:
-    class: 'Drupal\groupmedia\Routing\RouteSubscriber'
-    tags:
-      - { name: 'event_subscriber' }
 
   plugin.manager.groupmedia.finder:
     class: Drupal\groupmedia\MediaFinderManager
@@ -10,7 +6,7 @@ services:
 
   groupmedia.attach_group:
     class: Drupal\groupmedia\AttachMediaToGroup
-    arguments: ['@plugin.manager.groupmedia.finder', '@group_relation_type.manager', '@module_handler', '@entity_type.manager', '@logger.channel.groupmedia']
+    arguments: ['@plugin.manager.groupmedia.finder', '@group_relation_type.manager', '@module_handler', '@entity_type.manager', '@config.factory', '@logger.channel.groupmedia']
 
   logger.channel.groupmedia:
     parent: logger.channel_base
@@ -19,7 +15,7 @@ services:
   # Specific group relation handlers.
   group.relation_handler.operation_provider.group_media:
     class: 'Drupal\groupmedia\Plugin\Group\RelationHandler\GroupMediaOperationProvider'
-    arguments: [ '@group.relation_handler.operation_provider', '@current_user', '@string_translation', '@entity_type.manager']
+    arguments: [ '@group.relation_handler.operation_provider', '@current_user', '@string_translation' ]
     shared: false
 
   group.relation_handler.permission_provider.group_media:

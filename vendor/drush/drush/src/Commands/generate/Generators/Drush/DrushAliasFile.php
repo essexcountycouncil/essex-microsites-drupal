@@ -1,40 +1,34 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drush\Commands\generate\Generators\Drush;
 
-use DrupalCodeGenerator\Asset\AssetCollection as Assets;
-use DrupalCodeGenerator\Attribute\Generator;
-use DrupalCodeGenerator\Command\BaseGenerator;
-use DrupalCodeGenerator\GeneratorType;
+use DrupalCodeGenerator\Command\Generator;
 use Drush\Drush;
 
-#[Generator(
-    name: 'drush:alias-file',
-    description: 'Generates a Drush site alias file.',
-    aliases: ['daf'],
-    templatePath: __DIR__,
-    type: GeneratorType::MODULE_COMPONENT,
-)]
-class DrushAliasFile extends BaseGenerator
+/**
+ * Implements drush-alias-file command.
+ */
+class DrushAliasFile extends Generator
 {
+    protected string $name = 'drush:alias-file';
+    protected string $description = 'Generates a Drush site alias file.';
+    protected string $alias = 'daf';
+    protected string $templatePath = __DIR__;
+
     /**
      * {@inheritdoc}
      */
-    protected function generate(array &$vars, Assets $assets): void
+    protected function generate(array &$vars): void
     {
-        $ir = $this->createInterviewer($vars);
-
-        $vars['prefix'] = $ir->ask('File prefix (one word)', 'self');
-        $vars['root'] = $ir->ask('Path to Drupal root', Drush::bootstrapManager()->getRoot());
-        $vars['uri'] = $ir->ask('Drupal uri', Drush::bootstrapManager()->getUri() ?: null);
-        $vars['host'] = $ir->ask('Remote host');
+        $vars['prefix'] = $this->ask('File prefix (one word)', 'self');
+        $vars['root'] = $this->ask('Path to Drupal root', Drush::bootstrapManager()->getRoot());
+        $vars['uri'] = $this->ask('Drupal uri', Drush::bootstrapManager()->getUri());
+        $vars['host'] = $this->ask('Remote host');
 
         if ($vars['host']) {
-            $vars['user'] = $ir->ask('Remote user', Drush::config()->user());
+            $vars['user'] = $this->ask('Remote user', Drush::config()->user());
         }
 
-        $assets->addFile('drush/{prefix}.site.yml', 'drush-alias-file.yml.twig');
+        $this->addFile('drush/{prefix}.site.yml', 'drush-alias-file.yml.twig');
     }
 }

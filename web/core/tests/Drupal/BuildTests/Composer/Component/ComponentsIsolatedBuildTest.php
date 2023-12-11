@@ -4,7 +4,6 @@ namespace Drupal\BuildTests\Composer\Component;
 
 use Drupal\BuildTests\Composer\ComposerBuildTestBase;
 use Drupal\Composer\Composer;
-use Symfony\Component\Finder\Finder;
 
 /**
  * Try to install dependencies per component, using Composer.
@@ -35,7 +34,7 @@ class ComponentsIsolatedBuildTest extends ComposerBuildTestBase {
 
     /** @var \Symfony\Component\Finder\SplFileInfo $path */
     foreach ($composer_json_finder->getIterator() as $path) {
-      $data[$path->getRelativePath()] = ['/' . $path->getRelativePath()];
+      $data[] = ['/' . $path->getRelativePath()];
     }
     return $data;
   }
@@ -48,12 +47,8 @@ class ComponentsIsolatedBuildTest extends ComposerBuildTestBase {
   public function testComponentComposerJson(string $component_path): void {
     // Only copy the components. Copy all of them because some of them depend on
     // each other.
-    $finder = new Finder();
-    $finder->files()
-      ->ignoreUnreadableDirs()
-      ->in($this->getDrupalRoot() . static::$componentsPath)
-      ->ignoreDotFiles(FALSE)
-      ->ignoreVCS(FALSE);
+    $finder = $this->getCodebaseFinder();
+    $finder->in($this->getDrupalRoot() . static::$componentsPath);
     $this->copyCodebase($finder->getIterator());
 
     $working_dir = $this->getWorkingPath() . static::$componentsPath . $component_path;

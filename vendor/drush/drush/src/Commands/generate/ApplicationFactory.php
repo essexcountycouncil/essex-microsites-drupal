@@ -1,28 +1,54 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drush\Commands\generate;
 
 use DrupalCodeGenerator\Application;
-use DrupalCodeGenerator\Event\GeneratorInfoAlter;
-use Drush\Commands\generate\Generators\Drush\DrushAliasFile;
-use Drush\Commands\generate\Generators\Drush\DrushCommandFile;
-use Drush\Runtime\ServiceManager;
-use Psr\Container\ContainerInterface as DrushContainer;
+use DrupalCodeGenerator\ClassResolver\SimpleClassResolver;
+use DrupalCodeGenerator\Command\Generator;
+use DrupalCodeGenerator\GeneratorFactory;
+use DrupalCodeGenerator\Helper\DrupalContext;
+use DrupalCodeGenerator\Helper\Dumper;
+use DrupalCodeGenerator\Helper\QuestionHelper;
+use DrupalCodeGenerator\Helper\Renderer;
+use DrupalCodeGenerator\Helper\ResultPrinter;
+use DrupalCodeGenerator\Twig\TwigEnvironment;
+use Drush\Boot\AutoloaderAwareInterface;
+use Drush\Boot\AutoloaderAwareTrait;
+use Drush\Boot\DrupalBootLevels;
+use Drush\Drupal\DrushServiceModifier;
+use Drush\Drush;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Robo\ClassDiscovery\RelativeNamespaceDiscovery;
+use Symfony\Component\Console\Helper\HelperSet;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Path;
+use Twig\Loader\FilesystemLoader;
 
-class ApplicationFactory
+class ApplicationFactory implements AutoloaderAwareInterface
 {
-    private ServiceManager $serviceManager;
+    use AutoloaderAwareTrait;
 
-    public function __construct(
-        private ContainerInterface $container,
-        private DrushContainer $drush_container,
-        private LoggerInterface $logger
-    ) {
-        $this->serviceManager = $this->drush_container->get('service.manager');
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    protected $config;
+
+    public function __construct(LoggerInterface $logger, $config)
+    {
+        $this->logger = $logger;
+        $this->config = $config;
+    }
+
+    public function logger(): LoggerInterface
+    {
+        return $this->logger;
+    }
+
+    public function getConfig()
+    {
+        return $this->config;
     }
 
     /**
@@ -30,43 +56,91 @@ class ApplicationFactory
      */
     public function create(): Application
     {
-        $this->container->get('event_dispatcher')
-            ->addListener(GeneratorInfoAlter::class, [self::class, 'alterGenerators']);
-        $application = Application::create($this->container);
+        $application = new Application('Drupal Code Generator', Drush::getVersion());
         $application->setAutoExit(false);
 
-        $generators = $this->discover();
-        $application->addCommands($generators);
-        // Hide default Symfony console commands.
-        foreach (['help', 'list', 'completion', '_complete'] as $name) {
-            $application->get($name)->setHidden(true);
+        $class_resolver = new SimpleClassResolver();
+        if (Drush::bootstrapManager()->hasBootstrapped(DrupalBootLevels::FULL)) {
+            $container = \Drupal::getContainer();
+            $class_resolver = new GeneratorClassResolver($container->get('class_resolver'));
         }
-        return $application;
-    }
+        $generator_factory = new GeneratorFactory($class_resolver, $this->logger());
 
-    public function discover(): array
-    {
-        $module_generator_classes = [];
-        foreach ($this->container->get('module_handler')->getModuleList() as $moduleId => $extension) {
-            $path = DRUPAL_ROOT . '/' . $extension->getPath() . '/src/Drush/';
-            $module_generator_classes = array_merge(
-                $module_generator_classes,
-                $this->serviceManager->discoverModuleGenerators([$path], "\\Drupal\\" . $moduleId . "\\Drush")
-            );
+        $helper_set = new HelperSet([
+                                        new QuestionHelper(),
+                                        new Dumper(new Filesystem()),
+                                        new Renderer(new TwigEnvironment(new FilesystemLoader([Application::TEMPLATE_PATH]))),
+                                        new ResultPrinter(),
+                                        new DrupalContext($container)
+                                    ]);
+        $application->setHelperSet($helper_set);
+
+        $dcg_generators = $generator_factory->getGenerators([Application::ROOT . '/src/Command'], Application::GENERATOR_NAMESPACE);
+        $drush_generators = $generator_factory->getGenerators([__DIR__ . '/Generators'], '\Drush\Commands\generate\Generators');
+        $global_generators = $this->discoverPsr4Generators();
+
+        $module_generators = [];
+        if (isset($container)) {
+            if ($container->has(DrushServiceModifier::DRUSH_GENERATOR_SERVICES)) {
+                $module_generators = $container->get(DrushServiceModifier::DRUSH_GENERATOR_SERVICES)->getCommandList();
+            }
         }
-        $module_generators = $this->serviceManager->instantiateServices($module_generator_classes, $this->drush_container, $this->container);
-
-        $global_generator_classes = $this->serviceManager->discoverPsr4Generators();
-        $global_generator_classes = $this->filterCLassExists($global_generator_classes);
-        $global_generators = $this->serviceManager->instantiateServices($global_generator_classes, $this->drush_container, $this->container);
 
         $generators = [
-            new DrushCommandFile(),
-            new DrushAliasFile(),
+            ...self::filterGenerators($dcg_generators),
+            ...$drush_generators,
             ...$global_generators,
             ...$module_generators,
         ];
+        $application->addCommands($generators);
+
+        return $application;
+    }
+
+    /**
+     * Filter and rename DCG generators.
+     * @param Generator[] $generators
+     */
+    private static function filterGenerators(array $generators): array
+    {
+        $generators = array_filter(
+            $generators,
+            static fn ($generator) =>
+                !str_starts_with($generator->getName(), 'misc:d7:') &&
+                !str_starts_with($generator->getName(), 'console:'),
+        );
+        $generators = array_map(
+            function ($generator) {
+                if ($generator->getName() == 'theme-file') $generator->setName('theme:file');
+                if ($generator->getName() == 'theme-settings') $generator->setName('theme:settings');
+                if ($generator->getName() == 'plugin-manager') $generator->setName('plugin:manager');
+                // Remove the word 'module'.
+                if ($generator->getName() == 'configuration-entity') $generator->setDescription('Generates configuration entity');
+                if ($generator->getName() == 'content-entity') $generator->setDescription('Generates configuration entity');
+                return $generator;
+            },
+            $generators
+        );
         return $generators;
+    }
+
+    protected function discoverGlobalPathsDeprecated(): array
+    {
+        $config_paths = $this->getConfig()->get('runtime.commandfile.paths', []);
+        foreach ($config_paths as $path) {
+            $global_paths[] = Path::join($path, 'Generators');
+            $global_paths[] = Path::join($path, 'src/Generators');
+        }
+        return array_filter($global_paths, 'file_exists');
+    }
+
+    protected function discoverPsr4Generators(): array
+    {
+        $classes = (new RelativeNamespaceDiscovery($this->autoloader()))
+            ->setRelativeNamespace('Drush\Generators')
+            ->setSearchPattern('/.*Generator\.php$/')->getClasses();
+        $classes = $this->filterExists($classes);
+        return $this->getGenerators($classes);
     }
 
     /**
@@ -75,12 +149,12 @@ class ApplicationFactory
      * @param array $classes
      * @return array
      */
-    public function filterCLassExists(array $classes): array
+    protected function filterExists(array $classes): array
     {
         $exists = [];
         foreach ($classes as $class) {
             try {
-                // DCG v1+v2 generators extend a non-existent class, so this check is needed.
+                // DCG v1 generators extend a non-existent class, so this check is needed.
                 if (class_exists($class)) {
                     $exists[] = $class;
                 }
@@ -92,16 +166,25 @@ class ApplicationFactory
     }
 
     /**
-     * Implements hook GeneratorInfoAlter.
+     * Validate and instantiate generator classes.
+     *
+     * @param array $classes
+     * @return Generator[]
+     * @throws \ReflectionException
      */
-    public static function alterGenerators(GeneratorInfoAlter $event): void
+    protected function getGenerators(array $classes): array
     {
-        $event->generators['theme-settings']->setName('theme:settings');
-        $event->generators['plugin-manager']->setName('plugin:manager');
-    }
-
-    public function logger(): LoggerInterface
-    {
-        return $this->logger;
+        return array_map(
+            function (string $class): Generator {
+                return new $class();
+            },
+            array_filter($classes, function (string $class): bool {
+                $reflectionClass = new \ReflectionClass($class);
+                return $reflectionClass->isSubclassOf(Generator::class)
+                    && !$reflectionClass->isAbstract()
+                    && !$reflectionClass->isInterface()
+                    && !$reflectionClass->isTrait();
+            })
+        );
     }
 }

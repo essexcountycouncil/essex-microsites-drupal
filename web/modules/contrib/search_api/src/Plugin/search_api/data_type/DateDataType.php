@@ -58,7 +58,7 @@ class DateDataType extends DataTypePluginBase {
       return NULL;
     }
     // Add in time component if this is a date-only field.
-    if (!str_contains($value, ':')) {
+    if (strpos($value, ':') === FALSE) {
       $date->setDefaultDateTime();
     }
     return $date->getTimestamp();

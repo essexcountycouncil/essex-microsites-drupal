@@ -11,7 +11,7 @@ use Drupal\geocoder\ConfigurableProviderUsingHandlerWithAdapterBase;
  *
  * @GeocoderProvider(
  *   id        = "localgov_os_places",
- *   name      = "LocalGov OS Places",
+ *   name      = "Localgov OS Places",
  *   handler   = "\LocalgovDrupal\OsPlacesGeocoder\Provider\OsPlacesGeocoder",
  *   arguments = {
  *     "genericAddressQueryUrl" = "https://api.os.uk/search/places/v1/find",

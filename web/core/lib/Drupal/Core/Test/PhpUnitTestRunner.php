@@ -4,6 +4,7 @@ namespace Drupal\Core\Test;
 
 use Drupal\Core\Database\Database;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\Tests\Listeners\SimpletestUiPrinter;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Process\PhpExecutableFinder;
 
@@ -13,40 +14,53 @@ use Symfony\Component\Process\PhpExecutableFinder;
  * This class runs PHPUnit-based tests and converts their JUnit results to a
  * format that can be stored in the {simpletest} database schema.
  *
- * This class is internal and not considered to be API.
+ * This class is @internal and not considered to be API.
  *
  * @code
  * $runner = PhpUnitTestRunner::create(\Drupal::getContainer());
- * $results = $runner->execute($test_run, $test_list['phpunit']);
+ * $results = $runner->runTests($test_id, $test_list['phpunit']);
  * @endcode
- *
- * @internal
  */
 class PhpUnitTestRunner implements ContainerInjectionInterface {
 
   /**
-   * Constructs a test runner.
+   * Path to the working directory.
    *
-   * @param string $appRoot
-   *   Path to the application root.
-   * @param string $workingDirectory
-   *   Path to the working directory. JUnit log files will be stored in this
-   *   directory.
+   * JUnit log files will be stored in this directory.
+   *
+   * @var string
    */
-  public function __construct(
-    protected string $appRoot,
-    protected string $workingDirectory
-  ) {
-  }
+  protected $workingDirectory;
+
+  /**
+   * Path to the application root.
+   *
+   * @var string
+   */
+  protected $appRoot;
 
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container): static {
+  public static function create(ContainerInterface $container) {
     return new static(
       (string) $container->getParameter('app.root'),
       (string) $container->get('file_system')->realpath('public://simpletest')
     );
+  }
+
+  /**
+   * Constructs a test runner.
+   *
+   * @param string $app_root
+   *   Path to the application root.
+   * @param string $working_directory
+   *   Path to the working directory. JUnit log files will be stored in this
+   *   directory.
+   */
+  public function __construct($app_root, $working_directory) {
+    $this->appRoot = $app_root;
+    $this->workingDirectory = $working_directory;
   }
 
   /**
@@ -60,7 +74,7 @@ class PhpUnitTestRunner implements ContainerInjectionInterface {
    *
    * @internal
    */
-  public function xmlLogFilePath(int $test_id): string {
+  public function xmlLogFilePath($test_id) {
     return $this->workingDirectory . '/phpunit-' . $test_id . '.xml';
   }
 
@@ -72,7 +86,7 @@ class PhpUnitTestRunner implements ContainerInjectionInterface {
    *
    * @internal
    */
-  public function phpUnitCommand(): string {
+  public function phpUnitCommand() {
     // Load the actual autoloader being used and determine its filename using
     // reflection. We can determine the vendor directory based on that filename.
     $autoloader = require $this->appRoot . '/autoload.php';
@@ -111,7 +125,7 @@ class PhpUnitTestRunner implements ContainerInjectionInterface {
    *
    * @internal
    */
-  public function runCommand(array $unescaped_test_classnames, string $phpunit_file, int &$status = NULL, array &$output = NULL): string {
+  public function runCommand(array $unescaped_test_classnames, $phpunit_file, &$status = NULL, &$output = NULL) {
     global $base_url;
     // Setup an environment variable containing the database connection so that
     // functional tests can connect to the database.
@@ -131,6 +145,8 @@ class PhpUnitTestRunner implements ContainerInjectionInterface {
       $phpunit_bin,
       '--log-junit',
       escapeshellarg($phpunit_file),
+      '--printer',
+      escapeshellarg(SimpletestUiPrinter::class),
     ];
 
     // Optimized for running a single test.
@@ -156,7 +172,8 @@ class PhpUnitTestRunner implements ContainerInjectionInterface {
     $old_cwd = getcwd();
     chdir($this->appRoot . "/core");
 
-    // exec in a subshell so that the environment is isolated.
+    // exec in a subshell so that the environment is isolated when running tests
+    // via the simpletest UI.
     $ret = exec(implode(" ", $command), $output, $status);
 
     chdir($old_cwd);
@@ -171,8 +188,8 @@ class PhpUnitTestRunner implements ContainerInjectionInterface {
   /**
    * Executes PHPUnit tests and returns the results of the run.
    *
-   * @param \Drupal\Core\Test\TestRun $test_run
-   *   The test run object.
+   * @param int $test_id
+   *   The current test ID.
    * @param string[] $unescaped_test_classnames
    *   An array of test class names, including full namespaces, to be passed as
    *   a regular expression to PHPUnit's --filter option.
@@ -186,18 +203,18 @@ class PhpUnitTestRunner implements ContainerInjectionInterface {
    *
    * @internal
    */
-  public function execute(TestRun $test_run, array $unescaped_test_classnames, int &$status = NULL): array {
-    $phpunit_file = $this->xmlLogFilePath($test_run->id());
+  public function runTests($test_id, array $unescaped_test_classnames, &$status = NULL) {
+    $phpunit_file = $this->xmlLogFilePath($test_id);
     // Store output from our test run.
     $output = [];
     $this->runCommand($unescaped_test_classnames, $phpunit_file, $status, $output);
 
     if ($status == TestStatus::PASS) {
-      return JUnitConverter::xmlToRows($test_run->id(), $phpunit_file);
+      return JUnitConverter::xmlToRows($test_id, $phpunit_file);
     }
     return [
       [
-        'test_id' => $test_run->id(),
+        'test_id' => $test_id,
         'test_class' => implode(",", $unescaped_test_classnames),
         'status' => TestStatus::label($status),
         'message' => 'PHPUnit Test failed to complete; Error: ' . implode("\n", $output),
@@ -210,34 +227,18 @@ class PhpUnitTestRunner implements ContainerInjectionInterface {
   }
 
   /**
-   * Logs the parsed PHPUnit results into the test run.
-   *
-   * @param \Drupal\Core\Test\TestRun $test_run
-   *   The test run object.
-   * @param array[] $phpunit_results
-   *   An array of test results, as returned from
-   *   \Drupal\Core\Test\JUnitConverter::xmlToRows(). Can be the return value of
-   *   PhpUnitTestRunner::execute().
-   */
-  public function processPhpUnitResults(TestRun $test_run, array $phpunit_results): void {
-    foreach ($phpunit_results as $result) {
-      $test_run->insertLogEntry($result);
-    }
-  }
-
-  /**
    * Tallies test results per test class.
    *
    * @param string[][] $results
    *   Array of results in the {simpletest} schema. Can be the return value of
-   *   PhpUnitTestRunner::execute().
+   *   PhpUnitTestRunner::runTests().
    *
    * @return int[][]
    *   Array of status tallies, keyed by test class name and status type.
    *
    * @internal
    */
-  public function summarizeResults(array $results): array {
+  public function summarizeResults(array $results) {
     $summaries = [];
     foreach ($results as $result) {
       if (!isset($summaries[$result['test_class']])) {

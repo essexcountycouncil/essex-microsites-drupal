@@ -215,7 +215,7 @@ class ConfigurationHelper implements ContainerInjectionInterface {
    */
   public function importConfigEntity(string $entity_type, string $config_path, string $config_filename): bool {
     $config_src = new ConfigFileStorage($config_path);
-    if (!$config_src instanceof ConfigFileStorage) {
+    if (empty($config_src)) {
       return FALSE;
     }
 

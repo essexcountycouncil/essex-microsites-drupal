@@ -101,8 +101,6 @@ class SourceEditing extends CKEditor5PluginDefault implements CKEditor5PluginCon
     return [
       'htmlSupport' => [
         'allow' => $concrete_restrictions->toGeneralHtmlSupportConfig(),
-        // Any manually created elements are explicitly allowed to be empty.
-        'allowEmpty' => array_keys($concrete_restrictions->getAllowedElements()),
       ],
     ];
   }

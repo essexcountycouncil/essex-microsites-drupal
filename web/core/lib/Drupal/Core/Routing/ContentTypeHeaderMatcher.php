@@ -22,7 +22,7 @@ class ContentTypeHeaderMatcher implements FilterInterface {
       return $collection;
     }
 
-    $format = $request->getContentTypeFormat();
+    $format = $request->getContentType();
 
     foreach ($collection as $name => $route) {
       $supported_formats = array_filter(explode('|', $route->getRequirement('_content_type_format') ?? ''));

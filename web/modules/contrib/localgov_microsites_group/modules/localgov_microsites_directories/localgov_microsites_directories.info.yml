@@ -2,7 +2,7 @@ name: Localgov Microsites Directories
 description: LocalGov Directories integration with Microsites.
 type: module
 package: LocalGov Drupal
-core_version_requirement: ^9 || ^10
+core_version_requirement: ^9
 dependencies:
   - drupal:views
   - localgov_directories:localgov_directories

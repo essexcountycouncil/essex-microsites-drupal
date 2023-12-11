@@ -13,6 +13,7 @@ use Symfony\Component\Console\Style\OutputStyle;
 class LogOutputStyler extends UnstyledLogOutputStyler
 {
     const TASK_STYLE_INFO = 'fg=white;bg=cyan;options=bold';
+    const TASK_STYLE_SUCCESS = 'fg=white;bg=green;options=bold';
     const TASK_STYLE_WARNING = 'fg=black;bg=yellow;options=bold;';
     const TASK_STYLE_ERROR = 'fg=white;bg=red;options=bold';
 
@@ -28,6 +29,7 @@ class LogOutputStyler extends UnstyledLogOutputStyler
         LogLevel::NOTICE => self::TASK_STYLE_INFO,
         LogLevel::INFO => self::TASK_STYLE_INFO,
         LogLevel::DEBUG => self::TASK_STYLE_INFO,
+        ConsoleLogLevel::SUCCESS => self::TASK_STYLE_SUCCESS,
     ];
     protected $messageStyles = [
         LogLevel::EMERGENCY => self::TASK_STYLE_ERROR,
@@ -38,6 +40,7 @@ class LogOutputStyler extends UnstyledLogOutputStyler
         LogLevel::NOTICE => '',
         LogLevel::INFO => '',
         LogLevel::DEBUG => '',
+        ConsoleLogLevel::SUCCESS => '',
     ];
 
     public function __construct($labelStyles = [], $messageStyles = [])

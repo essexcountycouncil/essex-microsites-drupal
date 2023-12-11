@@ -84,7 +84,7 @@ class EntityUuidConverter extends EntityConverter {
   public function applies($definition, $name, Route $route) {
     return (
       (bool) Routes::getResourceTypeNameFromParameters($route->getDefaults()) &&
-      !empty($definition['type']) && str_starts_with($definition['type'], 'entity')
+      !empty($definition['type']) && strpos($definition['type'], 'entity') === 0
     );
   }
 

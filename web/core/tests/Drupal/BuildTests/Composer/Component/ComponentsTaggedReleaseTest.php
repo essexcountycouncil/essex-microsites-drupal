@@ -68,7 +68,7 @@ class ComponentsTaggedReleaseTest extends ComposerBuildTestBase {
       );
       // Required packages from drupal/core-* should have our constraint.
       foreach ($requires as $package => $req_constraint) {
-        if (str_contains($package, 'drupal/core-')) {
+        if (strpos($package, 'drupal/core-') !== FALSE) {
           $this->assertEquals($constraint, $req_constraint);
         }
       }

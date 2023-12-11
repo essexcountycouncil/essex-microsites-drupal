@@ -11,10 +11,6 @@
 
 namespace Symfony\Component\Console\Input;
 
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Completion\CompletionInput;
-use Symfony\Component\Console\Completion\CompletionSuggestions;
-use Symfony\Component\Console\Completion\Suggestion;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Exception\LogicException;
 
@@ -45,27 +41,22 @@ class InputOption
      */
     public const VALUE_IS_ARRAY = 8;
 
-    /**
-     * The option may have either positive or negative value (e.g. --ansi or --no-ansi).
-     */
-    public const VALUE_NEGATABLE = 16;
-
-    private string $name;
-    private string|array|null $shortcut;
-    private int $mode;
-    private string|int|bool|array|null|float $default;
-    private array|\Closure $suggestedValues;
-    private string $description;
+    private $name;
+    private $shortcut;
+    private $mode;
+    private $default;
+    private $description;
 
     /**
-     * @param string|array|null                                                             $shortcut        The shortcuts, can be null, a string of shortcuts delimited by | or an array of shortcuts
-     * @param int|null                                                                      $mode            The option mode: One of the VALUE_* constants
-     * @param string|bool|int|float|array|null                                              $default         The default value (must be null for self::VALUE_NONE)
-     * @param array|\Closure(CompletionInput,CompletionSuggestions):list<string|Suggestion> $suggestedValues The values used for input completion
+     * @param string                           $name        The option name
+     * @param string|array|null                $shortcut    The shortcuts, can be null, a string of shortcuts delimited by | or an array of shortcuts
+     * @param int|null                         $mode        The option mode: One of the VALUE_* constants
+     * @param string                           $description A description text
+     * @param string|bool|int|float|array|null $default     The default value (must be null for self::VALUE_NONE)
      *
      * @throws InvalidArgumentException If option mode is invalid or incompatible
      */
-    public function __construct(string $name, string|array $shortcut = null, int $mode = null, string $description = '', string|bool|int|float|array $default = null, array|\Closure $suggestedValues = [])
+    public function __construct(string $name, $shortcut = null, int $mode = null, string $description = '', $default = null)
     {
         if (str_starts_with($name, '--')) {
             $name = substr($name, 2);
@@ -94,7 +85,7 @@ class InputOption
 
         if (null === $mode) {
             $mode = self::VALUE_NONE;
-        } elseif ($mode >= (self::VALUE_NEGATABLE << 1) || $mode < 1) {
+        } elseif ($mode > 15 || $mode < 1) {
             throw new InvalidArgumentException(sprintf('Option mode "%s" is not valid.', $mode));
         }
 
@@ -102,16 +93,9 @@ class InputOption
         $this->shortcut = $shortcut;
         $this->mode = $mode;
         $this->description = $description;
-        $this->suggestedValues = $suggestedValues;
 
-        if ($suggestedValues && !$this->acceptValue()) {
-            throw new LogicException('Cannot set suggested values if the option does not accept a value.');
-        }
         if ($this->isArray() && !$this->acceptValue()) {
             throw new InvalidArgumentException('Impossible to have an option mode VALUE_IS_ARRAY if the option does not accept a value.');
-        }
-        if ($this->isNegatable() && $this->acceptValue()) {
-            throw new InvalidArgumentException('Impossible to have an option mode VALUE_NEGATABLE if the option also accepts a value.');
         }
 
         $this->setDefault($default);
@@ -119,16 +103,20 @@ class InputOption
 
     /**
      * Returns the option shortcut.
+     *
+     * @return string|null The shortcut
      */
-    public function getShortcut(): ?string
+    public function getShortcut()
     {
         return $this->shortcut;
     }
 
     /**
      * Returns the option name.
+     *
+     * @return string The name
      */
-    public function getName(): string
+    public function getName()
     {
         return $this->name;
     }
@@ -138,7 +126,7 @@ class InputOption
      *
      * @return bool true if value mode is not self::VALUE_NONE, false otherwise
      */
-    public function acceptValue(): bool
+    public function acceptValue()
     {
         return $this->isValueRequired() || $this->isValueOptional();
     }
@@ -148,7 +136,7 @@ class InputOption
      *
      * @return bool true if value mode is self::VALUE_REQUIRED, false otherwise
      */
-    public function isValueRequired(): bool
+    public function isValueRequired()
     {
         return self::VALUE_REQUIRED === (self::VALUE_REQUIRED & $this->mode);
     }
@@ -158,7 +146,7 @@ class InputOption
      *
      * @return bool true if value mode is self::VALUE_OPTIONAL, false otherwise
      */
-    public function isValueOptional(): bool
+    public function isValueOptional()
     {
         return self::VALUE_OPTIONAL === (self::VALUE_OPTIONAL & $this->mode);
     }
@@ -168,24 +156,16 @@ class InputOption
      *
      * @return bool true if mode is self::VALUE_IS_ARRAY, false otherwise
      */
-    public function isArray(): bool
+    public function isArray()
     {
         return self::VALUE_IS_ARRAY === (self::VALUE_IS_ARRAY & $this->mode);
     }
 
-    public function isNegatable(): bool
-    {
-        return self::VALUE_NEGATABLE === (self::VALUE_NEGATABLE & $this->mode);
-    }
-
     /**
-     * @return void
+     * @param string|bool|int|float|array|null $default
      */
-    public function setDefault(string|bool|int|float|array $default = null)
+    public function setDefault($default = null)
     {
-        if (1 > \func_num_args()) {
-            trigger_deprecation('symfony/console', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
-        }
         if (self::VALUE_NONE === (self::VALUE_NONE & $this->mode) && null !== $default) {
             throw new LogicException('Cannot set a default value when using InputOption::VALUE_NONE mode.');
         }
@@ -198,55 +178,39 @@ class InputOption
             }
         }
 
-        $this->default = $this->acceptValue() || $this->isNegatable() ? $default : false;
+        $this->default = $this->acceptValue() ? $default : false;
     }
 
     /**
      * Returns the default value.
+     *
+     * @return string|bool|int|float|array|null
      */
-    public function getDefault(): string|bool|int|float|array|null
+    public function getDefault()
     {
         return $this->default;
     }
 
     /**
      * Returns the description text.
+     *
+     * @return string The description text
      */
-    public function getDescription(): string
+    public function getDescription()
     {
         return $this->description;
     }
 
-    public function hasCompletion(): bool
-    {
-        return [] !== $this->suggestedValues;
-    }
-
-    /**
-     * Adds suggestions to $suggestions for the current completion input.
-     *
-     * @see Command::complete()
-     */
-    public function complete(CompletionInput $input, CompletionSuggestions $suggestions): void
-    {
-        $values = $this->suggestedValues;
-        if ($values instanceof \Closure && !\is_array($values = $values($input))) {
-            throw new LogicException(sprintf('Closure for option "%s" must return an array. Got "%s".', $this->name, get_debug_type($values)));
-        }
-        if ($values) {
-            $suggestions->suggestValues($values);
-        }
-    }
-
     /**
      * Checks whether the given option equals this one.
+     *
+     * @return bool
      */
-    public function equals(self $option): bool
+    public function equals(self $option)
     {
         return $option->getName() === $this->getName()
             && $option->getShortcut() === $this->getShortcut()
             && $option->getDefault() === $this->getDefault()
-            && $option->isNegatable() === $this->isNegatable()
             && $option->isArray() === $this->isArray()
             && $option->isValueRequired() === $this->isValueRequired()
             && $option->isValueOptional() === $this->isValueOptional()

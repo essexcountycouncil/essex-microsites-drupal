@@ -60,7 +60,7 @@ class PostRequestIndexing implements PostRequestIndexingInterface, DestructableI
       try {
         $storage = $this->entityTypeManager->getStorage('search_api_index');
       }
-      catch (InvalidPluginDefinitionException | PluginNotFoundException) {
+      catch (InvalidPluginDefinitionException | PluginNotFoundException $e) {
         // It might be possible that the module got uninstalled during the rest
         // of the page request, or something else happened. To be on the safe
         // side, catch the exception in case the entity type isn't found.

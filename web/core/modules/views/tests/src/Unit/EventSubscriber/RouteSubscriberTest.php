@@ -23,9 +23,9 @@ class RouteSubscriberTest extends UnitTestCase {
   protected $entityTypeManager;
 
   /**
-   * The mocked config entity storage.
+   * The mocked view storage.
    *
-   * @var \Drupal\Core\Config\Entity\ConfigEntityStorageInterface|\PHPUnit\Framework\MockObject\MockObject
+   * @var \Drupal\Tests\views\Kernel\ViewStorageTest|\PHPUnit\Framework\MockObject\MockObject
    */
   protected $viewStorage;
 
@@ -47,8 +47,6 @@ class RouteSubscriberTest extends UnitTestCase {
    * {@inheritdoc}
    */
   protected function setUp(): void {
-    parent::setUp();
-
     $this->entityTypeManager = $this->createMock(EntityTypeManagerInterface::class);
     $this->viewStorage = $this->getMockBuilder('Drupal\Core\Config\Entity\ConfigEntityStorage')
       ->disableOriginalConstructor()
@@ -94,7 +92,7 @@ class RouteSubscriberTest extends UnitTestCase {
     $route_2 = new Route('test_route/example', ['_controller' => 'Drupal\Tests\Core\Controller\TestController']);
     $collection->add('test_route_2', $route_2);
 
-    $route_event = new RouteBuildEvent($collection);
+    $route_event = new RouteBuildEvent($collection, 'views');
 
     [$display_1, $display_2] = $this->setupMocks();
 

@@ -11,7 +11,6 @@
 
 namespace Symfony\Component\Serializer\Encoder;
 
-use Symfony\Component\Serializer\Debug\TraceableEncoder;
 use Symfony\Component\Serializer\Exception\RuntimeException;
 
 /**
@@ -25,29 +24,30 @@ use Symfony\Component\Serializer\Exception\RuntimeException;
  */
 class ChainEncoder implements ContextAwareEncoderInterface
 {
-    /**
-     * @var array<string, array-key>
-     */
-    private array $encoderByFormat = [];
+    protected $encoders = [];
+    protected $encoderByFormat = [];
 
-    /**
-     * @param array<EncoderInterface> $encoders
-     */
-    public function __construct(
-        private readonly array $encoders = []
-    ) {
+    public function __construct(array $encoders = [])
+    {
+        $this->encoders = $encoders;
     }
 
-    final public function encode(mixed $data, string $format, array $context = []): string
+    /**
+     * {@inheritdoc}
+     */
+    final public function encode($data, $format, array $context = [])
     {
         return $this->getEncoder($format, $context)->encode($data, $format, $context);
     }
 
-    public function supportsEncoding(string $format, array $context = []): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function supportsEncoding($format, array $context = []): bool
     {
         try {
             $this->getEncoder($format, $context);
-        } catch (RuntimeException) {
+        } catch (RuntimeException $e) {
             return false;
         }
 
@@ -60,10 +60,6 @@ class ChainEncoder implements ContextAwareEncoderInterface
     public function needsNormalization(string $format, array $context = []): bool
     {
         $encoder = $this->getEncoder($format, $context);
-
-        if ($encoder instanceof TraceableEncoder) {
-            return $encoder->needsNormalization();
-        }
 
         if (!$encoder instanceof NormalizationAwareInterface) {
             return true;

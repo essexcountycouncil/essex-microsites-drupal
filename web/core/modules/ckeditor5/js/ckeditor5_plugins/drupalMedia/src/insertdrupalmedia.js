@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-// cspell:ignore insertdrupalmediacommand
+// cSpell:words insertdrupalmediacommand
 import { Command } from 'ckeditor5/src/core';
 import { groupNameToModelAttributeKey } from './utils';
 
@@ -86,7 +86,7 @@ export default class InsertDrupalMediaCommand extends Command {
     }
 
     this.editor.model.change((writer) => {
-      this.editor.model.insertObject(
+      this.editor.model.insertContent(
         createDrupalMedia(writer, modelAttributes),
       );
     });

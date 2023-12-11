@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -14,10 +14,9 @@ namespace Composer\Command;
 
 use Composer\Factory;
 use Composer\Json\JsonFile;
-use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Input\InputInterface;
-use Composer\Console\Input\InputArgument;
-use Composer\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Composer\Repository\CompositeRepository;
 use Composer\Repository\PlatformRepository;
@@ -30,18 +29,21 @@ use Composer\Plugin\PluginEvents;
  */
 class SearchCommand extends BaseCommand
 {
-    protected function configure(): void
+    /**
+     * @return void
+     */
+    protected function configure()
     {
         $this
             ->setName('search')
-            ->setDescription('Searches for packages')
-            ->setDefinition([
+            ->setDescription('Searches for packages.')
+            ->setDefinition(array(
                 new InputOption('only-name', 'N', InputOption::VALUE_NONE, 'Search only in package names'),
                 new InputOption('only-vendor', 'O', InputOption::VALUE_NONE, 'Search only for vendor / organization names, returns only "vendor" as result'),
                 new InputOption('type', 't', InputOption::VALUE_REQUIRED, 'Search for a specific package type'),
-                new InputOption('format', 'f', InputOption::VALUE_REQUIRED, 'Format of the output: text or json', 'text', ['json', 'text']),
+                new InputOption('format', 'f', InputOption::VALUE_REQUIRED, 'Format of the output: text or json', 'text'),
                 new InputArgument('tokens', InputArgument::IS_ARRAY | InputArgument::REQUIRED, 'tokens to search for'),
-            ])
+            ))
             ->setHelp(
                 <<<EOT
 The search command searches for packages by its name
@@ -53,25 +55,25 @@ EOT
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         // init repos
         $platformRepo = new PlatformRepository;
         $io = $this->getIO();
 
         $format = $input->getOption('format');
-        if (!in_array($format, ['text', 'json'])) {
+        if (!in_array($format, array('text', 'json'))) {
             $io->writeError(sprintf('Unsupported format "%s". See help for supported formats.', $format));
 
             return 1;
         }
 
-        if (!($composer = $this->tryComposer())) {
-            $composer = Factory::create($this->getIO(), [], $input->hasParameterOption('--no-plugins'));
+        if (!($composer = $this->getComposer(false))) {
+            $composer = Factory::create($this->getIO(), array(), $input->hasParameterOption('--no-plugins'));
         }
         $localRepo = $composer->getRepositoryManager()->getLocalRepository();
-        $installedRepo = new CompositeRepository([$localRepo, $platformRepo]);
-        $repos = new CompositeRepository(array_merge([$installedRepo], $composer->getRepositoryManager()->getRepositories()));
+        $installedRepo = new CompositeRepository(array($localRepo, $platformRepo));
+        $repos = new CompositeRepository(array_merge(array($installedRepo), $composer->getRepositoryManager()->getRepositories()));
 
         $commandEvent = new CommandEvent(PluginEvents::COMMAND, 'search', $input, $output);
         $composer->getEventDispatcher()->dispatch($commandEvent->getName(), $commandEvent);
@@ -95,7 +97,7 @@ EOT
 
         $results = $repos->search($query, $mode, $type);
 
-        if (\count($results) > 0 && $format === 'text') {
+        if ($results && $format === 'text') {
             $width = $this->getTerminalWidth();
 
             $nameLength = 0;
@@ -104,19 +106,14 @@ EOT
             }
             $nameLength += 1;
             foreach ($results as $result) {
-                $description = $result['description'] ?? '';
+                $description = isset($result['description']) ? $result['description'] : '';
                 $warning = !empty($result['abandoned']) ? '<warning>! Abandoned !</warning> ' : '';
                 $remaining = $width - $nameLength - strlen($warning) - 2;
                 if (strlen($description) > $remaining) {
                     $description = substr($description, 0, $remaining - 3) . '...';
                 }
 
-                $link = $result['url'] ?? null;
-                if ($link !== null) {
-                    $io->write('<href='.OutputFormatter::escape($link).'>'.$result['name'].'</>'. str_repeat(' ', $nameLength - strlen($result['name'])) . $warning . $description);
-                } else {
-                    $io->write(str_pad($result['name'], $nameLength, ' ') . $warning . $description);
-                }
+                $io->write(str_pad($result['name'], $nameLength, ' ') . $warning . $description);
             }
         } elseif ($format === 'json') {
             $io->write(JsonFile::encode($results));

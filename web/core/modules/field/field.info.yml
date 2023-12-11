@@ -1,5 +1,5 @@
 name: Field
 type: module
-description: 'Provides the capabilities to add fields to entities.'
+description: 'Field API to add fields to entities like nodes and users.'
 package: Core
 version: VERSION

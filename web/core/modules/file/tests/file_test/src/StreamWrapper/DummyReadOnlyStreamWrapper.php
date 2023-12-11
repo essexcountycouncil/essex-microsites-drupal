@@ -22,7 +22,7 @@ class DummyReadOnlyStreamWrapper extends LocalReadOnlyStream {
    * {@inheritdoc}
    */
   public function getDescription() {
-    return t('Dummy wrapper for testing (readonly).');
+    return t('Dummy wrapper for simpletest (readonly).');
   }
 
   public function getDirectoryPath() {

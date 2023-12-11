@@ -22,8 +22,6 @@ class PathMatcherTest extends UnitTestCase {
    * {@inheritdoc}
    */
   protected function setUp(): void {
-    parent::setUp();
-
     // Create a stub config factory with all config settings that will be
     // checked during this test.
     $config_factory_stub = $this->getConfigFactoryStub(

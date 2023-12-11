@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drush\Runtime;
 
 use Drush\Drush;
@@ -24,6 +22,12 @@ class ErrorHandler implements LoggerAwareInterface, HandlerInterface
 
     public function errorHandler($errno, $message, $filename, $line)
     {
+        // E_DEPRECATED was added in PHP 5.3. Drupal 6 will not fix all the
+        // deprecated errors, but suppresses them. So we suppress them as well.
+        if (defined('E_DEPRECATED')) {
+            $errno &= ~E_DEPRECATED;
+        }
+
         // "error_reporting" is usually set in php.ini, but may be changed by
         // drush_errors_on() and drush_errors_off().
         if ($errno & error_reporting()) {
@@ -47,7 +51,7 @@ class ErrorHandler implements LoggerAwareInterface, HandlerInterface
 
             if ($errno == E_RECOVERABLE_ERROR && $halt_on_error) {
                 $this->logger->error(dt('E_RECOVERABLE_ERROR encountered; aborting. To ignore recoverable errors, run again with --halt-on-error=0'));
-                exit(255);
+                exit(DRUSH_APPLICATION_ERROR);
             }
 
             return true;

@@ -6,9 +6,9 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityViewBuilder;
 
 /**
- * View builder handler for content blocks.
+ * View builder handler for custom blocks.
  *
- * Note: Content blocks (block_content entities) are not designed to be displayed
+ * Note: Custom blocks (block_content entities) are not designed to be displayed
  * outside of blocks! This BlockContentViewBuilder class is designed to be used
  * by \Drupal\block_content\Plugin\Block\BlockContentBlock::build() and by
  * nothing else.
@@ -41,7 +41,7 @@ class BlockContentViewBuilder extends EntityViewBuilder {
    */
   protected function getBuildDefaults(EntityInterface $entity, $view_mode) {
     $build = parent::getBuildDefaults($entity, $view_mode);
-    // The content block will be rendered in the wrapped block template already
+    // The custom block will be rendered in the wrapped block template already
     // and thus has no entity template itself.
     unset($build['#theme']);
     return $build;

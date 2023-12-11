@@ -227,8 +227,12 @@ function localgov_microsites_group_form_user_login_form_alter(&$form, FormStateI
  */
 function localgov_microsites_group_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 
-  // Set domain path pathauto as on by default.
-  if (isset($form['domain_path'])) {
+  // Set domain path pathauto as on by default for new nodes.
+  if (
+    $form_state->getFormObject() instanceof EntityFormInterface &&
+    $form_state->getFormObject()->getEntity()->isNew() &&
+    isset($form['domain_path'])
+  ) {
     $domain_ids = Element::children($form['domain_path']);
     $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
     foreach ($domain_ids as $id) {
@@ -459,20 +463,6 @@ function localgov_microsites_group_toolbar() {
         '#attached' => [
           'library' => 'localgov_microsites_group/toolbar_icons',
         ],
-      ],
-    ],
-  ];
-}
-
-/**
- * Implements hook_localgov_microsites_roles_default().
- */
-function localgov_microsites_group_localgov_microsites_roles_default() {
-  return [
-    'global' => [
-      RolesHelper::MICROSITES_CONTROLLER_ROLE => [
-        'assign microsites_controller role',
-        'assign microsites_trusted_editor role',
       ],
     ],
   ];

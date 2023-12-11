@@ -27,12 +27,18 @@ class DecompressStream extends FilteredStream
         $this->writeFilterCallback = Filter\fun($this->writeFilter(), ['window' => 15, 'level' => $level]);
     }
 
-    protected function readFilter(): string
+    /**
+     * {@inheritdoc}
+     */
+    protected function readFilter()
     {
         return 'zlib.inflate';
     }
 
-    protected function writeFilter(): string
+    /**
+     * {@inheritdoc}
+     */
+    protected function writeFilter()
     {
         return 'zlib.deflate';
     }

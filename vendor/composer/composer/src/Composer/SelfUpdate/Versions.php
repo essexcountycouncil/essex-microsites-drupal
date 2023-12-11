@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -22,13 +22,8 @@ use Composer\Config;
  */
 class Versions
 {
-    /**
-     * @var string[]
-     * @deprecated use Versions::CHANNELS
-     */
-    public static $channels = self::CHANNELS;
-
-    public const CHANNELS = ['stable', 'preview', 'snapshot', '1', '2', '2.2'];
+    /** @var string[] */
+    public static $channels = array('stable', 'preview', 'snapshot', '1', '2', '2.2');
 
     /** @var HttpDownloader */
     private $httpDownloader;
@@ -45,7 +40,10 @@ class Versions
         $this->config = $config;
     }
 
-    public function getChannel(): string
+    /**
+     * @return string
+     */
+    public function getChannel()
     {
         if ($this->channel) {
             return $this->channel;
@@ -54,7 +52,7 @@ class Versions
         $channelFile = $this->config->get('home').'/update-channel';
         if (file_exists($channelFile)) {
             $channel = trim(file_get_contents($channelFile));
-            if (in_array($channel, ['stable', 'preview', 'snapshot', '2.2'], true)) {
+            if (in_array($channel, array('stable', 'preview', 'snapshot', '2.2'), true)) {
                 return $this->channel = $channel;
             }
         }
@@ -62,18 +60,23 @@ class Versions
         return $this->channel = 'stable';
     }
 
-    public function setChannel(string $channel, ?IOInterface $io = null): void
+    /**
+     * @param string $channel
+     *
+     * @return void
+     */
+    public function setChannel($channel, IOInterface $io = null)
     {
-        if (!in_array($channel, self::CHANNELS, true)) {
-            throw new \InvalidArgumentException('Invalid channel '.$channel.', must be one of: ' . implode(', ', self::CHANNELS));
+        if (!in_array($channel, self::$channels, true)) {
+            throw new \InvalidArgumentException('Invalid channel '.$channel.', must be one of: ' . implode(', ', self::$channels));
         }
 
         $channelFile = $this->config->get('home').'/update-channel';
         $this->channel = $channel;
 
-        // rewrite '2' and '1' channels to stable for future self-updates, but LTS ones like '2.2' remain pinned
         $storedChannel = Preg::isMatch('{^\d+$}D', $channel) ? 'stable' : $channel;
         $previouslyStored = file_exists($channelFile) ? trim((string) file_get_contents($channelFile)) : null;
+        // rewrite '2' and '1' channels to stable for future self-updates, but LTS ones like '2.2' remain pinned
         file_put_contents($channelFile, $storedChannel.PHP_EOL);
 
         if ($io !== null && $previouslyStored !== $storedChannel) {
@@ -82,9 +85,11 @@ class Versions
     }
 
     /**
+     * @param string|null $channel
+     *
      * @return array{path: string, version: string, min-php: int, eol?: true}
      */
-    public function getLatest(?string $channel = null): array
+    public function getLatest($channel = null)
     {
         $versions = $this->getVersionsData();
 
@@ -100,7 +105,7 @@ class Versions
     /**
      * @return array<string, array<int, array{path: string, version: string, min-php: int, eol?: true}>>
      */
-    private function getVersionsData(): array
+    private function getVersionsData()
     {
         if (null === $this->versionsData) {
             if ($this->config->get('disable-tls') === true) {

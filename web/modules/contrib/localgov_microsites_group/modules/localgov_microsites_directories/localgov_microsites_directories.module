@@ -84,7 +84,7 @@ function localgov_microsites_directories_localgov_microsites_roles_default() {
   return [
     'global' => [
       RolesHelper::MICROSITES_CONTROLLER_ROLE => [
-        'access geo_entity_library entity browser pages',
+        'access localgov_geo_library entity browser pages',
         'create directory facets',
         'create geo',
         'delete directory facets',
@@ -94,7 +94,7 @@ function localgov_microsites_directories_localgov_microsites_roles_default() {
         'view directory facets',
       ],
       RolesHelper::MICROSITES_EDITOR_ROLE => [
-        'access geo_entity_library entity browser pages',
+        'access localgov_geo_library entity browser pages',
         'create directory facets',
         'create geo',
         'delete directory facets',

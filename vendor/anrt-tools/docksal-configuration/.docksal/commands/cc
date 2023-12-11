@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+## Run 'drush cc' for the project
+##
+## Usage: fin cc [scope]
+##
+
+source ${DOCKSAL_PATH}/.docksal/helpers
+ensure_containers_up
+
+check_override $@
+
+cd ${DOCROOT_PATH}
+
+fin drush cc --root=/var/www/$DOCROOT/ $1
+

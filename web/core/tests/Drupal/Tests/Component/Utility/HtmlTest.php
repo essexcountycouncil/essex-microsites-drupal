@@ -27,7 +27,8 @@ class HtmlTest extends TestCase {
     parent::setUp();
 
     $property = new \ReflectionProperty('Drupal\Component\Utility\Html', 'seenIdsInit');
-    $property->setValue(NULL, NULL);
+    $property->setAccessible(TRUE);
+    $property->setValue(NULL);
   }
 
   /**
@@ -164,7 +165,7 @@ class HtmlTest extends TestCase {
 
     // Note, we truncate two hyphens at the end.
     // @see \Drupal\Component\Utility\Html::getId()
-    if (str_contains($source, '--')) {
+    if (strpos($source, '--') !== FALSE) {
       $random_suffix = substr($id, strlen($source) + 1);
     }
     else {
@@ -300,7 +301,6 @@ class HtmlTest extends TestCase {
       ['→', '→'],
       ['➼', '➼'],
       ['€', '€'],
-      // cspell:disable-next-line
       ['Drup�al', "Drup\x80al"],
     ];
   }
@@ -390,11 +390,6 @@ class HtmlTest extends TestCase {
         ];
       }
     }
-
-    // Double-character carriage return should be normalized.
-    $data['line break with double special character'] = ["Test without links but with\r\nsome special characters", 'http://example.com', "Test without links but with\nsome special characters"];
-    $data['line break with single special character'] = ["Test without links but with&#13;\nsome special characters", 'http://example.com', FALSE];
-    $data['carriage return within html'] = ["<a\rhref='/node'>My link</a>", 'http://example.com', '<a href="http://example.com/node">My link</a>'];
 
     return $data;
   }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drush\Drupal\Migrate;
 
 use Drupal\migrate\MigrateException;
@@ -47,13 +45,17 @@ class MigrateExecutable extends MigrateExecutableBase
 
     /**
      * Maximum number of items to process in this migration.
+     *
+     * @var int|null
      */
-    protected ?string $limit;
+    protected $limit;
 
     /**
      * Frequency (in items) at which progress messages should be emitted.
+     *
+     * @var int|null
      */
-    protected ?string $feedback;
+    protected $feedback;
 
     /**
      * Show timestamp in progress message.
@@ -114,6 +116,13 @@ class MigrateExecutable extends MigrateExecutableBase
 
     /**
      * Constructs a new migrate executable instance.
+     *
+     * @param MigrationInterface $migration
+     * @param MigrateMessageInterface $message
+     * @param OutputInterface $output
+     * @param array $options
+     *
+     * @throws MigrateException
      */
     public function __construct(MigrationInterface $migration, MigrateMessageInterface $message, OutputInterface $output, array $options = [])
     {

@@ -61,7 +61,7 @@ class SerializerTest extends JsonapiKernelTestBase {
    *
    * @var \Drupal\user\Entity\User
    */
-  protected User $user;
+  protected $user;
 
   /**
    * {@inheritdoc}

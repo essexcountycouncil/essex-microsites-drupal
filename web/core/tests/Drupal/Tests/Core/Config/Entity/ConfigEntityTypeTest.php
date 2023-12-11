@@ -25,8 +25,6 @@ class ConfigEntityTypeTest extends UnitTestCase {
    * {@inheritdoc}
    */
   protected function setUp(): void {
-    parent::setUp();
-
     $this->typedConfigManager = $this->createMock(TypedConfigManagerInterface::class);
     $container = new ContainerBuilder();
     $container->set('config.typed', $this->typedConfigManager);

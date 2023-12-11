@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -15,7 +15,6 @@ namespace Composer\IO;
 use Composer\Question\StrictConfirmationQuestion;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\ProgressBar;
-use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -43,7 +42,7 @@ class ConsoleIO extends BaseIO
 
     /** @var float */
     private $startTime;
-    /** @var array<IOInterface::*, OutputInterface::VERBOSITY_*> */
+    /** @var array<int, int> */
     private $verbosityMap;
 
     /**
@@ -58,19 +57,21 @@ class ConsoleIO extends BaseIO
         $this->input = $input;
         $this->output = $output;
         $this->helperSet = $helperSet;
-        $this->verbosityMap = [
+        $this->verbosityMap = array(
             self::QUIET => OutputInterface::VERBOSITY_QUIET,
             self::NORMAL => OutputInterface::VERBOSITY_NORMAL,
             self::VERBOSE => OutputInterface::VERBOSITY_VERBOSE,
             self::VERY_VERBOSE => OutputInterface::VERBOSITY_VERY_VERBOSE,
             self::DEBUG => OutputInterface::VERBOSITY_DEBUG,
-        ];
+        );
     }
 
     /**
+     * @param float $startTime
+     *
      * @return void
      */
-    public function enableDebugging(float $startTime)
+    public function enableDebugging($startTime)
     {
         $this->startTime = $startTime;
     }
@@ -96,7 +97,7 @@ class ConsoleIO extends BaseIO
      */
     public function isVerbose()
     {
-        return $this->output->isVerbose();
+        return $this->output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
     }
 
     /**
@@ -104,7 +105,7 @@ class ConsoleIO extends BaseIO
      */
     public function isVeryVerbose()
     {
-        return $this->output->isVeryVerbose();
+        return $this->output->getVerbosity() >= OutputInterface::VERBOSITY_VERY_VERBOSE;
     }
 
     /**
@@ -112,13 +113,13 @@ class ConsoleIO extends BaseIO
      */
     public function isDebug()
     {
-        return $this->output->isDebug();
+        return $this->output->getVerbosity() >= OutputInterface::VERBOSITY_DEBUG;
     }
 
     /**
      * @inheritDoc
      */
-    public function write($messages, bool $newline = true, int $verbosity = self::NORMAL)
+    public function write($messages, $newline = true, $verbosity = self::NORMAL)
     {
         $this->doWrite($messages, $newline, false, $verbosity);
     }
@@ -126,7 +127,7 @@ class ConsoleIO extends BaseIO
     /**
      * @inheritDoc
      */
-    public function writeError($messages, bool $newline = true, int $verbosity = self::NORMAL)
+    public function writeError($messages, $newline = true, $verbosity = self::NORMAL)
     {
         $this->doWrite($messages, $newline, true, $verbosity);
     }
@@ -134,7 +135,7 @@ class ConsoleIO extends BaseIO
     /**
      * @inheritDoc
      */
-    public function writeRaw($messages, bool $newline = true, int $verbosity = self::NORMAL)
+    public function writeRaw($messages, $newline = true, $verbosity = self::NORMAL)
     {
         $this->doWrite($messages, $newline, false, $verbosity, true);
     }
@@ -142,15 +143,21 @@ class ConsoleIO extends BaseIO
     /**
      * @inheritDoc
      */
-    public function writeErrorRaw($messages, bool $newline = true, int $verbosity = self::NORMAL)
+    public function writeErrorRaw($messages, $newline = true, $verbosity = self::NORMAL)
     {
         $this->doWrite($messages, $newline, true, $verbosity, true);
     }
 
     /**
      * @param string[]|string $messages
+     * @param bool                 $newline
+     * @param bool                 $stderr
+     * @param int                  $verbosity
+     * @param bool                 $raw
+     *
+     * @return void
      */
-    private function doWrite($messages, bool $newline, bool $stderr, int $verbosity, bool $raw = false): void
+    private function doWrite($messages, $newline, $stderr, $verbosity, $raw = false)
     {
         $sfVerbosity = $this->verbosityMap[$verbosity];
         if ($sfVerbosity > $this->output->getVerbosity()) {
@@ -158,13 +165,17 @@ class ConsoleIO extends BaseIO
         }
 
         if ($raw) {
-            $sfVerbosity |= OutputInterface::OUTPUT_RAW;
+            if ($sfVerbosity === OutputInterface::OUTPUT_NORMAL) {
+                $sfVerbosity = OutputInterface::OUTPUT_RAW;
+            } else {
+                $sfVerbosity |= OutputInterface::OUTPUT_RAW;
+            }
         }
 
         if (null !== $this->startTime) {
             $memoryUsage = memory_get_usage() / 1024 / 1024;
             $timeSpent = microtime(true) - $this->startTime;
-            $messages = array_map(static function ($message) use ($memoryUsage, $timeSpent): string {
+            $messages = array_map(function ($message) use ($memoryUsage, $timeSpent) {
                 return sprintf('[%.1fMiB/%.2fs] %s', $memoryUsage, $timeSpent, $message);
             }, (array) $messages);
         }
@@ -183,7 +194,7 @@ class ConsoleIO extends BaseIO
     /**
      * @inheritDoc
      */
-    public function overwrite($messages, bool $newline = true, ?int $size = null, int $verbosity = self::NORMAL)
+    public function overwrite($messages, $newline = true, $size = null, $verbosity = self::NORMAL)
     {
         $this->doOverwrite($messages, $newline, $size, false, $verbosity);
     }
@@ -191,15 +202,21 @@ class ConsoleIO extends BaseIO
     /**
      * @inheritDoc
      */
-    public function overwriteError($messages, bool $newline = true, ?int $size = null, int $verbosity = self::NORMAL)
+    public function overwriteError($messages, $newline = true, $size = null, $verbosity = self::NORMAL)
     {
         $this->doOverwrite($messages, $newline, $size, true, $verbosity);
     }
 
     /**
      * @param string[]|string $messages
+     * @param bool         $newline
+     * @param int|null     $size
+     * @param bool         $stderr
+     * @param int          $verbosity
+     *
+     * @return void
      */
-    private function doOverwrite($messages, bool $newline, ?int $size, bool $stderr, int $verbosity): void
+    private function doOverwrite($messages, $newline, $size, $stderr, $verbosity)
     {
         // messages can be an array, let's convert it to string anyway
         $messages = implode($newline ? "\n" : '', (array) $messages);
@@ -238,9 +255,10 @@ class ConsoleIO extends BaseIO
     }
 
     /**
+     * @param  int         $max
      * @return ProgressBar
      */
-    public function getProgressBar(int $max = 0)
+    public function getProgressBar($max = 0)
     {
         return new ProgressBar($this->getErrorOutput(), $max);
     }
@@ -310,16 +328,11 @@ class ConsoleIO extends BaseIO
 
         $result = $helper->ask($this->input, $this->getErrorOutput(), $question);
 
-        $isAssoc = (bool) \count(array_filter(array_keys($choices), 'is_string'));
-        if ($isAssoc) {
-            return $result;
-        }
-
         if (!is_array($result)) {
             return (string) array_search($result, $choices, true);
         }
 
-        $results = [];
+        $results = array();
         foreach ($choices as $index => $choice) {
             if (in_array($choice, $result, true)) {
                 $results[] = (string) $index;
@@ -329,12 +342,10 @@ class ConsoleIO extends BaseIO
         return $results;
     }
 
-    public function getTable(): Table
-    {
-        return new Table($this->output);
-    }
-
-    private function getErrorOutput(): OutputInterface
+    /**
+     * @return OutputInterface
+     */
+    private function getErrorOutput()
     {
         if ($this->output instanceof ConsoleOutputInterface) {
             return $this->output->getErrorOutput();

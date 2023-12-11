@@ -19,14 +19,10 @@ class RolesIntegrationTest extends KernelTestBase {
    * @var array
    */
   protected static $modules = [
-    'field',
-    'node',
-    'path',
-    'role_delegation',
     'system',
-    'text',
-    'toolbar',
     'user',
+    'field',
+    'text',
     'localgov_roles',
   ];
 
@@ -35,10 +31,7 @@ class RolesIntegrationTest extends KernelTestBase {
    */
   protected function setUp(): void {
     parent::setUp();
-    $this->installConfig([
-      'user',
-      'localgov_roles',
-    ]);
+    $this->installConfig(['user', 'localgov_roles']);
   }
 
   /**

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -33,10 +33,10 @@ abstract class BaseExcludeFilter
     /**
      * @param string $sourcePath Directory containing sources to be filtered
      */
-    public function __construct(string $sourcePath)
+    public function __construct($sourcePath)
     {
         $this->sourcePath = $sourcePath;
-        $this->excludePatterns = [];
+        $this->excludePatterns = array();
     }
 
     /**
@@ -49,10 +49,10 @@ abstract class BaseExcludeFilter
      *
      * @return bool Whether the file should be excluded
      */
-    public function filter(string $relativePath, bool $exclude): bool
+    public function filter($relativePath, $exclude)
     {
         foreach ($this->excludePatterns as $patternData) {
-            [$pattern, $negate, $stripLeadingSlash] = $patternData;
+            list($pattern, $negate, $stripLeadingSlash) = $patternData;
 
             if ($stripLeadingSlash) {
                 $path = substr($relativePath, 1);
@@ -80,22 +80,22 @@ abstract class BaseExcludeFilter
      *
      * @return array<array{0: non-empty-string, 1: bool, 2: bool}> Exclude patterns to be used in filter()
      */
-    protected function parseLines(array $lines, callable $lineParser): array
+    protected function parseLines(array $lines, $lineParser)
     {
         return array_filter(
             array_map(
-                static function ($line) use ($lineParser) {
+                function ($line) use ($lineParser) {
                     $line = trim($line);
 
                     if (!$line || 0 === strpos($line, '#')) {
                         return null;
                     }
 
-                    return $lineParser($line);
+                    return call_user_func($lineParser, $line);
                 },
                 $lines
             ),
-            static function ($pattern): bool {
+            function ($pattern) {
                 return $pattern !== null;
             }
         );
@@ -108,9 +108,9 @@ abstract class BaseExcludeFilter
      *
      * @return array<int, array{0: non-empty-string, 1: bool, 2: bool}> Exclude patterns
      */
-    protected function generatePatterns(array $rules): array
+    protected function generatePatterns($rules)
     {
-        $patterns = [];
+        $patterns = array();
         foreach ($rules as $rule) {
             $patterns[] = $this->generatePattern($rule);
         }
@@ -125,7 +125,7 @@ abstract class BaseExcludeFilter
      *
      * @return array{0: non-empty-string, 1: bool, 2: bool} An exclude pattern
      */
-    protected function generatePattern(string $rule): array
+    protected function generatePattern($rule)
     {
         $negate = false;
         $pattern = '';
@@ -147,6 +147,6 @@ abstract class BaseExcludeFilter
         // remove delimiters as well as caret (^) and dollar sign ($) from the regex
         $rule = substr(Finder\Glob::toRegex($rule), 2, -2);
 
-        return ['{'.$pattern.$rule.'(?=$|/)}', $negate, false];
+        return array('{'.$pattern.$rule.'(?=$|/)}', $negate, false);
     }
 }

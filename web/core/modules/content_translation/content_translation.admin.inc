@@ -401,6 +401,7 @@ function content_translation_form_language_content_settings_submit(array $form, 
     }
   }
 
-  // Ensure menu router information is correctly rebuilt.
+  // Ensure entity and menu router information are correctly rebuilt.
+  \Drupal::entityTypeManager()->clearCachedDefinitions();
   \Drupal::service('router.builder')->setRebuildNeeded();
 }

@@ -1,12 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drush\Attributes;
 
 use Attribute;
 use Consolidation\AnnotatedCommand\Parser\CommandInfo;
-use Drush\Commands\ValidatorsCommands;
 
 #[Attribute(Attribute::TARGET_METHOD)]
 class ValidateEntityLoad
@@ -26,6 +23,6 @@ class ValidateEntityLoad
     public static function handle(\ReflectionAttribute $attribute, CommandInfo $commandInfo)
     {
         $args = $attribute->getArguments();
-        $commandInfo->addAnnotation(ValidatorsCommands::VALIDATE_ENTITY_LOAD, "{$args['entityType']} {$args['argumentName']}");
+        $commandInfo->addAnnotation('validate-entity-load', "{$args['entityType']} {$args['argumentName']}");
     }
 }

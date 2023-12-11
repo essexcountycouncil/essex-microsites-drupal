@@ -3,7 +3,6 @@
 namespace Drupal\Core\Routing;
 
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
-use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
 class LazyRouteCollection extends RouteCollection {
@@ -34,7 +33,8 @@ class LazyRouteCollection extends RouteCollection {
    * @return int
    *   The number of routes
    */
-  public function count(): int {
+  #[\ReturnTypeWillChange]
+  public function count() {
     return count($this->all());
   }
 
@@ -44,7 +44,7 @@ class LazyRouteCollection extends RouteCollection {
    * @return \Symfony\Component\Routing\Route[]
    *   An array of routes
    */
-  public function all(): array {
+  public function all() {
     return $this->provider->getRoutesByNames(NULL);
   }
 
@@ -57,12 +57,12 @@ class LazyRouteCollection extends RouteCollection {
    * @return \Symfony\Component\Routing\Route|null
    *   A Route instance or null when not found
    */
-  public function get($name): ?Route {
+  public function get($name) {
     try {
       return $this->provider->getRouteByName($name);
     }
     catch (RouteNotFoundException $e) {
-      return NULL;
+      return;
     }
   }
 

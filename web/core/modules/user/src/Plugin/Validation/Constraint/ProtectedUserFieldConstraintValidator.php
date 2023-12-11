@@ -53,9 +53,6 @@ class ProtectedUserFieldConstraintValidator extends ConstraintValidator implemen
 
   /**
    * {@inheritdoc}
-   *
-   * phpcs:ignore Drupal.Commenting.FunctionComment.VoidReturn
-   * @return void
    */
   public function validate($items, Constraint $constraint) {
     if (!isset($items)) {

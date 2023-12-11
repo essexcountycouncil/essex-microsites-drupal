@@ -27,7 +27,6 @@ class MysqlDateSql implements DateSqlInterface {
   protected static $replace = [
     'Y' => '%Y',
     'y' => '%y',
-    'o' => '%x',
     'M' => '%b',
     'm' => '%m',
     'n' => '%c',

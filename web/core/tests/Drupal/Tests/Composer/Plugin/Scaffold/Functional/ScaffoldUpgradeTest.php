@@ -38,7 +38,7 @@ class ScaffoldUpgradeTest extends TestCase {
    *
    * @var string
    */
-  protected string $fixturesDir;
+  protected $fixturesDir;
 
   /**
    * {@inheritdoc}
@@ -53,7 +53,7 @@ class ScaffoldUpgradeTest extends TestCase {
    */
   public function testScaffoldUpgrade() {
     $composerVersionLine = exec('composer --version');
-    if (str_contains($composerVersionLine, 'Composer version 2')) {
+    if (strpos($composerVersionLine, 'Composer version 2') !== FALSE) {
       $this->markTestSkipped('We cannot run the scaffold upgrade test with Composer 2 until we have a stable version of drupal/core-composer-scaffold to start from that we can install with Composer 2.x.');
     }
     $this->fixturesDir = $this->fixtures->tmpDir($this->getName());

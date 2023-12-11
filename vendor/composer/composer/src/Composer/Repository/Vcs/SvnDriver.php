@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -31,9 +31,9 @@ class SvnDriver extends VcsDriver
 {
     /** @var string */
     protected $baseUrl;
-    /** @var array<int|string, string> Map of tag name to identifier */
+    /** @var array<string, string> Map of tag name to identifier */
     protected $tags;
-    /** @var array<int|string, string> Map of branch name to identifier */
+    /** @var array<string, string> Map of branch name to identifier */
     protected $branches;
     /** @var ?string */
     protected $rootIdentifier;
@@ -57,7 +57,7 @@ class SvnDriver extends VcsDriver
     /**
      * @inheritDoc
      */
-    public function initialize(): void
+    public function initialize()
     {
         $this->url = $this->baseUrl = rtrim(self::normalizeUrl($this->url), '/');
 
@@ -93,7 +93,7 @@ class SvnDriver extends VcsDriver
     /**
      * @inheritDoc
      */
-    public function getRootIdentifier(): string
+    public function getRootIdentifier()
     {
         return $this->rootIdentifier ?: $this->trunkPath;
     }
@@ -101,7 +101,7 @@ class SvnDriver extends VcsDriver
     /**
      * @inheritDoc
      */
-    public function getUrl(): string
+    public function getUrl()
     {
         return $this->url;
     }
@@ -109,15 +109,15 @@ class SvnDriver extends VcsDriver
     /**
      * @inheritDoc
      */
-    public function getSource(string $identifier): array
+    public function getSource($identifier)
     {
-        return ['type' => 'svn', 'url' => $this->baseUrl, 'reference' => $identifier];
+        return array('type' => 'svn', 'url' => $this->baseUrl, 'reference' => $identifier);
     }
 
     /**
      * @inheritDoc
      */
-    public function getDist(string $identifier): ?array
+    public function getDist($identifier)
     {
         return null;
     }
@@ -125,7 +125,7 @@ class SvnDriver extends VcsDriver
     /**
      * @inheritDoc
      */
-    protected function shouldCache(string $identifier): bool
+    protected function shouldCache($identifier)
     {
         return $this->cache && Preg::isMatch('{@\d+$}', $identifier);
     }
@@ -133,17 +133,10 @@ class SvnDriver extends VcsDriver
     /**
      * @inheritDoc
      */
-    public function getComposerInformation(string $identifier): ?array
+    public function getComposerInformation($identifier)
     {
         if (!isset($this->infoCache[$identifier])) {
             if ($this->shouldCache($identifier) && $res = $this->cache->read($identifier.'.json')) {
-                // old cache files had '' stored instead of null due to af3783b5f40bae32a23e353eaf0a00c9b8ce82e2, so we make sure here that we always return null or array
-                // and fix outdated invalid cache files
-                if ($res === '""') {
-                    $res = 'null';
-                    $this->cache->write($identifier.'.json', json_encode(null));
-                }
-
                 return $this->infoCache[$identifier] = JsonFile::parseJson($res);
             }
 
@@ -155,7 +148,7 @@ class SvnDriver extends VcsDriver
                     throw $e;
                 }
                 // remember a not-existent composer.json
-                $composer = null;
+                $composer = '';
             }
 
             if ($this->shouldCache($identifier)) {
@@ -165,15 +158,14 @@ class SvnDriver extends VcsDriver
             $this->infoCache[$identifier] = $composer;
         }
 
-        // old cache files had '' stored instead of null due to af3783b5f40bae32a23e353eaf0a00c9b8ce82e2, so we make sure here that we always return null or array
-        if (!is_array($this->infoCache[$identifier])) {
-            return null;
-        }
-
         return $this->infoCache[$identifier];
     }
 
-    public function getFileContent(string $file, string $identifier): ?string
+    /**
+     * @param string $file
+     * @param string $identifier
+     */
+    public function getFileContent($file, $identifier)
     {
         $identifier = '/' . trim($identifier, '/') . '/';
 
@@ -202,12 +194,12 @@ class SvnDriver extends VcsDriver
     /**
      * @inheritDoc
      */
-    public function getChangeDate(string $identifier): ?\DateTimeImmutable
+    public function getChangeDate($identifier)
     {
         $identifier = '/' . trim($identifier, '/') . '/';
 
         Preg::match('{^(.+?)(@\d+)?/$}', $identifier, $match);
-        if (null !== $match[2] && null !== $match[1]) {
+        if (!empty($match[2])) {
             $path = $match[1];
             $rev = $match[2];
         } else {
@@ -217,8 +209,8 @@ class SvnDriver extends VcsDriver
 
         $output = $this->execute('svn info', $this->baseUrl . $path . $rev);
         foreach ($this->process->splitLines($output) as $line) {
-            if ($line && Preg::isMatchStrictGroups('{^Last Changed Date: ([^(]+)}', $line, $match)) {
-                return new \DateTimeImmutable($match[1], new \DateTimeZone('UTC'));
+            if ($line && Preg::isMatch('{^Last Changed Date: ([^(]+)}', $line, $match)) {
+                return new \DateTime($match[1], new \DateTimeZone('UTC'));
             }
         }
 
@@ -228,27 +220,22 @@ class SvnDriver extends VcsDriver
     /**
      * @inheritDoc
      */
-    public function getTags(): array
+    public function getTags()
     {
         if (null === $this->tags) {
-            $tags = [];
+            $tags = array();
 
             if ($this->tagsPath !== false) {
                 $output = $this->execute('svn ls --verbose', $this->baseUrl . '/' . $this->tagsPath);
                 if ($output) {
-                    $lastRev = 0;
                     foreach ($this->process->splitLines($output) as $line) {
                         $line = trim($line);
                         if ($line && Preg::isMatch('{^\s*(\S+).*?(\S+)\s*$}', $line, $match)) {
-                            if (isset($match[1], $match[2])) {
-                                if ($match[2] === './') {
-                                    $lastRev = (int) $match[1];
-                                } else {
-                                    $tags[rtrim($match[2], '/')] = $this->buildIdentifier(
-                                        '/' . $this->tagsPath . '/' . $match[2],
-                                        max($lastRev, (int) $match[1])
-                                    );
-                                }
+                            if (isset($match[1], $match[2]) && $match[2] !== './') {
+                                $tags[rtrim($match[2], '/')] = $this->buildIdentifier(
+                                    '/' . $this->tagsPath . '/' . $match[2],
+                                    $match[1]
+                                );
                             }
                         }
                     }
@@ -264,10 +251,10 @@ class SvnDriver extends VcsDriver
     /**
      * @inheritDoc
      */
-    public function getBranches(): array
+    public function getBranches()
     {
         if (null === $this->branches) {
-            $branches = [];
+            $branches = array();
 
             if (false === $this->trunkPath) {
                 $trunkParent = $this->baseUrl . '/';
@@ -283,7 +270,7 @@ class SvnDriver extends VcsDriver
                         if (isset($match[1], $match[2]) && $match[2] === './') {
                             $branches['trunk'] = $this->buildIdentifier(
                                 '/' . $this->trunkPath,
-                                (int) $match[1]
+                                $match[1]
                             );
                             $this->rootIdentifier = $branches['trunk'];
                             break;
@@ -296,19 +283,14 @@ class SvnDriver extends VcsDriver
             if ($this->branchesPath !== false) {
                 $output = $this->execute('svn ls --verbose', $this->baseUrl . '/' . $this->branchesPath);
                 if ($output) {
-                    $lastRev = 0;
                     foreach ($this->process->splitLines(trim($output)) as $line) {
                         $line = trim($line);
                         if ($line && Preg::isMatch('{^\s*(\S+).*?(\S+)\s*$}', $line, $match)) {
-                            if (isset($match[1], $match[2])) {
-                                if ($match[2] === './') {
-                                    $lastRev = (int) $match[1];
-                                } else {
-                                    $branches[rtrim($match[2], '/')] = $this->buildIdentifier(
-                                        '/' . $this->branchesPath . '/' . $match[2],
-                                        max($lastRev, (int) $match[1])
-                                    );
-                                }
+                            if (isset($match[1], $match[2]) && $match[2] !== './') {
+                                $branches[rtrim($match[2], '/')] = $this->buildIdentifier(
+                                    '/' . $this->branchesPath . '/' . $match[2],
+                                    $match[1]
+                                );
                             }
                         }
                     }
@@ -324,7 +306,7 @@ class SvnDriver extends VcsDriver
     /**
      * @inheritDoc
      */
-    public static function supports(IOInterface $io, Config $config, string $url, bool $deep = false): bool
+    public static function supports(IOInterface $io, Config $config, $url, $deep = false)
     {
         $url = self::normalizeUrl($url);
         if (Preg::isMatch('#(^svn://|^svn\+ssh://|svn\.)#i', $url)) {
@@ -366,8 +348,12 @@ class SvnDriver extends VcsDriver
 
     /**
      * An absolute path (leading '/') is converted to a file:// url.
+     *
+     * @param string $url
+     *
+     * @return string
      */
-    protected static function normalizeUrl(string $url): string
+    protected static function normalizeUrl($url)
     {
         $fs = new Filesystem();
         if ($fs->isAbsolutePath($url)) {
@@ -384,8 +370,9 @@ class SvnDriver extends VcsDriver
      * @param  string            $command The svn command to run.
      * @param  string            $url     The SVN URL.
      * @throws \RuntimeException
+     * @return string
      */
-    protected function execute(string $command, string $url): string
+    protected function execute($command, $url)
     {
         if (null === $this->util) {
             $this->util = new SvnUtil($this->baseUrl, $this->io, $this->config, $this->process);
@@ -409,9 +396,11 @@ class SvnDriver extends VcsDriver
      * Build the identifier respecting "package-path" config option
      *
      * @param string $baseDir  The path to trunk/branch/tag
-     * @param int $revision The revision mark to add to identifier
+     * @param int    $revision The revision mark to add to identifier
+     *
+     * @return string
      */
-    protected function buildIdentifier(string $baseDir, int $revision): string
+    protected function buildIdentifier($baseDir, $revision)
     {
         return rtrim($baseDir, '/') . $this->packagePath . '/@' . $revision;
     }

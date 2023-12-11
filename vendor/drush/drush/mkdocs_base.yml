@@ -15,12 +15,10 @@ theme:
     - navigation.tabs
     - navigation.tabs.sticky
     - toc.integrate
-    - content.action.edit
-    - content.action.view
 site_url: https://www.drush.org/latest/
 repo_url: https://github.com/drush-ops/drush
 #Overridden on many pages via edit_uri plugin. See front matter.
-edit_uri: blob/12.x/docs
+edit_uri: blob/11.x/docs
 extra_css:
   - css/extra.drush.css
 plugins:
@@ -28,7 +26,6 @@ plugins:
   - search
   - mike:
       canonical_version: latest
-      alias_type: redirect
   - git-revision-date-localized:
       exclude:
         - commands/*

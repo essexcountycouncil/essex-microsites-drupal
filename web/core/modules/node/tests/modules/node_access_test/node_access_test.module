@@ -49,15 +49,15 @@ use Drupal\node\NodeInterface;
  * @see node_access_test.permissions.yml
  * @see node_access_test_node_access_records()
  */
-function node_access_test_node_grants($account, $operation) {
+function node_access_test_node_grants($account, $op) {
   $grants = [];
   $grants['node_access_test_author'] = [$account->id()];
-  if ($operation == 'view' && $account->hasPermission('node test view')) {
+  if ($op == 'view' && $account->hasPermission('node test view')) {
     $grants['node_access_test'] = [8888, 8889];
   }
 
   $no_access_uid = \Drupal::state()->get('node_access_test.no_access_uid', 0);
-  if ($operation == 'view' && $account->id() == $no_access_uid) {
+  if ($op == 'view' && $account->id() == $no_access_uid) {
     $grants['node_access_all'] = [0];
   }
   return $grants;
@@ -144,9 +144,9 @@ function node_access_test_add_field(NodeTypeInterface $type) {
 }
 
 /**
- * Implements hook_ENTITY_TYPE_access().
+ * Implements hook_node_access().
  */
-function node_access_test_node_access(NodeInterface $node, $operation, AccountInterface $account) {
+function node_access_test_node_access(NodeInterface $node, $op, AccountInterface $account) {
   $secret_catalan = \Drupal::state()
     ->get('node_access_test_secret_catalan') ?: 0;
   if ($secret_catalan && $node->language()->getId() == 'ca') {

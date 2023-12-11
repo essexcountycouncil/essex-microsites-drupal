@@ -32,9 +32,6 @@ final class TestSuite
     public $warnings;
 
     /** @var int */
-    public $risky;
-
-    /** @var int */
     public $skipped;
 
     /** @var float */
@@ -46,7 +43,7 @@ final class TestSuite
     /**
      * Nested suites.
      *
-     * @var array<string, TestSuite>
+     * @var TestSuite[]
      */
     public $suites = [];
 
@@ -57,10 +54,6 @@ final class TestSuite
      */
     public $cases = [];
 
-    /**
-     * @param array<string, TestSuite> $suites
-     * @param TestCase[]               $cases
-     */
     public function __construct(
         string $name,
         int $tests,
@@ -68,12 +61,9 @@ final class TestSuite
         int $failures,
         int $errors,
         int $warnings,
-        int $risky,
         int $skipped,
         float $time,
-        string $file,
-        array $suites,
-        array $cases
+        string $file
     ) {
         $this->name       = $name;
         $this->tests      = $tests;
@@ -84,8 +74,20 @@ final class TestSuite
         $this->warnings   = $warnings;
         $this->time       = $time;
         $this->file       = $file;
-        $this->suites     = $suites;
-        $this->cases      = $cases;
-        $this->risky      = $risky;
+    }
+
+    public static function empty(): self
+    {
+        return new self(
+            '',
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.0,
+            '',
+        );
     }
 }

@@ -33,7 +33,7 @@ class ConfigSubscriber extends ConfigImportValidateEventSubscriberBase {
   /**
    * {@inheritdoc}
    */
-  public static function getSubscribedEvents(): array {
+  public static function getSubscribedEvents() {
     $events[ConfigEvents::IMPORT_VALIDATE][] = ['onConfigImporterValidate', 20];
     return $events;
   }

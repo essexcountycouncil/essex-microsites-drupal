@@ -19,7 +19,7 @@ class LanguagePluginTest extends UnitTestCase {
   /**
    * Provides a list of configs to test.
    */
-  public static function providerGetDynamicPluginConfig(): array {
+  public function providerGetDynamicPluginConfig(): array {
     $un_expected_output = [
       'language' => [
         'textPartLanguage' => [
@@ -60,7 +60,7 @@ class LanguagePluginTest extends UnitTestCase {
         ['language_list' => 'all'],
         [
           'language' => [
-            'textPartLanguage' => static::buildExpectedDynamicConfig(LanguageManager::getStandardLanguageList()),
+            'textPartLanguage' => $this->buildExpectedDynamicConfig(LanguageManager::getStandardLanguageList()),
           ],
         ],
       ],

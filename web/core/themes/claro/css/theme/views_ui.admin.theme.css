@@ -18,7 +18,6 @@
 }
 
 .views-admin a:hover {
-  -webkit-text-decoration: none;
   text-decoration: none;
 }
 
@@ -293,7 +292,7 @@ td.group-title {
   bottom: -0.8125rem;
   padding: 0.5px 0.375rem;
   text-transform: uppercase;
-  border: 1px solid var(--color-gray-200);
+  border: 1px solid #d3d4d9;
   background: #fff;
   font-weight: bold;
   font-style: italic;
@@ -315,9 +314,9 @@ td.group-title {
 
 .views-displays {
   padding-bottom: 2.25rem;
-  border-top: 1px solid var(--color-gray-200-o-80);
-  border-right: 1px solid var(--color-gray-200-o-80);
-  border-left: 1px solid var(--color-gray-200-o-80);
+  border-top: 1px solid rgba(212, 212, 218, 0.8);
+  border-right: 1px solid rgba(212, 212, 218, 0.8);
+  border-left: 1px solid rgba(212, 212, 218, 0.8);
 }
 
 .views-display-top {
@@ -325,22 +324,22 @@ td.group-title {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  padding: var(--space-s) var(--space-s) calc(var(--space-s) - 0.3125rem);
-  border-bottom: 1px solid var(--color-gray-200-o-80);
-  background-color: var(--color-gray-050);
+  padding: 0.75rem 0.75rem 0.4375rem;
+  border-bottom: 1px solid rgba(212, 212, 218, 0.8);
+  background-color: #f3f4f9;
 }
 
 .form-edit .form-actions {
   margin-top: 0;
-  padding: var(--space-s) var(--space-m);
-  border-right: 1px solid var(--color-gray-200-o-80);
-  border-bottom: 1px solid var(--color-gray-200-o-80);
-  border-left: 1px solid var(--color-gray-200-o-80);
-  background-color: var(--color-gray-050);
+  padding: 0.75rem 1rem;
+  border-right: 1px solid rgba(212, 212, 218, 0.8);
+  border-bottom: 1px solid rgba(212, 212, 218, 0.8);
+  border-left: 1px solid rgba(212, 212, 218, 0.8);
+  background-color: #f3f4f9;
 }
 
 .edit-display-settings {
-  margin: var(--space-l) var(--space-l) 0 var(--space-l);
+  margin: 1.5rem 1.5rem 0 1.5rem;
 }
 
 .edit-display-settings-top.views-ui-display-tab-bucket.views-ui-display-tab-bucket {
@@ -348,7 +347,7 @@ td.group-title {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin: 0 0 var(--space-l);
+  margin: 0 0 1.5rem;
   padding: 0;
   border-bottom: none;
   line-height: 1.25rem;
@@ -359,9 +358,9 @@ td.group-title {
 }
 
 .views-display-column {
-  border: 1px solid var(--color-gray-200-o-80);
-  border-radius: var(--base-border-radius);
-  box-shadow: var(--details-box-shadow);
+  border: 1px solid rgba(212, 212, 218, 0.8);
+  border-radius: 2px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .views-display-column + .views-display-column {
@@ -378,13 +377,13 @@ td.group-title {
 }
 
 .view-preview-form .form-item--view-args {
-  margin-top: var(--space-m);
+  margin-top: 1rem;
 }
 
 .view-preview-form .arguments-preview,
 .view-preview-form .form-item--view-args {
-  margin-right: var(--space-m);
-  margin-left: var(--space-m);
+  margin-right: 1rem;
+  margin-left: 1rem;
 }
 
 .preview-submit-wrapper {
@@ -396,8 +395,7 @@ td.group-title {
   vertical-align: top;
 }
 
-@media screen and (min-width: 45em) {
-  /* 720px */
+@media screen and (min-width: 45em) { /* 720px */
   .view-preview-form .form-type-textfield .description {
     white-space: nowrap;
   }
@@ -407,10 +405,10 @@ td.group-title {
 
 .views-ui-display-tab-bucket.views-ui-display-tab-bucket {
   position: relative;
-  margin: 0 0 var(--space-xs);
-  padding-top: var(--space-xs);
-  padding-bottom: var(--space-xs);
-  border-bottom: 1px solid var(--color-gray-200-o-80);
+  margin: 0 0 0.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(212, 212, 218, 0.8);
   line-height: 1.25rem;
 }
 
@@ -428,12 +426,12 @@ td.group-title {
   justify-content: space-between;
   box-sizing: border-box;
   width: 100%;
-  padding: var(--space-s) var(--space-m) calc(var(--space-s) + 2px);
+  padding: 0.75rem 1rem calc(0.75rem + 2px);
 }
 
 .views-ui-display-tab-bucket__title {
   margin: 0;
-  font-size: var(--font-size-base);
+  font-size: 1rem;
 }
 
 .views-ui-display-tab-bucket.access {
@@ -461,9 +459,9 @@ td.group-title {
 .views-ui-display-tab-bucket .views-display-setting {
   display: flex;
   flex-wrap: wrap;
-  padding: var(--space-xs) var(--space-m);
+  padding: 0.5rem 1rem;
   color: #666;
-  font-size: var(--font-size-s);
+  font-size: 0.889rem;
 }
 
 .views-ui-display-tab-actions.views-ui-display-tab-bucket .views-display-setting {
@@ -476,27 +474,27 @@ td.group-title {
 }
 
 .views-ui-display-tab-bucket__actions {
-  margin-left: var(--space-xs); /* LTR */
+  margin-left: 0.5rem; /* LTR */
 }
 
 [dir="rtl"] .views-ui-display-tab-bucket__actions {
-  margin-right: var(--space-xs);
+  margin-right: 0.5rem;
   margin-left: 0;
 }
 
 .views-display-setting .label {
-  margin-right: var(--space-xs); /* LTR */
+  margin-right: 0.5rem; /* LTR */
   white-space: nowrap;
 }
 
 [dir="rtl"] .views-display-setting .label {
   margin-right: 0;
-  margin-left: var(--space-xs);
+  margin-left: 0.5rem;
 }
 
 .label--separator.label--separator {
-  margin-right: var(--space-xs);
-  margin-left: var(--space-xs);
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
 }
 
 .views-edit-view {
@@ -575,11 +573,11 @@ td.group-title {
 
 .views-ui-dialog .views-offset-top:not(:empty) {
   position: relative;
-  padding: var(--space-s) var(--space-m) var(--space-xs);
-  background-color: var(--color-gray-050);
+  padding: 0.75rem 1rem 0.5rem;
+  background-color: #f3f4f9;
 }
 
-.views-ui-dialog .views-offset-top:not(:empty)::after {
+.views-ui-dialog .views-offset-top:not(:empty):after {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -595,11 +593,11 @@ td.group-title {
 
 .views-ui-dialog .views-offset-top .form-item {
   max-width: 40%;
-  margin: 0 var(--space-s) var(--space-s) 0;
+  margin: 0 0.75rem 0.75rem 0;
 }
 
 .views-ui-dialog .tabledrag-toggle-weight-wrapper {
-  margin: 0 0 var(--space-m) 0;
+  margin: 0 0 1rem 0;
 }
 
 .views-ui-dialog details .item-list {
@@ -620,7 +618,7 @@ td.group-title {
 }
 
 .views-ui-rearrange-filter-form tr td[rowspan] {
-  border: 1px solid var(--color-gray-200);
+  border: 1px solid #d3d4d9;
 }
 
 .views-ui-rearrange-filter-form tr[id^="views-row"] {
@@ -633,7 +631,7 @@ td.group-title {
 }
 
 .views-ui-rearrange-filter-form .draggable td {
-  border-bottom: 0.0625rem solid var(--color-gray-200);
+  border-bottom: 0.0625rem solid #d3d4d9;
 }
 
 .views-ui-rearrange-filter-form .group-empty {
@@ -669,26 +667,26 @@ td.group-title {
   margin-top: 0;
   padding: 0.5rem 0.75rem;
   border-bottom: 1px solid #ccc;
-  background-color: var(--color-gray-050);
+  background-color: #f3f4f9;
 }
 
 .view-preview-form .form-item--live-preview {
   position: absolute;
   top: 0.6875rem;
-  right: var(--space-s);
+  right: 0.75rem;
   margin-top: 2px;
   margin-left: 2px; /* LTR */
 }
 
 [dir="rtl"] .view-preview-form .form-item--live-preview {
   right: auto;
-  left: var(--space-s);
+  left: 0.75rem;
   margin-right: 2px;
   margin-left: 0;
 }
 
 .views-live-preview {
-  padding: var(--space-m);
+  padding: 1rem;
 }
 
 .views-live-preview .views-query-info {
@@ -699,14 +697,14 @@ td.group-title {
   display: inline-block;
   margin-top: 0;
   margin-bottom: 0;
-  color: var(--color-gray-800);
+  color: #55565b;
   font-size: 0.8125rem;
   font-weight: normal;
   line-height: 1.6154;
 }
 
 .views-live-preview .view > * {
-  margin-top: var(--space-m);
+  margin-top: 1rem;
 }
 
 .views-live-preview .preview-section {
@@ -729,17 +727,17 @@ td.group-title {
   margin: 0.625rem 0;
   border-spacing: 0;
   border-collapse: separate;
-  border-color: var(--color-bg);
+  border-color: #fff;
 }
 
 .views-query-info table tr {
-  background-color: var(--color-gray-050);
+  background-color: #f3f4f9;
 }
 
 .views-query-info table th,
 .views-query-info table td {
-  padding: var(--space-xs) var(--space-l);
-  font-size: var(--font-size-s);
+  padding: 0.5rem 1.5rem;
+  font-size: 0.889rem;
 }
 
 .messages {
@@ -769,12 +767,12 @@ td.group-title {
 
 .edit-display-settings-top.views-ui-display-tab-bucket .dropbutton-wrapper {
   top: 0.8125rem;
-  right: var(--space-s); /* LTR */
+  right: 0.75rem; /* LTR */
 }
 
 [dir="rtl"] .edit-display-settings-top.views-ui-display-tab-bucket .dropbutton-wrapper {
   right: auto;
-  left: var(--space-s);
+  left: 0.75rem;
 }
 
 .views-list-section {
@@ -797,9 +795,9 @@ td.group-title {
  */
 
 html:not(.no-touchevents) .views-ui-display-tab-bucket__header--actions {
-  padding: var(--space-l) var(--space-xs);
+  padding: 1.5rem 0.5rem;
 }
 
 html:not(.no-touchevents) .edit-display-settings-top.views-ui-display-tab-bucket {
-  padding: var(--space-m) var(--space-xs);
+  padding: 1rem 0.5rem;
 }

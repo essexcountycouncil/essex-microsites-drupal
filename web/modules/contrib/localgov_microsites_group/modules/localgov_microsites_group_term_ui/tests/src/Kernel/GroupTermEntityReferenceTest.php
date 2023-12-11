@@ -41,10 +41,7 @@ class GroupTermEntityReferenceTest extends GroupKernelTestBase {
     $this->installEntitySchema('entity_test');
     $this->installEntitySchema('taxonomy_term');
     $this->installEntitySchema('user');
-    $this->installConfig([
-      'user',
-      'localgov_microsites_group_term_ui_test',
-    ]);
+    $this->installConfig(['localgov_microsites_group_term_ui_test']);
   }
 
   /**

@@ -10,17 +10,14 @@ class CssCollectionGrouper implements AssetCollectionGrouperInterface {
   /**
    * {@inheritdoc}
    *
-   * Puts multiple items into the same group if they are groupable. Items of the
-   * 'file' type are groupable if their 'preprocess' flag is TRUE, and items of
-   * the 'external' type are never groupable. Items with a media type of 'print'
-   * will be put into their own group so that they are not loaded on regular
-   * page requests. Items with a media type of 'all' or 'screen' will be grouped
-   * together (with media queries where necessary), to minimize the number of
-   * separate aggregates.
+   * Puts multiple items into the same group if they are groupable and if they
+   * are for the same 'media' and 'browsers'. Items of the 'file' type are
+   * groupable if their 'preprocess' flag is TRUE, and items of the 'external'
+   * type are never groupable.
    *
    * Also ensures that the process of grouping items does not change their
    * relative order. This requirement may result in multiple groups for the same
-   * type and media, if needed to accommodate other items in between.
+   * type, media, and browsers, if needed to accommodate other items in between.
    */
   public function group(array $css_assets) {
     $groups = [];
@@ -33,6 +30,11 @@ class CssCollectionGrouper implements AssetCollectionGrouperInterface {
     // -1, the first group will have index 0.
     $i = -1;
     foreach ($css_assets as $item) {
+      // The browsers for which the CSS item needs to be loaded is part of the
+      // information that determines when a new group is needed, but the order
+      // of keys in the array doesn't matter, and we don't want a new group if
+      // all that's different is that order.
+      ksort($item['browsers']);
 
       // If the item can be grouped with other items, set $group_keys to an
       // array of information that must be the same for all items in its group.
@@ -49,10 +51,8 @@ class CssCollectionGrouper implements AssetCollectionGrouperInterface {
         case 'file':
           // Group file items if their 'preprocess' flag is TRUE.
           // Help ensure maximum reuse of aggregate files by only grouping
-          // together items that share the same 'group' value. The CSS optimizer
-          // adds inline 'media' statements for everything except 'print', so
-          // only vary groups based on that.
-          $group_keys = $item['preprocess'] ? [$item['type'], $item['group'], $item['media'] === 'print'] : FALSE;
+          // together items that share the same 'group' value.
+          $group_keys = $item['preprocess'] ? [$item['type'], $item['group'], $item['media'], $item['browsers']] : FALSE;
           break;
 
         case 'external':
@@ -70,9 +70,6 @@ class CssCollectionGrouper implements AssetCollectionGrouperInterface {
         // properties are unique to the item and should not be carried over to
         // the group.
         $groups[$i] = $item;
-        if ($item['media'] !== 'print') {
-          $groups[$i]['media'] = 'all';
-        }
         unset($groups[$i]['data'], $groups[$i]['weight'], $groups[$i]['basename']);
         $groups[$i]['items'] = [];
         $current_group_keys = $group_keys ? $group_keys : NULL;

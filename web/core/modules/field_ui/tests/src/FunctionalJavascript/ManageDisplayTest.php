@@ -5,8 +5,6 @@ namespace Drupal\Tests\field_ui\FunctionalJavascript;
 use Behat\Mink\Element\NodeElement;
 use Drupal\Core\Entity\Entity\EntityFormDisplay;
 use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
-use Drupal\Tests\field_ui\Traits\FieldUiJSTestTrait;
-use Drupal\Tests\field_ui\Traits\FieldUiTestTrait;
 
 /**
  * Tests the Field UI "Manage display" and "Manage form display" screens.
@@ -14,9 +12,6 @@ use Drupal\Tests\field_ui\Traits\FieldUiTestTrait;
  * @group field_ui
  */
 class ManageDisplayTest extends WebDriverTestBase {
-
-  use FieldUiTestTrait;
-  use FieldUiJSTestTrait;
 
   /**
    * {@inheritdoc}
@@ -40,14 +35,14 @@ class ManageDisplayTest extends WebDriverTestBase {
   protected $type;
 
   /**
-   * @var \Drupal\Core\Entity\entityTypeManagerInterface
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
-  protected $entityTypeManager;
+  protected $entity_type_manager;
 
   /**
    * @var \Drupal\Core\Entity\EntityStorageInterface
    */
-  protected $displayStorage;
+  protected $display_storage;
 
   /**
    * {@inheritdoc}
@@ -75,7 +70,7 @@ class ManageDisplayTest extends WebDriverTestBase {
     $type = $this->drupalCreateContentType(['name' => $type_name, 'type' => $type_name]);
     $this->type = $type->id();
 
-    $this->entityTypeManager = $this->container->get('entity_type.manager');
+    $this->entity_type_manager = $this->container->get('entity_type.manager');
   }
 
   /**
@@ -86,15 +81,15 @@ class ManageDisplayTest extends WebDriverTestBase {
     $manage_display = $manage_fields . '/display';
 
     // Create a field, and a node with some data for the field.
-    $this->fieldUIAddNewFieldJS($manage_fields, 'test', 'Test field');
+    $this->fieldUIAddNewField($manage_fields, 'test', 'Test field');
 
     $display_id = 'node.' . $this->type . '.default';
-    $displayStorage = $this->entityTypeManager->getStorage('entity_view_display');
+    $display_storage = $this->entity_type_manager->getStorage('entity_view_display');
 
     // Get the display options (formatter and settings) that were automatically
     // assigned for the 'default' display.
     /** @var \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display */
-    $display = $displayStorage->loadUnchanged($display_id);
+    $display = $display_storage->loadUnchanged($display_id);
     $display_options = $display->getComponent('field_test');
     $format = $display_options['type'];
     $default_settings = \Drupal::service('plugin.manager.field.formatter')->getDefaultSettings($format);
@@ -142,7 +137,7 @@ class ManageDisplayTest extends WebDriverTestBase {
 
     // Validate the changed display settings on the server.
     /** @var \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display */
-    $display = $displayStorage->loadUnchanged($display_id);
+    $display = $display_storage->loadUnchanged($display_id);
     $this->assertNull($display->getComponent('field_test'));
 
     // Switch to manual mode.
@@ -194,7 +189,7 @@ class ManageDisplayTest extends WebDriverTestBase {
 
     $id = 'node.' . $this->type . '.default';
     /** @var \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display */
-    $display = $displayStorage->loadUnchanged($id);
+    $display = $display_storage->loadUnchanged($id);
     $this->assertEquals('foo', $display->getRenderer('field_test')->getThirdPartySetting('field_third_party_test', 'field_test_field_formatter_third_party_settings_form'));
     $this->assertContains('field_third_party_test', $display->calculateDependencies()->getDependencies()['module'], 'The display has a dependency on field_third_party_test module.');
 
@@ -247,7 +242,7 @@ class ManageDisplayTest extends WebDriverTestBase {
 
     // Ensure that third-party settings were removed from the formatter.
     /** @var \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display */
-    $display = $displayStorage->loadUnchanged($display_id);
+    $display = $display_storage->loadUnchanged($display_id);
     $component = $display->getComponent('field_test');
     $this->assertArrayNotHasKey('field_third_party_test', $component['third_party_settings']);
   }
@@ -261,11 +256,11 @@ class ManageDisplayTest extends WebDriverTestBase {
     // Admin Manage Display page.
     $manage_display = $manage_fields . '/form-display';
 
-    $form_storage = $this->entityTypeManager->getStorage('entity_form_display');
+    $form_storage = $this->entity_type_manager->getStorage('entity_form_display');
 
     // Creates a new field that can be used with multiple formatters.
     // Reference: Drupal\field_test\Plugin\Field\FieldWidget\TestFieldWidgetMultiple::isApplicable().
-    $this->fieldUIAddNewFieldJS($manage_fields, 'test', 'Test field');
+    $this->fieldUIAddNewField($manage_fields, 'test', 'Test field');
 
     // Get the display options (formatter and settings) that were automatically
     // assigned for the 'default' display.
@@ -347,7 +342,7 @@ class ManageDisplayTest extends WebDriverTestBase {
 
     // Creates a new field that can not be used with the multiple formatter.
     // Reference: Drupal\field_test\Plugin\Field\FieldWidget\TestFieldWidgetMultiple::isApplicable().
-    $this->fieldUIAddNewFieldJS($manage_fields, 'onewidgetfield', 'One Widget Field');
+    $this->fieldUIAddNewField($manage_fields, 'onewidgetfield', 'One Widget Field');
 
     // Go to the Manage Form Display.
     $this->drupalGet($manage_display);
@@ -424,84 +419,70 @@ class ManageDisplayTest extends WebDriverTestBase {
   }
 
   /**
-   * Confirms that notifications to save appear when necessary.
+   * Creates a new field through the Field UI.
+   *
+   * @param string $bundle_path
+   *   Admin path of the bundle that the new field is to be attached to.
+   * @param string $field_name
+   *   The field name of the new field storage.
+   * @param string $label
+   *   (optional) The label of the new field. Defaults to a random string.
+   * @param string $field_type
+   *   (optional) The field type of the new field storage. Defaults to
+   *   'test_field'.
    */
-  public function testNotAppliedUntilSavedWarning() {
+  public function fieldUIAddNewField($bundle_path, $field_name, $label = NULL, $field_type = 'test_field') {
+    $label = $label ?: $field_name;
+
+    // Allow the caller to set a NULL path in case they navigated to the right
+    // page before calling this method.
+    if ($bundle_path !== NULL) {
+      $bundle_path = "$bundle_path/fields/add-field";
+    }
+
+    // First step: 'Add field' page.
+    $this->drupalGet($bundle_path);
+
+    $session = $this->getSession();
+
+    $page = $session->getPage();
     $assert_session = $this->assertSession();
-    $page = $this->getSession()->getPage();
 
-    // Admin Manage Fields page.
-    $manage_fields = 'admin/structure/types/manage/' . $this->type;
+    $field_new_storage_type = $page->findField('new_storage_type');
+    $field_new_storage_type->setValue($field_type);
+    $assert_session->assertWaitOnAjaxRequest();
 
-    $this->fieldUIAddNewFieldJS($manage_fields, 'test', 'Test field');
-    $manage_display = 'admin/structure/types/manage/' . $this->type . '/display';
-    $manage_form = 'admin/structure/types/manage/' . $this->type . '/form-display';
+    $field_label = $page->findField('label');
+    $this->assertTrue($field_label->isVisible());
+    $field_label->setValue($label);
+    $machine_name = $assert_session->waitForElementVisible('css', '[name="label"] + * .machine-name-value');
+    $this->assertNotEmpty($machine_name);
+    $page->findButton('Edit')->press();
 
-    // Form display, change widget type.
-    $this->drupalGet($manage_form);
-    $assert_session->elementNotExists('css', '.tabledrag-changed-warning');
-    $assert_session->elementNotExists('css', 'abbr.tabledrag-changed');
-    $page->selectFieldOption('fields[uid][type]', 'options_buttons');
-    $this->assertNotNull($changed_warning = $assert_session->waitForElementVisible('css', '.tabledrag-changed-warning'));
-    $this->assertNotNull($assert_session->waitForElementVisible('css', ' #uid abbr.tabledrag-changed'));
-    $this->assertSame('* You have unsaved changes.', $changed_warning->getText());
+    $field_field_name = $page->findField('field_name');
+    $this->assertTrue($field_field_name->isVisible());
+    $field_field_name->setValue($field_name);
+    $assert_session->assertWaitOnAjaxRequest();
 
-    // Form display, change widget settings.
-    $this->drupalGet($manage_form);
-    $edit_widget_button = $assert_session->waitForElementVisible('css', '[data-drupal-selector="edit-fields-uid-settings-edit"]');
-    $edit_widget_button->press();
-    $assert_session->waitForText('3rd party formatter settings form');
+    $page->findButton('Save and continue')->click();
 
-    // Confirm the AJAX operation of opening the form does not result in the row
-    // being set as changed. New settings must be submitted for that to happen.
-    $assert_session->elementNotExists('css', 'abbr.tabledrag-changed');
-    $cancel_button = $assert_session->waitForElementVisible('css', '[data-drupal-selector="edit-fields-uid-settings-edit-form-actions-cancel-settings"]');
-    $cancel_button->press();
-    $assert_session->assertNoElementAfterWait('css', '[data-drupal-selector="edit-fields-uid-settings-edit-form-actions-cancel-settings"]');
-    $assert_session->elementNotExists('css', '.tabledrag-changed-warning');
-    $assert_session->elementNotExists('css', 'abbr.tabledrag-changed');
-    $edit_widget_button = $assert_session->waitForElementVisible('css', '[data-drupal-selector="edit-fields-uid-settings-edit"]');
-    $edit_widget_button->press();
-    $widget_field = $assert_session->waitForField('fields[uid][settings_edit_form][third_party_settings][field_third_party_test][field_test_widget_third_party_settings_form]');
-    $widget_field->setValue('honk');
-    $update_button = $assert_session->waitForElementVisible('css', '[data-drupal-selector="edit-fields-uid-settings-edit-form-actions-save-settings"]');
-    $update_button->press();
-    $assert_session->assertNoElementAfterWait('css', '[data-drupal-selector="edit-fields-field-test-settings-edit-form-actions-cancel-settings"]');
-    $this->assertNotNull($changed_warning = $assert_session->waitForElementVisible('css', '.tabledrag-changed-warning'));
-    $this->assertNotNull($assert_session->waitForElementVisible('css', ' #uid abbr.tabledrag-changed'));
-    $this->assertSame('* You have unsaved changes.', $changed_warning->getText());
+    $assert_session->pageTextContains("These settings apply to the $label field everywhere it is used.");
+    $breadcrumb_link = $page->findLink($label);
 
-    // Content display, change formatter type.
-    $this->drupalGet($manage_display);
-    $assert_session->elementNotExists('css', '.tabledrag-changed-warning');
-    $assert_session->elementNotExists('css', 'abbr.tabledrag-changed');
-    $page->selectFieldOption('edit-fields-field-test-label', 'inline');
-    $this->assertNotNull($changed_warning = $assert_session->waitForElementVisible('css', '.tabledrag-changed-warning'));
-    $this->assertNotNull($assert_session->waitForElementVisible('css', ' #field-test abbr.tabledrag-changed'));
-    $this->assertSame('* You have unsaved changes.', $changed_warning->getText());
+    // Test breadcrumb.
+    $this->assertTrue($breadcrumb_link->isVisible());
 
-    // Content display, change formatter settings.
-    $this->drupalGet($manage_display);
-    $assert_session->elementNotExists('css', '.tabledrag-changed-warning');
-    $assert_session->elementNotExists('css', 'abbr.tabledrag-changed');
-    $edit_formatter_button = $assert_session->waitForElementVisible('css', '[data-drupal-selector="edit-fields-field-test-settings-edit"]');
-    $edit_formatter_button->press();
-    $assert_session->waitForText('3rd party formatter settings form');
-    $cancel_button = $assert_session->waitForElementVisible('css', '[data-drupal-selector="edit-fields-field-test-settings-edit-form-actions-cancel-settings"]');
-    $cancel_button->press();
-    $assert_session->assertNoElementAfterWait('css', '[data-drupal-selector="edit-fields-field-test-settings-edit-form-actions-cancel-settings"]');
-    $assert_session->elementNotExists('css', '.tabledrag-changed-warning');
-    $assert_session->elementNotExists('css', 'abbr.tabledrag-changed');
-    $edit_formatter_button = $assert_session->waitForElementVisible('css', '[data-drupal-selector="edit-fields-field-test-settings-edit"]');
-    $edit_formatter_button->press();
-    $formatter_field = $assert_session->waitForField('fields[field_test][settings_edit_form][third_party_settings][field_third_party_test][field_test_field_formatter_third_party_settings_form]');
-    $formatter_field->setValue('honk');
-    $update_button = $assert_session->waitForElementVisible('css', '[data-drupal-selector="edit-fields-field-test-settings-edit-form-actions-save-settings"]');
-    $update_button->press();
-    $assert_session->assertNoElementAfterWait('css', '[data-drupal-selector="edit-fields-field-test-settings-edit-form-actions-cancel-settings"]');
-    $this->assertNotNull($changed_warning = $assert_session->waitForElementVisible('css', '.tabledrag-changed-warning'));
-    $this->assertNotNull($assert_session->waitForElementVisible('css', ' #field-test abbr.tabledrag-changed'));
-    $this->assertSame('* You have unsaved changes.', $changed_warning->getText());
+    // Second step: 'Storage settings' form.
+    $page->findButton('Save field settings')->click();
+    $assert_session->pageTextContains("Updated field $label field settings.");
+
+    // Third step: 'Field settings' form.
+    $page->findButton('Save settings')->click();
+    $assert_session->pageTextContains("Saved $label configuration.");
+
+    // Check that the field appears in the overview form.
+    $row = $page->find('css', '#field-' . $field_name);
+    $this->assertNotEmpty($row, 'Field was created and appears in the overview page.');
   }
 
 }

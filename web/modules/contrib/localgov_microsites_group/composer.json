@@ -4,26 +4,28 @@
   "type": "drupal-module",
   "license": "GPL-2.0-or-later",
   "require": {
+    "drupal/core": "^9",
     "drupal/domain_path": "^1.2",
     "drupal/field_formatter_class": "^1.5",
     "drupal/ginvite": "4.0.0-alpha1",
-    "drupal/group": "^3.2",
-    "drupal/group_content_menu": "^3.0",
+    "drupal/group": "^3.0.0-beta4",
+    "drupal/group_content_menu": "dev-3.0.x#0c85b43d",
     "drupal/group_permissions": "2.0.0-alpha5",
-    "drupal/group_term": "^4.0",
-    "drupal/groupmedia": "^4.0.1",
+    "drupal/group_term": "4.0.0-alpha5",
+    "drupal/groupmedia": "4.0.0-alpha1 ",
     "drupal/override_node_options": "^2.6",
     "drupal/replicate": "^1.0",
     "drupal/role_delegation": "^1.2",
-    "localgovdrupal/group_webform": "^1.0.0-beta2",
-    "localgovdrupal/localgov_core": "^2.12",
-    "localgovdrupal/localgov_forms": "^1.0.0-beta2",
-    "localgovdrupal/localgov_search": "^1.2"
+    "localgovdrupal/group_webform": "^1.0.0-beta1",
+    "localgovdrupal/localgov_core": "^2.1.0",
+    "localgovdrupal/localgov_forms": "^1.0.0-beta1",
+    "localgovdrupal/localgov_page": "^1.0.0-beta1",
+    "localgovdrupal/localgov_search": "^1.1"
   },
   "require-dev": {
     "localgovdrupal/localgov_news": "^2.1",
-    "localgovdrupal/localgov_directories": "^3.0@alpha",
-    "localgovdrupal/localgov_events": "^3.0@alpha"
+    "localgovdrupal/localgov_directories": "^2.2",
+    "localgovdrupal/localgov_events": "^2.0"
   },
   "suggests": {
     "localgovdrupal/localgov_directories": "For directories content type in microsites",
@@ -40,11 +42,11 @@
           "domain_path_pathauto creates duplicate aliases #3285213": "https://www.drupal.org/files/issues/2022-06-11/domain_path_pathauto-obey-current-domain_id-querying-for-reserved-aliases-3285213.patch",
           "Warning: Undefined array key 'pathauto' #3315752": "https://www.drupal.org/files/issues/2022-10-17/undefined-array-key-pathauto-3265497-2.patch"
       },
+      "drupal/groupmedia": {
+          "Update addPage in groupmediato work with Group 3.x and suppress errors #3325129": "https://git.drupalcode.org/issue/groupmedia-3325129/-/commit/194f7bfa1d51f9a34a00ab4323f5fdf8c82ff48b.patch"
+      },
       "drupal/ginvite": {
           "View schema fix #3324625": "https://www.drupal.org/files/issues/2022-11-30/3324625-2-schema-fix-for-4.0.x.patch"
-      },
-      "drupal/group_permissions": {
-          "Access checking must be explicitly set on entity queries #3368882": "https://www.drupal.org/files/issues/2023-07-11/add_access_check_to_entity_query.patch"
       }
     }
   }

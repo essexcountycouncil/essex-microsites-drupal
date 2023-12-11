@@ -21,10 +21,10 @@ echo "Downloading $env database for $ACQUIA_ID project"
 acli telemetry:disable -q --no-interaction
 
 # Get latest backup ID
-backup_latest=$(acli api:environments:database-backup-list $ACQUIA_ID.${env} $ACQUIA_ID --limit="1" -n | jq '.[0] | .id')
+backup_latest=$(acli api:environments:database-backup-list $ACQUIA_ID.${env} $ACQUIA_ID --limit="1" | jq '.[0] | .id')
 
 # Get URL for latest backup
-backup_url=$(acli api:environments:database-backup-download $ACQUIA_ID.${env} $ACQUIA_ID ${backup_latest} -n | jq -r '.url')
+backup_url=$(acli api:environments:database-backup-download $ACQUIA_ID.${env} $ACQUIA_ID ${backup_latest} | jq -r '.url')
 
 # Download latest back to db folder.
 wget ${backup_url} -O db/${db}.sql.gz

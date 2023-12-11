@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -12,11 +12,11 @@
 
 namespace Composer\Package\Loader;
 
+use Composer\Package\CompletePackageInterface;
 use Composer\Package\CompletePackage;
 use Composer\Package\CompleteAliasPackage;
 use Composer\Package\RootAliasPackage;
 use Composer\Package\RootPackage;
-use Composer\Package\BasePackage;
 
 /**
  * Defines a loader that takes an array to create package instances
@@ -28,12 +28,14 @@ interface LoaderInterface
     /**
      * Converts a package from an array to a real instance
      *
+     * @template PackageClass of CompletePackageInterface
+     *
      * @param  mixed[] $config package data
      * @param  string  $class  FQCN to be instantiated
      *
      * @return CompletePackage|CompleteAliasPackage|RootPackage|RootAliasPackage
      *
-     * @phpstan-param class-string<CompletePackage|RootPackage> $class
+     * @phpstan-param class-string<PackageClass> $class
      */
-    public function load(array $config, string $class = 'Composer\Package\CompletePackage'): BasePackage;
+    public function load(array $config, $class = 'Composer\Package\CompletePackage');
 }

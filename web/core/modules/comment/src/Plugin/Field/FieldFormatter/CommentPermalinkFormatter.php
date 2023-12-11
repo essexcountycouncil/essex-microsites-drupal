@@ -19,6 +19,9 @@ use Drupal\Core\Field\Plugin\Field\FieldFormatter\StringFormatter;
  *   field_types = {
  *     "string",
  *     "uri",
+ *   },
+ *   quickedit = {
+ *     "editor" = "plain_text"
  *   }
  * )
  */

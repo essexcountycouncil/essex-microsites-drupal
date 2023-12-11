@@ -5,7 +5,6 @@ namespace Drupal\Core\Menu;
 use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Component\Plugin\DerivativeInspectionInterface;
 use Drupal\Core\Cache\CacheableDependencyInterface;
-use Drupal\Core\Url;
 
 /**
  * Defines an interface for classes providing a type of menu link.
@@ -221,15 +220,6 @@ interface MenuLinkInterface extends PluginInspectionInterface, DerivativeInspect
   public function getEditRoute();
 
   /**
-   * Returns route information for a route to reset the menu link.
-   *
-   * @return \Drupal\Core\Url|null
-   *   A Url object, or NULL if there is no route (e.g. when the link is not
-   *   resettable).
-   */
-  public function getResetRoute(): Url|NULL;
-
-  /**
    * Returns route information for a route to translate the menu link.
    *
    * @return \Drupal\Core\Url|null
@@ -237,17 +227,5 @@ interface MenuLinkInterface extends PluginInspectionInterface, DerivativeInspect
    *   translatable).
    */
   public function getTranslateRoute();
-
-  /**
-   * Provides an array of information to build a list of operation links.
-   *
-   * @return array
-   *   An associative array of operation link data for this menu link, keyed by
-   *   operation name, containing the following key-value pairs:
-   *   - title: The localized title of the operation.
-   *   - url: An instance of \Drupal\Core\Url for the operation URL.
-   *   - weight: The weight of this operation.
-   */
-  public function getOperations(): array;
 
 }

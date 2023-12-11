@@ -1012,7 +1012,7 @@ class ContentEntity extends DatasourcePluginBase implements PluginFormInterface 
         return $this->getEntityTypeManager()->getViewBuilder($this->getEntityTypeId())->view($entity, $view_mode, $langcode);
       }
     }
-    catch (\Exception) {
+    catch (\Exception $e) {
       // The most common reason for this would be a
       // \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException in
       // getViewBuilder(), because the entity type definition doesn't specify a
@@ -1056,7 +1056,7 @@ class ContentEntity extends DatasourcePluginBase implements PluginFormInterface 
       }
       return $build;
     }
-    catch (\Exception) {
+    catch (\Exception $e) {
       // The most common reason for this would be a
       // \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException in
       // getViewBuilder(), because the entity type definition doesn't specify a
@@ -1164,7 +1164,7 @@ class ContentEntity extends DatasourcePluginBase implements PluginFormInterface 
             $link = $entity->toLink($this->t('Go to changed %entity_type with ID "@entity_id"', $vars))
               ->toString()->getGeneratedLink();
           }
-          catch (\Throwable) {
+          catch (\Throwable $e) {
             // Ignore any errors here, it's not that important that the log
             // message contains a link.
             $link = NULL;

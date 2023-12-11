@@ -37,7 +37,7 @@ class LogTest extends KernelTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp(): void {
+  public function setUp(): void {
     parent::setUp();
     $definition = [
       'source' => [

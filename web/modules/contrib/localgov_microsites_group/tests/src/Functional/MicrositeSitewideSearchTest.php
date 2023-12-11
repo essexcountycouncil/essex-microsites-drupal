@@ -78,11 +78,9 @@ class MicrositeSitewideSearchTest extends BrowserTestBase {
     $this->domain2 = $domain_storage->load('group_' . $this->group2->id());
 
     // Create some content.
-    $this->pages1 = [
-      $this->createPage($this->group1),
-      $this->createPage($this->group1),
-    ];
-    $this->pages2 = [$this->createPage($this->group2)];
+    $this->pages1[] = $this->createPage($this->group1);
+    $this->pages1[] = $this->createPage($this->group1);
+    $this->pages2[] = $this->createPage($this->group2);
 
     // Index directory content.
     $index = Index::load('localgov_sitewide_search');

@@ -244,7 +244,6 @@ abstract class RenderElement extends PluginBase implements ElementInterface {
    *   - #ajax['event']
    *   - #ajax['prevent']
    *   - #ajax['url']
-   *   - #ajax['httpMethod']
    *   - #ajax['callback']
    *   - #ajax['options']
    *   - #ajax['wrapper']
@@ -341,7 +340,6 @@ abstract class RenderElement extends PluginBase implements ElementInterface {
       // to be substantially different for a JavaScript triggered submission.
       $settings += [
         'url' => NULL,
-        'httpMethod' => 'POST',
         'options' => ['query' => []],
         'dialogType' => 'ajax',
       ];

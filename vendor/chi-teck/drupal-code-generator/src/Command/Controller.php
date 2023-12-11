@@ -1,50 +1,36 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace DrupalCodeGenerator\Command;
 
 use DrupalCodeGenerator\Application;
-use DrupalCodeGenerator\Asset\Assets;
-use DrupalCodeGenerator\Attribute\Generator;
-use DrupalCodeGenerator\GeneratorType;
-use DrupalCodeGenerator\Utils;
 
-#[Generator(
-  name: 'controller',
-  description: 'Generates a controller',
-  templatePath: Application::TEMPLATE_PATH . '/_controller',
-  type: GeneratorType::MODULE_COMPONENT,
-)]
-final class Controller extends BaseGenerator {
+/**
+ * Implements controller command.
+ */
+final class Controller extends ModuleGenerator {
+
+  protected string $name = 'controller';
+  protected string $description = 'Generates a controller';
+  protected string $templatePath = Application::TEMPLATE_PATH . '/controller';
 
   /**
    * {@inheritdoc}
    */
-  protected function generate(array &$vars, Assets $assets): void {
-    $ir = $this->createInterviewer($vars);
+  protected function generate(array &$vars): void {
+    $this->collectDefault($vars);
+    $vars['class'] = $this->ask('Class', '{machine_name|camelize}Controller');
 
-    $vars['machine_name'] = $ir->askMachineName();
-    $vars['name'] = $ir->askName();
-    $vars['class'] = $ir->askClass(default: '{machine_name|camelize}Controller');
+    $this->collectServices($vars, FALSE);
 
-    $vars['services'] = $ir->askServices(FALSE);
-
-    if ($ir->confirm('Would you like to create a route for this controller?')) {
-      $unprefixed_class = Utils::camel2machine(Utils::removeSuffix($vars['class'], 'Controller'));
-      // Route name like 'foo.foo' would look weird.
-      if ($unprefixed_class === $vars['machine_name']) {
-        $unprefixed_class = 'example';
-      }
-      $vars['route_name'] = $ir->ask('Route name', '{machine_name}.' . $unprefixed_class);
-      $vars['unprefixed_route_name'] = \str_replace(
-        '.', '_', Utils::removePrefix($vars['route_name'], $vars['machine_name'] . '.'),
-      );
-      $vars['route_path'] = $ir->ask('Route path', '/{machine_name|u2h}/{unprefixed_route_name|u2h}');
-      $vars['route_title'] = $ir->ask('Route title', '{unprefixed_route_name|m2t}');
-      $vars['route_permission'] = $ir->askPermission('Route permission', 'access content');
-      $assets->addFile('{machine_name}.routing.yml', 'route.twig')->appendIfExists();
+    if ($this->confirm('Would you like to create a route for this controller?')) {
+      $vars['route_name'] = $this->ask('Route name', '{machine_name}.example');
+      $vars['route_path'] = $this->ask('Route path', '/{machine_name|u2h}/example');
+      $vars['route_title'] = $this->ask('Route title', 'Example');
+      $vars['route_permission'] = $this->ask('Route permission', 'access content');
+      $this->addFile('{machine_name}.routing.yml', 'route')->appendIfExists();
     }
 
-    $assets->addFile('src/Controller/{class}.php', 'controller.twig');
+    $this->addFile('src/Controller/{class}.php', 'controller');
   }
 
 }

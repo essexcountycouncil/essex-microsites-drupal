@@ -33,8 +33,9 @@ final class ReplaceResult
 
     /**
      * @param 0|positive-int $count
+     * @param string $result
      */
-    public function __construct(int $count, string $result)
+    public function __construct($count, $result)
     {
         $this->count = $count;
         $this->matched = (bool) $count;

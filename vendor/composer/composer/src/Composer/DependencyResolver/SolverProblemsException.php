@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -22,7 +22,7 @@ use Composer\Repository\RepositorySet;
  */
 class SolverProblemsException extends \RuntimeException
 {
-    public const ERROR_DEPENDENCY_RESOLUTION_FAILED = 2;
+    const ERROR_DEPENDENCY_RESOLUTION_FAILED = 2;
 
     /** @var Problem[] */
     protected $problems;
@@ -41,13 +41,18 @@ class SolverProblemsException extends \RuntimeException
         parent::__construct('Failed resolving dependencies with '.count($problems).' problems, call getPrettyString to get formatted details', self::ERROR_DEPENDENCY_RESOLUTION_FAILED);
     }
 
-    public function getPrettyString(RepositorySet $repositorySet, Request $request, Pool $pool, bool $isVerbose, bool $isDevExtraction = false): string
+    /**
+     * @param bool $isVerbose
+     * @param bool $isDevExtraction
+     * @return string
+     */
+    public function getPrettyString(RepositorySet $repositorySet, Request $request, Pool $pool, $isVerbose, $isDevExtraction = false)
     {
         $installedMap = $request->getPresentMap(true);
-        $missingExtensions = [];
+        $missingExtensions = array();
         $isCausedByLock = false;
 
-        $problems = [];
+        $problems = array();
         foreach ($this->problems as $problem) {
             $problems[] = $problem->getPrettyString($repositorySet, $request, $pool, $isVerbose, $installedMap, $this->learnedPool)."\n";
 
@@ -62,7 +67,7 @@ class SolverProblemsException extends \RuntimeException
             $text .= "  Problem ".($i++).$problem;
         }
 
-        $hints = [];
+        $hints = array();
         if (!$isDevExtraction && (strpos($text, 'could not be found') || strpos($text, 'no matching package found'))) {
             $hints[] = "Potential causes:\n - A typo in the package name\n - The package is not available in a stable-enough version according to your minimum-stability setting\n   see <https://getcomposer.org/doc/04-schema.md#minimum-stability> for more details.\n - It's a private package and you forgot to add a custom repository to find it\n\nRead <https://getcomposer.org/doc/articles/troubleshooting.md> for further common problems.";
         }
@@ -95,27 +100,24 @@ class SolverProblemsException extends \RuntimeException
     /**
      * @return Problem[]
      */
-    public function getProblems(): array
+    public function getProblems()
     {
         return $this->problems;
     }
 
     /**
      * @param string[] $missingExtensions
+     * @return string
      */
-    private function createExtensionHint(array $missingExtensions): string
+    private function createExtensionHint(array $missingExtensions)
     {
         $paths = IniHelper::getAll();
 
-        if ('' === $paths[0]) {
-            if (count($paths) === 1) {
-                return '';
-            }
-
-            array_shift($paths);
+        if (count($paths) === 1 && empty($paths[0])) {
+            return '';
         }
 
-        $ignoreExtensionsArguments = implode(" ", array_map(static function ($extension) {
+        $ignoreExtensionsArguments = implode(" ", array_map(function ($extension) {
             return "--ignore-platform-req=$extension";
         }, array_unique($missingExtensions)));
 
@@ -131,9 +133,9 @@ class SolverProblemsException extends \RuntimeException
      * @param Rule[][] $reasonSets
      * @return string[]
      */
-    private function getExtensionProblems(array $reasonSets): array
+    private function getExtensionProblems(array $reasonSets)
     {
-        $missingExtensions = [];
+        $missingExtensions = array();
         foreach ($reasonSets as $reasonSet) {
             foreach ($reasonSet as $rule) {
                 $required = $rule->getRequiredPackage();

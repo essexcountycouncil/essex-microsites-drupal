@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drush\Config\Loader;
 
 use Symfony\Component\Yaml\Yaml;

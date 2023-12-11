@@ -2,7 +2,7 @@ name: Localgov Microsites Events
 description: LocalGov Events integration with Microsites.
 type: module
 package: LocalGov Drupal
-core_version_requirement: ^9 || ^10
+core_version_requirement: ^9
 dependencies:
   - group:gnode
   - group_term:group_term

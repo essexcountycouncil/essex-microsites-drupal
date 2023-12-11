@@ -11,8 +11,6 @@
 
 namespace Symfony\Component\Lock;
 
-use Symfony\Component\Lock\Exception\UnserializableKeyException;
-
 /**
  * Key is a container for the state of the locks in stores.
  *
@@ -20,10 +18,9 @@ use Symfony\Component\Lock\Exception\UnserializableKeyException;
  */
 final class Key
 {
-    private string $resource;
-    private ?float $expiringTime = null;
-    private array $state = [];
-    private bool $serializable = true;
+    private $resource;
+    private $expiringTime;
+    private $state = [];
 
     public function __construct(string $resource)
     {
@@ -40,7 +37,7 @@ final class Key
         return isset($this->state[$stateKey]);
     }
 
-    public function setState(string $stateKey, mixed $state): void
+    public function setState(string $stateKey, $state): void
     {
         $this->state[$stateKey] = $state;
     }
@@ -50,17 +47,12 @@ final class Key
         unset($this->state[$stateKey]);
     }
 
-    public function getState(string $stateKey): mixed
+    public function getState(string $stateKey)
     {
         return $this->state[$stateKey];
     }
 
-    public function markUnserializable(): void
-    {
-        $this->serializable = false;
-    }
-
-    public function resetLifetime(): void
+    public function resetLifetime()
     {
         $this->expiringTime = null;
     }
@@ -68,7 +60,7 @@ final class Key
     /**
      * @param float $ttl the expiration delay of locks in seconds
      */
-    public function reduceLifetime(float $ttl): void
+    public function reduceLifetime(float $ttl)
     {
         $newTime = microtime(true) + $ttl;
 
@@ -78,7 +70,9 @@ final class Key
     }
 
     /**
-     * Returns the remaining lifetime in seconds.
+     * Returns the remaining lifetime.
+     *
+     * @return float|null Remaining lifetime in seconds. Null when the key won't expire.
      */
     public function getRemainingLifetime(): ?float
     {
@@ -88,14 +82,5 @@ final class Key
     public function isExpired(): bool
     {
         return null !== $this->expiringTime && $this->expiringTime <= microtime(true);
-    }
-
-    public function __sleep(): array
-    {
-        if (!$this->serializable) {
-            throw new UnserializableKeyException('The key cannot be serialized.');
-        }
-
-        return ['resource', 'expiringTime', 'state'];
     }
 }

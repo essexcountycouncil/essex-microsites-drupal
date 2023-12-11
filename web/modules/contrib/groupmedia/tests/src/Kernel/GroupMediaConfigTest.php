@@ -16,8 +16,7 @@ class GroupMediaConfigTest extends EntityKernelTestBase {
    *
    * @var array
    */
-  protected static $modules = [
-    'flexible_permissions',
+  public static $modules = [
     'group',
     'options',
     'entity',
@@ -25,7 +24,7 @@ class GroupMediaConfigTest extends EntityKernelTestBase {
     'variationcache',
     'media',
     'groupmedia',
-    'views',
+    'views'
   ];
 
   /**

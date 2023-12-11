@@ -1,54 +1,40 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drush\Commands\core;
 
-use Drush\Attributes as CLI;
+use Consolidation\AnnotatedCommand\CommandData;
 use Drush\Commands\DrushCommands;
 
 /**
  * Topic commands.
  * Any commandfile may add topics.
- * Us ethe Topic attribute to indicate the command is a topic
+ * Set 'topic' => TRUE to indicate the command is a topic (REQUIRED)
+ * Begin the topic name with the name of the commandfile (just like
+ * any other command).
  */
-final class DocsCommands extends DrushCommands
+class DocsCommands extends DrushCommands
 {
-    const README = 'docs:readme';
-    const BISECT = 'docs:bisect';
-    const CONFIGURATION = 'docs:configuration';
-    const HOOKS = 'docs:hooks';
-    const CONFIG_EXPORTING = 'docs:config:exporting';
-    const OUTPUT_FORMATS_FILTERS = 'docs:output-formats-filters';
-    const ALIASES = 'docs:aliases';
-    const SCRIPT = 'docs:script';
-    const BOOTSTRAP = 'docs:bootstrap';
-    const CRON = 'docs:cron';
-    const COMMANDS = 'docs:commands';
-    const GENERATORS = 'docs:generators';
-    const EXAMPLECOMMAND = 'docs:examplecommand';
-    const MIGRATE = 'docs:migrate';
-    const EXAMPLE_SYNC_VIA_HTTP = 'docs:example-sync-via-http';
-    const POLICY = 'docs:policy';
-    const DEPLOY = 'docs:deploy';
-
     /**
      * README.md
+     *
+     * @command docs:readme
+     * @aliases docs-readme
+     * @hidden
+     * @topic ../../../README.md
      */
-    #[CLI\Command(name: self::README, aliases: ['docs-readme'])]
-    #[CLI\Help(hidden: true)]
-    #[CLI\Topics(path: '../../../README.md')]
     public function readme(): void
     {
         self::printFileTopic($this->commandData);
     }
 
     /**
-     * Drush docs for Git Bisect.
+     * Drush's support for Git Bisect.
+     *
+     * @command docs:bisect
+     * @aliases docs-bisect
+     * @hidden
+     * @topic ../../../examples/git-bisect.example.sh
      */
-    #[CLI\Command(name: self::BISECT, aliases: ['docs-bisect'])]
-    #[CLI\Help(hidden: true)]
-    #[CLI\Topics(path: '../../../examples/git-bisect.example.sh')]
     public function bisect(): void
     {
         self::printFileTopic($this->commandData);
@@ -56,10 +42,12 @@ final class DocsCommands extends DrushCommands
 
     /**
      * Drush configuration.
+     *
+     * @command docs:configuration
+     * @aliases docs-configuration
+     * @hidden
+     * @topic ../../../docs/using-drush-configuration.md
      */
-    #[CLI\Command(name: self::CONFIGURATION, aliases: ['docs-configuration'])]
-    #[CLI\Help(hidden: true)]
-    #[CLI\Topics(path: '../../../docs/using-drush-configuration.md')]
     public function config(): void
     {
         self::printFileTopic($this->commandData);
@@ -67,10 +55,12 @@ final class DocsCommands extends DrushCommands
 
     /**
      * Drush hooks.
+     *
+     * @command docs:hooks
+     * @aliases docs-hooks
+     * @hidden
+     * @topic ../../../docs/hooks.md
      */
-    #[CLI\Command(name: self::HOOKS, aliases: ['docs-hooks'])]
-    #[CLI\Help(hidden: true)]
-    #[CLI\Topics(path: '../../../docs/hooks.md')]
     public function hooks(): void
     {
         self::printFileTopic($this->commandData);
@@ -78,10 +68,12 @@ final class DocsCommands extends DrushCommands
 
     /**
      * Drupal config export instructions, including customizing config by environment.
+     *
+     * @command docs:config:exporting
+     * @aliases docs-config-exporting
+     * @hidden
+     * @topic ../../../docs/config-exporting.md
      */
-    #[CLI\Command(name: self::CONFIG_EXPORTING, aliases: ['docs-config-exporting'])]
-    #[CLI\Help(hidden: true)]
-    #[CLI\Topics(path: '../../../docs/config-exporting.md')]
     public function configExport(): void
     {
         self::printFileTopic($this->commandData);
@@ -89,10 +81,13 @@ final class DocsCommands extends DrushCommands
 
     /**
      * Output formatters and filters: control the command output
+     *
+     * @command docs:output-formats-filters
+     * @aliases docs:output
+     * @aliases docs-output
+     * @hidden
+     * @topic  ../../../docs/output-formats-filters.md
      */
-    #[CLI\Command(name: self::OUTPUT_FORMATS_FILTERS, aliases: ['docs:output'])]
-    #[CLI\Help(hidden: true)]
-    #[CLI\Topics(path: '../../../docs/output-formats-filters.md')]
     public function outputFormatsFilters(): void
     {
         self::printFileTopic($this->commandData);
@@ -100,10 +95,12 @@ final class DocsCommands extends DrushCommands
 
     /**
      * Creating site aliases for running Drush on remote sites.
+     *
+     * @command docs:aliases
+     * @aliases docs-aliases
+     * @hidden
+     * @topic ../../../docs/site-aliases.md
      */
-    #[CLI\Command(name: self::ALIASES, aliases: ['docs-aliases'])]
-    #[CLI\Help(hidden: true)]
-    #[CLI\Topics(path: '../../../docs/site-aliases.md')]
     public function siteAliases(): void
     {
         self::printFileTopic($this->commandData);
@@ -111,10 +108,12 @@ final class DocsCommands extends DrushCommands
 
     /**
      * An example Drush script.
+     *
+     * @command docs:script
+     * @aliases docs-script
+     * @hidden
+     * @topic ../../../examples/helloworld.script
      */
-    #[CLI\Command(name: self::SCRIPT, aliases: ['docs-script'])]
-    #[CLI\Help(hidden: true)]
-    #[CLI\Topics(path: '../../../examples/helloworld.script')]
     public function script(): void
     {
         self::printFileTopic($this->commandData);
@@ -122,10 +121,12 @@ final class DocsCommands extends DrushCommands
 
     /**
      * Bootstrap explanation: how Drush starts up and prepares the Drupal environment.
+     *
+     * @command docs:bootstrap
+     * @aliases docs-bootstrap
+     * @hidden
+     * @topic ../../../docs/bootstrap.md
      */
-    #[CLI\Command(name: self::BOOTSTRAP, aliases: ['docs-bootstrap'])]
-    #[CLI\Help(hidden: true)]
-    #[CLI\Topics(path: '../../../docs/bootstrap.md')]
     public function bootstrap(): void
     {
         self::printFileTopic($this->commandData);
@@ -133,10 +134,12 @@ final class DocsCommands extends DrushCommands
 
     /**
      * Crontab instructions for running your Drupal cron tasks via `drush cron`.
+     *
+     * @command docs:cron
+     * @aliases docs-cron
+     * @hidden
+     * @topic ../../../docs/cron.md
      */
-    #[CLI\Command(name: self::CRON, aliases: ['docs-cron'])]
-    #[CLI\Help(hidden: true)]
-    #[CLI\Topics(path: '../../../docs/cron.md')]
     public function cron(): void
     {
         self::printFileTopic($this->commandData);
@@ -144,10 +147,12 @@ final class DocsCommands extends DrushCommands
 
     /**
      * Instructions on creating your own Drush commands.
+     *
+     * @command docs:commands
+     * @aliases docs-commands
+     * @hidden
+     * @topic ../../../docs/commands.md
      */
-    #[CLI\Command(name: self::COMMANDS, aliases: ['docs-commands'])]
-    #[CLI\Help(hidden: true)]
-    #[CLI\Topics(path: '../../../docs/commands.md')]
     public function commands(): void
     {
         self::printFileTopic($this->commandData);
@@ -155,10 +160,12 @@ final class DocsCommands extends DrushCommands
 
     /**
      * Instructions on creating your own Drush Generators.
+     *
+     * @command docs:generators
+     * @aliases docs-generators
+     * @hidden
+     * @topic ../../../docs/generators.md
      */
-    #[CLI\Command(name: self::GENERATORS, aliases: ['docs-generators'])]
-    #[CLI\Help(hidden: true)]
-    #[CLI\Topics(path: '../../../docs/generators.md')]
     public function generators(): void
     {
         self::printFileTopic($this->commandData);
@@ -166,10 +173,12 @@ final class DocsCommands extends DrushCommands
 
     /**
      * Example Drush command file.
+     *
+     * @command docs:examplecommand
+     * @aliases docs-examplecommand
+     * @hidden
+     * @topic ../../../examples/Commands/ArtCommands.php
      */
-    #[CLI\Command(name: self::EXAMPLECOMMAND, aliases: ['docs-examplecommand'])]
-    #[CLI\Help(hidden: true)]
-    #[CLI\Topics(path: '../../../examples/Commands/ArtCommands.php')]
     public function exampleCommand(): void
     {
         self::printFileTopic($this->commandData);
@@ -177,10 +186,11 @@ final class DocsCommands extends DrushCommands
 
     /**
      * Defining and running migrations.
+     *
+     * @command docs:migrate
+     * @hidden
+     * @topic ../../../docs/migrate.md
      */
-    #[CLI\Command(name: self::MIGRATE)]
-    #[CLI\Help(hidden: true)]
-    #[CLI\Topics(path: '../../../docs/migrate.md')]
     public function migrate(): void
     {
         self::printFileTopic($this->commandData);
@@ -188,10 +198,12 @@ final class DocsCommands extends DrushCommands
 
     /**
      * Extend sql-sync to allow transfer of the sql dump file via http.
+     *
+     * @command docs:example-sync-via-http
+     * @aliases docs-example-sync-via-http
+     * @hidden
+     * @topic ../../../examples/Commands/SyncViaHttpCommands.php
      */
-    #[CLI\Command(name: self::EXAMPLE_SYNC_VIA_HTTP, aliases: ['docs-example-sync-via-http'])]
-    #[CLI\Help(hidden: true)]
-    #[CLI\Topics(path: '../../../examples/Commands/SyncViaHttpCommands.php')]
     public function syncHttp(): void
     {
         self::printFileTopic($this->commandData);
@@ -199,10 +211,12 @@ final class DocsCommands extends DrushCommands
 
     /**
      * Example policy file.
+     *
+     * @command docs:policy
+     * @aliases docs-policy
+     * @hidden
+     * @topic ../../../examples/Commands/PolicyCommands.php
      */
-    #[CLI\Command(name: self::POLICY, aliases: ['docs-policy'])]
-    #[CLI\Help(hidden: true)]
-    #[CLI\Topics(path: '../../../examples/Commands/PolicyCommands.php')]
     public function policy(): void
     {
         self::printFileTopic($this->commandData);
@@ -210,10 +224,12 @@ final class DocsCommands extends DrushCommands
 
     /**
      * Deploy command for Drupal.
+     *
+     * @command docs:deploy
+     * @aliases docs-deploy
+     * @hidden
+     * @topic  ../../../docs/deploycommand.md
      */
-    #[CLI\Command(name: self::DEPLOY, aliases: ['docs-deploy'])]
-    #[CLI\Help(hidden: true)]
-    #[CLI\Topics(path: '../../../docs/deploycommand.md')]
     public function deploy(): void
     {
         self::printFileTopic($this->commandData);

@@ -22,7 +22,7 @@ class EntityOperationsTest extends GroupEntityOperationsTest {
   /**
    * {@inheritdoc}
    */
-  protected static $modules = [
+  public static $modules = [
     'flexible_permissions',
     'group',
     'group_test_config',
@@ -57,9 +57,14 @@ class EntityOperationsTest extends GroupEntityOperationsTest {
    *
    * Overriding the parent to provide an extra parameter to the data provider.
    *
-   * @param array $visible
+   * @parem array $visible
+   *   A list of visible link labels, keyed by path.
+   * @parem array $invisible
+   *   A list of invisible link labels, keyed by path.
+   *
+   * @param $visible
    *   The expected visible links.
-   * @param array $invisible
+   * @param $invisible
    *   The expected invisible links.
    * @param string[] $permissions
    *   A list of group permissions to assign to the user.
@@ -78,7 +83,7 @@ class EntityOperationsTest extends GroupEntityOperationsTest {
       $media_type->save();
       $this->entityTypeManager
         ->getStorage('group_relationship_type')
-        ->createFromPlugin($group_type, 'group_media:' . $media_type->id(), [
+        ->createFromPlugin( $group_type, 'group_media:' . $media_type->id(), [
           'group_cardinality' => 0,
           'entity_cardinality' => 1,
           'use_creation_wizard' => FALSE,
@@ -86,7 +91,7 @@ class EntityOperationsTest extends GroupEntityOperationsTest {
         ->save();
     }
 
-    $this->createGroup(['type' => $group_type->id()]);
+    $group = $this->createGroup(['type' => $group_type->id()]);
 
     if (!empty($permissions)) {
       $this->createGroupRole([

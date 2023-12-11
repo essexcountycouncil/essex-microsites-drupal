@@ -4,9 +4,9 @@ namespace Drupal\groupmedia\Plugin\Action;
 
 use Drupal\Core\Action\ConfigurableActionBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\groupmedia\AttachMediaToGroup;
 use Drupal\media\MediaInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -30,7 +30,7 @@ class AssignMediaToGroup extends ConfigurableActionBase implements ContainerFact
   protected $entityTypeManager;
 
   /**
-   * Attach media to group service.
+   * Attach media tp group service.
    *
    * @var \Drupal\groupmedia\AttachMediaToGroup
    */
@@ -48,12 +48,12 @@ class AssignMediaToGroup extends ConfigurableActionBase implements ContainerFact
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   Entity type manager.
    * @param \Drupal\groupmedia\AttachMediaToGroup $attach_media_to_group
-   *   Attach media to group service.
+   *   Attach media tp group service.
    */
   public function __construct(
     array $configuration,
-          $plugin_id,
-          $plugin_definition,
+    $plugin_id,
+    $plugin_definition,
     EntityTypeManagerInterface $entity_type_manager,
     AttachMediaToGroup $attach_media_to_group
   ) {

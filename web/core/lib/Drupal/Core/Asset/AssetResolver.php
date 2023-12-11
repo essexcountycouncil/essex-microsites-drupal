@@ -7,7 +7,6 @@ use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
-use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Theme\ThemeManagerInterface;
 
 /**
@@ -101,18 +100,8 @@ class AssetResolver implements AssetResolverInterface {
    *   loaded, excluding any libraries that have already been loaded.
    */
   protected function getLibrariesToLoad(AttachedAssetsInterface $assets) {
-    // The order of libraries passed in via assets can differ, so to reduce
-    // variation, first normalize the requested libraries to the minimal
-    // representative set before then expanding the list to include all
-    // dependencies.
-    // @see Drupal\FunctionalTests\Core\Asset\AssetOptimizationTestUmami
-    // @todo: https://www.drupal.org/project/drupal/issues/1945262
-    $libraries = $assets->getLibraries();
-    if ($libraries) {
-      $libraries = $this->libraryDependencyResolver->getMinimalRepresentativeSubset($libraries);
-    }
     return array_diff(
-      $this->libraryDependencyResolver->getLibrariesWithDependencies($libraries),
+      $this->libraryDependencyResolver->getLibrariesWithDependencies($assets->getLibraries()),
       $this->libraryDependencyResolver->getLibrariesWithDependencies($assets->getAlreadyLoadedLibraries())
     );
   }
@@ -120,15 +109,12 @@ class AssetResolver implements AssetResolverInterface {
   /**
    * {@inheritdoc}
    */
-  public function getCssAssets(AttachedAssetsInterface $assets, $optimize, LanguageInterface $language = NULL) {
-    if (!isset($language)) {
-      $language = $this->languageManager->getCurrentLanguage();
-    }
+  public function getCssAssets(AttachedAssetsInterface $assets, $optimize) {
     $theme_info = $this->themeManager->getActiveTheme();
     // Add the theme name to the cache key since themes may implement
     // hook_library_info_alter().
     $libraries_to_load = $this->getLibrariesToLoad($assets);
-    $cid = 'css:' . $theme_info->getName() . ':' . $language->getId() . Crypt::hashBase64(serialize($libraries_to_load)) . (int) $optimize;
+    $cid = 'css:' . $theme_info->getName() . ':' . Crypt::hashBase64(serialize($libraries_to_load)) . (int) $optimize;
     if ($cached = $this->cache->get($cid)) {
       return $cached->data;
     }
@@ -140,6 +126,7 @@ class AssetResolver implements AssetResolverInterface {
       'weight' => 0,
       'media' => 'all',
       'preprocess' => TRUE,
+      'browsers' => [],
     ];
 
     foreach ($libraries_to_load as $library) {
@@ -148,11 +135,13 @@ class AssetResolver implements AssetResolverInterface {
       if (isset($definition['css'])) {
         foreach ($definition['css'] as $options) {
           $options += $default_options;
-          // Copy the asset library license information to each file.
-          $options['license'] = $definition['license'];
+          $options['browsers'] += [
+            'IE' => TRUE,
+            '!IE' => TRUE,
+          ];
 
           // Files with a query string cannot be preprocessed.
-          if ($options['type'] === 'file' && $options['preprocess'] && str_contains($options['data'], '?')) {
+          if ($options['type'] === 'file' && $options['preprocess'] && strpos($options['data'], '?') !== FALSE) {
             $options['preprocess'] = FALSE;
           }
 
@@ -167,16 +156,24 @@ class AssetResolver implements AssetResolverInterface {
     }
 
     // Allow modules and themes to alter the CSS assets.
-    $this->moduleHandler->alter('css', $css, $assets, $language);
-    $this->themeManager->alter('css', $css, $assets, $language);
+    $this->moduleHandler->alter('css', $css, $assets);
+    $this->themeManager->alter('css', $css, $assets);
 
-    if (!empty($css)) {
-      // Sort CSS items, so that they appear in the correct order.
-      uasort($css, [static::class, 'sort']);
+    // Sort CSS items, so that they appear in the correct order.
+    uasort($css, 'static::sort');
 
-      if ($optimize) {
-        $css = \Drupal::service('asset.css.collection_optimizer')->optimize($css, $libraries_to_load, $language);
+    // Allow themes to remove CSS files by CSS files full path and file name.
+    // @todo Remove in Drupal 9.0.x.
+    if ($stylesheet_remove = $theme_info->getStyleSheetsRemove()) {
+      foreach ($css as $key => $options) {
+        if (isset($stylesheet_remove[$key])) {
+          unset($css[$key]);
+        }
       }
+    }
+
+    if ($optimize) {
+      $css = \Drupal::service('asset.css.collection_optimizer')->optimize($css);
     }
     $this->cache->set($cid, $css, CacheBackendInterface::CACHE_PERMANENT, ['library_info']);
 
@@ -212,16 +209,13 @@ class AssetResolver implements AssetResolverInterface {
   /**
    * {@inheritdoc}
    */
-  public function getJsAssets(AttachedAssetsInterface $assets, $optimize, LanguageInterface $language = NULL) {
-    if (!isset($language)) {
-      $language = $this->languageManager->getCurrentLanguage();
-    }
+  public function getJsAssets(AttachedAssetsInterface $assets, $optimize) {
     $theme_info = $this->themeManager->getActiveTheme();
     // Add the theme name to the cache key since themes may implement
     // hook_library_info_alter(). Additionally add the current language to
     // support translation of JavaScript files via hook_js_alter().
     $libraries_to_load = $this->getLibrariesToLoad($assets);
-    $cid = 'js:' . $theme_info->getName() . ':' . $language->getId() . ':' . Crypt::hashBase64(serialize($libraries_to_load)) . (int) (count($assets->getSettings()) > 0) . (int) $optimize;
+    $cid = 'js:' . $theme_info->getName() . ':' . $this->languageManager->getCurrentLanguage()->getId() . ':' . Crypt::hashBase64(serialize($libraries_to_load)) . (int) (count($assets->getSettings()) > 0) . (int) $optimize;
 
     if ($cached = $this->cache->get($cid)) {
       [$js_assets_header, $js_assets_footer, $settings, $settings_in_header] = $cached->data;
@@ -236,6 +230,7 @@ class AssetResolver implements AssetResolverInterface {
         'preprocess' => TRUE,
         'attributes' => [],
         'version' => NULL,
+        'browsers' => [],
       ];
 
       // Collect all libraries that contain JS assets and are in the header.
@@ -258,8 +253,6 @@ class AssetResolver implements AssetResolverInterface {
         if (isset($definition['js'])) {
           foreach ($definition['js'] as $options) {
             $options += $default_options;
-            // Copy the asset library license information to each file.
-            $options['license'] = $definition['license'];
 
             // 'scope' is a calculated option, based on which libraries are
             // marked to be loaded from the header (see above).
@@ -281,11 +274,11 @@ class AssetResolver implements AssetResolverInterface {
       }
 
       // Allow modules and themes to alter the JavaScript assets.
-      $this->moduleHandler->alter('js', $javascript, $assets, $language);
-      $this->themeManager->alter('js', $javascript, $assets, $language);
+      $this->moduleHandler->alter('js', $javascript, $assets);
+      $this->themeManager->alter('js', $javascript, $assets);
 
       // Sort JavaScript assets, so that they appear in the correct order.
-      uasort($javascript, [static::class, 'sort']);
+      uasort($javascript, 'static::sort');
 
       // Prepare the return value: filter JavaScript assets per scope.
       $js_assets_header = [];
@@ -301,8 +294,8 @@ class AssetResolver implements AssetResolverInterface {
 
       if ($optimize) {
         $collection_optimizer = \Drupal::service('asset.js.collection_optimizer');
-        $js_assets_header = $collection_optimizer->optimize($js_assets_header, $libraries_to_load);
-        $js_assets_footer = $collection_optimizer->optimize($js_assets_footer, $libraries_to_load);
+        $js_assets_header = $collection_optimizer->optimize($js_assets_header);
+        $js_assets_footer = $collection_optimizer->optimize($js_assets_footer);
       }
 
       // If the core/drupalSettings library is being loaded or is already
@@ -341,6 +334,7 @@ class AssetResolver implements AssetResolverInterface {
         'type' => 'setting',
         'group' => JS_SETTING,
         'weight' => 0,
+        'browsers' => [],
         'data' => $settings,
       ];
       $settings_js_asset = ['drupalSettings' => $settings_as_inline_javascript];

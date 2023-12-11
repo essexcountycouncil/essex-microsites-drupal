@@ -59,7 +59,7 @@ class ThemeTestSubscriber implements EventSubscriberInterface {
       // First, force the theme registry to be rebuilt on this page request.
       // This allows us to test a full initialization of the theme system in
       // the code below.
-      \Drupal::service('theme.registry')->reset();
+      drupal_theme_rebuild();
       // Next, initialize the theme system by storing themed text in a global
       // variable. We will use this later in
       // theme_test_request_listener_page_callback() to test that even when the
@@ -93,7 +93,7 @@ class ThemeTestSubscriber implements EventSubscriberInterface {
   /**
    * {@inheritdoc}
    */
-  public static function getSubscribedEvents(): array {
+  public static function getSubscribedEvents() {
     $events[KernelEvents::REQUEST][] = ['onRequest'];
     $events[KernelEvents::VIEW][] = ['onView', -1000];
     return $events;

@@ -33,8 +33,6 @@ class CheckDefinitionValidityPass implements CompilerPassInterface
     /**
      * Processes the ContainerBuilder to validate the Definition.
      *
-     * @return void
-     *
      * @throws RuntimeException When the Definition is invalid
      */
     public function process(ContainerBuilder $container)
@@ -46,7 +44,7 @@ class CheckDefinitionValidityPass implements CompilerPassInterface
             }
 
             // non-synthetic, non-abstract service has class
-            if (!$definition->isAbstract() && !$definition->isSynthetic() && !$definition->getClass() && !$definition->hasTag('container.service_locator') && (!$definition->getFactory() || !preg_match(FileLoader::ANONYMOUS_ID_REGEXP, $id))) {
+            if (!$definition->isAbstract() && !$definition->isSynthetic() && !$definition->getClass() && (!$definition->getFactory() || !preg_match(FileLoader::ANONYMOUS_ID_REGEXP, $id))) {
                 if ($definition->getFactory()) {
                     throw new RuntimeException(sprintf('Please add the class to service "%s" even if it is constructed by a factory since we might need to add method calls based on compile-time checks.', $id));
                 }
@@ -64,7 +62,11 @@ class CheckDefinitionValidityPass implements CompilerPassInterface
             // tag attribute values must be scalars
             foreach ($definition->getTags() as $name => $tags) {
                 foreach ($tags as $attributes) {
-                    $this->validateAttributes($id, $name, $attributes);
+                    foreach ($attributes as $attribute => $value) {
+                        if (!\is_scalar($value) && null !== $value) {
+                            throw new RuntimeException(sprintf('A "tags" attribute must be of a scalar-type for service "%s", tag "%s", attribute "%s".', $id, $name, $attribute));
+                        }
+                    }
                 }
             }
 
@@ -82,18 +84,6 @@ class CheckDefinitionValidityPass implements CompilerPassInterface
                 if (null !== $usedEnvs) {
                     throw new EnvParameterException([$resolvedId], null, 'An alias name ("%s") cannot contain dynamic values.');
                 }
-            }
-        }
-    }
-
-    private function validateAttributes(string $id, string $tag, array $attributes, array $path = []): void
-    {
-        foreach ($attributes as $name => $value) {
-            if (\is_array($value)) {
-                $this->validateAttributes($id, $tag, $value, [...$path, $name]);
-            } elseif (!\is_scalar($value) && null !== $value) {
-                $name = implode('.', [...$path, $name]);
-                throw new RuntimeException(sprintf('A "tags" attribute must be of a scalar-type for service "%s", tag "%s", attribute "%s".', $id, $tag, $name));
             }
         }
     }

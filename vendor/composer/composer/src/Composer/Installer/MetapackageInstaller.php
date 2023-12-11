@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -37,7 +37,7 @@ class MetapackageInstaller implements InstallerInterface
     /**
      * @inheritDoc
      */
-    public function supports(string $packageType)
+    public function supports($packageType)
     {
         return $packageType === 'metapackage';
     }
@@ -53,28 +53,28 @@ class MetapackageInstaller implements InstallerInterface
     /**
      * @inheritDoc
      */
-    public function download(PackageInterface $package, ?PackageInterface $prevPackage = null)
+    public function download(PackageInterface $package, PackageInterface $prevPackage = null)
     {
         // noop
-        return \React\Promise\resolve(null);
+        return \React\Promise\resolve();
     }
 
     /**
      * @inheritDoc
      */
-    public function prepare($type, PackageInterface $package, ?PackageInterface $prevPackage = null)
+    public function prepare($type, PackageInterface $package, PackageInterface $prevPackage = null)
     {
         // noop
-        return \React\Promise\resolve(null);
+        return \React\Promise\resolve();
     }
 
     /**
      * @inheritDoc
      */
-    public function cleanup($type, PackageInterface $package, ?PackageInterface $prevPackage = null)
+    public function cleanup($type, PackageInterface $package, PackageInterface $prevPackage = null)
     {
         // noop
-        return \React\Promise\resolve(null);
+        return \React\Promise\resolve();
     }
 
     /**
@@ -86,7 +86,7 @@ class MetapackageInstaller implements InstallerInterface
 
         $repo->addPackage(clone $package);
 
-        return \React\Promise\resolve(null);
+        return \React\Promise\resolve();
     }
 
     /**
@@ -103,7 +103,7 @@ class MetapackageInstaller implements InstallerInterface
         $repo->removePackage($initial);
         $repo->addPackage(clone $target);
 
-        return \React\Promise\resolve(null);
+        return \React\Promise\resolve();
     }
 
     /**
@@ -119,16 +119,14 @@ class MetapackageInstaller implements InstallerInterface
 
         $repo->removePackage($package);
 
-        return \React\Promise\resolve(null);
+        return \React\Promise\resolve();
     }
 
     /**
      * @inheritDoc
-     *
-     * @return null
      */
     public function getInstallPath(PackageInterface $package)
     {
-        return null;
+        return '';
     }
 }

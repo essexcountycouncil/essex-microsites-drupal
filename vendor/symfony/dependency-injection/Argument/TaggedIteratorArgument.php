@@ -18,13 +18,11 @@ namespace Symfony\Component\DependencyInjection\Argument;
  */
 class TaggedIteratorArgument extends IteratorArgument
 {
-    private string $tag;
-    private mixed $indexAttribute;
-    private ?string $defaultIndexMethod;
-    private ?string $defaultPriorityMethod;
-    private bool $needsIndexes;
-    private array $exclude;
-    private bool $excludeSelf = true;
+    private $tag;
+    private $indexAttribute;
+    private $defaultIndexMethod;
+    private $defaultPriorityMethod;
+    private $needsIndexes = false;
 
     /**
      * @param string      $tag                   The name of the tag identifying the target services
@@ -32,10 +30,8 @@ class TaggedIteratorArgument extends IteratorArgument
      * @param string|null $defaultIndexMethod    The static method that should be called to get each service's key when their tag doesn't define the previous attribute
      * @param bool        $needsIndexes          Whether indexes are required and should be generated when computing the map
      * @param string|null $defaultPriorityMethod The static method that should be called to get each service's priority when their tag doesn't define the "priority" attribute
-     * @param array       $exclude               Services to exclude from the iterator
-     * @param bool        $excludeSelf           Whether to automatically exclude the referencing service from the iterator
      */
-    public function __construct(string $tag, string $indexAttribute = null, string $defaultIndexMethod = null, bool $needsIndexes = false, string $defaultPriorityMethod = null, array $exclude = [], bool $excludeSelf = true)
+    public function __construct(string $tag, string $indexAttribute = null, string $defaultIndexMethod = null, bool $needsIndexes = false, string $defaultPriorityMethod = null)
     {
         parent::__construct([]);
 
@@ -48,13 +44,8 @@ class TaggedIteratorArgument extends IteratorArgument
         $this->defaultIndexMethod = $defaultIndexMethod ?: ($indexAttribute ? 'getDefault'.str_replace(' ', '', ucwords(preg_replace('/[^a-zA-Z0-9\x7f-\xff]++/', ' ', $indexAttribute))).'Name' : null);
         $this->needsIndexes = $needsIndexes;
         $this->defaultPriorityMethod = $defaultPriorityMethod ?: ($indexAttribute ? 'getDefault'.str_replace(' ', '', ucwords(preg_replace('/[^a-zA-Z0-9\x7f-\xff]++/', ' ', $indexAttribute))).'Priority' : null);
-        $this->exclude = $exclude;
-        $this->excludeSelf = $excludeSelf;
     }
 
-    /**
-     * @return string
-     */
     public function getTag()
     {
         return $this->tag;
@@ -78,15 +69,5 @@ class TaggedIteratorArgument extends IteratorArgument
     public function getDefaultPriorityMethod(): ?string
     {
         return $this->defaultPriorityMethod;
-    }
-
-    public function getExclude(): array
-    {
-        return $this->exclude;
-    }
-
-    public function excludeSelf(): bool
-    {
-        return $this->excludeSelf;
     }
 }

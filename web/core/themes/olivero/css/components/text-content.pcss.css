@@ -3,11 +3,11 @@
  * Text Content.
  */
 
-@import "../base/media-queries.pcss.css";
+@import "../base/variables.pcss.css";
 
 .text-content,
 .cke_editable {
-  color: var(--color-text-neutral-medium);
+  color: var(--color--gray-10);
   font-family: var(--font-serif);
   line-height: var(--sp1-5);
 
@@ -20,22 +20,24 @@
     text-decoration-color supported by Chrome, FF, & Safari
   */
 
-  & a:where(:not(.button)) {
-    color: var(--color-text-primary-medium);
-    text-decoration-color: currentColor;
+  & a:not(.button) {
+    color: var(--color--blue-20);
+    text-decoration-color: var(--color--blue-20);
     text-decoration-thickness: 2px;
     overflow-wrap: break-word;
 
     @supports (box-shadow: none) {
       transition: box-shadow 0.3s cubic-bezier(0.55, 0.085, 0, 0.99);
       text-decoration: none;
-      box-shadow: inset 0 -2px 0 0 var(--color--primary-50);
+      box-shadow: inset 0 -2px 0 0 var(--color--blue-50);
 
       &:hover {
         text-decoration: underline;
         color: var(--color--black);
-        box-shadow: inset 0 -2em 0 0 var(--color--primary-80);
-        text-decoration-color: var(--color--primary-80);
+
+        /* @todo - #d9ecfa isn't currently a variable. */
+        box-shadow: inset 0 -2em 0 0 #d9ecfa;
+        text-decoration-color: #d9ecfa;
       }
     }
   }
@@ -59,7 +61,7 @@
   }
 
   & code {
-    background-color: var(--color--gray-100);
+    background-color: var(--color--gray-95);
   }
 
   & pre code {
@@ -68,7 +70,7 @@
     padding-block: var(--sp);
     padding-inline-start: var(--sp);
     padding-inline-end: var(--sp);
-    color: var(--color-text-neutral-soft);
+    color: var(--color--gray-20);
   }
 
   & blockquote {
@@ -82,16 +84,16 @@
     font-size: 21px;
     line-height: var(--sp2);
 
-    &::before {
+    &:before {
       position: absolute;
       inset-block-start: 0;
       inset-inline-start: 0;
       content: "\201C";
-      color: var(--color--primary-60);
+      color: var(--color--blue-70);
       font-size: 54px;
     }
 
-    &::after {
+    &:after {
       position: absolute;
       inset-block-end: 0;
       inset-inline-start: 0;
@@ -99,7 +101,7 @@
       height: calc(100% - 30px);
       margin-inline-start: 4px;
       content: "";
-      background: var(--color--gray-100);
+      background: var(--color--gray-95);
     }
 
     @media (--grid-md) {

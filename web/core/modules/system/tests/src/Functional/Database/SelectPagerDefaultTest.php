@@ -151,6 +151,9 @@ class SelectPagerDefaultTest extends DatabaseTestBase {
       ->orderBy('age')
       ->limit(1);
     $this->assertSame(2, $query->getElement());
+    // BC for PagerSelectExtender::$maxElement.
+    // @todo remove the assertion below in D10.
+    $this->assertSame(2, PagerSelectExtender::$maxElement);
     $name = $query->execute()
       ->fetchField();
     $this->assertEquals('Paul', $name, 'Pager query #1 with a specified element ID returned the correct results.');
@@ -164,6 +167,9 @@ class SelectPagerDefaultTest extends DatabaseTestBase {
       ->orderBy('age')
       ->limit(1);
     $this->assertSame(1, $query->getElement());
+    // BC for PagerSelectExtender::$maxElement.
+    // @todo remove the assertion below in D10.
+    $this->assertSame(2, PagerSelectExtender::$maxElement);
     $name = $query->execute()
       ->fetchField();
     $this->assertEquals('George', $name, 'Pager query #2 with a specified element ID returned the correct results.');
@@ -174,6 +180,9 @@ class SelectPagerDefaultTest extends DatabaseTestBase {
       ->orderBy('age')
       ->limit(1);
     $this->assertSame(3, $query->getElement());
+    // BC for PagerSelectExtender::$maxElement.
+    // @todo remove the assertion below in D10.
+    $this->assertSame(3, PagerSelectExtender::$maxElement);
     $name = $query->execute()
       ->fetchField();
     $this->assertEquals('John', $name, 'Pager query #3 with a generated element ID returned the correct results.');

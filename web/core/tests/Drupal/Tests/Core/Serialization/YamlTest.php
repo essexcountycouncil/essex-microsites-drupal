@@ -24,8 +24,8 @@ class YamlTest extends UnitTestCase {
 
     $this->assertEquals(YamlParserProxy::class, Settings::get('yaml_parser_class'));
 
-    $mock = $this->getMockBuilder(YamlTestMockInterface::class)
-      ->onlyMethods(['decode'])
+    $mock = $this->getMockBuilder('\stdClass')
+      ->addMethods(['encode', 'decode', 'getFileExtension'])
       ->getMock();
     $mock
       ->expects($this->once())
@@ -60,17 +60,5 @@ class YamlParserProxy implements SerializationInterface {
   public static function getFileExtension() {
     return static::$mock->getFileExtension();
   }
-
-}
-
-/**
- * Interface used in the mocking process of this test.
- */
-interface YamlTestMockInterface {
-
-  /**
-   * Function used in the mocking process of this test.
-   */
-  public function decode();
 
 }

@@ -4,7 +4,6 @@ namespace Drupal\Tests\Core\DependencyInjection\Compiler;
 
 use Drupal\Core\DependencyInjection\Compiler\StackedKernelPass;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
-use Drupal\Core\StackMiddleware\StackedHttpKernel;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\Definition;
 
@@ -30,8 +29,6 @@ class StackedKernelPassTest extends UnitTestCase {
    * {@inheritdoc}
    */
   protected function setUp(): void {
-    parent::setUp();
-
     $this->stackedKernelPass = new StackedKernelPass();
     $this->containerBuilder = new ContainerBuilder();
   }
@@ -40,7 +37,7 @@ class StackedKernelPassTest extends UnitTestCase {
    * @covers ::process
    */
   public function testProcessWithStackedKernel() {
-    $stacked_kernel = new Definition(StackedHttpKernel::class);
+    $stacked_kernel = new Definition('Stack\StackedHttpKernel');
     $stacked_kernel->setPublic(TRUE);
     $this->containerBuilder->setDefinition('http_kernel', $stacked_kernel);
     $this->containerBuilder->setDefinition('http_kernel.basic', $this->createMiddlewareServiceDefinition(FALSE, 0));

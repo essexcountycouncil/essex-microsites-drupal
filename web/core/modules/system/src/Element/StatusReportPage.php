@@ -59,9 +59,7 @@ class StatusReportPage extends RenderElement {
         case 'php_memory_limit':
           $element['#general_info']['#' . $key] = $requirement;
           if (isset($requirement['severity']) && $requirement['severity'] < REQUIREMENT_WARNING) {
-            if (empty($requirement['severity']) || $requirement['severity'] == REQUIREMENT_OK) {
-              unset($element['#requirements'][$key]);
-            }
+            unset($element['#requirements'][$key]);
           }
           break;
       }

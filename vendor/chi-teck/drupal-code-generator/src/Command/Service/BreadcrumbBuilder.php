@@ -1,32 +1,28 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace DrupalCodeGenerator\Command\Service;
 
 use DrupalCodeGenerator\Application;
-use DrupalCodeGenerator\Asset\AssetCollection as Assets;
-use DrupalCodeGenerator\Attribute\Generator;
-use DrupalCodeGenerator\Command\BaseGenerator;
-use DrupalCodeGenerator\GeneratorType;
+use DrupalCodeGenerator\Command\ModuleGenerator;
 
-#[Generator(
-  name: 'service:breadcrumb-builder',
-  description: 'Generates a breadcrumb builder service',
-  aliases: ['breadcrumb-builder'],
-  templatePath: Application::TEMPLATE_PATH . '/Service/_breadcrumb-builder',
-  type: GeneratorType::MODULE_COMPONENT,
-)]
-final class BreadcrumbBuilder extends BaseGenerator {
+/**
+ * Implements service:breadcrumb-builder command.
+ */
+final class BreadcrumbBuilder extends ModuleGenerator {
+
+  protected string $name = 'service:breadcrumb-builder';
+  protected string $description = 'Generates a breadcrumb builder service';
+  protected string $alias = 'breadcrumb-builder';
+  protected string $templatePath = Application::TEMPLATE_PATH . '/service/breadcrumb-builder';
 
   /**
    * {@inheritdoc}
    */
-  protected function generate(array &$vars, Assets $assets): void {
-    $ir = $this->createInterviewer($vars);
-    $vars['machine_name'] = $ir->askMachineName();
-    $vars['class'] = $ir->askClass(default: '{machine_name|camelize}BreadcrumbBuilder');
-    $vars['services'] = $ir->askServices();
-    $assets->addFile('src/{class}.php', 'breadcrumb-builder.twig');
-    $assets->addServicesFile()->template('services.twig');
+  protected function generate(array &$vars): void {
+    $this->collectDefault($vars);
+    $vars['class'] = $this->ask('Class', '{machine_name|camelize}BreadcrumbBuilder');
+    $this->addFile('src/{class}.php', 'breadcrumb-builder');
+    $this->addServicesFile()->template('services');
   }
 
 }

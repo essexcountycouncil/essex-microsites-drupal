@@ -12,7 +12,6 @@ use Drupal\field\FieldConfigInterface;
 use Drupal\localgov_directories\Constants as Directory;
 use Drupal\search_api\IndexInterface as SearchIndexInterface;
 use Drupal\search_api\Item\Field as SearchIndexField;
-use Drupal\search_api\SearchApiException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -72,12 +71,8 @@ class ProximitySearchSetup implements ContainerInjectionInterface {
       return FALSE;
     }
 
-    try {
-      $index_datasrc = $index->getDatasource('entity:node');
-    }
-    catch (SearchApiException $e) {
-      // Index::getDatasource() throws an exception if the datasource doesn't
-      // exist yet.
+    $index_datasrc = $index->getDatasource('entity:node');
+    if (empty($index_datasrc)) {
       return FALSE;
     }
 

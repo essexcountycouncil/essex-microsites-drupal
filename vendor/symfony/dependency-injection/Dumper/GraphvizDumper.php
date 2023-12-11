@@ -30,10 +30,10 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class GraphvizDumper extends Dumper
 {
-    private array $nodes;
-    private array $edges;
+    private $nodes;
+    private $edges;
     // All values should be strings
-    private array $options = [
+    private $options = [
             'graph' => ['ratio' => 'compress'],
             'node' => ['fontsize' => '11', 'fontname' => 'Arial', 'shape' => 'record'],
             'edge' => ['fontsize' => '9', 'fontname' => 'Arial', 'color' => 'grey', 'arrowhead' => 'open', 'arrowsize' => '0.5'],
@@ -53,8 +53,10 @@ class GraphvizDumper extends Dumper
      *  * node.instance: The default options for services that are defined directly by object instances
      *  * node.definition: The default options for services that are defined via service definition instances
      *  * node.missing: The default options for missing services
+     *
+     * @return string The dot representation of the service container
      */
-    public function dump(array $options = []): string
+    public function dump(array $options = [])
     {
         foreach (['graph', 'node', 'edge', 'node.instance', 'node.definition', 'node.missing'] as $key) {
             if (isset($options[$key])) {
@@ -128,22 +130,23 @@ class GraphvizDumper extends Dumper
                     $lazyEdge = $lazy || $this->container->getDefinition((string) $argument)->isLazy();
                 }
 
-                $edges[] = [['name' => $name, 'required' => $required, 'to' => $argument, 'lazy' => $lazyEdge]];
+                $edges[] = ['name' => $name, 'required' => $required, 'to' => $argument, 'lazy' => $lazyEdge];
             } elseif ($argument instanceof ArgumentInterface) {
-                $edges[] = $this->findEdges($id, $argument->getValues(), $required, $name, true);
+                $edges = array_merge($edges, $this->findEdges($id, $argument->getValues(), $required, $name, true));
             } elseif ($argument instanceof Definition) {
-                $edges[] = $this->findEdges($id, $argument->getArguments(), $required, '');
-                $edges[] = $this->findEdges($id, $argument->getProperties(), false, '');
-
+                $edges = array_merge($edges,
+                    $this->findEdges($id, $argument->getArguments(), $required, ''),
+                    $this->findEdges($id, $argument->getProperties(), false, '')
+                );
                 foreach ($argument->getMethodCalls() as $call) {
-                    $edges[] = $this->findEdges($id, $call[1], false, $call[0].'()');
+                    $edges = array_merge($edges, $this->findEdges($id, $call[1], false, $call[0].'()'));
                 }
             } elseif (\is_array($argument)) {
-                $edges[] = $this->findEdges($id, $argument, $required, $name, $lazy);
+                $edges = array_merge($edges, $this->findEdges($id, $argument, $required, $name, $lazy));
             }
         }
 
-        return array_merge([], ...$edges);
+        return $edges;
     }
 
     private function findNodes(): array
@@ -155,13 +158,13 @@ class GraphvizDumper extends Dumper
         foreach ($container->getDefinitions() as $id => $definition) {
             $class = $definition->getClass();
 
-            if (str_starts_with($class, '\\')) {
+            if ('\\' === substr($class, 0, 1)) {
                 $class = substr($class, 1);
             }
 
             try {
                 $class = $this->container->getParameterBag()->resolveValue($class);
-            } catch (ParameterNotFoundException) {
+            } catch (ParameterNotFoundException $e) {
             }
 
             $nodes[$id] = ['class' => str_replace('\\', '\\\\', $class), 'attributes' => array_merge($this->options['node.definition'], ['style' => $definition->isShared() ? 'filled' : 'dotted'])];
@@ -174,7 +177,7 @@ class GraphvizDumper extends Dumper
             }
 
             if (!$container->hasDefinition($id)) {
-                $nodes[$id] = ['class' => str_replace('\\', '\\\\', $container->get($id)::class), 'attributes' => $this->options['node.instance']];
+                $nodes[$id] = ['class' => str_replace('\\', '\\\\', \get_class($container->get($id))), 'attributes' => $this->options['node.instance']];
             }
         }
 

@@ -50,11 +50,6 @@ class EntityReference extends DisplayPluginBase {
   protected $connection;
 
   /**
-   * The id field alias.
-   */
-  public string $id_field_alias;
-
-  /**
    * Constructs a new EntityReference object.
    *
    * @param array $configuration

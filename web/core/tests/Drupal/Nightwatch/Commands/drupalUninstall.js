@@ -1,5 +1,5 @@
-const { execSync } = require('child_process');
-const { commandAsWebserver } = require('../globals');
+import { execSync } from 'child_process';
+import { commandAsWebserver } from '../globals';
 
 /**
  * Uninstalls a test Drupal site.

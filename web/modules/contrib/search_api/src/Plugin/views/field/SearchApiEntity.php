@@ -203,7 +203,7 @@ class SearchApiEntity extends SearchApiStandard {
   /**
    * {@inheritdoc}
    */
-  public function query($use_groupby = FALSE) {
+  public function query() {
     $this->addRetrievedProperty($this->getCombinedPropertyPath());
   }
 

@@ -13,7 +13,6 @@ use Drupal\node\Entity\NodeType;
  * Tests EditorImageDialog validation and conversion functionality.
  *
  * @group editor
- * @group legacy
  */
 class EditorImageDialogTest extends EntityKernelTestBase {
 

@@ -50,7 +50,7 @@ class DbCommandBaseTest extends KernelTestBase {
   }
 
   /**
-   * Tests supplying database connection as a URL.
+   * Tests supplying database connection as a url.
    */
   public function testSpecifyDbUrl() {
     $command = new DbCommandBaseTester();
@@ -82,15 +82,15 @@ class DbCommandBaseTest extends KernelTestBase {
       '--database' => 'magic_db',
       '--prefix' => 'extra',
     ]);
-    $this->assertEquals('extra', $command->getDatabaseConnection($command_tester->getInput())->getPrefix());
+    $this->assertEquals('extra', $command->getDatabaseConnection($command_tester->getInput())->tablePrefix());
 
     $command_tester->execute([
       '-db-url' => Database::getConnectionInfoAsUrl(),
       '--prefix' => 'extra2',
     ]);
-    $this->assertEquals('extra2', $command->getDatabaseConnection($command_tester->getInput())->getPrefix());
+    $this->assertEquals('extra2', $command->getDatabaseConnection($command_tester->getInput())->tablePrefix());
 
-    // This breaks test cleanup.
+    // This breaks simpletest cleanup.
     // @code
     //    $command_tester->execute([
     //      '--prefix' => 'notsimpletest',
@@ -124,7 +124,7 @@ class DbCommandBaseTester extends DbCommandBase {
   /**
    * {@inheritdoc}
    */
-  protected function execute(InputInterface $input, OutputInterface $output): int {
+  protected function execute(InputInterface $input, OutputInterface $output) {
     // Empty implementation for testing.
     return 0;
   }

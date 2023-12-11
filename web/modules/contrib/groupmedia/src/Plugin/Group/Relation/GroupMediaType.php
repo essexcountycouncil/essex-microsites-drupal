@@ -5,7 +5,7 @@ namespace Drupal\groupmedia\Plugin\Group\Relation;
 use Drupal\group\Plugin\Group\Relation\GroupRelationBase;
 
 /**
- * Provides a relation type plugin for media types.
+ * Provides a relation enabler for media types.
  *
  * @GroupRelationType(
  *   id = "group_media_type",

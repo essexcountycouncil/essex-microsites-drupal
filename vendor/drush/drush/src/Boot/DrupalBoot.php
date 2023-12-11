@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drush\Boot;
 
 use Drush\Drush;
@@ -45,7 +43,7 @@ abstract class DrupalBoot extends BaseBoot
         return false;
     }
 
-    public function validRoot(?string $path): bool
+    public function validRoot($path)
     {
     }
 
@@ -53,7 +51,7 @@ abstract class DrupalBoot extends BaseBoot
     {
     }
 
-    public function confPath(bool $require_settings = true, bool $reset = false): ?string
+    public function confPath($require_settings = true, $reset = false)
     {
     }
 
@@ -74,26 +72,25 @@ abstract class DrupalBoot extends BaseBoot
      */
     public function bootstrapPhases(): array
     {
-        return [
-            DrupalBootLevels::NONE            => 'NoLongerUsed',
-            DrupalBootLevels::ROOT            => 'bootstrapDrupalRoot',
-            DrupalBootLevels::SITE            => 'bootstrapDrupalSite',
-            DrupalBootLevels::CONFIGURATION   => 'bootstrapDrupalConfiguration',
-            DrupalBootLevels::DATABASE        => 'bootstrapDrupalDatabase',
-            DrupalBootLevels::FULL            => 'bootstrapDrupalFull',
+        return parent::bootstrapPhases() + [
+            DRUSH_BOOTSTRAP_DRUPAL_ROOT            => 'bootstrapDrupalRoot',
+            DRUSH_BOOTSTRAP_DRUPAL_SITE            => 'bootstrapDrupalSite',
+            DRUSH_BOOTSTRAP_DRUPAL_CONFIGURATION   => 'bootstrapDrupalConfiguration',
+            DRUSH_BOOTSTRAP_DRUPAL_DATABASE        => 'bootstrapDrupalDatabase',
+            DRUSH_BOOTSTRAP_DRUPAL_FULL            => 'bootstrapDrupalFull',
         ];
     }
 
     public function bootstrapPhaseMap(): array
     {
         return parent::bootstrapPhaseMap() + [
-            'root' => DrupalBootLevels::ROOT,
-            'site' => DrupalBootLevels::SITE,
-            'config' => DrupalBootLevels::CONFIGURATION,
-            'configuration' => DrupalBootLevels::CONFIGURATION,
-            'db' => DrupalBootLevels::DATABASE,
-            'database' => DrupalBootLevels::DATABASE,
-            'full' => DrupalBootLevels::FULL,
+            'root' => DRUSH_BOOTSTRAP_DRUPAL_ROOT,
+            'site' => DRUSH_BOOTSTRAP_DRUPAL_SITE,
+            'config' => DRUSH_BOOTSTRAP_DRUPAL_CONFIGURATION,
+            'configuration' => DRUSH_BOOTSTRAP_DRUPAL_CONFIGURATION,
+            'db' => DRUSH_BOOTSTRAP_DRUPAL_DATABASE,
+            'database' => DRUSH_BOOTSTRAP_DRUPAL_DATABASE,
+            'full' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
         ];
     }
 
@@ -135,15 +132,9 @@ abstract class DrupalBoot extends BaseBoot
         }
 
         // DRUSH_DRUPAL_CORE should point to the /core folder in Drupal 8+.
-        // @deprecated. See bootstrapDrupalCore().
         define('DRUSH_DRUPAL_CORE', $core);
 
         $this->logger->info(dt("Initialized Drupal !version root directory at !drupal_root", ["!version" => Drush::bootstrap()->getVersion($drupal_root), '!drupal_root' => $drupal_root]));
-    }
-
-    public function bootstrapDrupalCore(BootstrapManager $manager, string $drupal_root): string
-    {
-        return Path::join($drupal_root, 'core');
     }
 
     /**
@@ -188,7 +179,7 @@ abstract class DrupalBoot extends BaseBoot
     /**
      * Bootstrap the Drupal database.
      */
-    public function bootstrapDrupalDatabase(BootstrapManager $manager): void
+    public function bootstrapDrupalDatabase(BootstrapManager $manager)
     {
         // We presume that our derived classes will connect and then
         // either fail, or call us via parent::
@@ -198,7 +189,7 @@ abstract class DrupalBoot extends BaseBoot
     /**
      * Attempt to load the full Drupal system.
      */
-    public function bootstrapDrupalFull(BootstrapManager $manager): void
+    public function bootstrapDrupalFull(BootstrapManager $manager)
     {
     }
 }

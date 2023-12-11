@@ -2,7 +2,6 @@
 
 namespace Drupal\KernelTests\Core\Entity;
 
-use Drupal\Core\Config\Entity\ConfigEntityStorageInterface;
 use Drupal\Core\Config\Entity\Query\QueryFactory;
 use Drupal\config_test\Entity\ConfigQueryTest;
 use Drupal\KernelTests\KernelTestBase;
@@ -37,9 +36,11 @@ class ConfigEntityQueryTest extends KernelTestBase {
   protected $factory;
 
   /**
-   * The config entity storage used for testing.
+   * The entity storage used for testing.
+   *
+   * @var \Drupal\Core\Entity\EntityStorageInterface
    */
-  protected ConfigEntityStorageInterface $entityStorage;
+  protected $entityStorage;
 
   /**
    * Stores all config entities created for the test.

@@ -106,7 +106,7 @@ interface StreamWrapperInterface extends PhpStreamWrapperInterface {
   /**
    * Returns the name of the stream wrapper for use in the UI.
    *
-   * @return string|\Drupal\Core\StringTranslation\TranslatableMarkup
+   * @return string
    *   The stream wrapper name.
    */
   public function getName();
@@ -114,7 +114,7 @@ interface StreamWrapperInterface extends PhpStreamWrapperInterface {
   /**
    * Returns the description of the stream wrapper for use in the UI.
    *
-   * @return string|\Drupal\Core\StringTranslation\TranslatableMarkup
+   * @return string
    *   The stream wrapper description.
    */
   public function getDescription();

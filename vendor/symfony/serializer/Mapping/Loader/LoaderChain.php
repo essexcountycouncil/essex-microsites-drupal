@@ -27,6 +27,8 @@ use Symfony\Component\Serializer\Mapping\ClassMetadataInterface;
  */
 class LoaderChain implements LoaderInterface
 {
+    private $loaders;
+
     /**
      * Accepts a list of LoaderInterface instances.
      *
@@ -34,16 +36,21 @@ class LoaderChain implements LoaderInterface
      *
      * @throws MappingException If any of the loaders does not implement LoaderInterface
      */
-    public function __construct(private readonly array $loaders)
+    public function __construct(array $loaders)
     {
         foreach ($loaders as $loader) {
             if (!$loader instanceof LoaderInterface) {
-                throw new MappingException(sprintf('Class "%s" is expected to implement LoaderInterface.', get_debug_type($loader)));
+                throw new MappingException(sprintf('Class "%s" is expected to implement LoaderInterface.', \get_class($loader)));
             }
         }
+
+        $this->loaders = $loaders;
     }
 
-    public function loadClassMetadata(ClassMetadataInterface $metadata): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function loadClassMetadata(ClassMetadataInterface $metadata)
     {
         $success = false;
 
@@ -57,7 +64,7 @@ class LoaderChain implements LoaderInterface
     /**
      * @return LoaderInterface[]
      */
-    public function getLoaders(): array
+    public function getLoaders()
     {
         return $this->loaders;
     }

@@ -60,7 +60,7 @@ class Route extends ProcessPluginBase implements ContainerFactoryPluginInterface
   /**
    * The current migration.
    */
-  protected MigrationInterface $migration;
+  protected $migration;
 
   /**
    * The path validator service.

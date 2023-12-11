@@ -3,7 +3,7 @@
  * Visual styles for fields.
  */
 
-@import "../base/media-queries.pcss.css";
+@import "../base/variables.pcss.css";
 
 .field:not(:last-child) {
   margin-block-end: var(--sp2);
@@ -27,19 +27,7 @@
 
 .field--label-inline .field__label,
 .field--label-inline .field__items {
-  float: left; /* LTR */
-
-  /**
-   * Chromium and Webkit do not yet support flow relative logical properties,
-   * such as float: inline-end. However, PostCSS Logical does not compile this
-   * value, so we accommodate by not using these.
-   *
-   * @see https://caniuse.com/mdn-css_properties_clear_flow_relative_values
-   * @see https://github.com/csstools/postcss-plugins/issues/632
-   */
-  &:dir(rtl) {
-    float: right;
-  }
+  float: inline-start;
 }
 
 .field--label-inline .field__label,

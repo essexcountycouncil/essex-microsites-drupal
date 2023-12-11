@@ -3,11 +3,11 @@ status: true
 dependencies:
   config:
     - field.storage.node.localgov_location
-    - geo_entity.geo_entity_type.address
+    - localgov_geo.localgov_geo_type.address
     - node.type.localgov_directories_venue
   enforced:
     module:
-      - geo_entity_address
+      - localgov_geo_address
 id: node.localgov_directories_venue.localgov_location
 field_name: localgov_location
 entity_type: node
@@ -19,7 +19,7 @@ translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
-  handler: 'default:geo_entity'
+  handler: 'default:localgov_geo'
   handler_settings:
     target_bundles:
       address: address

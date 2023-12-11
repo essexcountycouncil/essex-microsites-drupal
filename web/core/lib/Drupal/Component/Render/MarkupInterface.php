@@ -29,7 +29,7 @@ namespace Drupal\Component\Render;
  * @see sanitization
  * @see theme_render
  */
-interface MarkupInterface extends \JsonSerializable, \Stringable {
+interface MarkupInterface extends \JsonSerializable {
 
   /**
    * Returns markup.

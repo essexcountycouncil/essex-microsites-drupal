@@ -893,7 +893,7 @@ class ViewsTest extends SearchApiBrowserTestBase {
       $actual_results = [];
       foreach ($this->entities as $id => $entity) {
         $entity_label = Html::escape($entity->label());
-        if (str_contains($this->getSession()->getPage()->getContent(), ">$entity_label<")) {
+        if (strpos($this->getSession()->getPage()->getContent(), ">$entity_label<") !== FALSE) {
           $actual_results[$id] = $id;
         }
       }

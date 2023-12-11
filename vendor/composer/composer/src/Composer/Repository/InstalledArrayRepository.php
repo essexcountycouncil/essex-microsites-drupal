@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -21,7 +21,7 @@ namespace Composer\Repository;
  */
 class InstalledArrayRepository extends WritableArrayRepository implements InstalledRepositoryInterface
 {
-    public function getRepoName(): string
+    public function getRepoName()
     {
         return 'installed '.parent::getRepoName();
     }
@@ -29,7 +29,7 @@ class InstalledArrayRepository extends WritableArrayRepository implements Instal
     /**
      * @inheritDoc
      */
-    public function isFresh(): bool
+    public function isFresh()
     {
         // this is not a completely correct implementation but there is no way to
         // distinguish an empty repo and a newly created one given this is all in-memory

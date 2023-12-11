@@ -32,7 +32,7 @@ class TwigMarkupInterfaceTest extends KernelTestBase {
    * @dataProvider providerTestMarkupInterfaceEmpty
    */
   public function testMarkupInterfaceEmpty($expected, $variable) {
-    $this->assertSame($expected, (string) $this->renderObjectWithTwig($variable));
+    $this->assertEquals($expected, $this->renderObjectWithTwig($variable));
   }
 
   /**
@@ -66,10 +66,10 @@ class TwigMarkupInterfaceTest extends KernelTestBase {
     new Settings($settings);
 
     $variable = new TranslatableMarkup('test');
-    $this->assertEquals('', (string) $this->renderObjectWithTwig($variable));
+    $this->assertEquals('', $this->renderObjectWithTwig($variable));
 
     $variable = new TranslatableMarkup('test', [], ['langcode' => 'de']);
-    $this->assertEquals('<span>test</span>', (string) $this->renderObjectWithTwig($variable));
+    $this->assertEquals('<span>test</span>', $this->renderObjectWithTwig($variable));
   }
 
   /**

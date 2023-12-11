@@ -14,6 +14,7 @@ namespace Symfony\Component\Validator\Constraints;
 use Symfony\Component\Intl\Currencies;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\Validator\Exception\LogicException;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
@@ -26,9 +27,9 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
 class CurrencyValidator extends ConstraintValidator
 {
     /**
-     * @return void
+     * {@inheritdoc}
      */
-    public function validate(mixed $value, Constraint $constraint)
+    public function validate($value, Constraint $constraint)
     {
         if (!$constraint instanceof Currency) {
             throw new UnexpectedTypeException($constraint, Currency::class);
@@ -38,8 +39,12 @@ class CurrencyValidator extends ConstraintValidator
             return;
         }
 
-        if (!\is_scalar($value) && !$value instanceof \Stringable) {
+        if (!\is_scalar($value) && !(\is_object($value) && method_exists($value, '__toString'))) {
             throw new UnexpectedValueException($value, 'string');
+        }
+
+        if (!class_exists(Currencies::class)) {
+            throw new LogicException('The Intl component is required to use the Currency constraint. Try running "composer require symfony/intl".');
         }
 
         $value = (string) $value;

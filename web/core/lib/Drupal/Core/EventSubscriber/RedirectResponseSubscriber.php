@@ -28,7 +28,7 @@ class RedirectResponseSubscriber implements EventSubscriberInterface {
   /**
    * The request context.
    */
-  protected RequestContext $requestContext;
+  protected $requestContext;
 
   /**
    * Constructs a RedirectResponseSubscriber object.
@@ -112,7 +112,7 @@ class RedirectResponseSubscriber implements EventSubscriberInterface {
       // not including the scheme and host, but its path is expected to be
       // absolute (start with a '/'). For such a case, prepend the scheme and
       // host, because the 'Location' header must be absolute.
-      if (str_starts_with($destination, '/')) {
+      if (strpos($destination, '/') === 0) {
         $destination = $scheme_and_host . $destination;
       }
       else {
@@ -139,7 +139,7 @@ class RedirectResponseSubscriber implements EventSubscriberInterface {
    * @return array
    *   An array of event listener definitions.
    */
-  public static function getSubscribedEvents(): array {
+  public static function getSubscribedEvents() {
     $events[KernelEvents::RESPONSE][] = ['checkRedirectUrl'];
     return $events;
   }

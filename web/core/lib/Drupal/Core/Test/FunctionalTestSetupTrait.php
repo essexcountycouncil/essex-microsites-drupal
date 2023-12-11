@@ -16,7 +16,6 @@ use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Serialization\Yaml;
 use Drupal\Core\Session\UserSession;
 use Drupal\Core\Site\Settings;
-use Drupal\Core\Site\SettingsEditor;
 use Drupal\Core\StreamWrapper\StreamWrapperInterface;
 use Drupal\Tests\SessionTestTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -153,9 +152,9 @@ trait FunctionalTestSetupTrait {
    *
    * @param array $settings
    *   An array of settings to write out, in the format expected by
-   *   SettingsEditor::rewrite().
+   *   drupal_rewrite_settings().
    *
-   * @see \Drupal\Core\Site\SettingsEditor::rewrite()
+   * @see drupal_rewrite_settings()
    */
   protected function writeSettings(array $settings) {
     include_once DRUPAL_ROOT . '/core/includes/install.inc';
@@ -164,7 +163,7 @@ trait FunctionalTestSetupTrait {
     // whenever it is invoked.
     // Not using File API; a potential error must trigger a PHP warning.
     chmod($filename, 0666);
-    SettingsEditor::rewrite($filename, $settings);
+    drupal_rewrite_settings($settings, $filename);
   }
 
   /**
@@ -251,26 +250,36 @@ trait FunctionalTestSetupTrait {
    */
   protected function prepareRequestForGenerator($clean_urls = TRUE, $override_server_vars = []) {
     $request = Request::createFromGlobals();
-    $base_path = $request->getBasePath();
+    $server = $request->server->all();
+    if (basename($server['SCRIPT_FILENAME']) != basename($server['SCRIPT_NAME'])) {
+      // We need this for when the test is executed by run-tests.sh.
+      // @todo Remove this once run-tests.sh has been converted to use a Request
+      //   object.
+      $cwd = getcwd();
+      $server['SCRIPT_FILENAME'] = $cwd . '/' . basename($server['SCRIPT_NAME']);
+      $base_path = rtrim($server['REQUEST_URI'], '/');
+    }
+    else {
+      $base_path = $request->getBasePath();
+    }
     if ($clean_urls) {
       $request_path = $base_path ? $base_path . '/user' : 'user';
     }
     else {
       $request_path = $base_path ? $base_path . '/index.php/user' : '/index.php/user';
     }
-
-    $server = array_merge($request->server->all(), $override_server_vars);
+    $server = array_merge($server, $override_server_vars);
 
     $request = Request::create($request_path, 'GET', [], [], [], $server);
     // Ensure the request time is REQUEST_TIME to ensure that API calls
     // in the test use the right timestamp.
     $request->server->set('REQUEST_TIME', REQUEST_TIME);
-
     $this->container->get('request_stack')->push($request);
+
     // The request context is normally set by the router_listener from within
-    // its KernelEvents::REQUEST listener. In the parent site this event is not
-    // fired, therefore it is necessary to update the request context manually
-    // here.
+    // its KernelEvents::REQUEST listener. In the simpletest parent site this
+    // event is not fired, therefore it is necessary to updated the request
+    // context manually here.
     $this->container->get('router.request_context')->fromRequest($request);
 
     return $request;
@@ -494,7 +503,7 @@ trait FunctionalTestSetupTrait {
   }
 
   /**
-   * Returns the parameters that will be used when the test installs Drupal.
+   * Returns the parameters that will be used when Simpletest installs Drupal.
    *
    * @see install_drupal()
    * @see install_state_defaults()
@@ -510,7 +519,6 @@ trait FunctionalTestSetupTrait {
     unset($connection_info['default']['autoload']);
     unset($connection_info['default']['pdo']);
     unset($connection_info['default']['init_commands']);
-    unset($connection_info['default']['isolation_level']);
     // Remove database connection info that is not used by SQLite.
     if ($driver === 'sqlite') {
       unset($connection_info['default']['username']);

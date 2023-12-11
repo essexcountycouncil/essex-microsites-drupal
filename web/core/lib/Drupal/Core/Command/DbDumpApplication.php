@@ -3,7 +3,6 @@
 namespace Drupal\Core\Command;
 
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 
 /**
@@ -14,14 +13,14 @@ class DbDumpApplication extends Application {
   /**
    * {@inheritdoc}
    */
-  protected function getCommandName(InputInterface $input): ?string {
+  protected function getCommandName(InputInterface $input) {
     return 'dump-database-d8-mysql';
   }
 
   /**
    * {@inheritdoc}
    */
-  protected function getDefaultCommands(): array {
+  protected function getDefaultCommands() {
     // Even though this is a single command, keep the HelpCommand (--help).
     $default_commands = parent::getDefaultCommands();
     $default_commands[] = new DbDumpCommand();
@@ -34,7 +33,7 @@ class DbDumpApplication extends Application {
    * Overridden so the application doesn't expect the command name as the first
    * argument.
    */
-  public function getDefinition(): InputDefinition {
+  public function getDefinition() {
     $definition = parent::getDefinition();
     // Clears the normal first argument (the command name).
     $definition->setArguments();

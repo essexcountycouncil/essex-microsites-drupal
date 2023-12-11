@@ -19,43 +19,9 @@ class RolesIntegrationTest extends KernelTestBase {
    * @var array
    */
   protected static $modules = [
-    'address',
-    'block',
-    'entity_reference_revisions',
-    'facets',
-    'field',
-    'field_formatter_class',
-    'field_group',
-    'file',
-    'filter',
-    'image',
-    'layout_discovery',
-    'layout_paragraphs',
-    'link',
-    'media',
-    'media_library',
-    'menu_ui',
-    'node',
-    'options',
-    'paragraphs',
-    'path',
-    'path_alias',
-    'pathauto',
-    'role_delegation',
-    'search_api',
-    'search_api_db',
     'system',
-    'telephone',
-    'text',
-    'token',
-    'toolbar',
     'user',
-    'views',
     'localgov_roles',
-    'localgov_directories',
-    'localgov_directories_promo_page',
-    'localgov_paragraphs',
-    'localgov_paragraphs_layout',
   ];
 
   /**
@@ -63,26 +29,14 @@ class RolesIntegrationTest extends KernelTestBase {
    */
   protected function setUp(): void {
     parent::setUp();
-
-    $this->installEntitySchema('node');
-    $this->installEntitySchema('search_api_task');
-    $this->installEntitySchema('user');
-    $this->installSchema('node', ['node_access']);
-    $this->installConfig([
-      'node',
-      'search_api',
-      'localgov_roles',
-      'localgov_paragraphs_layout',
-      'localgov_directories',
-      'localgov_directories_promo_page',
-    ]);
+    $this->installConfig(['user', 'localgov_roles']);
   }
 
   /**
    * Check default roles applied.
    */
   public function testEnablingRolesModule() {
-    RolesHelper::assignModuleRoles('localgov_directories_promo_page');
+    $this->container->get('module_installer')->install(['localgov_directories_promo_page']);
 
     $editor = Role::load(RolesHelper::EDITOR_ROLE);
     $author = Role::load(RolesHelper::AUTHOR_ROLE);

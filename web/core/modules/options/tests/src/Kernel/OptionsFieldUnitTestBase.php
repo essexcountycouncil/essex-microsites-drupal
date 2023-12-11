@@ -49,7 +49,7 @@ abstract class OptionsFieldUnitTestBase extends FieldKernelTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp(): void {
+  protected function setUp() {
     parent::setUp();
 
     $this->fieldStorageDefinition = [

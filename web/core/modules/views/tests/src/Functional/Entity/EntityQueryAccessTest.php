@@ -99,11 +99,11 @@ class EntityQueryAccessTest extends ViewTestBase {
     $accessible_block->save();
 
     $account = $this->drupalCreateUser([
-      'access block library',
+      'administer blocks',
     ]);
     $this->drupalLogin($account);
 
-    $this->drupalGet('/admin/content/block');
+    $this->drupalGet('/admin/structure/block/block-content');
     $assert_session = $this->assertSession();
     $assert_session->statusCodeEquals(200);
     $assert_session->pageTextContains($accessible_block->label());

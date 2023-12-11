@@ -41,7 +41,7 @@ class ModuleSettingsFormTest extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  protected $defaultTheme = 'stark';
+  protected $defaultTheme = 'classy';
 
   /**
    * Regular authenticated User for tests.

@@ -33,7 +33,7 @@ abstract class UITestBase extends ViewTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp($import_test_views = TRUE, $modules = ['views_test_config']): void {
+  protected function setUp($import_test_views = TRUE, $modules = ['views_test_config']) {
     parent::setUp($import_test_views, $modules);
 
     $this->enableViewsTestModule();
@@ -77,7 +77,7 @@ abstract class UITestBase extends ViewTestBase {
     $url = $this->buildUrl($path, $options);
 
     // Ensure that each nojs page is accessible via ajax as well.
-    if (str_contains($url, '/nojs/')) {
+    if (strpos($url, '/nojs/') !== FALSE) {
       $url = preg_replace('|/nojs/|', '/ajax/', $url, 1);
       $result = $this->drupalGet($url, $options);
       $this->assertSession()->statusCodeEquals(200);

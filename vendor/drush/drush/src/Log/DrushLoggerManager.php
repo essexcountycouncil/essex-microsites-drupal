@@ -1,9 +1,8 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drush\Log;
 
+use Drush\Log\SuccessInterface;
 use Consolidation\Log\LoggerManager;
 
 class DrushLoggerManager extends LoggerManager implements SuccessInterface

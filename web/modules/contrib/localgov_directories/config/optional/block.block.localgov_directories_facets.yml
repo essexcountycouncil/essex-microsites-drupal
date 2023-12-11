@@ -22,7 +22,7 @@ settings:
   block_id: localgov_directories_facets
 visibility:
   node_type:
-    id: entity_bundle:node
+    id: node_type
     bundles:
       localgov_directory: localgov_directory
     negate: false

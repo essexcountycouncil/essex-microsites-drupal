@@ -17,3 +17,13 @@ function groupmedia_post_update_group_permissions() {
     }
   }
 }
+
+/**
+ * Install groupmedia configuration.
+ */
+function groupmedia_post_update_add_config(&$sandbox) {
+  \Drupal::configFactory()->getEditable('groupmedia.settings')
+    ->set('bundles', [])
+    ->set('tracking_enabled', TRUE)
+    ->save();
+}

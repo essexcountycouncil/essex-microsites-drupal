@@ -118,7 +118,7 @@ class ResultSet implements \IteratorAggregate, ResultSetInterface {
           $item_ids[] = $item_id;
         }
       }
-      catch (SearchApiException) {
+      catch (SearchApiException $e) {
         // Can't actually be thrown here, but catch for the static analyzer's
         // sake.
       }

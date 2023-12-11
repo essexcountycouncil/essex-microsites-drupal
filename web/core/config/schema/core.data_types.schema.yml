@@ -240,9 +240,6 @@ config_dependencies_base:
       label: 'Configuration entity dependencies'
       sequence:
         type: string
-        constraints:
-          NotBlank: []
-          ConfigExists: []
     content:
       type: sequence
       label: 'Content entity dependencies'
@@ -253,21 +250,11 @@ config_dependencies_base:
       label: 'Module dependencies'
       sequence:
         type: string
-        constraints:
-          NotBlank: []
-          ExtensionName: []
-          ExtensionExists: module
     theme:
       type: sequence
       label: 'Theme dependencies'
       sequence:
         type: string
-        constraints:
-          NotBlank: []
-          ExtensionName: []
-          ExtensionExists: theme
-  constraints:
-    ValidKeys: '<infer>'
 
 config_dependencies:
   type: config_dependencies_base
@@ -276,8 +263,6 @@ config_dependencies:
     enforced:
       type: config_dependencies_base
       label: 'Enforced configuration dependencies'
-  constraints:
-    ValidKeys: '<infer>'
 
 config_entity:
   type: mapping

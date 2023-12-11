@@ -190,7 +190,7 @@ trait UserCreationTrait {
     $account->save();
 
     $valid_user = $account->id() !== NULL;
-    $this->assertTrue($valid_user, "User created with name {$edit['name']} and pass {$edit['pass']}");
+    $this->assertTrue($valid_user, new FormattableMarkup('User created with name %name and pass %pass', ['%name' => $edit['name'], '%pass' => $edit['pass']]), 'User login');
     if (!$valid_user) {
       return FALSE;
     }
@@ -270,7 +270,7 @@ trait UserCreationTrait {
     }
     $result = $role->save();
 
-    $this->assertSame(SAVED_NEW, $result, "Created role ID {$role->id()} with name {$role->label()}.");
+    $this->assertSame(SAVED_NEW, $result, new FormattableMarkup('Created role ID @rid with name @name.', ['@name' => var_export($role->label(), TRUE), '@rid' => var_export($role->id(), TRUE)]), 'Role');
 
     if ($result === SAVED_NEW) {
       // Grant the specified permissions to the role, if any.
@@ -301,7 +301,7 @@ trait UserCreationTrait {
     $valid = TRUE;
     foreach ($permissions as $permission) {
       if (!in_array($permission, $available)) {
-        $this->fail("Invalid permission $permission.");
+        $this->fail(new FormattableMarkup('Invalid permission %permission.', ['%permission' => $permission]), 'Role');
         $valid = FALSE;
       }
     }

@@ -258,7 +258,7 @@ class TestToolkit extends ImageToolkitBase {
    */
   public function apply($operation, array $arguments = []) {
     $this->logCall('apply', func_get_args());
-    return parent::apply($operation, $arguments);
+    return TRUE;
   }
 
 }

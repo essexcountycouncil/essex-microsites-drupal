@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -19,11 +19,16 @@ use Composer\Pcre\Preg;
  */
 class Keys
 {
-    public static function fingerprint(string $path): string
+    /**
+     * @param string $path
+     *
+     * @return string
+     */
+    public static function fingerprint($path)
     {
         $hash = strtoupper(hash('sha256', Preg::replace('{\s}', '', file_get_contents($path))));
 
-        return implode(' ', [
+        return implode(' ', array(
             substr($hash, 0, 8),
             substr($hash, 8, 8),
             substr($hash, 16, 8),
@@ -33,6 +38,6 @@ class Keys
             substr($hash, 40, 8),
             substr($hash, 48, 8),
             substr($hash, 56, 8),
-        ]);
+        ));
     }
 }

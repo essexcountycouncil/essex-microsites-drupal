@@ -45,14 +45,12 @@ class CommentStatisticsUnitTest extends UnitTestCase {
    *
    * @var int
    */
-  protected $callsToFetch;
+  protected $calls_to_fetch;
 
   /**
    * Sets up required mocks and the CommentStatistics service under test.
    */
   protected function setUp(): void {
-    parent::setUp();
-
     $this->statement = $this->getMockBuilder('Drupal\sqlite\Driver\Database\sqlite\Statement')
       ->disableOriginalConstructor()
       ->getMock();
@@ -97,7 +95,7 @@ class CommentStatisticsUnitTest extends UnitTestCase {
    * @group Comment
    */
   public function testRead() {
-    $this->callsToFetch = 0;
+    $this->calls_to_fetch = 0;
     $results = $this->commentStatistics->read(['1' => 'boo', '2' => 'foo'], 'snafus');
     $this->assertEquals(['something', 'something-else'], $results);
   }
@@ -110,8 +108,8 @@ class CommentStatisticsUnitTest extends UnitTestCase {
    *   other calls to function.
    */
   public function fetchObjectCallback() {
-    $this->callsToFetch++;
-    switch ($this->callsToFetch) {
+    $this->calls_to_fetch++;
+    switch ($this->calls_to_fetch) {
       case 1:
         return 'something';
 

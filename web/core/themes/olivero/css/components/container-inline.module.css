@@ -16,10 +16,12 @@
 }
 
 .form-items-inline {
-  margin-block: -0.125em; /* 2px */
+  margin-top: -0.125em;
+  margin-bottom: -0.125em; /* 2px */
 }
 
 .form-items-inline > .form-item {
   display: inline-block;
-  margin-block: 0.125em;
+  margin-top: 0.125em;
+  margin-bottom: 0.125em;
 }

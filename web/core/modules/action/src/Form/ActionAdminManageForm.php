@@ -53,7 +53,9 @@ class ActionAdminManageForm extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $actions = [];
     foreach ($this->manager->getDefinitions() as $id => $definition) {
-      $actions[$id] = $definition['label'];
+      if (is_subclass_of($definition['class'], '\Drupal\Core\Plugin\PluginFormInterface')) {
+        $actions[$id] = $definition['label'];
+      }
     }
     asort($actions);
     $form['parent'] = [

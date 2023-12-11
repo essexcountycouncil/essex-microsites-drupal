@@ -1,6 +1,18 @@
 <?php
 
-declare(strict_types=1);
+/**
+ * @file
+ * Contains \Drush\Log\DrushLog.
+ *
+ * This class is only used to convert logging calls made
+ * inside of Drupal into a logging format that is usable
+ * by Drush.  This code is ONLY usable within the context
+ * of a bootstrapped Drupal 8 site.
+ *
+ * See Drush\Log\Logger for our actuall LoggerInterface
+ * implementation, that does the work of logging messages
+ * that originate from Drush.
+ */
 
 namespace Drush\Log;
 
@@ -29,8 +41,10 @@ class DrushLog implements LoggerInterface, LoggerAwareInterface
 
     /**
      * The message's placeholders parser.
+     *
+     * @var LogMessageParserInterface
      */
-    protected LogMessageParserInterface $parser;
+    protected $parser;
 
     /**
      * Constructs a DrushLog object.
@@ -58,14 +72,36 @@ class DrushLog implements LoggerInterface, LoggerAwareInterface
         // @todo ALERT, CRITICAL and EMERGENCY are considered show-stopping errors,
         // and they should cause Drush to exit or panic. Not sure how to handle this,
         // though.
-        $error_type = match ($level) {
-            RfcLogLevel::ALERT, RfcLogLevel::CRITICAL, RfcLogLevel::EMERGENCY, RfcLogLevel::ERROR => LogLevel::ERROR,
-            RfcLogLevel::WARNING => LogLevel::WARNING,
-            RfcLogLevel::DEBUG => LogLevel::DEBUG,
-            RfcLogLevel::INFO => LogLevel::INFO,
-            RfcLogLevel::NOTICE => LogLevel::NOTICE,
-            default => $level,
-        };
+        switch ($level) {
+            case RfcLogLevel::ALERT:
+            case RfcLogLevel::CRITICAL:
+            case RfcLogLevel::EMERGENCY:
+            case RfcLogLevel::ERROR:
+                $error_type = LogLevel::ERROR;
+                break;
+
+            case RfcLogLevel::WARNING:
+                $error_type = LogLevel::WARNING;
+                break;
+
+            case RfcLogLevel::DEBUG:
+                $error_type = LogLevel::DEBUG;
+                break;
+
+            case RfcLogLevel::INFO:
+                $error_type = LogLevel::INFO;
+                break;
+
+            case RfcLogLevel::NOTICE:
+                $error_type = LogLevel::NOTICE;
+                break;
+            // Unknown log levels that are not defined
+            // in Psr\Log\LogLevel SHOULD NOT be used.  See
+            // https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md
+            default:
+                $error_type = $level;
+                break;
+        }
 
         // Populate the message placeholders and then replace them in the message.
         $message_placeholders = $this->parser->parseMessagePlaceholders($message, $context);

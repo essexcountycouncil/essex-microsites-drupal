@@ -11,9 +11,9 @@
 
 namespace Symfony\Component\Serializer\Mapping;
 
-use Symfony\Component\PropertyAccess\PropertyPath;
-
 /**
+ * {@inheritdoc}
+ *
  * @author Kévin Dunglas <dunglas@gmail.com>
  */
 class AttributeMetadata implements AttributeMetadataInterface
@@ -23,198 +23,113 @@ class AttributeMetadata implements AttributeMetadataInterface
      *           class' serialized representation. Do not access it. Use
      *           {@link getName()} instead.
      */
-    public string $name;
+    public $name;
 
     /**
      * @internal This property is public in order to reduce the size of the
      *           class' serialized representation. Do not access it. Use
      *           {@link getGroups()} instead.
      */
-    public array $groups = [];
+    public $groups = [];
 
     /**
+     * @var int|null
+     *
      * @internal This property is public in order to reduce the size of the
      *           class' serialized representation. Do not access it. Use
      *           {@link getMaxDepth()} instead.
      */
-    public ?int $maxDepth = null;
+    public $maxDepth;
 
     /**
+     * @var string|null
+     *
      * @internal This property is public in order to reduce the size of the
      *           class' serialized representation. Do not access it. Use
      *           {@link getSerializedName()} instead.
      */
-    public ?string $serializedName = null;
-
-    /**
-     * @internal This property is public in order to reduce the size of the
-     *           class' serialized representation. Do not access it. Use
-     *           {@link getSerializedPath()} instead.
-     */
-    public ?PropertyPath $serializedPath = null;
-
-    /**
-     * @internal This property is public in order to reduce the size of the
-     *           class' serialized representation. Do not access it. Use
-     *           {@link isIgnored()} instead.
-     */
-    public bool $ignore = false;
-
-    /**
-     * @var array[] Normalization contexts per group name ("*" applies to all groups)
-     *
-     * @internal This property is public in order to reduce the size of the
-     *           class' serialized representation. Do not access it. Use
-     *           {@link getNormalizationContexts()} instead.
-     */
-    public array $normalizationContexts = [];
-
-    /**
-     * @var array[] Denormalization contexts per group name ("*" applies to all groups)
-     *
-     * @internal This property is public in order to reduce the size of the
-     *           class' serialized representation. Do not access it. Use
-     *           {@link getDenormalizationContexts()} instead.
-     */
-    public array $denormalizationContexts = [];
+    public $serializedName;
 
     public function __construct(string $name)
     {
         $this->name = $name;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    public function addGroup(string $group): void
+    /**
+     * {@inheritdoc}
+     */
+    public function addGroup($group)
     {
         if (!\in_array($group, $this->groups)) {
             $this->groups[] = $group;
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getGroups(): array
     {
         return $this->groups;
     }
 
-    public function setMaxDepth(?int $maxDepth): void
+    /**
+     * {@inheritdoc}
+     */
+    public function setMaxDepth($maxDepth)
     {
         $this->maxDepth = $maxDepth;
     }
 
-    public function getMaxDepth(): ?int
+    /**
+     * {@inheritdoc}
+     */
+    public function getMaxDepth()
     {
         return $this->maxDepth;
     }
 
-    public function setSerializedName(string $serializedName = null): void
+    /**
+     * {@inheritdoc}
+     */
+    public function setSerializedName(string $serializedName = null)
     {
-        if (1 > \func_num_args()) {
-            trigger_deprecation('symfony/serializer', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
-        }
-
         $this->serializedName = $serializedName;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getSerializedName(): ?string
     {
         return $this->serializedName;
     }
 
-    public function setSerializedPath(PropertyPath $serializedPath = null): void
-    {
-        $this->serializedPath = $serializedPath;
-    }
-
-    public function getSerializedPath(): ?PropertyPath
-    {
-        return $this->serializedPath;
-    }
-
-    public function setIgnore(bool $ignore): void
-    {
-        $this->ignore = $ignore;
-    }
-
-    public function isIgnored(): bool
-    {
-        return $this->ignore;
-    }
-
-    public function getNormalizationContexts(): array
-    {
-        return $this->normalizationContexts;
-    }
-
-    public function getNormalizationContextForGroups(array $groups): array
-    {
-        $contexts = [];
-        foreach ($groups as $group) {
-            $contexts[] = $this->normalizationContexts[$group] ?? [];
-        }
-
-        return array_merge($this->normalizationContexts['*'] ?? [], ...$contexts);
-    }
-
-    public function setNormalizationContextForGroups(array $context, array $groups = []): void
-    {
-        if (!$groups) {
-            $this->normalizationContexts['*'] = $context;
-        }
-
-        foreach ($groups as $group) {
-            $this->normalizationContexts[$group] = $context;
-        }
-    }
-
-    public function getDenormalizationContexts(): array
-    {
-        return $this->denormalizationContexts;
-    }
-
-    public function getDenormalizationContextForGroups(array $groups): array
-    {
-        $contexts = [];
-        foreach ($groups as $group) {
-            $contexts[] = $this->denormalizationContexts[$group] ?? [];
-        }
-
-        return array_merge($this->denormalizationContexts['*'] ?? [], ...$contexts);
-    }
-
-    public function setDenormalizationContextForGroups(array $context, array $groups = []): void
-    {
-        if (!$groups) {
-            $this->denormalizationContexts['*'] = $context;
-        }
-
-        foreach ($groups as $group) {
-            $this->denormalizationContexts[$group] = $context;
-        }
-    }
-
-    public function merge(AttributeMetadataInterface $attributeMetadata): void
+    /**
+     * {@inheritdoc}
+     */
+    public function merge(AttributeMetadataInterface $attributeMetadata)
     {
         foreach ($attributeMetadata->getGroups() as $group) {
             $this->addGroup($group);
         }
 
         // Overwrite only if not defined
-        $this->maxDepth ??= $attributeMetadata->getMaxDepth();
-        $this->serializedName ??= $attributeMetadata->getSerializedName();
-        $this->serializedPath ??= $attributeMetadata->getSerializedPath();
-
-        // Overwrite only if both contexts are empty
-        if (!$this->normalizationContexts && !$this->denormalizationContexts) {
-            $this->normalizationContexts = $attributeMetadata->getNormalizationContexts();
-            $this->denormalizationContexts = $attributeMetadata->getDenormalizationContexts();
+        if (null === $this->maxDepth) {
+            $this->maxDepth = $attributeMetadata->getMaxDepth();
         }
 
-        if ($ignore = $attributeMetadata->isIgnored()) {
-            $this->ignore = $ignore;
+        // Overwrite only if not defined
+        if (null === $this->serializedName) {
+            $this->serializedName = $attributeMetadata->getSerializedName();
         }
     }
 
@@ -223,8 +138,8 @@ class AttributeMetadata implements AttributeMetadataInterface
      *
      * @return string[]
      */
-    public function __sleep(): array
+    public function __sleep()
     {
-        return ['name', 'groups', 'maxDepth', 'serializedName', 'serializedPath', 'ignore', 'normalizationContexts', 'denormalizationContexts'];
+        return ['name', 'groups', 'maxDepth', 'serializedName'];
     }
 }

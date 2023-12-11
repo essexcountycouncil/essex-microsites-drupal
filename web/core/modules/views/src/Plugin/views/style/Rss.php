@@ -21,16 +21,6 @@ use Drupal\Core\Url;
 class Rss extends StylePluginBase {
 
   /**
-   * The RSS namespaces.
-   */
-  public array $namespaces;
-
-  /**
-   * The channel elements.
-   */
-  public array $channel_elements;
-
-  /**
    * {@inheritdoc}
    */
   protected $usesRowPlugin = TRUE;

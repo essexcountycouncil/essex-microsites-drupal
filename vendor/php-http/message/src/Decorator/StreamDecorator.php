@@ -16,77 +16,122 @@ trait StreamDecorator
      */
     protected $stream;
 
-    public function __toString(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function __toString()
     {
         return $this->stream->__toString();
     }
 
-    public function close(): void
+    /**
+     * {@inheritdoc}
+     */
+    public function close()
     {
         $this->stream->close();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function detach()
     {
         return $this->stream->detach();
     }
 
-    public function getSize(): ?int
+    /**
+     * {@inheritdoc}
+     */
+    public function getSize()
     {
         return $this->stream->getSize();
     }
 
-    public function tell(): int
+    /**
+     * {@inheritdoc}
+     */
+    public function tell()
     {
         return $this->stream->tell();
     }
 
-    public function eof(): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function eof()
     {
         return $this->stream->eof();
     }
 
-    public function isSeekable(): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function isSeekable()
     {
         return $this->stream->isSeekable();
     }
 
-    public function seek(int $offset, int $whence = SEEK_SET): void
+    /**
+     * {@inheritdoc}
+     */
+    public function seek($offset, $whence = SEEK_SET)
     {
         $this->stream->seek($offset, $whence);
     }
 
-    public function rewind(): void
+    /**
+     * {@inheritdoc}
+     */
+    public function rewind()
     {
         $this->stream->rewind();
     }
 
-    public function isWritable(): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function isWritable()
     {
         return $this->stream->isWritable();
     }
 
-    public function write(string $string): int
+    /**
+     * {@inheritdoc}
+     */
+    public function write($string)
     {
         return $this->stream->write($string);
     }
 
-    public function isReadable(): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function isReadable()
     {
         return $this->stream->isReadable();
     }
 
-    public function read(int $length): string
+    /**
+     * {@inheritdoc}
+     */
+    public function read($length)
     {
         return $this->stream->read($length);
     }
 
-    public function getContents(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getContents()
     {
         return $this->stream->getContents();
     }
 
-    public function getMetadata(string $key = null)
+    /**
+     * {@inheritdoc}
+     */
+    public function getMetadata($key = null)
     {
         return $this->stream->getMetadata($key);
     }

@@ -29,8 +29,8 @@ use Symfony\Component\Console\Formatter\OutputFormatterInterface;
  */
 class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
 {
-    private OutputInterface $stderr;
-    private array $consoleSectionOutputs = [];
+    private $stderr;
+    private $consoleSectionOutputs = [];
 
     /**
      * @param int                           $verbosity The verbosity level (one of the VERBOSITY constants in OutputInterface)
@@ -65,16 +65,16 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
-    public function setDecorated(bool $decorated)
+    public function setDecorated($decorated)
     {
         parent::setDecorated($decorated);
         $this->stderr->setDecorated($decorated);
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function setFormatter(OutputFormatterInterface $formatter)
     {
@@ -83,21 +83,24 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
-    public function setVerbosity(int $level)
+    public function setVerbosity($level)
     {
         parent::setVerbosity($level);
         $this->stderr->setVerbosity($level);
     }
 
-    public function getErrorOutput(): OutputInterface
+    /**
+     * {@inheritdoc}
+     */
+    public function getErrorOutput()
     {
         return $this->stderr;
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function setErrorOutput(OutputInterface $error)
     {
@@ -107,8 +110,10 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
     /**
      * Returns true if current environment supports writing console output to
      * STDOUT.
+     *
+     * @return bool
      */
-    protected function hasStdoutSupport(): bool
+    protected function hasStdoutSupport()
     {
         return false === $this->isRunningOS400();
     }
@@ -116,8 +121,10 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
     /**
      * Returns true if current environment supports writing console output to
      * STDERR.
+     *
+     * @return bool
      */
-    protected function hasStderrSupport(): bool
+    protected function hasStderrSupport()
     {
         return false === $this->isRunningOS400();
     }

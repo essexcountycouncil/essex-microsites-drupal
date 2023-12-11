@@ -29,8 +29,9 @@ class ModalRenderer extends DialogRenderer {
     // If the main content doesn't provide a title, use the title resolver.
     $title = $main_content['#title'] ?? $this->titleResolver->getTitle($request, $route_match->getRouteObject());
 
-    // Determine the dialog options for the OpenDialogCommand.
-    $options = $this->getDialogOptions($request);
+    // Determine the title: use the title provided by the main content if any,
+    // otherwise get it from the routing information.
+    $options = $request->request->get('dialogOptions', []);
 
     $response->addCommand(new OpenModalDialogCommand($title, $content, $options));
     return $response;

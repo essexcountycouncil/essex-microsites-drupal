@@ -73,7 +73,7 @@ class ServerClearConfirmForm extends EntityConfirmFormBase {
       $server->deleteAllItems();
       $this->messenger->addStatus($this->t('All indexed data was successfully deleted from the server.'));
     }
-    catch (SearchApiException) {
+    catch (SearchApiException $e) {
       $this->messenger->addError($this->t('Indexed data could not be cleared for some indexes. Check the logs for details.'));
     }
 

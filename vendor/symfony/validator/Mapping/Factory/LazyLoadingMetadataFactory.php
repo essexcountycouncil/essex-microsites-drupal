@@ -13,9 +13,9 @@ namespace Symfony\Component\Validator\Mapping\Factory;
 
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Validator\Exception\NoSuchMetadataException;
+use Symfony\Component\Validator\Mapping\Cache\CacheInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Mapping\Loader\LoaderInterface;
-use Symfony\Component\Validator\Mapping\MetadataInterface;
 
 /**
  * Creates new {@link ClassMetadataInterface} instances.
@@ -49,13 +49,27 @@ class LazyLoadingMetadataFactory implements MetadataFactoryInterface
      */
     protected $loadedClasses = [];
 
-    public function __construct(LoaderInterface $loader = null, CacheItemPoolInterface $cache = null)
+    /**
+     * Creates a new metadata factory.
+     *
+     * @param CacheItemPoolInterface|null $cache The cache for persisting metadata
+     *                                           between multiple PHP requests
+     */
+    public function __construct(LoaderInterface $loader = null, $cache = null)
     {
+        if ($cache instanceof CacheInterface) {
+            @trigger_error(sprintf('Passing a "%s" to "%s" is deprecated in Symfony 4.4 and will trigger a TypeError in 5.0. Please pass an implementation of "%s" instead.', \get_class($cache), __METHOD__, CacheItemPoolInterface::class), \E_USER_DEPRECATED);
+        } elseif (!$cache instanceof CacheItemPoolInterface && null !== $cache) {
+            throw new \TypeError(sprintf('Expected an instance of "%s", got "%s".', CacheItemPoolInterface::class, \is_object($cache) ? \get_class($cache) : \gettype($cache)));
+        }
+
         $this->loader = $loader;
         $this->cache = $cache;
     }
 
     /**
+     * {@inheritdoc}
+     *
      * If the method was called with the same class name (or an object of that
      * class) before, the same metadata instance is returned.
      *
@@ -68,13 +82,13 @@ class LazyLoadingMetadataFactory implements MetadataFactoryInterface
      * {@link LoaderInterface::loadClassMetadata()} method for further
      * configuration. At last, the new object is returned.
      */
-    public function getMetadataFor(mixed $value): MetadataInterface
+    public function getMetadataFor($value)
     {
         if (!\is_object($value) && !\is_string($value)) {
-            throw new NoSuchMetadataException(sprintf('Cannot create metadata for non-objects. Got: "%s".', get_debug_type($value)));
+            throw new NoSuchMetadataException(sprintf('Cannot create metadata for non-objects. Got: "%s".', \gettype($value)));
         }
 
-        $class = ltrim(\is_object($value) ? $value::class : $value, '\\');
+        $class = ltrim(\is_object($value) ? \get_class($value) : $value, '\\');
 
         if (isset($this->loadedClasses[$class])) {
             return $this->loadedClasses[$class];
@@ -84,21 +98,35 @@ class LazyLoadingMetadataFactory implements MetadataFactoryInterface
             throw new NoSuchMetadataException(sprintf('The class or interface "%s" does not exist.', $class));
         }
 
-        $cacheItem = $this->cache?->getItem($this->escapeClassName($class));
-        if ($cacheItem?->isHit()) {
-            $metadata = $cacheItem->get();
+        $cacheItem = null;
+        if ($this->cache instanceof CacheInterface) {
+            if ($metadata = $this->cache->read($class)) {
+                // Include constraints from the parent class
+                $this->mergeConstraints($metadata);
 
-            // Include constraints from the parent class
-            $this->mergeConstraints($metadata);
+                return $this->loadedClasses[$class] = $metadata;
+            }
+        } elseif (null !== $this->cache) {
+            $cacheItem = $this->cache->getItem($this->escapeClassName($class));
+            if ($cacheItem->isHit()) {
+                $metadata = $cacheItem->get();
 
-            return $this->loadedClasses[$class] = $metadata;
+                // Include constraints from the parent class
+                $this->mergeConstraints($metadata);
+
+                return $this->loadedClasses[$class] = $metadata;
+            }
         }
 
         $metadata = new ClassMetadata($class);
 
-        $this->loader?->loadClassMetadata($metadata);
+        if (null !== $this->loader) {
+            $this->loader->loadClassMetadata($metadata);
+        }
 
-        if (null !== $cacheItem) {
+        if ($this->cache instanceof CacheInterface) {
+            $this->cache->write($metadata);
+        } elseif (null !== $cacheItem) {
             $this->cache->save($cacheItem->set($metadata));
         }
 
@@ -108,7 +136,7 @@ class LazyLoadingMetadataFactory implements MetadataFactoryInterface
         return $this->loadedClasses[$class] = $metadata;
     }
 
-    private function mergeConstraints(ClassMetadata $metadata): void
+    private function mergeConstraints(ClassMetadata $metadata)
     {
         if ($metadata->getReflectionClass()->isInterface()) {
             return;
@@ -133,13 +161,16 @@ class LazyLoadingMetadataFactory implements MetadataFactoryInterface
         }
     }
 
-    public function hasMetadataFor(mixed $value): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function hasMetadataFor($value)
     {
         if (!\is_object($value) && !\is_string($value)) {
             return false;
         }
 
-        $class = ltrim(\is_object($value) ? $value::class : $value, '\\');
+        $class = ltrim(\is_object($value) ? \get_class($value) : $value, '\\');
 
         return class_exists($class) || interface_exists($class, false);
     }

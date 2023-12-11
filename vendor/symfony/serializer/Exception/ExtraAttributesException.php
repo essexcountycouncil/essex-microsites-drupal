@@ -18,19 +18,23 @@ namespace Symfony\Component\Serializer\Exception;
  */
 class ExtraAttributesException extends RuntimeException
 {
-    public function __construct(
-        private readonly array $extraAttributes,
-        \Throwable $previous = null,
-    ) {
-        $msg = sprintf('Extra attributes are not allowed ("%s" %s unknown).', implode('", "', $extraAttributes), \count($extraAttributes) > 1 ? 'are' : 'is');
+    private $extraAttributes;
+
+    public function __construct(array $extraAttributes, \Throwable $previous = null)
+    {
+        $msg = sprintf('Extra attributes are not allowed ("%s" are unknown).', implode('", "', $extraAttributes));
+
+        $this->extraAttributes = $extraAttributes;
 
         parent::__construct($msg, 0, $previous);
     }
 
     /**
      * Get the extra attributes that are not allowed.
+     *
+     * @return array
      */
-    public function getExtraAttributes(): array
+    public function getExtraAttributes()
     {
         return $this->extraAttributes;
     }

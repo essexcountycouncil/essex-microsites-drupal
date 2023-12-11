@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -21,13 +21,17 @@ use Composer\Semver\Constraint\Constraint;
 interface PolicyInterface
 {
     /**
+     * @param  string $operator
+     * @return bool
+     *
      * @phpstan-param Constraint::STR_OP_* $operator
      */
-    public function versionCompare(PackageInterface $a, PackageInterface $b, string $operator): bool;
+    public function versionCompare(PackageInterface $a, PackageInterface $b, $operator);
 
     /**
      * @param  int[]   $literals
+     * @param  ?string $requiredPackage
      * @return int[]
      */
-    public function selectPreferredPackages(Pool $pool, array $literals, ?string $requiredPackage = null): array;
+    public function selectPreferredPackages(Pool $pool, array $literals, $requiredPackage = null);
 }

@@ -14,7 +14,6 @@ use Drupal\editor\Entity\Editor;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\filter\Entity\FilterFormat;
 use Drupal\Tests\SchemaCheckTestTrait;
-use Drupal\TestTools\Random;
 use org\bovigo\vfs\vfsStream;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\FrozenParameterBag;
@@ -173,7 +172,7 @@ YAML,
   }
 
   /**
-   * @covers \Drupal\ckeditor5\Plugin\CKEditor5PluginManager::processDefinition
+   * @covers \Drupal\ckeditor5\Plugin\CKEditor5PluginManager::processDefinition()
    * @dataProvider providerTestInvalidPluginDefinitions
    */
   public function testInvalidPluginDefinitions(string $yaml, ?string $expected_message, array $additional_files = []): void {
@@ -1047,8 +1046,8 @@ PHP,
    * @return array
    *   Test scenarios.
    */
-  public static function providerProvidedElementsInvalidElementSubset(): array {
-    $random_tag_name = strtolower(Random::machineName());
+  public function providerProvidedElementsInvalidElementSubset(): array {
+    $random_tag_name = strtolower($this->randomMachineName());
     $random_tag = "<$random_tag_name>";
     return [
       'superset: random tag not listed in the plugin definition' => [
@@ -1075,7 +1074,6 @@ PHP,
     // Case 1: no extra CKEditor 5 plugins.
     $definitions = array_keys($this->manager->getEnabledDefinitions($editor));
     $default_plugins = [
-      'ckeditor5_autoformat',
       'ckeditor5_bold',
       'ckeditor5_emphasis',
       'ckeditor5_essentials',
@@ -1090,7 +1088,6 @@ PHP,
       'ckeditor5/internal.drupal.ckeditor5',
       'ckeditor5/internal.drupal.ckeditor5.emphasis',
       'ckeditor5/internal.drupal.ckeditor5.htmlEngine',
-      'core/ckeditor5.autoformat',
       'core/ckeditor5.basic',
       'core/ckeditor5.essentials',
       'core/ckeditor5.htmlSupport',
@@ -1199,7 +1196,6 @@ PHP,
     $definitions = array_keys($this->manager->getEnabledDefinitions($editor));
     $default_plugins = [
       'ckeditor5_arbitraryHtmlSupport',
-      'ckeditor5_autoformat',
       'ckeditor5_bold',
       'ckeditor5_emphasis',
       'ckeditor5_essentials',
@@ -1212,7 +1208,6 @@ PHP,
       'ckeditor5/internal.drupal.ckeditor5',
       'ckeditor5/internal.drupal.ckeditor5.emphasis',
       'ckeditor5/internal.drupal.ckeditor5.htmlEngine',
-      'core/ckeditor5.autoformat',
       'core/ckeditor5.basic',
       'core/ckeditor5.essentials',
       'core/ckeditor5.htmlSupport',
@@ -1528,7 +1523,7 @@ PHP,
   }
 
   /**
-   * @covers \Drupal\ckeditor5\Plugin\CKEditor5PluginDefinition::validateCKEditor5Aspects
+   * @covers \Drupal\ckeditor5\Plugin\CKEditor5PluginDefinition::validateCKEditor5Aspects()
    */
   public function testAutomaticLinkDecoratorsDisallowed(): void {
     $this->expectException(InvalidPluginDefinitionException::class);
@@ -1540,7 +1535,7 @@ PHP,
   }
 
   /**
-   * @covers \Drupal\ckeditor5\Plugin\CKEditor5PluginDefinition::validateCKEditor5Aspects
+   * @covers \Drupal\ckeditor5\Plugin\CKEditor5PluginDefinition::validateCKEditor5Aspects()
    */
   public function testExternalLinkAutomaticLinkDecoratorDisallowed(): void {
     $this->expectException(InvalidPluginDefinitionException::class);
@@ -1552,7 +1547,7 @@ PHP,
   }
 
   /**
-   * @covers \Drupal\ckeditor5\Plugin\CKEditor5PluginManager::getDiscovery
+   * @covers ::getDiscovery
    * @dataProvider providerTestDerivedPluginDefinitions
    */
   public function testDerivedPluginDefinitions(string $yaml, ?string $expected_message, array $additional_files = [], ?array $expected_derived_plugin_definitions = NULL): void {

@@ -155,7 +155,7 @@ class EditorLoadingTest extends BrowserTestBase {
     $this->assertFalse($editor_js_present, 'No Text Editor JavaScript.');
     $this->assertSession()->elementsCount('xpath', $body, 1);
     $this->assertSession()->elementNotExists('css', 'select.js-filter-list');
-    $this->drupalLogout();
+    $this->drupalLogout($this->normalUser);
 
     // The privileged user:
     // - has access to 2 text formats (and the fallback format);
@@ -186,7 +186,7 @@ class EditorLoadingTest extends BrowserTestBase {
     $this->drupalGet('editor/dialog/image/full_html');
     $this->assertSession()->statusCodeEquals(200);
 
-    $this->drupalLogout();
+    $this->drupalLogout($this->privilegedUser);
 
     // Also associate a text editor with the "Plain Text" text format.
     $editor = Editor::create([
@@ -316,7 +316,7 @@ class EditorLoadingTest extends BrowserTestBase {
       // Editor.module's JS settings present.
       isset($settings['editor']),
       // Editor.module's JS present.
-      str_contains($this->getSession()->getPage()->getContent(), $this->getModulePath('editor') . '/js/editor.js'),
+      strpos($this->getSession()->getPage()->getContent(), $this->getModulePath('editor') . '/js/editor.js') !== FALSE,
       // Body field.
       '//' . $type . '[@id="edit-' . $field_name . '-0-value"]',
     ];

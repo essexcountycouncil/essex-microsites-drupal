@@ -133,7 +133,7 @@ class StorageReplaceDataWrapper implements StorageInterface {
     }
     else {
       foreach (array_keys($this->replacementData[$this->collection]) as $name) {
-        if (str_starts_with($name, $prefix)) {
+        if (strpos($name, $prefix) === 0) {
           $additional_names[] = $name;
         }
       }
@@ -153,7 +153,7 @@ class StorageReplaceDataWrapper implements StorageInterface {
     }
     else {
       foreach (array_keys($this->replacementData[$this->collection]) as $name) {
-        if (str_starts_with($name, $prefix)) {
+        if (strpos($name, $prefix) === 0) {
           unset($this->replacementData[$this->collection][$name]);
         }
       }

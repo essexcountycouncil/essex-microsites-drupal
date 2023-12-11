@@ -20,18 +20,26 @@ trait MessageDecorator
      *
      * Since the underlying Message is immutable as well
      * exposing it is not an issue, because it's state cannot be altered
+     *
+     * @return MessageInterface
      */
-    public function getMessage(): MessageInterface
+    public function getMessage()
     {
         return $this->message;
     }
 
-    public function getProtocolVersion(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getProtocolVersion()
     {
         return $this->message->getProtocolVersion();
     }
 
-    public function withProtocolVersion(string $version): MessageInterface
+    /**
+     * {@inheritdoc}
+     */
+    public function withProtocolVersion($version)
     {
         $new = clone $this;
         $new->message = $this->message->withProtocolVersion($version);
@@ -39,27 +47,42 @@ trait MessageDecorator
         return $new;
     }
 
-    public function getHeaders(): array
+    /**
+     * {@inheritdoc}
+     */
+    public function getHeaders()
     {
         return $this->message->getHeaders();
     }
 
-    public function hasHeader(string $header): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function hasHeader($header)
     {
         return $this->message->hasHeader($header);
     }
 
-    public function getHeader(string $header): array
+    /**
+     * {@inheritdoc}
+     */
+    public function getHeader($header)
     {
         return $this->message->getHeader($header);
     }
 
-    public function getHeaderLine(string $header): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getHeaderLine($header)
     {
         return $this->message->getHeaderLine($header);
     }
 
-    public function withHeader(string $header, $value): MessageInterface
+    /**
+     * {@inheritdoc}
+     */
+    public function withHeader($header, $value)
     {
         $new = clone $this;
         $new->message = $this->message->withHeader($header, $value);
@@ -67,7 +90,10 @@ trait MessageDecorator
         return $new;
     }
 
-    public function withAddedHeader(string $header, $value): MessageInterface
+    /**
+     * {@inheritdoc}
+     */
+    public function withAddedHeader($header, $value)
     {
         $new = clone $this;
         $new->message = $this->message->withAddedHeader($header, $value);
@@ -75,7 +101,10 @@ trait MessageDecorator
         return $new;
     }
 
-    public function withoutHeader(string $header): MessageInterface
+    /**
+     * {@inheritdoc}
+     */
+    public function withoutHeader($header)
     {
         $new = clone $this;
         $new->message = $this->message->withoutHeader($header);
@@ -83,12 +112,18 @@ trait MessageDecorator
         return $new;
     }
 
-    public function getBody(): StreamInterface
+    /**
+     * {@inheritdoc}
+     */
+    public function getBody()
     {
         return $this->message->getBody();
     }
 
-    public function withBody(StreamInterface $body): MessageInterface
+    /**
+     * {@inheritdoc}
+     */
+    public function withBody(StreamInterface $body)
     {
         $new = clone $this;
         $new->message = $this->message->withBody($body);

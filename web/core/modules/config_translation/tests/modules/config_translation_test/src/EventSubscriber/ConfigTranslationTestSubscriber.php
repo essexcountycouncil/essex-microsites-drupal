@@ -14,7 +14,7 @@ class ConfigTranslationTestSubscriber implements EventSubscriberInterface {
   /**
    * {@inheritdoc}
    */
-  public static function getSubscribedEvents(): array {
+  public static function getSubscribedEvents() {
     return [
       ConfigTranslationEvents::POPULATE_MAPPER => [
         ['addConfigNames'],

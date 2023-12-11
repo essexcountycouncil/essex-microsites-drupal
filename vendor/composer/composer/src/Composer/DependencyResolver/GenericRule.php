@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -17,11 +17,11 @@ namespace Composer\DependencyResolver;
  */
 class GenericRule extends Rule
 {
-    /** @var list<int> */
+    /** @var int[] */
     protected $literals;
 
     /**
-     * @param list<int> $literals
+     * @param int[] $literals
      */
     public function __construct(array $literals, $reason, $reasonData)
     {
@@ -34,9 +34,9 @@ class GenericRule extends Rule
     }
 
     /**
-     * @return list<int>
+     * @return int[]
      */
-    public function getLiterals(): array
+    public function getLiterals()
     {
         return $this->literals;
     }
@@ -59,25 +59,30 @@ class GenericRule extends Rule
      * @param  Rule $rule The rule to check against
      * @return bool Whether the rules are equal
      */
-    public function equals(Rule $rule): bool
+    public function equals(Rule $rule)
     {
         return $this->literals === $rule->getLiterals();
     }
 
-    public function isAssertion(): bool
+    /**
+     * @return bool
+     */
+    public function isAssertion()
     {
         return 1 === \count($this->literals);
     }
 
     /**
      * Formats a rule as a string of the format (Literal1|Literal2|...)
+     *
+     * @return string
      */
-    public function __toString(): string
+    public function __toString()
     {
         $result = $this->isDisabled() ? 'disabled(' : '(';
 
         foreach ($this->literals as $i => $literal) {
-            if ($i !== 0) {
+            if ($i != 0) {
                 $result .= '|';
             }
             $result .= $literal;

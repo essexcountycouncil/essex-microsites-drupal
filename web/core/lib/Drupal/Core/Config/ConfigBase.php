@@ -93,7 +93,7 @@ abstract class ConfigBase implements RefinableCacheableDependencyInterface {
    */
   public static function validateName($name) {
     // The name must be namespaced by owner.
-    if (!str_contains($name, '.')) {
+    if (strpos($name, '.') === FALSE) {
       throw new ConfigNameException("Missing namespace in Config object name $name.");
     }
     // The name must be shorter than Config::MAX_NAME_LENGTH characters.
@@ -200,12 +200,14 @@ abstract class ConfigBase implements RefinableCacheableDependencyInterface {
    * @param array $data
    *   Configuration array structure.
    *
+   * @return null
+   *
    * @throws \Drupal\Core\Config\ConfigValueException
    *   If any key in $data in any depth contains a dot.
    */
   protected function validateKeys(array $data) {
     foreach ($data as $key => $value) {
-      if (str_contains($key, '.')) {
+      if (strpos($key, '.') !== FALSE) {
         throw new ConfigValueException("$key key contains a dot which is not supported.");
       }
       if (is_array($value)) {

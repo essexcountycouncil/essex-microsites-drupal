@@ -23,17 +23,22 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ControllerResolver implements ControllerResolverInterface
 {
-    private ?LoggerInterface $logger;
+    private $logger;
 
     public function __construct(LoggerInterface $logger = null)
     {
         $this->logger = $logger;
     }
 
-    public function getController(Request $request): callable|false
+    /**
+     * {@inheritdoc}
+     */
+    public function getController(Request $request)
     {
         if (!$controller = $request->attributes->get('_controller')) {
-            $this->logger?->warning('Unable to look for the controller as the "_controller" parameter is missing.');
+            if (null !== $this->logger) {
+                $this->logger->warning('Unable to look for the controller as the "_controller" parameter is missing.');
+            }
 
             return false;
         }
@@ -43,8 +48,15 @@ class ControllerResolver implements ControllerResolverInterface
                 try {
                     $controller[0] = $this->instantiateController($controller[0]);
                 } catch (\Error|\LogicException $e) {
-                    if (\is_callable($controller)) {
-                        return $controller;
+                    try {
+                        // We cannot just check is_callable but have to use reflection because a non-static method
+                        // can still be called statically in PHP but we don't want that. This is deprecated in PHP 7, so we
+                        // could simplify this with PHP 8.
+                        if ((new \ReflectionMethod($controller[0], $controller[1]))->isStatic()) {
+                            return $controller;
+                        }
+                    } catch (\ReflectionException $reflectionException) {
+                        throw $e;
                     }
 
                     throw $e;
@@ -60,7 +72,7 @@ class ControllerResolver implements ControllerResolverInterface
 
         if (\is_object($controller)) {
             if (!\is_callable($controller)) {
-                throw new \InvalidArgumentException(sprintf('The controller for URI "%s" is not callable: ', $request->getPathInfo()).$this->getControllerError($controller));
+                throw new \InvalidArgumentException(sprintf('The controller for URI "%s" is not callable: '.$this->getControllerError($controller), $request->getPathInfo()));
             }
 
             return $controller;
@@ -77,7 +89,7 @@ class ControllerResolver implements ControllerResolverInterface
         }
 
         if (!\is_callable($callable)) {
-            throw new \InvalidArgumentException(sprintf('The controller for URI "%s" is not callable: ', $request->getPathInfo()).$this->getControllerError($callable));
+            throw new \InvalidArgumentException(sprintf('The controller for URI "%s" is not callable: '.$this->getControllerError($callable), $request->getPathInfo()));
         }
 
         return $callable;
@@ -86,9 +98,13 @@ class ControllerResolver implements ControllerResolverInterface
     /**
      * Returns a callable for the given controller.
      *
+     * @param string $controller A Controller string
+     *
+     * @return callable A PHP callable
+     *
      * @throws \InvalidArgumentException When the controller cannot be created
      */
-    protected function createController(string $controller): callable
+    protected function createController($controller)
     {
         if (!str_contains($controller, '::')) {
             $controller = $this->instantiateController($controller);
@@ -109,7 +125,7 @@ class ControllerResolver implements ControllerResolverInterface
                 if ((new \ReflectionMethod($class, $method))->isStatic()) {
                     return $class.'::'.$method;
                 }
-            } catch (\ReflectionException) {
+            } catch (\ReflectionException $reflectionException) {
                 throw $e;
             }
 
@@ -125,13 +141,17 @@ class ControllerResolver implements ControllerResolverInterface
 
     /**
      * Returns an instantiated controller.
+     *
+     * @param string $class A class name
+     *
+     * @return object
      */
-    protected function instantiateController(string $class): object
+    protected function instantiateController($class)
     {
         return new $class();
     }
 
-    private function getControllerError(mixed $callable): string
+    private function getControllerError($callable): string
     {
         if (\is_string($callable)) {
             if (str_contains($callable, '::')) {
@@ -145,11 +165,11 @@ class ControllerResolver implements ControllerResolverInterface
             $availableMethods = $this->getClassMethodsWithoutMagicMethods($callable);
             $alternativeMsg = $availableMethods ? sprintf(' or use one of the available methods: "%s"', implode('", "', $availableMethods)) : '';
 
-            return sprintf('Controller class "%s" cannot be called without a method name. You need to implement "__invoke"%s.', get_debug_type($callable), $alternativeMsg);
+            return sprintf('Controller class "%s" cannot be called without a method name. You need to implement "__invoke"%s.', \get_class($callable), $alternativeMsg);
         }
 
         if (!\is_array($callable)) {
-            return sprintf('Invalid type for controller given, expected string, array or object, got "%s".', get_debug_type($callable));
+            return sprintf('Invalid type for controller given, expected string, array or object, got "%s".', \gettype($callable));
         }
 
         if (!isset($callable[0]) || !isset($callable[1]) || 2 !== \count($callable)) {
@@ -162,7 +182,7 @@ class ControllerResolver implements ControllerResolverInterface
             return sprintf('Class "%s" does not exist.', $controller);
         }
 
-        $className = \is_object($controller) ? get_debug_type($controller) : $controller;
+        $className = \is_object($controller) ? \get_class($controller) : $controller;
 
         if (method_exists($controller, $method)) {
             return sprintf('Method "%s" on class "%s" should be public and non-abstract.', $method, $className);
@@ -197,6 +217,8 @@ class ControllerResolver implements ControllerResolverInterface
     {
         $methods = get_class_methods($classOrObject);
 
-        return array_filter($methods, fn (string $method) => 0 !== strncmp($method, '__', 2));
+        return array_filter($methods, function (string $method) {
+            return 0 !== strncmp($method, '__', 2);
+        });
     }
 }

@@ -3,7 +3,6 @@
 namespace Drupal\Core\Extension;
 
 use Drupal\Core\Extension\Exception\UnknownExtensionException;
-use Drupal\Core\Extension\Exception\UnknownExtensionTypeException;
 
 /**
  * Factory for getting extension lists by type.
@@ -52,7 +51,8 @@ class ExtensionPathResolver {
       return 'core/core.info.yml';
     }
     if (!isset($this->extensionLists[$type])) {
-      throw new UnknownExtensionTypeException(sprintf('Extension type %s is unknown.', $type));
+      @trigger_error('Calling getPathname() with an invalid $type parameter is deprecated in drupal:9.3.0 and will throw an \Drupal\Core\Extension\Exception\UnknownExtensionTypeException in drupal:10.0.0. See https://www.drupal.org/node/2940438', E_USER_DEPRECATED);
+      return NULL;
     }
     try {
       return $this->extensionLists[$type]->getPathname($name);

@@ -40,7 +40,7 @@ use Drupal\Component\Annotation\Plugin;
  * )
  * @endcode
  *
- * For a working example, see \Drupal\ckeditor5\Plugin\Editor\CKEditor5
+ * For a working example, see \Drupal\ckeditor\Plugin\Editor\CKEditor
  *
  * @see \Drupal\editor\Plugin\EditorPluginInterface
  * @see \Drupal\editor\Plugin\EditorBase

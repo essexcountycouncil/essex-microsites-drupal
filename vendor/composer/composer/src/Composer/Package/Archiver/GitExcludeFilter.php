@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -25,8 +25,10 @@ class GitExcludeFilter extends BaseExcludeFilter
 {
     /**
      * Parses .gitattributes if it exists
+     *
+     * @param string $sourcePath
      */
-    public function __construct(string $sourcePath)
+    public function __construct($sourcePath)
     {
         parent::__construct($sourcePath);
 
@@ -35,7 +37,7 @@ class GitExcludeFilter extends BaseExcludeFilter
                 $this->excludePatterns,
                 $this->parseLines(
                     file($sourcePath.'/.gitattributes'),
-                    [$this, 'parseGitAttributesLine']
+                    array($this, 'parseGitAttributesLine')
                 )
             );
         }
@@ -48,15 +50,15 @@ class GitExcludeFilter extends BaseExcludeFilter
      *
      * @return array{0: string, 1: bool, 2: bool}|null An exclude pattern for filter()
      */
-    public function parseGitAttributesLine(string $line): ?array
+    public function parseGitAttributesLine($line)
     {
         $parts = Preg::split('#\s+#', $line);
 
-        if (count($parts) === 2 && $parts[1] === 'export-ignore') {
+        if (count($parts) == 2 && $parts[1] === 'export-ignore') {
             return $this->generatePattern($parts[0]);
         }
 
-        if (count($parts) === 2 && $parts[1] === '-export-ignore') {
+        if (count($parts) == 2 && $parts[1] === '-export-ignore') {
             return $this->generatePattern('!'.$parts[0]);
         }
 

@@ -15,7 +15,7 @@ class EventSubscriber implements EventSubscriberInterface {
   /**
    * {@inheritdoc}
    */
-  public static function getSubscribedEvents(): array {
+  public static function getSubscribedEvents() {
     $events = [];
     // If the autoloader is not fixed during module install when the modules
     // module_install_class_loader_test1 and module_install_class_loader_test2

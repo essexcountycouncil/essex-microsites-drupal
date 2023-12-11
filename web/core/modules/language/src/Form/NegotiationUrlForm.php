@@ -156,7 +156,7 @@ class NegotiationUrlForm extends ConfigFormBase {
           ]));
         }
       }
-      elseif (str_contains($value, '/')) {
+      elseif (strpos($value, '/') !== FALSE) {
         // Throw a form error if the string contains a slash,
         // which would not work.
         $form_state->setErrorByName("prefix][$langcode", $this->t('The prefix may not contain a slash.'));

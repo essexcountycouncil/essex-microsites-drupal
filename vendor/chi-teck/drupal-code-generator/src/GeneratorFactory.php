@@ -1,65 +1,76 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace DrupalCodeGenerator;
 
-use Drupal\Core\DependencyInjection\ClassResolverInterface;
-use DrupalCodeGenerator\Command\BaseGenerator;
+use DrupalCodeGenerator\ClassResolver\ClassResolverInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Defines generator factory.
- *
- * This factory only supports DCG core generators.
  */
 final class GeneratorFactory {
 
-  private const DIRECTORY = Application::ROOT . '/src/Command';
-  private const NAMESPACE = '\DrupalCodeGenerator\Command';
+  private const COMMAND_INTERFACE = '\DrupalCodeGenerator\Command\GeneratorInterface';
+
+  private ClassResolverInterface $classResolver;
+  private LoggerInterface $logger;
 
   /**
-   * Constructs the object.
+   * The object constructor.
    */
-  public function __construct(
-    private readonly ClassResolverInterface $classResolver,
-  ) {}
+  public function __construct(ClassResolverInterface $class_resolver, LoggerInterface $logger) {
+    $this->classResolver = $class_resolver;
+    $this->logger = $logger;
+  }
 
   /**
-   * Finds and instantiates DCG core generators.
+   * Finds and instantiates generator commands.
    *
-   * @psalm-return list<\DrupalCodeGenerator\Command\BaseGenerator>
+   * @param string[] $directories
+   *   Directories to look up for commands.
+   * @param string $namespace
+   *   The namespace to filter out commands.
+   *
+   * @return \Symfony\Component\Console\Command\Command[]
    *   Array of generators.
    */
-  public function getGenerators(): array {
+  public function getGenerators(array $directories, string $namespace): array {
     $commands = [];
 
-    $iterator = new \RecursiveIteratorIterator(
-      new \RecursiveDirectoryIterator(self::DIRECTORY, \FilesystemIterator::SKIP_DOTS),
-    );
-    foreach ($iterator as $file) {
-      if ($file->getExtension() !== 'php') {
-        continue;
-      }
-      /** @var \RecursiveDirectoryIterator $directory_iterator */
-      $directory_iterator = $iterator->getInnerIterator();
-      $sub_path = $directory_iterator->getSubPath();
-      $sub_namespace = $sub_path ? \str_replace(\DIRECTORY_SEPARATOR, '\\', $sub_path) . '\\' : '';
+    foreach ($directories as $directory) {
+      $iterator = new \RecursiveIteratorIterator(
+        new \RecursiveDirectoryIterator($directory, \FilesystemIterator::SKIP_DOTS),
+      );
+      foreach ($iterator as $file) {
+        if ($file->getExtension() !== 'php') {
+          continue;
+        }
 
-      /** @psalm-var class-string $class */
-      $class = self::NAMESPACE . '\\' . $sub_namespace . $file->getBasename('.php');
-      $reflected_class = new \ReflectionClass($class);
+        $sub_path = $iterator->getInnerIterator()->getSubPath();
+        $sub_namespace = $sub_path ? \str_replace(\DIRECTORY_SEPARATOR, '\\', $sub_path) . '\\' : '';
+        $class = $namespace . '\\' . $sub_namespace . $file->getBasename('.php');
 
-      // @todo Is it needed?
-      if ($reflected_class->isInterface() || $reflected_class->isAbstract() || $reflected_class->isTrait()) {
-        continue;
-      }
+        // Legacy generators can throw fatal errors.
+        try {
+          $reflected_class = new \ReflectionClass($class);
+        }
+        catch (\Throwable $exception) {
+          $this->logger->notice(
+            'Could not load generator {class}.' . \PHP_EOL . '{error}',
+            ['class' => $class, 'error' => $exception->getMessage()],
+          );
+          continue;
+        }
 
-      if (!$reflected_class->isSubclassOf(BaseGenerator::class)) {
-        continue;
+        if ($reflected_class->isInterface() || $reflected_class->isAbstract() || $reflected_class->isTrait() || !$reflected_class->implementsInterface(self::COMMAND_INTERFACE)) {
+          continue;
+        }
+
+        $commands[] = $this->classResolver->getInstance($class);
       }
-      $commands[] = $this->classResolver->getInstanceFromDefinition($class);
     }
 
-    /** @psalm-suppress LessSpecificReturnStatement */
-    /** @psalm-var list<\DrupalCodeGenerator\Command\BaseGenerator> */
+    $this->logger->debug('Total generators: {total}', ['total' => \count($commands)]);
     return $commands;
   }
 

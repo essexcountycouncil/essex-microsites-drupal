@@ -96,9 +96,6 @@ class GroupPermissionsHelper implements GroupPermissionsHelperInterface {
       if ($module == $check_module) {
         continue;
       }
-      if (!isset($role_permissions['group'])) {
-        continue;
-      }
       foreach ($role_permissions['group'] as $role => $permissions) {
         $shared_permissions[$role] = array_merge($shared_permissions[$role] ?? [], array_intersect($module_permissions['group'][$role], $permissions));
       }

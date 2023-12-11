@@ -46,12 +46,12 @@ class FilterDateTest extends ViewTestBase {
   /**
    * @var array
    */
-  protected array $nodes;
+  protected $nodes;
 
   /**
    * @var array
    */
-  protected array $map;
+  protected $map;
 
   /**
    * {@inheritdoc}

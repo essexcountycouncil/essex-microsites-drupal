@@ -1,4 +1,0 @@
-administer geo_entity_tz configuration:
-  title: 'Administer geofield timezone configuration'
-  description: 'Set Geonames account for timezone lookup.'
-  restrict access: true

@@ -26,8 +26,6 @@ abstract class BlockContentTestBase extends ViewTestBase {
    */
   protected $permissions = [
     'administer blocks',
-    'administer block content',
-    'access block library',
   ];
 
   /**
@@ -44,7 +42,7 @@ abstract class BlockContentTestBase extends ViewTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp($import_test_views = TRUE, $modules = ['block_content_test_views']): void {
+  protected function setUp($import_test_views = TRUE, $modules = ['block_content_test_views']) {
     parent::setUp($import_test_views, $modules);
     // Ensure the basic bundle exists. This is provided by the standard profile.
     $this->createBlockContentType(['id' => 'basic']);
@@ -53,13 +51,13 @@ abstract class BlockContentTestBase extends ViewTestBase {
   }
 
   /**
-   * Creates a content block.
+   * Creates a custom block.
    *
    * @param array $values
    *   (optional) The values for the block_content entity.
    *
    * @return \Drupal\block_content\Entity\BlockContent
-   *   Created content block.
+   *   Created custom block.
    */
   protected function createBlockContent(array $values = []) {
     $status = 0;
@@ -76,13 +74,13 @@ abstract class BlockContentTestBase extends ViewTestBase {
   }
 
   /**
-   * Creates a block type (bundle).
+   * Creates a custom block type (bundle).
    *
    * @param array $values
    *   An array of settings to change from the defaults.
    *
    * @return \Drupal\block_content\Entity\BlockContentType
-   *   Created block type.
+   *   Created custom block type.
    */
   protected function createBlockContentType(array $values = []) {
     // Find a non-existent random type name.

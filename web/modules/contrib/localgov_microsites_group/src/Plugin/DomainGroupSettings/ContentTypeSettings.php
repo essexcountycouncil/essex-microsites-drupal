@@ -84,9 +84,6 @@ class ContentTypeSettings extends DomainGroupSettingsBase implements ContainerFa
     $hide_descriptions = system_admin_compact_mode();
     $this->group = $group;
     $module_permissions = $this->groupPermissionsHelper->modulesList($group);
-    $module_permissions = array_filter($module_permissions, function ($status) {
-      return $status != GroupPermissionsHelperInterface::NOT_APPLICABLE;
-    });
     if (empty($module_permissions)) {
       $form['empty'] = [
         '#type' => 'markup',

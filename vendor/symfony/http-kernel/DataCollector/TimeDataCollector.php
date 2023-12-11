@@ -20,21 +20,25 @@ use Symfony\Component\Stopwatch\StopwatchEvent;
 /**
  * @author Fabien Potencier <fabien@symfony.com>
  *
- * @final
+ * @final since Symfony 4.4
  */
 class TimeDataCollector extends DataCollector implements LateDataCollectorInterface
 {
-    private ?KernelInterface $kernel;
-    private ?Stopwatch $stopwatch;
+    protected $kernel;
+    protected $stopwatch;
 
     public function __construct(KernelInterface $kernel = null, Stopwatch $stopwatch = null)
     {
         $this->kernel = $kernel;
         $this->stopwatch = $stopwatch;
-        $this->data = ['events' => [], 'stopwatch_installed' => false, 'start_time' => 0];
     }
 
-    public function collect(Request $request, Response $response, \Throwable $exception = null): void
+    /**
+     * {@inheritdoc}
+     *
+     * @param \Throwable|null $exception
+     */
+    public function collect(Request $request, Response $response/* , \Throwable $exception = null */)
     {
         if (null !== $this->kernel) {
             $startTime = $this->kernel->getStartTime();
@@ -50,14 +54,22 @@ class TimeDataCollector extends DataCollector implements LateDataCollectorInterf
         ];
     }
 
-    public function reset(): void
+    /**
+     * {@inheritdoc}
+     */
+    public function reset()
     {
-        $this->data = ['events' => [], 'stopwatch_installed' => false, 'start_time' => 0];
+        $this->data = [];
 
-        $this->stopwatch?->reset();
+        if (null !== $this->stopwatch) {
+            $this->stopwatch->reset();
+        }
     }
 
-    public function lateCollect(): void
+    /**
+     * {@inheritdoc}
+     */
+    public function lateCollect()
     {
         if (null !== $this->stopwatch && isset($this->data['token'])) {
             $this->setEvents($this->stopwatch->getSectionEvents($this->data['token']));
@@ -66,9 +78,11 @@ class TimeDataCollector extends DataCollector implements LateDataCollectorInterf
     }
 
     /**
+     * Sets the request events.
+     *
      * @param StopwatchEvent[] $events The request events
      */
-    public function setEvents(array $events): void
+    public function setEvents(array $events)
     {
         foreach ($events as $event) {
             $event->ensureStopped();
@@ -78,17 +92,21 @@ class TimeDataCollector extends DataCollector implements LateDataCollectorInterf
     }
 
     /**
-     * @return StopwatchEvent[]
+     * Gets the request events.
+     *
+     * @return StopwatchEvent[] The request events
      */
-    public function getEvents(): array
+    public function getEvents()
     {
         return $this->data['events'];
     }
 
     /**
      * Gets the request elapsed time.
+     *
+     * @return float The elapsed time
      */
-    public function getDuration(): float
+    public function getDuration()
     {
         if (!isset($this->data['events']['__section__'])) {
             return 0;
@@ -103,8 +121,10 @@ class TimeDataCollector extends DataCollector implements LateDataCollectorInterf
      * Gets the initialization time.
      *
      * This is the time spent until the beginning of the request handling.
+     *
+     * @return float The elapsed time
      */
-    public function getInitTime(): float
+    public function getInitTime()
     {
         if (!isset($this->data['events']['__section__'])) {
             return 0;
@@ -113,17 +133,28 @@ class TimeDataCollector extends DataCollector implements LateDataCollectorInterf
         return $this->data['events']['__section__']->getOrigin() - $this->getStartTime();
     }
 
-    public function getStartTime(): float
+    /**
+     * Gets the request time.
+     *
+     * @return float
+     */
+    public function getStartTime()
     {
         return $this->data['start_time'];
     }
 
-    public function isStopwatchInstalled(): bool
+    /**
+     * @return bool whether or not the stopwatch component is installed
+     */
+    public function isStopwatchInstalled()
     {
         return $this->data['stopwatch_installed'];
     }
 
-    public function getName(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
     {
         return 'time';
     }

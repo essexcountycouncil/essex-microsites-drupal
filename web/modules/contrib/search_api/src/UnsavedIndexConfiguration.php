@@ -134,7 +134,10 @@ class UnsavedIndexConfiguration implements IndexInterface, UnsavedConfigurationI
     try {
       return $this->getEntityTypeManager()->getStorage('user')->load($uid);
     }
-    catch (InvalidPluginDefinitionException | PluginNotFoundException) {
+    catch (InvalidPluginDefinitionException $e) {
+      return NULL;
+    }
+    catch (PluginNotFoundException $e) {
       return NULL;
     }
   }
@@ -143,7 +146,7 @@ class UnsavedIndexConfiguration implements IndexInterface, UnsavedConfigurationI
    * {@inheritdoc}
    */
   public function getLastUpdated() {
-    return $this->lock?->getUpdated();
+    return $this->lock ? $this->lock->getUpdated() : NULL;
   }
 
   /**

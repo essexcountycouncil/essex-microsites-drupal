@@ -129,8 +129,7 @@ class Query extends QueryBase implements QueryInterface {
     $prefix_length = strlen($prefix);
 
     // Search the conditions for restrictions on configuration object names.
-    $filter_by_names = [];
-    $has_added_restrictions = FALSE;
+    $names = FALSE;
     $id_condition = NULL;
     $id_key = $this->entityType->getKey('id');
     if ($this->condition->getConjunction() == 'AND') {
@@ -141,22 +140,21 @@ class Query extends QueryBase implements QueryInterface {
         if (is_string($condition['field']) && ($operator == 'IN' || $operator == '=')) {
           // Special case ID lookups.
           if ($condition['field'] == $id_key) {
-            $has_added_restrictions = TRUE;
             $ids = (array) $condition['value'];
-            $filter_by_names[] = array_map(static function ($id) use ($prefix) {
+            $names = array_map(function ($id) use ($prefix) {
               return $prefix . $id;
             }, $ids);
           }
           elseif (in_array($condition['field'], $lookup_keys)) {
-            $has_added_restrictions = TRUE;
             // If we don't find anything then there are no matches. No point in
             // listing anything.
+            $names = [];
             $keys = (array) $condition['value'];
-            $keys = array_map(static function ($value) use ($condition) {
+            $keys = array_map(function ($value) use ($condition) {
               return $condition['field'] . ':' . $value;
             }, $keys);
             foreach ($this->getConfigKeyStore()->getMultiple($keys) as $list) {
-              $filter_by_names[] = $list;
+              $names = array_merge($names, $list);
             }
           }
         }
@@ -168,7 +166,7 @@ class Query extends QueryBase implements QueryInterface {
         // We stop at the first restricting condition on name. In the case where
         // there are additional restricting conditions, results will be
         // eliminated when the conditions are checked on the loaded records.
-        if ($has_added_restrictions !== FALSE) {
+        if ($names !== FALSE) {
           // If the condition has been responsible for narrowing the list of
           // configuration to check there is no point in checking it further.
           unset($conditions[$condition_key]);
@@ -176,56 +174,52 @@ class Query extends QueryBase implements QueryInterface {
         }
       }
     }
-
     // If no restrictions on IDs were found, we need to parse all records.
-    if ($has_added_restrictions === FALSE) {
-      $filter_by_names = $this->configFactory->listAll($prefix);
-    }
-    else {
-      $filter_by_names = array_merge(...$filter_by_names);
+    if ($names === FALSE) {
+      $names = $this->configFactory->listAll($prefix);
     }
     // In case we have an ID condition, try to narrow down the list of config
     // objects to load.
-    if ($id_condition && !empty($filter_by_names)) {
+    if ($id_condition && !empty($names)) {
       $value = $id_condition['value'];
       $filter = NULL;
       switch ($id_condition['operator']) {
         case '<>':
-          $filter = static function ($name) use ($value, $prefix_length) {
+          $filter = function ($name) use ($value, $prefix_length) {
             $id = substr($name, $prefix_length);
             return $id !== $value;
           };
           break;
 
         case 'STARTS_WITH':
-          $filter = static function ($name) use ($value, $prefix_length) {
+          $filter = function ($name) use ($value, $prefix_length) {
             $id = substr($name, $prefix_length);
             return strpos($id, $value) === 0;
           };
           break;
 
         case 'CONTAINS':
-          $filter = static function ($name) use ($value, $prefix_length) {
+          $filter = function ($name) use ($value, $prefix_length) {
             $id = substr($name, $prefix_length);
-            return str_contains($id, $value);
+            return strpos($id, $value) !== FALSE;
           };
           break;
 
         case 'ENDS_WITH':
-          $filter = static function ($name) use ($value, $prefix_length) {
+          $filter = function ($name) use ($value, $prefix_length) {
             $id = substr($name, $prefix_length);
             return strrpos($id, $value) === strlen($id) - strlen($value);
           };
           break;
       }
       if ($filter) {
-        $filter_by_names = array_filter($filter_by_names, $filter);
+        $names = array_filter($names, $filter);
       }
     }
 
     // Load the corresponding records.
     $records = [];
-    foreach ($this->configFactory->loadMultiple($filter_by_names) as $config) {
+    foreach ($this->configFactory->loadMultiple($names) as $config) {
       $records[substr($config->getName(), $prefix_length)] = $config->get();
     }
     return $records;

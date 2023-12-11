@@ -1,5 +1,5 @@
 name: Migrate
 type: module
-description: 'Provides a framework for migrating data to Drupal.'
+description: 'Handles migrations'
 package: Migration
 version: VERSION

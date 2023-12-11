@@ -1,33 +1,28 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace DrupalCodeGenerator\Command\Service;
 
 use DrupalCodeGenerator\Application;
-use DrupalCodeGenerator\Asset\AssetCollection as Assets;
-use DrupalCodeGenerator\Attribute\Generator;
-use DrupalCodeGenerator\Command\BaseGenerator;
-use DrupalCodeGenerator\GeneratorType;
+use DrupalCodeGenerator\Command\ModuleGenerator;
 
-#[Generator(
-  name: 'service:response-policy',
-  description: 'Generates a response policy service',
-  aliases: ['response-policy'],
-  templatePath: Application::TEMPLATE_PATH . '/Service/_response-policy',
-  type: GeneratorType::MODULE_COMPONENT,
-)]
-final class ResponsePolicy extends BaseGenerator {
+/**
+ * Implements service:response-policy command.
+ */
+final class ResponsePolicy extends ModuleGenerator {
+
+  protected string $name = 'service:response-policy';
+  protected string $description = 'Generates a response policy service';
+  protected string $alias = 'response-policy';
+  protected string $templatePath = Application::TEMPLATE_PATH . '/service/response-policy';
 
   /**
    * {@inheritdoc}
    */
-  protected function generate(array &$vars, Assets $assets): void {
-    $ir = $this->createInterviewer($vars);
-    $vars['machine_name'] = $ir->askMachineName();
-    $vars['class'] = $ir->askClass(default: 'Example');
-    $vars['services'] = $ir->askServices();
-
-    $assets->addFile('src/PageCache/{class}.php', 'response-policy.twig');
-    $assets->addServicesFile()->template('services.twig');
+  protected function generate(array &$vars): void {
+    $this->collectDefault($vars);
+    $vars['class'] = $this->ask('Class', 'Example');
+    $this->addFile('src/PageCache/{class}.php', 'response-policy');
+    $this->addServicesFile()->template('services');
   }
 
 }

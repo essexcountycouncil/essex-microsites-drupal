@@ -24,7 +24,7 @@ class TabbableShimDialogIntegrationTestController extends ControllerBase {
         ],
       ],
       '#attached' => [
-        'library' => ['core/drupal.dialog'],
+        'library' => ['core/jquery.ui.dialog'],
       ],
     ];
   }

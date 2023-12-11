@@ -18,18 +18,21 @@ use Symfony\Component\PropertyInfo\PropertyListExtractorInterface;
  */
 final class ObjectPropertyListExtractor implements ObjectPropertyListExtractorInterface
 {
-    private PropertyListExtractorInterface $propertyListExtractor;
-    private \Closure $objectClassResolver;
+    private $propertyListExtractor;
+    private $objectClassResolver;
 
     public function __construct(PropertyListExtractorInterface $propertyListExtractor, callable $objectClassResolver = null)
     {
         $this->propertyListExtractor = $propertyListExtractor;
-        $this->objectClassResolver = ($objectClassResolver ?? 'get_class')(...);
+        $this->objectClassResolver = $objectClassResolver;
     }
 
-    public function getProperties(object $object, array $context = []): ?array
+    /**
+     * {@inheritdoc}
+     */
+    public function getProperties($object, array $context = []): ?array
     {
-        $class = ($this->objectClassResolver)($object);
+        $class = $this->objectClassResolver ? ($this->objectClassResolver)($object) : \get_class($object);
 
         return $this->propertyListExtractor->getProperties($class, $context);
     }

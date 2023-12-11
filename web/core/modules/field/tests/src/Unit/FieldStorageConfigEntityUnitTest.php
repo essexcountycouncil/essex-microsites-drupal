@@ -49,8 +49,6 @@ class FieldStorageConfigEntityUnitTest extends UnitTestCase {
    * {@inheritdoc}
    */
   protected function setUp(): void {
-    parent::setUp();
-
     $this->entityTypeManager = $this->createMock(EntityTypeManagerInterface::class);
     $this->uuid = $this->createMock('\Drupal\Component\Uuid\UuidInterface');
     $this->fieldTypeManager = $this->createMock(FieldTypePluginManagerInterface::class);

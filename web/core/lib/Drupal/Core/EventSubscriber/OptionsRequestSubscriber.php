@@ -60,7 +60,7 @@ class OptionsRequestSubscriber implements EventSubscriberInterface {
   /**
    * {@inheritdoc}
    */
-  public static function getSubscribedEvents(): array {
+  public static function getSubscribedEvents() {
     // Set a high priority so it is executed before routing.
     $events[KernelEvents::REQUEST][] = ['onRequest', 1000];
     return $events;

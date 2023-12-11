@@ -70,7 +70,7 @@ class FieldDiscoveryTest extends MigrateDrupal7TestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp(): void {
+  public function setUp(): void {
     parent::setUp();
     $this->installConfig(static::$modules);
     $node_types = [

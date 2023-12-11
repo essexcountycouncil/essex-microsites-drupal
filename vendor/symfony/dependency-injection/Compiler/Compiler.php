@@ -21,9 +21,9 @@ use Symfony\Component\DependencyInjection\Exception\EnvParameterException;
  */
 class Compiler
 {
-    private PassConfig $passConfig;
-    private array $log = [];
-    private ServiceReferenceGraph $serviceReferenceGraph;
+    private $passConfig;
+    private $log = [];
+    private $serviceReferenceGraph;
 
     public function __construct()
     {
@@ -31,47 +31,61 @@ class Compiler
         $this->serviceReferenceGraph = new ServiceReferenceGraph();
     }
 
-    public function getPassConfig(): PassConfig
+    /**
+     * Returns the PassConfig.
+     *
+     * @return PassConfig The PassConfig instance
+     */
+    public function getPassConfig()
     {
         return $this->passConfig;
     }
 
-    public function getServiceReferenceGraph(): ServiceReferenceGraph
+    /**
+     * Returns the ServiceReferenceGraph.
+     *
+     * @return ServiceReferenceGraph The ServiceReferenceGraph instance
+     */
+    public function getServiceReferenceGraph()
     {
         return $this->serviceReferenceGraph;
     }
 
     /**
-     * @return void
+     * Adds a pass to the PassConfig.
+     *
+     * @param string $type     The type of the pass
+     * @param int    $priority Used to sort the passes
      */
-    public function addPass(CompilerPassInterface $pass, string $type = PassConfig::TYPE_BEFORE_OPTIMIZATION, int $priority = 0)
+    public function addPass(CompilerPassInterface $pass, $type = PassConfig::TYPE_BEFORE_OPTIMIZATION, int $priority = 0)
     {
         $this->passConfig->addPass($pass, $type, $priority);
     }
 
     /**
      * @final
-     *
-     * @return void
      */
     public function log(CompilerPassInterface $pass, string $message)
     {
         if (str_contains($message, "\n")) {
-            $message = str_replace("\n", "\n".$pass::class.': ', trim($message));
+            $message = str_replace("\n", "\n".\get_class($pass).': ', trim($message));
         }
 
-        $this->log[] = $pass::class.': '.$message;
+        $this->log[] = \get_class($pass).': '.$message;
     }
 
-    public function getLog(): array
+    /**
+     * Returns the log.
+     *
+     * @return array Log array
+     */
+    public function getLog()
     {
         return $this->log;
     }
 
     /**
      * Run the Compiler and process all Passes.
-     *
-     * @return void
      */
     public function compile(ContainerBuilder $container)
     {
@@ -88,6 +102,7 @@ class Compiler
 
                 if ($msg !== $resolvedMsg = $container->resolveEnvPlaceholders($msg, null, $usedEnvs)) {
                     $r = new \ReflectionProperty($prev, 'message');
+                    $r->setAccessible(true);
                     $r->setValue($prev, $resolvedMsg);
                 }
             } while ($prev = $prev->getPrevious());

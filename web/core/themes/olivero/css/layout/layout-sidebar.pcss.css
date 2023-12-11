@@ -3,12 +3,13 @@
  * Special grid system for sidebar.
  */
 
-@import "../base/media-queries.pcss.css";
+@import "../base/variables.pcss.css";
 
 .sidebar-grid {
   & > .site-main {
     grid-column: 1 / 7;
     align-self: flex-start;
+    -ms-grid-row-align: start;
 
     @media (--grid-md) {
       grid-column: 1 / 15;
@@ -35,6 +36,7 @@
   }
 
   & .region--sidebar {
+    -ms-grid-row: 2;
     grid-column: 1 / 7;
 
     @media (--grid-md) {
@@ -42,6 +44,7 @@
     }
 
     @media (--lg) {
+      -ms-grid-row: 1;
       grid-column: 12 / 15;
     }
   }

@@ -14,15 +14,10 @@ check_override $@
 cd ${DOCROOT_PATH}
 
 if [[ $1 == "enable" ]]; then
-  fin drush en -y devel config_inspector webprofiler kint
-  # Config devel is know to cause issues when uninstalling.
-  # It is therefore not enabled by default.
-  #fin drush en -y config_devel
-  fin drush cset -y devel.settings devel_dumper var_dumper
+  fin drush en -y devel kint stage_file_proxy
 fi
 
 if [[ $1 == "disable" ]]; then
-  fin drush pmu -y webprofiler
-  #fin drush pmu -y config_devel
-  fin drush pmu -y devel config_inspector config_devel kint devel_generate
+  fin drush dis -y devel kint stage_file_proxy
+  fin drush pmu -y devel kint stage_file_proxy
 fi

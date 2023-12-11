@@ -9,7 +9,6 @@ use Drupal\update\UpdateManagerInterface;
  * Tests how the Update Manager handles contributed modules and themes.
  *
  * @group update
- * @group #slow
  */
 class UpdateContribTest extends UpdateTestBase {
 

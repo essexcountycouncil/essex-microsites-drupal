@@ -15,23 +15,30 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
+ * AjaxDataCollector.
+ *
  * @author Bart van den Burg <bart@burgov.nl>
  *
- * @final
+ * @final since Symfony 4.4
  */
 class AjaxDataCollector extends DataCollector
 {
-    public function collect(Request $request, Response $response, \Throwable $exception = null): void
+    /**
+     * {@inheritdoc}
+     *
+     * @param \Throwable|null $exception
+     */
+    public function collect(Request $request, Response $response/* , \Throwable $exception = null */)
     {
         // all collecting is done client side
     }
 
-    public function reset(): void
+    public function reset()
     {
         // all collecting is done client side
     }
 
-    public function getName(): string
+    public function getName()
     {
         return 'ajax';
     }

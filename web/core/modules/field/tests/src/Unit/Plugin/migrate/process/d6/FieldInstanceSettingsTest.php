@@ -17,14 +17,14 @@ use Drupal\Tests\UnitTestCase;
 class FieldInstanceSettingsTest extends UnitTestCase {
 
   /**
-   * @covers \Drupal\Core\Field\BaseFieldDefinition::getSettings
+   * @covers ::getSettings
    *
    * @dataProvider getSettingsProvider
    */
   public function testGetSettings($field_type, $instance_settings, $expected) {
     $instance_settings = unserialize($instance_settings);
     $migration = $this->createMock(MigrationInterface::class);
-    $plugin = new FieldInstanceSettings([], 'd6_field_field_settings', []);
+    $plugin = new FieldInstanceSettings([], 'd6_field_field_settings', [], $migration);
 
     $executable = $this->createMock(MigrateExecutableInterface::class);
     $row = $this->getMockBuilder(Row::class)

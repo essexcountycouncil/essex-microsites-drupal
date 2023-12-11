@@ -22,6 +22,9 @@ use Drupal\Core\Security\TrustedCallbackInterface;
  *     "text",
  *     "text_long",
  *     "text_with_summary"
+ *   },
+ *   quickedit = {
+ *     "editor" = "form"
  *   }
  * )
  */

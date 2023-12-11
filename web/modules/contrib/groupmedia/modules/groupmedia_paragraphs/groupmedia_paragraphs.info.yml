@@ -2,12 +2,12 @@ name: 'Group Media Paragraphs tracker'
 description: 'Adds media used in paragraphs to corresponding group'
 package: 'Group'
 type: module
-core_version_requirement: ^9 || ^10
+core_version_requirement: ^8.8 || ^9
 dependencies:
   - groupmedia:groupmedia
   - paragraphs:paragraphs
 
-# Information added by Drupal.org packaging script on 2023-09-11
-version: '4.0.2'
+# Information added by Drupal.org packaging script on 2022-11-14
+version: '4.0.0-alpha1'
 project: 'groupmedia'
-datestamp: 1694467523
+datestamp: 1668427613

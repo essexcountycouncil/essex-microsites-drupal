@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -27,25 +27,25 @@ use React\Promise\PromiseInterface;
 
 /**
  * @author Jordi Boggiano <j.boggiano@seld.be>
- * @phpstan-type Request array{url: non-empty-string, options: mixed[], copyTo: string|null}
- * @phpstan-type Job array{id: int, status: int, request: Request, sync: bool, origin: string, resolve?: callable, reject?: callable, curl_id?: int, response?: Response, exception?: \Throwable}
+ * @phpstan-type Request array{url: string, options?: mixed[], copyTo?: ?string}
+ * @phpstan-type Job array{id: int, status: int, request: Request, sync: bool, origin: string, resolve?: callable, reject?: callable, curl_id?: int, response?: Response, exception?: TransportException}
  */
 class HttpDownloader
 {
-    private const STATUS_QUEUED = 1;
-    private const STATUS_STARTED = 2;
-    private const STATUS_COMPLETED = 3;
-    private const STATUS_FAILED = 4;
-    private const STATUS_ABORTED = 5;
+    const STATUS_QUEUED = 1;
+    const STATUS_STARTED = 2;
+    const STATUS_COMPLETED = 3;
+    const STATUS_FAILED = 4;
+    const STATUS_ABORTED = 5;
 
     /** @var IOInterface */
     private $io;
     /** @var Config */
     private $config;
     /** @var array<Job> */
-    private $jobs = [];
+    private $jobs = array();
     /** @var mixed[] */
-    private $options = [];
+    private $options = array();
     /** @var int */
     private $runningJobs = 0;
     /** @var int */
@@ -65,8 +65,9 @@ class HttpDownloader
      * @param IOInterface $io         The IO instance
      * @param Config      $config     The config
      * @param mixed[]     $options    The options
+     * @param bool        $disableTls
      */
-    public function __construct(IOInterface $io, Config $config, array $options = [], bool $disableTls = false)
+    public function __construct(IOInterface $io, Config $config, array $options = array(), $disableTls = false)
     {
         $this->io = $io;
 
@@ -102,18 +103,30 @@ class HttpDownloader
      * @throws TransportException
      * @return Response
      */
-    public function get(string $url, array $options = [])
+    public function get($url, $options = array())
     {
-        if ('' === $url) {
-            throw new \InvalidArgumentException('$url must not be an empty string');
-        }
-        [$job, $promise] = $this->addJob(['url' => $url, 'options' => $options, 'copyTo' => null], true);
-        $promise->then(null, function (\Throwable $e) {
-            // suppress error as it is rethrown to the caller by getResponse() a few lines below
-        });
+        list($job) = $this->addJob(array('url' => $url, 'options' => $options, 'copyTo' => null), true);
         $this->wait($job['id']);
 
         $response = $this->getResponse($job['id']);
+
+        // check for failed curl response (empty body but successful looking response)
+        if (
+            $this->curl
+            && PHP_VERSION_ID < 70000
+            && $response->getBody() === null
+            && $response->getStatusCode() === 200
+            && $response->getHeader('content-length') !== '0'
+        ) {
+            $this->io->writeError('<warning>cURL downloader failed to return a response, disabling it and proceeding in slow mode.</warning>');
+
+            $this->curl = null;
+
+            list($job) = $this->addJob(array('url' => $url, 'options' => $options, 'copyTo' => null), true);
+            $this->wait($job['id']);
+
+            $response = $this->getResponse($job['id']);
+        }
 
         return $response;
     }
@@ -126,14 +139,10 @@ class HttpDownloader
      *                                     although not all options are supported when using the default curl downloader
      * @throws TransportException
      * @return PromiseInterface
-     * @phpstan-return PromiseInterface<Http\Response>
      */
-    public function add(string $url, array $options = [])
+    public function add($url, $options = array())
     {
-        if ('' === $url) {
-            throw new \InvalidArgumentException('$url must not be an empty string');
-        }
-        [, $promise] = $this->addJob(['url' => $url, 'options' => $options, 'copyTo' => null]);
+        list(, $promise) = $this->addJob(array('url' => $url, 'options' => $options, 'copyTo' => null));
 
         return $promise;
     }
@@ -148,12 +157,9 @@ class HttpDownloader
      * @throws TransportException
      * @return Response
      */
-    public function copy(string $url, string $to, array $options = [])
+    public function copy($url, $to, $options = array())
     {
-        if ('' === $url) {
-            throw new \InvalidArgumentException('$url must not be an empty string');
-        }
-        [$job] = $this->addJob(['url' => $url, 'options' => $options, 'copyTo' => $to], true);
+        list($job) = $this->addJob(array('url' => $url, 'options' => $options, 'copyTo' => $to), true);
         $this->wait($job['id']);
 
         return $this->getResponse($job['id']);
@@ -168,14 +174,10 @@ class HttpDownloader
      *                                     although not all options are supported when using the default curl downloader
      * @throws TransportException
      * @return PromiseInterface
-     * @phpstan-return PromiseInterface<Http\Response>
      */
-    public function addCopy(string $url, string $to, array $options = [])
+    public function addCopy($url, $to, $options = array())
     {
-        if ('' === $url) {
-            throw new \InvalidArgumentException('$url must not be an empty string');
-        }
-        [, $promise] = $this->addJob(['url' => $url, 'options' => $options, 'copyTo' => $to]);
+        list(, $promise) = $this->addJob(array('url' => $url, 'options' => $options, 'copyTo' => $to));
 
         return $promise;
     }
@@ -202,42 +204,43 @@ class HttpDownloader
     }
 
     /**
-     * @phpstan-param Request $request
+     * @param Request $request
+     * @param bool    $sync
+     *
      * @return array{Job, PromiseInterface}
-     * @phpstan-return array{Job, PromiseInterface<Http\Response>}
      */
-    private function addJob(array $request, bool $sync = false): array
+    private function addJob($request, $sync = false)
     {
         $request['options'] = array_replace_recursive($this->options, $request['options']);
 
         /** @var Job */
-        $job = [
+        $job = array(
             'id' => $this->idGen++,
             'status' => self::STATUS_QUEUED,
             'request' => $request,
             'sync' => $sync,
             'origin' => Url::getOrigin($this->config, $request['url']),
-        ];
+        );
 
         if (!$sync && !$this->allowAsync) {
             throw new \LogicException('You must use the HttpDownloader instance which is part of a Composer\Loop instance to be able to run async http requests');
         }
 
         // capture username/password from URL if there is one
-        if (Preg::isMatchStrictGroups('{^https?://([^:/]+):([^@/]+)@([^/]+)}i', $request['url'], $match)) {
+        if (Preg::isMatch('{^https?://([^:/]+):([^@/]+)@([^/]+)}i', $request['url'], $match)) {
             $this->io->setAuthentication($job['origin'], rawurldecode($match[1]), rawurldecode($match[2]));
         }
 
         $rfs = $this->rfs;
 
         if ($this->canUseCurl($job)) {
-            $resolver = static function ($resolve, $reject) use (&$job): void {
+            $resolver = function ($resolve, $reject) use (&$job) {
                 $job['status'] = HttpDownloader::STATUS_QUEUED;
                 $job['resolve'] = $resolve;
                 $job['reject'] = $reject;
             };
         } else {
-            $resolver = static function ($resolve, $reject) use (&$job, $rfs): void {
+            $resolver = function ($resolve, $reject) use (&$job, $rfs) {
                 // start job
                 $url = $job['request']['url'];
                 $options = $job['request']['options'];
@@ -261,9 +264,10 @@ class HttpDownloader
             };
         }
 
+        $downloader = $this;
         $curl = $this->curl;
 
-        $canceler = static function () use (&$job, $curl): void {
+        $canceler = function () use (&$job, $curl) {
             if ($job['status'] === HttpDownloader::STATUS_QUEUED) {
                 $job['status'] = HttpDownloader::STATUS_ABORTED;
             }
@@ -278,18 +282,19 @@ class HttpDownloader
         };
 
         $promise = new Promise($resolver, $canceler);
-        $promise = $promise->then(function ($response) use (&$job) {
+        $promise = $promise->then(function ($response) use (&$job, $downloader) {
             $job['status'] = HttpDownloader::STATUS_COMPLETED;
             $job['response'] = $response;
 
-            $this->markJobDone();
+            // TODO 3.0 this should be done directly on $this when PHP 5.3 is dropped
+            $downloader->markJobDone();
 
             return $response;
-        }, function ($e) use (&$job): void {
+        }, function ($e) use (&$job, $downloader) {
             $job['status'] = HttpDownloader::STATUS_FAILED;
             $job['exception'] = $e;
 
-            $this->markJobDone();
+            $downloader->markJobDone();
 
             throw $e;
         });
@@ -299,10 +304,14 @@ class HttpDownloader
             $this->startJob($job['id']);
         }
 
-        return [$job, $promise];
+        return array($job, $promise);
     }
 
-    private function startJob(int $id): void
+    /**
+     * @param  int  $id
+     * @return void
+     */
+    private function startJob($id)
     {
         $job = &$this->jobs[$id];
         if ($job['status'] !== self::STATUS_QUEUED) {
@@ -313,9 +322,6 @@ class HttpDownloader
         $job['status'] = self::STATUS_STARTED;
         $this->runningJobs++;
 
-        assert(isset($job['resolve']));
-        assert(isset($job['reject']));
-
         $resolve = $job['resolve'];
         $reject = $job['reject'];
         $url = $job['request']['url'];
@@ -324,7 +330,7 @@ class HttpDownloader
 
         if ($this->disabled) {
             if (isset($job['request']['options']['http']['header']) && false !== stripos(implode('', $job['request']['options']['http']['header']), 'if-modified-since')) {
-                $resolve(new Response(['url' => $url], 304, [], ''));
+                $resolve(new Response(array('url' => $url), 304, array(), ''));
             } else {
                 $e = new TransportException('Network disabled, request canceled: '.Url::sanitize($url), 499);
                 $e->setStatusCode(499);
@@ -345,7 +351,11 @@ class HttpDownloader
         }
     }
 
-    private function markJobDone(): void
+    /**
+     * @private
+     * @return void
+     */
+    public function markJobDone()
     {
         $this->runningJobs--;
     }
@@ -357,7 +367,7 @@ class HttpDownloader
      *
      * @return void
      */
-    public function wait(?int $index = null)
+    public function wait($index = null)
     {
         do {
             $jobCount = $this->countActiveJobs($index);
@@ -366,8 +376,10 @@ class HttpDownloader
 
     /**
      * @internal
+     *
+     * @return void
      */
-    public function enableAsync(): void
+    public function enableAsync()
     {
         $this->allowAsync = true;
     }
@@ -378,7 +390,7 @@ class HttpDownloader
      * @param  int|null $index For internal use only, the job id
      * @return int      number of active (queued or started) jobs
      */
-    public function countActiveJobs(?int $index = null): int
+    public function countActiveJobs($index = null)
     {
         if ($this->runningJobs < $this->maxJobs) {
             foreach ($this->jobs as $job) {
@@ -410,15 +422,15 @@ class HttpDownloader
 
     /**
      * @param  int $index Job id
+     * @return Response
      */
-    private function getResponse(int $index): Response
+    private function getResponse($index)
     {
         if (!isset($this->jobs[$index])) {
             throw new \LogicException('Invalid request id');
         }
 
         if ($this->jobs[$index]['status'] === self::STATUS_FAILED) {
-            assert(isset($this->jobs[$index]['exception']));
             throw $this->jobs[$index]['exception'];
         }
 
@@ -436,11 +448,13 @@ class HttpDownloader
     /**
      * @internal
      *
+     * @param  string                                                                                    $url
      * @param  array{warning?: string, info?: string, warning-versions?: string, info-versions?: string, warnings?: array<array{versions: string, message: string}>, infos?: array<array{versions: string, message: string}>} $data
+     * @return void
      */
-    public static function outputWarnings(IOInterface $io, string $url, $data): void
+    public static function outputWarnings(IOInterface $io, $url, $data)
     {
-        $cleanMessage = static function ($msg) use ($io) {
+        $cleanMessage = function ($msg) use ($io) {
             if (!$io->isDecorated()) {
                 $msg = Preg::replace('{'.chr(27).'\\[[;\d]*m}u', '', $msg);
             }
@@ -449,7 +463,7 @@ class HttpDownloader
         };
 
         // legacy warning/info keys
-        foreach (['warning', 'info'] as $type) {
+        foreach (array('warning', 'info') as $type) {
             if (empty($data[$type])) {
                 continue;
             }
@@ -467,7 +481,7 @@ class HttpDownloader
         }
 
         // modern Composer 2.2+ format with support for multiple warning/info messages
-        foreach (['warnings', 'infos'] as $key) {
+        foreach (array('warnings', 'infos') as $key) {
             if (empty($data[$key])) {
                 continue;
             }
@@ -491,7 +505,7 @@ class HttpDownloader
      *
      * @return ?string[]
      */
-    public static function getExceptionHints(\Throwable $e): ?array
+    public static function getExceptionHints(\Exception $e)
     {
         if (!$e instanceof TransportException) {
             return null;
@@ -502,20 +516,20 @@ class HttpDownloader
             || false !== strpos($e->getMessage(), 'Could not resolve host')
         ) {
             Silencer::suppress();
-            $testConnectivity = file_get_contents('https://8.8.8.8', false, stream_context_create([
-                'ssl' => ['verify_peer' => false],
-                'http' => ['follow_location' => false, 'ignore_errors' => true],
-            ]));
+            $testConnectivity = file_get_contents('https://8.8.8.8', false, stream_context_create(array(
+                'ssl' => array('verify_peer' => false),
+                'http' => array('follow_location' => false, 'ignore_errors' => true),
+            )));
             Silencer::restore();
             if (false !== $testConnectivity) {
-                return [
+                return array(
                     '<error>The following exception probably indicates you have misconfigured DNS resolver(s)</error>',
-                ];
+                );
             }
 
-            return [
+            return array(
                 '<error>The following exception probably indicates you are offline or have misconfigured DNS resolver(s)</error>',
-            ];
+            );
         }
 
         return null;
@@ -523,8 +537,9 @@ class HttpDownloader
 
     /**
      * @param  Job  $job
+     * @return bool
      */
-    private function canUseCurl(array $job): bool
+    private function canUseCurl(array $job)
     {
         if (!$this->curl) {
             return false;
@@ -543,8 +558,9 @@ class HttpDownloader
 
     /**
      * @internal
+     * @return bool
      */
-    public static function isCurlEnabled(): bool
+    public static function isCurlEnabled()
     {
         return \extension_loaded('curl') && \function_exists('curl_multi_exec') && \function_exists('curl_multi_init');
     }

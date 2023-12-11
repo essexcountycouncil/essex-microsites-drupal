@@ -51,13 +51,12 @@ namespace Symfony\Component\Validator\Constraints;
  *
  * @author Bernhard Schussek <bschussek@gmail.com>
  */
-#[\Attribute(\Attribute::TARGET_CLASS)]
 class GroupSequence
 {
     /**
      * The groups in the sequence.
      *
-     * @var array<int, string|string[]|GroupSequence>
+     * @var array<string|string[]|GroupSequence>
      */
     public $groups;
 

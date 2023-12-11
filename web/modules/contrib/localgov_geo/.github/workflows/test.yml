@@ -6,10 +6,10 @@ name: Test localgovdrupal/localgov_geo drupal-module
 on:
   push:
     branches:
-      - '2.x'
+      - '1.x'
   pull_request:
     branches:
-      - '2.x'
+      - '1.x'
 
 env:
   LOCALGOV_DRUPAL_PROJECT: localgovdrupal/localgov_geo
@@ -25,10 +25,11 @@ jobs:
       fail-fast: false
       matrix:
         localgov-version:
-          - '3.x'
+          - '2.x'
         drupal-version:
-          - '~10.0'
+          - '~9.3'
         php-version:
+          - '7.4'
           - '8.1'
 
     steps:
@@ -108,10 +109,11 @@ jobs:
       fail-fast: false
       matrix:
         localgov-version:
-          - '3.x'
+          - '2.x'
         drupal-version:
-          - '~10.0'
+          - '~9.3'
         php-version:
+          - '7.4'
           - '8.1'
 
     steps:
@@ -143,10 +145,11 @@ jobs:
       fail-fast: false
       matrix:
         localgov-version:
-          - '3.x'
+          - '2.x'
         drupal-version:
-          - '~10.0'
+          - '~9.3'
         php-version:
+          - '7.4'
           - '8.1'
 
     steps:
@@ -177,10 +180,11 @@ jobs:
       fail-fast: false
       matrix:
         localgov-version:
-          - '3.x'
+          - '2.x'
         drupal-version:
-          - '~10.0'
+          - '~9.3'
         php-version:
+          - '7.4'
           - '8.1'
 
     steps:

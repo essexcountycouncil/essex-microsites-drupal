@@ -20,7 +20,7 @@ use PHPUnit\Framework\TestCase;
  */
 class DCOM58Test extends TestCase
 {
-    protected function setUp(): void
+    public function setUp(): void
     {
         // Some class named Entity in the global namespace.
         include __DIR__ .'/DCOM58Entity.php';
