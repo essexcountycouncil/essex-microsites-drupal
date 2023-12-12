@@ -1,0 +1,25 @@
+uuid: edef7311-28de-4870-a472-a86199d292b7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_site_name
+    - group.type.microsite
+_core:
+  default_config_hash: D7dtmwMc1K3e0-4CKla9BHKyYdKTdA3K2BEnQiSiS9A
+id: group.microsite.lgms_site_name
+field_name: lgms_site_name
+entity_type: group
+bundle: microsite
+label: 'Display site name'
+description: 'If checked, the site name will appear in the header. The site name can be updated in the site settings tab.'
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

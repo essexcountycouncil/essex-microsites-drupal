@@ -1,0 +1,23 @@
+uuid: c3d59d4b-4b2a-4edb-b0cf-acef9bb8d46a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_heading_2_font
+    - group.type.microsite
+  module:
+    - options
+_core:
+  default_config_hash: DZE9c-892gZ5AOX068l68Rwd5A6NYTSvLT4asN0jDKI
+id: group.microsite.lgms_heading_2_font
+field_name: lgms_heading_2_font
+entity_type: group
+bundle: microsite
+label: 'Heading 2 font'
+description: 'Preview the available heading fonts on <a href="https://fonts.google.com/share?selection.family=Alegreya+Sans|Archivo+Black|Archivo+Narrow|Arvo|Barlow|Cabin|IBM+Plex+Sans|Inter|Libre+Baskerville|Lora|Merriweather|Open+Sans|PT+Sans|PT+Serif|Playfair+Display|Public+Sans|Source+Sans+Pro|Space+Mono|Vollkorn|Work+Sans" target="_blank">Google Fonts (opens in a new window)</a>.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

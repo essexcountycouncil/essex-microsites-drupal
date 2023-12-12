@@ -1,0 +1,25 @@
+uuid: 2ce3994b-0f65-4deb-b1da-4ea83fdfe1e4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_hide_title
+    - group.type.microsite
+_core:
+  default_config_hash: F6RlyOGt6zPf7SopNBc-x7sf-W3ifKuR_cyea3EftJY
+id: group.microsite.lgms_hide_title
+field_name: lgms_hide_title
+entity_type: group
+bundle: microsite
+label: 'Hide page title on home page'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

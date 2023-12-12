@@ -1,0 +1,22 @@
+uuid: 56ed9adc-7cc5-4f03-979d-2598a63a6edf
+langcode: en
+status: true
+dependencies:
+  theme:
+    - localgov_claro
+_core:
+  default_config_hash: n7u6dyTFY_z1CyM_xY_JXEeJkz0fc992BMSJkt0kgR4
+id: localgov_claro_secondary_local_tasks
+theme: localgov_claro
+region: pre_content
+weight: 0
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: 'Secondary tabs'
+  label_display: '0'
+  provider: core
+  primary: false
+  secondary: true
+visibility: {  }

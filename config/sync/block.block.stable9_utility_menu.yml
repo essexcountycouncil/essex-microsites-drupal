@@ -1,0 +1,29 @@
+uuid: 3f945fa2-9029-4e67-95ff-90634eba7e42
+langcode: en
+status: true
+dependencies:
+  config:
+    - group_content_menu.group_content_menu_type.lgms_utility_menu
+  module:
+    - group_content_menu
+  theme:
+    - stable9
+_core:
+  default_config_hash: sH_DtsGGJx5fn1SpXL7kp8_YYhnp1OzbE-cK-PcdUuk
+id: stable9_utility_menu
+theme: stable9
+region: sidebar_first
+weight: -3
+provider: null
+plugin: 'group_content_menu:lgms_utility_menu'
+settings:
+  id: 'group_content_menu:lgms_utility_menu'
+  label: 'Utility menu'
+  label_display: '0'
+  provider: group_content_menu
+  context_mapping:
+    group: '@domain_group.domain_group_context:group'
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility: {  }

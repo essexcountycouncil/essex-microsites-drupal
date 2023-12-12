@@ -1,0 +1,17 @@
+uuid: b5a875b9-8cf6-4a3e-ba83-dfcaae2f618b
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.microsite
+    - webform.webform.microsite_contact
+  module:
+    - group_webform
+    - webform
+id: microsite-71525d67e456a3c46ccf0f
+group_type: microsite
+content_plugin: 'group_webform:microsite_contact'
+plugin_config:
+  group_cardinality: 0
+  entity_cardinality: 1
+  use_creation_wizard: false

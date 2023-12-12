@@ -1,0 +1,21 @@
+uuid: 9e7b0f93-b6dc-4f00-9b3f-151221fa2f3f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group_relationship.invitee_mail
+    - group.relationship_type.microsite-group_invitation
+_core:
+  default_config_hash: 3KZk7OisBgqzohSOWNtB0E746IbkVfegpTDJ_-nR5s8
+id: group_relationship.microsite-group_invitation.invitee_mail
+field_name: invitee_mail
+entity_type: group_relationship
+bundle: microsite-group_invitation
+label: 'Invitee mail'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: email

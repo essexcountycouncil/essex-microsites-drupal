@@ -1,0 +1,8 @@
+uuid: 351b4830-99b7-44ad-a392-fdc95470851a
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: Hh9hFAgaEOrp_vv8UtZSK3W0b3Z37mflZVlFYtC3jwI
+id: lgms_footer_housekeeping
+label: 'Footer housekeeping'

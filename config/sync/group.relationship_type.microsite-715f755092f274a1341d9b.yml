@@ -1,0 +1,19 @@
+uuid: 44cbe6c8-639b-4893-b87d-bbe83ffa9c9f
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.microsite
+    - node.type.localgov_newsroom
+  module:
+    - gnode
+    - node
+_core:
+  default_config_hash: bJQnM-H5AN_8s3UYtuCHvWOJG4eS8AALFzvGZYzUxw8
+id: microsite-715f755092f274a1341d9b
+group_type: microsite
+content_plugin: 'group_node:localgov_newsroom'
+plugin_config:
+  group_cardinality: 0
+  entity_cardinality: 1
+  use_creation_wizard: false

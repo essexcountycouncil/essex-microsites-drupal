@@ -1,0 +1,31 @@
+uuid: 208ba634-807e-41a8-a62d-d38444475504
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_media_image
+    - media.type.image
+    - node.type.localgov_blog_post
+_core:
+  default_config_hash: el_JSz5xskzuAx1TLY2Jkrzo-u7NGEXYBtFPhZ0vPvY
+id: node.localgov_blog_post.field_media_image
+field_name: field_media_image
+entity_type: node
+bundle: localgov_blog_post
+label: Image
+description: 'Used in teaser displays, such as the Blog channel.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

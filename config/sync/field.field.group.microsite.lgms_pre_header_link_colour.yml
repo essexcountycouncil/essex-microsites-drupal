@@ -1,0 +1,21 @@
+uuid: 7c1577ee-de53-4081-b3af-5538521cb052
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_pre_header_link_colour
+    - group.type.microsite
+_core:
+  default_config_hash: ojnsLKPRdWeHciiiht822p-7O7V-r59Md-GeUJsr9UQ
+id: group.microsite.lgms_pre_header_link_colour
+field_name: lgms_pre_header_link_colour
+entity_type: group
+bundle: microsite
+label: 'Pre-header Link Colour'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

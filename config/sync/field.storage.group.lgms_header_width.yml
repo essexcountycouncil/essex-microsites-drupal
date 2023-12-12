@@ -1,0 +1,32 @@
+uuid: e2cecfd6-dae7-4aeb-af73-70ada35e6772
+langcode: en
+status: true
+dependencies:
+  module:
+    - group
+    - options
+_core:
+  default_config_hash: 2yQp4uXjqAHav9vt6OZBxr5mZZmgFqVZISJy8Mjd-bA
+id: group.lgms_header_width
+field_name: lgms_header_width
+entity_type: group
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: full-width
+      label: 'Full width content and background'
+    -
+      value: full-width-content-contained
+      label: 'Constrained content and full width background'
+    -
+      value: content-centered
+      label: 'Constrained content and background'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,20 @@
+uuid: c3cdd021-e440-4e0d-8da9-2932afe22b70
+langcode: en
+status: true
+dependencies:
+  theme:
+    - localgov_claro
+_core:
+  default_config_hash: L516Vk7_Nni_5g2TtG-jL_ZKSzoCTgoFEuqAoIvStNI
+id: localgov_claro_page_title
+theme: localgov_claro
+region: header
+weight: -30
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  label_display: '0'
+  provider: core
+visibility: {  }

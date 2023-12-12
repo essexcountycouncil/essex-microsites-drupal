@@ -1,0 +1,22 @@
+uuid: 8fa45208-f728-44ca-91e4-0b78f2b9bfd8
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - taxonomy
+_core:
+  default_config_hash: HjrT819RLDbKV2SIg0CF-hvUahb8x5CIMp4_WebKgPk
+id: node.localgov_blog_author
+field_name: localgov_blog_author
+entity_type: node
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

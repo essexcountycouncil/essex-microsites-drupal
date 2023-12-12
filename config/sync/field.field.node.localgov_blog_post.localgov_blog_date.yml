@@ -1,0 +1,26 @@
+uuid: 081e40af-4e3d-4f65-b95a-0b0f349bea46
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.localgov_blog_date
+    - node.type.localgov_blog_post
+  module:
+    - datetime
+_core:
+  default_config_hash: JUiupEhPf-iLIYjNq4BZVg9QE9KwTkuxdQ0etzgSkVo
+id: node.localgov_blog_post.localgov_blog_date
+field_name: localgov_blog_date
+entity_type: node
+bundle: localgov_blog_post
+label: 'Blog date'
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    default_date_type: now
+    default_date: now
+default_value_callback: ''
+settings: {  }
+field_type: datetime

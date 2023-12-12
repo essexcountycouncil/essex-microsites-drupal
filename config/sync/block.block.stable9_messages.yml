@@ -1,0 +1,22 @@
+uuid: 4d99214c-d073-422a-87f0-0fe3c6164407
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - stable9
+_core:
+  default_config_hash: EczozzKn1Ia4oRFm_sGdUCCYy3smq8CcquVkRbN1GSY
+id: stable9_messages
+theme: stable9
+region: sidebar_first
+weight: 0
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: Messages
+  label_display: '0'
+  provider: system
+visibility: {  }

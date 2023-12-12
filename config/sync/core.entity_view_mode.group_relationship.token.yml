@@ -1,0 +1,10 @@
+uuid: 9fcba118-6d21-47da-a631-dc68f0b9a2d6
+langcode: en
+status: true
+dependencies:
+  module:
+    - group
+id: group_relationship.token
+label: Token
+targetEntityType: group_relationship
+cache: true

@@ -1,0 +1,22 @@
+uuid: c364d7e0-3ba5-4d43-a260-856481eb7640
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - localgov_microsites_base
+_core:
+  default_config_hash: ArvC1EhXmlkTir18Pef9hMJ2__Ma9op-Cz8o2viG2jc
+id: localgov_microsites_base_main_page_content
+theme: localgov_microsites_base
+region: content
+weight: 0
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  label_display: '0'
+  provider: system
+visibility: {  }

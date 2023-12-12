@@ -1,0 +1,21 @@
+uuid: 726e8a2a-634d-4b05-8214-9cc85abe1866
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_heading_5_font_colour
+    - group.type.microsite
+_core:
+  default_config_hash: KurEqQrS0vt74-R15ZVNV_mTz_9Ztj_SIZw1asDQHAo
+id: group.microsite.lgms_heading_5_font_colour
+field_name: lgms_heading_5_font_colour
+entity_type: group
+bundle: microsite
+label: 'Heading 5 font colour'
+description: 'Choose a colour with sufficient colour contrast with the Page background colour.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

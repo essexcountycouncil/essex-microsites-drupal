@@ -1,0 +1,17 @@
+uuid: 6e1bfcac-e83a-407a-bf0c-0b23625362d2
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: NWCimAkbHEMXKkVMPDThvrgubjbiFPdcuFCEucf49v4
+name: localgov_microsite_200_85
+label: 'Microsite 200x85'
+effects:
+  f9240199-bd19-40c7-a5ff-9177befacd40:
+    uuid: f9240199-bd19-40c7-a5ff-9177befacd40
+    id: image_scale
+    weight: 1
+    data:
+      width: 200
+      height: 85
+      upscale: false

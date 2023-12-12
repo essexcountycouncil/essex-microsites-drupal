@@ -1,0 +1,32 @@
+uuid: 5cd7c3c2-10b2-41c6-8fbc-d7853a898fdd
+langcode: en
+status: true
+dependencies:
+  module:
+    - group
+    - options
+_core:
+  default_config_hash: i4CDmY1yZLfDRQ3OPJCd8bE_gocnRGcwSo-CpcTQB4U
+id: group.lgms_teaser_image_style
+field_name: lgms_teaser_image_style
+entity_type: group
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: square
+      label: Square
+    -
+      value: 3x2
+      label: 'Landscape 3x2'
+    -
+      value: 7x3
+      label: 'Landscape 7x3'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

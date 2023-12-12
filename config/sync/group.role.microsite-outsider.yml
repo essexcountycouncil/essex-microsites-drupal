@@ -1,0 +1,35 @@
+uuid: 5aa4e317-7dcc-40e5-9ffb-6d67109d2f08
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.microsite
+    - user.role.authenticated
+_core:
+  default_config_hash: pw9sqc20-3VIAcRay00vurnFPpR7NNP0ekfYWcb5bMU
+id: microsite-outsider
+label: Outsider
+weight: -101
+admin: false
+scope: outsider
+global_role: authenticated
+group_type: microsite
+permissions:
+  - 'view group_media:document entity'
+  - 'view group_media:image entity'
+  - 'view group_media:remote_video entity'
+  - 'view group_node:localgov_blog_channel entity'
+  - 'view group_node:localgov_blog_post entity'
+  - 'view group_node:localgov_directories_page entity'
+  - 'view group_node:localgov_directories_venue entity'
+  - 'view group_node:localgov_directory entity'
+  - 'view group_node:localgov_directory_promo_page entity'
+  - 'view group_node:localgov_event entity'
+  - 'view group_node:localgov_news_article entity'
+  - 'view group_node:localgov_newsroom entity'
+  - 'view group_node:localgov_page entity'
+  - 'view group_term:localgov_blog_author entity'
+  - 'view group_term:localgov_event_category entity'
+  - 'view group_term:localgov_event_locality entity'
+  - 'view group_term:localgov_event_price entity'
+  - 'view group_term:localgov_topic entity'

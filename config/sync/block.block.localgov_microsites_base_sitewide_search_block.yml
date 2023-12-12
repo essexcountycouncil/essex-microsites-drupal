@@ -1,0 +1,22 @@
+uuid: 42b988d8-9a6c-4bd8-b661-228a03c6c232
+langcode: en
+status: true
+dependencies:
+  module:
+    - localgov_search
+  theme:
+    - localgov_microsites_base
+_core:
+  default_config_hash: WIUemtpkGaKQek-XxYZGd-m4yy2GKnF4i-uBZ-7-l4I
+id: localgov_microsites_base_sitewide_search_block
+theme: localgov_microsites_base
+region: search
+weight: 0
+provider: null
+plugin: localgov_sitewide_search_block
+settings:
+  id: localgov_sitewide_search_block
+  label: 'Sitewide search block'
+  label_display: '0'
+  provider: localgov_search
+visibility: {  }

@@ -1,0 +1,22 @@
+uuid: 8c66428d-aa0b-4b63-b1a8-1608a471a69b
+langcode: en
+status: true
+dependencies:
+  module:
+    - localgov_search
+  theme:
+    - stable9
+_core:
+  default_config_hash: WIUemtpkGaKQek-XxYZGd-m4yy2GKnF4i-uBZ-7-l4I
+id: stable9_sitewide_search_block
+theme: stable9
+region: sidebar_first
+weight: 0
+provider: null
+plugin: localgov_sitewide_search_block
+settings:
+  id: localgov_sitewide_search_block
+  label: 'Sitewide search block'
+  label_display: '0'
+  provider: localgov_search
+visibility: {  }

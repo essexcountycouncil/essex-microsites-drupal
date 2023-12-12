@@ -1,0 +1,23 @@
+uuid: 4701dd46-208c-401c-942e-6819f3660303
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_footer_text_block_4
+    - group.type.microsite
+  module:
+    - text
+_core:
+  default_config_hash: pus8Dhtdh75SYMx7bAeQt8GdMXDdX_vaW94icuK1br0
+id: group.microsite.lgms_footer_text_block_4
+field_name: lgms_footer_text_block_4
+entity_type: group
+bundle: microsite
+label: 'Footer Text Block 4'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

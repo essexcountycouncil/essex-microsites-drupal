@@ -1,0 +1,24 @@
+uuid: 731d5956-72e5-4e78-b22a-989d51d2845a
+langcode: en
+status: true
+dependencies:
+  module:
+    - group
+  enforced:
+    module:
+      - group
+      - ginvite
+_core:
+  default_config_hash: om0HumoeulwpA5eyYgpvsc2GyzLGNe1TQYsP1k64Q_s
+id: group_relationship.invitee_mail
+field_name: invitee_mail
+entity_type: group_relationship
+type: email
+settings: {  }
+module: core
+locked: true
+cardinality: 1
+translatable: false
+indexes: {  }
+persist_with_no_fields: true
+custom_storage: false

@@ -1,0 +1,13 @@
+uuid: 686b768d-24ca-4fda-9326-5d14a729ce99
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: 7ehXX2fnmjd54EI-0qZ_qFwCG2h6t6LHUokvnVg9qwM
+name: 'Blog channel'
+type: localgov_blog_channel
+description: 'Page for listing blog posts.'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

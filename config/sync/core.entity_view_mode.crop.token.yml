@@ -1,0 +1,10 @@
+uuid: 89d89f48-3ca3-4b7a-b5e1-06dc222445ee
+langcode: en
+status: true
+dependencies:
+  module:
+    - crop
+id: crop.token
+label: Token
+targetEntityType: crop
+cache: true

@@ -1,0 +1,22 @@
+uuid: 43fe463c-5eb2-48b4-aab7-c1d3df77b981
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - localgov_claro
+_core:
+  default_config_hash: 1eAZydPh6SPSJgZAcVi470u48rtwUFLehZLiZaDSigg
+id: localgov_claro_breadcrumbs
+theme: localgov_claro
+region: breadcrumb
+weight: 0
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  label_display: '0'
+  provider: system
+visibility: {  }

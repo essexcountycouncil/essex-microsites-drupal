@@ -1,0 +1,19 @@
+uuid: f54cded8-ac9c-48b4-b8a4-2f4df4d2190d
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.microsite
+    - taxonomy.vocabulary.localgov_blog_author
+  module:
+    - group_term
+    - taxonomy
+_core:
+  default_config_hash: TD9UT4rfUvIbpNuVv1FDgBVN0KvVcrS2rFfT39anIyk
+id: microsite-770e1cb15186fe8e687f64
+group_type: microsite
+content_plugin: 'group_term:localgov_blog_author'
+plugin_config:
+  group_cardinality: 0
+  entity_cardinality: 1
+  use_creation_wizard: false

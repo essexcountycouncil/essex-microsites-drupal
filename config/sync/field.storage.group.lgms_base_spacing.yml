@@ -1,0 +1,23 @@
+uuid: 7a64a252-cac8-432f-b041-53cf41ef8359
+langcode: en
+status: true
+dependencies:
+  module:
+    - group
+_core:
+  default_config_hash: o9vlRnav5ZhxQ86NIuhXZ9x0Qw7LjLmBfdVuOX4fqJQ
+id: group.lgms_base_spacing
+field_name: lgms_base_spacing
+entity_type: group
+type: string
+settings:
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

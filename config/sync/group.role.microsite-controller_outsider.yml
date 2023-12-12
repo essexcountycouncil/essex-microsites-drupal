@@ -1,0 +1,17 @@
+uuid: 421097b2-b723-411d-a4aa-0441ffce27d6
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.microsite
+    - user.role.microsites_controller
+_core:
+  default_config_hash: eHfZiCtNN2QYi6oK05e4mdyZcH4Ysx48CtHKUGjzyR0
+id: microsite-controller_outsider
+label: 'Controller (outsider)'
+weight: -97
+admin: true
+scope: outsider
+global_role: microsites_controller
+group_type: microsite
+permissions: {  }

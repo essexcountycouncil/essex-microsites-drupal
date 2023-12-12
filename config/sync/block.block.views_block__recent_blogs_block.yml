@@ -1,0 +1,35 @@
+uuid: 52b3204b-0804-4362-9f0e-44c0daad33e4
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.recent_blogs
+  module:
+    - node
+    - views
+  theme:
+    - localgov_base
+_core:
+  default_config_hash: jHnM0zOBdC7NSlWEbukPwCO7Sv8RkkBqF1dpg_rr2r0
+id: views_block__recent_blogs_block
+theme: localgov_base
+region: sidebar_second
+weight: -5
+provider: null
+plugin: 'views_block:recent_blogs-block'
+settings:
+  id: 'views_block:recent_blogs-block'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+  context_mapping: {  }
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      localgov_blog_post: localgov_blog_post

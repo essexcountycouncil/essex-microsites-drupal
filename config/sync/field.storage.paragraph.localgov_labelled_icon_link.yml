@@ -1,0 +1,21 @@
+uuid: dbe4c8fb-2b9d-4597-ba92-38743abeb9d7
+langcode: en
+status: true
+dependencies:
+  module:
+    - link
+    - paragraphs
+_core:
+  default_config_hash: GG1NrnxvY7LQpfSdH7i1B47R0feVMD3u3bGlg4NdbWo
+id: paragraph.localgov_labelled_icon_link
+field_name: localgov_labelled_icon_link
+entity_type: paragraph
+type: link
+settings: {  }
+module: link
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

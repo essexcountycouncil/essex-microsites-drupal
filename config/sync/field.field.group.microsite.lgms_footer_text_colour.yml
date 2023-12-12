@@ -1,0 +1,21 @@
+uuid: e1a2362d-5b00-46bf-a450-be8430ac68d1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_footer_text_colour
+    - group.type.microsite
+_core:
+  default_config_hash: spCD4a_PqYI0um-KgNUVExjWl-05rAvTwQ8sGNUvyJs
+id: group.microsite.lgms_footer_text_colour
+field_name: lgms_footer_text_colour
+entity_type: group
+bundle: microsite
+label: 'Footer Text Colour'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

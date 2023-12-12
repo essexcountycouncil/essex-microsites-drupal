@@ -1,0 +1,23 @@
+uuid: 1218bda6-931f-4e81-8453-c1f3e3c4defb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_main_menu_font_weight
+    - group.type.microsite
+  module:
+    - options
+_core:
+  default_config_hash: 296ueikc2uCj9zuq_-Kv5J9wZdW_18drYelZPLAWGS0
+id: group.microsite.lgms_main_menu_font_weight
+field_name: lgms_main_menu_font_weight
+entity_type: group
+bundle: microsite
+label: 'Main menu link font weight'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

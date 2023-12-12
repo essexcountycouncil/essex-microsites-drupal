@@ -1,0 +1,23 @@
+uuid: 2c74011a-6db0-47e5-8fea-fc415d6ebcbc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_heading_3_font_weight
+    - group.type.microsite
+  module:
+    - options
+_core:
+  default_config_hash: DzwSjTQCK7-zgVgY7R7KXNQsm1LgLzAKXg_fuGlOu6M
+id: group.microsite.lgms_heading_3_font_weight
+field_name: lgms_heading_3_font_weight
+entity_type: group
+bundle: microsite
+label: 'Heading 3 font weight'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

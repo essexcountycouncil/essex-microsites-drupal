@@ -1,0 +1,22 @@
+uuid: 1e7f7b2b-df5b-4ddc-bacd-b3df434a3e1f
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - taxonomy
+_core:
+  default_config_hash: sqyN_vJlD3kddhc4QBDFK3oVCKpAoNMfDtE-mm10RJc
+id: node.localgov_event_price
+field_name: localgov_event_price
+entity_type: node
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

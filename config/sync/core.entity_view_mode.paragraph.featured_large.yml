@@ -1,0 +1,12 @@
+uuid: a5dc1a27-3685-4951-933f-08251b95f767
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs
+_core:
+  default_config_hash: blgDUaa-0FfERtRJfP0Ov2synIi6J4a7c8kBopp9FMU
+id: paragraph.featured_large
+label: 'Featured large'
+targetEntityType: paragraph
+cache: true

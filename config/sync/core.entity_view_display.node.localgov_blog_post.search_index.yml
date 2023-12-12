@@ -1,0 +1,44 @@
+uuid: 5198e071-aa1d-4aa2-a84e-690251e86024
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.search_index
+    - field.field.node.localgov_blog_post.body
+    - field.field.node.localgov_blog_post.field_media_image
+    - field.field.node.localgov_blog_post.lgms_banner
+    - field.field.node.localgov_blog_post.localgov_blog_author
+    - field.field.node.localgov_blog_post.localgov_blog_categories
+    - field.field.node.localgov_blog_post.localgov_blog_channel
+    - field.field.node.localgov_blog_post.localgov_blog_date
+    - field.field.node.localgov_blog_post.localgov_blog_related_posts
+    - field.field.node.localgov_blog_post.localgov_paragraph_content
+    - node.type.localgov_blog_post
+  module:
+    - text
+    - user
+_core:
+  default_config_hash: zDCoF9Hfr8giZPL0W_n8UhWD_HxWVbsczBMfst2bSnM
+id: node.localgov_blog_post.search_index
+targetEntityType: node
+bundle: localgov_blog_post
+mode: search_index
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_media_image: true
+  lgms_banner: true
+  links: true
+  localgov_blog_author: true
+  localgov_blog_categories: true
+  localgov_blog_channel: true
+  localgov_blog_date: true
+  localgov_blog_related_posts: true
+  localgov_paragraph_content: true
+  search_api_excerpt: true

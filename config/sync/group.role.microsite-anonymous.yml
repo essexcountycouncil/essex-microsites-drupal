@@ -1,0 +1,37 @@
+uuid: d0c040b6-0899-4a87-995b-cffd108cdf35
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.microsite
+    - user.role.anonymous
+_core:
+  default_config_hash: 2LjBXIlrHrV89x6enm7CgPObwHhY3TiOvDr0-1uEDw4
+id: microsite-anonymous
+label: Anonymous
+weight: -102
+admin: false
+scope: outsider
+global_role: anonymous
+group_type: microsite
+permissions:
+  - 'create group_webform:microsite_contact entity'
+  - 'view group_media:document entity'
+  - 'view group_media:image entity'
+  - 'view group_media:remote_video entity'
+  - 'view group_node:localgov_blog_channel entity'
+  - 'view group_node:localgov_blog_post entity'
+  - 'view group_node:localgov_directories_page entity'
+  - 'view group_node:localgov_directories_venue entity'
+  - 'view group_node:localgov_directory entity'
+  - 'view group_node:localgov_directory_promo_page entity'
+  - 'view group_node:localgov_event entity'
+  - 'view group_node:localgov_news_article entity'
+  - 'view group_node:localgov_newsroom entity'
+  - 'view group_node:localgov_page entity'
+  - 'view group_node:localgov_webform entity'
+  - 'view group_term:localgov_blog_author entity'
+  - 'view group_term:localgov_event_category entity'
+  - 'view group_term:localgov_event_locality entity'
+  - 'view group_term:localgov_event_price entity'
+  - 'view group_term:localgov_topic entity'

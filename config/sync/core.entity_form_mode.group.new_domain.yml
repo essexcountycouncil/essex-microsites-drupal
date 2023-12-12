@@ -1,0 +1,12 @@
+uuid: 692ce7d7-6185-4220-b819-0ed5809a710a
+langcode: en
+status: true
+dependencies:
+  module:
+    - group
+_core:
+  default_config_hash: PfLS7A0bsUJc1xSpeS5zNnVc6G1X5IoSFHMMF3baKIk
+id: group.new_domain
+label: 'New Domain'
+targetEntityType: group
+cache: true

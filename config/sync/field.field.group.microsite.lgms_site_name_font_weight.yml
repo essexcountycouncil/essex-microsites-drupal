@@ -1,0 +1,23 @@
+uuid: d32aea0c-019e-460b-b32a-9b26f5aee943
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_site_name_font_weight
+    - group.type.microsite
+  module:
+    - options
+_core:
+  default_config_hash: bXLOt1lgo7Njhkw7oiRDWS8SZ87fvzZL9M-AuFUkcEU
+id: group.microsite.lgms_site_name_font_weight
+field_name: lgms_site_name_font_weight
+entity_type: group
+bundle: microsite
+label: 'Site name font weight'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

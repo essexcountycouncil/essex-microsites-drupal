@@ -1,0 +1,20 @@
+uuid: 72d4011e-6e0c-492a-a058-c7c72532ce5f
+langcode: en
+status: true
+dependencies:
+  theme:
+    - stable9
+_core:
+  default_config_hash: 7EXWAwg1nS_-vBjr2MeAe_CQ6K6psm7fet4TugM5JrA
+id: stable9_page_title
+theme: stable9
+region: sidebar_first
+weight: -4
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  label_display: '0'
+  provider: core
+visibility: {  }

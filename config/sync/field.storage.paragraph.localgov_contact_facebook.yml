@@ -1,0 +1,21 @@
+uuid: 0fcd5ab2-ca93-4a5f-bdd2-d30f922a1eec
+langcode: en
+status: true
+dependencies:
+  module:
+    - link
+    - paragraphs
+_core:
+  default_config_hash: BSugGicQHOmSPaKlLBEa5YYMcPDXdHybErRNxnhRqxE
+id: paragraph.localgov_contact_facebook
+field_name: localgov_contact_facebook
+entity_type: paragraph
+type: link
+settings: {  }
+module: link
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

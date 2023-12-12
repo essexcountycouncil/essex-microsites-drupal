@@ -1,0 +1,21 @@
+uuid: 42a6aadd-37cb-4c11-93a8-78389f2ea18e
+langcode: en
+status: true
+dependencies:
+  module:
+    - group
+    - text
+_core:
+  default_config_hash: VezmxRsT9vwaxYJvmGV5mQCaiTagl1aTtIqzls32ECo
+id: group.lgms_footer_text_block_3
+field_name: lgms_footer_text_block_3
+entity_type: group
+type: text_long
+settings: {  }
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

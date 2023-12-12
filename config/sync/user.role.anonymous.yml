@@ -1,0 +1,20 @@
+uuid: 5e453290-04c4-43b8-8c63-3bb779a4d199
+langcode: en
+status: true
+dependencies:
+  module:
+    - localgov_geo
+    - media
+    - search_api_autocomplete
+    - system
+_core:
+  default_config_hash: j5zLMOdJBqC0bMvSdth5UebkprJB8g_2FXHqhfpJzow
+id: anonymous
+label: 'Anonymous user'
+weight: 0
+is_admin: false
+permissions:
+  - 'access content'
+  - 'use search_api_autocomplete for localgov_news_search'
+  - 'view geo'
+  - 'view media'

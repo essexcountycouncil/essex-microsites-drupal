@@ -1,0 +1,23 @@
+uuid: cfa3063b-e972-430f-a6e4-e198e0a130b1
+langcode: en
+status: true
+dependencies:
+  module:
+    - group
+_core:
+  default_config_hash: YQSCdNKeu2M2lO5RNla8kOdlFLR_Q1fI2L8cYrScmMM
+id: group.lgms_base_font_size
+field_name: lgms_base_font_size
+entity_type: group
+type: string
+settings:
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

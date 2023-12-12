@@ -1,0 +1,22 @@
+uuid: eac51de4-18be-4a90-8b0c-970a867aabe4
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - webform
+_core:
+  default_config_hash: 6tvA0b3FVq48hpieQ7hBfZltHHb5QHEnY4fvjr3IX_I
+id: node.localgov_webform
+field_name: localgov_webform
+entity_type: node
+type: webform
+settings:
+  target_type: webform
+module: webform
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

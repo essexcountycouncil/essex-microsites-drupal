@@ -1,0 +1,22 @@
+uuid: 5a2123a1-3693-42f4-811a-4686b9f69b42
+langcode: en
+status: true
+dependencies:
+  module:
+    - group
+    - media
+_core:
+  default_config_hash: KcGQt1PrCctmUZp8AMANdhBji2QJ8oFeTXjGzxl7kA4
+id: group.lgms_footer_banner
+field_name: lgms_footer_banner
+entity_type: group
+type: entity_reference
+settings:
+  target_type: media
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

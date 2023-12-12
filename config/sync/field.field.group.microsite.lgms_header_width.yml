@@ -1,0 +1,23 @@
+uuid: 88090b17-23be-41d9-98cc-655147dd1710
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_header_width
+    - group.type.microsite
+  module:
+    - options
+_core:
+  default_config_hash: gj3nK-dq9OeMsvPI3c2FQk90SQKgvs3P03eVUKYjDZc
+id: group.microsite.lgms_header_width
+field_name: lgms_header_width
+entity_type: group
+bundle: microsite
+label: 'Header Width'
+description: "Set the width of the header content and background colours.\r\n<ul>\r\n<li>Full width content and background: both the content and background are full width of the screen</li>\r\n<li>Constrained content and full width background: the content is constrained to the width of the page, while the background is full width</li>\r\n<li>Constrained content and background: both the background and content are constrained and centered</li>\r\n</ul>\r\n\r\n<img src=\"/modules/contrib/localgov_microsites_group/assets/headerWidth.png\" alt=\"\" >\r\n\r\n<p><i>Note: if the background colour is the same as the page background (default: white) you may not notice the difference between the second and third options. </i></p>"
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

@@ -1,0 +1,25 @@
+uuid: 920bfa4b-8b26-4bb7-ab58-2e521e4d419f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.localgov_featured_subsite_link
+    - paragraphs.paragraphs_type.localgov_featured_subsite
+  module:
+    - link
+_core:
+  default_config_hash: t7z7Os75nupKQMVIY6adX7x9xW2HZ3AFI5hElg9zXv0
+id: paragraph.localgov_featured_subsite.localgov_featured_subsite_link
+field_name: localgov_featured_subsite_link
+entity_type: paragraph
+bundle: localgov_featured_subsite
+label: 'Subsite title link'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 2
+field_type: link

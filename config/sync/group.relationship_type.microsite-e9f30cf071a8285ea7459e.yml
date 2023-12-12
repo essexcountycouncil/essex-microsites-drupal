@@ -1,0 +1,19 @@
+uuid: eeb01e2e-6360-422d-8541-485d234f1f2d
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.microsite
+    - node.type.localgov_page
+  module:
+    - gnode
+    - node
+_core:
+  default_config_hash: 0OJIu3VpISDmi8P92y1opwMM0YthdETA6XydjIYVb9E
+id: microsite-e9f30cf071a8285ea7459e
+group_type: microsite
+content_plugin: 'group_node:localgov_page'
+plugin_config:
+  group_cardinality: 0
+  entity_cardinality: 1
+  use_creation_wizard: false

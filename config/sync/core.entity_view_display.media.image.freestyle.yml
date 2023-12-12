@@ -1,0 +1,33 @@
+uuid: 974ba4d5-93b8-42f3-9461-d18e167a79a5
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.media.freestyle
+    - field.field.media.image.field_media_image
+    - media.type.image
+    - responsive_image.styles.freestyle_responsive
+  module:
+    - responsive_image
+_core:
+  default_config_hash: hxJ6cYrGmK-OChzTOJ26_wGhEndkdZYzppXf3pccI58
+id: media.image.freestyle
+targetEntityType: media
+bundle: image
+mode: freestyle
+content:
+  field_media_image:
+    type: responsive_image
+    label: hidden
+    settings:
+      responsive_image_style: freestyle_responsive
+      image_link: ''
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  created: true
+  name: true
+  search_api_excerpt: true
+  thumbnail: true
+  uid: true

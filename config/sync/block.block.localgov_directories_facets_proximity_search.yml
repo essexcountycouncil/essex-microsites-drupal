@@ -1,0 +1,33 @@
+uuid: 19b3dbf6-df6b-4d61-8fb0-b155c534f725
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.localgov_directories_facets_proximity_search
+  module:
+    - facets
+    - node
+  theme:
+    - localgov_base
+_core:
+  default_config_hash: cAJe5B1vpuZ3VFRGTkfPJ1ETkwjJt1zkIT2V61WtyJk
+id: localgov_directories_facets_proximity_search
+theme: localgov_base
+region: sidebar_first
+weight: 5
+provider: null
+plugin: 'facet_block:localgov_directories_facets_proximity_search'
+settings:
+  id: 'facet_block:localgov_directories_facets_proximity_search'
+  label: 'Directory facets for proximity search'
+  label_display: '0'
+  provider: facets
+  block_id: localgov_directories_facets_proximity_search
+visibility:
+  node_type:
+    id: node_type
+    bundles:
+      localgov_directory: localgov_directory
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'

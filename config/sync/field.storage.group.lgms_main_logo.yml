@@ -1,0 +1,22 @@
+uuid: c7bffd2b-f1ae-4e11-9a1a-3273a6af57f7
+langcode: en
+status: true
+dependencies:
+  module:
+    - group
+    - media
+_core:
+  default_config_hash: _GZv6uuRHnbbHg1n_reSa5XuDL4Zuz5bpuVZAvsIzpE
+id: group.lgms_main_logo
+field_name: lgms_main_logo
+entity_type: group
+type: entity_reference
+settings:
+  target_type: media
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

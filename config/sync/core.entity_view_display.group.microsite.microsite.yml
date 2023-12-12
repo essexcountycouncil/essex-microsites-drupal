@@ -1,0 +1,293 @@
+uuid: 7ff785c5-11d4-4896-b624-bf31857de903
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.group.microsite
+    - field.field.group.microsite.lgms_base_font_size
+    - field.field.group.microsite.lgms_base_line_height
+    - field.field.group.microsite.lgms_base_spacing
+    - field.field.group.microsite.lgms_body_font
+    - field.field.group.microsite.lgms_display_sitewide_search
+    - field.field.group.microsite.lgms_favicon
+    - field.field.group.microsite.lgms_footer_background_colour
+    - field.field.group.microsite.lgms_footer_banner
+    - field.field.group.microsite.lgms_footer_copyright_notice
+    - field.field.group.microsite.lgms_footer_items_alignment
+    - field.field.group.microsite.lgms_footer_link_colour
+    - field.field.group.microsite.lgms_footer_link_hover_colour
+    - field.field.group.microsite.lgms_footer_logos
+    - field.field.group.microsite.lgms_footer_text_block_1
+    - field.field.group.microsite.lgms_footer_text_block_2
+    - field.field.group.microsite.lgms_footer_text_block_3
+    - field.field.group.microsite.lgms_footer_text_block_4
+    - field.field.group.microsite.lgms_footer_text_colour
+    - field.field.group.microsite.lgms_footer_width
+    - field.field.group.microsite.lgms_header_bg_colour
+    - field.field.group.microsite.lgms_header_link_colour
+    - field.field.group.microsite.lgms_header_link_hover_colour
+    - field.field.group.microsite.lgms_header_text_colour
+    - field.field.group.microsite.lgms_header_vertical_alignment
+    - field.field.group.microsite.lgms_header_width
+    - field.field.group.microsite.lgms_heading_1_font
+    - field.field.group.microsite.lgms_heading_1_font_colour
+    - field.field.group.microsite.lgms_heading_1_font_size
+    - field.field.group.microsite.lgms_heading_1_font_weight
+    - field.field.group.microsite.lgms_heading_1_line_height
+    - field.field.group.microsite.lgms_heading_2_font
+    - field.field.group.microsite.lgms_heading_2_font_colour
+    - field.field.group.microsite.lgms_heading_2_font_size
+    - field.field.group.microsite.lgms_heading_2_font_weight
+    - field.field.group.microsite.lgms_heading_2_line_height
+    - field.field.group.microsite.lgms_heading_3_font
+    - field.field.group.microsite.lgms_heading_3_font_colour
+    - field.field.group.microsite.lgms_heading_3_font_size
+    - field.field.group.microsite.lgms_heading_3_font_weight
+    - field.field.group.microsite.lgms_heading_3_line_height
+    - field.field.group.microsite.lgms_heading_4_font
+    - field.field.group.microsite.lgms_heading_4_font_colour
+    - field.field.group.microsite.lgms_heading_4_font_size
+    - field.field.group.microsite.lgms_heading_4_font_weight
+    - field.field.group.microsite.lgms_heading_4_line_height
+    - field.field.group.microsite.lgms_heading_5_font
+    - field.field.group.microsite.lgms_heading_5_font_colour
+    - field.field.group.microsite.lgms_heading_5_font_size
+    - field.field.group.microsite.lgms_heading_5_font_weight
+    - field.field.group.microsite.lgms_heading_5_line_height
+    - field.field.group.microsite.lgms_heading_6_font
+    - field.field.group.microsite.lgms_heading_6_font_colour
+    - field.field.group.microsite.lgms_heading_6_font_size
+    - field.field.group.microsite.lgms_heading_6_font_weight
+    - field.field.group.microsite.lgms_heading_6_line_height
+    - field.field.group.microsite.lgms_heading_font
+    - field.field.group.microsite.lgms_heading_font_weight
+    - field.field.group.microsite.lgms_hide_title
+    - field.field.group.microsite.lgms_link_colour
+    - field.field.group.microsite.lgms_main_logo
+    - field.field.group.microsite.lgms_main_menu_font_size
+    - field.field.group.microsite.lgms_main_menu_font_weight
+    - field.field.group.microsite.lgms_off_canvas_bg_colour
+    - field.field.group.microsite.lgms_off_canvas_menu_icon
+    - field.field.group.microsite.lgms_off_canvas_text_colour
+    - field.field.group.microsite.lgms_page_background_colour
+    - field.field.group.microsite.lgms_powered_by
+    - field.field.group.microsite.lgms_pre_header_bg_colour
+    - field.field.group.microsite.lgms_pre_header_link_colour
+    - field.field.group.microsite.lgms_pre_header_link_hover
+    - field.field.group.microsite.lgms_pre_header_text_colour
+    - field.field.group.microsite.lgms_pre_header_width
+    - field.field.group.microsite.lgms_primary_colour
+    - field.field.group.microsite.lgms_primary_colour_contrast
+    - field.field.group.microsite.lgms_secondary_colour
+    - field.field.group.microsite.lgms_secondary_colour_contrast
+    - field.field.group.microsite.lgms_site_name
+    - field.field.group.microsite.lgms_site_name_font_size
+    - field.field.group.microsite.lgms_site_name_font_weight
+    - field.field.group.microsite.lgms_site_slogan
+    - field.field.group.microsite.lgms_submenu_background_colour
+    - field.field.group.microsite.lgms_submenu_icon
+    - field.field.group.microsite.lgms_submenu_icon_rotation
+    - field.field.group.microsite.lgms_submenu_link_colour
+    - field.field.group.microsite.lgms_teaser_image_style
+    - field.field.group.microsite.lgms_text_colour
+    - group.type.microsite
+  module:
+    - media
+    - text
+_core:
+  default_config_hash: Ak3INpZuWvXO3qBCiXM16Z86wUkqVvgEt4okNV4-iwk
+id: group.microsite.microsite
+targetEntityType: group
+bundle: microsite
+mode: microsite
+content:
+  label:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  lgms_display_sitewide_search:
+    type: boolean
+    label: hidden
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 11
+    region: content
+  lgms_footer_banner:
+    type: media_thumbnail
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  lgms_footer_copyright_notice:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  lgms_footer_logos:
+    type: media_thumbnail
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: localgov_microsite_200_85
+      image_loading:
+        attribute: lazy
+    third_party_settings:
+      field_formatter_class:
+        class: ''
+    weight: 5
+    region: content
+  lgms_footer_text_block_1:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  lgms_footer_text_block_2:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  lgms_footer_text_block_3:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 9
+    region: content
+  lgms_footer_text_block_4:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 10
+    region: content
+  lgms_main_logo:
+    type: media_thumbnail
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  lgms_site_name:
+    type: boolean
+    label: hidden
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  lgms_site_slogan:
+    type: boolean
+    label: hidden
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 8
+    region: content
+hidden:
+  changed: true
+  created: true
+  lgms_base_font_size: true
+  lgms_base_line_height: true
+  lgms_base_spacing: true
+  lgms_body_font: true
+  lgms_favicon: true
+  lgms_footer_background_colour: true
+  lgms_footer_items_alignment: true
+  lgms_footer_link_colour: true
+  lgms_footer_link_hover_colour: true
+  lgms_footer_text_colour: true
+  lgms_footer_width: true
+  lgms_header_bg_colour: true
+  lgms_header_link_colour: true
+  lgms_header_link_hover_colour: true
+  lgms_header_text_colour: true
+  lgms_header_vertical_alignment: true
+  lgms_header_width: true
+  lgms_heading_1_font: true
+  lgms_heading_1_font_colour: true
+  lgms_heading_1_font_size: true
+  lgms_heading_1_font_weight: true
+  lgms_heading_1_line_height: true
+  lgms_heading_2_font: true
+  lgms_heading_2_font_colour: true
+  lgms_heading_2_font_size: true
+  lgms_heading_2_font_weight: true
+  lgms_heading_2_line_height: true
+  lgms_heading_3_font: true
+  lgms_heading_3_font_colour: true
+  lgms_heading_3_font_size: true
+  lgms_heading_3_font_weight: true
+  lgms_heading_3_line_height: true
+  lgms_heading_4_font: true
+  lgms_heading_4_font_colour: true
+  lgms_heading_4_font_size: true
+  lgms_heading_4_font_weight: true
+  lgms_heading_4_line_height: true
+  lgms_heading_5_font: true
+  lgms_heading_5_font_colour: true
+  lgms_heading_5_font_size: true
+  lgms_heading_5_font_weight: true
+  lgms_heading_5_line_height: true
+  lgms_heading_6_font: true
+  lgms_heading_6_font_colour: true
+  lgms_heading_6_font_size: true
+  lgms_heading_6_font_weight: true
+  lgms_heading_6_line_height: true
+  lgms_heading_font: true
+  lgms_heading_font_weight: true
+  lgms_hide_title: true
+  lgms_link_colour: true
+  lgms_main_menu_font_size: true
+  lgms_main_menu_font_weight: true
+  lgms_off_canvas_bg_colour: true
+  lgms_off_canvas_menu_icon: true
+  lgms_off_canvas_text_colour: true
+  lgms_page_background_colour: true
+  lgms_powered_by: true
+  lgms_pre_header_bg_colour: true
+  lgms_pre_header_link_colour: true
+  lgms_pre_header_link_hover: true
+  lgms_pre_header_text_colour: true
+  lgms_pre_header_width: true
+  lgms_primary_colour: true
+  lgms_primary_colour_contrast: true
+  lgms_secondary_colour: true
+  lgms_secondary_colour_contrast: true
+  lgms_site_name_font_size: true
+  lgms_site_name_font_weight: true
+  lgms_submenu_background_colour: true
+  lgms_submenu_icon: true
+  lgms_submenu_icon_rotation: true
+  lgms_submenu_link_colour: true
+  lgms_teaser_image_style: true
+  lgms_text_colour: true
+  microsite_content: true
+  microsite_members: true
+  search_api_excerpt: true
+  uid: true

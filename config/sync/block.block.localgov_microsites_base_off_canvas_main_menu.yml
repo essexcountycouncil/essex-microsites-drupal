@@ -1,0 +1,29 @@
+uuid: c3a31086-4041-4860-825f-5c10159f758c
+langcode: en
+status: true
+dependencies:
+  config:
+    - group_content_menu.group_content_menu_type.lgms_main_menu
+  module:
+    - group_content_menu
+  theme:
+    - localgov_microsites_base
+_core:
+  default_config_hash: acf0DCMc3uEct3vMJ34mG8j-nQMoLtsnpyjX0M3XhWQ
+id: localgov_microsites_base_off_canvas_main_menu
+theme: localgov_microsites_base
+region: off_canvas
+weight: 0
+provider: null
+plugin: 'group_content_menu:lgms_main_menu'
+settings:
+  id: 'group_content_menu:lgms_main_menu'
+  label: 'Main menu'
+  label_display: '0'
+  provider: group_content_menu
+  level: 1
+  depth: 0
+  expand_all_items: false
+  context_mapping:
+    group: '@domain_group.domain_group_context:group'
+visibility: {  }

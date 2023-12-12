@@ -1,0 +1,21 @@
+uuid: 99c47712-fe56-4485-a5fd-2423902ccd3d
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - telephone
+_core:
+  default_config_hash: HkUEFc38Nh6p_Y6lnmmebTjXzo77IPAYzNNbIUpBEXg
+id: node.localgov_directory_phone
+field_name: localgov_directory_phone
+entity_type: node
+type: telephone
+settings: {  }
+module: telephone
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

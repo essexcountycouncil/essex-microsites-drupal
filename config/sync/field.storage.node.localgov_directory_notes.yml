@@ -1,0 +1,21 @@
+uuid: c8f9a02d-0c72-4bf6-b9bb-e3a8a6a90be4
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - text
+_core:
+  default_config_hash: t-O0WDZ0fVxIoYqd2UaiB_7cOdy8xP4TuZRwsOchw6Q
+id: node.localgov_directory_notes
+field_name: localgov_directory_notes
+entity_type: node
+type: text_long
+settings: {  }
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

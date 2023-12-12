@@ -1,0 +1,24 @@
+uuid: bfb1ee00-3a7b-4fc2-be11-263083c59f6f
+langcode: en
+status: true
+dependencies:
+  module:
+    - taxonomy
+_core:
+  default_config_hash: QCUvXmZ2Fcr6wBOoIAx9eXNgniw5qADdbpSH-ECIN6U
+id: blog_author
+label: 'Blog author'
+type: 'canonical_entities:taxonomy_term'
+pattern: 'blog-author/[term:name]'
+selection_criteria:
+  7cbeee31-25a5-4258-8304-d1d1aa506133:
+    id: 'entity_bundle:taxonomy_term'
+    negate: false
+    uuid: 7cbeee31-25a5-4258-8304-d1d1aa506133
+    context_mapping:
+      taxonomy_term: taxonomy_term
+    bundles:
+      localgov_blog_author: localgov_blog_author
+selection_logic: and
+weight: -5
+relationships: {  }

@@ -1,0 +1,19 @@
+uuid: fb72f4d3-2899-4e10-81a8-c0dbe5de6591
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.microsite
+    - node.type.localgov_blog_post
+  module:
+    - gnode
+    - node
+_core:
+  default_config_hash: GN4N_t4dqnnCM5htjGjtJncSYUUfj1_kZWp8zp14Zew
+id: microsite-15433687ddd9146a98d6a9
+group_type: microsite
+content_plugin: 'group_node:localgov_blog_post'
+plugin_config:
+  group_cardinality: 0
+  entity_cardinality: 1
+  use_creation_wizard: false

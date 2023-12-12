@@ -1,0 +1,25 @@
+uuid: 3a98a329-0cc4-47ce-8ebe-95cced221680
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.localgov_blog_post
+  module:
+    - text
+_core:
+  default_config_hash: kmgp5CrrjOvshB-fxfJf5x5bNz-Aopm4-ptP5Mwzf4I
+id: node.localgov_blog_post.body
+field_name: body
+entity_type: node
+bundle: localgov_blog_post
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: false
+field_type: text_with_summary

@@ -1,0 +1,224 @@
+uuid: d08b453a-94f8-4f42-9d1a-527227882b1d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.localgov_blog_post.body
+    - field.field.node.localgov_blog_post.field_media_image
+    - field.field.node.localgov_blog_post.lgms_banner
+    - field.field.node.localgov_blog_post.localgov_blog_author
+    - field.field.node.localgov_blog_post.localgov_blog_categories
+    - field.field.node.localgov_blog_post.localgov_blog_channel
+    - field.field.node.localgov_blog_post.localgov_blog_date
+    - field.field.node.localgov_blog_post.localgov_blog_related_posts
+    - field.field.node.localgov_blog_post.localgov_paragraph_content
+    - node.type.localgov_blog_post
+  module:
+    - datetime
+    - field_group
+    - layout_paragraphs
+    - media_library
+    - paragraphs
+    - path
+    - text
+third_party_settings:
+  field_group:
+    group_tabs:
+      children:
+        - group_about
+        - group_content
+        - group_related_content
+      label: Tabs
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: tabs
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        direction: vertical
+        width_breakpoint: 640
+    group_about:
+      children:
+        - title
+        - localgov_blog_author
+        - localgov_blog_channel
+        - localgov_blog_date
+        - localgov_blog_channel_promote
+        - localgov_blog_categories
+      label: About
+      region: content
+      parent_name: group_tabs
+      weight: 3
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: open
+        description: ''
+        required_fields: true
+    group_content:
+      children:
+        - field_media_image
+        - body
+        - localgov_paragraph_content
+        - lgms_banner
+      label: Content
+      region: content
+      parent_name: group_tabs
+      weight: 4
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_related_content:
+      children:
+        - localgov_blog_related_posts
+      label: 'Related content'
+      region: content
+      parent_name: group_tabs
+      weight: 5
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+_core:
+  default_config_hash: Seh-sPHpKIS-0sI5y-cI5mEHaZWvuSyzl6d_ka4i7Lo
+id: node.localgov_blog_post.default
+targetEntityType: node
+bundle: localgov_blog_post
+mode: default
+content:
+  body:
+    type: text_textarea_with_summary
+    weight: 1
+    region: content
+    settings:
+      rows: 9
+      summary_rows: 3
+      placeholder: ''
+      show_summary: true
+    third_party_settings: {  }
+  created:
+    type: datetime_timestamp
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_media_image:
+    type: media_library_widget
+    weight: 0
+    region: content
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
+  lgms_banner:
+    type: paragraphs
+    weight: 28
+    region: content
+    settings:
+      edit_mode: closed
+      add_mode: button
+      default_paragraph_type: _none
+    third_party_settings: {  }
+  localgov_blog_author:
+    type: entity_reference_autocomplete
+    weight: 31
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  localgov_blog_categories:
+    type: entity_reference_autocomplete
+    weight: 4
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  localgov_blog_channel:
+    type: options_select
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  localgov_blog_channel_promote:
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  localgov_blog_date:
+    type: datetime_default
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  localgov_blog_related_posts:
+    type: entity_reference_autocomplete
+    weight: 28
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  localgov_paragraph_content:
+    type: layout_paragraphs
+    weight: 30
+    region: content
+    settings:
+      preview_view_mode: default
+      nesting_depth: 0
+      require_layouts: 1
+      empty_message: ''
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 4
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 5
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 1
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  promote: true
+  sticky: true

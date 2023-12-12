@@ -1,0 +1,27 @@
+uuid: bb72011a-f5ae-44b8-99af-04726bea6cb2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.localgov_webform
+    - node.type.localgov_webform
+  module:
+    - webform
+_core:
+  default_config_hash: 6q7w5NOMf_2XL5hpQPSF5vyq8xLaCdLj03uvA1OmXEo
+id: node.localgov_webform.localgov_webform
+field_name: localgov_webform
+entity_type: node
+bundle: localgov_webform
+label: Webform
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:webform'
+  handler_settings:
+    target_bundles: null
+    auto_create: false
+field_type: webform

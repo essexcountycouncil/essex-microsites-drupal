@@ -1,0 +1,16 @@
+uuid: 33a3a931-1fc9-443b-af9e-f97eacc58720
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.microsites_trusted_editor
+  module:
+    - user
+_core:
+  default_config_hash: oxpsrOjw5CsCYbgmvot9d4nnxlcZcgIlmPNquLTqySc
+id: user_remove_role_action.microsites_trusted_editor
+label: 'Remove the Microsites administrator role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: microsites_trusted_editor

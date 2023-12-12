@@ -1,0 +1,21 @@
+uuid: e792c3b3-8edb-4bb3-baa8-6afc078a6151
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_site_name_font_size
+    - group.type.microsite
+_core:
+  default_config_hash: WdeFTTmqjHVJTpTzsGCAJiBMVXMqL8saNMwUex8v2p4
+id: group.microsite.lgms_site_name_font_size
+field_name: lgms_site_name_font_size
+entity_type: group
+bundle: microsite
+label: 'Site name font size'
+description: 'Add a font size and unit here, for example: 18px, 1rem, 1.3em, etc.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

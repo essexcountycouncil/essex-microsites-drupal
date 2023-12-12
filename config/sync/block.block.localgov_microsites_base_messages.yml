@@ -1,0 +1,22 @@
+uuid: 01a1fb60-5848-47d0-9b5f-0af89f7dcb34
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - localgov_microsites_base
+_core:
+  default_config_hash: EczozzKn1Ia4oRFm_sGdUCCYy3smq8CcquVkRbN1GSY
+id: localgov_microsites_base_messages
+theme: localgov_microsites_base
+region: messages
+weight: 0
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: Messages
+  label_display: '0'
+  provider: system
+visibility: {  }

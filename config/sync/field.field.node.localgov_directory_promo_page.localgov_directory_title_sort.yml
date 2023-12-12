@@ -1,0 +1,21 @@
+uuid: 55346df9-07ed-4240-85f3-9f57acaa82fc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.localgov_directory_title_sort
+    - node.type.localgov_directory_promo_page
+_core:
+  default_config_hash: rAlbhqtvNHOQrpbnN0ebHUPYii-baO2PB1TzkJvo78Q
+id: node.localgov_directory_promo_page.localgov_directory_title_sort
+field_name: localgov_directory_title_sort
+entity_type: node
+bundle: localgov_directory_promo_page
+label: 'Title used for sorting'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

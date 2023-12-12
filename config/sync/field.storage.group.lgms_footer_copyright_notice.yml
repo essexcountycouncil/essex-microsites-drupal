@@ -1,0 +1,21 @@
+uuid: 9fc1753f-4ea5-46ef-928f-ee18913c247c
+langcode: en
+status: true
+dependencies:
+  module:
+    - group
+    - text
+_core:
+  default_config_hash: yZ2hAJeJGo8Uig2406PH12OBCXqf0kVNytGlPZJdDAQ
+id: group.lgms_footer_copyright_notice
+field_name: lgms_footer_copyright_notice
+entity_type: group
+type: text_long
+settings: {  }
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

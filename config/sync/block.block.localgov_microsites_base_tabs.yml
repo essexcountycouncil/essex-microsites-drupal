@@ -1,0 +1,22 @@
+uuid: 4802856c-742a-46fd-b178-9ca7e75ef723
+langcode: en
+status: true
+dependencies:
+  theme:
+    - localgov_microsites_base
+_core:
+  default_config_hash: lGhzh0rE1PVDN7rGPrLcFzUnHSmiQOzqsNCFn-EhDXY
+id: localgov_microsites_base_tabs
+theme: localgov_microsites_base
+region: tabs
+weight: 0
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: Tabs
+  label_display: '0'
+  provider: core
+  primary: true
+  secondary: true
+visibility: {  }

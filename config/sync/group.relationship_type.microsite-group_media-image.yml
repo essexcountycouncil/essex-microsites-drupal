@@ -1,0 +1,19 @@
+uuid: 4a371824-f20b-4b70-b765-de17d998f689
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.microsite
+    - media.type.image
+  module:
+    - groupmedia
+    - media
+_core:
+  default_config_hash: scGma0yrcxA_Ip7g7Yo72OTCPm6_mcF5qqXYiGBbii4
+id: microsite-group_media-image
+group_type: microsite
+content_plugin: 'group_media:image'
+plugin_config:
+  group_cardinality: 0
+  entity_cardinality: 1
+  use_creation_wizard: false

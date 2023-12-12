@@ -1,0 +1,11 @@
+uuid: 672e2926-b722-497d-92a4-cbad4d0634d6
+langcode: en
+status: true
+dependencies: {  }
+id: main_bvxea6i_iqfmt4orvjyh2_uk_1_platformsh_site
+domain_id: 11612163
+hostname: main-bvxea6i-iqfmt4orvjyh2.uk-1.platformsh.site
+name: 'Essex Microsites'
+scheme: variable
+weight: -1
+is_default: true

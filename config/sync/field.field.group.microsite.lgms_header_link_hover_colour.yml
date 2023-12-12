@@ -1,0 +1,21 @@
+uuid: 689e5875-15ce-438f-b63f-0254ee98abb2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_header_link_hover_colour
+    - group.type.microsite
+_core:
+  default_config_hash: HNxWiDZcA1z71bymoSA008BSVyhtVyq_ApTU7n9ZLWo
+id: group.microsite.lgms_header_link_hover_colour
+field_name: lgms_header_link_hover_colour
+entity_type: group
+bundle: microsite
+label: 'Header Link Hover Colour'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

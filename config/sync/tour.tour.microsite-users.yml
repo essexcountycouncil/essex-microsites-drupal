@@ -1,0 +1,31 @@
+uuid: 4dc8e04a-32f9-4089-9fc5-d06ffe6c49eb
+langcode: en
+status: true
+dependencies:
+  module:
+    - localgov_microsites_group
+_core:
+  default_config_hash: BHjvch5tdSv61O2VZ7hwvQjrBRze94IfiaAMn0JqXSI
+id: microsite-users
+label: 'Microsite users'
+module: localgov_microsites_group
+routes:
+  -
+    route_name: view.group_members.microsites_page
+tips:
+  add-user:
+    id: add-user
+    plugin: text
+    label: 'Add user'
+    weight: -100
+    position: auto
+    selector: .button--primary
+    body: 'To add a new user to a microsite they need to have accounts on the control site already.'
+  manage-users-centrally:
+    id: manage-users-centrally
+    plugin: text
+    label: 'Manage users centrally'
+    weight: -100
+    position: auto
+    selector: .toolbar-icon-entity-user-collection
+    body: 'If you are a Microsite Controller you can add new user accounts under the <b>People</b> menu item.'

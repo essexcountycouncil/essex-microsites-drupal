@@ -1,0 +1,12 @@
+uuid: 66293a7f-69ad-45a3-8381-539da6a420ec
+langcode: en
+status: true
+dependencies:
+  module:
+    - localgov_geo
+_core:
+  default_config_hash: EjyNMV9gsaGNKj9LOamw_q5X8L6tTgk1j5EpjXiiNyE
+id: localgov_geo.embed
+label: Embed
+targetEntityType: localgov_geo
+cache: true
