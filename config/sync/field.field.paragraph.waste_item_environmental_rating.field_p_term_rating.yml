@@ -1,0 +1,29 @@
+uuid: 3978b1ec-ef6d-47a8-acea-c22b0e54341d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_p_term_rating
+    - paragraphs.paragraphs_type.waste_item_environmental_rating
+    - taxonomy.vocabulary.environmental_rating
+id: paragraph.waste_item_environmental_rating.field_p_term_rating
+field_name: field_p_term_rating
+entity_type: paragraph
+bundle: waste_item_environmental_rating
+label: Rating
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      environmental_rating: environmental_rating
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

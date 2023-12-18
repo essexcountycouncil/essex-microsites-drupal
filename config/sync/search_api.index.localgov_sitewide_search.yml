@@ -43,6 +43,7 @@ field_settings:
           localgov_newsroom: search_index
           localgov_page: search_index
           localgov_webform: search_index
+          waste_disposal_option: search_index
           webform: search_index
 datasource_settings:
   'entity:node':

@@ -222,6 +222,7 @@ display:
               localgov_newsroom: search_result
               localgov_page: search_result
               localgov_webform: search_result
+              waste_disposal_option: search_result
               webform: search_result
       query:
         type: search_api_query

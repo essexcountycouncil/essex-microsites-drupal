@@ -1,0 +1,29 @@
+uuid: efecea9a-39e6-45d4-881f-15b540f19957
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_do_waste_service_type
+    - node.type.waste_disposal_option
+    - taxonomy.vocabulary.waste_disposal_service_type
+id: node.waste_disposal_option.field_do_waste_service_type
+field_name: field_do_waste_service_type
+entity_type: node
+bundle: waste_disposal_option
+label: 'Waste Disposal Service Type'
+description: 'A disposal option (e.g. recycling centre) can operate many services at the one location.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      waste_disposal_service_type: waste_disposal_service_type
+    sort:
+      field: name
+      direction: asc
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference

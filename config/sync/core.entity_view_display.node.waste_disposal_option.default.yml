@@ -1,0 +1,47 @@
+uuid: ff17fe27-acaf-4190-89ed-8f6a2cb434e5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.waste_disposal_option.body
+    - field.field.node.waste_disposal_option.field_disposal_option_items
+    - field.field.node.waste_disposal_option.field_do_waste_service_type
+    - node.type.waste_disposal_option
+  module:
+    - text
+    - user
+id: node.waste_disposal_option.default
+targetEntityType: node
+bundle: waste_disposal_option
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_disposal_option_items:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_do_waste_service_type:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  search_api_excerpt: true

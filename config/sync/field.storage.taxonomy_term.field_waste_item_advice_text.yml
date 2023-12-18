@@ -1,0 +1,19 @@
+uuid: 0d4694b9-9b26-4088-ad9f-d90efd156ab7
+langcode: en
+status: true
+dependencies:
+  module:
+    - taxonomy
+    - text
+id: taxonomy_term.field_waste_item_advice_text
+field_name: field_waste_item_advice_text
+entity_type: taxonomy_term
+type: text_long
+settings: {  }
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

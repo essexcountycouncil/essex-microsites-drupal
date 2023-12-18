@@ -1,0 +1,8 @@
+uuid: 808ba40d-ab00-45b7-9a8b-fe918423b8f5
+langcode: en
+status: true
+dependencies: {  }
+name: 'Environmental Rating'
+vid: environmental_rating
+description: 'This is the priority of how organisations will display on the search results page , based on waste hierarchy.'
+weight: 0

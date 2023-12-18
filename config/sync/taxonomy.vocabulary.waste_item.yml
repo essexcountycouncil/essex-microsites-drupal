@@ -1,0 +1,8 @@
+uuid: 4fb73c0b-a879-4394-875d-83e916dc0edf
+langcode: en
+status: true
+dependencies: {  }
+name: 'Waste item'
+vid: waste_item
+description: 'A collection of things of which people wish to dispose.'
+weight: 0

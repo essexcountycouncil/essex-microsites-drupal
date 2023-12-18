@@ -1,0 +1,21 @@
+uuid: 73dc0bd6-4c0b-48ff-9308-22721c82750f
+langcode: en
+status: true
+dependencies:
+  module:
+    - taxonomy
+id: taxonomy_term.field_waste_item_synonyms
+field_name: field_waste_item_synonyms
+entity_type: taxonomy_term
+type: string
+settings:
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

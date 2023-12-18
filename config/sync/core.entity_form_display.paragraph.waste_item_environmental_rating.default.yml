@@ -1,0 +1,28 @@
+uuid: 42cd5fc9-7ac1-44c8-a3bb-5db56f005838
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.waste_item_environmental_rating.field_p_disposal_service
+    - field.field.paragraph.waste_item_environmental_rating.field_p_term_rating
+    - paragraphs.paragraphs_type.waste_item_environmental_rating
+id: paragraph.waste_item_environmental_rating.default
+targetEntityType: paragraph
+bundle: waste_item_environmental_rating
+mode: default
+content:
+  field_p_disposal_service:
+    type: options_buttons
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_p_term_rating:
+    type: options_select
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

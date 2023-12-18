@@ -1,0 +1,10 @@
+uuid: 1c939618-3c65-4d0c-aa8d-087fb26b6f0a
+langcode: en
+status: true
+dependencies: {  }
+id: waste_item_environmental_rating
+label: 'Waste Disposal Item Environmental Rating'
+icon_uuid: null
+icon_default: null
+description: "An item's environmental rating is coupled with the disposal service used.\r\nSome services are better for the environment for some items."
+behavior_plugins: {  }

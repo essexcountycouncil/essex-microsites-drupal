@@ -1,0 +1,22 @@
+uuid: 9aeb49e0-0320-4785-b8bb-00d3d473d25b
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.waste_disposal_option
+id: node.waste_disposal_option.status
+field_name: status
+entity_type: node
+bundle: waste_disposal_option
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

@@ -1,0 +1,23 @@
+uuid: e3bc2045-84fd-40aa-b854-a751117d0fe3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.waste_disposal_option
+  module:
+    - text
+id: node.waste_disposal_option.body
+field_name: body
+entity_type: node
+bundle: waste_disposal_option
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: false
+field_type: text_with_summary

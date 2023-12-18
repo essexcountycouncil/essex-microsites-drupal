@@ -1,0 +1,36 @@
+uuid: 33c2d9c5-83b5-400e-8af6-b26245a6fae8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.environmental_rating.field_rating_weight
+    - taxonomy.vocabulary.environmental_rating
+id: taxonomy_term.environmental_rating.default
+targetEntityType: taxonomy_term
+bundle: environmental_rating
+mode: default
+content:
+  field_rating_weight:
+    type: options_select
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 1
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+hidden:
+  description: true
+  path: true

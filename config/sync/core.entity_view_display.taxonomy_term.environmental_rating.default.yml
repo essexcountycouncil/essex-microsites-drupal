@@ -1,0 +1,31 @@
+uuid: ed7e05d2-4211-4616-be72-4d4a31387b79
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.environmental_rating.field_rating_weight
+    - taxonomy.vocabulary.environmental_rating
+  module:
+    - options
+    - text
+id: taxonomy_term.environmental_rating.default
+targetEntityType: taxonomy_term
+bundle: environmental_rating
+mode: default
+content:
+  description:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_rating_weight:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  search_api_excerpt: true

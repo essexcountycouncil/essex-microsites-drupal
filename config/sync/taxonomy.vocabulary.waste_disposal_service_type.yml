@@ -1,0 +1,8 @@
+uuid: 6880cfc5-10be-4ba2-972a-af893190fc50
+langcode: en
+status: true
+dependencies: {  }
+name: 'Waste Disposal Service Type'
+vid: waste_disposal_service_type
+description: 'A disposal option can operate several services. '
+weight: 0

@@ -1,0 +1,21 @@
+uuid: 2a7b44df-7e9e-4391-9481-2b89cc189490
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_waste_item_advice_text
+    - taxonomy.vocabulary.waste_item
+  module:
+    - text
+id: taxonomy_term.waste_item.field_waste_item_advice_text
+field_name: field_waste_item_advice_text
+entity_type: taxonomy_term
+bundle: waste_item
+label: 'Advice Text'
+description: 'Offer advice to service end users who may need to dispose of this kind of item.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

@@ -1,0 +1,29 @@
+uuid: c9c580e4-23f6-4ab5-83c8-b83380ed7110
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_disposal_option_items
+    - node.type.waste_disposal_option
+    - taxonomy.vocabulary.waste_item
+id: node.waste_disposal_option.field_disposal_option_items
+field_name: field_disposal_option_items
+entity_type: node
+bundle: waste_disposal_option
+label: Items
+description: 'A disposal option (e.g. recycling centre) can accept many different kinds of things for disposal.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      waste_item: waste_item
+    sort:
+      field: name
+      direction: asc
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference
