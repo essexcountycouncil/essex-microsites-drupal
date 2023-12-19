@@ -5,11 +5,13 @@ dependencies:
   config:
     - field.field.node.waste_disposal_option.body
     - field.field.node.waste_disposal_option.field_disposal_option_items
+    - field.field.node.waste_disposal_option.field_disposal_option_location
     - field.field.node.waste_disposal_option.field_do_waste_service_type
     - node.type.waste_disposal_option
   module:
     - entity_browser_entity_form
     - inline_entity_form
+    - leaflet
     - path
     - text
 id: node.waste_disposal_option.default
@@ -53,6 +55,77 @@ content:
     third_party_settings:
       entity_browser_entity_form:
         entity_browser_id: _none
+  field_disposal_option_location:
+    type: leaflet_widget_default
+    weight: 26
+    region: content
+    settings:
+      map:
+        leaflet_map: 'OSM Mapnik'
+        height: 400
+        auto_center: 1
+        map_position:
+          force: false
+          center:
+            lat: !!float 0
+            lon: !!float 0
+          zoomControlPosition: topleft
+          zoom: 5
+          minZoom: 1
+          maxZoom: 18
+          zoomFiner: 0
+        scroll_zoom_enabled: 1
+      input:
+        show: true
+        readonly: false
+      toolbar:
+        position: topright
+        marker: defaultMarker
+        drawPolyline: true
+        drawRectangle: true
+        drawPolygon: true
+        drawCircle: false
+        drawText: false
+        editMode: true
+        dragMode: true
+        cutPolygon: false
+        removalMode: true
+        rotateMode: false
+      reset_map:
+        control: false
+        options: '{"position":"topleft","title":"Reset View"}'
+      map_scale:
+        control: false
+        options: '{"position":"bottomright","maxWidth":100,"metric":true,"imperial":false,"updateWhenIdle":false}'
+      fullscreen:
+        control: false
+        options: '{"position":"topleft","pseudoFullscreen":false}'
+      path: '{"color":"#3388ff","opacity":"1.0","stroke":true,"weight":3,"fill":"depends","fillColor":"*","fillOpacity":"0.2","radius":"6"}'
+      locate:
+        control: false
+        options: '{"position":"topright","setView":"untilPanOrZoom","returnToPrevBounds":true,"keepCurrentZoomLevel":true,"strings":{"title":"Locate my position"}}'
+        automatic: false
+      geocoder:
+        control: false
+        settings:
+          autocomplete:
+            placeholder: 'Search Address'
+            title: 'Search an Address on the Map'
+          position: topright
+          input_size: 20
+          providers:
+            localgov_default_osm:
+              weight: 0
+              checked: false
+          min_terms: 4
+          delay: 800
+          zoom: 16
+          popup: false
+          options: ''
+      geometry_validation: 0
+      feature_properties:
+        values: ''
+    third_party_settings: {  }
   field_do_waste_service_type:
     type: inline_entity_form_complex
     weight: 9

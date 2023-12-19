@@ -1,0 +1,21 @@
+uuid: 79d00721-38bb-4a18-ae64-9cda4915861e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_disposal_option_location
+    - node.type.waste_disposal_option
+  module:
+    - geofield
+id: node.waste_disposal_option.field_disposal_option_location
+field_name: field_disposal_option_location
+entity_type: node
+bundle: waste_disposal_option
+label: Location
+description: 'Drop a pin on the map to show where this disposal option is.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: geofield

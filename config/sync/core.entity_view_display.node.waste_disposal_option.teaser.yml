@@ -6,6 +6,7 @@ dependencies:
     - core.entity_view_mode.node.teaser
     - field.field.node.waste_disposal_option.body
     - field.field.node.waste_disposal_option.field_disposal_option_items
+    - field.field.node.waste_disposal_option.field_disposal_option_location
     - field.field.node.waste_disposal_option.field_do_waste_service_type
     - node.type.waste_disposal_option
   module:
@@ -31,5 +32,6 @@ content:
     region: content
 hidden:
   field_disposal_option_items: true
+  field_disposal_option_location: true
   field_do_waste_service_type: true
   search_api_excerpt: true
