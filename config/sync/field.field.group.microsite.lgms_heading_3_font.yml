@@ -14,10 +14,12 @@ field_name: lgms_heading_3_font
 entity_type: group
 bundle: microsite
 label: 'Heading 3 font'
-description: 'Preview the available heading fonts on <a href="https://fonts.google.com/share?selection.family=Alegreya+Sans|Archivo+Black|Archivo+Narrow|Arvo|Barlow|Cabin|IBM+Plex+Sans|Inter|Libre+Baskerville|Lora|Merriweather|Open+Sans|PT+Sans|PT+Serif|Playfair+Display|Public+Sans|Source+Sans+Pro|Space+Mono|Vollkorn|Work+Sans" target="_blank">Google Fonts (opens in a new window)</a>.'
+description: 'Preview the available heading fonts on <a href="https://fonts.google.com/share?selection.family=Alegreya+Sans|Archivo+Black|Archivo+Narrow|Arvo|Barlow|Cabin|IBM+Plex+Sans|Inter|Libre+Baskerville|Lora|Lexend|Merriweather|Open+Sans|PT+Sans|PT+Serif|Playfair+Display|Public+Sans|Source+Sans+Pro|Space+Mono|Vollkorn|Work+Sans" target="_blank">Google Fonts (opens in a new window)</a>.'
 required: false
 translatable: false
-default_value: {  }
+default_value:
+  -
+    value: Lexend
 default_value_callback: ''
 settings: {  }
 field_type: list_string

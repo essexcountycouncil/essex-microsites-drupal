@@ -1,0 +1,17 @@
+/* lexend-regular - latin */
+@font-face {
+  font-family: Lexend;
+  src:
+    local(""),    url("../../assets/fonts/lexend-v19-latin/lexend-v19-latin-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* lexend-700 - latin */
+@font-face {
+  font-family: Lexend;
+  src:
+    local(""),    url("../../assets/fonts/lexend-v19-latin/lexend-v19-latin-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}

@@ -1,0 +1,22 @@
+uuid: 9f5c4147-8d4c-4f7b-bf52-f3c159f7f7c6
+langcode: en
+status: true
+dependencies:
+  module:
+    - localgov_search
+  theme:
+    - essex_microsites_base
+_core:
+  default_config_hash: '-8l4LP3RbfQreE5z0n9Jchv3QDRI4TWy6n9HUTnSDN4'
+id: essex_microsites_base_sitewide_search_off_canvas_block
+theme: essex_microsites_base
+region: off_canvas
+weight: 15
+provider: null
+plugin: localgov_sitewide_search_block
+settings:
+  id: localgov_sitewide_search_block
+  label: 'Sitewide search block'
+  label_display: '0'
+  provider: localgov_search
+visibility: {  }

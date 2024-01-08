@@ -1,0 +1,25 @@
+uuid: 6137fed6-e64a-4f47-80cb-97f5e2f67c4b
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.localgov_events_locality
+  module:
+    - facets
+  theme:
+    - essex_microsites_base
+_core:
+  default_config_hash: gCy3bWuDlr13OxBZlh8JAqEckQFCpMpyAX15Frbv3xE
+id: essex_microsites_base_localgov_events_neighbourhood_microsites_base
+theme: essex_microsites_base
+region: sidebar_first
+weight: -6
+provider: null
+plugin: 'facet_block:localgov_events_locality'
+settings:
+  id: 'facet_block:localgov_events_locality'
+  label: 'Events neighbourhood'
+  label_display: '0'
+  provider: facets
+  block_id: localgov_events_neighbourhood
+visibility: {  }
