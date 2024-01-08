@@ -49,7 +49,7 @@
     "prefer-stable": true,
     "config": {
         "sort-packages": true,
-        "bin-dir": "vendor/bin/",
+        "bin-dir": "bin/",
         "allow-plugins": {
             "composer/installers": true,
             "cweagans/composer-patches": true,
