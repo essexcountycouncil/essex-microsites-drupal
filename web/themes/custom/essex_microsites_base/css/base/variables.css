@@ -35,4 +35,6 @@
 body {
   --color-accent: green;
   --line-height: 1.3;
+  --font-primary: "Lexend", sans-serif;
+  --font-secondary: "Lexend", sans-serif;
 }
