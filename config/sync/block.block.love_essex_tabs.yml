@@ -1,0 +1,22 @@
+uuid: 91a59941-1158-4adf-b291-9682d81b4b7f
+langcode: en
+status: true
+dependencies:
+  theme:
+    - love_essex
+_core:
+  default_config_hash: lGhzh0rE1PVDN7rGPrLcFzUnHSmiQOzqsNCFn-EhDXY
+id: love_essex_tabs
+theme: love_essex
+region: tabs
+weight: 0
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: Tabs
+  label_display: '0'
+  provider: core
+  primary: true
+  secondary: true
+visibility: {  }

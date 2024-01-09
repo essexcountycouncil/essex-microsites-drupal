@@ -1,0 +1,25 @@
+uuid: 0c30d24c-54b6-48c0-b0ca-acf9a1f1ec68
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.localgov_events_locality
+  module:
+    - facets
+  theme:
+    - love_essex
+_core:
+  default_config_hash: gCy3bWuDlr13OxBZlh8JAqEckQFCpMpyAX15Frbv3xE
+id: love_essex_localgov_events_neighbourhood_microsites_base
+theme: love_essex
+region: sidebar_first
+weight: -6
+provider: null
+plugin: 'facet_block:localgov_events_locality'
+settings:
+  id: 'facet_block:localgov_events_locality'
+  label: 'Events neighbourhood'
+  label_display: '0'
+  provider: facets
+  block_id: localgov_events_neighbourhood
+visibility: {  }

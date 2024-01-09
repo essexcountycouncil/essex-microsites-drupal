@@ -1,0 +1,22 @@
+uuid: 7d5f4221-60b6-4363-8b12-4ade9001dc9b
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - love_essex
+_core:
+  default_config_hash: ArvC1EhXmlkTir18Pef9hMJ2__Ma9op-Cz8o2viG2jc
+id: love_essex_main_page_content
+theme: love_essex
+region: content
+weight: 0
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  label_display: '0'
+  provider: system
+visibility: {  }
