@@ -1,0 +1,10 @@
+uuid: 9cf34cb7-7b08-4030-a917-2ae6b3dd3910
+langcode: en
+status: true
+dependencies:
+  module:
+    - taxonomy
+id: taxonomy_term.waste_item
+label: 'Waste Item'
+targetEntityType: taxonomy_term
+cache: true

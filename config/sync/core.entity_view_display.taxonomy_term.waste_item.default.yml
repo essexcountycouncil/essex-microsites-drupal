@@ -8,43 +8,21 @@ dependencies:
     - field.field.taxonomy_term.waste_item.field_waste_item_synonyms
     - taxonomy.vocabulary.waste_item
   module:
-    - entity_reference_revisions
     - text
 id: taxonomy_term.waste_item.default
 targetEntityType: taxonomy_term
 bundle: waste_item
 mode: default
 content:
-  description:
-    type: text_default
-    label: hidden
-    settings: {  }
-    third_party_settings: {  }
-    weight: 0
-    region: content
-  field_item_environmental_rating:
-    type: entity_reference_revisions_entity_view
-    label: above
-    settings:
-      view_mode: default
-      link: ''
-    third_party_settings: {  }
-    weight: 3
-    region: content
   field_waste_item_advice_text:
     type: text_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 1
-    region: content
-  field_waste_item_synonyms:
-    type: string
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 2
+    weight: 0
     region: content
 hidden:
+  description: true
+  field_item_environmental_rating: true
+  field_waste_item_synonyms: true
   search_api_excerpt: true

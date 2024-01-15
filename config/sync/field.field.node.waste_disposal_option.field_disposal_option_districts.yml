@@ -1,0 +1,29 @@
+uuid: c6f5760f-a46e-4447-921a-2000b5b2af5b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_disposal_option_districts
+    - node.type.waste_disposal_option
+    - taxonomy.vocabulary.county_district
+id: node.waste_disposal_option.field_disposal_option_districts
+field_name: field_disposal_option_districts
+entity_type: node
+bundle: waste_disposal_option
+label: Districts
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      county_district: county_district
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -1,0 +1,8 @@
+uuid: cec6d460-1b96-4918-b928-140c54bcb179
+langcode: en
+status: true
+dependencies: {  }
+name: 'County District'
+vid: county_district
+description: ''
+weight: 0
