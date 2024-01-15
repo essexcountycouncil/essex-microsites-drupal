@@ -27,6 +27,7 @@ module:
   domain_path: 0
   domain_path_pathauto: 0
   dynamic_page_cache: 0
+  ecc_waste: 0
   editor: 0
   entity: 0
   entity_browser: 0
