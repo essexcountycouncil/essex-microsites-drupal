@@ -8,8 +8,10 @@ dependencies:
     - field.storage.paragraph.field_p_term_rating
     - node.type.waste_disposal_option
     - system.menu.main
-    - taxonomy.vocabulary.waste_disposal_service_type
+    - taxonomy.vocabulary.county_district
     - taxonomy.vocabulary.waste_item
+    - views.view.disposal_services
+    - views.view.waste_item
   module:
     - geofield
     - leaflet_views
@@ -285,55 +287,6 @@ display:
           hierarchy: false
           limit: true
           error_message: true
-        field_do_waste_service_type_target_id:
-          id: field_do_waste_service_type_target_id
-          table: node__field_do_waste_service_type
-          field: field_do_waste_service_type_target_id
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: taxonomy_index_tid
-          operator: or
-          value: {  }
-          group: 1
-          exposed: true
-          expose:
-            operator_id: field_do_waste_service_type_target_id_op
-            label: 'Waste Disposal Service Type'
-            description: ''
-            use_operator: false
-            operator: field_do_waste_service_type_target_id_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: field_do_waste_service_type_target_id
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-              anonymous: '0'
-              microsites_controller: '0'
-              microsites_trusted_editor: '0'
-              localgov_news_editor: '0'
-            reduce: false
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          reduce_duplicates: false
-          vid: waste_disposal_service_type
-          type: select
-          hierarchy: false
-          limit: true
-          error_message: true
       style:
         type: leaflet_map
         options:
@@ -456,6 +409,7 @@ display:
           admin_label: 'field_item_environmental_rating: Paragraph'
           plugin_id: standard
           required: false
+      use_ajax: true
       header: {  }
       footer: {  }
       display_extenders: {  }
@@ -529,21 +483,153 @@ display:
             label: ''
             field_identifier: ''
           exposed: false
+      filters:
+        status:
+          id: status
+          table: node_field_data
+          field: status
+          entity_type: node
+          entity_field: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
+          expose:
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+        type:
+          id: type
+          table: node_field_data
+          field: type
+          entity_type: node
+          entity_field: type
+          plugin_id: bundle
+          value:
+            waste_disposal_option: waste_disposal_option
+          expose:
+            operator_limit_selection: false
+            operator_list: {  }
+        field_disposal_option_items_target_id:
+          id: field_disposal_option_items_target_id
+          table: node__field_disposal_option_items
+          field: field_disposal_option_items_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_disposal_option_items_target_id_op
+            label: Items
+            description: ''
+            use_operator: false
+            operator: field_disposal_option_items_target_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_disposal_option_items_target_id
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              microsites_controller: '0'
+              microsites_trusted_editor: '0'
+              localgov_news_editor: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: waste_item
+          type: textfield
+          hierarchy: false
+          limit: true
+          error_message: true
+        field_disposal_option_districts_target_id:
+          id: field_disposal_option_districts_target_id
+          table: node__field_disposal_option_districts
+          field: field_disposal_option_districts_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_disposal_option_districts_target_id_op
+            label: District
+            description: ''
+            use_operator: false
+            operator: field_disposal_option_districts_target_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_disposal_option_districts_target_id
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              microsites_controller: '0'
+              microsites_trusted_editor: '0'
+              localgov_news_editor: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: county_district
+          type: select
+          hierarchy: false
+          limit: true
+          error_message: true
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
       style:
         type: default
         options:
           row_class: ''
           default_row_class: true
-          uses_fields: false
+          uses_fields: true
       row:
         type: 'entity:node'
         options:
+          relationship: none
           view_mode: teaser
       defaults:
         style: false
         row: false
         relationships: false
         sorts: false
+        filters: false
+        filter_groups: false
+        header: false
       relationships:
         field_disposal_option_items:
           id: field_disposal_option_items
@@ -564,6 +650,43 @@ display:
           plugin_id: standard
           required: false
       display_description: ''
+      header:
+        view:
+          id: view
+          table: views
+          field: view
+          relationship: none
+          group_type: group
+          admin_label: 'The item'
+          plugin_id: view
+          empty: true
+          view_to_insert: 'waste_item:block_1'
+          inherit_arguments: false
+        view_1:
+          id: view_1
+          table: views
+          field: view
+          relationship: none
+          group_type: group
+          admin_label: 'The services'
+          plugin_id: view
+          empty: true
+          view_to_insert: 'disposal_services:block_1'
+          inherit_arguments: false
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: 'Results heading'
+          plugin_id: text
+          empty: false
+          content:
+            value: '<h3>Places that can take this kind of item:</h3>'
+            format: wysiwyg
+          tokenize: false
+      exposed_block: true
       display_extenders: {  }
       path: disposal-options/search
       menu:
