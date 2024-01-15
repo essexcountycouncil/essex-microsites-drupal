@@ -1,0 +1,20 @@
+uuid: 17855bdc-b6a1-46af-9741-8b9755b96274
+langcode: en
+status: true
+dependencies:
+  module:
+    - ecc_waste
+  theme:
+    - localgov_microsites_base
+id: postcodesearch
+theme: localgov_microsites_base
+region: content
+weight: -9
+provider: null
+plugin: ecc_waste_postcode_search
+settings:
+  id: ecc_waste_postcode_search
+  label: 'Postcode search'
+  label_display: visible
+  provider: ecc_waste
+visibility: {  }
