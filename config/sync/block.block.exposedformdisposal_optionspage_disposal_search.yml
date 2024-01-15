@@ -1,0 +1,28 @@
+uuid: 11d6e25d-f4d6-43c7-bcb2-0e67123b9c91
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.disposal_options
+  module:
+    - system
+    - views
+  theme:
+    - localgov_microsites_base
+id: exposedformdisposal_optionspage_disposal_search
+theme: localgov_microsites_base
+region: content
+weight: -8
+provider: null
+plugin: 'views_exposed_filter_block:disposal_options-page_disposal_search'
+settings:
+  id: 'views_exposed_filter_block:disposal_options-page_disposal_search'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /disposal-options
