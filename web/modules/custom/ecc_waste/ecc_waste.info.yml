@@ -1,0 +1,5 @@
+name: ECC Waste
+type: module
+description: Custom search functions for waste disposal options.
+package: Custom
+core_version_requirement: ^9 || ^10
