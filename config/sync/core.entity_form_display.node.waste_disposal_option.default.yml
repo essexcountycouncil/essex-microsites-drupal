@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.waste_disposal_option.body
+    - field.field.node.waste_disposal_option.field_disposal_option_districts
     - field.field.node.waste_disposal_option.field_disposal_option_items
     - field.field.node.waste_disposal_option.field_disposal_option_location
     - field.field.node.waste_disposal_option.field_do_waste_service_type
@@ -32,6 +33,12 @@ content:
   created:
     type: datetime_timestamp
     weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_disposal_option_districts:
+    type: options_buttons
+    weight: 27
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -67,8 +74,8 @@ content:
         map_position:
           force: false
           center:
-            lat: !!float 0
-            lon: !!float 0
+            lat: 0.895914
+            lon: 51.900078
           zoomControlPosition: topleft
           zoom: 5
           minZoom: 1
