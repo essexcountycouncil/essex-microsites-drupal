@@ -1,0 +1,22 @@
+uuid: b101b089-6eb6-4519-800e-6f0409a8e182
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - love_essex
+_core:
+  default_config_hash: EczozzKn1Ia4oRFm_sGdUCCYy3smq8CcquVkRbN1GSY
+id: love_essex_messages
+theme: love_essex
+region: messages
+weight: 0
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: Messages
+  label_display: '0'
+  provider: system
+visibility: {  }

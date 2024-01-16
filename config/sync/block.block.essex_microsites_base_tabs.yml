@@ -1,0 +1,22 @@
+uuid: 32b6f4b6-a4fe-4fd6-883d-dff41ee48146
+langcode: en
+status: true
+dependencies:
+  theme:
+    - essex_microsites_base
+_core:
+  default_config_hash: lGhzh0rE1PVDN7rGPrLcFzUnHSmiQOzqsNCFn-EhDXY
+id: essex_microsites_base_tabs
+theme: essex_microsites_base
+region: tabs
+weight: 0
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: Tabs
+  label_display: '0'
+  provider: core
+  primary: true
+  secondary: true
+visibility: {  }

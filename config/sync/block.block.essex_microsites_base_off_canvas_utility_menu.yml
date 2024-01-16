@@ -1,0 +1,29 @@
+uuid: 0865e705-afe9-443a-baec-9acfd8f33359
+langcode: en
+status: true
+dependencies:
+  config:
+    - group_content_menu.group_content_menu_type.lgms_utility_menu
+  module:
+    - group_content_menu
+  theme:
+    - essex_microsites_base
+_core:
+  default_config_hash: iaSzfCjYwB95ixdB15KvRwJmUeYXFVUq7FSa38qwqCo
+id: essex_microsites_base_off_canvas_utility_menu
+theme: essex_microsites_base
+region: off_canvas
+weight: 1
+provider: null
+plugin: 'group_content_menu:lgms_utility_menu'
+settings:
+  id: 'group_content_menu:lgms_utility_menu'
+  label: 'Utility menu'
+  label_display: '0'
+  provider: group_content_menu
+  context_mapping:
+    group: '@domain_group.domain_group_context:group'
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility: {  }

@@ -1,0 +1,26 @@
+uuid: ef76ac3c-c466-41bb-8462-830373a7f533
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - love_essex
+_core:
+  default_config_hash: kubgpUvHxunCY22GxiIf1Z9UbsvN-fTFJRN0CwX-MUg
+id: love_essex_breadcrumbs
+theme: love_essex
+region: breadcrumb
+weight: 0
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  label_display: '0'
+  provider: system
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    pages: '<front>'

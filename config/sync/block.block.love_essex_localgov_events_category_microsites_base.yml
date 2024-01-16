@@ -1,0 +1,31 @@
+uuid: cb4b7c6e-2dda-4868-ba53-39e72be12681
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.localgov_events_category
+  module:
+    - facets
+    - system
+  theme:
+    - love_essex
+_core:
+  default_config_hash: hS3KqV8_83a1UZwzHoQjq1CSp5wOJdL8407rajK3opc
+id: love_essex_localgov_events_category_microsites_base
+theme: love_essex
+region: sidebar_first
+weight: -5
+provider: null
+plugin: 'facet_block:localgov_events_category'
+settings:
+  id: 'facet_block:localgov_events_category'
+  label: 'Events category'
+  label_display: '0'
+  provider: facets
+  block_id: localgov_events_category
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /events/search

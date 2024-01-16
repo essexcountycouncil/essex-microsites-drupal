@@ -82,6 +82,9 @@ settings:
     -
       value: 'Work sans'
       label: 'Work sans'
+    -
+      value: Lexend
+      label: Lexend
   allowed_values_function: ''
 module: options
 locked: false

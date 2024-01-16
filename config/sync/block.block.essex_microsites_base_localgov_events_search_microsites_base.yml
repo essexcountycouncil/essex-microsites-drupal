@@ -1,0 +1,31 @@
+uuid: fe670c19-c996-48d3-960d-2b32779ce426
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.localgov_events_search
+  module:
+    - system
+    - views
+  theme:
+    - essex_microsites_base
+_core:
+  default_config_hash: 1t5pLEpbL860f8jZIzkyBDgcEP8gerPYKFDe0--ohuc
+id: essex_microsites_base_localgov_events_search_microsites_base
+theme: essex_microsites_base
+region: sidebar_first
+weight: -8
+provider: null
+plugin: 'views_exposed_filter_block:localgov_events_search-events_page'
+settings:
+  id: 'views_exposed_filter_block:localgov_events_search-events_page'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/events\r\n/events/search"

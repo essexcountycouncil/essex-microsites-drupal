@@ -1,0 +1,32 @@
+uuid: 10ab2298-be67-4834-b0f9-6d9435ec297e
+langcode: en
+status: true
+dependencies:
+  module:
+    - localgov_directories
+    - node
+  theme:
+    - essex_microsites_base
+_core:
+  default_config_hash: MLsLgTNEeJcGMU_wbjpiyMd09XtlYP9egfUbaOczoos
+id: essex_microsites_base_localgov_directories_channel_search_block
+theme: essex_microsites_base
+region: sidebar_first
+weight: 0
+provider: null
+plugin: localgov_directories_channel_search_block
+settings:
+  id: localgov_directories_channel_search_block
+  label: 'Directory channel search'
+  label_display: '0'
+  provider: localgov_directories
+  context_mapping:
+    node: '@node.node_route_context:node'
+visibility:
+  node_type:
+    id: node_type
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      localgov_directory: localgov_directory

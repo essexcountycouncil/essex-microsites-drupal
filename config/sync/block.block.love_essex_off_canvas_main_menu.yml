@@ -1,0 +1,29 @@
+uuid: 0cc2b3a9-c70c-4b5c-a302-cd58690c837e
+langcode: en
+status: true
+dependencies:
+  config:
+    - group_content_menu.group_content_menu_type.lgms_main_menu
+  module:
+    - group_content_menu
+  theme:
+    - love_essex
+_core:
+  default_config_hash: acf0DCMc3uEct3vMJ34mG8j-nQMoLtsnpyjX0M3XhWQ
+id: love_essex_off_canvas_main_menu
+theme: love_essex
+region: off_canvas
+weight: 0
+provider: null
+plugin: 'group_content_menu:lgms_main_menu'
+settings:
+  id: 'group_content_menu:lgms_main_menu'
+  label: 'Main menu'
+  label_display: '0'
+  provider: group_content_menu
+  context_mapping:
+    group: '@domain_group.domain_group_context:group'
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility: {  }

@@ -1,4 +1,4 @@
 _core:
   default_config_hash: Va6EhZBEFhuHVAVoGPLrzfrewtyJsHkj9R4fuagLGQU
 admin: localgov_claro
-default: localgov_microsites_base
+default: essex_microsites_base
