@@ -56,6 +56,7 @@ class PostcodeForm extends FormBase {
       try {
         $response = $client->get($url);
         $result = json_decode($response->getBody(), TRUE);
+        \Drupal::logger('Postcode search response')->notice('<pre>' . print_r($result, 1) . '</pre>');
         foreach ($result['results'] as $i => $item) {
           if ($i === 0) {
             $district = $item['DPA']['LOCAL_CUSTODIAN_CODE_DESCRIPTION'];
@@ -70,7 +71,7 @@ class PostcodeForm extends FormBase {
               $term_id = $term->id();
             }
             if (empty($term_id)) {
-              $district = 'any';
+              $district = 'All';
             }
             else {
                $district = $term_id;
@@ -82,6 +83,7 @@ class PostcodeForm extends FormBase {
       catch (RequestException $e) {
         // log exception
         \Drupal::messenger()->addMessage($this->t('The postcode search service appears to be unavailable.'));
+        \Drupal::logger('Postcode search')->error('The postcode search service appears to be unavailable.');
       }
     }
   }
