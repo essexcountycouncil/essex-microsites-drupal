@@ -409,7 +409,7 @@ display:
           admin_label: 'field_item_environmental_rating: Paragraph'
           plugin_id: standard
           required: false
-      use_ajax: true
+      use_ajax: false
       header: {  }
       footer: {  }
       display_extenders: {  }
