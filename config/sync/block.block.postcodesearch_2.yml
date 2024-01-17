@@ -1,0 +1,25 @@
+uuid: d552ec89-f6a7-4809-9e4f-1c1df4ddaf91
+langcode: en
+status: true
+dependencies:
+  module:
+    - ecc_waste
+    - system
+  theme:
+    - essex_microsites_base
+id: postcodesearch_2
+theme: essex_microsites_base
+region: content
+weight: -8
+provider: null
+plugin: ecc_waste_postcode_search
+settings:
+  id: ecc_waste_postcode_search
+  label: 'Postcode search'
+  label_display: '0'
+  provider: ecc_waste
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/disposal-options\r\n"
