@@ -1,6 +1,16 @@
 <?php
 
+use Drupal\views\ViewExecutable;
+use Drupal\views\Plugin\views\cache\CachePluginBase;
+
 /**
  * @file
  * Primary module hooks for ECC Waste module.
  */
+
+function ecc_waste_views_post_render(ViewExecutable $view, array &$output, CachePluginBase $cache) {
+
+  if ($view->id() == 'disposal_options') {
+    $output['#attached']['library'][] = 'ecc_waste/ecc_waste';
+  }
+}
