@@ -1,0 +1,14 @@
+uuid: 8bcbc8b9-5dbb-45d9-8c39-7aad056bd1e3
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.waste_admin
+  module:
+    - user
+id: user_add_role_action.waste_admin
+label: 'Add the Waste Admin role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: waste_admin

@@ -1,0 +1,14 @@
+uuid: 3e1faedf-d544-4357-b22f-f62cc6722f95
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.waste_admin
+  module:
+    - user
+id: user_remove_role_action.waste_admin
+label: 'Remove the Waste Admin role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: waste_admin

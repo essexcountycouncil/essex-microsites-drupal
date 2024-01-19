@@ -1,0 +1,40 @@
+uuid: 0bbad2c2-585f-4d59-9277-dab389e115b4
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.waste_disposal_option
+    - taxonomy.vocabulary.county_district
+    - taxonomy.vocabulary.environmental_rating
+    - taxonomy.vocabulary.waste_disposal_service_type
+    - taxonomy.vocabulary.waste_item
+  module:
+    - node
+    - override_node_options
+    - taxonomy
+id: waste_admin
+label: 'Waste Admin'
+weight: 5
+is_admin: null
+permissions:
+  - 'create terms in county_district'
+  - 'create terms in environmental_rating'
+  - 'create terms in waste_disposal_service_type'
+  - 'create terms in waste_item'
+  - 'create waste_disposal_option content'
+  - 'delete any waste_disposal_option content'
+  - 'delete own waste_disposal_option content'
+  - 'delete terms in county_district'
+  - 'delete terms in environmental_rating'
+  - 'delete terms in waste_disposal_service_type'
+  - 'delete terms in waste_item'
+  - 'delete waste_disposal_option revisions'
+  - 'edit any waste_disposal_option content'
+  - 'edit own waste_disposal_option content'
+  - 'edit terms in county_district'
+  - 'edit terms in environmental_rating'
+  - 'edit terms in waste_disposal_service_type'
+  - 'edit terms in waste_item'
+  - 'enter waste_disposal_option revision log entry'
+  - 'revert waste_disposal_option revisions'
+  - 'view waste_disposal_option revisions'
