@@ -17,6 +17,8 @@ label: 'Waste Admin'
 weight: 5
 is_admin: null
 permissions:
+  - 'access content overview'
+  - 'access taxonomy overview'
   - 'create terms in county_district'
   - 'create terms in environmental_rating'
   - 'create terms in waste_disposal_service_type'
