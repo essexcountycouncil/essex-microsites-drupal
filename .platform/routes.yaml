@@ -22,6 +22,4 @@ https://www.{default}/:
 https://*.{default}/:
   type: upstream
   upstream: app:http
-https://*.ecc-microsites.anner.ie/:
-  type: upstream
-  upstream: app:http
+
