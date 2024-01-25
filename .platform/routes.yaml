@@ -1,4 +1,4 @@
-https://{default}/:
+https://{all}/:
   cache:
     cookies: ["/^SSESS.*/"]
     default_ttl: 2000
@@ -13,13 +13,13 @@ https://{default}/:
     enabled: false
   type: upstream
   upstream: app:http
-https://www.{default}/:
+https://www.{all}/:
   redirects:
     expires: -1s
     paths: {}
-  to: https://{default}/
+  to: https://{all}/
   type: redirect
-https://*.{default}/:
+https://*.{all}/:
   type: upstream
   upstream: app:http
 
