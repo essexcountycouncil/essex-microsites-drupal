@@ -1,6 +1,7 @@
 <?php
 
 use Drupal\views\ViewExecutable;
+use Drupal\views\Plugin\views\query\QueryPluginBase;
 use Drupal\views\Plugin\views\cache\CachePluginBase;
 
 /**
@@ -8,8 +9,36 @@ use Drupal\views\Plugin\views\cache\CachePluginBase;
  * Primary module hooks for ECC Waste module.
  */
 
+ /**
+  * Implements hook_views_post_render()
+  *
+  * Adds custom styles to the view.
+  */
 function ecc_waste_views_post_render(ViewExecutable $view, array &$output, CachePluginBase $cache) {
   if ($view->id() == 'disposal_options') {
     $output['#attached']['library'][] = 'ecc_waste/ecc_waste';
+  }
+}
+
+/**
+ * Alter the query before it is executed.
+ *
+ * @param \Drupal\views\ViewExecutable $view
+ *   The view object about to be processed.
+ * @param \Drupal\views\Plugin\views\query\QueryPluginBase $query
+ *   The query plugin object for the query.
+ *
+ * @see hook_views_query_substitutions()
+ * @see \Drupal\views\Plugin\views\query\Sql
+ *
+ * Here we ensure that no duplicate nodes are returned just because
+ * they have more than one Waste Item term on them.
+ */
+function ecc_waste_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
+  if ($view->id() == 'disposal_options') {
+    // Add the nid field with a groupby function.
+    $query->addField('node_field_data', 'nid', '', ['function' => 'groupby']);
+    // Group results by node ID.
+    $query->addGroupBy('node_field_data.nid');
   }
 }
