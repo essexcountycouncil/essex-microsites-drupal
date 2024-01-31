@@ -1,3 +1,9 @@
 .form-item-field-disposal-option-districts-target-id {
   display: none;
 }
+
+.lgd-teaser--waste-disposal-option.node {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #000;
+  padding-bottom: 1em;
+}
