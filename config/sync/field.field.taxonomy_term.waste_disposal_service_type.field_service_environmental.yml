@@ -1,0 +1,29 @@
+uuid: 4eabbd07-7ae9-4ee6-b2a7-cefc42f73f4b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_service_environmental
+    - taxonomy.vocabulary.environmental_rating
+    - taxonomy.vocabulary.waste_disposal_service_type
+id: taxonomy_term.waste_disposal_service_type.field_service_environmental
+field_name: field_service_environmental
+entity_type: taxonomy_term
+bundle: waste_disposal_service_type
+label: 'Environmental Rating'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      environmental_rating: environmental_rating
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

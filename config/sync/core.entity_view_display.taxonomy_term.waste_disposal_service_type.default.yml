@@ -1,0 +1,31 @@
+uuid: 737c0bf1-5bd7-42fa-abdf-8adb7afab39c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.waste_disposal_service_type.field_service_environmental
+    - taxonomy.vocabulary.waste_disposal_service_type
+  module:
+    - text
+id: taxonomy_term.waste_disposal_service_type.default
+targetEntityType: taxonomy_term
+bundle: waste_disposal_service_type
+mode: default
+content:
+  description:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_service_environmental:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  search_api_excerpt: true
