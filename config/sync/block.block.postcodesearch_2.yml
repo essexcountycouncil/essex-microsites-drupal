@@ -10,7 +10,7 @@ dependencies:
 id: postcodesearch_2
 theme: essex_microsites_base
 region: content
-weight: -8
+weight: -9
 provider: null
 plugin: ecc_waste_postcode_search
 settings:

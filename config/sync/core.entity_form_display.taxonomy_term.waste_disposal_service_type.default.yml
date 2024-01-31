@@ -19,5 +19,6 @@ content:
     third_party_settings: {  }
 hidden:
   description: true
+  field_service_environmental: true
   path: true
   status: true

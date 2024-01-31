@@ -24,15 +24,7 @@ content:
     settings:
       trim_length: 600
     third_party_settings: {  }
-    weight: 1
-    region: content
-  field_disposal_option_items:
-    type: entity_reference_label
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 2
+    weight: 0
     region: content
   field_do_waste_service_type:
     type: entity_reference_label
@@ -40,14 +32,11 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 3
-    region: content
-  links:
-    settings: {  }
-    third_party_settings: {  }
-    weight: 0
+    weight: 1
     region: content
 hidden:
   field_disposal_option_districts: true
+  field_disposal_option_items: true
   field_disposal_option_location: true
+  links: true
   search_api_excerpt: true

@@ -59,5 +59,6 @@ content:
     third_party_settings: {  }
 hidden:
   description: true
+  field_waste_item_service_type: true
   path: true
   status: true

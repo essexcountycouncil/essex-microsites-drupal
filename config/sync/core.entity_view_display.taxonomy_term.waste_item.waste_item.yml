@@ -48,4 +48,5 @@ content:
     weight: 2
     region: content
 hidden:
+  field_waste_item_service_type: true
   search_api_excerpt: true
