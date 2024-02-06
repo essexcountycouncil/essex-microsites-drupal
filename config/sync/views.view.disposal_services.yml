@@ -5,7 +5,6 @@ dependencies:
   config:
     - taxonomy.vocabulary.waste_item
   module:
-    - paragraphs
     - taxonomy
     - user
 id: disposal_services
@@ -28,7 +27,7 @@ display:
           id: name_1
           table: taxonomy_term_field_data
           field: name
-          relationship: field_p_disposal_service
+          relationship: field_waste_item_service_type
           group_type: group
           admin_label: ''
           entity_type: taxonomy_term
@@ -242,22 +241,13 @@ display:
           replica: false
           query_tags: {  }
       relationships:
-        field_item_environmental_rating:
-          id: field_item_environmental_rating
-          table: taxonomy_term__field_item_environmental_rating
-          field: field_item_environmental_rating
+        field_waste_item_service_type:
+          id: field_waste_item_service_type
+          table: taxonomy_term__field_waste_item_service_type
+          field: field_waste_item_service_type
           relationship: none
           group_type: group
-          admin_label: 'field_item_environmental_rating: Paragraph'
-          plugin_id: standard
-          required: true
-        field_p_disposal_service:
-          id: field_p_disposal_service
-          table: paragraph__field_p_disposal_service
-          field: field_p_disposal_service
-          relationship: field_item_environmental_rating
-          group_type: group
-          admin_label: 'field_p_disposal_service: Taxonomy term'
+          admin_label: 'field_waste_item_service_type: Taxonomy term'
           plugin_id: standard
           required: true
       header:

@@ -9,6 +9,7 @@ dependencies:
     - system.menu.main
     - taxonomy.vocabulary.county_district
     - taxonomy.vocabulary.waste_item
+    - views.view.disposal_services
     - views.view.waste_item
   module:
     - geofield
@@ -637,6 +638,17 @@ display:
           plugin_id: view
           empty: true
           view_to_insert: 'waste_item:block_1'
+          inherit_arguments: false
+        view_1:
+          id: view_1
+          table: views
+          field: view
+          relationship: none
+          group_type: group
+          admin_label: 'Disposal Services'
+          plugin_id: view
+          empty: false
+          view_to_insert: 'disposal_services:block_1'
           inherit_arguments: false
         area:
           id: area

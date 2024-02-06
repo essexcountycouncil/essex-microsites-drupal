@@ -22,6 +22,12 @@ content:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
+  field_waste_item_service_type:
+    type: options_buttons
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_waste_item_synonyms:
     type: string_textfield
     weight: 2
@@ -40,6 +46,5 @@ content:
     third_party_settings: {  }
 hidden:
   description: true
-  field_waste_item_service_type: true
   path: true
   status: true
