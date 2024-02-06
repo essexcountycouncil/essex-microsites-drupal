@@ -4,7 +4,6 @@ status: true
 dependencies:
   config:
     - field.storage.taxonomy_term.field_item_environmental_rating
-    - paragraphs.paragraphs_type.waste_item_environmental_rating
     - taxonomy.vocabulary.waste_item
   module:
     - entity_reference_revisions
@@ -21,8 +20,7 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    target_bundles:
-      waste_item_environmental_rating: waste_item_environmental_rating
+    target_bundles: {  }
     negate: 0
     target_bundles_drag_drop:
       from_library:
