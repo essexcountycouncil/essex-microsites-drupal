@@ -3,8 +3,8 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.taxonomy_term.waste_item.field_item_environmental_rating
     - field.field.taxonomy_term.waste_item.field_waste_item_advice_text
+    - field.field.taxonomy_term.waste_item.field_waste_item_service_type
     - field.field.taxonomy_term.waste_item.field_waste_item_synonyms
     - taxonomy.vocabulary.waste_item
   module:
@@ -23,7 +23,6 @@ content:
     region: content
 hidden:
   description: true
-  field_item_environmental_rating: true
   field_waste_item_service_type: true
   field_waste_item_synonyms: true
   search_api_excerpt: true
