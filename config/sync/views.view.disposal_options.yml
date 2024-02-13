@@ -7,11 +7,11 @@ dependencies:
     - field.storage.node.field_disposal_option_location
     - node.type.waste_disposal_option
     - system.menu.main
-    - taxonomy.vocabulary.county_district
     - taxonomy.vocabulary.waste_item
     - views.view.disposal_services
     - views.view.waste_item
   module:
+    - ecc_waste
     - geofield
     - leaflet_views
     - node
@@ -544,37 +544,32 @@ display:
           hierarchy: false
           limit: true
           error_message: true
-        field_disposal_option_districts_target_id:
-          id: field_disposal_option_districts_target_id
-          table: node__field_disposal_option_districts
-          field: field_disposal_option_districts_target_id
+        postcode_search_custom_filter:
+          id: postcode_search_custom_filter
+          table: views
+          field: postcode_search_custom_filter
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: taxonomy_index_tid
-          operator: or
-          value: {  }
+          plugin_id: postcode_filter
+          operator: '='
+          value: ''
           group: 1
           exposed: true
           expose:
-            operator_id: field_disposal_option_districts_target_id_op
-            label: District
-            description: ''
+            operator_id: postcode_search_custom_filter_op
+            label: 'Postcode search custom filter'
+            description: null
             use_operator: false
-            operator: field_disposal_option_districts_target_id_op
+            operator: postcode_search_custom_filter_op
             operator_limit_selection: false
             operator_list: {  }
-            identifier: field_disposal_option_districts_target_id
+            identifier: postcode_search_custom_filter
             required: false
             remember: false
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              microsites_controller: '0'
-              microsites_trusted_editor: '0'
-              localgov_news_editor: '0'
-            reduce: false
           is_grouped: false
           group_info:
             label: ''
@@ -587,12 +582,7 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          reduce_duplicates: false
-          vid: county_district
-          type: select
-          hierarchy: false
-          limit: true
-          error_message: true
+          postcode: ''
       filter_groups:
         operator: AND
         groups:
