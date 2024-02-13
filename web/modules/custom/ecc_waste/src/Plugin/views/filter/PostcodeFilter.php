@@ -145,7 +145,6 @@ class PostcodeFilter extends FilterPluginBase {
                $district = $term_id;
             }
             return $district;
-            // $form_state->setRedirect('view.disposal_options.page_disposal_search', [], ['query' => ['field_disposal_option_districts_target_id' => $district]]);
           }
         }
       }
