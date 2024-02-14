@@ -5,17 +5,14 @@ core_version_requirement: ^9 || ^10
 base theme: "localgov_microsites_base"
 
 libraries-extend:
-  # Add libraries that you want to load on every page of your site to the list
-  # of those extending localgov_microsites_base/global
+  # Libraries that extend Microsites Base
   localgov_microsites_base/variables:
     - essex_microsites_base/variables
   localgov_microsites_base/fonts:
     - essex_microsites_base/fonts
-    # - essex_microsites_base/other-library-to-load-on-every-page
-    # - essex_microsites_base/other-library-to-load-on-every-page
-  # Add libraries here that extend specific libraries.
-  # localgov_microsites_base/sample-library:
-    # - essex_microsites_base/sample-library
+  # Libraries that extend Localgov Base
+  localgov_base/step-by-step:
+    - essex_microsites_base/step-by-step
 
 regions:
   tabs: "Tabs"
