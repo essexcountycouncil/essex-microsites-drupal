@@ -9508,6 +9508,44 @@
             "install-path": "../../web/modules/contrib/localgov_search"
         },
         {
+            "name": "localgovdrupal/localgov_step_by_step",
+            "version": "2.1.4",
+            "version_normalized": "2.1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/localgovdrupal/localgov_step_by_step.git",
+                "reference": "ec7b764d8515432b2a3ee5c85132597cbd2bf65a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/localgovdrupal/localgov_step_by_step/zipball/ec7b764d8515432b2a3ee5c85132597cbd2bf65a",
+                "reference": "ec7b764d8515432b2a3ee5c85132597cbd2bf65a",
+                "shasum": ""
+            },
+            "require": {
+                "localgovdrupal/localgov_core": "^2.12"
+            },
+            "require-dev": {
+                "drupal/pathauto": "^1.6",
+                "localgovdrupal/localgov_services": "^2.1",
+                "localgovdrupal/localgov_topics": "^1.0"
+            },
+            "time": "2023-10-30T14:09:39+00:00",
+            "type": "drupal-module",
+            "installation-source": "dist",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "description": "LocalGovDrupal distribution: Gov.uk style Step By Step navigation.",
+            "homepage": "https://github.com/localgovdrupal/localgov_step_by_step",
+            "support": {
+                "issues": "https://github.com/localgovdrupal/localgov_step_by_step/issues",
+                "source": "https://github.com/localgovdrupal/localgov_step_by_step/tree/2.1.4"
+            },
+            "install-path": "../../web/modules/contrib/localgov_step_by_step"
+        },
+        {
             "name": "localgovdrupal/localgov_topics",
             "version": "1.0.1",
             "version_normalized": "1.0.1.0",

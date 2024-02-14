@@ -31,6 +31,7 @@
         "drupal/core-recommended": "^9.3",
         "drush/drush": "^11.5",
         "localgovdrupal/localgov_microsites": "^2.1.0-beta6",
+        "localgovdrupal/localgov_step_by_step": "^2.1",
         "platformsh/config-reader": "^2.4",
         "topfloor/composer-cleanup-vcs-dirs": "^1.1"
     },
