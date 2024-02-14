@@ -42,6 +42,8 @@ field_settings:
           localgov_news_article: search_index
           localgov_newsroom: search_index
           localgov_page: search_index
+          localgov_step_by_step_overview: search_index
+          localgov_step_by_step_page: search_index
           localgov_webform: search_index
           webform: search_index
 datasource_settings:

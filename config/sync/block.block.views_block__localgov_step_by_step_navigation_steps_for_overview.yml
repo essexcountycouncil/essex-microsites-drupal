@@ -1,0 +1,25 @@
+uuid: 9b1b51b2-5582-42bf-9341-e604e086369a
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.localgov_step_by_step_navigation
+  module:
+    - views
+  theme:
+    - essex_microsites_base
+id: views_block__localgov_step_by_step_navigation_steps_for_overview
+theme: essex_microsites_base
+region: content
+weight: 0
+provider: null
+plugin: 'views_block:localgov_step_by_step_navigation-steps_for_overview'
+settings:
+  id: 'views_block:localgov_step_by_step_navigation-steps_for_overview'
+  label: ''
+  label_display: '0'
+  provider: views
+  context_mapping: {  }
+  views_label: ''
+  items_per_page: none
+visibility: {  }

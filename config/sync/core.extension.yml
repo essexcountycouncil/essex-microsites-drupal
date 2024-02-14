@@ -106,6 +106,7 @@ module:
   localgov_sa11y: 0
   localgov_search: 0
   localgov_search_db: 0
+  localgov_step_by_step: 0
   localgov_subsites_paragraphs: 0
   localgov_topics: 0
   media: 0
