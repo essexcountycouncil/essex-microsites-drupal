@@ -93,3 +93,42 @@ function ecc_waste_views_data_alter(array &$data) {
     ],
   ];
 }
+
+/**
+ * Implements hook_views_prerender()
+ *
+ * Limit the number of results per waste disposal option.
+ *
+ * @param  ViewExecutable $view
+ * @return void
+ */
+function ecc_waste_views_pre_render(ViewExecutable $view) {
+  if ($view->id() == 'disposal_options') {
+    // Find a count of results per rating, then limit them.
+    $ratings_sort = [];
+    foreach ($view->result as $row) {
+      $ratings_sort[] = [$row->taxonomy_term_field_data_taxonomy_term__field_service_enviro => $row];
+    }
+    $results = $view->result;
+    $ratings = [];
+    foreach ($results as $index => $row) {
+      $ratings[] = $row->taxonomy_term_field_data_taxonomy_term__field_service_enviro;
+    }
+    $counted_values = array_count_values($ratings);
+    foreach ($counted_values as $rating => $count) {
+      if ($count > 3) {
+        // @todo proximity/sort logic.
+        $i = 0;
+        foreach ($results as $index => $row) {
+          if ($row->taxonomy_term_field_data_taxonomy_term__field_service_enviro == $rating) {
+            // Until we have proximity/sort - ahem - sorted, we just limit to 3.
+            if ($i > 2) {
+              unset($view->result[$index]);
+            }
+            $i++;
+          }
+        }
+      }
+    }
+  }
+}
