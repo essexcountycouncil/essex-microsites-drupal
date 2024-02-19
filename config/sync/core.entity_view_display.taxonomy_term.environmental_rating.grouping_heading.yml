@@ -9,7 +9,6 @@ dependencies:
     - field.field.taxonomy_term.environmental_rating.field_rating_weight
     - taxonomy.vocabulary.environmental_rating
   module:
-    - options
     - text
 id: taxonomy_term.environmental_rating.grouping_heading
 targetEntityType: taxonomy_term
@@ -33,19 +32,13 @@ content:
     region: content
   field_environmental_rating_image:
     type: entity_reference_entity_view
-    label: above
+    label: hidden
     settings:
       view_mode: default
       link: false
     third_party_settings: {  }
     weight: 2
     region: content
-  field_rating_weight:
-    type: list_default
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 3
-    region: content
 hidden:
+  field_rating_weight: true
   search_api_excerpt: true
