@@ -4,3 +4,18 @@
   border-bottom: 1px solid #000;
   padding-bottom: 1em;
 }
+
+
+.view-disposal-options .view-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2em;
+}
+
+.view-disposal-options .view-content h3 {
+  flex: 0 0 100%;
+}
+
+.view-disposal-options .view-content .views-row {
+  flex: 0 1 33%;
+}
