@@ -7,12 +7,14 @@ dependencies:
     - field.field.node.waste_disposal_option.field_disposal_option_districts
     - field.field.node.waste_disposal_option.field_disposal_option_items
     - field.field.node.waste_disposal_option.field_disposal_option_location
+    - field.field.node.waste_disposal_option.field_disposal_option_url
     - field.field.node.waste_disposal_option.field_do_waste_service_type
     - node.type.waste_disposal_option
   module:
     - entity_browser_entity_form
     - field_group
     - leaflet
+    - link
     - path
     - text
 third_party_settings:
@@ -199,6 +201,14 @@ content:
       geometry_validation: 0
       feature_properties:
         values: ''
+    third_party_settings: {  }
+  field_disposal_option_url:
+    type: link_default
+    weight: 26
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
     third_party_settings: {  }
   field_do_waste_service_type:
     type: options_buttons

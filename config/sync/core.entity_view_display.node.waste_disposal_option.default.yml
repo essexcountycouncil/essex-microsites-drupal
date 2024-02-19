@@ -7,11 +7,13 @@ dependencies:
     - field.field.node.waste_disposal_option.field_disposal_option_districts
     - field.field.node.waste_disposal_option.field_disposal_option_items
     - field.field.node.waste_disposal_option.field_disposal_option_location
+    - field.field.node.waste_disposal_option.field_disposal_option_url
     - field.field.node.waste_disposal_option.field_do_waste_service_type
     - node.type.waste_disposal_option
   module:
     - field_formatter_class
     - leaflet
+    - link
     - text
     - user
 id: node.waste_disposal_option.default
@@ -143,10 +145,23 @@ content:
         class: ''
     weight: 104
     region: content
-  field_do_waste_service_type:
-    type: entity_reference_label
+  field_disposal_option_url:
+    type: link
     label: above
     settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  field_do_waste_service_type:
+    type: entity_reference_entity_view
+    label: above
+    settings:
+      view_mode: default
       link: true
     third_party_settings: {  }
     weight: 103
