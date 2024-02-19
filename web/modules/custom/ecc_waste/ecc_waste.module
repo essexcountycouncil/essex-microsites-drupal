@@ -48,6 +48,7 @@ function ecc_waste_views_query_alter(ViewExecutable $view, QueryPluginBase $quer
  * Implements template_preprocess_node()
  *
  * Do not print a map if there's no location to show.
+ * Print external url if there is one.
  *
  * @param  [array] $variables
  * @return void
@@ -57,6 +58,11 @@ function ecc_waste_preprocess_node (&$variables) {
     $location = $variables['node']->get('field_disposal_option_location')->value;
     if (empty($location)) {
       unset($variables['content']['field_disposal_option_location']);
+    }
+    $url = $variables['node']->get('field_disposal_option_url')->uri;
+    if (!empty($url)) {
+      $variables['url'] = $url;
+      unset($variables['content']['field_disposal_option_url']);
     }
   }
 }
