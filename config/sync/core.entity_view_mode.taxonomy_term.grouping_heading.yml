@@ -1,0 +1,10 @@
+uuid: 36e5e623-0640-4e07-9bd4-c5e880d7466a
+langcode: en
+status: true
+dependencies:
+  module:
+    - taxonomy
+id: taxonomy_term.grouping_heading
+label: 'Grouping Heading'
+targetEntityType: taxonomy_term
+cache: true
