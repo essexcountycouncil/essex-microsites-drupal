@@ -188,29 +188,27 @@ display:
           expose:
             operator_limit_selection: false
             operator_list: {  }
-        tid:
-          id: tid
-          table: taxonomy_term_field_data
-          field: tid
+        field_waste_item_synonyms_value:
+          id: field_waste_item_synonyms_value
+          table: taxonomy_term__field_waste_item_synonyms
+          field: field_waste_item_synonyms_value
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: taxonomy_term
-          entity_field: tid
-          plugin_id: taxonomy_index_tid
-          operator: or
-          value: {  }
+          plugin_id: string
+          operator: contains
+          value: ''
           group: 1
           exposed: true
           expose:
-            operator_id: tid_op
-            label: Term
+            operator_id: field_waste_item_synonyms_value_op
+            label: Item
             description: ''
             use_operator: false
-            operator: tid_op
+            operator: field_waste_item_synonyms_value_op
             operator_limit_selection: false
             operator_list: {  }
-            identifier: field_disposal_option_items_target_id
+            identifier: field_waste_item_synonyms_value
             required: false
             remember: false
             multiple: false
@@ -220,7 +218,15 @@ display:
               microsites_controller: '0'
               microsites_trusted_editor: '0'
               localgov_news_editor: '0'
-            reduce: false
+              waste_admin: '0'
+            placeholder: ''
+            autocomplete_filter: 0
+            autocomplete_min_chars: ''
+            autocomplete_items: ''
+            autocomplete_field: ''
+            autocomplete_raw_suggestion: 0
+            autocomplete_raw_dropdown: 0
+            autocomplete_dependent: 0
           is_grouped: false
           group_info:
             label: ''
@@ -233,12 +239,6 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          reduce_duplicates: false
-          vid: waste_item
-          type: textfield
-          hierarchy: false
-          limit: true
-          error_message: true
       style:
         type: default
       row:
@@ -266,7 +266,6 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - user
         - user.permissions
       tags:
         - 'config:field.storage.taxonomy_term.field_waste_item_advice_text'
@@ -284,7 +283,6 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - user
         - user.permissions
       tags:
         - 'config:field.storage.taxonomy_term.field_waste_item_advice_text'
