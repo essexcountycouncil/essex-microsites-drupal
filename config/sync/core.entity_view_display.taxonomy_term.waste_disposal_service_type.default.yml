@@ -20,12 +20,13 @@ content:
     weight: 0
     region: content
   field_service_environmental:
-    type: entity_reference_label
-    label: above
+    type: entity_reference_entity_view
+    label: inline
     settings:
+      view_mode: default
       link: true
     third_party_settings: {  }
-    weight: 1
+    weight: 2
     region: content
 hidden:
   search_api_excerpt: true
