@@ -55,10 +55,13 @@ function ecc_waste_views_query_alter(ViewExecutable $view, QueryPluginBase $quer
  */
 function ecc_waste_preprocess_node (&$variables) {
   if ($variables['node']->getType() === 'waste_disposal_option') {
-    $location = $variables['node']->get('field_disposal_option_location')->value;
-    if (empty($location)) {
-      unset($variables['content']['field_disposal_option_location']);
+    if ($variables['view_mode'] === 'full') {
+      $location = $variables['node']->get('field_disposal_option_location')->value;
+      if (empty($location)) {
+        unset($variables['content']['field_disposal_option_location']);
+      }
     }
+
     $url = $variables['node']->get('field_disposal_option_url')->uri;
     if (!empty($url)) {
       $variables['url'] = $url;
