@@ -1,0 +1,19 @@
+uuid: 7a7a253d-4bad-4401-8039-0f642ed7b3b3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_env_rating_visible_title
+    - taxonomy.vocabulary.environmental_rating
+id: taxonomy_term.environmental_rating.field_env_rating_visible_title
+field_name: field_env_rating_visible_title
+entity_type: taxonomy_term
+bundle: environmental_rating
+label: 'Visible Title'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
