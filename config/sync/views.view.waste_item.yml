@@ -150,7 +150,7 @@ display:
           expose_sort_order: false
           sort_asc_label: Asc
           sort_desc_label: Desc
-          text_input_required: 'Select any filter and click on Apply to see results'
+          text_input_required: ''
           text_input_required_format: wysiwyg
       access:
         type: perm
