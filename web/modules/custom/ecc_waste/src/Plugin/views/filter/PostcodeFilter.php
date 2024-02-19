@@ -43,18 +43,19 @@ class PostcodeFilter extends FilterPluginBase {
    */
   public function query() {
     $tid = $this->getTermIdFromPostcode($this->value[0]);
+    if (!empty($tid) && is_numeric($tid)) {
+      $field = 'node__field_disposal_option_districts.field_disposal_option_districts_target_id';
+      // Implement the logic to make cURL request and apply taxonomy term filter.
+      // Use $this->value to get the value from the submitted form.
+      // Modify $this->query->addWhere() to apply the taxonomy term filter.
+      $this->ensureMyTable();
 
-    $field = 'node__field_disposal_option_districts.field_disposal_option_districts_target_id';
-    // Implement the logic to make cURL request and apply taxonomy term filter.
-    // Use $this->value to get the value from the submitted form.
-    // Modify $this->query->addWhere() to apply the taxonomy term filter.
-    $this->ensureMyTable();
-
-    /** @var \Drupal\views\Plugin\views\query\Sql $query */
-    $query = $this->query;
-    $table = array_key_first($query->tables);
-    $this->query->addTable('node__field_disposal_option_districts');
-    $this->query->addWhere($this->options['group'], $field, $tid, '=');
+      /** @var \Drupal\views\Plugin\views\query\Sql $query */
+      $query = $this->query;
+      $table = array_key_first($query->tables);
+      $this->query->addTable('node__field_disposal_option_districts');
+      $this->query->addWhere($this->options['group'], $field, $tid, '=');
+    }
   }
 
   /**
