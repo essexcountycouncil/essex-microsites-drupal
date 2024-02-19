@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7b0d8956b29717c3baa38d71e4e0f4b4",
+    "content-hash": "844066fbd3988f3ca6f393c567a7d0cb",
     "packages": [
         {
             "name": "anrt-tools/docksal-configuration",
@@ -5860,6 +5860,64 @@
             "support": {
                 "source": "https://git.drupalcode.org/project/variationcache",
                 "issues": "https://drupal.org/project/issues/variationcache"
+            }
+        },
+        {
+            "name": "drupal/views_autocomplete_filters",
+            "version": "dev-2.0.x",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/views_autocomplete_filters.git",
+                "reference": "27eac56404c145e3f03b28cd26d02e35f79989f0"
+            },
+            "require": {
+                "drupal/core": "^8 || ^9 || ^10"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-2.0.x": "2.0.x-dev"
+                },
+                "drupal": {
+                    "version": "2.0.0+3-dev",
+                    "datestamp": "1706868118",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Dev releases are not covered by Drupal security advisories."
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "colan",
+                    "homepage": "https://www.drupal.org/user/58704"
+                },
+                {
+                    "name": "heddn",
+                    "homepage": "https://www.drupal.org/user/1463982"
+                },
+                {
+                    "name": "RobLoach",
+                    "homepage": "https://www.drupal.org/user/61114"
+                },
+                {
+                    "name": "vasike",
+                    "homepage": "https://www.drupal.org/user/156237"
+                }
+            ],
+            "description": "Add autocomplete functionality to the views filter text fields.",
+            "homepage": "https://www.drupal.org/project/views_autocomplete_filters",
+            "keywords": [
+                "Drupal",
+                "views_autocomplete_filters"
+            ],
+            "support": {
+                "source": "https://git.drupalcode.org/project/views_autocomplete_filters",
+                "issues": "https://www.drupal.org/project/issues/views_autocomplete_filters"
             }
         },
         {
@@ -16748,7 +16806,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "anrt-tools/docksal-configuration": 20
+        "anrt-tools/docksal-configuration": 20,
+        "drupal/views_autocomplete_filters": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
