@@ -772,7 +772,7 @@ display:
           type: string
           settings:
             link_to_entity: false
-          group_column: entity_id
+          group_column: value
           group_columns: {  }
           group_rows: false
           delta_limit: 0
