@@ -36,11 +36,7 @@ function ecc_waste_views_post_render(ViewExecutable $view, array &$output, Cache
  */
 function ecc_waste_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
    if ($view->id() == 'disposal_options') {
-    // This is needed for autocomplete multiple values.
-    // Add the nid field with a groupby function.
-    // $query->addField('node_field_data', 'nid', '', ['function' => 'groupby']);
-    // // Group results by node ID.
-    // $query->addGroupBy('node_field_data.nid');
+    // Nout for now.
   }
 }
 
@@ -136,9 +132,21 @@ function ecc_waste_views_pre_render(ViewExecutable $view) {
     foreach ($view->result as $row) {
       $ratings_sort[] = [$row->taxonomy_term_field_data_taxonomy_term__field_service_enviro => $row];
     }
-    $results = $view->result;
+
+    $nids = [];
     $ratings = [];
-    foreach ($results as $index => $row) {
+    // Remove duplicates first off.
+    foreach ($view->result as $index => $row) {
+      if (array_search($row->nid, $nids) === FALSE) {
+        $nids[] = $row->nid;
+      }
+      else {
+        unset($view->result[$index]);
+      }
+    }
+
+    // Count values per rating.
+    foreach ($view->result as $index => $row) {
       $ratings[] = $row->taxonomy_term_field_data_taxonomy_term__field_service_enviro;
     }
     $counted_values = array_count_values($ratings);
@@ -146,7 +154,7 @@ function ecc_waste_views_pre_render(ViewExecutable $view) {
       if ($count > 3) {
         // @todo proximity/sort logic.
         $i = 0;
-        foreach ($results as $index => $row) {
+        foreach ($view->result as $index => $row) {
           if ($row->taxonomy_term_field_data_taxonomy_term__field_service_enviro == $rating) {
             // Until we have proximity/sort - ahem - sorted, we just limit to 3.
             if ($i > 2) {
