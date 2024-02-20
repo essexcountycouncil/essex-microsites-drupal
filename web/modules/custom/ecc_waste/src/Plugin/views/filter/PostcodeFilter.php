@@ -10,6 +10,7 @@ use Drupal\views\Plugin\views\filter\StringFilter;
 use Drupal\views\Views;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
+use Drupal\Core\TempStore\SharedTempStoreFactory;
 
 /**
  * Custom Views filter to make cURL request and filter based on taxonomy term.
@@ -19,6 +20,14 @@ use GuzzleHttp\Exception\RequestException;
  * @ViewsFilter("postcode_filter")
  */
 class PostcodeFilter extends FilterPluginBase {
+
+  /**
+   * The shared payment temp store.
+   *
+   * @var \Drupal\Core\TempStore\SharedTempStoreFactory
+   */
+  protected $sharedTempStoreFactory;
+
 
   /**
    * The current display.
@@ -119,16 +128,28 @@ class PostcodeFilter extends FilterPluginBase {
    */
   public function getTermIdFromPostcode($value) {
     if (!empty($value)) {
-      $url = 'https://api.os.uk/search/places/v1/postcode?postcode=' . $value . '&key=EBJme6M7CYzCfMtjtnsJgudt6mcMjxXl';
+      $url = 'https://api.os.uk/search/places/v1/postcode?postcode=' . $value . '&key=EBJme6M7CYzCfMtjtnsJgudt6mcMjxXl&maxresults=1&output_srs=EPSG:4326';
       $client = \Drupal::httpClient();
 
       try {
         $response = $client->get($url);
         $result = json_decode($response->getBody(), TRUE);
         \Drupal::logger('Postcode search response')->notice('<pre>' . print_r($result, 1) . '</pre>');
+        // Stash the location data for later, so create a session.
+        $session = \Drupal::service('session');
+        $session->save();
+        /** @var SharedTempStoreFactory $shared_tempstore */
+        $shared_tempstore = \Drupal::service('tempstore.shared');
+        $store =  $shared_tempstore->get('ecc_waste');
+
         foreach ($result['results'] as $i => $item) {
           if ($i === 0) {
             $district = $item['DPA']['LOCAL_CUSTODIAN_CODE_DESCRIPTION'];
+            $location = [
+              'lat' => $item['DPA']['LAT'],
+              'lon' => $item['DPA']['LNG'],
+            ];
+            $store->set('ecc_waste_location_' . $session->getID(), $location);
             $vid = 'county_district';
             $terms = \Drupal::entityTypeManager()
               ->getStorage('taxonomy_term')
