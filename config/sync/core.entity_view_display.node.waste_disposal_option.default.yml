@@ -5,12 +5,15 @@ dependencies:
   config:
     - field.field.node.waste_disposal_option.body
     - field.field.node.waste_disposal_option.field_disposal_option_districts
+    - field.field.node.waste_disposal_option.field_disposal_option_image
     - field.field.node.waste_disposal_option.field_disposal_option_items
     - field.field.node.waste_disposal_option.field_disposal_option_location
     - field.field.node.waste_disposal_option.field_disposal_option_url
     - field.field.node.waste_disposal_option.field_do_waste_service_type
+    - field.field.node.waste_disposal_option.localgov_paragraph_content
     - node.type.waste_disposal_option
   module:
+    - entity_reference_revisions
     - field_formatter_class
     - leaflet
     - link
@@ -35,6 +38,15 @@ content:
       link: true
     third_party_settings: {  }
     weight: 105
+    region: content
+  field_disposal_option_image:
+    type: entity_reference_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    weight: 108
     region: content
   field_disposal_option_items:
     type: entity_reference_entity_view
@@ -170,6 +182,15 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 100
+    region: content
+  localgov_paragraph_content:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 107
     region: content
 hidden:
   search_api_excerpt: true

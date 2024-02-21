@@ -1,0 +1,20 @@
+uuid: 6ca82af2-4e91-4d45-ba15-be06aac85778
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+    - node
+id: node.field_disposal_option_image
+field_name: field_disposal_option_image
+entity_type: node
+type: entity_reference
+settings:
+  target_type: media
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -5,16 +5,20 @@ dependencies:
   config:
     - field.field.node.waste_disposal_option.body
     - field.field.node.waste_disposal_option.field_disposal_option_districts
+    - field.field.node.waste_disposal_option.field_disposal_option_image
     - field.field.node.waste_disposal_option.field_disposal_option_items
     - field.field.node.waste_disposal_option.field_disposal_option_location
     - field.field.node.waste_disposal_option.field_disposal_option_url
     - field.field.node.waste_disposal_option.field_do_waste_service_type
+    - field.field.node.waste_disposal_option.localgov_paragraph_content
     - node.type.waste_disposal_option
   module:
     - entity_browser_entity_form
     - field_group
+    - inline_entity_form
     - leaflet
     - link
+    - media_library
     - path
     - text
 third_party_settings:
@@ -25,6 +29,7 @@ third_party_settings:
         - group_services
         - group_districts
         - group_location
+        - group_content
       label: Tabs
       region: content
       parent_name: ''
@@ -96,6 +101,22 @@ third_party_settings:
         formatter: closed
         description: ''
         required_fields: true
+    group_content:
+      children:
+        - field_disposal_option_url
+        - field_disposal_option_image
+        - localgov_paragraph_content
+      label: Content
+      region: content
+      parent_name: group_tabs
+      weight: 24
+      format_type: tabs
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        direction: vertical
+        width_breakpoint: 640
 id: node.waste_disposal_option.default
 targetEntityType: node
 bundle: waste_disposal_option
@@ -122,6 +143,13 @@ content:
     weight: 11
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_disposal_option_image:
+    type: media_library_widget
+    weight: 27
+    region: content
+    settings:
+      media_types: {  }
     third_party_settings: {  }
   field_disposal_option_items:
     type: options_buttons
@@ -218,6 +246,24 @@ content:
     third_party_settings:
       entity_browser_entity_form:
         entity_browser_id: _none
+  localgov_paragraph_content:
+    type: inline_entity_form_complex
+    weight: 28
+    region: content
+    settings:
+      form_mode: default
+      override_labels: false
+      label_singular: ''
+      label_plural: ''
+      allow_new: true
+      allow_existing: false
+      match_operator: CONTAINS
+      allow_duplicate: false
+      collapsible: false
+      collapsed: false
+      revision: false
+      removed_reference: optional
+    third_party_settings: {  }
   path:
     type: path
     weight: 5

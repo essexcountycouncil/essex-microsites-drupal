@@ -1,0 +1,29 @@
+uuid: 7d98876b-dcc8-452d-884c-ee00ebd0f239
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_disposal_option_image
+    - media.type.image
+    - node.type.waste_disposal_option
+id: node.waste_disposal_option.field_disposal_option_image
+field_name: field_disposal_option_image
+entity_type: node
+bundle: waste_disposal_option
+label: 'Disposal Option Image'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference

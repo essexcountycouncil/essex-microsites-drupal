@@ -6,14 +6,17 @@ dependencies:
     - core.entity_view_mode.node.teaser
     - field.field.node.waste_disposal_option.body
     - field.field.node.waste_disposal_option.field_disposal_option_districts
+    - field.field.node.waste_disposal_option.field_disposal_option_image
     - field.field.node.waste_disposal_option.field_disposal_option_items
     - field.field.node.waste_disposal_option.field_disposal_option_location
     - field.field.node.waste_disposal_option.field_disposal_option_url
     - field.field.node.waste_disposal_option.field_do_waste_service_type
+    - field.field.node.waste_disposal_option.localgov_paragraph_content
     - node.type.waste_disposal_option
   module:
     - field_formatter_class
     - link
+    - media
     - text
     - user
 id: node.waste_disposal_option.teaser
@@ -26,6 +29,17 @@ content:
     label: hidden
     settings:
       trim_length: 600
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_disposal_option_image:
+    type: media_thumbnail
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
     third_party_settings: {  }
     weight: 0
     region: content
@@ -41,7 +55,7 @@ content:
     third_party_settings:
       field_formatter_class:
         class: ''
-    weight: 1
+    weight: 2
     region: content
 hidden:
   field_disposal_option_districts: true
@@ -49,4 +63,5 @@ hidden:
   field_disposal_option_location: true
   field_do_waste_service_type: true
   links: true
+  localgov_paragraph_content: true
   search_api_excerpt: true
