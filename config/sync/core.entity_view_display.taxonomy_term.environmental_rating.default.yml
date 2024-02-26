@@ -5,7 +5,6 @@ dependencies:
   config:
     - field.field.taxonomy_term.environmental_rating.field_env_rating_visible_title
     - field.field.taxonomy_term.environmental_rating.field_environmental_rating_image
-    - field.field.taxonomy_term.environmental_rating.field_rating_weight
     - taxonomy.vocabulary.environmental_rating
   module:
     - text
@@ -39,5 +38,4 @@ content:
     weight: 2
     region: content
 hidden:
-  field_rating_weight: true
   search_api_excerpt: true
