@@ -125,7 +125,7 @@ function ecc_waste_views_pre_render(ViewExecutable $view) {
     /** @var SharedTempStoreFactory $shared_tempstore */
     $shared_tempstore = \Drupal::service('tempstore.shared');
     $store = $shared_tempstore->get('ecc_waste');
-    $location_data = $store->get('ecc_waste_location_' . $session->getID());
+    $postcode_location_data = $store->get('ecc_waste_location_' . $session->getID());
 
     // Find a count of results per rating, then limit them.
     $ratings_sort = [];
@@ -153,20 +153,57 @@ function ecc_waste_views_pre_render(ViewExecutable $view) {
     foreach ($counted_values as $rating => $count) {
       if ($count > 3) {
         // @todo proximity/sort logic.
-        $i = 0;
+        $working_row_data = [];
         foreach ($view->result as $index => $row) {
           if ($row->taxonomy_term_field_data_taxonomy_term__field_service_enviro == $rating) {
-            // Until we have proximity/sort - ahem - sorted, we just limit to 3.
-            if ($i > 2) {
-              unset($view->result[$index]);
+            // Calculate distance from our postcode location.
+            if (!empty($postcode_location_data) && !empty($row->_entity->get('field_disposal_option_location')->getValue())) {
+              $node_location = $row->_entity->get('field_disposal_option_location')->getValue();
+              $distance = ecc_waste_calculate_distance($postcode_location_data['lat'], $postcode_location_data['lon'], $node_location[0]['lat'], $node_location[0]['lon'], $unit = 'miles');
+              // Store index and proximity in an array.
+              $working_row_data[] = [
+                'index' => $index,
+                'distance' => ceil($distance),
+                'data' => $row,
+              ];
             }
-            $i++;
+            else {
+              $working_row_data[$index] = [
+                'index' => $index,
+                'distance' => NULL,
+                'data' => $row,
+              ];
+            }
           }
         }
+        // Sort by proximity.
+        $unsorted_row_data = $working_row_data;
+        usort($working_row_data, 'ecc_waste_sort_by_distance');
+        // Iterate through swapping our results into place,
+        // and unsetting all after 3.
+        foreach ($working_row_data as $j => $item) {
+          $view->result[$unsorted_row_data[$j]['index']] = $item['data'];
+          if ($j > 2) {
+            unset($view->result[$unsorted_row_data[$j]['index']]);
+          }
+        }
+        // Add a 'see all X type' link and a display for those.
       }
     }
   }
 }
+
+/**
+ * Helper distance sort function.
+ *
+ * @param  [int] $a
+ * @param  [int] $b
+ * @return [int]
+ */
+function ecc_waste_sort_by_distance($a, $b) {
+    return $a['distance'] - $b['distance'];
+}
+
 
 /**
  * Helper function to calculate the distance between two coordinates.
