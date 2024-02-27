@@ -1,0 +1,8 @@
+.microsite-footer {
+  padding-block-start: var(--spacing-largest);
+  background-color: var(--footer-background-color);
+}
+
+.microsite-footer__logo {
+  max-width: 145px;
+}

@@ -6,6 +6,12 @@ variables:
       # variables.
       css/base/variables.css: {}
 
+# Layout
+footer:
+  css:
+    theme:
+      css/components/footer.css: {}
+
 # Paragraphs
 page-sections:
   css:
