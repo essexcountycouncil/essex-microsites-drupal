@@ -9,6 +9,8 @@ libraries-extend:
     - love_essex/variables
   localgov_microsites_base/footer:
     - love_essex/footer
+  localgov_base/step-by-step:
+    - essex_microsites_base/step-by-step
   localgov_microsites_base/page-sections:
     - love_essex/page-sections
   localgov_microsites_base/featured-teasers:

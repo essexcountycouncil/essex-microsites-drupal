@@ -1,0 +1,5 @@
+.sidebar .block-step-part-of-block,
+.sidebar .block-views-blocklocalgov-step-by-step-navigation-steps {
+  margin-inline-start: var(--spacing-large);
+  padding: 0;
+}
