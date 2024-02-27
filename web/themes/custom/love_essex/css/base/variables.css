@@ -33,10 +33,20 @@
     hotpink, just set `--color-accent: hotpink;`
 */
 body {
-  --color-accent: #67b40c;
+  --color-accent: #047E3D;
+  --color-accent-2: #F36F30;
+  --color-accent-2-contrast: var(--color-white);
+  --color-accent-3: #8B569D;
+  --color-accent-3-contrast: var(--color-white);
+  --color-accent-lightest: #F6F4F0;
+  --color-grey-darkest: #292924;
 
   /* Applying Variables */
-  --header-background-color: var(--color-accent);
-  --header-text-color: var(--color-white);
-  --header-link-color: var(--color-white);
+  --page-background-color: var(--color-accent-lightest);
+  --header-background-color: var(--color-accent-lightest);
+  --header-text-color: var(--color-black);
+  --header-link-color: var(--color-accent);
+  --footer-background-color: var(--color-grey-darkest);
+  --color-page-section-background-color-3: var(--color-accent-3);
+  --color-page-section-background-color-3-text-color: var(--color-accent-3-contrast);
 }
