@@ -40,6 +40,8 @@ body {
   --color-accent-3-contrast: var(--color-white);
   --color-accent-lightest: #F6F4F0;
   --color-grey-darkest: #292924;
+  --line-height: 1.75;
+  --font-size: 1.1875rem;
 
   /* Applying Variables */
   --page-background-color: var(--color-accent-lightest);
