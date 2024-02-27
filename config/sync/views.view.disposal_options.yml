@@ -848,7 +848,7 @@ display:
             operator: postcode_search_custom_filter_op
             operator_limit_selection: false
             operator_list: {  }
-            identifier: postcode_search_custom_filter
+            identifier: postcode
             required: false
             remember: false
             multiple: false
@@ -887,7 +887,7 @@ display:
             operator: field_waste_item_synonyms_value_op
             operator_limit_selection: false
             operator_list: {  }
-            identifier: field_waste_item_synonyms_value
+            identifier: item
             required: false
             remember: false
             multiple: false
