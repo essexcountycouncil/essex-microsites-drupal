@@ -1,0 +1,17 @@
+uuid: 16e3d061-8109-44e7-815c-f633a2b72ecb
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.microsite
+    - node.type.waste_disposal_option
+  module:
+    - gnode
+    - node
+id: microsite-b76e518d4a06f14fd06931
+group_type: microsite
+content_plugin: 'group_node:waste_disposal_option'
+plugin_config:
+  group_cardinality: 0
+  entity_cardinality: 1
+  use_creation_wizard: false

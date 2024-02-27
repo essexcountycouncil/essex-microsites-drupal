@@ -1,0 +1,17 @@
+uuid: 9bfe21fe-eef8-4bb0-93b0-b3e679e3f486
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.microsite
+    - taxonomy.vocabulary.waste_disposal_service_type
+  module:
+    - group_term
+    - taxonomy
+id: microsite-90623e8972f3cbd9ab4699
+group_type: microsite
+content_plugin: 'group_term:waste_disposal_service_type'
+plugin_config:
+  group_cardinality: 0
+  entity_cardinality: 1
+  use_creation_wizard: false
