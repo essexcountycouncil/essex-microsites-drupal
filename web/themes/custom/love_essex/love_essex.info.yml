@@ -2,7 +2,7 @@ name: "Essex: Love Essex"
 description: "Your sub-theme, which uses localgov_microsites_base as its base theme."
 type: theme
 core_version_requirement: ^9 || ^10
-base theme: "essex_microsites_base"
+base theme: "localgov_microsites_base"
 
 libraries-extend:
   # Add libraries that you want to load on every page of your site to the list

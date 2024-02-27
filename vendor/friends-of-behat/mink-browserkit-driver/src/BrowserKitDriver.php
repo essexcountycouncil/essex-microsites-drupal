@@ -32,16 +32,16 @@ use Symfony\Component\HttpKernel\HttpKernelBrowser;
  */
 class BrowserKitDriver extends CoreDriver
 {
-    private $client;
+    private AbstractBrowser $client;
 
     /**
      * @var Form[]
      */
-    private $forms = array();
-    private $serverParameters = array();
-    private $started = false;
-    private $removeScriptFromUrl = false;
-    private $removeHostFromUrl = false;
+    private array $forms = array();
+    private array $serverParameters = array();
+    private bool $started = false;
+    private bool $removeScriptFromUrl = false;
+    private bool $removeHostFromUrl = false;
 
     /**
      * Initializes BrowserKit driver.
@@ -49,7 +49,7 @@ class BrowserKitDriver extends CoreDriver
      * @param AbstractBrowser      $client  BrowserKit client instance
      * @param string|null $baseUrl Base URL for HttpKernel clients
      */
-    public function __construct(AbstractBrowser $client, $baseUrl = null)
+    public function __construct(AbstractBrowser $client, ?string $baseUrl = null)
     {
         $this->client = $client;
         $this->client->followRedirects(true);
@@ -61,10 +61,8 @@ class BrowserKitDriver extends CoreDriver
 
     /**
      * Returns BrowserKit HTTP client instance.
-     *
-     * @return AbstractBrowser
      */
-    public function getClient()
+    public function getClient(): AbstractBrowser
     {
         return $this->client;
     }
@@ -72,11 +70,9 @@ class BrowserKitDriver extends CoreDriver
     /**
      * Tells driver to remove hostname from URL.
      *
-     * @param boolean $remove
-     *
      * @deprecated Deprecated as of 1.2, to be removed in 2.0. Pass the base url in the constructor instead.
      */
-    public function setRemoveHostFromUrl($remove = true)
+    public function setRemoveHostFromUrl(bool $remove = true)
     {
         @trigger_error(
             'setRemoveHostFromUrl() is deprecated as of 1.2 and will be removed in 2.0. Pass the base url in the constructor instead.',
@@ -88,11 +84,9 @@ class BrowserKitDriver extends CoreDriver
     /**
      * Tells driver to remove script name from URL.
      *
-     * @param boolean $remove
-     *
      * @deprecated Deprecated as of 1.2, to be removed in 2.0. Pass the base url in the constructor instead.
      */
-    public function setRemoveScriptFromUrl($remove = true)
+    public function setRemoveScriptFromUrl(bool $remove = true)
     {
         @trigger_error(
             'setRemoveScriptFromUrl() is deprecated as of 1.2 and will be removed in 2.0. Pass the base url in the constructor instead.',
@@ -112,7 +106,7 @@ class BrowserKitDriver extends CoreDriver
     /**
      * {@inheritdoc}
      */
-    public function isStarted()
+    public function isStarted(): bool
     {
         return $this->started;
     }
@@ -149,7 +143,7 @@ class BrowserKitDriver extends CoreDriver
     /**
      * {@inheritdoc}
      */
-    public function getCurrentUrl()
+    public function getCurrentUrl(): string
     {
         // This should be encapsulated in `getRequest` method if any other method needs the request
         try {
@@ -227,7 +221,7 @@ class BrowserKitDriver extends CoreDriver
     /**
      * {@inheritdoc}
      */
-    public function getResponseHeaders()
+    public function getResponseHeaders(): array
     {
         return $this->getResponse()->getHeaders();
     }
@@ -252,7 +246,7 @@ class BrowserKitDriver extends CoreDriver
      *
      * @param string $name Cookie name.
      */
-    private function deleteCookie($name)
+    private function deleteCookie(string $name)
     {
         $path = $this->getCookiePath();
         $jar = $this->client->getCookieJar();
@@ -268,10 +262,8 @@ class BrowserKitDriver extends CoreDriver
 
     /**
      * Returns current cookie path.
-     *
-     * @return string
      */
-    private function getCookiePath()
+    private function getCookiePath(): string
     {
         $path = dirname(parse_url($this->getCurrentUrl(), PHP_URL_PATH));
 
@@ -310,7 +302,7 @@ class BrowserKitDriver extends CoreDriver
     /**
      * {@inheritdoc}
      */
-    public function getStatusCode()
+    public function getStatusCode(): int
     {
         $response = $this->getResponse();
 
@@ -325,7 +317,7 @@ class BrowserKitDriver extends CoreDriver
     /**
      * {@inheritdoc}
      */
-    public function getContent()
+    public function getContent(): string
     {
         return $this->getResponse()->getContent();
     }
@@ -333,7 +325,7 @@ class BrowserKitDriver extends CoreDriver
     /**
      * {@inheritdoc}
      */
-    public function findElementXpaths($xpath)
+    public function findElementXpaths($xpath): array
     {
         $nodes = $this->getCrawler()->filterXPath($xpath);
 
@@ -348,7 +340,7 @@ class BrowserKitDriver extends CoreDriver
     /**
      * {@inheritdoc}
      */
-    public function getTagName($xpath)
+    public function getTagName($xpath): string
     {
         return $this->getCrawlerNode($this->getFilteredCrawler($xpath))->nodeName;
     }
@@ -356,7 +348,7 @@ class BrowserKitDriver extends CoreDriver
     /**
      * {@inheritdoc}
      */
-    public function getText($xpath)
+    public function getText($xpath): string
     {
         $text = $this->getFilteredCrawler($xpath)->text();
         $text = str_replace("\n", ' ', $text);
@@ -377,7 +369,7 @@ class BrowserKitDriver extends CoreDriver
     /**
      * {@inheritdoc}
      */
-    public function getOuterHtml($xpath)
+    public function getOuterHtml($xpath): string
     {
         $node = $this->getCrawlerNode($this->getFilteredCrawler($xpath));
 
@@ -387,7 +379,7 @@ class BrowserKitDriver extends CoreDriver
     /**
      * {@inheritdoc}
      */
-    public function getAttribute($xpath, $name)
+    public function getAttribute($xpath, $name): ?string
     {
         $node = $this->getFilteredCrawler($xpath);
 
@@ -469,7 +461,7 @@ class BrowserKitDriver extends CoreDriver
     /**
      * {@inheritdoc}
      */
-    public function isSelected($xpath)
+    public function isSelected($xpath): bool
     {
         $optionValue = $this->getOptionValue($this->getCrawlerNode($this->getFilteredCrawler($xpath)));
         $selectField = $this->getFormField('(' . $xpath . ')/ancestor-or-self::*[local-name()="select"]');
@@ -504,7 +496,7 @@ class BrowserKitDriver extends CoreDriver
     /**
      * {@inheritdoc}
      */
-    public function isChecked($xpath)
+    public function isChecked($xpath): bool
     {
         $field = $this->getFormField($xpath);
 
@@ -546,11 +538,9 @@ class BrowserKitDriver extends CoreDriver
     }
 
     /**
-     * @return Response
-     *
      * @throws DriverException If there is not response yet
      */
-    protected function getResponse()
+    protected function getResponse(): Response
     {
         try {
             $response = $this->client->getInternalResponse();
@@ -569,12 +559,8 @@ class BrowserKitDriver extends CoreDriver
     /**
      * Prepares URL for visiting.
      * Removes "*.php/" from urls and then passes it to BrowserKitDriver::visit().
-     *
-     * @param string $url
-     *
-     * @return string
      */
-    protected function prepareUrl($url)
+    protected function prepareUrl(string $url): string
     {
         if (!$this->removeHostFromUrl && !$this->removeScriptFromUrl) {
             return $url;
@@ -588,13 +574,9 @@ class BrowserKitDriver extends CoreDriver
     /**
      * Returns form field from XPath query.
      *
-     * @param string $xpath
-     *
-     * @return FormField
-     *
      * @throws DriverException
      */
-    protected function getFormField($xpath)
+    protected function getFormField(string $xpath): FormField
     {
         $fieldNode = $this->getCrawlerNode($this->getFilteredCrawler($xpath));
         $fieldName = str_replace('[]', '', $fieldNode->getAttribute('name'));
@@ -616,13 +598,9 @@ class BrowserKitDriver extends CoreDriver
     /**
      * Returns the checkbox field from xpath query, ensuring it is valid.
      *
-     * @param string $xpath
-     *
-     * @return ChoiceFormField
-     *
      * @throws DriverException when the field is not a checkbox
      */
-    private function getCheckboxField($xpath)
+    private function getCheckboxField(string $xpath): ChoiceFormField
     {
         $field = $this->getFormField($xpath);
 
@@ -634,13 +612,9 @@ class BrowserKitDriver extends CoreDriver
     }
 
     /**
-     * @param \DOMElement $element
-     *
-     * @return \DOMElement
-     *
      * @throws DriverException if the form node cannot be found
      */
-    private function getFormNode(\DOMElement $element)
+    private function getFormNode(\DOMElement $element): \DOMElement
     {
         if ($element->hasAttribute('form')) {
             $formId = $element->getAttribute('form');
@@ -671,12 +645,8 @@ class BrowserKitDriver extends CoreDriver
      * BrowserKit uses the field name as index to find the field in its Form object.
      * When multiple fields have the same name (checkboxes for instance), it will return
      * an array of elements in the order they appear in the DOM.
-     *
-     * @param \DOMElement $fieldNode
-     *
-     * @return integer
      */
-    private function getFieldPosition(\DOMElement $fieldNode)
+    private function getFieldPosition(\DOMElement $fieldNode): int
     {
         $elements = $this->getCrawler()->filterXPath('//*[@name=\''.$fieldNode->getAttribute('name').'\']');
 
@@ -730,12 +700,8 @@ class BrowserKitDriver extends CoreDriver
 
     /**
      * Determines if a node can submit a form.
-     *
-     * @param \DOMElement $node Node.
-     *
-     * @return boolean
      */
-    private function canSubmitForm(\DOMElement $node)
+    private function canSubmitForm(\DOMElement $node): bool
     {
         $type = $node->hasAttribute('type') ? $node->getAttribute('type') : null;
 
@@ -748,12 +714,8 @@ class BrowserKitDriver extends CoreDriver
 
     /**
      * Determines if a node can reset a form.
-     *
-     * @param \DOMElement $node Node.
-     *
-     * @return boolean
      */
-    private function canResetForm(\DOMElement $node)
+    private function canResetForm(\DOMElement $node): bool
     {
         $type = $node->hasAttribute('type') ? $node->getAttribute('type') : null;
 
@@ -762,12 +724,8 @@ class BrowserKitDriver extends CoreDriver
 
     /**
      * Returns form node unique identifier.
-     *
-     * @param \DOMElement $form
-     *
-     * @return string
      */
-    private function getFormNodeId(\DOMElement $form)
+    private function getFormNodeId(\DOMElement $form): string
     {
         return md5($form->getLineNo() . $form->getNodePath() . $form->nodeValue);
     }
@@ -775,13 +733,9 @@ class BrowserKitDriver extends CoreDriver
     /**
      * Gets the value of an option element
      *
-     * @param \DOMElement $option
-     *
-     * @return string
-     *
      * @see \Symfony\Component\DomCrawler\Field\ChoiceFormField::buildOptionValue
      */
-    private function getOptionValue(\DOMElement $option)
+    private function getOptionValue(\DOMElement $option): string
     {
         if ($option->hasAttribute('value')) {
             return $option->getAttribute('value');
@@ -822,13 +776,9 @@ class BrowserKitDriver extends CoreDriver
     /**
      * Returns DOMElement from crawler instance.
      *
-     * @param Crawler $crawler
-     *
-     * @return \DOMElement
-     *
      * @throws DriverException when the node does not exist
      */
-    private function getCrawlerNode(Crawler $crawler)
+    private function getCrawlerNode(Crawler $crawler): \DOMElement
     {
         $node = null;
 
@@ -850,13 +800,9 @@ class BrowserKitDriver extends CoreDriver
     /**
      * Returns a crawler filtered for the given XPath, requiring at least 1 result.
      *
-     * @param string $xpath
-     *
-     * @return Crawler
-     *
      * @throws DriverException when no matching elements are found
      */
-    private function getFilteredCrawler($xpath)
+    private function getFilteredCrawler(string $xpath): Crawler
     {
         if (!count($crawler = $this->getCrawler()->filterXPath($xpath))) {
             throw new DriverException(sprintf('There is no element matching XPath "%s"', $xpath));
@@ -868,11 +814,9 @@ class BrowserKitDriver extends CoreDriver
     /**
      * Returns crawler instance (got from client).
      *
-     * @return Crawler
-     *
      * @throws DriverException
      */
-    private function getCrawler()
+    private function getCrawler(): Crawler
     {
         try {
             $crawler = $this->client->getCrawler();
