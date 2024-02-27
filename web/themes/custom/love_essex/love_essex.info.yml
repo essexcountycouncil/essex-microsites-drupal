@@ -9,6 +9,8 @@ libraries-extend:
     - love_essex/variables
   localgov_microsites_base/page-sections:
     - love_essex/page-sections
+  localgov_microsites_base/featured-teasers:
+    - love_essex/featured-teasers
 
 regions:
   tabs: "Tabs"
