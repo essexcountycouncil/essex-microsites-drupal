@@ -11,6 +11,10 @@ use Drupal\views\Views;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Drupal\Core\TempStore\SharedTempStoreFactory;
+use Drupal\taxonomy\Entity\Term;
+use Drupal\group\Entity\Group;
+use Drupal\group\GroupContextInterface;
+use Drupal\group\Entity\GroupInterface;
 
 /**
  * Custom Views filter to make cURL request and filter based on taxonomy term.
@@ -51,7 +55,7 @@ class PostcodeFilter extends FilterPluginBase {
    * {@inheritdoc}
    */
   public function query() {
-    $tid = $this->getTermIdFromPostcode($this->value[0]);
+    $tid = $this->getTermIdFromPostcode($this->value[0], $this->view);
     if (!empty($tid) && is_numeric($tid)) {
       $field = 'node__field_disposal_option_districts.field_disposal_option_districts_target_id';
       // Implement the logic to make cURL request and apply taxonomy term filter.
@@ -150,13 +154,13 @@ class PostcodeFilter extends FilterPluginBase {
               'lon' => $item['DPA']['LNG'],
             ];
             $store->set('ecc_waste_location_' . $session->getID(), $location);
-            $vid = 'county_district';
-            $terms = \Drupal::entityTypeManager()
-              ->getStorage('taxonomy_term')
-              ->loadByProperties([
-                      'vid' => $vid,
-                      'name' => $district,
-                  ]);
+
+            // Get the current active group.
+            $active_group_id = \Drupal::service('domain_group_resolver')->getActiveDomainGroupId();
+            // Load district term entities.
+            $active_group = \Drupal\group\Entity\Group::load($active_group_id);
+            $terms = $active_group->getRelatedEntities('group_term:county_district');
+
             foreach ($terms as $term) {
               $term_id = $term->id();
             }
