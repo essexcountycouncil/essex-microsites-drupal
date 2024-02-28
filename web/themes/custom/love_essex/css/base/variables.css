@@ -40,6 +40,8 @@ body {
   --color-accent-3-contrast: var(--color-white);
   --color-accent-lightest: #F6F4F0;
   --color-grey-darkest: #292924;
+  --font-primary: 'Poppins', sans-serif;
+  --font-secondary: var(--font-primary);
   --line-height: 1.75;
   --font-size: 1.1875rem;
 
@@ -48,6 +50,7 @@ body {
   --header-background-color: var(--color-accent-lightest);
   --header-text-color: var(--color-black);
   --header-link-color: var(--color-accent);
+  --menu-main-font-size: var(--font-size);
   --footer-background-color: var(--color-grey-darkest);
   --color-page-section-background-color-3: var(--color-accent-3);
   --color-page-section-background-color-3-text-color: var(--color-accent-3-contrast);

@@ -7,8 +7,14 @@ base theme: "localgov_microsites_base"
 libraries-extend:
   localgov_microsites_base/variables:
     - love_essex/variables
+  localgov_microsites_base/fonts:
+    - love_essex/fonts
+  localgov_microsites_base/header:
+    - love_essex/header
   localgov_microsites_base/footer:
     - love_essex/footer
+  localgov_base/breadcrumbs:
+    - love_essex/breadcrumbs
   localgov_base/step-by-step:
     - essex_microsites_base/step-by-step
   localgov_microsites_base/page-sections:

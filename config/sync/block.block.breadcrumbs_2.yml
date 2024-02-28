@@ -1,0 +1,24 @@
+uuid: 25a0ca35-7525-4905-a402-812de17d82dc
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - love_essex
+id: breadcrumbs_2
+theme: love_essex
+region: breadcrumb
+weight: 0
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  label_display: '0'
+  provider: system
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    pages: '<front>'

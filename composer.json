@@ -29,6 +29,7 @@
         "cweagans/composer-patches": "^1.7",
         "drupal/core-composer-scaffold": "^9.3",
         "drupal/core-recommended": "^9.3",
+        "drupal/devel": "^5.1",
         "drush/drush": "^11.5",
         "localgovdrupal/localgov_microsites": "^2.1.0-beta6",
         "localgovdrupal/localgov_step_by_step": "^2.1",

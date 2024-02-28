@@ -4,6 +4,8 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.paragraph.preview
+    - field.field.paragraph.localgov_page_section.field_margin_after_regions
+    - field.field.paragraph.localgov_page_section.field_margin_regions
     - field.field.paragraph.localgov_page_section.localgov_bg_colour_of_section
     - field.field.paragraph.localgov_page_section.localgov_padding_bottom_section
     - field.field.paragraph.localgov_page_section.localgov_padding_top_section
@@ -33,6 +35,8 @@ content:
     weight: 0
     region: content
 hidden:
+  field_margin_after_regions: true
+  field_margin_regions: true
   localgov_padding_bottom_section: true
   localgov_padding_top_section: true
   search_api_excerpt: true

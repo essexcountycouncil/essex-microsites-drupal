@@ -6,11 +6,26 @@ variables:
       # variables.
       css/base/variables.css: {}
 
+fonts:
+  css:
+    base:
+      css/base/fonts.css: {}
+
 # Layout
+header:
+  css:
+    theme:
+      css/components/header.css: {}
+
 footer:
   css:
     theme:
       css/components/footer.css: {}
+
+breadcrumbs:
+  css:
+    theme:
+      css/components/breadcrumbs.css: {}
 
 
 # Content types

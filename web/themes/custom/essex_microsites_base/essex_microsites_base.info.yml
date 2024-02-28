@@ -8,8 +8,6 @@ libraries-extend:
   # Libraries that extend Microsites Base
   localgov_microsites_base/variables:
     - essex_microsites_base/variables
-  localgov_microsites_base/fonts:
-    - essex_microsites_base/fonts
   # Libraries that extend Localgov Base
   localgov_base/step-by-step:
     - essex_microsites_base/step-by-step
