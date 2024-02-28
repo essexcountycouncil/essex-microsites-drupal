@@ -5,6 +5,7 @@ variables:
       # This ensures that in the cascade, your variables come after the base theme's
       # variables.
       css/base/variables.css: {}
+      css/base/utilities.css: {}
 
 fonts:
   css:
@@ -49,3 +50,8 @@ featured-teasers:
   css:
     theme:
       css/components/featured-teasers.css: {}
+
+banner:
+  css:
+    theme:
+      css/components/banner.css: {}

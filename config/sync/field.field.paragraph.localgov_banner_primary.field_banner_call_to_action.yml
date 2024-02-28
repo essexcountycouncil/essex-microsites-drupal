@@ -1,0 +1,23 @@
+uuid: daef92b4-e1ff-435e-96d7-a7d626184299
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_banner_call_to_action
+    - paragraphs.paragraphs_type.localgov_banner_primary
+  module:
+    - link
+id: paragraph.localgov_banner_primary.field_banner_call_to_action
+field_name: field_banner_call_to_action
+entity_type: paragraph
+bundle: localgov_banner_primary
+label: 'Banner Call to Action'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 2
+  link_type: 17
+field_type: link

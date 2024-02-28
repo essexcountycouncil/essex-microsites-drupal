@@ -23,6 +23,8 @@ libraries-extend:
     - love_essex/page-sections
   localgov_microsites_base/featured-teasers:
     - love_essex/featured-teasers
+  localgov_microsites_base/banner:
+    - love_essex/banner
 
 regions:
   tabs: "Tabs"
