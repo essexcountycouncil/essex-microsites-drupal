@@ -55,3 +55,9 @@ banner:
   css:
     theme:
       css/components/banner.css: {}
+
+# Utilities
+wysiwyg-styles:
+  css:
+    theme:
+      css/components/wysiwyg-styles.css: {}

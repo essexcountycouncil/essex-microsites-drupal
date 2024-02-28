@@ -15,16 +15,19 @@ libraries-extend:
     - love_essex/header
   localgov_microsites_base/footer:
     - love_essex/footer
-  localgov_base/breadcrumbs:
-    - love_essex/breadcrumbs
-  localgov_base/step-by-step:
-    - essex_microsites_base/step-by-step
   localgov_microsites_base/page-sections:
     - love_essex/page-sections
   localgov_microsites_base/featured-teasers:
     - love_essex/featured-teasers
   localgov_microsites_base/banner:
     - love_essex/banner
+  # Localgov Base Overrides
+  localgov_base/breadcrumbs:
+  - love_essex/breadcrumbs
+  localgov_base/wysiwyg-styles:
+    - love_essex/wysiwyg-styles
+  localgov_base/step-by-step:
+    - essex_microsites_base/step-by-step
 
 regions:
   tabs: "Tabs"
