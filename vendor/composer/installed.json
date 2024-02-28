@@ -9086,17 +9086,17 @@
         },
         {
             "name": "localgovdrupal/localgov_microsites_base",
-            "version": "2.0.0-beta10",
-            "version_normalized": "2.0.0.0-beta10",
+            "version": "2.0.0-beta12",
+            "version_normalized": "2.0.0.0-beta12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/localgovdrupal/localgov_microsites_base.git",
-                "reference": "eb8aa60b716b91148766f254456a90d95d84fbc5"
+                "reference": "ffe74fafe7d2604da3a2cbbd864428d33472564c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/localgovdrupal/localgov_microsites_base/zipball/eb8aa60b716b91148766f254456a90d95d84fbc5",
-                "reference": "eb8aa60b716b91148766f254456a90d95d84fbc5",
+                "url": "https://api.github.com/repos/localgovdrupal/localgov_microsites_base/zipball/ffe74fafe7d2604da3a2cbbd864428d33472564c",
+                "reference": "ffe74fafe7d2604da3a2cbbd864428d33472564c",
                 "shasum": ""
             },
             "require": {
@@ -9104,7 +9104,7 @@
                 "localgovdrupal/localgov_base": "^1.0.0",
                 "localgovdrupal/localgov_microsites_group": "^2.0.0@beta || ^3.0.0@alpha"
             },
-            "time": "2023-11-17T09:49:24+00:00",
+            "time": "2024-02-28T09:10:15+00:00",
             "type": "drupal-theme",
             "installation-source": "dist",
             "notification-url": "https://packagist.org/downloads/",
@@ -9115,7 +9115,7 @@
             "homepage": "https://github.com/localgovdrupal/localgov_microsites_base",
             "support": {
                 "issues": "https://github.com/localgovdrupal/localgov_microsites_base/issues",
-                "source": "https://github.com/localgovdrupal/localgov_microsites_base/tree/2.0.0-beta10"
+                "source": "https://github.com/localgovdrupal/localgov_microsites_base/tree/2.0.0-beta12"
             },
             "install-path": "../../web/themes/contrib/localgov_microsites_base"
         },
