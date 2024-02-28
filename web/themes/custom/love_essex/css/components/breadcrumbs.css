@@ -3,6 +3,16 @@
   border-color: var(--color-accent);
   background-color: var(--page-background-color);
 }
+
 .breadcrumbs {
   border-bottom: 0;
+  padding-block: var(--spacing-large);
+}
+
+.breadcrumbs__link {
+  text-decoration: none;
+  color: var(--color-accent);
+  &:hover {
+    text-decoration: underline;
+  }
 }

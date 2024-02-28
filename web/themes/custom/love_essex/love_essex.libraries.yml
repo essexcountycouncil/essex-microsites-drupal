@@ -11,6 +11,11 @@ fonts:
     base:
       css/base/fonts.css: {}
 
+base:
+  css:
+    base:
+      css/base/base.css: {}
+
 # Layout
 header:
   css:

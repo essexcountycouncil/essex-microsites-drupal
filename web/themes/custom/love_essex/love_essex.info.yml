@@ -9,6 +9,8 @@ libraries-extend:
     - love_essex/variables
   localgov_microsites_base/fonts:
     - love_essex/fonts
+  localgov_microsites_base/base:
+    - love_essex/base
   localgov_microsites_base/header:
     - love_essex/header
   localgov_microsites_base/footer:
