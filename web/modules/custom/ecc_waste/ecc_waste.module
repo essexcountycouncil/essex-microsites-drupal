@@ -74,7 +74,16 @@ function ecc_waste_preprocess_node (&$variables) {
     if (!empty($postcode_location_data) && !empty($variables['node']->get('field_disposal_option_location')->getValue())) {
       $node_location = $variables['node']->get('field_disposal_option_location')->getValue();
       $distance = ecc_waste_calculate_distance($postcode_location_data['lat'], $postcode_location_data['lon'], $node_location[0]['lat'], $node_location[0]['lon'], $unit = 'miles');
-      $variables['content']['distance']['#markup'] = '<div>About ' . ceil($distance) . ' miles away</div>';
+      $distance_markup = '';
+      $distance = (int)ceil($distance);
+      if ($distance > 1) {
+        $distance_markup = '<div>About ' . $distance . ' miles away</div>';
+      }
+      elseif ($distance === 1) {
+        $distance_markup = '<div>About ' . $distance . ' mile away</div>';
+      }
+
+      $variables['content']['distance']['#markup'] = $distance_markup;
     }
   }
 }
