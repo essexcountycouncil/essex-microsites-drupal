@@ -152,7 +152,6 @@ function ecc_waste_views_pre_render(ViewExecutable $view) {
     $counted_values = array_count_values($ratings);
     foreach ($counted_values as $rating => $count) {
       if ($count > 3) {
-        // @todo proximity/sort logic.
         $working_row_data = [];
         foreach ($view->result as $index => $row) {
           if ($row->taxonomy_term_field_data_taxonomy_term__field_service_enviro == $rating) {
@@ -168,9 +167,9 @@ function ecc_waste_views_pre_render(ViewExecutable $view) {
               ];
             }
             else {
-              $working_row_data[$index] = [
+              $working_row_data[] = [
                 'index' => $index,
-                'distance' => NULL,
+                'distance' => 0,
                 'data' => $row,
               ];
             }
@@ -179,9 +178,10 @@ function ecc_waste_views_pre_render(ViewExecutable $view) {
         // Sort by proximity.
         $unsorted_row_data = $working_row_data;
         usort($working_row_data, 'ecc_waste_sort_by_distance');
+        $sorted_row_data = $working_row_data;
         // Iterate through swapping our results into place,
         // and unsetting all after 3.
-        foreach ($working_row_data as $j => $item) {
+        foreach ($sorted_row_data as $j => $item) {
           $view->result[$unsorted_row_data[$j]['index']] = $item['data'];
           if ($j > 2) {
             unset($view->result[$unsorted_row_data[$j]['index']]);
