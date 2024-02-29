@@ -828,45 +828,6 @@ display:
           expose:
             operator_limit_selection: false
             operator_list: {  }
-        postcode_search_custom_filter:
-          id: postcode_search_custom_filter
-          table: views
-          field: postcode_search_custom_filter
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: postcode_filter
-          operator: '='
-          value: ''
-          group: 1
-          exposed: true
-          expose:
-            operator_id: postcode_search_custom_filter_op
-            label: Postcode
-            description: null
-            use_operator: false
-            operator: postcode_search_custom_filter_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: postcode
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          postcode: ''
         field_waste_item_synonyms_value:
           id: field_waste_item_synonyms_value
           table: taxonomy_term__field_waste_item_synonyms
@@ -920,6 +881,45 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+        postcode_search_custom_filter:
+          id: postcode_search_custom_filter
+          table: views
+          field: postcode_search_custom_filter
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: postcode_filter
+          operator: '='
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: postcode_search_custom_filter_op
+            label: Postcode
+            description: null
+            use_operator: false
+            operator: postcode_search_custom_filter_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: postcode
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          postcode: ''
       filter_groups:
         operator: AND
         groups:
