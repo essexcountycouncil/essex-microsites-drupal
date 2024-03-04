@@ -32,6 +32,7 @@
         "drupal/multiple_select": "^2.0",
         "drupal/views_autocomplete_filters": "^2.0.x-dev#27eac56404c145e3f03b28cd26d02e35f79989f0",
         "drupal/views_bulk_operations": "^4.2",
+        "drupal/views_data_export": "^1.4",
         "drush/drush": "^11.5",
         "localgovdrupal/localgov_microsites": "^2.1.0-beta6",
         "platformsh/config-reader": "^2.4",
