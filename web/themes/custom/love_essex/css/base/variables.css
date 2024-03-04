@@ -53,6 +53,7 @@ body {
   --header-link-color: var(--color-accent);
   --menu-main-font-size: var(--font-size);
   --footer-background-color: var(--color-grey-darkest);
+  --footer-grid-column-justification: start;
   --color-page-section-background-color-3: var(--color-accent-3);
   --color-page-section-background-color-3-text-color: var(--color-accent-3-contrast);
 }

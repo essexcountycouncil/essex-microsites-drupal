@@ -158,18 +158,93 @@
   {% endif %}
 </main>
 
-{% block footer %}
-  <footer class="microsite-footer">
-    {% if microsites.header.items.lgms_main_logo %}
-      <div class="lgd-container padding-horizontal">
-        <div class="microsite-footer__logo">
-          <a href="/">
-            {{ microsites.header.items.lgms_main_logo }}
-          </a>
+{# Begin Footer Logos #}
+  {% if microsites.footer.items.lgms_footer_logos %}
+    <div class="lgd-row">
+      <div class="lgd-row__full">
+        <div class="microsite-footer__block microsite-footer__logos">
+          <h2 class="text-align-center">{{ 'Our partnerships'|t }}</h2>
+          {{ microsites.footer.items.lgms_footer_logos }}
         </div>
       </div>
-    {% endif %}
-    {% include "@localgov_microsites_base/layout/includes/microsites-footer.html.twig" %}
+    </div>
+  {% endif %}
+{# End Footer Logos #}
+
+{% block footer %}
+  <footer class="microsite-footer">
+    <div class="lgd-container padding-horizontal">
+    <div class="microsite-footer__top">
+      {% if microsites.header.items.lgms_main_logo %}
+          <div class="microsite-footer__logo">
+            <a href="/">
+              {{ microsites.header.items.lgms_main_logo }}
+            </a>
+          </div>
+      {% endif %}
+      <div class="microsite-footer__socials">
+        <ul>
+          <li>
+            <a href="https://www.facebook.com/loveessexuk/">
+              <span class="visually-hidden">facebook</span>
+              {% include "@localgov_base/includes/icons/icon.html.twig" with {
+                  theme: 'localgov_base',
+                  icon_name: 'facebook-square',
+                  icon_classes: 'lgd-icon--larger',
+                }
+              %}
+            </a>
+          </li>
+          <li>
+            <a href="https://twitter.com/loveessexuk">
+              <span class="visually-hidden">twitter</span>
+              {% include "@localgov_base/includes/icons/icon.html.twig" with {
+                  theme: 'localgov_base',
+                  icon_name: 'twitter-square',
+                  icon_classes: 'lgd-icon--larger',
+                }
+              %}
+            </a>
+          </li>
+          <li>
+            <a href="here">
+              <span class="visually-hidden">instagram</span>
+              {% include "@localgov_base/includes/icons/icon.html.twig" with {
+                  theme: 'localgov_base',
+                  icon_name: 'instagram-square',
+                  icon_classes: 'lgd-icon--larger',
+                }
+              %}
+            </a>
+          </li>
+          <li>
+            <a href="here">
+              <span class="visually-hidden">linkedin</span>
+              {% include "@localgov_base/includes/icons/icon.html.twig" with {
+                  theme: 'localgov_base',
+                  icon_name: 'linkedin',
+                  icon_classes: 'lgd-icon--larger',
+                }
+              %}
+            </a>
+          </li>
+          <li>
+            <a href="here">
+              <span class="visually-hidden">youtube</span>
+              {% include "@localgov_base/includes/icons/icon.html.twig" with {
+                  theme: 'localgov_base',
+                  icon_name: 'youtube-square',
+                  icon_classes: 'lgd-icon--larger',
+                }
+              %}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+    {% include "@love_essex/layout/includes/microsites-footer.html.twig" %}
     {% if has_footer %}
       {{ page.footer }}
     {% endif %}

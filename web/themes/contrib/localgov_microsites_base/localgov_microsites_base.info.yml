@@ -38,7 +38,7 @@ libraries-extend:
     - localgov_microsites_base/image-with-caption
   localgov_subsites_paragraphs/localgov_accordion:
     - localgov_microsites_base/accordion
-  localgov_subsites_paragraphs/localgov_media_with_text:
+  localgov_base/media-with-text:
     - localgov_microsites_base/media-with-text
   localgov_base/banner:
     - localgov_microsites_base/banner

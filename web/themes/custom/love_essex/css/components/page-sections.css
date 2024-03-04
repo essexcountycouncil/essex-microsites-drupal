@@ -39,3 +39,20 @@
 .lgd-page-section--margin-after-largest {
   --page-section-margin-after: var(--spacing-largest);
 }
+
+/*
+  This might win me a CSS Oscar, or get me fired!
+  In an effot to be able to centre text properly, we need to add it to a
+  3-column layout and put the text in the middle column. If we use a 1-column
+  layout, the text will be centered, but since the max width of a text paragraph
+  is 768px, it will be centered only within that amount of space and aligned to
+  the left.
+  What we are doing here is saying if we have a 3-column layout and the first
+  and third columns are empty, then we can use the middle column to center the
+  text.
+*/
+@media screen and (min-width: 768px) {
+  .layout--threecol-33-34-33:not(:has(.layout__region--first *)):not(:has(.layout__region--third *)) {
+    grid-template-columns: 25% 50% 25%;
+  }
+}

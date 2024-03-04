@@ -21,6 +21,8 @@ libraries-extend:
     - love_essex/featured-teasers
   localgov_microsites_base/banner:
     - love_essex/banner
+  localgov_microsites_base/media-with-text:
+    - love_essex/media-with-text
   # Localgov Base Overrides
   localgov_base/breadcrumbs:
   - love_essex/breadcrumbs

@@ -1,0 +1,11 @@
+.media-with-text__body {
+  color: var(--color-accent);
+}
+
+.media-with-text__media img {
+  border-radius: var(--border-radius);
+}
+
+.media-with-text__body {
+  padding-inline: var(--spacing);
+}

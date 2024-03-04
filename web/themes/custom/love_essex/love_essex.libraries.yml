@@ -56,6 +56,11 @@ banner:
     theme:
       css/components/banner.css: {}
 
+media-with-text:
+  css:
+    theme:
+      css/components/media-with-text.css: {}
+
 # Utilities
 wysiwyg-styles:
   css:
