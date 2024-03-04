@@ -5,7 +5,6 @@ dependencies:
     - group_content_menu.group_content_menu_type.lgms_main_menu
   module:
     - group_content_menu
-    - domain_group
   theme:
     - localgov_microsites_base
 id: localgov_microsites_base_off_canvas_main_menu

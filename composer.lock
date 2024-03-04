@@ -7803,22 +7803,22 @@
         },
         {
             "name": "localgovdrupal/localgov_microsites_base",
-            "version": "2.0.0-beta12",
+            "version": "2.0.0-beta15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/localgovdrupal/localgov_microsites_base.git",
-                "reference": "ffe74fafe7d2604da3a2cbbd864428d33472564c"
+                "reference": "772c07ca771905c35a52a4bcbbd42c8919c18279"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/localgovdrupal/localgov_microsites_base/zipball/ffe74fafe7d2604da3a2cbbd864428d33472564c",
-                "reference": "ffe74fafe7d2604da3a2cbbd864428d33472564c",
+                "url": "https://api.github.com/repos/localgovdrupal/localgov_microsites_base/zipball/772c07ca771905c35a52a4bcbbd42c8919c18279",
+                "reference": "772c07ca771905c35a52a4bcbbd42c8919c18279",
                 "shasum": ""
             },
             "require": {
                 "drupal/twig_tweak": "^3.2",
                 "localgovdrupal/localgov_base": "^1.0.0",
-                "localgovdrupal/localgov_microsites_group": "^2.0.0@beta || ^3.0.0@alpha"
+                "localgovdrupal/localgov_microsites_group": "^2.0.0@beta || ^3.0.0@alpha || ^4.0.0@alpha "
             },
             "type": "drupal-theme",
             "notification-url": "https://packagist.org/downloads/",
@@ -7829,9 +7829,9 @@
             "homepage": "https://github.com/localgovdrupal/localgov_microsites_base",
             "support": {
                 "issues": "https://github.com/localgovdrupal/localgov_microsites_base/issues",
-                "source": "https://github.com/localgovdrupal/localgov_microsites_base/tree/2.0.0-beta12"
+                "source": "https://github.com/localgovdrupal/localgov_microsites_base/tree/2.0.0-beta15"
             },
-            "time": "2024-02-28T09:10:15+00:00"
+            "time": "2024-03-04T13:26:22+00:00"
         },
         {
             "name": "localgovdrupal/localgov_microsites_colour_picker_fields",

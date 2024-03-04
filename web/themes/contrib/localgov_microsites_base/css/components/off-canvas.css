@@ -82,7 +82,7 @@
 .microsite-header__off-canvas-toggle {
   display: flex;
   align-items: center;
-  justify-items: center;
+  justify-content: center;
   padding: var(--spacing-smaller);
 }
 
