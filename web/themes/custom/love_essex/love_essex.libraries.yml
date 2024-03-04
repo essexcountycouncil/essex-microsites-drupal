@@ -46,6 +46,11 @@ page-sections:
     theme:
       css/components/page-sections.css: {}
 
+text-component:
+  css:
+    theme:
+      css/components/text-component.css: {}
+
 featured-teasers:
   css:
     theme:

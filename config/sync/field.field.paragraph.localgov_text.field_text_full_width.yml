@@ -1,0 +1,23 @@
+uuid: ec5ae2df-3d20-4465-8970-e629f225c484
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_text_full_width
+    - paragraphs.paragraphs_type.localgov_text
+id: paragraph.localgov_text.field_text_full_width
+field_name: field_text_full_width
+entity_type: paragraph
+bundle: localgov_text
+label: 'Full width'
+description: 'By default our text components will fill the width of about 66% of a laptop screen. This is so there is no too much content on one line. In rare cases, you might want the text to fill 100% of the area. Checking this box will do that for you.'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean
