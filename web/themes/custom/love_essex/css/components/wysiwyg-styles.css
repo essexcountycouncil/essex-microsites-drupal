@@ -6,3 +6,10 @@
 .btn.btn-start:hover {
   border-color: var(--color-accent);
 }
+
+.lgd-page-section--bg-colour-1 .btn.btn-start {
+  background-color: var(--color-accent-2);
+}
+.lgd-page-section--bg-colour-1 .btn.btn-start:hover {
+  background-color: var(--color-white);
+}
