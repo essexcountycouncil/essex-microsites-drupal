@@ -1,3 +1,8 @@
 .btn.btn-start {
   padding: var(--spacing-large) var(--spacing-largest);
+  border-color: transparent;
+}
+
+.btn.btn-start:hover {
+  border-color: var(--color-accent);
 }
