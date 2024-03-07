@@ -21,3 +21,11 @@
 .featured-teasers__teasers > .field__items > .field__item + .field__item {
   margin-top: 0;
 }
+
+.featured-teaser {
+  border-radius: var(--border-radius);
+}
+
+.featured-teaser__image img {
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+}

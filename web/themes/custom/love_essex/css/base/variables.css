@@ -46,6 +46,7 @@ body {
   --line-height: 1.75;
   --line-height-small: 1.4;
   --font-size: 1.1875rem;
+  --border-radius: 10px;
 
   /* Applying Variables */
   --page-background-color: var(--color-accent-lightest);
