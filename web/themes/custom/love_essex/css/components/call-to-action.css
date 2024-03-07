@@ -1,8 +1,8 @@
 .call-to-action {
   --cta-grid-gap: var(--spacing);
-  --cta-image-width: 200px;
+  --cta-image-width: 175px;
   position: relative;
-  padding: var(--spacing-larger) var(--spacing-large);
+  padding: var(--spacing-largest) var(--spacing-larger);
   border-radius: var(--border-radius);
   background-color: var(--color-white);
 }
@@ -53,12 +53,18 @@
   color: var(--color-accent);
 }
 
+.call-to-action__content .field--name-field-cta-text > * + * {
+  margin-block-start: var(--spacing);
+  font-size: var(--font-size-h3);
+}
+
 .call-to-action__link a {
   display: inline-block;
   padding: var(--spacing-small) var(--spacing-largest);
   background-color: var(--color-accent);
   color: var(--color-white);
   text-decoration: none;
+  font-weight: bold;
 }
 
 .call-to-action__link a:hover {
