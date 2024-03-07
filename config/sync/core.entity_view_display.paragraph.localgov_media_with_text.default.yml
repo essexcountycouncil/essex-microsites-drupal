@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.localgov_media_with_text.field_rounded_image
     - field.field.paragraph.localgov_media_with_text.localgov_heading_level
     - field.field.paragraph.localgov_media_with_text.localgov_link
     - field.field.paragraph.localgov_media_with_text.localgov_media_item
@@ -23,6 +24,16 @@ targetEntityType: paragraph
 bundle: localgov_media_with_text
 mode: default
 content:
+  field_rounded_image:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 3
+    region: content
   localgov_link:
     type: link
     label: hidden

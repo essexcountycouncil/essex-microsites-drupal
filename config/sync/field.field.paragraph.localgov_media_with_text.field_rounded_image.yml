@@ -1,0 +1,23 @@
+uuid: df749107-a977-456a-acc2-9baffadbc9a6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_rounded_image
+    - paragraphs.paragraphs_type.localgov_media_with_text
+id: paragraph.localgov_media_with_text.field_rounded_image
+field_name: field_rounded_image
+entity_type: paragraph
+bundle: localgov_media_with_text
+label: 'Make the image a circle'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

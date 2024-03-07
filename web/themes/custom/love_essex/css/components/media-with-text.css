@@ -9,3 +9,13 @@
 .media-with-text__body {
   padding-inline: var(--spacing);
 }
+
+.media-with-text--rounded-image .media-with-text__media {
+  padding: var(--spacing-large);
+}
+
+.media-with-text--rounded-image .media-with-text__media img {
+  border-radius: 50%;
+  padding: var(--spacing-smallest);
+  background-image: linear-gradient(90deg, var(--color-accent), var(--color-accent-light));
+}

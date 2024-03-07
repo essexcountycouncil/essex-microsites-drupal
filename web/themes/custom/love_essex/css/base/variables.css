@@ -34,6 +34,7 @@
 */
 body {
   --color-accent: #047E3D;
+  --color-accent-light: #78BE20;
   --color-accent-2: #F36F30;
   --color-accent-2-contrast: var(--color-white);
   --color-accent-3: #8B569D;
