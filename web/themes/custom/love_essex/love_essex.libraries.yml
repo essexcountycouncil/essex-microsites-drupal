@@ -66,6 +66,11 @@ media-with-text:
     theme:
       css/components/media-with-text.css: {}
 
+call-to-action:
+  css:
+    theme:
+      css/components/call-to-action.css: {}
+
 # Utilities
 wysiwyg-styles:
   css:

@@ -1,0 +1,29 @@
+uuid: 4d98cede-bfc4-4741-8244-b80803d3c10b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_cta_image_right
+    - media.type.image
+    - paragraphs.paragraphs_type.call_to_action
+id: paragraph.call_to_action.field_cta_image_right
+field_name: field_cta_image_right
+entity_type: paragraph
+bundle: call_to_action
+label: 'CTA Image Right'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.storage.node.localgov_paragraph_content
     - node.type.localgov_page
+    - paragraphs.paragraphs_type.call_to_action
     - paragraphs.paragraphs_type.localgov_accordion
     - paragraphs.paragraphs_type.localgov_call_out_box
     - paragraphs.paragraphs_type.localgov_documents
@@ -29,7 +30,7 @@ entity_type: node
 bundle: localgov_page
 label: 'Layouts and rich content'
 description: ''
-required: true
+required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''
@@ -38,9 +39,10 @@ settings:
   handler_settings:
     target_bundles:
       localgov_accordion: localgov_accordion
+      call_to_action: call_to_action
       localgov_call_out_box: localgov_call_out_box
-      localgov_embed_views: localgov_embed_views
       localgov_documents: localgov_documents
+      localgov_embed_views: localgov_embed_views
       localgov_featured_teasers: localgov_featured_teasers
       localgov_ia_block: localgov_ia_block
       localgov_image: localgov_image
@@ -53,6 +55,9 @@ settings:
       localgov_video: localgov_video
     negate: 0
     target_bundles_drag_drop:
+      call_to_action:
+        weight: 39
+        enabled: true
       from_library:
         weight: 36
         enabled: false
@@ -136,6 +141,9 @@ settings:
         enabled: true
       localgov_newsroom_teaser:
         weight: 62
+        enabled: false
+      localgov_numbered_text:
+        weight: 68
         enabled: false
       localgov_page_section:
         weight: 64

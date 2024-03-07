@@ -1,0 +1,29 @@
+uuid: 888b1cbf-78d4-45c9-93b7-bf4e7886e719
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_cta_image_left
+    - media.type.image
+    - paragraphs.paragraphs_type.call_to_action
+id: paragraph.call_to_action.field_cta_image_left
+field_name: field_cta_image_left
+entity_type: paragraph
+bundle: call_to_action
+label: 'CTA Image Left'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

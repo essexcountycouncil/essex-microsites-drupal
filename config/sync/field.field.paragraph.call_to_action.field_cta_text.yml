@@ -1,0 +1,21 @@
+uuid: 21c8c151-18fc-419f-980b-91d3056df3f6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_cta_text
+    - paragraphs.paragraphs_type.call_to_action
+  module:
+    - text
+id: paragraph.call_to_action.field_cta_text
+field_name: field_cta_text
+entity_type: paragraph
+bundle: call_to_action
+label: 'CTA Text'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long
