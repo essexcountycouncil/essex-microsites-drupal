@@ -132,7 +132,7 @@ class PostcodeFilter extends FilterPluginBase {
    */
   public function getTermIdFromPostcode($value) {
     if (!empty($value)) {
-      $url = 'https://api.os.uk/search/places/v1/postcode?postcode=' . $value . '&key=EBJme6M7CYzCfMtjtnsJgudt6mcMjxXl&maxresults=1&output_srs=EPSG:4326';
+      $url = 'https://api.os.uk/search/places/v1/postcode?postcode=' . $value . '&key=vCQB8cMkO8IuZHz5FrO0877wMiymcLD6&maxresults=1&output_srs=EPSG:4326';
       $client = \Drupal::httpClient();
 
       try {
