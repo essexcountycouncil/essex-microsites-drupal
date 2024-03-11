@@ -19,3 +19,7 @@
 .view-disposal-options .view-content .views-row {
   flex: 0 1 30%;
 }
+
+.term-environmental-rating h2 {
+  display: none;
+}
