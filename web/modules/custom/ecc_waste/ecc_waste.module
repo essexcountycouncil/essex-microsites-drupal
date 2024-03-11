@@ -58,11 +58,20 @@ function ecc_waste_preprocess_node (&$variables) {
       }
     }
 
+    $display_title = $variables['node']->get('field_disposal_display_title')->getValue();
     $url = $variables['node']->get('field_disposal_option_url')->uri;
     if (!empty($url)) {
       $variables['url'] = $url;
       unset($variables['content']['field_disposal_option_url']);
     }
+    // If we have a display title, show it instead of a node title.
+    if (!empty($display_title)) {
+      $variables['title_attributes']['class'][] = 'visually-hidden';
+      $variables['content']['field_disposal_display_title']['#prefix'] = '<h3><a href="' . $variables['url'] . '">';
+      $variables['content']['field_disposal_display_title']['#suffix'] = '</a></h3>';
+    }
+
+
 
     // Calculate distance from our postcode location.
     $session = \Drupal::service('session');
@@ -240,4 +249,15 @@ function ecc_waste_calculate_distance($lat1, $lon1, $lat2, $lon2, $unit = 'miles
         default:
             return $miles;
     }
+}
+
+
+/**
+ * Implements template_preprocess_taxonomy_term()
+ */
+function ecc_waste_preprocess_taxonomy_term(&$variables) {
+
+  if ($variables['name']['#bundle'] == 'environmental_rating') {
+    $variables['attributes']['class'][] = 'term-environmental-rating';
+  }
 }
