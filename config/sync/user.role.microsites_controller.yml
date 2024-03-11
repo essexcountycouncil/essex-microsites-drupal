@@ -16,6 +16,7 @@ dependencies:
     - localgov_geo
     - localgov_microsites_group
     - media
+    - redirect
     - role_delegation
     - system
     - toolbar
@@ -43,6 +44,7 @@ permissions:
   - 'access webform submission user'
   - 'administer domains'
   - 'administer media'
+  - 'administer redirects'
   - 'administer users'
   - 'administer webform'
   - 'administer webform element access'

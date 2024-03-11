@@ -15,6 +15,7 @@ dependencies:
     - media
     - node
     - override_node_options
+    - redirect
     - system
     - toolbar
     - webform_node
@@ -29,6 +30,7 @@ permissions:
   - 'access media overview'
   - 'access toolbar'
   - 'administer media'
+  - 'administer redirects'
   - 'create directory facets'
   - 'create document media'
   - 'create geo'
