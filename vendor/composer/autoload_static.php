@@ -41,8 +41,8 @@ class ComposerStaticInitd0a74afab30d5542a6c9ec30d9e3e1b8
         '6db5533840cb1ae1bc049452845aa88e' => __DIR__ . '/../..' . '/web/core/includes/guzzle_php81_shim.php',
         '9c67151ae59aff4788964ce8eb2a0f43' => __DIR__ . '/..' . '/clue/stream-filter/src/functions_include.php',
         '8cff32064859f4559445b89279f3199c' => __DIR__ . '/..' . '/php-http/message/src/filters.php',
-        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '9b38cf48e83f5d8f60375221cd213eee' => __DIR__ . '/..' . '/phpstan/phpstan/bootstrap.php',
+        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
         '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
         'ad155f8f1cf0d418fe49e248db8c661b' => __DIR__ . '/..' . '/react/promise/src/functions_include.php',
@@ -59,6 +59,10 @@ class ComposerStaticInitd0a74afab30d5542a6c9ec30d9e3e1b8
         'm' => 
         array (
             'mglaman\\PHPStanDrupal\\' => 22,
+        ),
+        'd' => 
+        array (
+            'dekor\\' => 6,
         ),
         'c' => 
         array (
@@ -251,6 +255,10 @@ class ComposerStaticInitd0a74afab30d5542a6c9ec30d9e3e1b8
         'mglaman\\PHPStanDrupal\\' => 
         array (
             0 => __DIR__ . '/..' . '/mglaman/phpstan-drupal/src',
+        ),
+        'dekor\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/dekor/php-array-table/src',
         ),
         'cweagans\\Composer\\' => 
         array (

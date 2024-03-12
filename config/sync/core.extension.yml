@@ -9,7 +9,6 @@ module:
   block: 0
   block_content: 0
   breakpoint: 0
-  ckeditor: 0
   ckeditor5: 0
   config: 0
   content_moderation: 0
@@ -126,7 +125,6 @@ module:
   paragraphs_library: 0
   path: 0
   path_alias: 0
-  quickedit: 0
   redirect: 0
   redirect_404: 0
   replicate: 0
@@ -151,6 +149,7 @@ module:
   tour: 0
   twig_tweak: 0
   update: 0
+  upgrade_status: 0
   user: 0
   variationcache: 0
   views_ui: 0
