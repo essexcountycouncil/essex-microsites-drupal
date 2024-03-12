@@ -79,7 +79,6 @@ permissions:
   - 'edit directory facets'
   - 'edit domain path entity'
   - 'edit geo'
-  - 'edit layout paragraphs plugin config'
   - 'edit own document media'
   - 'edit own image media'
   - 'edit own remote_video media'
