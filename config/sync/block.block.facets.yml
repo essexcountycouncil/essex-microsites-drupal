@@ -1,0 +1,24 @@
+uuid: cce87883-3f31-47e0-b5f8-192a5a7ae626
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.localgov_directories_facets
+  module:
+    - facets
+  theme:
+    - essex_microsites_base
+id: facets
+theme: essex_microsites_base
+region: sidebar_first
+weight: 0
+provider: null
+plugin: 'facet_block:localgov_directories_facets'
+settings:
+  id: 'facet_block:localgov_directories_facets'
+  label: Facets
+  label_display: '0'
+  provider: facets
+  context_mapping: {  }
+  block_id: facets
+visibility: {  }

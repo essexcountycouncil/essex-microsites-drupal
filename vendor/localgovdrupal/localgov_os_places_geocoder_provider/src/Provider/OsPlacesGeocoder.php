@@ -18,8 +18,11 @@ use LocalgovDrupal\OsPlacesGeocoder\Model\OsPlacesAddress;
 /**
  * Geocoder plugin for the Ordnance Survey Places API.
  *
- * Lists addresses based on given postcode or address string.  Addresses are
- * keyed by their UPRN.
+ * Lists addresses based on given postcode or address string.  Results can be
+ * restricted to a single local authority through the `local_custodian_code`
+ * data parameter.
+ *
+ * Addresses are keyed by their UPRN.
  *
  * @see https://osdatahub.os.uk/docs/places/overview
  * @see https://en.wikipedia.org/wiki/Unique_Property_Reference_Number
@@ -65,6 +68,9 @@ class OsPlacesGeocoder extends AbstractHttpProvider implements GeocoderProviderI
     }
 
     $search_query['output_srs'] = self::OS_OUTPUT_FORMAT_WITH_LAT_LON;
+    if ($local_custodian_code = $query->getData('local_custodian_code', FALSE)) {
+      $search_query['fq'] = 'LOCAL_CUSTODIAN_CODE:' . (int) $local_custodian_code;
+    }
 
     $api_url = sprintf('%s?%s', $api_endpoint, http_build_query($search_query));
     $request = $this->getRequest($api_url);
