@@ -20,11 +20,11 @@ use Psr\Container\NotFoundExceptionInterface;
  */
 class ParameterNotFoundException extends InvalidArgumentException implements NotFoundExceptionInterface
 {
-    private string $key;
-    private ?string $sourceId;
-    private ?string $sourceKey;
-    private array $alternatives;
-    private ?string $nonNestedAlternative;
+    private $key;
+    private $sourceId;
+    private $sourceKey;
+    private $alternatives;
+    private $nonNestedAlternative;
 
     /**
      * @param string          $key                  The requested parameter key
@@ -34,7 +34,7 @@ class ParameterNotFoundException extends InvalidArgumentException implements Not
      * @param string[]        $alternatives         Some parameter name alternatives
      * @param string|null     $nonNestedAlternative The alternative parameter name when the user expected dot notation for nested parameters
      */
-    public function __construct(string $key, ?string $sourceId = null, ?string $sourceKey = null, ?\Throwable $previous = null, array $alternatives = [], ?string $nonNestedAlternative = null)
+    public function __construct(string $key, string $sourceId = null, string $sourceKey = null, \Throwable $previous = null, array $alternatives = [], string $nonNestedAlternative = null)
     {
         $this->key = $key;
         $this->sourceId = $sourceId;
@@ -47,17 +47,12 @@ class ParameterNotFoundException extends InvalidArgumentException implements Not
         $this->updateRepr();
     }
 
-    /**
-     * @return void
-     */
     public function updateRepr()
     {
         if (null !== $this->sourceId) {
             $this->message = sprintf('The service "%s" has a dependency on a non-existent parameter "%s".', $this->sourceId, $this->key);
         } elseif (null !== $this->sourceKey) {
             $this->message = sprintf('The parameter "%s" has a dependency on a non-existent parameter "%s".', $this->sourceKey, $this->key);
-        } elseif ('.' === ($this->key[0] ?? '')) {
-            $this->message = sprintf('Parameter "%s" not found. It was probably deleted during the compilation of the container.', $this->key);
         } else {
             $this->message = sprintf('You have requested a non-existent parameter "%s".', $this->key);
         }
@@ -74,44 +69,29 @@ class ParameterNotFoundException extends InvalidArgumentException implements Not
         }
     }
 
-    /**
-     * @return string
-     */
     public function getKey()
     {
         return $this->key;
     }
 
-    /**
-     * @return string|null
-     */
     public function getSourceId()
     {
         return $this->sourceId;
     }
 
-    /**
-     * @return string|null
-     */
     public function getSourceKey()
     {
         return $this->sourceKey;
     }
 
-    /**
-     * @return void
-     */
-    public function setSourceId(?string $sourceId)
+    public function setSourceId($sourceId)
     {
         $this->sourceId = $sourceId;
 
         $this->updateRepr();
     }
 
-    /**
-     * @return void
-     */
-    public function setSourceKey(?string $sourceKey)
+    public function setSourceKey($sourceKey)
     {
         $this->sourceKey = $sourceKey;
 

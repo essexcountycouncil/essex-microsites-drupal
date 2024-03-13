@@ -3,7 +3,7 @@
  * Styles for pagination.
  */
 
-@import "../base/media-queries.pcss.css";
+@import "../base/variables.pcss.css";
 
 .pager__items {
   display: flex;
@@ -25,7 +25,7 @@
   width: var(--sp2-5);
   height: var(--sp2-5);
   cursor: default;
-  color: var(--color-text-neutral-soft);
+  color: var(--color--gray-20);
   background-color: var(--color--white);
 
   @media (--sm) {
@@ -40,12 +40,17 @@
 
 .pager__item--active {
   color: var(--color--white);
-  background-color: var(--color--primary-40);
+  background-color: var(--color--blue-20);
 }
 
 .pager__item--control {
-  @media (forced-colors: active) {
-    & path {
+  & path {
+    /* IE11 Specific. */
+    @media (-ms-high-contrast: active) {
+      fill: currentColor;
+    }
+
+    @media (forced-colors: active) {
       fill: linktext;
     }
   }
@@ -58,16 +63,16 @@
   width: 100%;
   height: 100%;
   text-decoration: none;
-  color: var(--color-text-neutral-soft);
+  color: var(--color--gray-20);
 }
 
 .pager__link:hover {
-  background-color: var(--color--gray-95);
+  background-color: var(--color--gray-80);
 }
 
 .pager__link:focus {
-  color: var(--color-text-primary-medium);
-  outline: solid 2px currentColor;
+  color: var(--color--blue-20);
+  outline: solid 2px var(--color--blue-20);
   outline-offset: -2px;
 }
 

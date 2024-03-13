@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies:
   module:
-    - geo_entity
+    - localgov_geo
     - node
 _core:
   default_config_hash: zG_PsW2sz8I94X2roaDmVTeRACIqe9mVCspKaPKzTYc
@@ -12,7 +12,7 @@ field_name: localgov_event_location
 entity_type: node
 type: entity_reference
 settings:
-  target_type: geo_entity
+  target_type: localgov_geo
 module: core
 locked: false
 cardinality: 1

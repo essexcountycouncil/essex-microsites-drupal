@@ -143,7 +143,7 @@ class LoggerManager extends AbstractLogger implements StylableLoggerInterface, S
     /**
      * {@inheritdoc}
      */
-    public function log($level, string|\Stringable $message, array $context = []): void
+    public function log($level, $message, array $context = array())
     {
         foreach ($this->getLoggers() as $logger) {
             $logger->log($level, $message, $context);

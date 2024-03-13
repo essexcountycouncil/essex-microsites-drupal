@@ -24,7 +24,7 @@ class SettingSummariesContentTypeTest extends WebDriverTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp(): void {
+  public function setUp(): void {
     parent::setUp();
 
     $admin_user = $this->drupalCreateUser(['administer content types']);

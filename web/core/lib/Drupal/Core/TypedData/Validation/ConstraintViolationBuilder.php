@@ -72,7 +72,7 @@ class ConstraintViolationBuilder implements ConstraintViolationBuilderInterface 
   /**
    * The translation domain.
    *
-   * @var string|false|null
+   * @var string|null
    */
   protected $translationDomain;
 
@@ -135,7 +135,7 @@ class ConstraintViolationBuilder implements ConstraintViolationBuilderInterface 
     /**
      * {@inheritdoc}
      */
-    public function atPath($path): static
+    public function atPath($path)
     {
       $this->propertyPath = PropertyPath::append($this->propertyPath, $path);
 
@@ -145,7 +145,7 @@ class ConstraintViolationBuilder implements ConstraintViolationBuilderInterface 
     /**
      * {@inheritdoc}
      */
-    public function setParameter($key, $value): static
+    public function setParameter($key, $value)
     {
       $this->parameters[$key] = $value;
 
@@ -155,7 +155,7 @@ class ConstraintViolationBuilder implements ConstraintViolationBuilderInterface 
     /**
      * {@inheritdoc}
      */
-    public function setParameters(array $parameters): static
+    public function setParameters(array $parameters)
     {
       $this->parameters = $parameters;
 
@@ -165,7 +165,7 @@ class ConstraintViolationBuilder implements ConstraintViolationBuilderInterface 
     /**
      * {@inheritdoc}
      */
-    public function setTranslationDomain($translationDomain): static
+    public function setTranslationDomain($translationDomain)
     {
       $this->translationDomain = $translationDomain;
 
@@ -175,7 +175,7 @@ class ConstraintViolationBuilder implements ConstraintViolationBuilderInterface 
     /**
      * {@inheritdoc}
      */
-    public function setInvalidValue($invalidValue): static
+    public function setInvalidValue($invalidValue)
     {
       $this->invalidValue = $invalidValue;
 
@@ -185,7 +185,7 @@ class ConstraintViolationBuilder implements ConstraintViolationBuilderInterface 
     /**
      * {@inheritdoc}
      */
-    public function setPlural($number): static
+    public function setPlural($number)
     {
       $this->plural = $number;
 
@@ -195,7 +195,7 @@ class ConstraintViolationBuilder implements ConstraintViolationBuilderInterface 
     /**
      * {@inheritdoc}
      */
-    public function setCode($code): static
+    public function setCode($code)
     {
       $this->code = $code;
 
@@ -205,7 +205,7 @@ class ConstraintViolationBuilder implements ConstraintViolationBuilderInterface 
     /**
      * {@inheritdoc}
      */
-    public function setCause($cause): static
+    public function setCause($cause)
     {
       $this->cause = $cause;
 
@@ -214,9 +214,6 @@ class ConstraintViolationBuilder implements ConstraintViolationBuilderInterface 
 
     /**
      * {@inheritdoc}
-     *
-     * phpcs:ignore Drupal.Commenting.FunctionComment.VoidReturn
-     * @return void
      */
     public function addViolation()
     {
@@ -256,15 +253,4 @@ class ConstraintViolationBuilder implements ConstraintViolationBuilderInterface 
         $this->cause
       ));
     }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function disableTranslation(): static
-  {
-    $this->translationDomain = false;
-
-    return $this;
-  }
-
 }

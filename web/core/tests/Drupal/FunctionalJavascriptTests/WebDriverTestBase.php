@@ -90,7 +90,7 @@ abstract class WebDriverTestBase extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function tearDown(): void {
+  protected function tearDown() {
     if ($this->mink) {
       $status = $this->getStatus();
       if ($status === BaseTestRunner::STATUS_ERROR || $status === BaseTestRunner::STATUS_WARNING || $status === BaseTestRunner::STATUS_FAILURE) {
@@ -111,28 +111,20 @@ abstract class WebDriverTestBase extends BrowserTestBase {
 
       $warnings = $this->getSession()->evaluateScript("JSON.parse(sessionStorage.getItem('js_testing_log_test.warnings') || JSON.stringify([]))");
       foreach ($warnings as $warning) {
-        if (str_starts_with($warning, '[Deprecation]')) {
+        if (strpos($warning, '[Deprecation]') === 0) {
           @trigger_error('Javascript Deprecation:' . substr($warning, 13), E_USER_DEPRECATED);
         }
       }
+      if ($this->failOnJavascriptConsoleErrors) {
+        $errors = $this->getSession()->evaluateScript("JSON.parse(sessionStorage.getItem('js_testing_log_test.errors') || JSON.stringify([]))");
+        if (!empty($errors)) {
+          $all_errors = implode("\n", $errors);
+          @trigger_error("Not failing JavaScript test for JavaScript errors is deprecated in drupal:9.3.0 and is removed from drupal:10.0.0. This test had the following JavaScript errors: $all_errors. See https://www.drupal.org/node/3221100", E_USER_DEPRECATED);
+        }
+      }
+
     }
     parent::tearDown();
-  }
-
-  /**
-   * Triggers a test failure if a JavaScript error was encountered.
-   *
-   * @throws \PHPUnit\Framework\AssertionFailedError
-   *
-   * @postCondition
-   */
-  protected function failOnJavaScriptErrors(): void {
-    if ($this->failOnJavascriptConsoleErrors) {
-      $errors = $this->getSession()->evaluateScript("JSON.parse(sessionStorage.getItem('js_testing_log_test.errors') || JSON.stringify([]))");
-      if (!empty($errors)) {
-        $this->fail(implode("\n", $errors));
-      }
-    }
   }
 
   /**

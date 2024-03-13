@@ -2,6 +2,8 @@
  * Divider.
  */
 
+@import "../base/variables.pcss.css";
+
 .divider {
   height: 1px;
   background-color: var(--color-divider);

@@ -12,14 +12,19 @@ class ConfigEntityNormalizer extends EntityNormalizer {
   /**
    * {@inheritdoc}
    */
-  public function normalize($object, $format = NULL, array $context = []): array|string|int|float|bool|\ArrayObject|NULL {
+  protected $supportedInterfaceOrClass = ConfigEntityInterface::class;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function normalize($object, $format = NULL, array $context = []) {
     return static::getDataWithoutInternals($object->toArray());
   }
 
   /**
    * {@inheritdoc}
    */
-  public function denormalize($data, $class, $format = NULL, array $context = []): mixed {
+  public function denormalize($data, $class, $format = NULL, array $context = []) {
     return parent::denormalize(static::getDataWithoutInternals($data), $class, $format, $context);
   }
 
@@ -40,15 +45,6 @@ class ConfigEntityNormalizer extends EntityNormalizer {
    */
   protected static function getDataWithoutInternals(array $data) {
     return array_diff_key($data, ['_core' => TRUE]);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getSupportedTypes(?string $format): array {
-    return [
-      ConfigEntityInterface::class => TRUE,
-    ];
   }
 
 }

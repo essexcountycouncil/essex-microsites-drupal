@@ -3,11 +3,14 @@
 namespace Drupal\Core\Routing;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Cmf\Component\Routing\RouteProviderInterface as RouteProviderBaseInterface;
 
 /**
- * Defines the route provider interface.
+ * Extends the router provider interface.
+ *
+ * @see \Symfony\Cmf\Component\Routing
  */
-interface RouteProviderInterface {
+interface RouteProviderInterface extends RouteProviderBaseInterface {
 
   /**
    * Finds routes that may potentially match the request.
@@ -17,7 +20,7 @@ interface RouteProviderInterface {
    * RouteObjectInterface to link to a content document.
    *
    * This method may not throw an exception based on implementation specific
-   * restrictions on the URL. That case is considered a not found - returning
+   * restrictions on the url. That case is considered a not found - returning
    * an empty array. Exceptions are only used to abort the whole request in
    * case something is seriously broken, like the storage backend being down.
    *

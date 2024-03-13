@@ -11,12 +11,18 @@ namespace Http\Message\Encoding;
  */
 class DechunkStream extends FilteredStream
 {
-    protected function readFilter(): string
+    /**
+     * {@inheritdoc}
+     */
+    protected function readFilter()
     {
         return 'dechunk';
     }
 
-    protected function writeFilter(): string
+    /**
+     * {@inheritdoc}
+     */
+    protected function writeFilter()
     {
         return 'chunk';
     }

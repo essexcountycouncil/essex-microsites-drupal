@@ -16,19 +16,16 @@ namespace Symfony\Component\DomCrawler;
  */
 class Image extends AbstractUriElement
 {
-    public function __construct(\DOMElement $node, ?string $currentUri = null)
+    public function __construct(\DOMElement $node, string $currentUri = null)
     {
         parent::__construct($node, $currentUri, 'GET');
     }
 
-    protected function getRawUri(): string
+    protected function getRawUri()
     {
         return $this->node->getAttribute('src');
     }
 
-    /**
-     * @return void
-     */
     protected function setNode(\DOMElement $node)
     {
         if ('img' !== $node->nodeName) {

@@ -45,7 +45,10 @@ abstract class StableLibraryOverrideTestBase extends KernelTestBase {
    *
    * @var string[]
    */
-  protected $librariesToSkip = [];
+  protected $librariesToSkip = [
+    // This is a deprecated library that will trigger warnings.
+    'image/quickedit.inPlaceEditor.image',
+  ];
 
   /**
    * Enable all core modules that are not hidden or experimental.
@@ -95,7 +98,7 @@ abstract class StableLibraryOverrideTestBase extends KernelTestBase {
         }
         foreach (['css', 'js'] as $asset_type) {
           foreach ($library[$asset_type] as $index => $asset) {
-            if (str_contains($asset['data'], 'core/assets/vendor')) {
+            if (strpos($asset['data'], 'core/assets/vendor') !== FALSE) {
               unset($all_libraries[$extension][$library_name][$asset_type][$index]);
               // Re-key the array of assets. This is needed because
               // libraries-override doesn't always preserve the order.

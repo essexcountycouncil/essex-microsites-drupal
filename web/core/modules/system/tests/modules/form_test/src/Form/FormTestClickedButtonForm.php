@@ -43,13 +43,13 @@ class FormTestClickedButtonForm extends FormBase {
     foreach ($args as $arg) {
       $name = 'button' . ++$i;
       // 's', 'b', or 'i' in the argument define the button type wanted.
-      if (str_contains($arg, 's')) {
+      if (strpos($arg, 's') !== FALSE) {
         $type = 'submit';
       }
-      elseif (str_contains($arg, 'b')) {
+      elseif (strpos($arg, 'b') !== FALSE) {
         $type = 'button';
       }
-      elseif (str_contains($arg, 'i')) {
+      elseif (strpos($arg, 'i') !== FALSE) {
         $type = 'image_button';
       }
       else {
@@ -69,7 +69,7 @@ class FormTestClickedButtonForm extends FormBase {
         }
         // 'r' for restricted, so we can test that button click detection code
         // correctly takes #access security into account.
-        if (str_contains($arg, 'r')) {
+        if (strpos($arg, 'r') !== FALSE) {
           $form[$name]['#access'] = FALSE;
         }
       }

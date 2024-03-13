@@ -64,28 +64,28 @@ class XmlEncoder implements SerializerAwareInterface, EncoderInterface, DecoderI
   /**
    * {@inheritdoc}
    */
-  public function encode($data, $format, array $context = []): string {
+  public function encode($data, $format, array $context = []) {
     return $this->getBaseEncoder()->encode($data, $format, $context);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function supportsEncoding(string $format, array $context = []): bool {
+  public function supportsEncoding($format) {
     return in_array($format, static::$format);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function decode($data, $format, array $context = []): mixed {
+  public function decode($data, $format, array $context = []) {
     return $this->getBaseEncoder()->decode($data, $format, $context);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function supportsDecoding(string $format, array $context = []): bool {
+  public function supportsDecoding($format) {
     return in_array($format, static::$format);
   }
 

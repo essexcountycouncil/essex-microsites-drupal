@@ -4,6 +4,7 @@ namespace Drupal\Tests\search\Functional;
 
 use Drupal\comment\Plugin\Field\FieldType\CommentItemInterface;
 use Drupal\comment\Tests\CommentTestTrait;
+use Drupal\Core\Database\Database;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Drupal\filter\Entity\FilterFormat;
@@ -32,7 +33,7 @@ class SearchRankingTest extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  protected static $modules = ['node', 'search', 'comment'];
+  protected static $modules = ['node', 'search', 'statistics', 'comment'];
 
   /**
    * {@inheritdoc}
@@ -64,7 +65,7 @@ class SearchRankingTest extends BrowserTestBase {
     $this->addDefaultCommentField('node', 'page');
 
     // Build a list of the rankings to test.
-    $node_ranks = ['sticky', 'promote', 'relevance', 'recent', 'comments'];
+    $node_ranks = ['sticky', 'promote', 'relevance', 'recent', 'comments', 'views'];
 
     // Create nodes for testing.
     $nodes = [];
@@ -115,7 +116,18 @@ class SearchRankingTest extends BrowserTestBase {
     $this->submitForm($edit, 'Preview');
     $this->submitForm($edit, 'Save');
 
-    // Run cron to update the search index totals.
+    // Enable counting of statistics.
+    $this->config('statistics.settings')->set('count_content_views', 1)->save();
+
+    // Simulating content views is kind of difficult in the test. Leave that
+    // to the Statistics module. So instead go ahead and manually update the
+    // counter for this node.
+    $nid = $nodes['views'][1]->id();
+    Database::getConnection()->insert('node_counter')
+      ->fields(['totalcount' => 5, 'daycount' => 5, 'timestamp' => REQUEST_TIME, 'nid' => $nid])
+      ->execute();
+
+    // Run cron to update the search index and comment/statistics totals.
     $this->cronRun();
 
     // Test that the settings form displays the content ranking section.
@@ -165,6 +177,7 @@ class SearchRankingTest extends BrowserTestBase {
       'relevance' => 0,
       'recent' => 0,
       'comments' => 0,
+      'views' => 0,
     ];
     $configuration = $this->nodeSearch->getPlugin()->getConfiguration();
     foreach ($node_ranks as $var => $value) {
@@ -189,6 +202,7 @@ class SearchRankingTest extends BrowserTestBase {
       'relevance' => 0,
       'recent' => 10,
       'comments' => 1,
+      'views' => 0,
     ];
     $configuration = $this->nodeSearch->getPlugin()->getConfiguration();
     foreach ($node_ranks as $var => $value) {

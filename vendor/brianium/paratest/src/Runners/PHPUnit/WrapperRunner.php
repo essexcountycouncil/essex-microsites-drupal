@@ -14,21 +14,20 @@ use function count;
 use function max;
 use function usleep;
 
-/** @internal */
+/**
+ * @internal
+ */
 final class WrapperRunner extends BaseRunner
 {
-    /** @var array<int,WrapperWorker> */
+    /** @var WrapperWorker[] */
     private $workers = [];
-
-    /** @var array<int,int> */
-    private $batches = [];
 
     protected function beforeLoadChecks(): void
     {
         if ($this->options->functional()) {
             throw new InvalidArgumentException(
                 'The `functional` option is not supported yet in the WrapperRunner. Only full classes can be run due ' .
-                'to the current PHPUnit commands causing classloading issues.',
+                'to the current PHPUnit commands causing classloading issues.'
             );
         }
     }
@@ -37,13 +36,15 @@ final class WrapperRunner extends BaseRunner
     {
         $this->startWorkers();
         $this->assignAllPendingTests();
+        $this->sendStopMessages();
         $this->waitForAllToFinish();
     }
 
     private function startWorkers(): void
     {
         for ($token = 1; $token <= $this->options->processes(); ++$token) {
-            $this->startWorker($token);
+            $this->workers[$token] = new WrapperWorker($this->output, $this->options, $token);
+            $this->workers[$token]->start();
         }
     }
 
@@ -51,10 +52,9 @@ final class WrapperRunner extends BaseRunner
     {
         $phpunit        = $this->options->phpunit();
         $phpunitOptions = $this->options->filtered();
-        $batchSize      = $this->options->maxBatchSize();
 
         while (count($this->pending) > 0 && count($this->workers) > 0) {
-            foreach ($this->workers as $token => $worker) {
+            foreach ($this->workers as $worker) {
                 if (! $worker->isRunning()) {
                     throw $worker->getWorkerCrashedException();
                 }
@@ -64,17 +64,10 @@ final class WrapperRunner extends BaseRunner
                 }
 
                 $this->flushWorker($worker);
-
-                if ($batchSize !== null && $batchSize !== 0 && $this->batches[$token] === $batchSize) {
-                    $this->destroyWorker($token);
-                    $worker = $this->startWorker($token);
-                }
-
-                if ($this->exitcode > 0 && ($this->options->stopOnFailure() || $this->options->stopOnError())) {
+                if ($this->exitcode > 0 && $this->options->stopOnFailure()) {
                     $this->pending = [];
                 } elseif (($pending = array_shift($this->pending)) !== null) {
                     $worker->assign($pending, $phpunit, $phpunitOptions, $this->options);
-                    $this->batches[$token]++;
                 }
             }
 
@@ -110,17 +103,18 @@ final class WrapperRunner extends BaseRunner
         $this->exitcode = max($this->exitcode, $exitCode);
     }
 
+    private function sendStopMessages(): void
+    {
+        foreach ($this->workers as $worker) {
+            $worker->stop();
+        }
+    }
+
     private function waitForAllToFinish(): void
     {
-        $stopped = [];
         while (count($this->workers) > 0) {
             foreach ($this->workers as $index => $worker) {
                 if ($worker->isRunning()) {
-                    if (! isset($stopped[$index]) && $worker->isFree()) {
-                        $worker->stop();
-                        $stopped[$index] = true;
-                    }
-
                     continue;
                 }
 
@@ -134,25 +128,5 @@ final class WrapperRunner extends BaseRunner
 
             usleep(self::CYCLE_SLEEP);
         }
-    }
-
-    private function startWorker(int $token): WrapperWorker
-    {
-        $this->workers[$token] = new WrapperWorker($this->output, $this->options, $token);
-        $this->workers[$token]->start();
-        $this->batches[$token] = 0;
-
-        return $this->workers[$token];
-    }
-
-    private function destroyWorker(int $token): void
-    {
-        // Mutation Testing tells us that the following `unset()` already destroys
-        // the `WrapperWorker`, which destroys the Symfony's `Process`, which
-        // automatically calls `Process::stop` within `Process::__destruct()`.
-        // But we prefer to have an explicit stops.
-        $this->workers[$token]->stop();
-
-        unset($this->workers[$token]);
     }
 }

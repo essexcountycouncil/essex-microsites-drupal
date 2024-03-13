@@ -3,7 +3,6 @@
 namespace Drupal\Tests\statistics\Functional\Views;
 
 use Drupal\Tests\views\Functional\ViewTestBase;
-use Drupal\user\Entity\User;
 
 /**
  * Tests basic integration of views data from the statistics module.
@@ -38,7 +37,7 @@ class IntegrationTest extends ViewTestBase {
    *
    * @var \Drupal\user\Entity\User
    */
-  protected User $deniedUser;
+  protected $deniedUser;
 
   /**
    * Stores the node object which is used by the test.

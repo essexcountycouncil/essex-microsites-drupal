@@ -83,7 +83,7 @@ trait TestRequirementsTrait {
     // Make a list of required modules.
     $required_modules = [];
     foreach ($annotations as $requirement) {
-      if (str_starts_with($requirement, 'module ')) {
+      if (strpos($requirement, 'module ') === 0) {
         $required_modules[] = trim(str_replace('module ', '', $requirement));
       }
     }

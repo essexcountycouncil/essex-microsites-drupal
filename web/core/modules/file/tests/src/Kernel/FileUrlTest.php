@@ -5,7 +5,7 @@ namespace Drupal\Tests\file\Kernel;
 use Drupal\Core\File\FileSystemInterface;
 
 /**
- * Tests the file URL.
+ * Tests the file url.
  *
  * @group file
  */

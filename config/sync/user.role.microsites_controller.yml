@@ -10,10 +10,10 @@ dependencies:
     - domain
     - domain_group
     - domain_path
-    - file
-    - geo_entity
+    - entity_browser
     - group
     - localgov_directories
+    - localgov_geo
     - localgov_microsites_group
     - media
     - redirect
@@ -32,6 +32,7 @@ is_admin: null
 permissions:
   - 'access administration pages'
   - 'access any webform configuration'
+  - 'access localgov_geo_library entity browser pages'
   - 'access media overview'
   - 'access microsites overview'
   - 'access own webform configuration'
@@ -66,7 +67,6 @@ permissions:
   - 'delete any webform submission'
   - 'delete directory facets'
   - 'delete geo'
-  - 'delete own files'
   - 'delete own webform'
   - 'delete own webform submission'
   - 'delete webform submissions any node'

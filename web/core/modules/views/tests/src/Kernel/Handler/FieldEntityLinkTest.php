@@ -143,11 +143,11 @@ class FieldEntityLinkTest extends ViewsKernelTestBase {
             $expected_link = '<a href="' . $path . $destination . '" hreflang="en">' . $info[$template]['label'] . '</a>';
           }
           else {
-            $expected_link = (string) $path;
+            $expected_link = $path;
           }
         }
         $link = $view->style_plugin->getField($index, $info[$template]['field_id']);
-        $this->assertSame($expected_link, (string) $link);
+        $this->assertEquals($expected_link, $link);
       }
       $index++;
     }

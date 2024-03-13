@@ -198,7 +198,8 @@ class PoItem {
     if (isset($values['comment'])) {
       $this->setComment($values['comment']);
     }
-    if (isset($this->source) && str_contains($this->source, self::DELIMITER)) {
+    if (isset($this->source) &&
+        strpos($this->source, self::DELIMITER) !== FALSE) {
       $this->setSource(explode(self::DELIMITER, $this->source));
       $this->setTranslation(explode(self::DELIMITER, $this->translation ?? ''));
       $this->setPlural(count($this->source) > 1);

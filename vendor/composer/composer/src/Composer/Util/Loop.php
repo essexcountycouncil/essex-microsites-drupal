@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -25,12 +25,12 @@ class Loop
     private $httpDownloader;
     /** @var ProcessExecutor|null */
     private $processExecutor;
-    /** @var array<int, array<PromiseInterface<mixed>>> */
-    private $currentPromises = [];
+    /** @var PromiseInterface[][] */
+    private $currentPromises = array();
     /** @var int */
     private $waitIndex = 0;
 
-    public function __construct(HttpDownloader $httpDownloader, ?ProcessExecutor $processExecutor = null)
+    public function __construct(HttpDownloader $httpDownloader, ProcessExecutor $processExecutor = null)
     {
         $this->httpDownloader = $httpDownloader;
         $this->httpDownloader->enableAsync();
@@ -41,28 +41,36 @@ class Loop
         }
     }
 
-    public function getHttpDownloader(): HttpDownloader
+    /**
+     * @return HttpDownloader
+     */
+    public function getHttpDownloader()
     {
         return $this->httpDownloader;
     }
 
-    public function getProcessExecutor(): ?ProcessExecutor
+    /**
+     * @return ProcessExecutor|null
+     */
+    public function getProcessExecutor()
     {
         return $this->processExecutor;
     }
 
     /**
-     * @param array<PromiseInterface<mixed>> $promises
-     * @param ProgressBar|null              $progress
+     * @param  PromiseInterface[] $promises
+     * @param  ?ProgressBar       $progress
+     * @return void
      */
-    public function wait(array $promises, ?ProgressBar $progress = null): void
+    public function wait(array $promises, ProgressBar $progress = null)
     {
+        /** @var \Exception|null */
         $uncaught = null;
 
         \React\Promise\all($promises)->then(
-            static function (): void {
+            function () {
             },
-            static function (\Throwable $e) use (&$uncaught): void {
+            function ($e) use (&$uncaught) {
                 $uncaught = $e;
             }
         );
@@ -106,17 +114,21 @@ class Loop
         }
 
         unset($this->currentPromises[$waitIndex]);
-        if (null !== $uncaught) {
+        if ($uncaught) {
             throw $uncaught;
         }
     }
 
-    public function abortJobs(): void
+    /**
+     * @return void
+     */
+    public function abortJobs()
     {
         foreach ($this->currentPromises as $promiseGroup) {
             foreach ($promiseGroup as $promise) {
-                // to support react/promise 2.x we wrap the promise in a resolve() call for safety
-                \React\Promise\resolve($promise)->cancel();
+                if ($promise instanceof CancellablePromiseInterface) {
+                    $promise->cancel();
+                }
             }
         }
     }

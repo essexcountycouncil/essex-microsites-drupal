@@ -42,7 +42,7 @@ abstract class TourTestBasic extends TourTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp(): void {
+  protected function setUp() {
     parent::setUp();
 
     // Make sure we are using distinct default and administrative themes for

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -18,8 +18,8 @@ use Composer\Repository\RootPackageRepository;
 use Composer\Repository\RepositoryFactory;
 use Composer\Util\Platform;
 use Composer\Util\ProcessExecutor;
-use Composer\Console\Input\InputArgument;
-use Composer\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -28,22 +28,22 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class HomeCommand extends BaseCommand
 {
-    use CompletionTrait;
-
     /**
      * @inheritDoc
+     *
+     * @return void
      */
-    protected function configure(): void
+    protected function configure()
     {
         $this
             ->setName('browse')
-            ->setAliases(['home'])
-            ->setDescription('Opens the package\'s repository URL or homepage in your browser')
-            ->setDefinition([
-                new InputArgument('packages', InputArgument::IS_ARRAY, 'Package(s) to browse to.', null, $this->suggestInstalledPackage()),
+            ->setAliases(array('home'))
+            ->setDescription('Opens the package\'s repository URL or homepage in your browser.')
+            ->setDefinition(array(
+                new InputArgument('packages', InputArgument::IS_ARRAY, 'Package(s) to browse to.'),
                 new InputOption('homepage', 'H', InputOption::VALUE_NONE, 'Open the homepage instead of the repository URL.'),
                 new InputOption('show', 's', InputOption::VALUE_NONE, 'Only show the homepage or repository URL.'),
-            ])
+            ))
             ->setHelp(
                 <<<EOT
 The home command opens or shows a package's repository URL or
@@ -57,16 +57,19 @@ EOT
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    /**
+     * @inheritDoc
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         $repos = $this->initializeRepos();
         $io = $this->getIO();
         $return = 0;
 
         $packages = $input->getArgument('packages');
-        if (count($packages) === 0) {
+        if (!$packages) {
             $io->writeError('No package specified, opening homepage for the root package');
-            $packages = [$this->requireComposer()->getPackage()->getName()];
+            $packages = array($this->getComposer()->getPackage()->getName());
         }
 
         foreach ($packages as $packageName) {
@@ -96,10 +99,15 @@ EOT
         return $return;
     }
 
-    private function handlePackage(CompletePackageInterface $package, bool $showHomepage, bool $showOnly): bool
+    /**
+     * @param bool $showHomepage
+     * @param bool $showOnly
+     * @return bool
+     */
+    private function handlePackage(CompletePackageInterface $package, $showHomepage, $showOnly)
     {
         $support = $package->getSupport();
-        $url = $support['source'] ?? $package->getSourceUrl();
+        $url = isset($support['source']) ? $support['source'] : $package->getSourceUrl();
         if (!$url || $showHomepage) {
             $url = $package->getHomepage();
         }
@@ -119,8 +127,11 @@ EOT
 
     /**
      * opens a url in your system default browser
+     *
+     * @param string $url
+     * @return void
      */
-    private function openBrowser(string $url): void
+    private function openBrowser($url)
     {
         $url = ProcessExecutor::escape($url);
 
@@ -150,18 +161,18 @@ EOT
      *
      * @return RepositoryInterface[]
      */
-    private function initializeRepos(): array
+    private function initializeRepos()
     {
-        $composer = $this->tryComposer();
+        $composer = $this->getComposer(false);
 
         if ($composer) {
             return array_merge(
-                [new RootPackageRepository(clone $composer->getPackage())], // root package
-                [$composer->getRepositoryManager()->getLocalRepository()], // installed packages
+                array(new RootPackageRepository(clone $composer->getPackage())), // root package
+                array($composer->getRepositoryManager()->getLocalRepository()), // installed packages
                 $composer->getRepositoryManager()->getRepositories() // remotes
             );
         }
 
-        return RepositoryFactory::defaultReposWithDefaultManager($this->getIO());
+        return RepositoryFactory::defaultRepos($this->getIO());
     }
 }

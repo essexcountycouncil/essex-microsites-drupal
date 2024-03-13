@@ -6,10 +6,8 @@
  */
 
 /**
- * @defgroup file File interface
+ * @addtogroup file
  * @{
- * Common file handling functions.
- *
  * @section file_security Uploading files and security considerations
  *
  * Using \Drupal\file\Element\ManagedFile field with a defined list of allowed
@@ -98,7 +96,7 @@ function hook_file_validate(\Drupal\file\FileInterface $file) {
  */
 function hook_file_copy(\Drupal\file\FileInterface $file, \Drupal\file\FileInterface $source) {
   // Make sure that the file name starts with the owner's user name.
-  if (!str_starts_with($file->getFilename(), $file->getOwner()->name)) {
+  if (strpos($file->getFilename(), $file->getOwner()->name) !== 0) {
     $file->setFilename($file->getOwner()->name . '_' . $file->getFilename());
     $file->save();
 
@@ -118,7 +116,7 @@ function hook_file_copy(\Drupal\file\FileInterface $file, \Drupal\file\FileInter
  */
 function hook_file_move(\Drupal\file\FileInterface $file, \Drupal\file\FileInterface $source) {
   // Make sure that the file name starts with the owner's user name.
-  if (!str_starts_with($file->getFilename(), $file->getOwner()->name)) {
+  if (strpos($file->getFilename(), $file->getOwner()->name) !== 0) {
     $file->setFilename($file->getOwner()->name . '_' . $file->getFilename());
     $file->save();
 

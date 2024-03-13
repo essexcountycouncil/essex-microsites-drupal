@@ -27,12 +27,18 @@ class GzipEncodeStream extends FilteredStream
         $this->writeFilterCallback = Filter\fun($this->writeFilter(), ['window' => 31]);
     }
 
-    protected function readFilter(): string
+    /**
+     * {@inheritdoc}
+     */
+    protected function readFilter()
     {
         return 'zlib.deflate';
     }
 
-    protected function writeFilter(): string
+    /**
+     * {@inheritdoc}
+     */
+    protected function writeFilter()
     {
         return 'zlib.inflate';
     }

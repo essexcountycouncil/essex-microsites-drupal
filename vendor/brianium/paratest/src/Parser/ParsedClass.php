@@ -6,7 +6,9 @@ namespace ParaTest\Parser;
 
 use ReflectionMethod;
 
-/** @internal */
+/**
+ * @internal
+ */
 final class ParsedClass
 {
     /** @var class-string */

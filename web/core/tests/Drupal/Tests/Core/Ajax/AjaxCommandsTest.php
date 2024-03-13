@@ -37,105 +37,14 @@ use Drupal\Core\Ajax\OpenDialogCommand;
 class AjaxCommandsTest extends UnitTestCase {
 
   /**
-   * @return array
-   *   - Array of css elements
-   *   - Expected value
-   */
-  public function providerCss() {
-    return [
-      'empty' => [
-        [],
-        [
-          'command' => 'add_css',
-          'data' => [],
-        ],
-      ],
-      'single' => [
-        [
-          [
-            'href' => 'core/misc/example.css',
-            'media' => 'all',
-          ],
-        ],
-        [
-          'command' => 'add_css',
-          'data' => [
-            [
-              'href' => 'core/misc/example.css',
-              'media' => 'all',
-            ],
-          ],
-        ],
-      ],
-      'single-data-property' => [
-        [
-          [
-            'href' => 'core/misc/example.css',
-            'media' => 'all',
-            'data-test' => 'test',
-          ],
-        ],
-        [
-          'command' => 'add_css',
-          'data' => [
-            [
-              'href' => 'core/misc/example.css',
-              'media' => 'all',
-              'data-test' => 'test',
-            ],
-          ],
-        ],
-      ],
-      'multiple' => [
-        [
-          [
-            'href' => 'core/misc/example1.css',
-            'media' => 'all',
-          ],
-          [
-            'href' => 'core/misc/example2.css',
-            'media' => 'all',
-          ],
-        ],
-        [
-          'command' => 'add_css',
-          'data' => [
-            [
-              'href' => 'core/misc/example1.css',
-              'media' => 'all',
-            ],
-            [
-              'href' => 'core/misc/example2.css',
-              'media' => 'all',
-            ],
-          ],
-        ],
-      ],
-    ];
-  }
-
-  /**
    * @covers \Drupal\Core\Ajax\AddCssCommand
-   * @dataProvider providerCss
    */
-  public function testAddCssCommand($css, $expected) {
-    $command = new AddCssCommand($css);
-
-    $this->assertEquals($expected, $command->render());
-  }
-
-  /**
-   * @covers \Drupal\Core\Ajax\AddCssCommand
-   * @group legacy
-   */
-  public function testStringAddCssCommand() {
-    $this->expectDeprecation("The Drupal\Core\Ajax\AddCssCommand with a string argument is deprecated in drupal:10.1.0 and is removed from drupal:11.0.0. See http://www.drupal.org/node/3154948");
-
-    $command = new AddCssCommand('<style>p{ text-decoration:blink; }</style>');
+  public function testAddCssCommand() {
+    $command = new AddCssCommand('p{ text-decoration:blink; }');
 
     $expected = [
       'command' => 'add_css',
-      'data' => '<style>p{ text-decoration:blink; }</style>',
+      'data' => 'p{ text-decoration:blink; }',
     ];
 
     $this->assertEquals($expected, $command->render());

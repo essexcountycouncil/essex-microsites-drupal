@@ -29,13 +29,16 @@ module.exports = {
         '#edit-item-visible-when-number-trigger-filled-by-spinner',
         1000,
       )
-      .execute(() => {
-        // Emulate usage of the spinner browser widget on number inputs
-        // on modern browsers.
-        const numberTrigger = document.getElementById('edit-number-trigger');
-        numberTrigger.value = 1;
-        numberTrigger.dispatchEvent(new Event('change'));
-      });
+      .execute(
+        // eslint-disable-next-line func-names, prefer-arrow-callback, no-shadow
+        function () {
+          // Emulate usage of the spinner browser widget on number inputs
+          // on modern browsers.
+          const numberTrigger = document.getElementById('edit-number-trigger');
+          numberTrigger.value = 1;
+          numberTrigger.dispatchEvent(new Event('change'));
+        },
+      );
 
     browser.waitForElementVisible(
       '#edit-item-visible-when-number-trigger-filled-by-spinner',

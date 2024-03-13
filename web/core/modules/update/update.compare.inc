@@ -6,7 +6,6 @@
  */
 
 use Drupal\Core\Extension\ExtensionVersion;
-use Drupal\Core\Utility\Error;
 use Drupal\update\ProjectRelease;
 use Drupal\update\UpdateFetcherInterface;
 use Drupal\update\UpdateManagerInterface;
@@ -292,7 +291,7 @@ function update_calculate_project_update_status(&$project_data, $available) {
 
   $is_in_supported_branch = function ($version) use ($supported_branches) {
     foreach ($supported_branches as $supported_branch) {
-      if (str_starts_with($version, $supported_branch)) {
+      if (strpos($version, $supported_branch) === 0) {
         return TRUE;
       }
     }
@@ -364,7 +363,12 @@ function update_calculate_project_update_status(&$project_data, $available) {
     catch (UnexpectedValueException $exception) {
       // Ignore releases that are in an invalid format. Although this is highly
       // unlikely we should still process releases in the correct format.
-      Error::logException(\Drupal::logger('update'), $exception, 'Invalid project format: @release', ['@release' => print_r($release_info, TRUE)]);
+      watchdog_exception(
+        'update',
+        $exception,
+        'Invalid project format: @release',
+        ['@release' => print_r($release_info, TRUE)]
+      );
       continue;
     }
 
@@ -409,11 +413,6 @@ function update_calculate_project_update_status(&$project_data, $available) {
             $release->isUnsupported() ||
             $release->isInsecure()
     ) {
-      continue;
-    }
-    // Ignore dev releases with no date. These are either broken releases or
-    // stub releases to allow them to be selected on drupal.org project issues.
-    elseif ($release->getDate() === NULL && $release_module_version->getVersionExtra() === 'dev') {
       continue;
     }
 

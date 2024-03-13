@@ -2,7 +2,6 @@
 
 namespace Drupal\Core\Routing;
 
-use Symfony\Component\HttpFoundation\InputBag;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
@@ -49,7 +48,7 @@ class NullRouteMatch implements RouteMatchInterface {
    * {@inheritdoc}
    */
   public function getRawParameters() {
-    return new InputBag();
+    return new ParameterBag();
   }
 
 }

@@ -25,7 +25,7 @@ class PostgresqlDateSqlTest extends UnitTestCase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp(): void {
+  public function setUp(): void {
     parent::setUp();
     $this->database = $this->prophesize(Connection::class)->reveal();
   }

@@ -81,7 +81,7 @@ class UpdateProcessor implements UpdateProcessorInterface {
   /**
    * The queue for fetching release history data.
    */
-  protected array $fetchTasks;
+  protected $fetchTasks;
 
   /**
    * Constructs an UpdateProcessor.

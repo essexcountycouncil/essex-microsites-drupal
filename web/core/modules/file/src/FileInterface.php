@@ -28,27 +28,25 @@ interface FileInterface extends ContentEntityInterface, EntityChangedInterface, 
    * This may differ from the basename of the URI if the file is renamed to
    * avoid overwriting an existing file.
    *
-   * @return string|null
-   *   Name of the file, or NULL if unknown.
+   * @return string
+   *   Name of the file.
    */
   public function getFilename();
 
   /**
    * Sets the name of the file.
    *
-   * @param string|null $filename
-   *   The file name that corresponds to this file, or NULL if unknown. May
-   *   differ from the basename of the URI and changing the filename does not
-   *   change the URI.
+   * @param string $filename
+   *   The file name that corresponds to this file. May differ from the basename
+   *   of the URI and changing the filename does not change the URI.
    */
   public function setFilename($filename);
 
   /**
    * Returns the URI of the file.
    *
-   * @return string|null
-   *   The URI of the file, e.g. public://directory/file.jpg, or NULL if it has
-   *   not yet been set.
+   * @return string
+   *   The URI of the file, e.g. public://directory/file.jpg.
    */
   public function getFileUri();
 
@@ -77,34 +75,32 @@ interface FileInterface extends ContentEntityInterface, EntityChangedInterface, 
   /**
    * Returns the MIME type of the file.
    *
-   * @return string|null
-   *   The MIME type of the file, e.g. image/jpeg or text/xml, or NULL if it
-   *   could not be determined.
+   * @return string
+   *   The MIME type of the file, e.g. image/jpeg or text/xml.
    */
   public function getMimeType();
 
   /**
    * Sets the MIME type of the file.
    *
-   * @param string|null $mime
-   *   The MIME type of the file, e.g. image/jpeg or text/xml, or NULL if it
-   *   could not be determined.
+   * @param string $mime
+   *   The MIME type of the file, e.g. image/jpeg or text/xml.
    */
   public function setMimeType($mime);
 
   /**
    * Returns the size of the file.
    *
-   * @return int|null
-   *   The size of the file in bytes, or NULL if it could not be determined.
+   * @return string
+   *   The size of the file in bytes.
    */
   public function getSize();
 
   /**
    * Sets the size of the file.
    *
-   * @param int|null $size
-   *   The size of the file in bytes, or NULL if it could not be determined.
+   * @param int $size
+   *   The size of the file in bytes.
    */
   public function setSize($size);
 
@@ -137,8 +133,8 @@ interface FileInterface extends ContentEntityInterface, EntityChangedInterface, 
   /**
    * Returns the file entity creation timestamp.
    *
-   * @return int|null
-   *   Creation timestamp of the file entity, or NULL if unknown.
+   * @return int
+   *   Creation timestamp of the file entity.
    */
   public function getCreatedTime();
 

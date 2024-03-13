@@ -46,11 +46,6 @@ class Bundle extends InOperator {
   protected $bundleInfoService;
 
   /**
-   * The bundle key.
-   */
-  public string $real_field;
-
-  /**
    * Constructs a Bundle object.
    *
    * @param array $configuration

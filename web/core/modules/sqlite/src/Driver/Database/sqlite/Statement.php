@@ -2,8 +2,8 @@
 
 namespace Drupal\sqlite\Driver\Database\sqlite;
 
+use Drupal\Core\Database\StatementPrefetch;
 use Drupal\Core\Database\StatementInterface;
-use Drupal\Core\Database\StatementPrefetchIterator;
 
 /**
  * SQLite implementation of \Drupal\Core\Database\Statement.
@@ -14,7 +14,7 @@ use Drupal\Core\Database\StatementPrefetchIterator;
  * user-space mock of PDOStatement that buffers all the data and doesn't
  * have those limitations.
  */
-class Statement extends StatementPrefetchIterator implements StatementInterface {
+class Statement extends StatementPrefetch implements StatementInterface {
 
   /**
    * {@inheritdoc}
@@ -26,7 +26,7 @@ class Statement extends StatementPrefetchIterator implements StatementInterface 
    *
    * See http://bugs.php.net/bug.php?id=45259 for more details.
    */
-  protected function getStatement(string $query, ?array &$args = []): object {
+  protected function getStatement($query, &$args = []) {
     if (is_array($args) && !empty($args)) {
       // Check if $args is a simple numeric array.
       if (range(0, count($args) - 1) === array_keys($args)) {
@@ -79,7 +79,7 @@ class Statement extends StatementPrefetchIterator implements StatementInterface 
       }
     }
 
-    return $this->clientConnection->prepare($query);
+    return $this->pdoConnection->prepare($query);
   }
 
   /**

@@ -20,8 +20,7 @@ interface MediaSourceEntityConstraintsInterface extends MediaSourceInterface {
    * Gets media source-specific validation constraints for a media item.
    *
    * @return \Symfony\Component\Validator\Constraint[]
-   *   An array of validation constraint definitions, keyed by plugin IDs. The
-   *   corresponding values are options for each validation plugin.
+   *   An array of validation constraint definitions, keyed by constraint name.
    *   Each constraint definition can be used for instantiating
    *   \Symfony\Component\Validator\Constraint objects.
    */

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -12,10 +12,15 @@
 
 namespace Composer;
 
+use Composer\Package\RootPackageInterface;
 use Composer\Package\Locker;
 use Composer\Pcre\Preg;
+use Composer\Util\Loop;
+use Composer\Repository\RepositoryManager;
+use Composer\Installer\InstallationManager;
 use Composer\Plugin\PluginManager;
 use Composer\Downloader\DownloadManager;
+use Composer\EventDispatcher\EventDispatcher;
 use Composer\Autoload\AutoloadGenerator;
 use Composer\Package\Archiver\ArchiveManager;
 
@@ -24,12 +29,10 @@ use Composer\Package\Archiver\ArchiveManager;
  * @author Konstantin Kudryashiv <ever.zet@gmail.com>
  * @author Nils Adermann <naderman@naderman.de>
  */
-class Composer extends PartialComposer
+class Composer
 {
     /*
      * Examples of the following constants in the various configurations they can be in
-     *
-     * You are probably better off using Composer::getVersion() though as that will always return something usable
      *
      * releases (phar):
      * const VERSION = '1.8.2';
@@ -48,13 +51,11 @@ class Composer extends PartialComposer
      * const BRANCH_ALIAS_VERSION = '@package_branch_alias_version@';
      * const RELEASE_DATE = '@release_date@';
      * const SOURCE_VERSION = '1.8-dev+source';
-     *
-     * @see getVersion()
      */
-    public const VERSION = '2.7.2';
-    public const BRANCH_ALIAS_VERSION = '';
-    public const RELEASE_DATE = '2024-03-11 17:12:18';
-    public const SOURCE_VERSION = '';
+    const VERSION = '2.2.23';
+    const BRANCH_ALIAS_VERSION = '';
+    const RELEASE_DATE = '2024-02-08 15:08:53';
+    const SOURCE_VERSION = '';
 
     /**
      * Version number of the internal composer-runtime-api package
@@ -65,9 +66,12 @@ class Composer extends PartialComposer
      *
      * @var string
      */
-    public const RUNTIME_API_VERSION = '2.2.2';
+    const RUNTIME_API_VERSION = '2.2.2';
 
-    public static function getVersion(): string
+    /**
+     * @return string
+     */
+    public static function getVersion()
     {
         // no replacement done, this must be a source checkout
         if (self::VERSION === '@package_version'.'@') {
@@ -83,9 +87,24 @@ class Composer extends PartialComposer
     }
 
     /**
-     * @var Locker
+     * @var RootPackageInterface
      */
-    private $locker;
+    private $package;
+
+    /**
+     * @var ?Locker
+     */
+    private $locker = null;
+
+    /**
+     * @var Loop
+     */
+    private $loop;
+
+    /**
+     * @var Repository\RepositoryManager
+     */
+    private $repositoryManager;
 
     /**
      * @var Downloader\DownloadManager
@@ -93,9 +112,24 @@ class Composer extends PartialComposer
     private $downloadManager;
 
     /**
+     * @var Installer\InstallationManager
+     */
+    private $installationManager;
+
+    /**
      * @var Plugin\PluginManager
      */
     private $pluginManager;
+
+    /**
+     * @var Config
+     */
+    private $config;
+
+    /**
+     * @var EventDispatcher
+     */
+    private $eventDispatcher;
 
     /**
      * @var Autoload\AutoloadGenerator
@@ -107,52 +141,178 @@ class Composer extends PartialComposer
      */
     private $archiveManager;
 
-    public function setLocker(Locker $locker): void
+    /**
+     * @return void
+     */
+    public function setPackage(RootPackageInterface $package)
+    {
+        $this->package = $package;
+    }
+
+    /**
+     * @return RootPackageInterface
+     */
+    public function getPackage()
+    {
+        return $this->package;
+    }
+
+    /**
+     * @return void
+     */
+    public function setConfig(Config $config)
+    {
+        $this->config = $config;
+    }
+
+    /**
+     * @return Config
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    /**
+     * @return void
+     */
+    public function setLocker(Locker $locker)
     {
         $this->locker = $locker;
     }
 
-    public function getLocker(): Locker
+    /**
+     * @return ?Locker
+     */
+    public function getLocker()
     {
         return $this->locker;
     }
 
-    public function setDownloadManager(DownloadManager $manager): void
+    /**
+     * @return void
+     */
+    public function setLoop(Loop $loop)
+    {
+        $this->loop = $loop;
+    }
+
+    /**
+     * @return Loop
+     */
+    public function getLoop()
+    {
+        return $this->loop;
+    }
+
+    /**
+     * @return void
+     */
+    public function setRepositoryManager(RepositoryManager $manager)
+    {
+        $this->repositoryManager = $manager;
+    }
+
+    /**
+     * @return RepositoryManager
+     */
+    public function getRepositoryManager()
+    {
+        return $this->repositoryManager;
+    }
+
+    /**
+     * @return void
+     */
+    public function setDownloadManager(DownloadManager $manager)
     {
         $this->downloadManager = $manager;
     }
 
-    public function getDownloadManager(): DownloadManager
+    /**
+     * @return DownloadManager
+     */
+    public function getDownloadManager()
     {
         return $this->downloadManager;
     }
 
-    public function setArchiveManager(ArchiveManager $manager): void
+    /**
+     * @return void
+     */
+    public function setArchiveManager(ArchiveManager $manager)
     {
         $this->archiveManager = $manager;
     }
 
-    public function getArchiveManager(): ArchiveManager
+    /**
+     * @return ArchiveManager
+     */
+    public function getArchiveManager()
     {
         return $this->archiveManager;
     }
 
-    public function setPluginManager(PluginManager $manager): void
+    /**
+     * @return void
+     */
+    public function setInstallationManager(InstallationManager $manager)
+    {
+        $this->installationManager = $manager;
+    }
+
+    /**
+     * @return InstallationManager
+     */
+    public function getInstallationManager()
+    {
+        return $this->installationManager;
+    }
+
+    /**
+     * @return void
+     */
+    public function setPluginManager(PluginManager $manager)
     {
         $this->pluginManager = $manager;
     }
 
-    public function getPluginManager(): PluginManager
+    /**
+     * @return PluginManager
+     */
+    public function getPluginManager()
     {
         return $this->pluginManager;
     }
 
-    public function setAutoloadGenerator(AutoloadGenerator $autoloadGenerator): void
+    /**
+     * @return void
+     */
+    public function setEventDispatcher(EventDispatcher $eventDispatcher)
+    {
+        $this->eventDispatcher = $eventDispatcher;
+    }
+
+    /**
+     * @return EventDispatcher
+     */
+    public function getEventDispatcher()
+    {
+        return $this->eventDispatcher;
+    }
+
+    /**
+     * @return void
+     */
+    public function setAutoloadGenerator(AutoloadGenerator $autoloadGenerator)
     {
         $this->autoloadGenerator = $autoloadGenerator;
     }
 
-    public function getAutoloadGenerator(): AutoloadGenerator
+    /**
+     * @return AutoloadGenerator
+     */
+    public function getAutoloadGenerator()
     {
         return $this->autoloadGenerator;
     }

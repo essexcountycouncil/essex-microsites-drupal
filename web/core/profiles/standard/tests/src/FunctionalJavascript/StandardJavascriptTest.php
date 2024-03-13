@@ -54,8 +54,7 @@ class StandardJavascriptTest extends WebDriverTestBase {
     $web_assert = $this->assertSession();
     $web_assert->waitForElement('css', 'script[data-big-pipe-event="stop"]');
     $page = $this->getSession()->getPage();
-    // Settings are removed as soon as they are processed.
-    $this->assertCount(0, $this->getDrupalSettings()['bigPipePlaceholderIds']);
+    $this->assertCount($expected_count, $this->getDrupalSettings()['bigPipePlaceholderIds']);
     $this->assertCount($expected_count, $page->findAll('css', 'script[data-big-pipe-replacement-for-placeholder-with-id]'));
   }
 

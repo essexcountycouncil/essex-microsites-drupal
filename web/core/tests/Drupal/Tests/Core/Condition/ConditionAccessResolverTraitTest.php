@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\Tests\Core\Condition\ConditionAccessResolverTraitTest.
+ */
+
 namespace Drupal\Tests\Core\Condition;
 
 use Drupal\Component\Plugin\Exception\ContextException;

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -12,6 +12,7 @@
 
 namespace Composer\Command;
 
+use Composer\Filter\PlatformRequirementFilter\PlatformRequirementFilterFactory;
 use Composer\Plugin\CommandEvent;
 use Composer\Plugin\PluginEvents;
 use Symfony\Component\Console\Input\InputInterface;
@@ -30,33 +31,34 @@ class DumpAutoloadCommand extends BaseCommand
     {
         $this
             ->setName('dump-autoload')
-            ->setAliases(['dumpautoload'])
-            ->setDescription('Dumps the autoloader')
-            ->setDefinition([
+            ->setAliases(array('dumpautoload'))
+            ->setDescription('Dumps the autoloader.')
+            ->setDefinition(array(
                 new InputOption('optimize', 'o', InputOption::VALUE_NONE, 'Optimizes PSR0 and PSR4 packages to be loaded with classmaps too, good for production.'),
                 new InputOption('classmap-authoritative', 'a', InputOption::VALUE_NONE, 'Autoload classes from the classmap only. Implicitly enables `--optimize`.'),
                 new InputOption('apcu', null, InputOption::VALUE_NONE, 'Use APCu to cache found/not-found classes.'),
                 new InputOption('apcu-prefix', null, InputOption::VALUE_REQUIRED, 'Use a custom prefix for the APCu autoloader cache. Implicitly enables --apcu'),
-                new InputOption('dry-run', null, InputOption::VALUE_NONE, 'Outputs the operations but will not execute anything.'),
                 new InputOption('dev', null, InputOption::VALUE_NONE, 'Enables autoload-dev rules. Composer will by default infer this automatically according to the last install or update --no-dev state.'),
                 new InputOption('no-dev', null, InputOption::VALUE_NONE, 'Disables autoload-dev rules. Composer will by default infer this automatically according to the last install or update --no-dev state.'),
                 new InputOption('ignore-platform-req', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Ignore a specific platform requirement (php & ext- packages).'),
                 new InputOption('ignore-platform-reqs', null, InputOption::VALUE_NONE, 'Ignore all platform requirements (php & ext- packages).'),
-                new InputOption('strict-psr', null, InputOption::VALUE_NONE, 'Return a failed status code (1) if PSR-4 or PSR-0 mapping errors are present. Requires --optimize to work.'),
-            ])
+            ))
             ->setHelp(
                 <<<EOT
 <info>php composer.phar dump-autoload</info>
 
-Read more at https://getcomposer.org/doc/03-cli.md#dump-autoload-dumpautoload
+Read more at https://getcomposer.org/doc/03-cli.md#dump-autoload-dumpautoload-
 EOT
             )
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    /**
+     * @return int
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $composer = $this->requireComposer();
+        $composer = $this->getComposer();
 
         $commandEvent = new CommandEvent(PluginEvents::COMMAND, 'dump-autoload', $input, $output);
         $composer->getEventDispatcher()->dispatch($commandEvent->getName(), $commandEvent);
@@ -71,10 +73,6 @@ EOT
         $apcuPrefix = $input->getOption('apcu-prefix');
         $apcu = $apcuPrefix !== null || $input->getOption('apcu') || $config->get('apcu-autoloader');
 
-        if ($input->getOption('strict-psr') && !$optimize && !$authoritative) {
-            throw new \InvalidArgumentException('--strict-psr mode only works with optimized autoloader, use --optimize or --classmap-authoritative if you want a strict return value.');
-        }
-
         if ($authoritative) {
             $this->getIO()->write('<info>Generating optimized autoload files (authoritative)</info>');
         } elseif ($optimize) {
@@ -83,10 +81,9 @@ EOT
             $this->getIO()->write('<info>Generating autoload files</info>');
         }
 
+        $ignorePlatformReqs = $input->getOption('ignore-platform-reqs') ?: ($input->getOption('ignore-platform-req') ?: false);
+
         $generator = $composer->getAutoloadGenerator();
-        if ($input->getOption('dry-run')) {
-            $generator->setDryRun(true);
-        }
         if ($input->getOption('no-dev')) {
             $generator->setDevMode(false);
         }
@@ -99,18 +96,8 @@ EOT
         $generator->setClassMapAuthoritative($authoritative);
         $generator->setRunScripts(true);
         $generator->setApcu($apcu, $apcuPrefix);
-        $generator->setPlatformRequirementFilter($this->getPlatformRequirementFilter($input));
-        $classMap = $generator->dump(
-            $config,
-            $localRepo,
-            $package,
-            $installationManager,
-            'composer',
-            $optimize,
-            null,
-            $composer->getLocker()
-        );
-        $numberOfClasses = count($classMap);
+        $generator->setPlatformRequirementFilter(PlatformRequirementFilterFactory::fromBoolOrList($ignorePlatformReqs));
+        $numberOfClasses = $generator->dump($config, $localRepo, $package, $installationManager, 'composer', $optimize);
 
         if ($authoritative) {
             $this->getIO()->write('<info>Generated optimized autoload files (authoritative) containing '. $numberOfClasses .' classes</info>');
@@ -118,10 +105,6 @@ EOT
             $this->getIO()->write('<info>Generated optimized autoload files containing '. $numberOfClasses .' classes</info>');
         } else {
             $this->getIO()->write('<info>Generated autoload files</info>');
-        }
-
-        if ($input->getOption('strict-psr') && count($classMap->getPsrViolations()) > 0) {
-            return 1;
         }
 
         return 0;

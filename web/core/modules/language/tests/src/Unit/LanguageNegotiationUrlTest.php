@@ -18,13 +18,12 @@ class LanguageNegotiationUrlTest extends UnitTestCase {
 
   protected $languageManager;
   protected $user;
-  protected array $languages;
+  protected $languages;
 
   /**
    * {@inheritdoc}
    */
   protected function setUp(): void {
-    parent::setUp();
 
     // Set up some languages to be used by the language-based path processor.
     $language_de = $this->createMock('\Drupal\Core\Language\LanguageInterface');

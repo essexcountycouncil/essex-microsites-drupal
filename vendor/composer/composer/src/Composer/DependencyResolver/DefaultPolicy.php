@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -15,7 +15,6 @@ namespace Composer\DependencyResolver;
 use Composer\Package\AliasPackage;
 use Composer\Package\BasePackage;
 use Composer\Package\PackageInterface;
-use Composer\Semver\CompilingMatcher;
 use Composer\Semver\Constraint\Constraint;
 
 /**
@@ -28,43 +27,33 @@ class DefaultPolicy implements PolicyInterface
     private $preferStable;
     /** @var bool */
     private $preferLowest;
-    /** @var array<string, string>|null */
-    private $preferredVersions;
-    /** @var array<int, array<string, array<int, int>>> */
-    private $preferredPackageResultCachePerPool;
-    /** @var array<int, array<string, int>> */
-    private $sortingCachePerPool;
 
     /**
-     * @param array<string, string>|null $preferredVersions Must be an array of package name => normalized version
+     * @param bool $preferStable
+     * @param bool $preferLowest
      */
-    public function __construct(bool $preferStable = false, bool $preferLowest = false, ?array $preferredVersions = null)
+    public function __construct($preferStable = false, $preferLowest = false)
     {
         $this->preferStable = $preferStable;
         $this->preferLowest = $preferLowest;
-        $this->preferredVersions = $preferredVersions;
     }
 
     /**
      * @param string $operator One of Constraint::STR_OP_*
+     * @return bool
      *
      * @phpstan-param Constraint::STR_OP_* $operator
      */
-    public function versionCompare(PackageInterface $a, PackageInterface $b, string $operator): bool
+    public function versionCompare(PackageInterface $a, PackageInterface $b, $operator)
     {
         if ($this->preferStable && ($stabA = $a->getStability()) !== ($stabB = $b->getStability())) {
             return BasePackage::$stabilities[$stabA] < BasePackage::$stabilities[$stabB];
         }
 
-        // dev versions need to be compared as branches via matchSpecific's special treatment, the rest can be optimized with compiling matcher
-        if (strpos($a->getVersion(), 'dev-') === 0 || strpos($b->getVersion(), 'dev-') === 0) {
-            $constraint = new Constraint($operator, $b->getVersion());
-            $version = new Constraint('==', $a->getVersion());
+        $constraint = new Constraint($operator, $b->getVersion());
+        $version = new Constraint('==', $a->getVersion());
 
-            return $constraint->matchSpecific($version, true);
-        }
-
-        return CompilingMatcher::match(new Constraint($operator, $b->getVersion()), Constraint::OP_EQ, $a->getVersion());
+        return $constraint->matchSpecific($version, true);
     }
 
     /**
@@ -72,27 +61,14 @@ class DefaultPolicy implements PolicyInterface
      * @param  string $requiredPackage
      * @return int[]
      */
-    public function selectPreferredPackages(Pool $pool, array $literals, ?string $requiredPackage = null): array
+    public function selectPreferredPackages(Pool $pool, array $literals, $requiredPackage = null)
     {
-        sort($literals);
-        $resultCacheKey = implode(',', $literals).$requiredPackage;
-        $poolId = spl_object_id($pool);
-
-        if (isset($this->preferredPackageResultCachePerPool[$poolId][$resultCacheKey])) {
-            return $this->preferredPackageResultCachePerPool[$poolId][$resultCacheKey];
-        }
-
         $packages = $this->groupLiteralsByName($pool, $literals);
+        $policy = $this;
 
         foreach ($packages as &$nameLiterals) {
-            usort($nameLiterals, function ($a, $b) use ($pool, $requiredPackage, $poolId): int {
-                $cacheKey = 'i'.$a.'.'.$b.$requiredPackage; // i prefix -> ignoreReplace = true
-
-                if (isset($this->sortingCachePerPool[$poolId][$cacheKey])) {
-                    return $this->sortingCachePerPool[$poolId][$cacheKey];
-                }
-
-                return $this->sortingCachePerPool[$poolId][$cacheKey] = $this->compareByPriority($pool, $pool->literalToPackage($a), $pool->literalToPackage($b), $requiredPackage, true);
+            usort($nameLiterals, function ($a, $b) use ($policy, $pool, $requiredPackage) {
+                return $policy->compareByPriority($pool, $pool->literalToPackage($a), $pool->literalToPackage($b), $requiredPackage, true);
             });
         }
 
@@ -101,34 +77,28 @@ class DefaultPolicy implements PolicyInterface
             $sortedLiterals = $this->pruneRemoteAliases($pool, $sortedLiterals);
         }
 
-        $selected = array_merge(...array_values($packages));
+        $selected = \call_user_func_array('array_merge', array_values($packages));
 
         // now sort the result across all packages to respect replaces across packages
-        usort($selected, function ($a, $b) use ($pool, $requiredPackage, $poolId): int {
-            $cacheKey = $a.'.'.$b.$requiredPackage; // no i prefix -> ignoreReplace = false
-
-            if (isset($this->sortingCachePerPool[$poolId][$cacheKey])) {
-                return $this->sortingCachePerPool[$poolId][$cacheKey];
-            }
-
-            return $this->sortingCachePerPool[$poolId][$cacheKey] = $this->compareByPriority($pool, $pool->literalToPackage($a), $pool->literalToPackage($b), $requiredPackage);
+        usort($selected, function ($a, $b) use ($policy, $pool, $requiredPackage) {
+            return $policy->compareByPriority($pool, $pool->literalToPackage($a), $pool->literalToPackage($b), $requiredPackage);
         });
 
-        return $this->preferredPackageResultCachePerPool[$poolId][$resultCacheKey] = $selected;
+        return $selected;
     }
 
     /**
      * @param  int[] $literals
      * @return array<string, int[]>
      */
-    protected function groupLiteralsByName(Pool $pool, array $literals): array
+    protected function groupLiteralsByName(Pool $pool, $literals)
     {
-        $packages = [];
+        $packages = array();
         foreach ($literals as $literal) {
             $packageName = $pool->literalToPackage($literal)->getName();
 
             if (!isset($packages[$packageName])) {
-                $packages[$packageName] = [];
+                $packages[$packageName] = array();
             }
             $packages[$packageName][] = $literal;
         }
@@ -138,8 +108,11 @@ class DefaultPolicy implements PolicyInterface
 
     /**
      * @protected
+     * @param ?string $requiredPackage
+     * @param bool $ignoreReplace
+     * @return int
      */
-    public function compareByPriority(Pool $pool, BasePackage $a, BasePackage $b, ?string $requiredPackage = null, bool $ignoreReplace = false): int
+    public function compareByPriority(Pool $pool, BasePackage $a, BasePackage $b, $requiredPackage = null, $ignoreReplace = false)
     {
         // prefer aliases to the original package
         if ($a->getName() === $b->getName()) {
@@ -189,14 +162,16 @@ class DefaultPolicy implements PolicyInterface
      *
      * Replace constraints are ignored. This method should only be used for
      * prioritisation, not for actual constraint verification.
+     *
+     * @return bool
      */
-    protected function replaces(BasePackage $source, BasePackage $target): bool
+    protected function replaces(BasePackage $source, BasePackage $target)
     {
         foreach ($source->getReplaces() as $link) {
             if ($link->getTarget() === $target->getName()
 //                && (null === $link->getConstraint() ||
 //                $link->getConstraint()->matches(new Constraint('==', $target->getVersion())))) {
-            ) {
+                ) {
                 return true;
             }
         }
@@ -208,26 +183,10 @@ class DefaultPolicy implements PolicyInterface
      * @param  int[] $literals
      * @return int[]
      */
-    protected function pruneToBestVersion(Pool $pool, array $literals): array
+    protected function pruneToBestVersion(Pool $pool, $literals)
     {
-        if ($this->preferredVersions !== null) {
-            $name = $pool->literalToPackage($literals[0])->getName();
-            if (isset($this->preferredVersions[$name])) {
-                $preferredVersion = $this->preferredVersions[$name];
-                $bestLiterals = [];
-                foreach ($literals as $literal) {
-                    if ($pool->literalToPackage($literal)->getVersion() === $preferredVersion) {
-                        $bestLiterals[] = $literal;
-                    }
-                }
-                if (\count($bestLiterals) > 0) {
-                    return $bestLiterals;
-                }
-            }
-        }
-
         $operator = $this->preferLowest ? '<' : '>';
-        $bestLiterals = [$literals[0]];
+        $bestLiterals = array($literals[0]);
         $bestPackage = $pool->literalToPackage($literals[0]);
         foreach ($literals as $i => $literal) {
             if (0 === $i) {
@@ -238,7 +197,7 @@ class DefaultPolicy implements PolicyInterface
 
             if ($this->versionCompare($package, $bestPackage, $operator)) {
                 $bestPackage = $package;
-                $bestLiterals = [$literal];
+                $bestLiterals = array($literal);
             } elseif ($this->versionCompare($package, $bestPackage, '==')) {
                 $bestLiterals[] = $literal;
             }
@@ -255,7 +214,7 @@ class DefaultPolicy implements PolicyInterface
      * @param  int[] $literals
      * @return int[]
      */
-    protected function pruneRemoteAliases(Pool $pool, array $literals): array
+    protected function pruneRemoteAliases(Pool $pool, array $literals)
     {
         $hasLocalAlias = false;
 
@@ -272,7 +231,7 @@ class DefaultPolicy implements PolicyInterface
             return $literals;
         }
 
-        $selected = [];
+        $selected = array();
         foreach ($literals as $literal) {
             $package = $pool->literalToPackage($literal);
 

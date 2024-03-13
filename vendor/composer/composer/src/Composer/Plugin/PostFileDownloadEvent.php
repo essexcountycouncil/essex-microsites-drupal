@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -57,7 +57,7 @@ class PostFileDownloadEvent extends Event
      * @param string      $type     The type (package or metadata).
      * @param mixed       $context  Additional context for the download.
      */
-    public function __construct(string $name, ?string $fileName, ?string $checksum, string $url, string $type, $context = null)
+    public function __construct($name, $fileName, $checksum, $url, $type, $context = null)
     {
         /** @phpstan-ignore-next-line */
         if ($context === null && $type instanceof PackageInterface) {
@@ -78,24 +78,30 @@ class PostFileDownloadEvent extends Event
      * Retrieves the target file name location.
      *
      * If this download is of type metadata, null is returned.
+     *
+     * @return string|null
      */
-    public function getFileName(): ?string
+    public function getFileName()
     {
         return $this->fileName;
     }
 
     /**
      * Gets the checksum.
+     *
+     * @return string|null
      */
-    public function getChecksum(): ?string
+    public function getChecksum()
     {
         return $this->checksum;
     }
 
     /**
      * Gets the processed URL.
+     *
+     * @return string
      */
-    public function getUrl(): string
+    public function getUrl()
     {
         return $this->url;
     }
@@ -121,7 +127,7 @@ class PostFileDownloadEvent extends Event
      * @return \Composer\Package\PackageInterface|null The package.
      * @deprecated Use getContext instead
      */
-    public function getPackage(): ?PackageInterface
+    public function getPackage()
     {
         trigger_error('PostFileDownloadEvent::getPackage is deprecated since Composer 2.1, use getContext instead.', E_USER_DEPRECATED);
         $context = $this->getContext();
@@ -131,8 +137,10 @@ class PostFileDownloadEvent extends Event
 
     /**
      * Returns the type of this download (package, metadata).
+     *
+     * @return string
      */
-    public function getType(): string
+    public function getType()
     {
         return $this->type;
     }

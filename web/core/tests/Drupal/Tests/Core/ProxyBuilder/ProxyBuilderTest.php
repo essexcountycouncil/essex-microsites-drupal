@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\Tests\Core\ProxyBuilder\ProxyBuilderTest.
+ */
+
 namespace Drupal\Tests\Core\ProxyBuilder;
 
 use Drupal\Core\ProxyBuilder\ProxyBuilder;

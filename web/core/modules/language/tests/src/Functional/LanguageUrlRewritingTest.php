@@ -137,7 +137,7 @@ class LanguageUrlRewritingTest extends BrowserTestBase {
 
     // In case index.php is part of the URLs, we need to adapt the asserted
     // URLs as well.
-    $index_php = str_contains(Url::fromRoute('<front>', [], ['absolute' => TRUE])->toString(), 'index.php');
+    $index_php = strpos(Url::fromRoute('<front>', [], ['absolute' => TRUE])->toString(), 'index.php') !== FALSE;
 
     $request = Request::createFromGlobals();
     $server = $request->server->all();

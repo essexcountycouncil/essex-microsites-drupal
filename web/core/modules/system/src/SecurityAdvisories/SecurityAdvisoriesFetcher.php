@@ -9,7 +9,6 @@ use Drupal\Core\Extension\ProfileExtensionList;
 use Drupal\Core\Extension\ThemeExtensionList;
 use Drupal\Core\KeyValueStore\KeyValueExpirableFactoryInterface;
 use Drupal\Core\Site\Settings;
-use Drupal\Core\Utility\Error;
 use Drupal\Core\Utility\ProjectInfo;
 use Drupal\Core\Extension\ExtensionVersion;
 use GuzzleHttp\ClientInterface;
@@ -153,7 +152,7 @@ final class SecurityAdvisoriesFetcher {
         // Ignore items in the feed that are in an invalid format. Although
         // this is highly unlikely we should still display the items that are
         // in the correct format.
-        Error::logException($this->logger, $unexpected_value_exception, 'Invalid security advisory format: @advisory', ['@advisory' => Json::encode($advisory_data)]);
+        watchdog_exception('system', $unexpected_value_exception, 'Invalid security advisory format: ' . Json::encode($advisory_data));
         continue;
       }
 
@@ -322,7 +321,7 @@ final class SecurityAdvisoriesFetcher {
         $response = $this->httpClient->get('https://updates.drupal.org/psa.json', $options);
       }
       catch (TransferException $exception) {
-        Error::logException($this->logger, $exception);
+        watchdog_exception('system', $exception);
         $response = $this->httpClient->get('http://updates.drupal.org/psa.json', $options);
       }
     }

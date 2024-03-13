@@ -117,7 +117,7 @@ class SecurityFileUploadEventSubscriberTest extends UnitTestCase {
 
     // Check the results of the configured sanitization.
     $this->assertSame($filename, $event->getFilename());
-    $this->assertFalse($event->isSecurityRename());
+    $this->assertSame(FALSE, $event->isSecurityRename());
 
     $config_factory = $this->getConfigFactoryStub([
       'system.file' => [
@@ -131,7 +131,7 @@ class SecurityFileUploadEventSubscriberTest extends UnitTestCase {
 
     // Check the results of the configured sanitization.
     $this->assertSame($filename, $event->getFilename());
-    $this->assertFalse($event->isSecurityRename());
+    $this->assertSame(FALSE, $event->isSecurityRename());
   }
 
   /**

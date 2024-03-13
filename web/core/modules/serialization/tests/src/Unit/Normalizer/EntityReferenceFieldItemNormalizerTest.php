@@ -70,8 +70,6 @@ class EntityReferenceFieldItemNormalizerTest extends UnitTestCase {
    * {@inheritdoc}
    */
   protected function setUp(): void {
-    parent::setUp();
-
     $this->entityRepository = $this->prophesize(EntityRepositoryInterface::class);
     $this->normalizer = new EntityReferenceFieldItemNormalizer($this->entityRepository->reveal());
 

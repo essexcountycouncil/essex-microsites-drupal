@@ -16,12 +16,12 @@ use Symfony\Component\Lock\Key;
 
 trait ExpiringStoreTrait
 {
-    private function checkNotExpired(Key $key): void
+    private function checkNotExpired(Key $key)
     {
         if ($key->isExpired()) {
             try {
                 $this->delete($key);
-            } catch (\Exception) {
+            } catch (\Exception $e) {
                 // swallow exception to not hide the original issue
             }
             throw new LockExpiredException(sprintf('Failed to store the "%s" lock.', $key));

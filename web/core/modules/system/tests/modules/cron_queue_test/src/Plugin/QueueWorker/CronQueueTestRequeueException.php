@@ -7,17 +7,12 @@ use Drupal\Core\Queue\RequeueException;
 
 /**
  * @QueueWorker(
- *   id = \Drupal\cron_queue_test\Plugin\QueueWorker\CronQueueTestRequeueException::PLUGIN_ID,
+ *   id = "cron_queue_test_requeue_exception",
  *   title = @Translation("RequeueException test"),
  *   cron = {"time" = 60}
  * )
  */
 class CronQueueTestRequeueException extends QueueWorkerBase {
-
-  /**
-   * The plugin ID.
-   */
-  public const PLUGIN_ID = 'cron_queue_test_requeue_exception';
 
   /**
    * {@inheritdoc}

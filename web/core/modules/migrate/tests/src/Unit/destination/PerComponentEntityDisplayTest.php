@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\Tests\migrate\Unit\destination\PerComponentEntityDisplayTest.
+ */
+
 namespace Drupal\Tests\migrate\Unit\destination;
 
 use Drupal\migrate\Plugin\migrate\destination\ComponentEntityDisplayBase;

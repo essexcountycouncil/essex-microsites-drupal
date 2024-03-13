@@ -5,4 +5,3 @@ version: VERSION
 hidden: true
 install:
   - js_testing_log_test
-  - nightwatch_theme_install_utility

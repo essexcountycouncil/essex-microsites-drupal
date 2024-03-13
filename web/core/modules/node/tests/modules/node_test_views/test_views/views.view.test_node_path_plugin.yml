@@ -72,7 +72,7 @@ display:
         path:
           id: path
           table: node
-          field: view_node
+          field: path
           relationship: none
           group_type: group
           admin_label: ''
@@ -117,10 +117,9 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          output_url_as_text: true
           absolute: false
           entity_type: node
-          plugin_id: entity_link
+          plugin_id: node_path
       filters:
         status:
           value: '1'

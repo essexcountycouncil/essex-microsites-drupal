@@ -31,8 +31,6 @@ class ChainRequestPolicyTest extends UnitTestCase {
    * {@inheritdoc}
    */
   protected function setUp(): void {
-    parent::setUp();
-
     $this->policy = new ChainRequestPolicy();
     $this->request = new Request();
   }
@@ -44,7 +42,7 @@ class ChainRequestPolicyTest extends UnitTestCase {
    */
   public function testEmptyChain() {
     $result = $this->policy->check($this->request);
-    $this->assertNull($result);
+    $this->assertSame(NULL, $result);
   }
 
   /**
@@ -62,7 +60,7 @@ class ChainRequestPolicyTest extends UnitTestCase {
     $this->policy->addPolicy($rule);
 
     $result = $this->policy->check($this->request);
-    $this->assertNull($result);
+    $this->assertSame(NULL, $result);
   }
 
   /**

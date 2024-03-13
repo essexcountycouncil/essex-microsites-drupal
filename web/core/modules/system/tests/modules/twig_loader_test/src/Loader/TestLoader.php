@@ -13,7 +13,7 @@ class TestLoader implements LoaderInterface {
   /**
    * {@inheritdoc}
    */
-  public function getSourceContext(string $name): Source {
+  public function getSourceContext($name) {
     $name = (string) $name;
     $value = $name === 'kittens' ? 'kittens' : 'cats';
     return new Source($value, $name);
@@ -22,21 +22,21 @@ class TestLoader implements LoaderInterface {
   /**
    * {@inheritdoc}
    */
-  public function exists(string $name) {
+  public function exists($name) {
     return TRUE;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getCacheKey(string $name): string {
+  public function getCacheKey($name) {
     return $name;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function isFresh(string $name, int $time): bool {
+  public function isFresh($name, $time) {
     return TRUE;
   }
 

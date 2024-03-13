@@ -5,13 +5,17 @@ declare(strict_types=1);
 namespace ParaTest\Logging;
 
 use ParaTest\Logging\JUnit\Reader;
+use ParaTest\Logging\JUnit\TestCase;
 use ParaTest\Logging\JUnit\TestSuite;
 
 use function array_merge;
 use function array_reduce;
-use function assert;
+use function array_values;
+use function count;
 
-/** @internal */
+/**
+ * @internal
+ */
 final class LogInterpreter implements MetaProviderInterface
 {
     /**
@@ -53,76 +57,77 @@ final class LogInterpreter implements MetaProviderInterface
     }
 
     /**
-     * Flattens all cases into their respective suites.
+     * Get all test case objects found within
+     * the collection of Reader objects.
+     *
+     * @return TestCase[]
      */
-    public function mergeReaders(): TestSuite
+    public function getCases(): array
     {
-        $mainSuite = null;
+        $cases = [];
         foreach ($this->readers as $reader) {
-            $otherSuite = $reader->getSuite();
-            if ($mainSuite === null) {
-                $mainSuite = $otherSuite;
-                continue;
-            }
-
-            if ($mainSuite->name !== $otherSuite->name) {
-                if ($mainSuite->name !== '') {
-                    $mainSuite2         = clone $mainSuite;
-                    $mainSuite2->name   = '';
-                    $mainSuite2->file   = '';
-                    $mainSuite2->suites = [$mainSuite->name => $mainSuite];
-                    $mainSuite2->cases  = [];
-                    $mainSuite          = $mainSuite2;
-                }
-
-                if ($otherSuite->name !== '') {
-                    $otherSuite2         = clone $otherSuite;
-                    $otherSuite2->name   = '';
-                    $otherSuite2->file   = '';
-                    $otherSuite2->suites = [$otherSuite->name => $otherSuite];
-                    $otherSuite2->cases  = [];
-                    $otherSuite          = $otherSuite2;
+            foreach ($reader->getSuites() as $suite) {
+                $cases = array_merge($cases, $suite->cases);
+                foreach ($suite->suites as $nested) {
+                    $this->extendEmptyCasesFromSuites($nested->cases, $suite);
+                    $cases = array_merge($cases, $nested->cases);
                 }
             }
-
-            $this->mergeSuites($mainSuite, $otherSuite);
         }
 
-        assert($mainSuite !== null);
-
-        return $mainSuite;
+        return $cases;
     }
 
-    private function mergeSuites(TestSuite $suite1, TestSuite $suite2): TestSuite
+    /**
+     * Fix problem with empty testcase from DataProvider.
+     *
+     * @param TestCase[] $cases
+     */
+    private function extendEmptyCasesFromSuites(array $cases, TestSuite $suite): void
     {
-        assert($suite1->name === $suite2->name);
+        $class = $suite->name;
+        $file  = $suite->file;
 
-        foreach ($suite2->suites as $suite2suiteName => $suite2suite) {
-            if (! isset($suite1->suites[$suite2suiteName])) {
-                $suite1->suites[$suite2suiteName] = $suite2suite;
+        foreach ($cases as $case) {
+            if ($case->class === '') {
+                $case->class = $class;
+            }
+
+            if ($case->file !== '') {
                 continue;
             }
 
-            $suite1->suites[$suite2suiteName] = $this->mergeSuites(
-                $suite1->suites[$suite2suiteName],
-                $suite2suite,
-            );
+            $case->file = $file;
+        }
+    }
+
+    /**
+     * Flattens all cases into their respective suites.
+     *
+     * @return TestSuite[] A collection of suites and their cases
+     * @psalm-return list<TestSuite>
+     */
+    public function flattenCases(): array
+    {
+        $dict = [];
+        foreach ($this->getCases() as $case) {
+            if (! isset($dict[$case->file])) {
+                $dict[$case->file] = TestSuite::empty();
+            }
+
+            $dict[$case->file]->name    = $case->class;
+            $dict[$case->file]->file    = $case->file;
+            $dict[$case->file]->cases[] = $case;
+            ++$dict[$case->file]->tests;
+            $dict[$case->file]->assertions += $case->assertions;
+            $dict[$case->file]->failures   += count($case->failures);
+            $dict[$case->file]->errors     += count($case->errors) + count($case->risky);
+            $dict[$case->file]->warnings   += count($case->warnings);
+            $dict[$case->file]->skipped    += count($case->skipped);
+            $dict[$case->file]->time       += $case->time;
         }
 
-        $suite1->tests      += $suite2->tests;
-        $suite1->assertions += $suite2->assertions;
-        $suite1->failures   += $suite2->failures;
-        $suite1->errors     += $suite2->errors;
-        $suite1->warnings   += $suite2->warnings;
-        $suite1->risky      += $suite2->risky;
-        $suite1->skipped    += $suite2->skipped;
-        $suite1->time       += $suite2->time;
-        $suite1->cases       = array_merge(
-            $suite1->cases,
-            $suite2->cases,
-        );
-
-        return $suite1;
+        return array_values($dict);
     }
 
     public function getTotalTests(): int

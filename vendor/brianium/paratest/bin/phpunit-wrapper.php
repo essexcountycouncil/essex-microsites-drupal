@@ -15,8 +15,8 @@ use ParaTest\Runners\PHPUnit\Worker\WrapperWorker;
 
     foreach ($composerAutoloadFiles as $file) {
         if (file_exists($file)) {
-            define('PHPUNIT_COMPOSER_INSTALL', $file);
             require_once $file;
+            define('PHPUNIT_COMPOSER_INSTALL', $file);
 
             break;
         }
@@ -38,7 +38,7 @@ use ParaTest\Runners\PHPUnit\Worker\WrapperWorker;
             exit;
         }
 
-        $arguments = unserialize(trim($command));
+        $arguments = unserialize($command);
         (new PHPUnit\TextUI\Command())->run($arguments, false);
 
         fwrite($writeTo, WrapperWorker::TEST_EXECUTED_MARKER);

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\Tests\migrate_drupal\Unit\source\d6\Drupal6SqlBaseTest.
+ */
+
 namespace Drupal\Tests\migrate_drupal\Unit\source\d6;
 
 use Drupal\Tests\migrate\Unit\MigrateTestCase;
@@ -64,8 +69,6 @@ class Drupal6SqlBaseTest extends MigrateTestCase {
    * {@inheritdoc}
    */
   protected function setUp(): void {
-    parent::setUp();
-
     $plugin = 'placeholder_id';
     /** @var \Drupal\Core\State\StateInterface $state */
     $state = $this->createMock('Drupal\Core\State\StateInterface');

@@ -298,7 +298,7 @@ class HandlerFieldFieldTest extends KernelTestBase {
       }
 
       // Check that the custom separator is correctly escaped.
-      $this->assertSame(implode('<h2>test</h2>', $items), (string) $rendered_field);
+      $this->assertEquals(implode('<h2>test</h2>', $items), $rendered_field);
     }
   }
 

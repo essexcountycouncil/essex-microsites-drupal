@@ -120,7 +120,7 @@ class PublicStream extends LocalStream {
    */
   protected function getLocalPath($uri = NULL) {
     $path = parent::getLocalPath($uri);
-    if (!$path || str_starts_with($path, 'vfs://')) {
+    if (!$path || (strpos($path, 'vfs://') === 0)) {
       return $path;
     }
 
@@ -131,7 +131,7 @@ class PublicStream extends LocalStream {
     $private_path = Settings::get('file_private_path');
     if ($private_path) {
       $private_path = realpath($private_path);
-      if ($private_path && str_starts_with($path, $private_path)) {
+      if ($private_path && strpos($path, $private_path) === 0) {
         return FALSE;
       }
     }

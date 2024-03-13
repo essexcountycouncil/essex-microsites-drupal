@@ -33,8 +33,12 @@ class JsCollectionRenderer implements AssetCollectionRendererInterface {
    * @param \Drupal\Core\File\FileUrlGeneratorInterface $file_url_generator
    *   The file URL generator.
    */
-  public function __construct(StateInterface $state, FileUrlGeneratorInterface $file_url_generator) {
+  public function __construct(StateInterface $state, FileUrlGeneratorInterface $file_url_generator = NULL) {
     $this->state = $state;
+    if (!$file_url_generator) {
+      @trigger_error('Calling JsCollectionRenderer::__construct() without the $file_url_generator argument is deprecated in drupal:9.3.0. The $file_url_generator argument will be required in drupal:10.0.0. See https://www.drupal.org/node/2940031', E_USER_DEPRECATED);
+      $file_url_generator = \Drupal::service('file_url_generator');
+    }
     $this->fileUrlGenerator = $file_url_generator;
   }
 
@@ -66,7 +70,9 @@ class JsCollectionRenderer implements AssetCollectionRendererInterface {
 
     // Loop through all JS assets.
     foreach ($js_assets as $js_asset) {
+      // Element properties that do not depend on JS asset type.
       $element = $element_defaults;
+      $element['#browsers'] = $js_asset['browsers'];
 
       // Element properties that depend on item type.
       switch ($js_asset['type']) {
@@ -82,7 +88,7 @@ class JsCollectionRenderer implements AssetCollectionRendererInterface {
 
         case 'file':
           $query_string = $js_asset['version'] == -1 ? $default_query_string : 'v=' . $js_asset['version'];
-          $query_string_separator = str_contains($js_asset['data'], '?') ? '&' : '?';
+          $query_string_separator = (strpos($js_asset['data'], '?') !== FALSE) ? '&' : '?';
           $element['#attributes']['src'] = $this->fileUrlGenerator->generateString($js_asset['data']);
           // Only add the cache-busting query string if this isn't an aggregate
           // file.

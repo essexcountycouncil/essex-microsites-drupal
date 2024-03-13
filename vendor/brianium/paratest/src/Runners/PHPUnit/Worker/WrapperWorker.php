@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace ParaTest\Runners\PHPUnit\Worker;
 
 use ParaTest\Logging\JUnit\Reader;
-use ParaTest\Runners\PHPUnit\EmptyLogFileException;
 use ParaTest\Runners\PHPUnit\ExecutableTest;
 use ParaTest\Runners\PHPUnit\Options;
 use ParaTest\Runners\PHPUnit\ResultPrinter;
@@ -14,7 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\InputStream;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
-use Throwable;
 
 use function array_map;
 use function array_merge;
@@ -33,7 +31,9 @@ use function unlink;
 
 use const DIRECTORY_SEPARATOR;
 
-/** @internal */
+/**
+ * @internal
+ */
 final class WrapperWorker
 {
     /**
@@ -62,7 +62,7 @@ final class WrapperWorker
     public function __construct(OutputInterface $output, Options $options, int $token)
     {
         $wrapper = realpath(
-            dirname(__DIR__, 4) . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'phpunit-wrapper.php',
+            dirname(__DIR__, 4) . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'phpunit-wrapper.php'
         );
         assert($wrapper !== false);
 
@@ -73,14 +73,12 @@ final class WrapperWorker
             $options->tmpDir(),
             DIRECTORY_SEPARATOR,
             $token,
-            uniqid(),
+            uniqid()
         );
         touch($this->writeToPathname);
 
-        $phpFinder = new PhpExecutableFinder();
-        $phpBin    = $phpFinder->find(false);
-        assert($phpBin !== false);
-        $parameters = [$phpBin];
+        $phpFinder  = new PhpExecutableFinder();
+        $parameters = [$phpFinder->find(false)];
         $parameters = array_merge($parameters, $phpFinder->findArguments());
 
         if (($passthruPhp = $options->passthruPhp()) !== null) {
@@ -91,10 +89,10 @@ final class WrapperWorker
         $parameters[] = '--write-to';
         $parameters[] = $this->writeToPathname;
 
-        if ($options->debug()) {
-            $this->output->write(sprintf(
-                "Starting WrapperWorker via: %s\n",
-                implode(' ', array_map('\escapeshellarg', $parameters)),
+        if ($options->verbosity() >= Options::VERBOSITY_VERY_VERBOSE) {
+            $this->output->writeln(sprintf(
+                'Starting WrapperWorker via: %s',
+                implode(' ', array_map('\escapeshellarg', $parameters))
             ));
         }
 
@@ -104,7 +102,7 @@ final class WrapperWorker
             $options->cwd(),
             $options->fillEnvWithTokens($token),
             $this->input,
-            null,
+            null
         );
     }
 
@@ -118,21 +116,23 @@ final class WrapperWorker
         $this->process->start();
     }
 
-    public function getWorkerCrashedException(?Throwable $previousException = null): WorkerCrashedException
+    public function getWorkerCrashedException(): WorkerCrashedException
     {
         $command = end($this->commands);
         assert($command !== false);
 
-        return WorkerCrashedException::fromProcess($this->process, $command, $previousException);
+        return WorkerCrashedException::fromProcess($this->process, $command);
     }
 
-    /** @param array<string, string|null> $phpunitOptions */
+    /**
+     * @param array<string, string|null> $phpunitOptions
+     */
     public function assign(ExecutableTest $test, string $phpunit, array $phpunitOptions, Options $options): void
     {
         assert($this->currentlyExecuting === null);
         $commandArguments = $test->commandArguments($phpunit, $phpunitOptions, $options->passthru());
         $command          = implode(' ', array_map('\\escapeshellarg', $commandArguments));
-        if ($options->debug()) {
+        if ($options->verbosity() >= Options::VERBOSITY_VERY_VERBOSE) {
             $this->output->write("\nExecuting test via: {$command}\n");
         }
 
@@ -150,13 +150,7 @@ final class WrapperWorker
             return null;
         }
 
-        try {
-            $reader = $printer->printFeedback($this->currentlyExecuting);
-        } catch (EmptyLogFileException $emptyLogException) {
-            throw $this->getWorkerCrashedException($emptyLogException);
-        }
-
-        return $reader;
+        return $printer->printFeedback($this->currentlyExecuting);
     }
 
     public function reset(): void

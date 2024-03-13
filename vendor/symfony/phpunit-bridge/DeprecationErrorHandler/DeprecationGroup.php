@@ -50,18 +50,20 @@ final class DeprecationGroup
 
     /**
      * @param string $message
+     *
+     * @return DeprecationNotice
      */
-    private function deprecationNotice($message): DeprecationNotice
+    private function deprecationNotice($message)
     {
         return $this->deprecationNotices[$message] ?? $this->deprecationNotices[$message] = new DeprecationNotice();
     }
 
-    public function count(): int
+    public function count()
     {
         return $this->count;
     }
 
-    public function notices(): array
+    public function notices()
     {
         return $this->deprecationNotices;
     }

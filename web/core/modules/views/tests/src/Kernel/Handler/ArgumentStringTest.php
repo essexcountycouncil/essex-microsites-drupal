@@ -50,13 +50,13 @@ class ArgumentStringTest extends ViewsKernelTestBase {
 
     $count_field = 'nid';
     foreach ($view->result as &$row) {
-      if (str_starts_with($view->field['title']->getValue($row), 'a')) {
+      if (strpos($view->field['title']->getValue($row), 'a') === 0) {
         $this->assertEquals(1, $row->{$count_field});
       }
-      if (str_starts_with($view->field['title']->getValue($row), 'b')) {
+      if (strpos($view->field['title']->getValue($row), 'b') === 0) {
         $this->assertEquals(2, $row->{$count_field});
       }
-      if (str_starts_with($view->field['title']->getValue($row), 'c')) {
+      if (strpos($view->field['title']->getValue($row), 'c') === 0) {
         $this->assertEquals(3, $row->{$count_field});
       }
     }

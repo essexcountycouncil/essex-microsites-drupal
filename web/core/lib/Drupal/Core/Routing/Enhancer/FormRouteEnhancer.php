@@ -15,7 +15,7 @@ class FormRouteEnhancer implements EnhancerInterface {
   /**
    * Returns whether the enhancer runs on the current route.
    *
-   * @param \Symfony\Component\Routing\Route $route
+   * @param \Drupal\Core\Routing\Enhancer\Route $route
    *   The current route.
    *
    * @return bool

@@ -10,10 +10,6 @@ editor.editor.*:
     editor:
       type: string
       label: 'Text editor'
-      constraints:
-        PluginExists:
-          manager: plugin.manager.editor
-          interface: Drupal\editor\Plugin\EditorPluginInterface
     settings:
       type: editor.settings.[%parent.editor]
     image_upload:

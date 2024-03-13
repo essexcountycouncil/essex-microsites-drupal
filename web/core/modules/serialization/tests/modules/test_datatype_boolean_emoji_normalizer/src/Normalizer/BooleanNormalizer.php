@@ -14,14 +14,19 @@ class BooleanNormalizer extends NormalizerBase implements DenormalizerInterface 
   /**
    * {@inheritdoc}
    */
-  public function normalize($object, $format = NULL, array $context = []): array|string|int|float|bool|\ArrayObject|NULL {
+  protected $supportedInterfaceOrClass = BooleanData::class;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function normalize($object, $format = NULL, array $context = []) {
     return $object->getValue() ? '👍' : '👎';
   }
 
   /**
    * {@inheritdoc}
    */
-  public function denormalize($data, $class, $format = NULL, array $context = []): mixed {
+  public function denormalize($data, $class, $format = NULL, array $context = []) {
     if (!in_array($data, ['👍', '👎'], TRUE)) {
       throw new \UnexpectedValueException('Only 👍 and 👎 are acceptable values.');
     }
@@ -31,8 +36,8 @@ class BooleanNormalizer extends NormalizerBase implements DenormalizerInterface 
   /**
    * {@inheritdoc}
    */
-  public function getSupportedTypes(?string $format): array {
-    return [BooleanData::class => TRUE];
+  public function hasCacheableSupportsMethod(): bool {
+    return TRUE;
   }
 
 }

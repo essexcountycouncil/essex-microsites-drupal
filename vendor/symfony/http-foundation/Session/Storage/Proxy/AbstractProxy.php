@@ -30,40 +30,50 @@ abstract class AbstractProxy
 
     /**
      * Gets the session.save_handler name.
+     *
+     * @return string|null
      */
-    public function getSaveHandlerName(): ?string
+    public function getSaveHandlerName()
     {
         return $this->saveHandlerName;
     }
 
     /**
      * Is this proxy handler and instance of \SessionHandlerInterface.
+     *
+     * @return bool
      */
-    public function isSessionHandlerInterface(): bool
+    public function isSessionHandlerInterface()
     {
         return $this instanceof \SessionHandlerInterface;
     }
 
     /**
      * Returns true if this handler wraps an internal PHP session save handler using \SessionHandler.
+     *
+     * @return bool
      */
-    public function isWrapper(): bool
+    public function isWrapper()
     {
         return $this->wrapper;
     }
 
     /**
      * Has a session started?
+     *
+     * @return bool
      */
-    public function isActive(): bool
+    public function isActive()
     {
         return \PHP_SESSION_ACTIVE === session_status();
     }
 
     /**
      * Gets the session ID.
+     *
+     * @return string
      */
-    public function getId(): string
+    public function getId()
     {
         return session_id();
     }
@@ -71,11 +81,11 @@ abstract class AbstractProxy
     /**
      * Sets the session ID.
      *
-     * @return void
+     * @param string $id
      *
      * @throws \LogicException
      */
-    public function setId(string $id)
+    public function setId($id)
     {
         if ($this->isActive()) {
             throw new \LogicException('Cannot change the ID of an active session.');
@@ -86,8 +96,10 @@ abstract class AbstractProxy
 
     /**
      * Gets the session name.
+     *
+     * @return string
      */
-    public function getName(): string
+    public function getName()
     {
         return session_name();
     }
@@ -95,11 +107,11 @@ abstract class AbstractProxy
     /**
      * Sets the session name.
      *
-     * @return void
+     * @param string $name
      *
      * @throws \LogicException
      */
-    public function setName(string $name)
+    public function setName($name)
     {
         if ($this->isActive()) {
             throw new \LogicException('Cannot change the name of an active session.');

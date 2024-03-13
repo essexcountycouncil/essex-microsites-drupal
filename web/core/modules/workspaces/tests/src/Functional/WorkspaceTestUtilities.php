@@ -15,7 +15,7 @@ trait WorkspaceTestUtilities {
 
   use BlockCreationTrait;
 
-  protected $switcherBlockConfigured = FALSE;
+  protected $switcher_block_configured = FALSE;
 
   /**
    * Loads a single entity by its label.
@@ -88,7 +88,7 @@ trait WorkspaceTestUtilities {
     $page = $this->getSession()->getPage();
 
     $this->assertTrue($page->hasContent('Workspace switcher'));
-    $this->switcherBlockConfigured = TRUE;
+    $this->switcher_block_configured = TRUE;
   }
 
   /**
@@ -101,14 +101,12 @@ trait WorkspaceTestUtilities {
    *   The workspace to set active.
    */
   protected function switchToWorkspace(WorkspaceInterface $workspace) {
-    $this->assertTrue($this->switcherBlockConfigured, 'This test was not written correctly: you must call setupWorkspaceSwitcherBlock() before switchToWorkspace()');
+    $this->assertTrue($this->switcher_block_configured, 'This test was not written correctly: you must call setupWorkspaceSwitcherBlock() before switchToWorkspace()');
     /** @var \Drupal\Tests\WebAssert $session */
     $session = $this->assertSession();
     $session->buttonExists('Activate');
     $this->submitForm(['workspace_id' => $workspace->id()], 'Activate');
     $session->pageTextContains($workspace->label() . ' is now the active workspace.');
-    // Keep the test runner in sync with the system under test.
-    \Drupal::service('workspaces.manager')->setActiveWorkspace($workspace);
   }
 
   /**
@@ -122,8 +120,6 @@ trait WorkspaceTestUtilities {
     $session = $this->assertSession();
     $this->submitForm([], 'Switch to Live');
     $session->pageTextContains('You are now viewing the live version of the site.');
-    // Keep the test runner in sync with the system under test.
-    \Drupal::service('workspaces.manager')->switchToLive();
   }
 
   /**

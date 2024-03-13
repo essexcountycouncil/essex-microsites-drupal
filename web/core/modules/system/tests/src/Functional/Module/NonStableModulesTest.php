@@ -3,13 +3,11 @@
 namespace Drupal\Tests\system\Functional\Module;
 
 use Drupal\Tests\BrowserTestBase;
-use Drupal\user\UserInterface;
 
 /**
  * Tests the installation of deprecated and experimental modules.
  *
  * @group Module
- * @group #slow
  */
 class NonStableModulesTest extends BrowserTestBase {
 
@@ -18,7 +16,7 @@ class NonStableModulesTest extends BrowserTestBase {
    *
    * @var \Drupal\user\UserInterface
    */
-  protected UserInterface $adminUser;
+  protected $adminUser;
 
   /**
    * {@inheritdoc}

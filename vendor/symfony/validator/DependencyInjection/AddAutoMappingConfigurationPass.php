@@ -22,12 +22,21 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class AddAutoMappingConfigurationPass implements CompilerPassInterface
 {
+    private $validatorBuilderService;
+    private $tag;
+
+    public function __construct(string $validatorBuilderService = 'validator.builder', string $tag = 'validator.auto_mapper')
+    {
+        $this->validatorBuilderService = $validatorBuilderService;
+        $this->tag = $tag;
+    }
+
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasParameter('validator.auto_mapping') || !$container->hasDefinition('validator.builder')) {
+        if (!$container->hasParameter('validator.auto_mapping') || !$container->hasDefinition($this->validatorBuilderService)) {
             return;
         }
 
@@ -47,8 +56,8 @@ class AddAutoMappingConfigurationPass implements CompilerPassInterface
             }
         }
 
-        $validatorBuilder = $container->getDefinition('validator.builder');
-        foreach ($container->findTaggedServiceIds('validator.auto_mapper') as $id => $tags) {
+        $validatorBuilder = $container->getDefinition($this->validatorBuilderService);
+        foreach ($container->findTaggedServiceIds($this->tag) as $id => $tags) {
             $regexp = $this->getRegexp(array_merge($globalNamespaces, $servicesToNamespaces[$id] ?? []));
             $validatorBuilder->addMethodCall('addLoader', [new Reference($id)]);
             $container->getDefinition($id)->setArgument('$classValidatorRegexp', $regexp);

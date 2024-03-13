@@ -173,20 +173,6 @@ class EntityConstraintViolationList extends ConstraintViolationList implements E
   /**
    * {@inheritdoc}
    */
-  public function findByCodes(string|array $codes): static {
-    $violations = [];
-    foreach ($this as $violation) {
-      if (in_array($violation->getCode(), $codes, TRUE)) {
-        $violations[] = $violation;
-      }
-    }
-
-    return new static($this->getEntity(), $violations);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function getFieldNames() {
     $this->groupViolationOffsets();
     return array_keys($this->violationOffsetsByField);
@@ -201,9 +187,6 @@ class EntityConstraintViolationList extends ConstraintViolationList implements E
 
   /**
    * {@inheritdoc}
-   *
-   * phpcs:ignore Drupal.Commenting.FunctionComment.VoidReturn
-   * @return void
    */
   public function add(ConstraintViolationInterface $violation) {
     parent::add($violation);
@@ -213,9 +196,6 @@ class EntityConstraintViolationList extends ConstraintViolationList implements E
 
   /**
    * {@inheritdoc}
-   *
-   * phpcs:ignore Drupal.Commenting.FunctionComment.VoidReturn
-   * @return void
    */
   public function remove($offset) {
     parent::remove($offset);
@@ -225,9 +205,6 @@ class EntityConstraintViolationList extends ConstraintViolationList implements E
 
   /**
    * {@inheritdoc}
-   *
-   * phpcs:ignore Drupal.Commenting.FunctionComment.VoidReturn
-   * @return void
    */
   public function set($offset, ConstraintViolationInterface $violation) {
     parent::set($offset, $violation);

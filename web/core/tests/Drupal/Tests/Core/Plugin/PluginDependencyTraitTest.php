@@ -11,7 +11,6 @@ use Drupal\Core\Plugin\Definition\DependentPluginDefinitionInterface;
 use Drupal\Core\Plugin\PluginDependencyTrait;
 use Drupal\Tests\UnitTestCase;
 use Prophecy\Prophecy\ProphecyInterface;
-use Prophecy\Prophet;
 
 /**
  * @coversDefaultClass \Drupal\Core\Plugin\PluginDependencyTrait
@@ -78,13 +77,12 @@ class PluginDependencyTraitTest extends UnitTestCase {
   /**
    * Provides test data for plugin dependencies.
    */
-  public static function providerTestPluginDependencies() {
-    $prophet = new Prophet();
+  public function providerTestPluginDependencies() {
     $data = [];
 
-    $plugin = $prophet->prophesize(PluginInspectionInterface::class);
+    $plugin = $this->prophesize(PluginInspectionInterface::class);
 
-    $dependent_plugin = $prophet->prophesize(PluginInspectionInterface::class)->willImplement(DependentPluginInterface::class);
+    $dependent_plugin = $this->prophesize(PluginInspectionInterface::class)->willImplement(DependentPluginInterface::class);
     $dependent_plugin->calculateDependencies()->willReturn([
       'module' => ['test_module2'],
     ]);
@@ -138,7 +136,7 @@ class PluginDependencyTraitTest extends UnitTestCase {
       ],
     ];
 
-    $definition = $prophet->prophesize(PluginDefinitionInterface::class);
+    $definition = $this->prophesize(PluginDefinitionInterface::class);
     $definition->getProvider()->willReturn('test_module1');
     $data['object_definition'] = [
       $plugin,
@@ -150,7 +148,7 @@ class PluginDependencyTraitTest extends UnitTestCase {
       ],
     ];
 
-    $dependent_definition = $prophet->prophesize(PluginDefinitionInterface::class)->willImplement(DependentPluginDefinitionInterface::class);
+    $dependent_definition = $this->prophesize(PluginDefinitionInterface::class)->willImplement(DependentPluginDefinitionInterface::class);
     $dependent_definition->getProvider()->willReturn('test_module1');
     $dependent_definition->getConfigDependencies()->willReturn(['module' => ['test_module2']]);
     $data['dependent_object_definition'] = [

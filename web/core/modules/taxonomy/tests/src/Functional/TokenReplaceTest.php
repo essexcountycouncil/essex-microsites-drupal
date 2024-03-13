@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\taxonomy\Functional;
 
+use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Render\BubbleableMetadata;
 
@@ -117,7 +118,7 @@ class TokenReplaceTest extends TaxonomyTestBase {
     foreach ($tests as $input => $expected) {
       $bubbleable_metadata = new BubbleableMetadata();
       $output = $token_service->replace($input, ['term' => $term1], ['langcode' => $language_interface->getId()], $bubbleable_metadata);
-      $this->assertSame((string) $expected, (string) $output, "Failed test case: {$input}");
+      $this->assertEquals($expected, $output, new FormattableMarkup('Sanitized taxonomy term token %token replaced.', ['%token' => $input]));
       $this->assertEquals($metadata_tests[$input], $bubbleable_metadata);
     }
 
@@ -138,7 +139,7 @@ class TokenReplaceTest extends TaxonomyTestBase {
 
     foreach ($tests as $input => $expected) {
       $output = $token_service->replace($input, ['term' => $term2], ['langcode' => $language_interface->getId()]);
-      $this->assertSame((string) $expected, (string) $output, "Failed test case: {$input}");
+      $this->assertEquals($expected, $output, new FormattableMarkup('Sanitized taxonomy term token %token replaced.', ['%token' => $input]));
     }
 
     // Generate and test sanitized tokens.
@@ -154,7 +155,7 @@ class TokenReplaceTest extends TaxonomyTestBase {
 
     foreach ($tests as $input => $expected) {
       $output = $token_service->replace($input, ['vocabulary' => $this->vocabulary], ['langcode' => $language_interface->getId()]);
-      $this->assertSame((string) $expected, (string) $output, "Failed test case: {$input}");
+      $this->assertEquals($expected, $output, new FormattableMarkup('Sanitized taxonomy vocabulary token %token replaced.', ['%token' => $input]));
     }
   }
 

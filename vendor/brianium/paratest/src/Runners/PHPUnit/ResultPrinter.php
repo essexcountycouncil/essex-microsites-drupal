@@ -5,41 +5,24 @@ declare(strict_types=1);
 namespace ParaTest\Runners\PHPUnit;
 
 use InvalidArgumentException;
-use ParaTest\Logging\JUnit\ErrorTestCase;
-use ParaTest\Logging\JUnit\FailureTestCase;
 use ParaTest\Logging\JUnit\Reader;
-use ParaTest\Logging\JUnit\RiskyTestCase;
-use ParaTest\Logging\JUnit\SkippedTestCase;
-use ParaTest\Logging\JUnit\SuccessTestCase;
-use ParaTest\Logging\JUnit\TestCaseWithMessage;
-use ParaTest\Logging\JUnit\TestSuite;
-use ParaTest\Logging\JUnit\WarningTestCase;
 use ParaTest\Logging\LogInterpreter;
-use PHPUnit\Framework\TestCase;
 use PHPUnit\Util\Color;
-use PHPUnit\Util\TestDox\NamePrettifier;
-use SebastianBergmann\CodeCoverage\Driver\Selector;
-use SebastianBergmann\CodeCoverage\Filter;
 use SebastianBergmann\Timer\ResourceUsageFormatter;
-use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use function array_filter;
 use function array_map;
 use function assert;
-use function class_exists;
 use function count;
-use function explode;
 use function fclose;
 use function file_get_contents;
 use function filesize;
 use function floor;
 use function fopen;
 use function fwrite;
-use function get_class;
 use function implode;
 use function is_array;
-use function is_string;
 use function max;
 use function preg_split;
 use function rtrim;
@@ -50,8 +33,6 @@ use function strlen;
 
 use const DIRECTORY_SEPARATOR;
 use const PHP_EOL;
-use const PHP_SAPI;
-use const PHP_VERSION;
 
 /**
  * Used for outputting ParaTest results
@@ -60,14 +41,12 @@ use const PHP_VERSION;
  */
 final class ResultPrinter
 {
-    private const TESTDOX_SYMBOLS = [
-        SuccessTestCase::class => '✔',
-        ErrorTestCase::class  => '✘',
-        FailureTestCase::class => '✘',
-        SkippedTestCase::class => '↩',
-        RiskyTestCase::class  => '☢',
-        WarningTestCase::class => '⚠',
-    ];
+    /**
+     * A collection of ExecutableTest objects.
+     *
+     * @var ExecutableTest[]
+     */
+    private $suites = [];
 
     /** @var LogInterpreter */
     private $results;
@@ -134,10 +113,6 @@ final class ResultPrinter
     private $output;
     /** @var Options */
     private $options;
-    /** @var bool */
-    private $needsTeamcity;
-    /** @var bool */
-    private $printsTeamcity;
     /** @var resource|null */
     private $teamcityLogFileHandle;
 
@@ -146,9 +121,6 @@ final class ResultPrinter
         $this->results = $results;
         $this->output  = $output;
         $this->options = $options;
-
-        $this->printsTeamcity = $this->options->teamcity();
-        $this->needsTeamcity  = $this->options->needsTeamcity();
 
         if (($teamcityLogFile = $this->options->logTeamcity()) === null) {
             return;
@@ -164,6 +136,7 @@ final class ResultPrinter
      */
     public function addTest(ExecutableTest $suite): void
     {
+        $this->suites[]    = $suite;
         $this->totalCases += $suite->getTestCount();
     }
 
@@ -177,47 +150,29 @@ final class ResultPrinter
         $this->maxColumn     = $this->numberOfColumns
                          + (DIRECTORY_SEPARATOR === '\\' ? -1 : 0) // fix windows blank lines
                          - strlen($this->getProgress());
+        $this->output->write(sprintf(
+            "Running phpunit in %d process%s with %s%s\n\n",
+            $this->options->processes(),
+            $this->options->processes() > 1 ? 'es' : '',
+            $this->options->phpunit(),
+            $this->options->functional() ? '. Functional mode is ON.' : ''
+        ));
+        if (($configuration = $this->options->configuration()) !== null) {
+            $this->output->write(sprintf(
+                "Configuration read from %s\n\n",
+                $configuration->filename()
+            ));
+        }
 
-        if ($this->options->verbose()) {
-            // @see \PHPUnit\TextUI\TestRunner::writeMessage()
-            $output = $this->output;
-            $write  = static function (string $type, string $message) use ($output): void {
-                $output->write(sprintf("%-15s%s\n", $type . ':', $message));
-            };
+        if ($this->options->orderBy() === Options::ORDER_RANDOM) {
+            $this->output->write(sprintf(
+                "Random order seed %d\n\n",
+                $this->options->randomOrderSeed()
+            ));
+        }
 
-            // @see \PHPUnit\TextUI\TestRunner::run()
-            $write('Processes', $this->options->processes() . ($this->options->functional() ? '. Functional mode is ON.' : ''));
-
-            $configuration = $this->options->configuration();
-
-            if (PHP_SAPI === 'phpdbg') {
-                $write('Runtime', 'PHPDBG ' . PHP_VERSION); // @codeCoverageIgnore
-            } else {
-                $runtime = 'PHP ' . PHP_VERSION;
-
-                if ($this->options->hasCoverage()) {
-                    $filter = new Filter();
-                    if ($configuration !== null && $configuration->codeCoverage()->pathCoverage()) {
-                        $codeCoverageDriver = (new Selector())->forLineAndPathCoverage($filter); // @codeCoverageIgnore
-                    } else {
-                        $codeCoverageDriver = (new Selector())->forLineCoverage($filter);
-                    }
-
-                    $runtime .= ' with ' . $codeCoverageDriver->nameAndVersion();
-                }
-
-                $write('Runtime', $runtime);
-            }
-
-            if ($configuration !== null) {
-                $write('Configuration', $configuration->filename());
-            }
-
-            if ($this->options->orderBy() === Options::ORDER_RANDOM) {
-                $write('Random Seed', (string) $this->options->randomOrderSeed());
-            }
-
-            $output->write("\n");
+        if ($this->options->orderBy() === Options::ORDER_REVERSE) {
+            $this->output->write("Reversed tests order\n\n");
         }
 
         $this->processSkipped = $this->isSkippedIncompleTestCanBeTracked($this->options);
@@ -241,17 +196,14 @@ final class ResultPrinter
             $this->getFailures(),
             $this->getRisky(),
         ];
-        if ($this->options->verbose()) {
+        if ($this->options->verbosity() >= Options::VERBOSITY_VERBOSE) {
             $toFilter[] = $this->getSkipped();
         }
 
-        $failures        = array_filter($toFilter);
-        $escapedFailures = array_map(static function (string $failure): string {
-            return OutputFormatter::escape($failure);
-        }, $failures);
+        $failures = array_filter($toFilter);
 
         $this->output->write($this->getHeader());
-        $this->output->write(implode("---\n\n", $escapedFailures));
+        $this->output->write(implode("---\n\n", $failures));
         $this->output->write($this->getFooter());
 
         if ($this->teamcityLogFileHandle === null) {
@@ -272,38 +224,36 @@ final class ResultPrinter
         try {
             $reader = new Reader($test->getTempFile());
         } catch (InvalidArgumentException $invalidArgumentException) {
-            throw new EmptyLogFileException(
+            throw new EmptyLogFileException(sprintf(
+                "%s\n" .
+                "The process: %s\n" .
+                "This means a PHPUnit process was unable to run \"%s\"\n",
                 $invalidArgumentException->getMessage(),
-                0,
-                $invalidArgumentException,
-            );
+                $test->getLastCommand(),
+                $test->getPath()
+            ), 0, $invalidArgumentException);
         }
 
-        $teamcityContent = null;
-        if ($this->needsTeamcity) {
-            $teamcityLogFile = $test->getTeamcityTempFile();
+        if ($this->teamcityLogFileHandle !== null) {
+            $log_file = $test->getTeamcityTempFile();
 
-            if (filesize($teamcityLogFile) === 0) {
-                throw new EmptyLogFileException("Teamcity format file {$teamcityLogFile} is empty");
+            if (filesize($log_file) === 0) {
+                throw new EmptyLogFileException(sprintf(
+                    "Teamcity format file is empty.\n" .
+                    "The process: %s\n" .
+                    "This means a PHPUnit process was unable to run \"%s\"\n",
+                    $test->getLastCommand(),
+                    $test->getPath()
+                ));
             }
 
-            $teamcityContent = file_get_contents($teamcityLogFile);
-            assert($teamcityContent !== false);
-
-            if ($this->teamcityLogFileHandle !== null) {
-                fwrite($this->teamcityLogFileHandle, $teamcityContent);
-            }
+            $result = file_get_contents($log_file);
+            assert($result !== false);
+            fwrite($this->teamcityLogFileHandle, $result);
         }
 
         $this->results->addReader($reader);
-
-        if ($teamcityContent !== null) {
-            $this->output->write(OutputFormatter::escape($teamcityContent));
-        } elseif ($this->options->testdox()) {
-            $this->processTestdoxReader($reader->getSuite());
-        } else {
-            $this->processReaderFeedback($reader, $test->getTestCount());
-        }
+        $this->processReaderFeedback($reader, $test->getTestCount());
 
         return $reader;
     }
@@ -402,13 +352,11 @@ final class ResultPrinter
     {
         $feedbackItems = $reader->getFeedback();
 
-        $actualTestCount = strlen($feedbackItems);
+        $actualTestCount = count($feedbackItems);
 
         $this->processTestOverhead($actualTestCount, $expectedTestCount);
 
-        for ($index = 0; $index < $actualTestCount; ++$index) {
-            $item = $feedbackItems[$index];
-
+        foreach ($feedbackItems as $item) {
             $this->printFeedbackItem($item);
             if ($item !== 'S') {
                 continue;
@@ -550,7 +498,7 @@ final class ResultPrinter
             $count === 1 ? 'was' : 'were',
             $count,
             $type,
-            $count === 1 ? '' : 's',
+            $count === 1 ? '' : 's'
         );
 
         for ($i = 1; $i <= count($defects); ++$i) {
@@ -571,7 +519,7 @@ final class ResultPrinter
             ' %' . $this->numTestsWidth . 'd / %' . $this->numTestsWidth . 'd (%3s%%)',
             $this->casesProcessed,
             $this->totalCases,
-            floor(($this->totalCases > 0 ? $this->casesProcessed / $this->totalCases : 0) * 100),
+            floor(($this->totalCases > 0 ? $this->casesProcessed / $this->totalCases : 0) * 100)
         );
     }
 
@@ -587,8 +535,8 @@ final class ResultPrinter
             'fg-white, bg-red',
             sprintf(
                 $formatString,
-                $this->getFooterCounts(),
-            ),
+                $this->getFooterCounts()
+            )
         );
     }
 
@@ -609,8 +557,8 @@ final class ResultPrinter
                     $tests,
                     $tests === 1 ? '' : 's',
                     $asserts,
-                    $asserts === 1 ? '' : 's',
-                ),
+                    $asserts === 1 ? '' : 's'
+                )
             );
         }
 
@@ -619,8 +567,8 @@ final class ResultPrinter
             sprintf(
                 "OK, but incomplete, skipped, or risky tests!\n"
                 . '%s',
-                $this->getFooterCounts(),
-            ),
+                $this->getFooterCounts()
+            )
         );
     }
 
@@ -632,8 +580,8 @@ final class ResultPrinter
             'fg-black, bg-yellow',
             sprintf(
                 $formatString,
-                $this->getFooterCounts(),
-            ),
+                $this->getFooterCounts()
+            )
         );
     }
 
@@ -657,7 +605,9 @@ final class ResultPrinter
         return rtrim($output, ', ') . '.';
     }
 
-    /** @see \PHPUnit\TextUI\DefaultResultPrinter::colorizeTextBox */
+    /**
+     * @see \PHPUnit\TextUI\DefaultResultPrinter::colorizeTextBox
+     */
     private function colorizeTextBox(string $color, string $buffer): string
     {
         if (! $this->options->colors()) {
@@ -667,6 +617,7 @@ final class ResultPrinter
         $lines = preg_split('/\r\n|\r|\n/', $buffer);
         assert(is_array($lines));
         $padding = max(array_map('\\strlen', $lines));
+        assert($padding !== false);
 
         $styledLines = [];
         foreach ($lines as $line) {
@@ -674,72 +625,5 @@ final class ResultPrinter
         }
 
         return implode(PHP_EOL, $styledLines);
-    }
-
-    private function processTestdoxReader(TestSuite $testSuite): void
-    {
-        foreach ($testSuite->suites as $suite) {
-            $this->processTestdoxReader($suite);
-        }
-
-        if ($testSuite->cases === []) {
-            return;
-        }
-
-        $prettifier = new NamePrettifier(false);
-
-        $separator = PHP_EOL;
-        foreach ($testSuite->cases as $index => $case) {
-            if ($index === 0) {
-                $class = $case->class;
-                assert(class_exists($class));
-
-                $this->output->writeln($prettifier->prettifyTestClass($class));
-            }
-
-            assert(isset($class) && is_string($class) && class_exists($class));
-
-            $separator = PHP_EOL;
-            $testCase  = new $class($case->name);
-            assert($testCase instanceof TestCase);
-
-            $time = '';
-            if ($this->options->verbose()) {
-                $time = sprintf(' [%.2f ms]', $case->time * 1000);
-            }
-
-            $testName = $prettifier->prettifyTestCase($testCase);
-            $this->output->writeln(sprintf(
-                ' %s %s%s',
-                self::TESTDOX_SYMBOLS[get_class($case)],
-                $testName,
-                $time,
-            ));
-
-            $failingCase = $case instanceof FailureTestCase || $case instanceof ErrorTestCase || $case instanceof WarningTestCase;
-            if (! $this->options->verbose() && ! $failingCase) {
-                continue;
-            }
-
-            if (! $case instanceof TestCaseWithMessage) {
-                continue;
-            }
-
-            $lines    = explode("\n", $case->text);
-            $lines[0] = '';
-            if ($case instanceof SkippedTestCase) {
-                unset($lines[0]);
-            }
-
-            $lines[] = '';
-            foreach ($lines as $index => $line) {
-                $lines[$index] = '   │' . ($line !== '' ? ' ' . $line : '');
-            }
-
-            $this->output->writeln(implode(PHP_EOL, $lines) . PHP_EOL);
-            $separator = '';
-        }
-
-        $this->output->write($separator);
     }
 }

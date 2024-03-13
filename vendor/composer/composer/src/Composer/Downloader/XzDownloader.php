@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -12,7 +12,6 @@
 
 namespace Composer\Downloader;
 
-use React\Promise\PromiseInterface;
 use Composer\Package\PackageInterface;
 use Composer\Util\ProcessExecutor;
 
@@ -24,12 +23,12 @@ use Composer\Util\ProcessExecutor;
  */
 class XzDownloader extends ArchiveDownloader
 {
-    protected function extract(PackageInterface $package, string $file, string $path): PromiseInterface
+    protected function extract(PackageInterface $package, $file, $path)
     {
         $command = 'tar -xJf ' . ProcessExecutor::escape($file) . ' -C ' . ProcessExecutor::escape($path);
 
         if (0 === $this->process->execute($command, $ignoredOutput)) {
-            return \React\Promise\resolve(null);
+            return \React\Promise\resolve();
         }
 
         $processError = 'Failed to execute ' . $command . "\n\n" . $this->process->getErrorOutput();

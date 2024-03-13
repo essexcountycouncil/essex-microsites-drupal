@@ -69,7 +69,7 @@ class HelpTopicTwigLoader extends FilesystemLoader {
   /**
    * {@inheritdoc}
    */
-  public function getSourceContext(string $name): Source {
+  public function getSourceContext($name) {
     $path = $this->findTemplate($name);
 
     $contents = file_get_contents($path);

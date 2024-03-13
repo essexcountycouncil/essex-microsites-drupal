@@ -38,7 +38,7 @@ class UrlGenerator implements UrlGeneratorInterface {
   protected $requestStack;
 
   /**
-   * The path processor to convert the system path to one suitable for URLs.
+   * The path processor to convert the system path to one suitable for urls.
    *
    * @var \Drupal\Core\PathProcessor\OutboundPathProcessorInterface
    */
@@ -76,7 +76,7 @@ class UrlGenerator implements UrlGeneratorInterface {
    * @param \Drupal\Core\Routing\RouteProviderInterface $provider
    *   The route provider to be searched for routes.
    * @param \Drupal\Core\PathProcessor\OutboundPathProcessorInterface $path_processor
-   *   The path processor to convert the system path to one suitable for URLs.
+   *   The path processor to convert the system path to one suitable for urls.
    * @param \Drupal\Core\RouteProcessor\OutboundRouteProcessorInterface $route_processor
    *   The route processor.
    * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
@@ -96,9 +96,6 @@ class UrlGenerator implements UrlGeneratorInterface {
 
   /**
    * {@inheritdoc}
-   *
-   * phpcs:ignore Drupal.Commenting.FunctionComment.VoidReturn
-   * @return void
    */
   public function setContext(SymfonyRequestContext $context) {
     $this->context = $context;
@@ -107,7 +104,7 @@ class UrlGenerator implements UrlGeneratorInterface {
   /**
    * {@inheritdoc}
    */
-  public function getContext(): SymfonyRequestContext {
+  public function getContext() {
     return $this->context;
   }
 
@@ -130,10 +127,7 @@ class UrlGenerator implements UrlGeneratorInterface {
    */
   public function getPathFromRoute($name, $parameters = []) {
     $route = $this->getRoute($name);
-    if (!is_string($name)) {
-      @trigger_error('Passing a route object to ' . __METHOD__ . '() is deprecated in drupal:10.1.0 and will not be supported in drupal:11.0.0. Pass the route name instead. See https://www.drupal.org/node/3172280', E_USER_DEPRECATED);
-      $name = $this->getRouteStringIdentifier($name);
-    }
+    $name = $this->getRouteDebugMessage($name);
     $this->processRoute($name, $route, $parameters);
     $path = $this->getInternalPathFromRoute($name, $route, $parameters);
     // Router-based paths may have a querystring on them but Drupal paths may
@@ -166,7 +160,7 @@ class UrlGenerator implements UrlGeneratorInterface {
    *   Query parameters passed to the generator as $options['query']. This may
    *   be modified if there are extra parameters not used as route variables.
    * @param string $name
-   *   The route name.
+   *   The route name or other identifying string from ::getRouteDebugMessage().
    *
    * @return string
    *   The URL path, without any base path, without the query string, not URL
@@ -184,7 +178,7 @@ class UrlGenerator implements UrlGeneratorInterface {
 
     // all params must be given
     if ($diff = array_diff_key($variables, $mergedParams)) {
-      throw new MissingMandatoryParametersException($name, array_keys($diff));
+      throw new MissingMandatoryParametersException(sprintf('Some mandatory parameters are missing ("%s") to generate a URL for route "%s".', implode('", "', array_keys($diff)), $name));
     }
 
     $url = '';
@@ -292,10 +286,7 @@ class UrlGenerator implements UrlGeneratorInterface {
     $options += $route->getOption('default_url_options') ?: [];
     $options += ['prefix' => '', 'path_processing' => TRUE];
 
-    if (!is_string($name)) {
-      @trigger_error('Passing a route object to ' . __METHOD__ . '() is deprecated in drupal:10.1.0 and will not be supported in drupal:11.0.0. Pass the route name instead. See https://www.drupal.org/node/3172280', E_USER_DEPRECATED);
-      $name = $this->getRouteStringIdentifier($name);
-    }
+    $name = $this->getRouteDebugMessage($name);
     $this->processRoute($name, $route, $parameters, $generated_url);
     $path = $this->getInternalPathFromRoute($name, $route, $parameters, $options['query']);
     // Outbound path processors might need the route object for the path, e.g.
@@ -306,7 +297,7 @@ class UrlGenerator implements UrlGeneratorInterface {
     }
     // Ensure the resulting path has at most one leading slash, to prevent it
     // becoming an external URL without a protocol like //example.com.
-    if (str_starts_with($path, '//')) {
+    if (strpos($path, '//') === 0) {
       $path = '/' . ltrim($path, '/');
     }
     // The contexts base URL is already encoded
@@ -314,7 +305,7 @@ class UrlGenerator implements UrlGeneratorInterface {
     $path = str_replace($this->decodedChars[0], $this->decodedChars[1], rawurlencode($path));
 
     // Drupal paths rarely include dots, so skip this processing if possible.
-    if (str_contains($path, '/.')) {
+    if (strpos($path, '/.') !== FALSE) {
       // the path segments "." and ".." are interpreted as relative reference when
       // resolving a URI; see http://tools.ietf.org/html/rfc3986#section-3.3
       // so we need to encode them as they are not used for this purpose here
@@ -431,8 +422,6 @@ class UrlGenerator implements UrlGeneratorInterface {
    * @throws \Symfony\Component\Routing\Exception\RouteNotFoundException
    *   Thrown if there is no route with that name in this repository.
    *
-   * @internal
-   *
    * @see \Drupal\Core\Routing\RouteProviderInterface
    */
   protected function getRoute($name) {
@@ -446,68 +435,17 @@ class UrlGenerator implements UrlGeneratorInterface {
   }
 
   /**
-   * Gets either the route name or a string based on the route object.
-   *
-   * @param string|\Symfony\Component\Routing\Route $name
-   *   A string route name, or a serializable object.
-   *
-   * @return string
-   *   Either the route name, or a string that uniquely identifies the route.
-   *
-   * @todo Remove in https://www.drupal.org/project/drupal/issues/3339710
-   *
-   * @internal
-   */
-  private function getRouteStringIdentifier(string|SymfonyRoute $name): string {
-    if (is_scalar($name)) {
-      return $name;
-    }
-
-    if ($name instanceof SymfonyRoute) {
-      return 'Route with pattern ' . $name->getPath();
-    }
-
-    return serialize($name);
-  }
-
-  /**
-   * Checks if route name is a string or route object.
-   *
-   * @param string|\Symfony\Component\Routing\Route $name
-   *   The route "name" which may also be an object or anything.
-   *
-   * @return bool
-   *   TRUE if the passed in value a valid route, FALSE otherwise.
-   *
-   * @deprecated in drupal:10.1.0 and is removed from drupal:11.0.0. Only string
-   *   route names are supported.
-   *
-   * @see https://www.drupal.org/node/3172303
+   * {@inheritdoc}
    */
   public function supports($name) {
-    @trigger_error(__METHOD__ . '() is deprecated in drupal:10.1.0 and is removed from drupal:11.0.0. Only string route names are supported. See https://www.drupal.org/node/3172303', E_USER_DEPRECATED);
     // Support a route object and any string as route name.
     return is_string($name) || $name instanceof SymfonyRoute;
   }
 
   /**
-   * Gets either the route name or a string based on the route object.
-   *
-   * @param string|\Symfony\Component\Routing\Route $name
-   *   The route "name" which may also be an object or anything.
-   * @param array $parameters
-   *   Route parameters array.
-   *
-   * @return string
-   *   Either the route name, or a string that uniquely identifies the route.
-   *
-   * @deprecated in drupal:10.1.0 and is removed from drupal:11.0.0. Use
-   *   the route name instead.
-   *
-   * @see https://www.drupal.org/node/3172303
+   * {@inheritdoc}
    */
   public function getRouteDebugMessage($name, array $parameters = []) {
-    @trigger_error(__METHOD__ . '() is deprecated in drupal:10.1.0 and is removed from drupal:11.0.0. Use the route name instead. See https://www.drupal.org/node/3172303', E_USER_DEPRECATED);
     if (is_scalar($name)) {
       return $name;
     }

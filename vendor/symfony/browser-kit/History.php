@@ -11,8 +11,6 @@
 
 namespace Symfony\Component\BrowserKit;
 
-use Symfony\Component\BrowserKit\Exception\LogicException;
-
 /**
  * History.
  *
@@ -25,8 +23,6 @@ class History
 
     /**
      * Clears the history.
-     *
-     * @return void
      */
     public function clear()
     {
@@ -36,8 +32,6 @@ class History
 
     /**
      * Adds a Request to the history.
-     *
-     * @return void
      */
     public function add(Request $request)
     {
@@ -48,21 +42,25 @@ class History
 
     /**
      * Returns true if the history is empty.
+     *
+     * @return bool true if the history is empty, false otherwise
      */
-    public function isEmpty(): bool
+    public function isEmpty()
     {
-        return 0 === \count($this->stack);
+        return 0 == \count($this->stack);
     }
 
     /**
      * Goes back in the history.
      *
-     * @throws LogicException if the stack is already on the first page
+     * @return Request A Request instance
+     *
+     * @throws \LogicException if the stack is already on the first page
      */
-    public function back(): Request
+    public function back()
     {
         if ($this->position < 1) {
-            throw new LogicException('You are already on the first page.');
+            throw new \LogicException('You are already on the first page.');
         }
 
         return clone $this->stack[--$this->position];
@@ -71,12 +69,14 @@ class History
     /**
      * Goes forward in the history.
      *
-     * @throws LogicException if the stack is already on the last page
+     * @return Request A Request instance
+     *
+     * @throws \LogicException if the stack is already on the last page
      */
-    public function forward(): Request
+    public function forward()
     {
         if ($this->position > \count($this->stack) - 2) {
-            throw new LogicException('You are already on the last page.');
+            throw new \LogicException('You are already on the last page.');
         }
 
         return clone $this->stack[++$this->position];
@@ -85,12 +85,14 @@ class History
     /**
      * Returns the current element in the history.
      *
-     * @throws LogicException if the stack is empty
+     * @return Request A Request instance
+     *
+     * @throws \LogicException if the stack is empty
      */
-    public function current(): Request
+    public function current()
     {
-        if (-1 === $this->position) {
-            throw new LogicException('The page history is empty.');
+        if (-1 == $this->position) {
+            throw new \LogicException('The page history is empty.');
         }
 
         return clone $this->stack[$this->position];

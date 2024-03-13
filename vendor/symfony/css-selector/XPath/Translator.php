@@ -30,25 +30,25 @@ use Symfony\Component\CssSelector\Parser\ParserInterface;
  */
 class Translator implements TranslatorInterface
 {
-    private ParserInterface $mainParser;
+    private $mainParser;
 
     /**
      * @var ParserInterface[]
      */
-    private array $shortcutParsers = [];
+    private $shortcutParsers = [];
 
     /**
      * @var Extension\ExtensionInterface[]
      */
-    private array $extensions = [];
+    private $extensions = [];
 
-    private array $nodeTranslators = [];
-    private array $combinationTranslators = [];
-    private array $functionTranslators = [];
-    private array $pseudoClassTranslators = [];
-    private array $attributeMatchingTranslators = [];
+    private $nodeTranslators = [];
+    private $combinationTranslators = [];
+    private $functionTranslators = [];
+    private $pseudoClassTranslators = [];
+    private $attributeMatchingTranslators = [];
 
-    public function __construct(?ParserInterface $parser = null)
+    public function __construct(ParserInterface $parser = null)
     {
         $this->mainParser = $parser ?? new Parser();
 
@@ -87,6 +87,9 @@ class Translator implements TranslatorInterface
         return sprintf('concat(%s)', implode(', ', $parts));
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function cssToXPath(string $cssExpr, string $prefix = 'descendant-or-self::'): string
     {
         $selectors = $this->parseSelectors($cssExpr);
@@ -103,6 +106,9 @@ class Translator implements TranslatorInterface
         return implode(' | ', $selectors);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function selectorToXPath(SelectorNode $selector, string $prefix = 'descendant-or-self::'): string
     {
         return ($prefix ?: '').$this->nodeToXPath($selector);
@@ -111,7 +117,7 @@ class Translator implements TranslatorInterface
     /**
      * @return $this
      */
-    public function registerExtension(Extension\ExtensionInterface $extension): static
+    public function registerExtension(Extension\ExtensionInterface $extension): self
     {
         $this->extensions[$extension->getName()] = $extension;
 
@@ -139,7 +145,7 @@ class Translator implements TranslatorInterface
     /**
      * @return $this
      */
-    public function registerParserShortcut(ParserInterface $shortcut): static
+    public function registerParserShortcut(ParserInterface $shortcut): self
     {
         $this->shortcutParsers[] = $shortcut;
 
@@ -197,7 +203,7 @@ class Translator implements TranslatorInterface
     /**
      * @throws ExpressionErrorException
      */
-    public function addAttributeMatching(XPathExpr $xpath, string $operator, string $attribute, ?string $value): XPathExpr
+    public function addAttributeMatching(XPathExpr $xpath, string $operator, string $attribute, $value): XPathExpr
     {
         if (!isset($this->attributeMatchingTranslators[$operator])) {
             throw new ExpressionErrorException(sprintf('Attribute matcher operator "%s" not supported.', $operator));
@@ -214,7 +220,7 @@ class Translator implements TranslatorInterface
         foreach ($this->shortcutParsers as $shortcut) {
             $tokens = $shortcut->parse($css);
 
-            if ($tokens) {
+            if (!empty($tokens)) {
                 return $tokens;
             }
         }

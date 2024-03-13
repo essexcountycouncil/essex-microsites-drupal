@@ -31,7 +31,6 @@ use GuzzleHttp\RequestOptions;
  * JSON:API regression tests.
  *
  * @group jsonapi
- * @group #slow
  *
  * @internal
  */
@@ -501,7 +500,7 @@ class JsonApiRegressionTest extends JsonApiFunctionalTestBase {
     $this->createEntityReferenceField('node', 'dog', 'field_test', NULL, 'node');
     \Drupal::service('router.builder')->rebuildIfNeeded();
 
-    $dog = Node::create(['type' => 'dog', 'title' => 'retriever']);
+    $dog = Node::create(['type' => 'dog', 'title' => 'Rosie P. Mosie']);
     $dog->save();
 
     $response = $this->request('GET', Url::fromUri('internal:/jsonapi/node/dog/' . $dog->uuid() . '/field_test'), $request_options);

@@ -82,7 +82,7 @@ class SessionConfiguration implements SessionConfigurationInterface {
    * @param \Symfony\Component\HttpFoundation\Request $request
    *   The request.
    *
-   * @return string
+   * @returns string
    *   The session name without the prefix (SESS/SSESS).
    */
   protected function getUnprefixedName(Request $request) {
@@ -118,7 +118,7 @@ class SessionConfiguration implements SessionConfigurationInterface {
    * @param \Symfony\Component\HttpFoundation\Request $request
    *   The request.
    *
-   * @return string|null
+   * @returns string|null
    *   The session cookie domain, or NULL if the calculated value is invalid.
    */
   protected function getCookieDomain(Request $request) {

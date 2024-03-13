@@ -61,11 +61,15 @@ class SearchIndex implements SearchIndexInterface {
    * @param \Drupal\search\SearchTextProcessorInterface $text_processor
    *   The text processor.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, Connection $connection, Connection $replica, CacheTagsInvalidatorInterface $cache_tags_invalidator, SearchTextProcessorInterface $text_processor) {
+  public function __construct(ConfigFactoryInterface $config_factory, Connection $connection, Connection $replica, CacheTagsInvalidatorInterface $cache_tags_invalidator, SearchTextProcessorInterface $text_processor = NULL) {
     $this->configFactory = $config_factory;
     $this->connection = $connection;
     $this->replica = $replica;
     $this->cacheTagsInvalidator = $cache_tags_invalidator;
+    if ($text_processor === NULL) {
+      @trigger_error('Calling ' . __METHOD__ . ' without $text_processor argument is deprecated in drupal:9.1.0 and will be required in drupal:10.0.0. See https://www.drupal.org/node/3078162', E_USER_DEPRECATED);
+      $text_processor = \Drupal::service('search.text_processor');
+    }
     $this->textProcessor = $text_processor;
   }
 

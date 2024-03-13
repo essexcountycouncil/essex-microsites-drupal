@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -22,7 +22,7 @@ class NullIO extends BaseIO
     /**
      * @inheritDoc
      */
-    public function isInteractive(): bool
+    public function isInteractive()
     {
         return false;
     }
@@ -30,7 +30,7 @@ class NullIO extends BaseIO
     /**
      * @inheritDoc
      */
-    public function isVerbose(): bool
+    public function isVerbose()
     {
         return false;
     }
@@ -38,7 +38,7 @@ class NullIO extends BaseIO
     /**
      * @inheritDoc
      */
-    public function isVeryVerbose(): bool
+    public function isVeryVerbose()
     {
         return false;
     }
@@ -46,7 +46,7 @@ class NullIO extends BaseIO
     /**
      * @inheritDoc
      */
-    public function isDebug(): bool
+    public function isDebug()
     {
         return false;
     }
@@ -54,7 +54,7 @@ class NullIO extends BaseIO
     /**
      * @inheritDoc
      */
-    public function isDecorated(): bool
+    public function isDecorated()
     {
         return false;
     }
@@ -62,28 +62,28 @@ class NullIO extends BaseIO
     /**
      * @inheritDoc
      */
-    public function write($messages, bool $newline = true, int $verbosity = self::NORMAL): void
+    public function write($messages, $newline = true, $verbosity = self::NORMAL)
     {
     }
 
     /**
      * @inheritDoc
      */
-    public function writeError($messages, bool $newline = true, int $verbosity = self::NORMAL): void
+    public function writeError($messages, $newline = true, $verbosity = self::NORMAL)
     {
     }
 
     /**
      * @inheritDoc
      */
-    public function overwrite($messages, bool $newline = true, ?int $size = null, int $verbosity = self::NORMAL): void
+    public function overwrite($messages, $newline = true, $size = 80, $verbosity = self::NORMAL)
     {
     }
 
     /**
      * @inheritDoc
      */
-    public function overwriteError($messages, bool $newline = true, ?int $size = null, int $verbosity = self::NORMAL): void
+    public function overwriteError($messages, $newline = true, $size = 80, $verbosity = self::NORMAL)
     {
     }
 
@@ -98,7 +98,7 @@ class NullIO extends BaseIO
     /**
      * @inheritDoc
      */
-    public function askConfirmation($question, $default = true): bool
+    public function askConfirmation($question, $default = true)
     {
         return $default;
     }
@@ -114,7 +114,7 @@ class NullIO extends BaseIO
     /**
      * @inheritDoc
      */
-    public function askAndHideAnswer($question): ?string
+    public function askAndHideAnswer($question)
     {
         return null;
     }

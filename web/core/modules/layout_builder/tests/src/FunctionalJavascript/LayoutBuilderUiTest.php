@@ -170,14 +170,14 @@ class LayoutBuilderUiTest extends WebDriverTestBase {
     $this->assertNotEmpty($assert_session->waitForElementVisible('css', '[data-layout-delta="1"]'));
     $assert_session->elementsCount('css', '.layout-builder__add-block', 3);
 
-    // Add a content block.
+    // Add a custom block.
     $page->clickLink('Add block');
-    $this->assertNotEmpty($assert_session->waitForElementVisible('css', 'a:contains("Create content block")'));
+    $this->assertNotEmpty($assert_session->waitForElementVisible('css', 'a:contains("Create custom block")'));
     $assert_session->assertWaitOnAjaxRequest();
 
     // Highlight is present with ChooseBlockController::build().
     $this->assertHighlightedElement('[data-layout-builder-highlight-id="block-0-first"]');
-    $page->clickLink('Create content block');
+    $page->clickLink('Create custom block');
     $this->assertNotEmpty($assert_session->waitForElementVisible('css', '#drupal-off-canvas input[value="Add block"]'));
     $assert_session->assertWaitOnAjaxRequest();
 

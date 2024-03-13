@@ -6,7 +6,7 @@
  * toggles fixing the header to the top of the viewport.
  */
 
-@import "../base/media-queries.pcss.css";
+@import "../base/variables.pcss.css";
 
 .sticky-header-toggle {
   display: none;
@@ -22,7 +22,7 @@
     opacity: 0;
     border: 0;
     outline: 0;
-    background-color: var(--color--primary-50);
+    background-color: var(--color--blue-50);
 
     &:focus {
       cursor: pointer;
@@ -47,26 +47,48 @@ body.is-always-mobile-nav .sticky-header-toggle {
 }
 
 .sticky-header-toggle__icon {
-  --icon-bar-height: 3px;
-  --icon-bar-space: 7px;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  position: relative;
   width: var(--sp2);
-  height: calc((var(--icon-bar-height) * 3) + (var(--icon-bar-space) * 2));
-  /* Height = 3 bars + 2 spaces */
+  height: 21px;
   transition: opacity 0.2s;
   pointer-events: none;
   transform-style: preserve-3d;
 
   & > span {
     display: block;
-    width: 100%;
-    height: var(--icon-bar-height);
-    transition: transform 0.2s;
-    transform-origin: center;
-    background-color: var(--color--white);
+    height: 0;
+    /* Intentionally not using CSS logical properties. */
+    border-top: solid 3px var(--color--white);
+
+    &:nth-child(1) {
+      position: absolute;
+      inset-block-start: 0;
+      inset-inline-start: 0;
+      width: 100%;
+      height: 0;
+      transition: transform 0.2s;
+      background-color: var(--color--white);
+    }
+
+    &:nth-child(2) {
+      position: absolute;
+      inset-block-start: 9px;
+      inset-inline-start: 0;
+      width: 100%;
+      height: 0;
+      transition: opacity 0.2s;
+      background-color: var(--color--white);
+    }
+
+    &:nth-child(3) {
+      position: absolute;
+      inset-block: auto 0;
+      inset-inline-start: 0;
+      width: 100%;
+      height: 0;
+      transition: transform 0.2s;
+      background-color: var(--color--white);
+    }
   }
 }
 
@@ -78,7 +100,8 @@ body.is-always-mobile-nav .sticky-header-toggle {
 
 [aria-checked="true"] .sticky-header-toggle__icon {
   & > span:nth-child(1) {
-    transform: translateY(calc(var(--icon-bar-height) + var(--icon-bar-space))) rotate(-45deg);
+    inset-block-start: 9px;
+    transform: rotate(-45deg);
   }
 
   & > span:nth-child(2) {
@@ -86,6 +109,7 @@ body.is-always-mobile-nav .sticky-header-toggle {
   }
 
   & > span:nth-child(3) {
-    transform: translateY(calc(0px - var(--icon-bar-height) - var(--icon-bar-space))) rotate(45deg);
+    inset-block-start: 9px;
+    transform: rotate(45deg);
   }
 }

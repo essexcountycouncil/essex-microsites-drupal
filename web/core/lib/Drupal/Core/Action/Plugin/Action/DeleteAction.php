@@ -21,7 +21,7 @@ class DeleteAction extends EntityActionBase {
   /**
    * The tempstore object.
    *
-   * @var \Drupal\Core\TempStore\PrivateTempStoreFactory
+   * @var \Drupal\Core\TempStore\SharedTempStore
    */
   protected $tempStore;
 

@@ -13,8 +13,7 @@ use Drupal\Core\Field\FieldStorageDefinitionInterface;
  *   description = @Translation("This field stores a long text with a text format."),
  *   category = @Translation("Text"),
  *   default_widget = "text_textarea",
- *   default_formatter = "text_default",
- *   list_class = "\Drupal\text\Plugin\Field\FieldType\TextFieldItemList"
+ *   default_formatter = "text_default"
  * )
  */
 class TextLongItem extends TextItemBase {

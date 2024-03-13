@@ -1,3 +1,3 @@
 <?php
 // phpcs:ignoreFile
-print 'PHP was executed!';
+print 'SimpleTest PHP was executed!';

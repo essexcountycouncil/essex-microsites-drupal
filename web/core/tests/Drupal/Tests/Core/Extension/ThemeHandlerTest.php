@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\Tests\Core\Extension\ThemeHandlerTest.
+ */
+
 namespace Drupal\Tests\Core\Extension;
 
 use Composer\Autoload\ClassLoader;

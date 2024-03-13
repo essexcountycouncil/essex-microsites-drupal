@@ -5,7 +5,6 @@ namespace Drupal\Tests\comment\Kernel;
 use Drupal\comment\CommentInterface;
 use Drupal\comment\Entity\Comment;
 use Drupal\comment\Entity\CommentType;
-use Drupal\comment\Plugin\Field\FieldType\CommentItemInterface;
 use Drupal\comment\Tests\CommentTestTrait;
 use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Session\AnonymousUserSession;
@@ -104,29 +103,32 @@ class CommentFieldAccessTest extends EntityKernelTestBase {
     ]);
     $comment_type->save();
 
+    // Create a comment against a test entity.
+    $host = EntityTest::create();
+    $host->save();
+
     // An administrator user. No user exists yet, ensure that the first user
     // does not have UID 1.
-    $comment_admin_user = $this->createUser([
+    $comment_admin_user = $this->createUser(['uid' => 2, 'name' => 'admin'], [
       'administer comments',
       'access comments',
-    ], 'admin', FALSE, ['uid' => 2]);
+    ]);
 
     // Two comment enabled users, one with edit access.
-    $comment_enabled_user = $this->createUser([
+    $comment_enabled_user = $this->createUser(['name' => 'enabled'], [
       'post comments',
       'skip comment approval',
       'edit own comments',
       'access comments',
-    ], 'enabled');
-
-    $comment_no_edit_user = $this->createUser([
+    ]);
+    $comment_no_edit_user = $this->createUser(['name' => 'no edit'], [
       'post comments',
       'skip comment approval',
       'access comments',
-    ], 'no edit');
+    ]);
 
     // An unprivileged user.
-    $comment_disabled_user = $this->createUser(['access content'], 'disabled');
+    $comment_disabled_user = $this->createUser(['name' => 'disabled'], ['access content']);
 
     $role = Role::load(RoleInterface::ANONYMOUS_ID);
     $role->grantPermission('post comments')
@@ -137,15 +139,6 @@ class CommentFieldAccessTest extends EntityKernelTestBase {
     // Add two fields.
     $this->addDefaultCommentField('entity_test', 'entity_test', 'comment');
     $this->addDefaultCommentField('entity_test', 'entity_test', 'comment_other');
-
-    // Create a comment against a test entity.
-    $host = EntityTest::create();
-    $host->save();
-
-    $host2 = EntityTest::create();
-    $host2->comment->status = CommentItemInterface::CLOSED;
-    $host2->comment_other->status = CommentItemInterface::CLOSED;
-    $host2->save();
 
     // Change the second field's anonymous contact setting.
     $instance = FieldConfig::loadByName('entity_test', 'entity_test', 'comment_other');
@@ -185,7 +178,7 @@ class CommentFieldAccessTest extends EntityKernelTestBase {
       'hostname' => 'magic.example.com',
       // Unpublished.
       'status' => 0,
-      'subject' => 'Gail the minke whale',
+      'subject' => 'Gail the minky whale',
       'entity_id' => $host->id(),
       'comment_type' => 'comment',
       'field_name' => 'comment_other',
@@ -206,24 +199,10 @@ class CommentFieldAccessTest extends EntityKernelTestBase {
       'pid' => 0,
       'uid' => $anonymous_user->id(),
     ]);
-    // Note we intentionally don't save this comment so it remains 'new'.
-    $comment5 = Comment::create([
-      'entity_type' => 'entity_test',
-      'hostname' => 'magic.example.com',
-      // Unpublished.
-      'status' => 0,
-      'subject' => 'Wally the Border Collie',
-      // This one is closed for comments.
-      'entity_id' => $host2->id(),
-      'comment_type' => 'comment',
-      'field_name' => 'comment_other',
-      'pid' => 0,
-      'uid' => $anonymous_user->id(),
-    ]);
 
     // Generate permutations.
     $combinations = [
-      'comment' => [$comment1, $comment2, $comment3, $comment4, $comment5],
+      'comment' => [$comment1, $comment2, $comment3, $comment4],
       'user' => [$comment_admin_user, $comment_enabled_user, $comment_no_edit_user, $comment_disabled_user, $anonymous_user],
     ];
     $permutations = $this->generatePermutations($combinations);
@@ -298,10 +277,9 @@ class CommentFieldAccessTest extends EntityKernelTestBase {
           '@comment' => $set['comment']->getSubject(),
           '@field' => $field,
         ]));
-        $expected = $set['user']->hasPermission('post comments') && $set['comment']->isNew() && (int) $set['comment']->getCommentedEntity()->get($set['comment']->getFieldName())->status !== CommentItemInterface::CLOSED;
-        $this->assertEquals($expected, $may_update, new FormattableMarkup('User @user @state update field @field on comment @comment', [
+        $this->assertEquals($may_update, $set['user']->hasPermission('post comments') && $set['comment']->isNew(), new FormattableMarkup('User @user @state update field @field on comment @comment', [
           '@user' => $set['user']->getAccountName(),
-          '@state' => $expected ? 'can' : 'cannot',
+          '@state' => $may_update ? 'can' : 'cannot',
           '@comment' => $set['comment']->getSubject(),
           '@field' => $field,
         ]));

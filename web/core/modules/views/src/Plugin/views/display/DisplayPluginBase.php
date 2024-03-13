@@ -63,10 +63,8 @@ abstract class DisplayPluginBase extends PluginBase implements DisplayPluginInte
   /**
    * Stores the rendered output of the display.
    *
-   * @var array|null
-   *   Render output array, or NULL if no output.
-   *
-   * @see \Drupal\views\ViewExecutable::render()
+   * @see View::render
+   * @var string
    */
   public $output = NULL;
 
@@ -123,16 +121,6 @@ abstract class DisplayPluginBase extends PluginBase implements DisplayPluginInte
    * @var array
    */
   public $display;
-
-  /**
-   * Keeps track whether the display uses exposed filters.
-   */
-  public bool $has_exposed;
-
-  /**
-   * The default display.
-   */
-  public DisplayPluginInterface $default_display;
 
   /**
    * Constructs a new DisplayPluginBase object.
@@ -790,7 +778,7 @@ abstract class DisplayPluginBase extends PluginBase implements DisplayPluginInte
       return $this->default_display->getOption($option);
     }
 
-    if (\array_key_exists($option, $this->options)) {
+    if (isset($this->options[$option]) || array_key_exists($option, $this->options)) {
       return $this->options[$option];
     }
   }
@@ -1689,7 +1677,7 @@ abstract class DisplayPluginBase extends PluginBase implements DisplayPluginInte
         if (empty($style)) {
           $form['#title'] .= $this->t('Row style options');
         }
-        $plugin = $this->getPlugin(empty($style) ? 'row' : 'style');
+        $plugin = $this->getPlugin(empty($style) ? 'row' : 'style', $name);
         if ($plugin) {
           $form[$section] = [
             '#tree' => TRUE,
@@ -1925,7 +1913,7 @@ abstract class DisplayPluginBase extends PluginBase implements DisplayPluginInte
 
     // Validate plugin options. Every section with "_options" in it, belongs to
     // a plugin type, like "style_options".
-    if (str_contains($section, '_options')) {
+    if (strpos($section, '_options') !== FALSE) {
       $plugin_type = str_replace('_options', '', $section);
       // Load the plugin and let it handle the validation.
       if ($plugin = $this->getPlugin($plugin_type)) {
@@ -2137,7 +2125,7 @@ abstract class DisplayPluginBase extends PluginBase implements DisplayPluginInte
   protected function getMoreUrl() {
     $path = $this->getOption('link_url');
 
-    // Return the display URL if there is no custom URL.
+    // Return the display URL if there is no custom url.
     if ($this->getOption('link_display') !== 'custom_url' || empty($path)) {
       return $this->view->getUrl(NULL, $this->display['id']);
     }
@@ -2162,7 +2150,7 @@ abstract class DisplayPluginBase extends PluginBase implements DisplayPluginInte
     $path = $options['path'];
     unset($options['path']);
 
-    // Create URL.
+    // Create url.
     // @todo Views should expect and store a leading /. See:
     //   https://www.drupal.org/node/2423913
     $url = UrlHelper::isExternal($path) ? Url::fromUri($path, $options) : Url::fromUserInput('/' . ltrim($path, '/'), $options);
@@ -2639,7 +2627,7 @@ abstract class DisplayPluginBase extends PluginBase implements DisplayPluginInte
   public function viewExposedFormBlocks() {
     // Avoid interfering with the admin forms.
     $route_name = \Drupal::routeMatch()->getRouteName();
-    if (str_starts_with($route_name, 'views_ui.')) {
+    if (strpos($route_name, 'views_ui.') === 0) {
       return;
     }
     $this->view->initHandlers();

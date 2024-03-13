@@ -53,7 +53,7 @@ abstract class MigrateSourceTestBase extends KernelTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp(): void {
+  protected function setUp() {
     parent::setUp();
 
     // Create a mock migration. This will be injected into the source plugin

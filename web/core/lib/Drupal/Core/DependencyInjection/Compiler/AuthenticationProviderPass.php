@@ -12,9 +12,6 @@ class AuthenticationProviderPass implements CompilerPassInterface {
 
   /**
    * {@inheritdoc}
-   *
-   * phpcs:ignore Drupal.Commenting.FunctionComment.VoidReturn
-   * @return void
    */
   public function process(ContainerBuilder $container) {
     $authentication_providers = [];

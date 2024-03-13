@@ -22,7 +22,7 @@ class PositionShimTestController extends ControllerBase {
       ],
       '#attached' => [
         'library' => [
-          'core/drupal.jquery.position',
+          'core/jquery.ui.position',
           'position_shim_test/position.shim.test',
         ],
       ],

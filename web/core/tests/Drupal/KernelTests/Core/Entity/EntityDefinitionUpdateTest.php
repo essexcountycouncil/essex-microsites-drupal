@@ -25,7 +25,6 @@ use Drupal\Tests\system\Functional\Entity\Traits\EntityDefinitionTestTrait;
  * @coversDefaultClass \Drupal\Core\Entity\EntityDefinitionUpdateManager
  *
  * @group Entity
- * @group #slow
  */
 class EntityDefinitionUpdateTest extends EntityKernelTestBase {
 

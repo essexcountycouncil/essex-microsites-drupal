@@ -10,7 +10,7 @@ use Drupal\views\Plugin\views\wizard\WizardPluginBase;
  * @ViewsWizard(
  *   id = "block_content",
  *   base_table = "block_content_field_data",
- *   title = @Translation("Content Block"),
+ *   title = @Translation("Custom Block"),
  * )
  */
 class BlockContent extends WizardPluginBase {

@@ -3,7 +3,6 @@
 namespace Drupal\views\Plugin\views\sort;
 
 use Drupal\views\Plugin\views\display\DisplayPluginBase;
-use Drupal\views\Plugin\views\HandlerBase;
 use Drupal\views\ViewExecutable;
 use Drupal\views\Views;
 
@@ -17,7 +16,7 @@ class GroupByNumeric extends SortPluginBase {
   /**
    * The original handler.
    */
-  protected HandlerBase $handler;
+  protected $handler;
 
   /**
    * {@inheritdoc}

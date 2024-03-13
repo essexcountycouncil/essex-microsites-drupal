@@ -12,7 +12,6 @@
 namespace Symfony\Component\Serializer\Mapping\Factory;
 
 use Symfony\Component\Serializer\Mapping\ClassMetadata;
-use Symfony\Component\Serializer\Mapping\ClassMetadataInterface;
 use Symfony\Component\Serializer\Mapping\Loader\LoaderInterface;
 
 /**
@@ -24,17 +23,22 @@ class ClassMetadataFactory implements ClassMetadataFactoryInterface
 {
     use ClassResolverTrait;
 
-    /**
-     * @var array<string, ClassMetadataInterface>
-     */
-    private array $loadedClasses;
+    private $loader;
 
-    public function __construct(
-        private readonly LoaderInterface $loader,
-    ) {
+    /**
+     * @var array
+     */
+    private $loadedClasses;
+
+    public function __construct(LoaderInterface $loader)
+    {
+        $this->loader = $loader;
     }
 
-    public function getMetadataFor(string|object $value): ClassMetadataInterface
+    /**
+     * {@inheritdoc}
+     */
+    public function getMetadataFor($value)
     {
         $class = $this->getClass($value);
 
@@ -60,7 +64,10 @@ class ClassMetadataFactory implements ClassMetadataFactoryInterface
         return $this->loadedClasses[$class] = $classMetadata;
     }
 
-    public function hasMetadataFor(mixed $value): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function hasMetadataFor($value)
     {
         return \is_object($value) || (\is_string($value) && (class_exists($value) || interface_exists($value, false)));
     }

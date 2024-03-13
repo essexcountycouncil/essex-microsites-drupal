@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\field\Kernel\EntityReference\Views;
 
-use Drupal\Component\Render\MarkupInterface;
 use Drupal\Component\Utility\Html;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\KernelTests\KernelTestBase;
@@ -133,7 +132,7 @@ class SelectionTest extends KernelTestBase {
   public function testAnchorTagStripping() {
     $filtered_rendered_results_formatted = [];
     foreach ($this->selectionHandler->getReferenceableEntities() as $subresults) {
-      $filtered_rendered_results_formatted += array_map(fn(MarkupInterface $markup): string => (string) $markup, $subresults);
+      $filtered_rendered_results_formatted += $subresults;
     }
 
     // Note the missing <a> tags.
@@ -143,7 +142,7 @@ class SelectionTest extends KernelTestBase {
       3 => '<span class="views-field views-field-title"><span class="field-content">' . Html::escape($this->nodes[3]->label()) . '</span></span>',
     ];
 
-    $this->assertSame($expected, $filtered_rendered_results_formatted, 'Anchor tag stripping has failed.');
+    $this->assertEquals($expected, $filtered_rendered_results_formatted, 'Anchor tag stripping has failed.');
   }
 
   /**

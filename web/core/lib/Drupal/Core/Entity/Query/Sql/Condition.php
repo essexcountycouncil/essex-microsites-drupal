@@ -30,7 +30,7 @@ class Condition extends ConditionBase {
    *
    * @var \Drupal\Core\Database\Query\SelectInterface
    */
-  protected SelectInterface $sqlQuery;
+  protected $sqlQuery;
 
   /**
    * {@inheritdoc}

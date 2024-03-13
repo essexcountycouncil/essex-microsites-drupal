@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -12,25 +12,15 @@
 
 namespace Composer\Command;
 
-use Composer\Advisory\Auditor;
 use Composer\Composer;
 use Composer\Factory;
 use Composer\Config;
 use Composer\Downloader\TransportException;
-use Composer\IO\BufferIO;
-use Composer\Json\JsonFile;
-use Composer\Package\RootPackage;
-use Composer\Package\Version\VersionParser;
 use Composer\Pcre\Preg;
-use Composer\Repository\ComposerRepository;
-use Composer\Repository\FilesystemRepository;
 use Composer\Repository\PlatformRepository;
 use Composer\Plugin\CommandEvent;
 use Composer\Plugin\PluginEvents;
-use Composer\Repository\RepositorySet;
-use Composer\Repository\RootPackageRepository;
 use Composer\Util\ConfigValidator;
-use Composer\Util\Git;
 use Composer\Util\IniHelper;
 use Composer\Util\ProcessExecutor;
 use Composer\Util\HttpDownloader;
@@ -59,11 +49,14 @@ class DiagnoseCommand extends BaseCommand
     /** @var int */
     protected $exitCode = 0;
 
-    protected function configure(): void
+    /**
+     * @return void
+     */
+    protected function configure()
     {
         $this
             ->setName('diagnose')
-            ->setDescription('Diagnoses the system to identify common errors')
+            ->setDescription('Diagnoses the system to identify common errors.')
             ->setHelp(
                 <<<EOT
 The <info>diagnose</info> command checks common errors to help debugging problems.
@@ -76,9 +69,12 @@ EOT
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    /**
+     * @return int
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $composer = $this->tryComposer();
+        $composer = $this->getComposer(false);
         $io = $this->getIO();
 
         if ($composer) {
@@ -87,9 +83,6 @@ EOT
 
             $io->write('Checking composer.json: ', false);
             $this->outputResult($this->checkComposerSchema());
-            $this->process = $composer->getLoop()->getProcessExecutor() ?? new ProcessExecutor($io);
-        } else {
-            $this->process = new ProcessExecutor($io);
         }
 
         if ($composer) {
@@ -98,10 +91,11 @@ EOT
             $config = Factory::createConfig();
         }
 
-        $config->merge(['config' => ['secure-http' => false]], Config::SOURCE_COMMAND);
+        $config->merge(array('config' => array('secure-http' => false)), Config::SOURCE_COMMAND);
         $config->prohibitUrlByConfig('http://repo.packagist.org', new NullIO);
 
         $this->httpDownloader = Factory::createHttpDownloader($io, $config);
+        $this->process = new ProcessExecutor($io);
 
         $io->write('Checking platform settings: ', false);
         $this->outputResult($this->checkPlatform());
@@ -121,7 +115,7 @@ EOT
             $this->outputResult($this->checkHttpProxy());
         }
 
-        if (count($oauth = $config->get('github-oauth')) > 0) {
+        if ($oauth = $config->get('github-oauth')) {
             foreach ($oauth as $domain => $token) {
                 $io->write('Checking '.$domain.' oauth access: ', false);
                 $this->outputResult($this->checkGithubOauth($domain, $token));
@@ -162,20 +156,17 @@ EOT
             $io->write('Checking pubkeys: ', false);
             $this->outputResult($this->checkPubKeys($config));
 
-            $io->write('Checking Composer version: ', false);
+            $io->write('Checking composer version: ', false);
             $this->outputResult($this->checkVersion($config));
         }
 
-        $io->write('Checking Composer and its dependencies for vulnerabilities: ', false);
-        $this->outputResult($this->checkComposerAudit($config));
-
         $io->write(sprintf('Composer version: <comment>%s</comment>', Composer::getVersion()));
 
-        $platformOverrides = $config->get('platform') ?: [];
-        $platformRepo = new PlatformRepository([], $platformOverrides);
+        $platformOverrides = $config->get('platform') ?: array();
+        $platformRepo = new PlatformRepository(array(), $platformOverrides);
         $phpPkg = $platformRepo->findPackage('php', '*');
         $phpVersion = $phpPkg->getPrettyVersion();
-        if ($phpPkg instanceof CompletePackageInterface && str_contains((string) $phpPkg->getDescription(), 'overridden')) {
+        if ($phpPkg instanceof CompletePackageInterface && false !== strpos($phpPkg->getDescription(), 'overridden')) {
             $phpVersion .= ' - ' . $phpPkg->getDescription();
         }
 
@@ -191,7 +182,7 @@ EOT
         $finder = new ExecutableFinder;
         $hasSystemUnzip = (bool) $finder->find('unzip');
         $bin7zip = '';
-        if ($hasSystem7zip = (bool) $finder->find('7z', null, ['C:\Program Files\7-Zip'])) {
+        if ($hasSystem7zip = (bool) $finder->find('7z', null, array('C:\Program Files\7-Zip'))) {
             $bin7zip = '7z';
         }
         if (!Platform::isWindows() && !$hasSystem7zip && $hasSystem7zip = (bool) $finder->find('7zz')) {
@@ -214,13 +205,13 @@ EOT
     private function checkComposerSchema()
     {
         $validator = new ConfigValidator($this->getIO());
-        [$errors, , $warnings] = $validator->validate(Factory::getComposerFile());
+        list($errors, , $warnings) = $validator->validate(Factory::getComposerFile());
 
         if ($errors || $warnings) {
-            $messages = [
+            $messages = array(
                 'error' => $errors,
                 'warning' => $warnings,
-            ];
+            );
 
             $output = '';
             foreach ($messages as $style => $msgs) {
@@ -235,7 +226,10 @@ EOT
         return true;
     }
 
-    private function checkGit(): string
+    /**
+     * @return string|true
+     */
+    private function checkGit()
     {
         if (!function_exists('proc_open')) {
             return '<comment>proc_open is not available, git cannot be used</comment>';
@@ -246,29 +240,22 @@ EOT
             return '<comment>Your git color.ui setting is set to always, this is known to create issues. Use "git config --global color.ui true" to set it correctly.</comment>';
         }
 
-        $gitVersion = Git::getVersion($this->process);
-        if (null === $gitVersion) {
-            return '<comment>No git process found</>';
-        }
-
-        if (version_compare('2.24.0', $gitVersion, '>')) {
-            return '<warning>Your git version ('.$gitVersion.') is too old and possibly will cause issues. Please upgrade to git 2.24 or above</>';
-        }
-
-        return '<info>OK</> <comment>git version '.$gitVersion.'</>';
+        return true;
     }
 
     /**
+     * @param string $proto
+     *
      * @return string|string[]|true
      */
-    private function checkHttp(string $proto, Config $config)
+    private function checkHttp($proto, Config $config)
     {
         $result = $this->checkConnectivityAndComposerNetworkHttpEnablement();
         if ($result !== true) {
             return $result;
         }
 
-        $result = [];
+        $result = array();
         if ($proto === 'https' && $config->get('disable-tls') === true) {
             $tlsWarning = '<warning>Composer is configured to disable SSL/TLS protection. This will leave remote HTTPS requests vulnerable to Man-In-The-Middle attacks.</warning>';
         }
@@ -276,8 +263,7 @@ EOT
         try {
             $this->httpDownloader->get($proto . '://repo.packagist.org/packages.json');
         } catch (TransportException $e) {
-            $hints = HttpDownloader::getExceptionHints($e);
-            if (null !== $hints && count($hints) > 0) {
+            if ($hints = HttpDownloader::getExceptionHints($e)) {
                 foreach ($hints as $hint) {
                     $result[] = $hint;
                 }
@@ -326,9 +312,12 @@ EOT
     }
 
     /**
-     * @return string|\Exception
+     * @param string $domain
+     * @param string $token
+     *
+     * @return string|true|\Exception
      */
-    private function checkGithubOauth(string $domain, string $token)
+    private function checkGithubOauth($domain, $token)
     {
         $result = $this->checkConnectivityAndComposerNetworkHttpEnablement();
         if ($result !== true) {
@@ -339,17 +328,11 @@ EOT
         try {
             $url = $domain === 'github.com' ? 'https://api.'.$domain.'/' : 'https://'.$domain.'/api/v3/';
 
-            $response = $this->httpDownloader->get($url, [
+            $this->httpDownloader->get($url, array(
                 'retry-auth-failure' => false,
-            ]);
+            ));
 
-            $expiration = $response->getHeader('github-authentication-token-expiration');
-
-            if ($expiration === null) {
-                return '<info>OK</> <comment>does not expire</>';
-            }
-
-            return '<info>OK</> <comment>expires on '. $expiration .'</>';
+            return true;
         } catch (\Exception $e) {
             if ($e instanceof TransportException && $e->getCode() === 401) {
                 return '<comment>The oauth token for '.$domain.' seems invalid, run "composer config --global --unset github-oauth.'.$domain.'" to remove it</comment>';
@@ -360,11 +343,12 @@ EOT
     }
 
     /**
+     * @param  string             $domain
      * @param  string             $token
      * @throws TransportException
      * @return mixed|string
      */
-    private function getGithubRateLimit(string $domain, ?string $token = null)
+    private function getGithubRateLimit($domain, $token = null)
     {
         $result = $this->checkConnectivityAndComposerNetworkHttpEnablement();
         if ($result !== true) {
@@ -376,7 +360,7 @@ EOT
         }
 
         $url = $domain === 'github.com' ? 'https://api.'.$domain.'/rate_limit' : 'https://'.$domain.'/api/rate_limit';
-        $data = $this->httpDownloader->get($url, ['retry-auth-failure' => false])->decodeJson();
+        $data = $this->httpDownloader->get($url, array('retry-auth-failure' => false))->decodeJson();
 
         return $data['resources']['core'];
     }
@@ -406,7 +390,7 @@ EOT
     private function checkPubKeys(Config $config)
     {
         $home = $config->get('home');
-        $errors = [];
+        $errors = array();
         $io = $this->getIO();
 
         if (file_exists($home.'/keys.tags.pub') && file_exists($home.'/keys.dev.pub')) {
@@ -457,48 +441,9 @@ EOT
     }
 
     /**
-     * @return string|true
+     * @return string
      */
-    private function checkComposerAudit(Config $config)
-    {
-        $result = $this->checkConnectivityAndComposerNetworkHttpEnablement();
-        if ($result !== true) {
-            return $result;
-        }
-
-        $auditor = new Auditor();
-        $repoSet = new RepositorySet();
-        $installedJson = new JsonFile(__DIR__ . '/../../../vendor/composer/installed.json');
-        if (!$installedJson->exists()) {
-            return '<warning>Could not find Composer\'s installed.json, this must be a non-standard Composer installation.</>';
-        }
-
-        $localRepo = new FilesystemRepository($installedJson);
-        $version = Composer::getVersion();
-        $packages = $localRepo->getCanonicalPackages();
-        if ($version !== '@package_version@') {
-            $versionParser = new VersionParser();
-            $normalizedVersion = $versionParser->normalize($version);
-            $rootPkg = new RootPackage('composer/composer', $normalizedVersion, $version);
-            $packages[] = $rootPkg;
-        }
-        $repoSet->addRepository(new ComposerRepository(['type' => 'composer', 'url' => 'https://packagist.org'], new NullIO(), $config, $this->httpDownloader));
-
-        try {
-            $io = new BufferIO();
-            $result = $auditor->audit($io, $repoSet, $packages, Auditor::FORMAT_TABLE, true, [], Auditor::ABANDONED_IGNORE);
-        } catch (\Throwable $e) {
-            return '<warning>Failed performing audit: '.$e->getMessage().'</>';
-        }
-
-        if ($result > 0) {
-            return '<error>Audit found some issues:</>' . PHP_EOL . $io->getOutput();
-        }
-
-        return true;
-    }
-
-    private function getCurlVersion(): string
+    private function getCurlVersion()
     {
         if (extension_loaded('curl')) {
             if (!HttpDownloader::isCurlEnabled()) {
@@ -509,7 +454,7 @@ EOT
 
             return '<comment>'.$version['version'].'</comment> '.
                 'libz <comment>'.(!empty($version['libz_version']) ? $version['libz_version'] : 'missing').'</comment> '.
-                'ssl <comment>'.($version['ssl_version'] ?? 'missing').'</comment>';
+                'ssl <comment>'.(isset($version['ssl_version']) ? $version['ssl_version'] : 'missing').'</comment>';
         }
 
         return '<error>missing, using php streams fallback, which reduces performance</error>';
@@ -517,8 +462,10 @@ EOT
 
     /**
      * @param bool|string|string[]|\Exception $result
+     *
+     * @return void
      */
-    private function outputResult($result): void
+    private function outputResult($result)
     {
         $io = $this->getIO();
         if (true === $result) {
@@ -538,7 +485,7 @@ EOT
             $hadError = true;
         } else {
             if (!is_array($result)) {
-                $result = [$result];
+                $result = array($result);
             }
             foreach ($result as $message) {
                 if (false !== strpos($message, '<error>')) {
@@ -559,7 +506,7 @@ EOT
 
         if ($result) {
             foreach ($result as $message) {
-                $io->write(trim($message));
+                $io->write($message);
             }
         }
     }
@@ -570,13 +517,13 @@ EOT
     private function checkPlatform()
     {
         $output = '';
-        $out = static function ($msg, $style) use (&$output): void {
+        $out = function ($msg, $style) use (&$output) {
             $output .= '<'.$style.'>'.$msg.'</'.$style.'>'.PHP_EOL;
         };
 
         // code below taken from getcomposer.org/installer, any changes should be made there and replicated here
-        $errors = [];
-        $warnings = [];
+        $errors = array();
+        $warnings = array();
         $displayIniMessage = false;
 
         $iniMessage = PHP_EOL.PHP_EOL.IniHelper::getMessage();
@@ -610,8 +557,12 @@ EOT
             $errors['ioncube'] = ioncube_loader_version();
         }
 
-        if (PHP_VERSION_ID < 70205) {
+        if (PHP_VERSION_ID < 50302) {
             $errors['php'] = PHP_VERSION;
+        }
+
+        if (!isset($errors['php']) && PHP_VERSION_ID < 50304) {
+            $warnings['php'] = PHP_VERSION;
         }
 
         if (!extension_loaded('openssl')) {
@@ -633,14 +584,14 @@ EOT
         ob_start();
         phpinfo(INFO_GENERAL);
         $phpinfo = ob_get_clean();
-        if (is_string($phpinfo) && Preg::isMatchStrictGroups('{Configure Command(?: *</td><td class="v">| *=> *)(.*?)(?:</td>|$)}m', $phpinfo, $match)) {
+        if (Preg::isMatch('{Configure Command(?: *</td><td class="v">| *=> *)(.*?)(?:</td>|$)}m', $phpinfo, $match)) {
             $configure = $match[1];
 
-            if (str_contains($configure, '--enable-sigchild')) {
+            if (false !== strpos($configure, '--enable-sigchild')) {
                 $warnings['sigchild'] = true;
             }
 
-            if (str_contains($configure, '--with-curlwrappers')) {
+            if (false !== strpos($configure, '--with-curlwrappers')) {
                 $warnings['curlwrappers'] = true;
             }
         }
@@ -687,7 +638,7 @@ EOT
                         break;
 
                     case 'php':
-                        $text = PHP_EOL."Your PHP ({$current}) is too old, you must upgrade to PHP 7.2.5 or higher.";
+                        $text = PHP_EOL."Your PHP ({$current}) is too old, you must upgrade to PHP 5.3.2 or higher.";
                         break;
 
                     case 'allow_url_fopen':
@@ -745,6 +696,11 @@ EOT
                         $text .= " Recompile it without this flag if possible";
                         break;
 
+                    case 'php':
+                        $text = "Your PHP ({$current}) is quite old, upgrading to PHP 5.3.4 or higher is recommended.".PHP_EOL;
+                        $text .= " Composer works with 5.3.2+ for most people, but there might be edge case issues.";
+                        break;
+
                     case 'openssl_version':
                         // Attempt to parse version number out, fallback to whole string value.
                         $opensslVersion = strstr(trim(strstr(OPENSSL_VERSION_TEXT, ' ')), ' ', true);
@@ -782,12 +738,7 @@ EOT
             $out($iniMessage, 'comment');
         }
 
-        if (in_array(Platform::getEnv('COMPOSER_IPRESOLVE'), ['4', '6'], true)) {
-            $warnings['ipresolve'] = true;
-            $out('The COMPOSER_IPRESOLVE env var is set to ' . Platform::getEnv('COMPOSER_IPRESOLVE') .' which may result in network failures below.', 'comment');
-        }
-
-        return count($warnings) === 0 && count($errors) === 0 ? true : $output;
+        return !$warnings && !$errors ? true : $output;
     }
 
     /**

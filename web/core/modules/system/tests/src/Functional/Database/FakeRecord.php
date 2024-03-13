@@ -19,24 +19,6 @@ class FakeRecord {
   public $fakeArg;
 
   /**
-   * The property used in tests.
-   *
-   * @see \Drupal\KernelTests\Core\Database\FetchTest
-   *
-   * @var string
-   */
-  public string $name;
-
-  /**
-   * The property used in tests.
-   *
-   * @see \Drupal\KernelTests\Core\Database\DatabaseTestBase
-   *
-   * @var string
-   */
-  public string $job;
-
-  /**
    * Constructs a FakeRecord object with an optional constructor argument.
    *
    * @param int $fakeArg

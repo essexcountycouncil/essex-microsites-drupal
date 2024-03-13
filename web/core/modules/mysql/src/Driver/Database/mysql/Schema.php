@@ -48,7 +48,7 @@ class Schema extends DatabaseSchema {
    *   A keyed array with information about the database, table name and prefix.
    */
   protected function getPrefixInfo($table = 'default', $add_prefix = TRUE) {
-    $info = ['prefix' => $this->connection->getPrefix()];
+    $info = ['prefix' => $this->connection->tablePrefix($table)];
     if ($add_prefix) {
       $table = $info['prefix'] . $table;
     }
@@ -81,7 +81,15 @@ class Schema extends DatabaseSchema {
   }
 
   /**
-   * {@inheritdoc}
+   * Generate SQL to create a new table from a Drupal schema definition.
+   *
+   * @param $name
+   *   The name of the table to create.
+   * @param $table
+   *   A Schema API table definition array.
+   *
+   * @return string[]
+   *   An array of SQL statements to create the table.
    */
   protected function createTableSql($name, $table) {
     $info = $this->connection->getConnectionOptions();
@@ -138,7 +146,7 @@ class Schema extends DatabaseSchema {
    *   The field specification, as per the schema data structure format.
    */
   protected function createFieldSql($name, $spec) {
-    $sql = "[" . $name . "] " . $spec['mysql_type'];
+    $sql = "`" . $name . "` " . $spec['mysql_type'];
 
     if (in_array($spec['mysql_type'], $this->mysqlStringTypes)) {
       if (isset($spec['length'])) {
@@ -276,13 +284,13 @@ class Schema extends DatabaseSchema {
     }
     if (!empty($spec['unique keys'])) {
       foreach ($spec['unique keys'] as $key => $fields) {
-        $keys[] = 'UNIQUE KEY [' . $key . '] (' . $this->createKeySql($fields) . ')';
+        $keys[] = 'UNIQUE KEY `' . $key . '` (' . $this->createKeySql($fields) . ')';
       }
     }
     if (!empty($spec['indexes'])) {
       $indexes = $this->getNormalizedIndexes($spec);
       foreach ($indexes as $index => $fields) {
-        $keys[] = 'INDEX [' . $index . '] (' . $this->createKeySql($fields) . ')';
+        $keys[] = 'INDEX `' . $index . '` (' . $this->createKeySql($fields) . ')';
       }
     }
 
@@ -356,10 +364,10 @@ class Schema extends DatabaseSchema {
     $return = [];
     foreach ($fields as $field) {
       if (is_array($field)) {
-        $return[] = '[' . $field[0] . '] (' . $field[1] . ')';
+        $return[] = '`' . $field[0] . '`(' . $field[1] . ')';
       }
       else {
-        $return[] = '[' . $field . ']';
+        $return[] = '`' . $field . '`';
       }
     }
     return implode(', ', $return);
@@ -377,7 +385,7 @@ class Schema extends DatabaseSchema {
     }
 
     $info = $this->getPrefixInfo($new_name);
-    $this->connection->query('ALTER TABLE {' . $table . '} RENAME TO [' . $info['table'] . ']');
+    $this->connection->query('ALTER TABLE {' . $table . '} RENAME TO `' . $info['table'] . '`');
   }
 
   /**
@@ -471,7 +479,7 @@ class Schema extends DatabaseSchema {
       $this->dropPrimaryKey($table);
     }
 
-    $this->connection->query('ALTER TABLE {' . $table . '} DROP [' . $field . ']');
+    $this->connection->query('ALTER TABLE {' . $table . '} DROP `' . $field . '`');
     return TRUE;
   }
 
@@ -533,7 +541,7 @@ class Schema extends DatabaseSchema {
       throw new SchemaObjectExistsException("Cannot add unique key '$name' to table '$table': unique key already exists.");
     }
 
-    $this->connection->query('ALTER TABLE {' . $table . '} ADD UNIQUE KEY [' . $name . '] (' . $this->createKeySql($fields) . ')');
+    $this->connection->query('ALTER TABLE {' . $table . '} ADD UNIQUE KEY `' . $name . '` (' . $this->createKeySql($fields) . ')');
   }
 
   /**
@@ -544,7 +552,7 @@ class Schema extends DatabaseSchema {
       return FALSE;
     }
 
-    $this->connection->query('ALTER TABLE {' . $table . '} DROP KEY [' . $name . ']');
+    $this->connection->query('ALTER TABLE {' . $table . '} DROP KEY `' . $name . '`');
     return TRUE;
   }
 
@@ -562,7 +570,7 @@ class Schema extends DatabaseSchema {
     $spec['indexes'][$name] = $fields;
     $indexes = $this->getNormalizedIndexes($spec);
 
-    $this->connection->query('ALTER TABLE {' . $table . '} ADD INDEX [' . $name . '] (' . $this->createKeySql($indexes[$name]) . ')');
+    $this->connection->query('ALTER TABLE {' . $table . '} ADD INDEX `' . $name . '` (' . $this->createKeySql($indexes[$name]) . ')');
   }
 
   /**
@@ -573,7 +581,7 @@ class Schema extends DatabaseSchema {
       return FALSE;
     }
 
-    $this->connection->query('ALTER TABLE {' . $table . '} DROP INDEX [' . $name . ']');
+    $this->connection->query('ALTER TABLE {' . $table . '} DROP INDEX `' . $name . '`');
     return TRUE;
   }
 
@@ -621,7 +629,7 @@ class Schema extends DatabaseSchema {
       $this->ensureNotNullPrimaryKey($keys_new['primary key'], [$field_new => $spec]);
     }
 
-    $sql = 'ALTER TABLE {' . $table . '} CHANGE [' . $field . '] ' . $this->createFieldSql($field_new, $this->processField($spec));
+    $sql = 'ALTER TABLE {' . $table . '} CHANGE `' . $field . '` ' . $this->createFieldSql($field_new, $this->processField($spec));
     if ($keys_sql = $this->createKeysSql($keys_new)) {
       $sql .= ', ADD ' . implode(', ADD ', $keys_sql);
     }
@@ -639,7 +647,7 @@ class Schema extends DatabaseSchema {
   public function prepareComment($comment, $length = NULL) {
     // Truncate comment to maximum comment length.
     if (isset($length)) {
-      // Add table prefix before truncating.
+      // Add table prefixes before truncating.
       $comment = Unicode::truncate($this->connection->prefixTables($comment), $length, TRUE, TRUE);
     }
     // Remove semicolons to avoid triggering multi-statement check.

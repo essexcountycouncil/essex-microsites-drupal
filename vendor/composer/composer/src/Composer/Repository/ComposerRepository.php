@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -12,8 +12,6 @@
 
 namespace Composer\Repository;
 
-use Composer\Advisory\PartialSecurityAdvisory;
-use Composer\Advisory\SecurityAdvisory;
 use Composer\Package\BasePackage;
 use Composer\Package\Loader\ArrayLoader;
 use Composer\Package\PackageInterface;
@@ -41,12 +39,11 @@ use Composer\Semver\Constraint\MatchAllConstraint;
 use Composer\Util\Http\Response;
 use Composer\MetadataMinifier\MetadataMinifier;
 use Composer\Util\Url;
-use React\Promise\PromiseInterface;
 
 /**
  * @author Jordi Boggiano <j.boggiano@seld.be>
  */
-class ComposerRepository extends ArrayRepository implements ConfigurableRepositoryInterface, AdvisoryProviderInterface
+class ComposerRepository extends ArrayRepository implements ConfigurableRepositoryInterface
 {
     /**
      * @var mixed[]
@@ -55,9 +52,9 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
     private $repoConfig;
     /** @var mixed[] */
     private $options;
-    /** @var non-empty-string */
+    /** @var string */
     private $url;
-    /** @var non-empty-string */
+    /** @var string */
     private $baseUrl;
     /** @var IOInterface */
     private $io;
@@ -67,17 +64,17 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
     private $loop;
     /** @var Cache */
     protected $cache;
-    /** @var ?non-empty-string */
+    /** @var ?string */
     protected $notifyUrl = null;
-    /** @var ?non-empty-string */
+    /** @var ?string */
     protected $searchUrl = null;
-    /** @var ?non-empty-string a URL containing %package% which can be queried to get providers of a given name */
+    /** @var ?string a URL containing %package% which can be queried to get providers of a given name */
     protected $providersApiUrl = null;
     /** @var bool */
     protected $hasProviders = false;
-    /** @var ?non-empty-string */
+    /** @var ?string */
     protected $providersUrl = null;
-    /** @var ?non-empty-string */
+    /** @var ?string */
     protected $listUrl = null;
     /** @var bool Indicates whether a comprehensive list of packages this repository might provide is expressed in the repository root. **/
     protected $hasAvailablePackageList = false;
@@ -85,7 +82,7 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
     protected $availablePackages = null;
     /** @var ?array<non-empty-string> */
     protected $availablePackagePatterns = null;
-    /** @var ?non-empty-string */
+    /** @var ?string */
     protected $lazyProvidersUrl = null;
     /** @var ?array<string, array{sha256: string}> */
     protected $providerListing;
@@ -95,9 +92,9 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
     private $allowSslDowngrade = false;
     /** @var ?EventDispatcher */
     private $eventDispatcher;
-    /** @var ?array<string, list<array{url: non-empty-string, preferred: bool}>> */
+    /** @var ?array<string, array<int, array{url: string, preferred: bool}>> */
     private $sourceMirrors;
-    /** @var ?list<array{url: non-empty-string, preferred: bool}> */
+    /** @var ?array<int, array{url: string, preferred: bool}> */
     private $distMirrors;
     /** @var bool */
     private $degradedMode = false;
@@ -107,62 +104,55 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
     private $hasPartialPackages = false;
     /** @var ?array<string, mixed[]> */
     private $partialPackagesByName = null;
-    /** @var bool */
-    private $displayedWarningAboutNonMatchingPackageIndex = false;
-    /** @var array{metadata: bool, api-url: string|null}|null */
-    private $securityAdvisoryConfig = null;
 
     /**
+     * TODO v3 should make this private once we can drop PHP 5.3 support
+     * @private
      * @var array list of package names which are fresh and can be loaded from the cache directly in case loadPackage is called several times
      *            useful for v2 metadata repositories with lazy providers
      * @phpstan-var array<string, true>
      */
-    private $freshMetadataUrls = [];
+    public $freshMetadataUrls = array();
 
     /**
+     * TODO v3 should make this private once we can drop PHP 5.3 support
+     * @private
      * @var array list of package names which returned a 404 and should not be re-fetched in case loadPackage is called several times
      *            useful for v2 metadata repositories with lazy providers
      * @phpstan-var array<string, true>
      */
-    private $packagesNotFoundCache = [];
-
+    public $packagesNotFoundCache = array();
     /**
+     * TODO v3 should make this private once we can drop PHP 5.3 support
+     * @private
      * @var VersionParser
      */
-    private $versionParser;
+    public $versionParser;
 
     /**
      * @param array<string, mixed> $repoConfig
-     * @phpstan-param array{url: non-empty-string, options?: mixed[], type?: 'composer', allow_ssl_downgrade?: bool} $repoConfig
+     * @phpstan-param array{url: string, options?: mixed[], type?: 'composer', allow_ssl_downgrade?: bool} $repoConfig
      */
-    public function __construct(array $repoConfig, IOInterface $io, Config $config, HttpDownloader $httpDownloader, ?EventDispatcher $eventDispatcher = null)
+    public function __construct(array $repoConfig, IOInterface $io, Config $config, HttpDownloader $httpDownloader, EventDispatcher $eventDispatcher = null)
     {
         parent::__construct();
         if (!Preg::isMatch('{^[\w.]+\??://}', $repoConfig['url'])) {
-            if (($localFilePath = realpath($repoConfig['url'])) !== false) {
-                // it is a local path, add file scheme
-                $repoConfig['url'] = 'file://'.$localFilePath;
-            } else {
-                // otherwise, assume http as the default protocol
-                $repoConfig['url'] = 'http://'.$repoConfig['url'];
-            }
+            // assume http as the default protocol
+            $repoConfig['url'] = 'http://'.$repoConfig['url'];
         }
         $repoConfig['url'] = rtrim($repoConfig['url'], '/');
-        if ($repoConfig['url'] === '') {
-            throw new \InvalidArgumentException('The repository url must not be an empty string');
-        }
 
-        if (str_starts_with($repoConfig['url'], 'https?')) {
+        if (strpos($repoConfig['url'], 'https?') === 0) {
             $repoConfig['url'] = (extension_loaded('openssl') ? 'https' : 'http') . substr($repoConfig['url'], 6);
         }
 
-        $urlBits = parse_url(strtr($repoConfig['url'], '\\', '/'));
+        $urlBits = parse_url($repoConfig['url']);
         if ($urlBits === false || empty($urlBits['scheme'])) {
             throw new \UnexpectedValueException('Invalid url given for Composer repository: '.$repoConfig['url']);
         }
 
         if (!isset($repoConfig['options'])) {
-            $repoConfig['options'] = [];
+            $repoConfig['options'] = array();
         }
         if (isset($repoConfig['allow_ssl_downgrade']) && true === $repoConfig['allow_ssl_downgrade']) {
             $this->allowSslDowngrade = true;
@@ -176,9 +166,7 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
             $this->url = $match['proto'].'://repo.packagist.org';
         }
 
-        $baseUrl = rtrim(Preg::replace('{(?:/[^/\\\\]+\.json)?(?:[?#].*)?$}', '', $this->url), '/');
-        assert($baseUrl !== '');
-        $this->baseUrl = $baseUrl;
+        $this->baseUrl = rtrim(Preg::replace('{(?:/[^/\\\\]+\.json)?(?:[?#].*)?$}', '', $this->url), '/');
         $this->io = $io;
         $this->cache = new Cache($io, $config->get('cache-repo-dir').'/'.Preg::replace('{[^a-z0-9.]}i', '-', Url::sanitize($this->url)), 'a-z0-9.$~_');
         $this->cache->setReadOnly($config->get('cache-read-only'));
@@ -203,7 +191,7 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
     /**
      * @inheritDoc
      */
-    public function findPackage(string $name, $constraint)
+    public function findPackage($name, $constraint)
     {
         // this call initializes loadRootServerFile which is needed for the rest below to work
         $hasProviders = $this->hasProviders();
@@ -222,13 +210,9 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
                 return null;
             }
 
-            $packages = $this->loadAsyncPackages([$name => $constraint]);
+            $packages = $this->loadAsyncPackages(array($name => $constraint));
 
-            if (count($packages['packages']) > 0) {
-                return reset($packages['packages']);
-            }
-
-            return null;
+            return reset($packages['packages']);
         }
 
         if ($hasProviders) {
@@ -247,7 +231,7 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
     /**
      * @inheritDoc
      */
-    public function findPackages(string $name, $constraint = null)
+    public function findPackages($name, $constraint = null)
     {
         // this call initializes loadRootServerFile which is needed for the rest below to work
         $hasProviders = $this->hasProviders();
@@ -263,10 +247,10 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
             }
 
             if ($this->hasAvailablePackageList && !$this->lazyProvidersRepoContains($name)) {
-                return [];
+                return array();
             }
 
-            $result = $this->loadAsyncPackages([$name => $constraint]);
+            $result = $this->loadAsyncPackages(array($name => $constraint));
 
             return $result['packages'];
         }
@@ -278,7 +262,7 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
                 }
             }
 
-            return [];
+            return array();
         }
 
         return parent::findPackages($name, $constraint);
@@ -286,10 +270,12 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
 
     /**
      * @param array<BasePackage> $packages
+     * @param ConstraintInterface|null $constraint
+     * @param bool $returnFirstMatch
      *
      * @return BasePackage|array<BasePackage>|null
      */
-    private function filterPackages(array $packages, ?ConstraintInterface $constraint = null, bool $returnFirstMatch = false)
+    private function filterPackages(array $packages, $constraint = null, $returnFirstMatch = false)
     {
         if (null === $constraint) {
             if ($returnFirstMatch) {
@@ -299,7 +285,7 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
             return $packages;
         }
 
-        $filteredPackages = [];
+        $filteredPackages = array();
 
         foreach ($packages as $package) {
             $pkgConstraint = new Constraint('==', $package->getVersion());
@@ -326,7 +312,7 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
 
         if ($this->lazyProvidersUrl) {
             if (is_array($this->availablePackages) && !$this->availablePackagePatterns) {
-                $packageMap = [];
+                $packageMap = array();
                 foreach ($this->availablePackages as $name) {
                     $packageMap[$name] = new MatchAllConstraint();
                 }
@@ -340,7 +326,6 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
                 if (!is_array($this->partialPackagesByName)) {
                     throw new \LogicException('hasPartialPackages failed to initialize $this->partialPackagesByName');
                 }
-
                 return $this->createPackages($this->partialPackagesByName, 'packages.json inline packages');
             }
 
@@ -359,7 +344,7 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
      *
      * @return string[]
      */
-    public function getPackageNames(?string $packageFilter = null)
+    public function getPackageNames($packageFilter = null)
     {
         $hasProviders = $this->hasProviders();
 
@@ -368,7 +353,7 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
              * @param list<string> $results
              * @return list<string>
              */
-            static function (array $results): array {
+            function (array $results) {
                 return $results;
             }
         ;
@@ -379,7 +364,7 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
                  * @param list<string> $results
                  * @return list<string>
                  */
-                static function (array $results) use ($packageFilterRegex): array {
+                function (array $results) use ($packageFilterRegex) {
                     /** @var list<string> $results */
                     return Preg::grep($packageFilterRegex, $results);
                 }
@@ -400,14 +385,14 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
                 return $filterResults(array_keys($this->partialPackagesByName));
             }
 
-            return [];
+            return array();
         }
 
         if ($hasProviders) {
             return $filterResults($this->getProviderNames());
         }
 
-        $names = [];
+        $names = array();
         foreach ($this->getPackages() as $package) {
             $names[] = $package->getPrettyName();
         }
@@ -418,7 +403,7 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
     /**
      * @return list<string>
      */
-    private function getVendorNames(): array
+    private function getVendorNames()
     {
         $cacheKey = 'vendor-list.txt';
         $cacheAge = $this->cache->getAge($cacheKey);
@@ -430,7 +415,7 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
 
         $names = $this->getPackageNames();
 
-        $uniques = [];
+        $uniques = array();
         foreach ($names as $name) {
             // @phpstan-ignore-next-line
             $uniques[substr($name, 0, strpos($name, '/'))] = true;
@@ -446,9 +431,10 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
     }
 
     /**
+     * @param string|null $packageFilter
      * @return list<string>
      */
-    private function loadPackageList(?string $packageFilter = null): array
+    private function loadPackageList($packageFilter = null)
     {
         if (null === $this->listUrl) {
             throw new \LogicException('Make sure to call loadRootServerFile before loadPackageList');
@@ -478,21 +464,21 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
         return $result['packageNames'];
     }
 
-    public function loadPackages(array $packageNameMap, array $acceptableStabilities, array $stabilityFlags, array $alreadyLoaded = [])
+    public function loadPackages(array $packageNameMap, array $acceptableStabilities, array $stabilityFlags, array $alreadyLoaded = array())
     {
         // this call initializes loadRootServerFile which is needed for the rest below to work
         $hasProviders = $this->hasProviders();
 
-        if (!$hasProviders && !$this->hasPartialPackages() && null === $this->lazyProvidersUrl) {
+        if (!$hasProviders && !$this->hasPartialPackages() && !$this->lazyProvidersUrl) {
             return parent::loadPackages($packageNameMap, $acceptableStabilities, $stabilityFlags, $alreadyLoaded);
         }
 
-        $packages = [];
-        $namesFound = [];
+        $packages = array();
+        $namesFound = array();
 
         if ($hasProviders || $this->hasPartialPackages()) {
             foreach ($packageNameMap as $name => $constraint) {
-                $matches = [];
+                $matches = array();
 
                 // if a repo has no providers but only partial packages and the partial packages are missing
                 // then we don't want to call whatProvides as it would try to load from the providers and fail
@@ -543,26 +529,26 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
             $namesFound = array_merge($namesFound, $result['namesFound']);
         }
 
-        return ['namesFound' => array_keys($namesFound), 'packages' => $packages];
+        return array('namesFound' => array_keys($namesFound), 'packages' => $packages);
     }
 
     /**
      * @inheritDoc
      */
-    public function search(string $query, int $mode = 0, ?string $type = null)
+    public function search($query, $mode = 0, $type = null)
     {
         $this->loadRootServerFile(600);
 
         if ($this->searchUrl && $mode === self::SEARCH_FULLTEXT) {
-            $url = str_replace(['%query%', '%type%'], [urlencode($query), $type], $this->searchUrl);
+            $url = str_replace(array('%query%', '%type%'), array(urlencode($query), $type), $this->searchUrl);
 
             $search = $this->httpDownloader->get($url, $this->options)->decodeJson();
 
             if (empty($search['results'])) {
-                return [];
+                return array();
             }
 
-            $results = [];
+            $results = array();
             foreach ($search['results'] as $result) {
                 // do not show virtual packages in results as they are not directly useful from a composer perspective
                 if (!empty($result['virtual'])) {
@@ -576,12 +562,12 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
         }
 
         if ($mode === self::SEARCH_VENDOR) {
-            $results = [];
+            $results = array();
             $regex = '{(?:'.implode('|', Preg::split('{\s+}', $query)).')}i';
 
             $vendorNames = $this->getVendorNames();
             foreach (Preg::grep($regex, $vendorNames) as $name) {
-                $results[] = ['name' => $name, 'description' => ''];
+                $results[] = array('name' => $name, 'description' => '');
             }
 
             return $results;
@@ -589,24 +575,24 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
 
         if ($this->hasProviders() || $this->lazyProvidersUrl) {
             // optimize search for "^foo/bar" where at least "^foo/" is present by loading this directly from the listUrl if present
-            if (Preg::isMatchStrictGroups('{^\^(?P<query>(?P<vendor>[a-z0-9_.-]+)/[a-z0-9_.-]*)\*?$}i', $query, $match) && $this->listUrl !== null) {
+            if (Preg::isMatch('{^\^(?P<query>(?P<vendor>[a-z0-9_.-]+)/[a-z0-9_.-]*)\*?$}i', $query, $match) && $this->listUrl !== null) {
                 $url = $this->listUrl . '?vendor='.urlencode($match['vendor']).'&filter='.urlencode($match['query'].'*');
                 $result = $this->httpDownloader->get($url, $this->options)->decodeJson();
 
-                $results = [];
+                $results = array();
                 foreach ($result['packageNames'] as $name) {
-                    $results[] = ['name' => $name, 'description' => ''];
+                    $results[] = array('name' => $name, 'description' => '');
                 }
 
                 return $results;
             }
 
-            $results = [];
+            $results = array();
             $regex = '{(?:'.implode('|', Preg::split('{\s+}', $query)).')}i';
 
             $packageNames = $this->getPackageNames();
             foreach (Preg::grep($regex, $packageNames) as $name) {
-                $results[] = ['name' => $name, 'description' => ''];
+                $results[] = array('name' => $name, 'description' => '');
             }
 
             return $results;
@@ -615,129 +601,10 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
         return parent::search($query, $mode);
     }
 
-    public function hasSecurityAdvisories(): bool
-    {
-        $this->loadRootServerFile(600);
-
-        return $this->securityAdvisoryConfig !== null && ($this->securityAdvisoryConfig['metadata'] || $this->securityAdvisoryConfig['api-url'] !== null);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getSecurityAdvisories(array $packageConstraintMap, bool $allowPartialAdvisories = false): array
-    {
-        $this->loadRootServerFile(600);
-        if (null === $this->securityAdvisoryConfig) {
-            return ['namesFound' => [], 'advisories' => []];
-        }
-
-        $advisories = [];
-        $namesFound = [];
-
-        $apiUrl = $this->securityAdvisoryConfig['api-url'];
-
-        // respect available-package-patterns / available-packages directives from the repo
-        if ($this->hasAvailablePackageList) {
-            foreach ($packageConstraintMap as $name => $constraint) {
-                if (!$this->lazyProvidersRepoContains(strtolower($name))) {
-                    unset($packageConstraintMap[$name]);
-                }
-            }
-        }
-
-        $parser = new VersionParser();
-        /**
-         * @param array<mixed> $data
-         * @param string $name
-         * @return ($allowPartialAdvisories is false ? SecurityAdvisory|null : PartialSecurityAdvisory|SecurityAdvisory|null)
-         */
-        $create = function (array $data, string $name) use ($parser, $allowPartialAdvisories, &$packageConstraintMap): ?PartialSecurityAdvisory {
-            $advisory = PartialSecurityAdvisory::create($name, $data, $parser);
-            if (!$allowPartialAdvisories && !$advisory instanceof SecurityAdvisory) {
-                throw new \RuntimeException('Advisory for '.$name.' could not be loaded as a full advisory from '.$this->getRepoName() . PHP_EOL . var_export($data, true));
-            }
-            if (!$advisory->affectedVersions->matches($packageConstraintMap[$name])) {
-                return null;
-            }
-
-            return $advisory;
-        };
-
-        if ($this->securityAdvisoryConfig['metadata'] && ($allowPartialAdvisories || $apiUrl === null)) {
-            $promises = [];
-            foreach ($packageConstraintMap as $name => $constraint) {
-                $name = strtolower($name);
-
-                // skip platform packages, root package and composer-plugin-api
-                if (PlatformRepository::isPlatformPackage($name) || '__root__' === $name) {
-                    continue;
-                }
-
-                $promises[] = $this->startCachedAsyncDownload($name, $name)
-                    ->then(static function (array $spec) use (&$advisories, &$namesFound, &$packageConstraintMap, $name, $create): void {
-                        [$response, ] = $spec;
-
-                        if (!isset($response['security-advisories']) || !is_array($response['security-advisories'])) {
-                            return;
-                        }
-
-                        $namesFound[$name] = true;
-                        if (count($response['security-advisories']) > 0) {
-                            $advisories[$name] = array_filter(array_map(
-                                static function ($data) use ($name, $create) {
-                                    return $create($data, $name);
-                                },
-                                $response['security-advisories']
-                            ));
-                        }
-                        unset($packageConstraintMap[$name]);
-                    });
-            }
-
-            $this->loop->wait($promises);
-        }
-
-        if ($apiUrl !== null && count($packageConstraintMap) > 0) {
-            $options = $this->options;
-            $options['http']['method'] = 'POST';
-            if (isset($options['http']['header'])) {
-                $options['http']['header'] = (array) $options['http']['header'];
-            }
-            $options['http']['header'][] = 'Content-type: application/x-www-form-urlencoded';
-            $options['http']['timeout'] = 10;
-            $options['http']['content'] = http_build_query(['packages' => array_keys($packageConstraintMap)]);
-
-            $response = $this->httpDownloader->get($apiUrl, $options);
-            $warned = false;
-            /** @var string $name */
-            foreach ($response->decodeJson()['advisories'] as $name => $list) {
-                if (!isset($packageConstraintMap[$name])) {
-                    if (!$warned) {
-                        $this->io->writeError('<warning>'.$this->getRepoName().' returned names which were not requested in response to the security-advisories API. '.$name.' was not requested but is present in the response. Requested names were: '.implode(', ', array_keys($packageConstraintMap)).'</warning>');
-                        $warned = true;
-                    }
-                    continue;
-                }
-                if (count($list) > 0) {
-                    $advisories[$name] = array_filter(array_map(
-                        static function ($data) use ($name, $create) {
-                            return $create($data, $name);
-                        },
-                        $list
-                    ));
-                }
-                $namesFound[$name] = true;
-            }
-        }
-
-        return ['namesFound' => array_keys($namesFound), 'advisories' => array_filter($advisories)];
-    }
-
-    public function getProviders(string $packageName)
+    public function getProviders($packageName)
     {
         $this->loadRootServerFile();
-        $result = [];
+        $result = array();
 
         if ($this->providersApiUrl) {
             try {
@@ -765,11 +632,11 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
                     if (isset($result[$candidate['name']]) || !isset($candidate['provide'][$packageName])) {
                         continue;
                     }
-                    $result[$candidate['name']] = [
+                    $result[$candidate['name']] = array(
                         'name' => $candidate['name'],
-                        'description' => $candidate['description'] ?? '',
-                        'type' => $candidate['type'] ?? '',
-                    ];
+                        'description' => isset($candidate['description']) ? $candidate['description'] : '',
+                        'type' => isset($candidate['type']) ? $candidate['type'] : '',
+                    );
                 }
             }
         }
@@ -784,30 +651,30 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
     /**
      * @return string[]
      */
-    private function getProviderNames(): array
+    private function getProviderNames()
     {
         $this->loadRootServerFile();
 
         if (null === $this->providerListing) {
-            $data = $this->loadRootServerFile();
-            if (is_array($data)) {
-                $this->loadProviderListings($data);
-            }
+            $this->loadProviderListings($this->loadRootServerFile());
         }
 
         if ($this->lazyProvidersUrl) {
             // Can not determine list of provided packages for lazy repositories
-            return [];
+            return array();
         }
 
         if (null !== $this->providersUrl && null !== $this->providerListing) {
             return array_keys($this->providerListing);
         }
 
-        return [];
+        return array();
     }
 
-    protected function configurePackageTransportOptions(PackageInterface $package): void
+    /**
+     * @return void
+     */
+    protected function configurePackageTransportOptions(PackageInterface $package)
     {
         foreach ($package->getDistUrls() as $url) {
             if (strpos($url, $this->baseUrl) === 0) {
@@ -818,7 +685,10 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
         }
     }
 
-    private function hasProviders(): bool
+    /**
+     * @return bool
+     */
+    private function hasProviders()
     {
         $this->loadRootServerFile();
 
@@ -835,20 +705,17 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
      *
      * @return array<string, BasePackage>
      */
-    private function whatProvides(string $name, ?array $acceptableStabilities = null, ?array $stabilityFlags = null, array $alreadyLoaded = []): array
+    private function whatProvides($name, array $acceptableStabilities = null, array $stabilityFlags = null, array $alreadyLoaded = array())
     {
         $packagesSource = null;
         if (!$this->hasPartialPackages() || !isset($this->partialPackagesByName[$name])) {
             // skip platform packages, root package and composer-plugin-api
             if (PlatformRepository::isPlatformPackage($name) || '__root__' === $name) {
-                return [];
+                return array();
             }
 
             if (null === $this->providerListing) {
-                $data = $this->loadRootServerFile();
-                if (is_array($data)) {
-                    $this->loadProviderListings($data);
-                }
+                $this->loadProviderListings($this->loadRootServerFile());
             }
 
             $useLastModifiedCheck = false;
@@ -860,14 +727,14 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
             } elseif ($this->providersUrl) {
                 // package does not exist in this repo
                 if (!isset($this->providerListing[$name])) {
-                    return [];
+                    return array();
                 }
 
                 $hash = $this->providerListing[$name]['sha256'];
-                $url = str_replace(['%package%', '%hash%'], [$name, $hash], $this->providersUrl);
+                $url = str_replace(array('%package%', '%hash%'), array($name, $hash), $this->providersUrl);
                 $cacheKey = 'provider-'.strtr($name, '/', '$').'.json';
             } else {
-                return [];
+                return array();
             }
 
             $packages = null;
@@ -895,8 +762,8 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
                     $packagesSource = 'downloaded file ('.Url::sanitize($url).')';
                 } catch (TransportException $e) {
                     // 404s are acceptable for lazy provider repos
-                    if ($this->lazyProvidersUrl && in_array($e->getStatusCode(), [404, 499], true)) {
-                        $packages = ['packages' => []];
+                    if ($this->lazyProvidersUrl && in_array($e->getStatusCode(), array(404, 499), true)) {
+                        $packages = array('packages' => array());
                         $packagesSource = 'not-found file ('.Url::sanitize($url).')';
                         if ($e->getStatusCode() === 499) {
                             $this->io->error('<warning>' . $e->getMessage() . '</warning>');
@@ -909,13 +776,13 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
 
             $loadingPartialPackage = false;
         } else {
-            $packages = ['packages' => ['versions' => $this->partialPackagesByName[$name]]];
+            $packages = array('packages' => array('versions' => $this->partialPackagesByName[$name]));
             $packagesSource = 'root file ('.Url::sanitize($this->getPackagesJsonUrl()).')';
             $loadingPartialPackage = true;
         }
 
-        $result = [];
-        $versionsToLoad = [];
+        $result = array();
+        $versionsToLoad = array();
         foreach ($packages['packages'] as $versions) {
             foreach ($versions as $version) {
                 $normalizedName = strtolower($version['name']);
@@ -987,6 +854,8 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
 
     /**
      * Adds a new package to the repository
+     *
+     * @param PackageInterface $package
      */
     public function addPackage(PackageInterface $package)
     {
@@ -995,8 +864,7 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
     }
 
     /**
-     * @param array<string, ConstraintInterface|null> $packageNames array of package name => ConstraintInterface|null - if a constraint is provided, only
-     *                                                packages matching it will be loaded
+     * @param array<string, ConstraintInterface|null> $packageNames array of package name => ConstraintInterface|null - if a constraint is provided, only packages matching it will be loaded
      * @param array<string, int>|null $acceptableStabilities
      * @phpstan-param array<string, BasePackage::STABILITY_*>|null $acceptableStabilities
      * @param array<string, int>|null $stabilityFlags an array of package name => BasePackage::STABILITY_* value
@@ -1005,21 +873,22 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
      *
      * @return array{namesFound: array<string, true>, packages: array<string, BasePackage>}
      */
-    private function loadAsyncPackages(array $packageNames, ?array $acceptableStabilities = null, ?array $stabilityFlags = null, array $alreadyLoaded = []): array
+    private function loadAsyncPackages(array $packageNames, array $acceptableStabilities = null, array $stabilityFlags = null, array $alreadyLoaded = array())
     {
         $this->loadRootServerFile();
 
-        $packages = [];
-        $namesFound = [];
-        $promises = [];
+        $packages = array();
+        $namesFound = array();
+        $promises = array();
+        $repo = $this;
 
-        if (null === $this->lazyProvidersUrl) {
+        if (!$this->lazyProvidersUrl) {
             throw new \LogicException('loadAsyncPackages only supports v2 protocol composer repos with a metadata-url');
         }
 
         // load ~dev versions of the packages as well if needed
         foreach ($packageNames as $name => $constraint) {
-            if ($acceptableStabilities === null || $stabilityFlags === null || StabilityFilter::isPackageAcceptable($acceptableStabilities, $stabilityFlags, [$name], 'dev')) {
+            if ($acceptableStabilities === null || $stabilityFlags === null || StabilityFilter::isPackageAcceptable($acceptableStabilities, $stabilityFlags, array($name), 'dev')) {
                 $packageNames[$name.'~dev'] = $constraint;
             }
             // if only dev stability is requested, we skip loading the non dev file
@@ -1037,10 +906,25 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
                 continue;
             }
 
-            $promises[] = $this->startCachedAsyncDownload($name, $realName)
-                ->then(function (array $spec) use (&$packages, &$namesFound, $realName, $constraint, $acceptableStabilities, $stabilityFlags, $alreadyLoaded): void {
-                    [$response, $packagesSource] = $spec;
-                    if (null === $response || !isset($response['packages'][$realName])) {
+            $url = str_replace('%package%', $name, $this->lazyProvidersUrl);
+            $cacheKey = 'provider-'.strtr($name, '/', '~').'.json';
+
+            $lastModified = null;
+            if ($contents = $this->cache->read($cacheKey)) {
+                $contents = json_decode($contents, true);
+                $lastModified = isset($contents['last-modified']) ? $contents['last-modified'] : null;
+            }
+
+            $promises[] = $this->asyncFetchFile($url, $cacheKey, $lastModified)
+                ->then(function ($response) use (&$packages, &$namesFound, $url, $cacheKey, $contents, $realName, $constraint, $repo, $acceptableStabilities, $stabilityFlags, $alreadyLoaded) {
+                    $packagesSource = 'downloaded file ('.Url::sanitize($url).')';
+
+                    if (true === $response) {
+                        $packagesSource = 'cached file ('.$cacheKey.' originating from '.Url::sanitize($url).')';
+                        $response = $contents;
+                    }
+
+                    if (!isset($response['packages'][$realName])) {
                         return;
                     }
 
@@ -1051,13 +935,13 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
                     }
 
                     $namesFound[$realName] = true;
-                    $versionsToLoad = [];
+                    $versionsToLoad = array();
                     foreach ($versions as $version) {
                         if (!isset($version['version_normalized'])) {
-                            $version['version_normalized'] = $this->versionParser->normalize($version['version']);
+                            $version['version_normalized'] = $repo->versionParser->normalize($version['version']);
                         } elseif ($version['version_normalized'] === VersionParser::DEFAULT_BRANCH_ALIAS) {
                             // handling of existing repos which need to remain composer v1 compatible, in case the version_normalized contained VersionParser::DEFAULT_BRANCH_ALIAS, we renormalize it
-                            $version['version_normalized'] = $this->versionParser->normalize($version['version']);
+                            $version['version_normalized'] = $repo->versionParser->normalize($version['version']);
                         }
 
                         // avoid loading packages which have already been loaded
@@ -1065,18 +949,18 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
                             continue;
                         }
 
-                        if ($this->isVersionAcceptable($constraint, $realName, $version, $acceptableStabilities, $stabilityFlags)) {
+                        if ($repo->isVersionAcceptable($constraint, $realName, $version, $acceptableStabilities, $stabilityFlags)) {
                             $versionsToLoad[] = $version;
                         }
                     }
 
-                    $loadedPackages = $this->createPackages($versionsToLoad, $packagesSource);
+                    $loadedPackages = $repo->createPackages($versionsToLoad, $packagesSource);
                     foreach ($loadedPackages as $package) {
-                        $package->setRepository($this);
+                        $package->setRepository($repo);
                         $packages[spl_object_hash($package)] = $package;
 
                         if ($package instanceof AliasPackage && !isset($packages[spl_object_hash($package->getAliasOf())])) {
-                            $package->getAliasOf()->setRepository($this);
+                            $package->getAliasOf()->setRepository($repo);
                             $packages[spl_object_hash($package->getAliasOf())] = $package->getAliasOf();
                         }
                     }
@@ -1085,65 +969,35 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
 
         $this->loop->wait($promises);
 
-        return ['namesFound' => $namesFound, 'packages' => $packages];
+        return array('namesFound' => $namesFound, 'packages' => $packages);
+        // RepositorySet should call loadMetadata, getMetadata when all promises resolved, then metadataComplete when done so we can GC the loaded json and whatnot then as needed
     }
 
     /**
-     * @phpstan-return PromiseInterface<array{mixed, string}>
-     */
-    private function startCachedAsyncDownload(string $fileName, ?string $packageName = null): PromiseInterface
-    {
-        if (null === $this->lazyProvidersUrl) {
-            throw new \LogicException('startCachedAsyncDownload only supports v2 protocol composer repos with a metadata-url');
-        }
-
-        $name = strtolower($fileName);
-        $packageName = $packageName ?? $name;
-
-        $url = str_replace('%package%', $name, $this->lazyProvidersUrl);
-        $cacheKey = 'provider-'.strtr($name, '/', '~').'.json';
-
-        $lastModified = null;
-        if ($contents = $this->cache->read($cacheKey)) {
-            $contents = json_decode($contents, true);
-            $lastModified = $contents['last-modified'] ?? null;
-        }
-
-        return $this->asyncFetchFile($url, $cacheKey, $lastModified)
-            ->then(static function ($response) use ($url, $cacheKey, $contents, $packageName): array {
-                $packagesSource = 'downloaded file ('.Url::sanitize($url).')';
-
-                if (true === $response) {
-                    $packagesSource = 'cached file ('.$cacheKey.' originating from '.Url::sanitize($url).')';
-                    $response = $contents;
-                }
-
-                if (!isset($response['packages'][$packageName]) && !isset($response['security-advisories'])) {
-                    return [null, $packagesSource];
-                }
-
-                return [$response, $packagesSource];
-            });
-    }
-
-    /**
+     * TODO v3 should make this private once we can drop PHP 5.3 support
+     *
+     * @private
+     *
+     * @param ConstraintInterface|null $constraint
      * @param string $name package name (must be lowercased already)
      * @param array<string, mixed> $versionData
      * @param array<string, int>|null $acceptableStabilities
      * @phpstan-param array<string, BasePackage::STABILITY_*>|null $acceptableStabilities
      * @param array<string, int>|null $stabilityFlags an array of package name => BasePackage::STABILITY_* value
      * @phpstan-param array<string, BasePackage::STABILITY_*>|null $stabilityFlags
+     *
+     * @return bool
      */
-    private function isVersionAcceptable(?ConstraintInterface $constraint, string $name, array $versionData, ?array $acceptableStabilities = null, ?array $stabilityFlags = null): bool
+    public function isVersionAcceptable($constraint, $name, $versionData, array $acceptableStabilities = null, array $stabilityFlags = null)
     {
-        $versions = [$versionData['version_normalized']];
+        $versions = array($versionData['version_normalized']);
 
         if ($alias = $this->loader->getBranchAlias($versionData)) {
             $versions[] = $alias;
         }
 
         foreach ($versions as $version) {
-            if (null !== $acceptableStabilities && null !== $stabilityFlags && !StabilityFilter::isPackageAcceptable($acceptableStabilities, $stabilityFlags, [$name], VersionParser::parseStability($version))) {
+            if (null !== $acceptableStabilities && null !== $stabilityFlags && !StabilityFilter::isPackageAcceptable($acceptableStabilities, $stabilityFlags, array($name), VersionParser::parseStability($version))) {
                 continue;
             }
 
@@ -1157,9 +1011,12 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
         return false;
     }
 
-    private function getPackagesJsonUrl(): string
+    /**
+     * @return string
+     */
+    private function getPackagesJsonUrl()
     {
-        $jsonUrlParts = parse_url(strtr($this->url, '\\', '/'));
+        $jsonUrlParts = parse_url($this->url);
 
         if (isset($jsonUrlParts['path']) && false !== strpos($jsonUrlParts['path'], '.json')) {
             return $this->url;
@@ -1169,9 +1026,10 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
     }
 
     /**
-     * @return array<'providers'|'provider-includes'|'packages'|'providers-url'|'notify-batch'|'search'|'mirrors'|'providers-lazy-url'|'metadata-url'|'available-packages'|'available-package-patterns', mixed>|true
+     * @param int|null $rootMaxAge
+     * @return array<string, mixed>
      */
-    protected function loadRootServerFile(?int $rootMaxAge = null)
+    protected function loadRootServerFile($rootMaxAge = null)
     {
         if (null !== $this->rootData) {
             return $this->rootData;
@@ -1208,16 +1066,16 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
         if (!empty($data['mirrors'])) {
             foreach ($data['mirrors'] as $mirror) {
                 if (!empty($mirror['git-url'])) {
-                    $this->sourceMirrors['git'][] = ['url' => $mirror['git-url'], 'preferred' => !empty($mirror['preferred'])];
+                    $this->sourceMirrors['git'][] = array('url' => $mirror['git-url'], 'preferred' => !empty($mirror['preferred']));
                 }
                 if (!empty($mirror['hg-url'])) {
-                    $this->sourceMirrors['hg'][] = ['url' => $mirror['hg-url'], 'preferred' => !empty($mirror['preferred'])];
+                    $this->sourceMirrors['hg'][] = array('url' => $mirror['hg-url'], 'preferred' => !empty($mirror['preferred']));
                 }
                 if (!empty($mirror['dist-url'])) {
-                    $this->distMirrors[] = [
+                    $this->distMirrors[] = array(
                         'url' => $this->canonicalizeUrl($mirror['dist-url']),
                         'preferred' => !empty($mirror['preferred']),
-                    ];
+                    );
                 }
             }
         }
@@ -1252,7 +1110,7 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
             // Disables lazy-provider behavior as with available-packages, but may allow much more compact expression of packages covered by this repository.
             // Over-specifying covered packages is safe, but may result in increased traffic to your repository.
             if (!empty($data['available-package-patterns'])) {
-                $this->availablePackagePatterns = array_map(static function ($pattern): string {
+                $this->availablePackagePatterns = array_map(function ($pattern) {
                     return BasePackage::packageNameToRegexp($pattern);
                 }, $data['available-package-patterns']);
                 $this->hasAvailablePackageList = true;
@@ -1261,16 +1119,6 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
             // Remove legacy keys as most repos need to be compatible with Composer v1
             // as well but we are not interested in the old format anymore at this point
             unset($data['providers-url'], $data['providers'], $data['providers-includes']);
-
-            if (isset($data['security-advisories']) && is_array($data['security-advisories'])) {
-                $this->securityAdvisoryConfig = [
-                    'metadata' => $data['security-advisories']['metadata'] ?? false,
-                    'api-url' => isset($data['security-advisories']['api-url']) && is_string($data['security-advisories']['api-url']) ? $this->canonicalizeUrl($data['security-advisories']['api-url']) : null,
-                ];
-                if ($this->securityAdvisoryConfig['api-url'] === null && !$this->hasAvailablePackageList) {
-                    throw new \UnexpectedValueException('Invalid security advisory configuration on '.$this->getRepoName().': If the repository does not provide a security-advisories.api-url then available-packages or available-package-patterns are required to be provided for performance reason.');
-                }
-            }
         }
 
         if ($this->allowSslDowngrade) {
@@ -1300,15 +1148,12 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
 
     /**
      * @param string $url
-     * @return non-empty-string
+     *
+     * @return string
      */
-    private function canonicalizeUrl(string $url): string
+    private function canonicalizeUrl($url)
     {
-        if (strlen($url) === 0) {
-            throw new \InvalidArgumentException('Expected a string with a value and not an empty string');
-        }
-
-        if (str_starts_with($url, '/')) {
+        if ('/' === $url[0]) {
             if (Preg::isMatch('{^[^:]++://[^/]*+}', $this->url, $matches)) {
                 return $matches[0] . $url;
             }
@@ -1322,17 +1167,17 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
     /**
      * @return mixed[]
      */
-    private function loadDataFromServer(): array
+    private function loadDataFromServer()
     {
         $data = $this->loadRootServerFile();
-        if (true === $data) {
-            throw new \LogicException('loadRootServerFile should not return true during initialization');
-        }
 
         return $this->loadIncludes($data);
     }
 
-    private function hasPartialPackages(): bool
+    /**
+     * @return bool
+     */
+    private function hasPartialPackages()
     {
         if ($this->hasPartialPackages && null === $this->partialPackagesByName) {
             $this->initializePartialPackages();
@@ -1343,12 +1188,14 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
 
     /**
      * @param array{providers?: mixed[], provider-includes?: mixed[]} $data
+     *
+     * @return void
      */
-    private function loadProviderListings($data): void
+    private function loadProviderListings($data)
     {
         if (isset($data['providers'])) {
             if (!is_array($this->providerListing)) {
-                $this->providerListing = [];
+                $this->providerListing = array();
             }
             $this->providerListing = array_merge($this->providerListing, $data['providers']);
         }
@@ -1357,7 +1204,7 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
             $includes = $data['provider-includes'];
             foreach ($includes as $include => $metadata) {
                 $url = $this->baseUrl . '/' . str_replace('%hash%', $metadata['sha256'], $include);
-                $cacheKey = str_replace(['%hash%','$'], '', $include);
+                $cacheKey = str_replace(array('%hash%','$'), '', $include);
                 if ($this->cache->sha256($cacheKey) === $metadata['sha256']) {
                     $includedData = json_decode($this->cache->read($cacheKey), true);
                 } else {
@@ -1374,9 +1221,9 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
      *
      * @return mixed[]
      */
-    private function loadIncludes(array $data): array
+    private function loadIncludes($data)
     {
-        $packages = [];
+        $packages = array();
 
         // legacy repo handling
         if (!isset($data['packages']) && !isset($data['includes'])) {
@@ -1393,13 +1240,8 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
 
         if (isset($data['packages'])) {
             foreach ($data['packages'] as $package => $versions) {
-                $packageName = strtolower((string) $package);
                 foreach ($versions as $version => $metadata) {
                     $packages[] = $metadata;
-                    if (!$this->displayedWarningAboutNonMatchingPackageIndex && $packageName !== strtolower((string) ($metadata['name'] ?? ''))) {
-                        $this->displayedWarningAboutNonMatchingPackageIndex = true;
-                        $this->io->writeError(sprintf("<warning>Warning: the packages key '%s' doesn't match the name defined in the package metadata '%s' in repository %s</warning>", $package, $metadata['name'] ?? '', $this->baseUrl));
-                    }
                 }
             }
         }
@@ -1419,14 +1261,18 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
     }
 
     /**
+     * TODO v3 should make this private once we can drop PHP 5.3 support
+     * @private
+     *
      * @param mixed[] $packages
+     * @param string|null $source
      *
      * @return list<CompletePackage|CompleteAliasPackage>
      */
-    private function createPackages(array $packages, ?string $source = null): array
+    public function createPackages(array $packages, $source = null)
     {
         if (!$packages) {
-            return [];
+            return array();
         }
 
         try {
@@ -1448,19 +1294,20 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
 
             return $packageInstances;
         } catch (\Exception $e) {
-            throw new \RuntimeException('Could not load packages '.($packages[0]['name'] ?? json_encode($packages)).' in '.$this->getRepoName().($source ? ' from '.$source : '').': ['.get_class($e).'] '.$e->getMessage(), 0, $e);
+            throw new \RuntimeException('Could not load packages '.(isset($packages[0]['name']) ? $packages[0]['name'] : json_encode($packages)).' in '.$this->getRepoName().($source ? ' from '.$source : '').': ['.get_class($e).'] '.$e->getMessage(), 0, $e);
         }
     }
 
     /**
+     * @param string $filename
+     * @param string|null $cacheKey
+     * @param string|null $sha256
+     * @param bool $storeLastModifiedTime
+     *
      * @return array<mixed>
      */
-    protected function fetchFile(string $filename, ?string $cacheKey = null, ?string $sha256 = null, bool $storeLastModifiedTime = false)
+    protected function fetchFile($filename, $cacheKey = null, $sha256 = null, $storeLastModifiedTime = false)
     {
-        if ('' === $filename) {
-            throw new \InvalidArgumentException('$filename should not be an empty string');
-        }
-
         if (null === $cacheKey) {
             $cacheKey = $filename;
             $filename = $this->baseUrl.'/'.$filename;
@@ -1476,7 +1323,7 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
             try {
                 $options = $this->options;
                 if ($this->eventDispatcher) {
-                    $preFileDownloadEvent = new PreFileDownloadEvent(PluginEvents::PRE_FILE_DOWNLOAD, $this->httpDownloader, $filename, 'metadata', ['repository' => $this]);
+                    $preFileDownloadEvent = new PreFileDownloadEvent(PluginEvents::PRE_FILE_DOWNLOAD, $this->httpDownloader, $filename, 'metadata', array('repository' => $this));
                     $preFileDownloadEvent->setTransportOptions($this->options);
                     $this->eventDispatcher->dispatch($preFileDownloadEvent->getName(), $preFileDownloadEvent);
                     $filename = $preFileDownloadEvent->getProcessedUrl();
@@ -1504,7 +1351,7 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
                 }
 
                 if ($this->eventDispatcher) {
-                    $postFileDownloadEvent = new PostFileDownloadEvent(PluginEvents::POST_FILE_DOWNLOAD, null, $sha256, $filename, 'metadata', ['response' => $response, 'repository' => $this]);
+                    $postFileDownloadEvent = new PostFileDownloadEvent(PluginEvents::POST_FILE_DOWNLOAD, null, $sha256, $filename, 'metadata', array('response' => $response, 'repository' => $this));
                     $this->eventDispatcher->dispatch($postFileDownloadEvent->getName(), $postFileDownloadEvent);
                 }
 
@@ -1560,18 +1407,18 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
     }
 
     /**
+     * @param string $filename
+     * @param string $cacheKey
+     * @param string $lastModifiedTime
+     *
      * @return array<mixed>|true
      */
-    private function fetchFileIfLastModified(string $filename, string $cacheKey, string $lastModifiedTime)
+    private function fetchFileIfLastModified($filename, $cacheKey, $lastModifiedTime)
     {
-        if ('' === $filename) {
-            throw new \InvalidArgumentException('$filename should not be an empty string');
-        }
-
         try {
             $options = $this->options;
             if ($this->eventDispatcher) {
-                $preFileDownloadEvent = new PreFileDownloadEvent(PluginEvents::PRE_FILE_DOWNLOAD, $this->httpDownloader, $filename, 'metadata', ['repository' => $this]);
+                $preFileDownloadEvent = new PreFileDownloadEvent(PluginEvents::PRE_FILE_DOWNLOAD, $this->httpDownloader, $filename, 'metadata', array('repository' => $this));
                 $preFileDownloadEvent->setTransportOptions($this->options);
                 $this->eventDispatcher->dispatch($preFileDownloadEvent->getName(), $preFileDownloadEvent);
                 $filename = $preFileDownloadEvent->getProcessedUrl();
@@ -1589,7 +1436,7 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
             }
 
             if ($this->eventDispatcher) {
-                $postFileDownloadEvent = new PostFileDownloadEvent(PluginEvents::POST_FILE_DOWNLOAD, null, null, $filename, 'metadata', ['response' => $response, 'repository' => $this]);
+                $postFileDownloadEvent = new PostFileDownloadEvent(PluginEvents::POST_FILE_DOWNLOAD, null, null, $filename, 'metadata', array('response' => $response, 'repository' => $this));
                 $this->eventDispatcher->dispatch($postFileDownloadEvent->getName(), $postFileDownloadEvent);
             }
 
@@ -1626,30 +1473,27 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
     }
 
     /**
-     * @phpstan-return PromiseInterface<array<mixed>|true> true if the response was a 304 and the cache is fresh, otherwise it returns the decoded json
+     * @param string $filename
+     * @param string $cacheKey
+     * @param string|null $lastModifiedTime
+     *
+     * @return \React\Promise\PromiseInterface
      */
-    private function asyncFetchFile(string $filename, string $cacheKey, ?string $lastModifiedTime = null): PromiseInterface
+    private function asyncFetchFile($filename, $cacheKey, $lastModifiedTime = null)
     {
-        if ('' === $filename) {
-            throw new \InvalidArgumentException('$filename should not be an empty string');
-        }
-
         if (isset($this->packagesNotFoundCache[$filename])) {
-            return \React\Promise\resolve(['packages' => []]);
+            return \React\Promise\resolve(array('packages' => array()));
         }
 
         if (isset($this->freshMetadataUrls[$filename]) && $lastModifiedTime) {
             // make it look like we got a 304 response
-            /** @var PromiseInterface<true> $promise */
-            $promise = \React\Promise\resolve(true);
-
-            return $promise;
+            return \React\Promise\resolve(true);
         }
 
         $httpDownloader = $this->httpDownloader;
         $options = $this->options;
         if ($this->eventDispatcher) {
-            $preFileDownloadEvent = new PreFileDownloadEvent(PluginEvents::PRE_FILE_DOWNLOAD, $this->httpDownloader, $filename, 'metadata', ['repository' => $this]);
+            $preFileDownloadEvent = new PreFileDownloadEvent(PluginEvents::PRE_FILE_DOWNLOAD, $this->httpDownloader, $filename, 'metadata', array('repository' => $this));
             $preFileDownloadEvent->setTransportOptions($this->options);
             $this->eventDispatcher->dispatch($preFileDownloadEvent->getName(), $preFileDownloadEvent);
             $filename = $preFileDownloadEvent->getProcessedUrl();
@@ -1668,27 +1512,25 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
         $cache = $this->cache;
         $degradedMode = &$this->degradedMode;
         $eventDispatcher = $this->eventDispatcher;
+        $repo = $this;
 
-        /**
-         * @return array<mixed>|true true if the response was a 304 and the cache is fresh
-         */
-        $accept = function ($response) use ($io, $url, $filename, $cache, $cacheKey, $eventDispatcher) {
+        $accept = function ($response) use ($io, $url, $filename, $cache, $cacheKey, $eventDispatcher, $repo) {
             // package not found is acceptable for a v2 protocol repository
             if ($response->getStatusCode() === 404) {
-                $this->packagesNotFoundCache[$filename] = true;
+                $repo->packagesNotFoundCache[$filename] = true;
 
-                return ['packages' => []];
+                return array('packages' => array());
             }
 
             $json = (string) $response->getBody();
             if ($json === '' && $response->getStatusCode() === 304) {
-                $this->freshMetadataUrls[$filename] = true;
+                $repo->freshMetadataUrls[$filename] = true;
 
                 return true;
             }
 
             if ($eventDispatcher) {
-                $postFileDownloadEvent = new PostFileDownloadEvent(PluginEvents::POST_FILE_DOWNLOAD, null, null, $filename, 'metadata', ['response' => $response, 'repository' => $this]);
+                $postFileDownloadEvent = new PostFileDownloadEvent(PluginEvents::POST_FILE_DOWNLOAD, null, null, $filename, 'metadata', array('response' => $response, 'repository' => $repo));
                 $eventDispatcher->dispatch($postFileDownloadEvent->getName(), $postFileDownloadEvent);
             }
 
@@ -1699,19 +1541,19 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
             $response->collect();
             if ($lastModifiedDate) {
                 $data['last-modified'] = $lastModifiedDate;
-                $json = JsonFile::encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+                $json = JsonFile::encode($data, JsonFile::JSON_UNESCAPED_SLASHES | JsonFile::JSON_UNESCAPED_UNICODE);
             }
             if (!$cache->isReadOnly()) {
                 $cache->write($cacheKey, $json);
             }
-            $this->freshMetadataUrls[$filename] = true;
+            $repo->freshMetadataUrls[$filename] = true;
 
             return $data;
         };
 
-        $reject = function ($e) use ($filename, $accept, $io, $url, &$degradedMode, $lastModifiedTime) {
+        $reject = function ($e) use ($filename, $accept, $io, $url, &$degradedMode, $repo, $lastModifiedTime) {
             if ($e instanceof TransportException && $e->getStatusCode() === 404) {
-                $this->packagesNotFoundCache[$filename] = true;
+                $repo->packagesNotFoundCache[$filename] = true;
 
                 return false;
             }
@@ -1723,12 +1565,12 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
 
             // if the file is in the cache, we fake a 304 Not Modified to allow the process to continue
             if ($lastModifiedTime) {
-                return $accept(new Response(['url' => $url], 304, [], ''));
+                return $accept(new Response(array('url' => $url), 304, array(), ''));
             }
 
             // special error code returned when network is being artificially disabled
             if ($e instanceof TransportException && $e->getStatusCode() === 499) {
-                return $accept(new Response(['url' => $url], 404, [], ''));
+                return $accept(new Response(array('url' => $url), 404, array(), ''));
             }
 
             throw $e;
@@ -1741,23 +1583,17 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
      * This initializes the packages key of a partial packages.json that contain some packages inlined + a providers-lazy-url
      *
      * This should only be called once
+     *
+     * @return void
      */
-    private function initializePartialPackages(): void
+    private function initializePartialPackages()
     {
         $rootData = $this->loadRootServerFile();
-        if ($rootData === true) {
-            return;
-        }
 
-        $this->partialPackagesByName = [];
+        $this->partialPackagesByName = array();
         foreach ($rootData['packages'] as $package => $versions) {
             foreach ($versions as $version) {
-                $versionPackageName = strtolower((string) ($version['name'] ?? ''));
-                $this->partialPackagesByName[$versionPackageName][] = $version;
-                if (!$this->displayedWarningAboutNonMatchingPackageIndex && $versionPackageName !== strtolower($package)) {
-                    $this->io->writeError(sprintf("<warning>Warning: the packages key '%s' doesn't match the name defined in the package metadata '%s' in repository %s</warning>", $package, $version['name'] ?? '', $this->baseUrl));
-                    $this->displayedWarningAboutNonMatchingPackageIndex = true;
-                }
+                $this->partialPackagesByName[strtolower($version['name'])][] = $version;
             }
         }
 
@@ -1768,9 +1604,10 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
     /**
      * Checks if the package name is present in this lazy providers repo
      *
+     * @param  string $name
      * @return bool   true if the package name is present in availablePackages or matched by availablePackagePatterns
      */
-    protected function lazyProvidersRepoContains(string $name)
+    protected function lazyProvidersRepoContains($name)
     {
         if (!$this->hasAvailablePackageList) {
             throw new \LogicException('lazyProvidersRepoContains should not be called unless hasAvailablePackageList is true');

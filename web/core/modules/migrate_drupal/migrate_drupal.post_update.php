@@ -6,10 +6,17 @@
  */
 
 /**
- * Implements hook_removed_post_updates().
+ * @addtogroup updates-8.9.x
+ * @{
  */
-function migrate_drupal_removed_post_updates() {
-  return [
-    'migrate_drupal_post_update_uninstall_multilingual' => '10.0.0',
-  ];
+
+/**
+ * Uninstall migrate_drupal_multilingual since migrate_drupal is installed.
+ */
+function migrate_drupal_post_update_uninstall_multilingual() {
+  \Drupal::service('module_installer')->uninstall(['migrate_drupal_multilingual']);
 }
+
+/**
+ * @} End of "addtogroup updates-8.9.x".
+ */

@@ -22,6 +22,13 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 class HttpExceptionNormalizer extends NormalizerBase {
 
   /**
+   * The interface or class that this Normalizer supports.
+   *
+   * @var string
+   */
+  protected $supportedInterfaceOrClass = HttpException::class;
+
+  /**
    * The current user making the request.
    *
    * @var \Drupal\Core\Session\AccountInterface
@@ -41,7 +48,7 @@ class HttpExceptionNormalizer extends NormalizerBase {
   /**
    * {@inheritdoc}
    */
-  public function normalize($object, $format = NULL, array $context = []): array|string|int|float|bool|\ArrayObject|NULL {
+  public function normalize($object, $format = NULL, array $context = []) {
     $cacheability = new CacheableMetadata();
     $cacheability->addCacheableDependency($object);
 
@@ -170,18 +177,7 @@ class HttpExceptionNormalizer extends NormalizerBase {
    * {@inheritdoc}
    */
   public function hasCacheableSupportsMethod(): bool {
-    @trigger_error(__METHOD__ . '() is deprecated in drupal:10.1.0 and is removed from drupal:11.0.0. Use getSupportedTypes() instead. See https://www.drupal.org/node/3359695', E_USER_DEPRECATED);
-
     return TRUE;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getSupportedTypes(?string $format): array {
-    return [
-      HttpException::class => TRUE,
-    ];
   }
 
 }

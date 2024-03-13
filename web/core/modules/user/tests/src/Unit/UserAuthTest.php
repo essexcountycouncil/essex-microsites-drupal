@@ -12,7 +12,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
  * @coversDefaultClass \Drupal\user\UserAuth
@@ -66,8 +65,6 @@ class UserAuthTest extends UnitTestCase {
    * {@inheritdoc}
    */
   protected function setUp(): void {
-    parent::setUp();
-
     $this->userStorage = $this->createMock('Drupal\Core\Entity\EntityStorageInterface');
 
     /** @var \Drupal\Core\Entity\EntityTypeManagerInterface|\PHPUnit\Framework\MockObject\MockObject $entity_type_manager */
@@ -260,12 +257,15 @@ class UserAuthTest extends UnitTestCase {
       ->method('remove')
       ->with('check_logged_in');
 
-    $event = new ResponseEvent(
-      $this->createMock(HttpKernelInterface::class),
-      $request,
-      HttpKernelInterface::MAIN_REQUEST,
-      $response
-    );
+    $event_mock = $this->createMock(ResponseEvent::class);
+    $event_mock
+      ->expects($this->once())
+      ->method('getResponse')
+      ->willReturn($response);
+    $event_mock
+      ->expects($this->exactly(3))
+      ->method('getRequest')
+      ->willReturn($request);
 
     $request
       ->setSession($session_mock);
@@ -275,7 +275,7 @@ class UserAuthTest extends UnitTestCase {
       ->disableOriginalConstructor()
       ->onlyMethods([])
       ->getMock()
-      ->addCheckToUrl($event);
+      ->addCheckToUrl($event_mock);
 
     $this->assertSame("$frontend_url?check_logged_in=1", $response->getTargetUrl());
   }
@@ -310,12 +310,15 @@ class UserAuthTest extends UnitTestCase {
       ->method('remove')
       ->with('check_logged_in');
 
-    $event = new ResponseEvent(
-      $this->createMock(HttpKernelInterface::class),
-      $request,
-      HttpKernelInterface::MAIN_REQUEST,
-      $response
-    );
+    $event_mock = $this->createMock(ResponseEvent::class);
+    $event_mock
+      ->expects($this->once())
+      ->method('getResponse')
+      ->willReturn($response);
+    $event_mock
+      ->expects($this->exactly(3))
+      ->method('getRequest')
+      ->willReturn($request);
 
     $request
       ->setSession($session_mock);
@@ -325,7 +328,7 @@ class UserAuthTest extends UnitTestCase {
       ->disableOriginalConstructor()
       ->onlyMethods([])
       ->getMock()
-      ->addCheckToUrl($event);
+      ->addCheckToUrl($event_mock);
 
     $this->assertSame("$frontend_url?check_logged_in=1#a_fragment", $response->getTargetUrl());
   }

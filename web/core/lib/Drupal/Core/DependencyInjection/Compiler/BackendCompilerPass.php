@@ -35,9 +35,6 @@ class BackendCompilerPass implements CompilerPassInterface {
 
   /**
    * {@inheritdoc}
-   *
-   * phpcs:ignore Drupal.Commenting.FunctionComment.VoidReturn
-   * @return void
    */
   public function process(ContainerBuilder $container) {
     $driver_backend = NULL;

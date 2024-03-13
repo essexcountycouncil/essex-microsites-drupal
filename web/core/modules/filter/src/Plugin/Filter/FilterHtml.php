@@ -203,7 +203,7 @@ class FilterHtml extends FilterBase {
     }
     // Handle prefix (wildcard) matches.
     foreach ($allowed['prefix'] as $prefix => $value) {
-      if (str_starts_with($name, $prefix)) {
+      if (strpos($name, $prefix) === 0) {
         return $value;
       }
     }

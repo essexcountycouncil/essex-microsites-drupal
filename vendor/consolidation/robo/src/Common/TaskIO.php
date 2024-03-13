@@ -4,7 +4,7 @@ namespace Robo\Common;
 
 use Robo\Robo;
 use Robo\TaskInfo;
-use Robo\Log\RoboLogLevel;
+use Consolidation\Log\ConsoleLogLevel;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
@@ -23,9 +23,15 @@ trait TaskIO
     use ConfigAwareTrait;
     use VerbosityThresholdTrait;
     use OutputAwareTrait;
-    use LoggerAwareTrait;
 
+    protected $logger;
     protected $output;
+
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+        $this->resetLoggerOutput();
+    }
 
     public function setOutput(OutputInterface $output)
     {
@@ -102,11 +108,11 @@ trait TaskIO
      */
     protected function printTaskSuccess($text, $context = null)
     {
-        // Not all loggers will recognize RoboLogLevel::SUCCESS.
+        // Not all loggers will recognize ConsoleLogLevel::SUCCESS.
         // We therefore log as LogLevel::NOTICE, and apply a '_level'
         // override in the context so that this message will be
         // logged as SUCCESS if that log level is recognized.
-        $context['_level'] = RoboLogLevel::SUCCESS;
+        $context['_level'] = ConsoleLogLevel::SUCCESS;
         $this->printTaskOutput(LogLevel::NOTICE, $text, $this->getTaskContext($context));
     }
 

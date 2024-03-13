@@ -434,7 +434,7 @@ class ActiveLinkResponseFilterTest extends UnitTestCase {
     $subscriber->onResponse(new ResponseEvent(
       $this->prophesize(KernelInterface::class)->reveal(),
       $request_stack->getCurrentRequest(),
-      HttpKernelInterface::MAIN_REQUEST,
+      HttpKernelInterface::MASTER_REQUEST,
       $response
     ));
     $this->assertSame($response->getContent(), $content);
@@ -470,7 +470,7 @@ class ActiveLinkResponseFilterTest extends UnitTestCase {
     $subscriber->onResponse(new ResponseEvent(
       $this->prophesize(KernelInterface::class)->reveal(),
       $request_stack->getCurrentRequest(),
-      HttpKernelInterface::MAIN_REQUEST,
+      HttpKernelInterface::MASTER_REQUEST,
       $response
     ));
 
@@ -482,7 +482,7 @@ class ActiveLinkResponseFilterTest extends UnitTestCase {
     $subscriber->onResponse(new ResponseEvent(
       $this->prophesize(KernelInterface::class)->reveal(),
       $request_stack->getCurrentRequest(),
-      HttpKernelInterface::MAIN_REQUEST,
+      HttpKernelInterface::MASTER_REQUEST,
       $response
     ));
   }

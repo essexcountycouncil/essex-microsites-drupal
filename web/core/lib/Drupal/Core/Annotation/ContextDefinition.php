@@ -145,7 +145,7 @@ class ContextDefinition extends Plugin {
     if (isset($values['class'])) {
       return $values['class'];
     }
-    if (str_starts_with($values['value'], 'entity:')) {
+    if (strpos($values['value'], 'entity:') === 0) {
       return 'Drupal\Core\Plugin\Context\EntityContextDefinition';
     }
     return 'Drupal\Core\Plugin\Context\ContextDefinition';

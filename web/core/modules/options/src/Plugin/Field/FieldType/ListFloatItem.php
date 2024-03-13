@@ -77,7 +77,6 @@ class ListFloatItem extends ListItemBase {
 
       return array_combine($keys, $labels);
     }
-    return $values;
   }
 
   /**

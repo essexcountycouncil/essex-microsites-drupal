@@ -8,7 +8,6 @@ use Drupal\Core\Plugin\Discovery\ContainerDeriverInterface;
 use Drupal\Core\Routing\RouteProviderInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Component\Serialization\Json;
 
 /**
  * Provides local action definitions for all entity bundles.
@@ -20,7 +19,7 @@ class FieldUiLocalAction extends DeriverBase implements ContainerDeriverInterfac
   /**
    * The route provider to load routes by name.
    */
-  protected RouteProviderInterface $routeProvider;
+  protected $routeProvider;
 
   /**
    * The entity type manager.
@@ -62,22 +61,8 @@ class FieldUiLocalAction extends DeriverBase implements ContainerDeriverInterfac
       if ($entity_type->get('field_ui_base_route')) {
         $this->derivatives["field_storage_config_add_$entity_type_id"] = [
           'route_name' => "field_ui.field_storage_config_add_$entity_type_id",
-          'title' => $this->t('Create a new field'),
+          'title' => $this->t('Add field'),
           'appears_on' => ["entity.$entity_type_id.field_ui_fields"],
-        ];
-        $this->derivatives["field_storage_config_reuse_$entity_type_id"] = [
-          'route_name' => "field_ui.field_storage_config_reuse_$entity_type_id",
-          'title' => $this->t('Re-use an existing field'),
-          'appears_on' => ["entity.$entity_type_id.field_ui_fields"],
-          'options' => [
-            'attributes' => [
-              'class' => ['use-ajax', 'button'],
-              'data-dialog-type' => 'modal',
-              'data-dialog-options' => Json::encode([
-                'width' => '85vw',
-              ]),
-            ],
-          ],
         ];
       }
     }

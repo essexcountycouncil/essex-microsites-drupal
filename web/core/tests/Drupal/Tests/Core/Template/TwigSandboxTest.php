@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\Tests\Core\Template\TwigSandboxTest.
+ */
+
 namespace Drupal\Tests\Core\Template;
 
 use Drupal\Core\Template\Attribute;

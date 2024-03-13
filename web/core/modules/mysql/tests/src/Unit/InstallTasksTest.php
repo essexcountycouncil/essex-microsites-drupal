@@ -24,9 +24,7 @@ class InstallTasksTest extends UnitTestCase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp(): void {
-    parent::setUp();
-
+  public function setUp(): void {
     $this->connection = $this->prophesize(Connection::class);
   }
 

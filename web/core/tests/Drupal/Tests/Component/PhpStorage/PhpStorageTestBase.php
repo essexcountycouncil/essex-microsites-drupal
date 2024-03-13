@@ -22,7 +22,7 @@ abstract class PhpStorageTestBase extends TestCase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp(): void {
+  protected function setUp() {
     parent::setUp();
     vfsStream::setup('exampleDir');
     $this->directory = vfsStream::url('exampleDir');

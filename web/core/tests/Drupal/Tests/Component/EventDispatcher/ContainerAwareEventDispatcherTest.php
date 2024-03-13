@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Contracts\EventDispatcher\Event as SymfonyEvent;
+use Symfony\Component\EventDispatcher\Event as SymfonyEvent;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Drupal\Component\EventDispatcher\Event;
 use Symfony\Bridge\PhpUnit\ExpectDeprecationTrait;
@@ -152,12 +152,48 @@ class ContainerAwareEventDispatcherTest extends TestCase {
   }
 
   /**
+   * Tests argument order deprecation.
+   *
+   * @group legacy
+   */
+  public function testDispatchArgumentOrderDeprecation() {
+    $this->expectDeprecation('Calling the Symfony\Component\EventDispatcher\EventDispatcherInterface::dispatch() method with a string event name as the first argument is deprecated in drupal:9.1.0, an Event object will be required instead in drupal:10.0.0. See https://www.drupal.org/node/3154407');
+    $container = new ContainerBuilder();
+    $dispatcher = new ContainerAwareEventDispatcher($container, []);
+    $dispatcher->dispatch('foo');
+  }
+
+  /**
+   * Tests deprecation notice for Symfony Event class.
+   *
+   * @group legacy
+   */
+  public function testSymfonyEventDeprecation() {
+    $this->expectDeprecation('Symfony\Component\EventDispatcher\Event is deprecated in drupal:9.1.0 and will be replaced by Symfony\Contracts\EventDispatcher\Event in drupal:10.0.0. A new Drupal\Component\EventDispatcher\Event class is available to bridge the two versions of the class. See https://www.drupal.org/node/3159012');
+    $container = new ContainerBuilder();
+    $dispatcher = new ContainerAwareEventDispatcher($container, []);
+    $dispatcher->dispatch(new SymfonyEvent());
+  }
+
+  /**
    * Tests dispatching Symfony events with core's event dispatcher.
    */
   public function testSymfonyEventDispatching() {
     $container = new ContainerBuilder();
     $dispatcher = new ContainerAwareEventDispatcher($container, []);
     $dispatcher->dispatch(new GenericEvent());
+  }
+
+  /**
+   * Tests deprecation notice for Symfony Event class inheritance.
+   *
+   * @group legacy
+   */
+  public function testSymfonyInheritedEventDeprecation() {
+    $this->expectDeprecation('Symfony\Component\EventDispatcher\Event is deprecated in drupal:9.1.0 and will be replaced by Symfony\Contracts\EventDispatcher\Event in drupal:10.0.0. A new Drupal\Component\EventDispatcher\Event class is available to bridge the two versions of the class. See https://www.drupal.org/node/3159012');
+    $container = new ContainerBuilder();
+    $dispatcher = new ContainerAwareEventDispatcher($container, []);
+    $dispatcher->dispatch(new SymfonyInheritedEvent());
   }
 
   public function testDispatchWithServices() {
@@ -312,8 +348,6 @@ class ContainerAwareEventDispatcherTest extends TestCase {
     $this->assertFalse($this->listener->postFooInvoked);
     $this->assertInstanceOf(Event::class, $this->dispatcher->dispatch(new Event(), 'noevent'));
     $this->assertInstanceOf(Event::class, $this->dispatcher->dispatch(new Event(), self::PREFOO));
-    // Any kind of object can be dispatched, not only instances of Event.
-    $this->assertInstanceOf(\stdClass::class, $this->dispatcher->dispatch(new \stdClass(), self::PREFOO));
     $event = new Event();
     $return = $this->dispatcher->dispatch($event, self::PREFOO);
     $this->assertSame($event, $return);
@@ -561,14 +595,13 @@ class CallableClass {
 
 class TestEventListener {
 
-  public $name;
   public $preFooInvoked = FALSE;
   public $postFooInvoked = FALSE;
 
   /**
    * Listener methods.
    */
-  public function preFoo(object $e) {
+  public function preFoo(Event $e) {
     $this->preFooInvoked = TRUE;
   }
 
@@ -594,7 +627,7 @@ class TestWithDispatcher {
 
 class TestEventSubscriber implements EventSubscriberInterface {
 
-  public static function getSubscribedEvents(): array {
+  public static function getSubscribedEvents() {
     return ['pre.foo' => 'preFoo', 'post.foo' => 'postFoo'];
   }
 
@@ -602,7 +635,7 @@ class TestEventSubscriber implements EventSubscriberInterface {
 
 class TestEventSubscriberWithPriorities implements EventSubscriberInterface {
 
-  public static function getSubscribedEvents(): array {
+  public static function getSubscribedEvents() {
     return [
       'pre.foo' => ['preFoo', 10],
       'post.foo' => ['postFoo'],
@@ -613,7 +646,7 @@ class TestEventSubscriberWithPriorities implements EventSubscriberInterface {
 
 class TestEventSubscriberWithMultipleListeners implements EventSubscriberInterface {
 
-  public static function getSubscribedEvents(): array {
+  public static function getSubscribedEvents() {
     return [
       'pre.foo' => [
         ['preFoo1'],

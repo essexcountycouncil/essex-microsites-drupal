@@ -6,6 +6,7 @@ use Drupal\Core\Access\AccessResult;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\Tests\user\Traits\UserCreationTrait;
 use Drupal\workspaces\Entity\Workspace;
+use Drupal\workspaces\WorkspaceAccessException;
 
 /**
  * Tests access on workspaces.
@@ -103,13 +104,15 @@ class WorkspaceAccessTest extends KernelTestBase {
     $workspace->save();
 
     // Check that, by default, an admin user is allowed to publish a workspace.
-    $this->assertTrue($workspace->access('publish'));
+    $workspace->publish();
 
     // Simulate an external factor which decides that a workspace can not be
     // published.
     \Drupal::state()->set('workspace_access_test.result.publish', AccessResult::forbidden());
     \Drupal::entityTypeManager()->getAccessControlHandler('workspace')->resetCache();
-    $this->assertFalse($workspace->access('publish'));
+
+    $this->expectException(WorkspaceAccessException::class);
+    $workspace->publish();
   }
 
   /**

@@ -17,7 +17,12 @@ class FieldItemNormalizer extends ComplexDataNormalizer implements DenormalizerI
   /**
    * {@inheritdoc}
    */
-  public function denormalize($data, $class, $format = NULL, array $context = []): mixed {
+  protected $supportedInterfaceOrClass = FieldItemInterface::class;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function denormalize($data, $class, $format = NULL, array $context = []) {
     if (!isset($context['target_instance'])) {
       throw new InvalidArgumentException('$context[\'target_instance\'] must be set to denormalize with the FieldItemNormalizer');
     }
@@ -32,15 +37,6 @@ class FieldItemNormalizer extends ComplexDataNormalizer implements DenormalizerI
 
     $field_item->setValue($this->constructValue($data, $context));
     return $field_item;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getSupportedTypes(?string $format): array {
-    return [
-      FieldItemInterface::class => TRUE,
-    ];
   }
 
 }

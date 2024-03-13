@@ -5,6 +5,8 @@
  * Apply these classes to button elements (<button>, <input type="button" />).
  */
 
+@import "../base/variables.pcss.css";
+
 /**
  * Buttons.
  *

@@ -11,7 +11,6 @@ use Drupal\migrate\Row;
 use Drupal\migrate_drupal\Plugin\MigrateFieldInterface;
 use Drupal\migrate_drupal\Plugin\MigrateFieldPluginManagerInterface;
 use Drupal\Tests\migrate\Unit\MigrateTestCase;
-use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * Tests the ProcessField migrate process plugin.
@@ -24,27 +23,27 @@ class ProcessFieldTest extends MigrateTestCase {
   /**
    * @var \Drupal\migrate_drupal\Plugin\MigrateFieldPluginManagerInterface|\Prophecy\Prophecy\ObjectProphecy
    */
-  protected MigrateFieldPluginManagerInterface|ObjectProphecy $fieldManager;
+  protected $fieldManager;
 
   /**
    * @var \Drupal\migrate_drupal\Plugin\MigrateFieldInterface|\Prophecy\Prophecy\ObjectProphecy
    */
-  protected MigrateFieldInterface|ObjectProphecy $fieldPlugin;
+  protected $fieldPlugin;
 
   /**
    * @var \Drupal\migrate\MigrateExecutable|\Prophecy\Prophecy\ObjectProphecy
    */
-  protected MigrateExecutable|ObjectProphecy $migrateExecutable;
+  protected $migrateExecutable;
 
   /**
    * @var \Drupal\migrate\Plugin\MigrationInterface|\Prophecy\Prophecy\ObjectProphecy
    */
-  protected MigrationInterface|ObjectProphecy $migration;
+  protected $migration;
 
   /**
    * @var \Drupal\migrate\Row|\Prophecy\Prophecy\ObjectProphecy
    */
-  protected Row|ObjectProphecy $row;
+  protected $row;
 
   /**
    * {@inheritdoc}

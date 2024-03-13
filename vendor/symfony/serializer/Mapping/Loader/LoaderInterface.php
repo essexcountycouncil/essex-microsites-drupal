@@ -20,5 +20,8 @@ use Symfony\Component\Serializer\Mapping\ClassMetadataInterface;
  */
 interface LoaderInterface
 {
-    public function loadClassMetadata(ClassMetadataInterface $classMetadata): bool;
+    /**
+     * @return bool
+     */
+    public function loadClassMetadata(ClassMetadataInterface $classMetadata);
 }

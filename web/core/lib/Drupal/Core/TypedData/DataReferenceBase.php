@@ -54,9 +54,6 @@ abstract class DataReferenceBase extends TypedData implements DataReferenceInter
    * {@inheritdoc}
    */
   public function getString() {
-    if (!method_exists($this, 'getType')) {
-      throw new \BadMethodCallException(get_class($this) . '::getType() not implemented');
-    }
     return (string) $this->getType() . ':' . $this->getTargetIdentifier();
   }
 

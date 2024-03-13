@@ -294,7 +294,7 @@ content:
           marker_opacity:
             weight: 0
             settings:
-              opacity: 1.0
+              opacity: !!float 1
             enabled: false
           geolocation_marker_scroll_to_id:
             weight: 0

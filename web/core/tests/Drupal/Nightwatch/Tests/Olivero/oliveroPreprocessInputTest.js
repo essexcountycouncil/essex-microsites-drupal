@@ -84,7 +84,7 @@ module.exports = {
   },
   'Confirm that title attribute exists if set to display': (browser) => {
     browser
-      .setWindowSize(1400, 800)
+      .resizeWindow(1400, 800)
       .drupalRelativeURL('/form_test/form-labels')
       .waitForElementVisible(checkboxSelector, 1000)
       .assert.attributeEquals(
@@ -96,14 +96,14 @@ module.exports = {
   'Check form element classes by type': (browser) => {
     browser.drupalRelativeURL('/form_test/form-labels');
     inputTypes.forEach((inputType) => {
-      browser.assert.hasClass(inputType.selector, [
+      browser.assert.cssClassPresent(inputType.selector, [
         'form-element',
         `form-element--type-${inputType.type}`,
         `form-element--api-${inputType.api}`,
       ]);
     });
     booleanInputTypes.forEach((booleanInputType) => {
-      browser.assert.hasClass(booleanInputType.selector, [
+      browser.assert.cssClassPresent(booleanInputType.selector, [
         'form-boolean',
         `form-boolean--type-${booleanInputType.type}`,
       ]);

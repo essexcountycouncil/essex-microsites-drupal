@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -13,7 +13,6 @@
 namespace Composer\Json;
 
 use Composer\Pcre\Preg;
-use Composer\Util\Filesystem;
 use JsonSchema\Validator;
 use Seld\JsonLint\JsonParser;
 use Seld\JsonLint\ParsingException;
@@ -29,20 +28,14 @@ use Composer\Downloader\TransportException;
  */
 class JsonFile
 {
-    public const LAX_SCHEMA = 1;
-    public const STRICT_SCHEMA = 2;
-    public const AUTH_SCHEMA = 3;
+    const LAX_SCHEMA = 1;
+    const STRICT_SCHEMA = 2;
 
-    /** @deprecated Use \JSON_UNESCAPED_SLASHES */
-    public const JSON_UNESCAPED_SLASHES = 64;
-    /** @deprecated Use \JSON_PRETTY_PRINT */
-    public const JSON_PRETTY_PRINT = 128;
-    /** @deprecated Use \JSON_UNESCAPED_UNICODE */
-    public const JSON_UNESCAPED_UNICODE = 256;
+    const JSON_UNESCAPED_SLASHES = 64;
+    const JSON_PRETTY_PRINT = 128;
+    const JSON_UNESCAPED_UNICODE = 256;
 
-    public const COMPOSER_SCHEMA_PATH = __DIR__ . '/../../../res/composer-schema.json';
-
-    public const INDENT_DEFAULT = '    ';
+    const COMPOSER_SCHEMA_PATH = '/../../../res/composer-schema.json';
 
     /** @var string */
     private $path;
@@ -50,8 +43,6 @@ class JsonFile
     private $httpDownloader;
     /** @var ?IOInterface */
     private $io;
-    /** @var string */
-    private $indent = self::INDENT_DEFAULT;
 
     /**
      * Initializes json file reader/parser.
@@ -61,7 +52,7 @@ class JsonFile
      * @param  ?IOInterface              $io
      * @throws \InvalidArgumentException
      */
-    public function __construct(string $path, ?HttpDownloader $httpDownloader = null, ?IOInterface $io = null)
+    public function __construct($path, HttpDownloader $httpDownloader = null, IOInterface $io = null)
     {
         $this->path = $path;
 
@@ -72,15 +63,20 @@ class JsonFile
         $this->io = $io;
     }
 
-    public function getPath(): string
+    /**
+     * @return string
+     */
+    public function getPath()
     {
         return $this->path;
     }
 
     /**
      * Checks whether json file exists.
+     *
+     * @return bool
      */
-    public function exists(): bool
+    public function exists()
     {
         return is_file($this->path);
     }
@@ -98,9 +94,6 @@ class JsonFile
             if ($this->httpDownloader) {
                 $json = $this->httpDownloader->get($this->path)->getBody();
             } else {
-                if (!Filesystem::isReadable($this->path)) {
-                    throw new \RuntimeException('The file "'.$this->path.'" is not readable.');
-                }
                 if ($this->io && $this->io->isDebug()) {
                     $realpathInfo = '';
                     $realpath = realpath($this->path);
@@ -121,23 +114,21 @@ class JsonFile
             throw new \RuntimeException('Could not read '.$this->path);
         }
 
-        $this->indent = self::detectIndenting($json);
-
         return static::parseJson($json, $this->path);
     }
 
     /**
      * Writes json file.
      *
-     * @param  mixed[]                              $hash    writes hash into json file
-     * @param  int                                  $options json_encode options
+     * @param  mixed[]                          $hash    writes hash into json file
+     * @param  int                                  $options json_encode options (defaults to JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
      * @throws \UnexpectedValueException|\Exception
      * @return void
      */
-    public function write(array $hash, int $options = JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
+    public function write(array $hash, $options = 448)
     {
         if ($this->path === 'php://memory') {
-            file_put_contents($this->path, static::encode($hash, $options, $this->indent));
+            file_put_contents($this->path, static::encode($hash, $options));
 
             return;
         }
@@ -159,7 +150,7 @@ class JsonFile
         $retries = 3;
         while ($retries--) {
             try {
-                $this->filePutContentsIfModified($this->path, static::encode($hash, $options, $this->indent). ($options & JSON_PRETTY_PRINT ? "\n" : ''));
+                $this->filePutContentsIfModified($this->path, static::encode($hash, $options). ($options & self::JSON_PRETTY_PRINT ? "\n" : ''));
                 break;
             } catch (\Exception $e) {
                 if ($retries > 0) {
@@ -175,12 +166,14 @@ class JsonFile
     /**
      * Modify file properties only if content modified
      *
+     * @param string $path
+     * @param string $content
      * @return int|false
      */
-    private function filePutContentsIfModified(string $path, string $content)
+    private function filePutContentsIfModified($path, $content)
     {
         $currentContent = @file_get_contents($path);
-        if (false === $currentContent || $currentContent !== $content) {
+        if (!$currentContent || ($currentContent != $content)) {
             return file_put_contents($path, $content);
         }
 
@@ -194,15 +187,10 @@ class JsonFile
      * @param  string|null             $schemaFile a path to the schema file
      * @throws JsonValidationException
      * @throws ParsingException
-     * @return true                    true on success
-     *
-     * @phpstan-param self::*_SCHEMA $schema
+     * @return bool                    true on success
      */
-    public function validateSchema(int $schema = self::STRICT_SCHEMA, ?string $schemaFile = null): bool
+    public function validateSchema($schema = self::STRICT_SCHEMA, $schemaFile = null)
     {
-        if (!Filesystem::isReadable($this->path)) {
-            throw new \RuntimeException('The file "'.$this->path.'" is not readable.');
-        }
         $content = file_get_contents($this->path);
         $data = json_decode($content);
 
@@ -210,26 +198,10 @@ class JsonFile
             self::validateSyntax($content, $this->path);
         }
 
-        return self::validateJsonSchema($this->path, $data, $schema, $schemaFile);
-    }
-
-    /**
-     * Validates the schema of the current json file according to composer-schema.json rules
-     *
-     * @param  mixed                   $data       Decoded JSON data to validate
-     * @param  int                     $schema     a JsonFile::*_SCHEMA constant
-     * @param  string|null             $schemaFile a path to the schema file
-     * @throws JsonValidationException
-     * @return true                    true on success
-     *
-     * @phpstan-param self::*_SCHEMA $schema
-     */
-    public static function validateJsonSchema(string $source, $data, int $schema, ?string $schemaFile = null): bool
-    {
         $isComposerSchemaFile = false;
         if (null === $schemaFile) {
             $isComposerSchemaFile = true;
-            $schemaFile = self::COMPOSER_SCHEMA_PATH;
+            $schemaFile = __DIR__ . self::COMPOSER_SCHEMA_PATH;
         }
 
         // Prepend with file:// only when not using a special schema already (e.g. in the phar)
@@ -237,27 +209,25 @@ class JsonFile
             $schemaFile = 'file://' . $schemaFile;
         }
 
-        $schemaData = (object) ['$ref' => $schemaFile];
+        $schemaData = (object) array('$ref' => $schemaFile);
 
         if ($schema === self::LAX_SCHEMA) {
             $schemaData->additionalProperties = true;
-            $schemaData->required = [];
+            $schemaData->required = array();
         } elseif ($schema === self::STRICT_SCHEMA && $isComposerSchemaFile) {
             $schemaData->additionalProperties = false;
-            $schemaData->required = ['name', 'description'];
-        } elseif ($schema === self::AUTH_SCHEMA && $isComposerSchemaFile) {
-            $schemaData = (object) ['$ref' => $schemaFile.'#/properties/config', '$schema' => "https://json-schema.org/draft-04/schema#"];
+            $schemaData->required = array('name', 'description');
         }
 
         $validator = new Validator();
         $validator->check($data, $schemaData);
 
         if (!$validator->isValid()) {
-            $errors = [];
+            $errors = array();
             foreach ((array) $validator->getErrors() as $error) {
                 $errors[] = ($error['property'] ? $error['property'].' : ' : '').$error['message'];
             }
-            throw new JsonValidationException('"'.$source.'" does not match the expected JSON schema', $errors);
+            throw new JsonValidationException('"'.$this->path.'" does not match the expected JSON schema', $errors);
         }
 
         return true;
@@ -268,29 +238,39 @@ class JsonFile
      *
      * @param  mixed  $data    Data to encode into a formatted JSON string
      * @param  int    $options json_encode options (defaults to JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
-     * @param  string $indent  Indentation string
      * @return string Encoded json
      */
-    public static function encode($data, int $options = 448, string $indent = self::INDENT_DEFAULT): string
+    public static function encode($data, $options = 448)
     {
-        $json = json_encode($data, $options);
+        if (PHP_VERSION_ID >= 50400) {
+            $json = json_encode($data, $options);
+            if (false === $json) {
+                self::throwEncodeError(json_last_error());
+            }
 
+            //  compact brackets to follow recent php versions
+            if (PHP_VERSION_ID < 50428 || (PHP_VERSION_ID >= 50500 && PHP_VERSION_ID < 50512) || (defined('JSON_C_VERSION') && version_compare(phpversion('json'), '1.3.6', '<'))) {
+                $json = Preg::replace('/\[\s+\]/', '[]', $json);
+                $json = Preg::replace('/\{\s+\}/', '{}', $json);
+            }
+
+            return $json;
+        }
+
+        $json = json_encode($data);
         if (false === $json) {
             self::throwEncodeError(json_last_error());
         }
 
-        if (($options & JSON_PRETTY_PRINT) > 0 && $indent !== self::INDENT_DEFAULT ) {
-            // Pretty printing and not using default indentation
-            return Preg::replaceCallback(
-                '#^ {4,}#m',
-                static function ($match) use ($indent): string {
-                    return str_repeat($indent, (int)(strlen($match[0] ?? '') / 4));
-                },
-                $json
-            );
+        $prettyPrint = (bool) ($options & self::JSON_PRETTY_PRINT);
+        $unescapeUnicode = (bool) ($options & self::JSON_UNESCAPED_UNICODE);
+        $unescapeSlashes = (bool) ($options & self::JSON_UNESCAPED_SLASHES);
+
+        if (!$prettyPrint && !$unescapeUnicode && !$unescapeSlashes) {
+            return $json;
         }
 
-        return $json;
+        return JsonFormatter::format($json, $unescapeUnicode, $unescapeSlashes);
     }
 
     /**
@@ -298,9 +278,9 @@ class JsonFile
      *
      * @param  int               $code return code of json_last_error function
      * @throws \RuntimeException
-     * @return never
+     * @return void
      */
-    private static function throwEncodeError(int $code): void
+    private static function throwEncodeError($code)
     {
         switch ($code) {
             case JSON_ERROR_DEPTH:
@@ -325,13 +305,13 @@ class JsonFile
     /**
      * Parses json string and returns hash.
      *
-     * @param null|string $json json string
+     * @param ?string $json json string
      * @param string $file the json file
      *
      * @throws ParsingException
      * @return mixed
      */
-    public static function parseJson(?string $json, ?string $file = null)
+    public static function parseJson($json, $file = null)
     {
         if (null === $json) {
             return null;
@@ -347,41 +327,24 @@ class JsonFile
     /**
      * Validates the syntax of a JSON string
      *
+     * @param  string                    $json
      * @param  string                    $file
      * @throws \UnexpectedValueException
      * @throws ParsingException
      * @return bool                      true on success
      */
-    protected static function validateSyntax(string $json, ?string $file = null): bool
+    protected static function validateSyntax($json, $file = null)
     {
         $parser = new JsonParser();
         $result = $parser->lint($json);
         if (null === $result) {
             if (defined('JSON_ERROR_UTF8') && JSON_ERROR_UTF8 === json_last_error()) {
-                if ($file === null) {
-                    throw new \UnexpectedValueException('The input is not UTF-8, could not parse as JSON');
-                } else {
-                    throw new \UnexpectedValueException('"' . $file . '" is not UTF-8, could not parse as JSON');
-                }
+                throw new \UnexpectedValueException('"'.$file.'" is not UTF-8, could not parse as JSON');
             }
 
             return true;
         }
 
-        if ($file === null) {
-            throw new ParsingException('The input does not contain valid JSON' . "\n" . $result->getMessage(),
-                $result->getDetails());
-        } else {
-            throw new ParsingException('"' . $file . '" does not contain valid JSON' . "\n" . $result->getMessage(),
-                $result->getDetails());
-        }
-    }
-
-    public static function detectIndenting(?string $json): string
-    {
-        if (Preg::isMatchStrictGroups('#^([ \t]+)"#m', $json ?? '', $match)) {
-            return $match[1];
-        }
-        return self::INDENT_DEFAULT;
+        throw new ParsingException('"'.$file.'" does not contain valid JSON'."\n".$result->getMessage(), $result->getDetails());
     }
 }

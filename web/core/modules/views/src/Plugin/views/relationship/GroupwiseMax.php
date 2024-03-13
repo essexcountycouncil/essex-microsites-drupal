@@ -62,11 +62,6 @@ use Drupal\views\Entity\View;
 class GroupwiseMax extends RelationshipPluginBase {
 
   /**
-   * The namespace of the subquery.
-   */
-  public string $subquery_namespace;
-
-  /**
    * {@inheritdoc}
    */
   protected function defineOptions() {
@@ -331,7 +326,7 @@ class GroupwiseMax extends RelationshipPluginBase {
   protected function conditionNamespace($string) {
     $parts = explode(' = ', $string);
     foreach ($parts as &$part) {
-      if (str_contains($part, '.')) {
+      if (strpos($part, '.') !== FALSE) {
         $part = '"' . str_replace('.', $this->subquery_namespace . '".', $part);
       }
     }

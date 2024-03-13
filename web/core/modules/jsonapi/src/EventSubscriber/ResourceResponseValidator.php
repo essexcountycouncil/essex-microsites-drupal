@@ -76,7 +76,7 @@ class ResourceResponseValidator implements EventSubscriberInterface {
   /**
    * {@inheritdoc}
    */
-  public static function getSubscribedEvents(): array {
+  public static function getSubscribedEvents() {
     $events[KernelEvents::RESPONSE][] = ['onResponse'];
     return $events;
   }
@@ -101,7 +101,7 @@ class ResourceResponseValidator implements EventSubscriberInterface {
    */
   public function onResponse(ResponseEvent $event) {
     $response = $event->getResponse();
-    if (!str_contains($response->headers->get('Content-Type', ''), 'application/vnd.api+json')) {
+    if (strpos($response->headers->get('Content-Type', ''), 'application/vnd.api+json') === FALSE) {
       return;
     }
 

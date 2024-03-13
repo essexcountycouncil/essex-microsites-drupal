@@ -60,8 +60,6 @@ class ConfigEntityMapperTest extends UnitTestCase {
    * {@inheritdoc}
    */
   protected function setUp(): void {
-    parent::setUp();
-
     $this->entityTypeManager = $this->createMock('Drupal\Core\Entity\EntityTypeManagerInterface');
 
     $this->entity = $this->createMock('Drupal\Core\Config\Entity\ConfigEntityInterface');

@@ -21,8 +21,6 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
  *
  * @author Grégoire Pineau <lyrixx@lyrixx.info>
  * @author Kévin Dunglas <dunglas@gmail.com>
- *
- * @final since Symfony 6.3
  */
 class ConstraintViolationListNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
@@ -30,35 +28,23 @@ class ConstraintViolationListNormalizer implements NormalizerInterface, Cacheabl
     public const STATUS = 'status';
     public const TITLE = 'title';
     public const TYPE = 'type';
-    public const PAYLOAD_FIELDS = 'payload_fields';
 
-    public function __construct(
-        private readonly array $defaultContext = [],
-        private readonly ?NameConverterInterface $nameConverter = null,
-    ) {
+    private $defaultContext;
+    private $nameConverter;
+
+    public function __construct(array $defaultContext = [], NameConverterInterface $nameConverter = null)
+    {
+        $this->defaultContext = $defaultContext;
+        $this->nameConverter = $nameConverter;
     }
 
-    public function getSupportedTypes(?string $format): array
+    /**
+     * {@inheritdoc}
+     *
+     * @return array
+     */
+    public function normalize($object, $format = null, array $context = [])
     {
-        return [
-            ConstraintViolationListInterface::class => __CLASS__ === static::class || $this->hasCacheableSupportsMethod(),
-        ];
-    }
-
-    public function normalize(mixed $object, ?string $format = null, array $context = []): array
-    {
-        if (\array_key_exists(self::PAYLOAD_FIELDS, $context)) {
-            $payloadFieldsToSerialize = $context[self::PAYLOAD_FIELDS];
-        } elseif (\array_key_exists(self::PAYLOAD_FIELDS, $this->defaultContext)) {
-            $payloadFieldsToSerialize = $this->defaultContext[self::PAYLOAD_FIELDS];
-        } else {
-            $payloadFieldsToSerialize = [];
-        }
-
-        if (\is_array($payloadFieldsToSerialize) && [] !== $payloadFieldsToSerialize) {
-            $payloadFieldsToSerialize = array_flip($payloadFieldsToSerialize);
-        }
-
         $violations = [];
         $messages = [];
         foreach ($object as $violation) {
@@ -67,22 +53,10 @@ class ConstraintViolationListNormalizer implements NormalizerInterface, Cacheabl
             $violationEntry = [
                 'propertyPath' => $propertyPath,
                 'title' => $violation->getMessage(),
-                'template' => $violation->getMessageTemplate(),
                 'parameters' => $violation->getParameters(),
             ];
             if (null !== $code = $violation->getCode()) {
                 $violationEntry['type'] = sprintf('urn:uuid:%s', $code);
-            }
-
-            $constraint = $violation->getConstraint();
-            if (
-                [] !== $payloadFieldsToSerialize
-                && $constraint
-                && $constraint->payload
-                // If some or all payload fields are whitelisted, add them
-                && $payloadFields = null === $payloadFieldsToSerialize || true === $payloadFieldsToSerialize ? $constraint->payload : array_intersect_key($constraint->payload, $payloadFieldsToSerialize)
-            ) {
-                $violationEntry['payload'] = $payloadFields;
             }
 
             $violations[] = $violationEntry;
@@ -109,20 +83,18 @@ class ConstraintViolationListNormalizer implements NormalizerInterface, Cacheabl
     }
 
     /**
-     * @param array $context
+     * {@inheritdoc}
      */
-    public function supportsNormalization(mixed $data, ?string $format = null /* , array $context = [] */): bool
+    public function supportsNormalization($data, $format = null)
     {
         return $data instanceof ConstraintViolationListInterface;
     }
 
     /**
-     * @deprecated since Symfony 6.3, use "getSupportedTypes()" instead
+     * {@inheritdoc}
      */
     public function hasCacheableSupportsMethod(): bool
     {
-        trigger_deprecation('symfony/serializer', '6.3', 'The "%s()" method is deprecated, implement "%s::getSupportedTypes()" instead.', __METHOD__, get_debug_type($this));
-
         return __CLASS__ === static::class;
     }
 }

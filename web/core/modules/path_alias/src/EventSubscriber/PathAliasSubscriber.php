@@ -69,7 +69,7 @@ class PathAliasSubscriber implements EventSubscriberInterface {
    * @return array
    *   An array of event listener definitions.
    */
-  public static function getSubscribedEvents(): array {
+  public static function getSubscribedEvents() {
     $events[KernelEvents::CONTROLLER][] = ['onKernelController', 200];
     $events[KernelEvents::TERMINATE][] = ['onKernelTerminate', 200];
     return $events;

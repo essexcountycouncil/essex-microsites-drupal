@@ -12,7 +12,6 @@
 namespace Symfony\Component\DependencyInjection\Dumper;
 
 use Symfony\Component\DependencyInjection\Alias;
-use Symfony\Component\DependencyInjection\Argument\AbstractArgument;
 use Symfony\Component\DependencyInjection\Argument\IteratorArgument;
 use Symfony\Component\DependencyInjection\Argument\ServiceClosureArgument;
 use Symfony\Component\DependencyInjection\Argument\ServiceLocatorArgument;
@@ -32,12 +31,17 @@ use Symfony\Component\ExpressionLanguage\Expression;
  */
 class XmlDumper extends Dumper
 {
-    private \DOMDocument $document;
+    /**
+     * @var \DOMDocument
+     */
+    private $document;
 
     /**
      * Dumps the service container as an XML string.
+     *
+     * @return string An xml string representing of the service container
      */
-    public function dump(array $options = []): string
+    public function dump(array $options = [])
     {
         $this->document = new \DOMDocument('1.0', 'utf-8');
         $this->document->formatOutput = true;
@@ -51,12 +55,12 @@ class XmlDumper extends Dumper
 
         $this->document->appendChild($container);
         $xml = $this->document->saveXML();
-        unset($this->document);
+        $this->document = null;
 
         return $this->container->resolveEnvPlaceholders($xml);
     }
 
-    private function addParameters(\DOMElement $parent): void
+    private function addParameters(\DOMElement $parent)
     {
         $data = $this->container->getParameterBag()->all();
         if (!$data) {
@@ -72,7 +76,7 @@ class XmlDumper extends Dumper
         $this->convertParameters($data, 'parameter', $parameters);
     }
 
-    private function addMethodCalls(array $methodcalls, \DOMElement $parent): void
+    private function addMethodCalls(array $methodcalls, \DOMElement $parent)
     {
         foreach ($methodcalls as $methodcall) {
             $call = $this->document->createElement('call');
@@ -87,14 +91,14 @@ class XmlDumper extends Dumper
         }
     }
 
-    private function addService(Definition $definition, ?string $id, \DOMElement $parent): void
+    private function addService(Definition $definition, ?string $id, \DOMElement $parent)
     {
         $service = $this->document->createElement('service');
         if (null !== $id) {
             $service->setAttribute('id', $id);
         }
         if ($class = $definition->getClass()) {
-            if (str_starts_with($class, '\\')) {
+            if ('\\' === substr($class, 0, 1)) {
                 $class = substr($class, 1);
             }
 
@@ -103,8 +107,8 @@ class XmlDumper extends Dumper
         if (!$definition->isShared()) {
             $service->setAttribute('shared', 'false');
         }
-        if ($definition->isPublic()) {
-            $service->setAttribute('public', 'true');
+        if (!$definition->isPrivate()) {
+            $service->setAttribute('public', $definition->isPublic() ? 'true' : 'false');
         }
         if ($definition->isSynthetic()) {
             $service->setAttribute('synthetic', 'true');
@@ -129,24 +133,12 @@ class XmlDumper extends Dumper
             }
         }
 
-        $tags = $definition->getTags();
-        $tags['container.error'] = array_map(fn ($e) => ['message' => $e], $definition->getErrors());
-        foreach ($tags as $name => $tags) {
+        foreach ($definition->getTags() as $name => $tags) {
             foreach ($tags as $attributes) {
                 $tag = $this->document->createElement('tag');
-                if (!\array_key_exists('name', $attributes)) {
-                    $tag->setAttribute('name', $name);
-                } else {
-                    $tag->appendChild($this->document->createTextNode($name));
-                }
-
-                // Check if we have recursive attributes
-                if (array_filter($attributes, \is_array(...))) {
-                    $this->addTagRecursiveAttributes($tag, $attributes);
-                } else {
-                    foreach ($attributes as $key => $value) {
-                        $tag->setAttribute($key, $value ?? '');
-                    }
+                $tag->setAttribute('name', $name);
+                foreach ($attributes as $key => $value) {
+                    $tag->setAttribute($key, $value ?? '');
                 }
                 $service->appendChild($tag);
             }
@@ -169,32 +161,25 @@ class XmlDumper extends Dumper
         $this->addMethodCalls($definition->getMethodCalls(), $service);
 
         if ($callable = $definition->getFactory()) {
-            if (\is_array($callable) && ['Closure', 'fromCallable'] !== $callable && $definition->getClass() === $callable[0]) {
-                $service->setAttribute('constructor', $callable[1]);
-            } else {
-                $factory = $this->document->createElement('factory');
+            $factory = $this->document->createElement('factory');
 
-                if (\is_array($callable) && $callable[0] instanceof Definition) {
-                    $this->addService($callable[0], null, $factory);
-                    $factory->setAttribute('method', $callable[1]);
-                } elseif (\is_array($callable)) {
-                    if (null !== $callable[0]) {
-                        $factory->setAttribute($callable[0] instanceof Reference ? 'service' : 'class', $callable[0]);
-                    }
-                    $factory->setAttribute('method', $callable[1]);
-                } else {
-                    $factory->setAttribute('function', $callable);
+            if (\is_array($callable) && $callable[0] instanceof Definition) {
+                $this->addService($callable[0], null, $factory);
+                $factory->setAttribute('method', $callable[1]);
+            } elseif (\is_array($callable)) {
+                if (null !== $callable[0]) {
+                    $factory->setAttribute($callable[0] instanceof Reference ? 'service' : 'class', $callable[0]);
                 }
-                $service->appendChild($factory);
+                $factory->setAttribute('method', $callable[1]);
+            } else {
+                $factory->setAttribute('function', $callable);
             }
+            $service->appendChild($factory);
         }
 
         if ($definition->isDeprecated()) {
-            $deprecation = $definition->getDeprecation('%service_id%');
             $deprecated = $this->document->createElement('deprecated');
-            $deprecated->appendChild($this->document->createTextNode($definition->getDeprecation('%service_id%')['message']));
-            $deprecated->setAttribute('package', $deprecation['package']);
-            $deprecated->setAttribute('version', $deprecation['version']);
+            $deprecated->appendChild($this->document->createTextNode($definition->getDeprecationMessage('%service_id%')));
 
             $service->appendChild($deprecated);
         }
@@ -229,21 +214,18 @@ class XmlDumper extends Dumper
         $parent->appendChild($service);
     }
 
-    private function addServiceAlias(string $alias, Alias $id, \DOMElement $parent): void
+    private function addServiceAlias(string $alias, Alias $id, \DOMElement $parent)
     {
         $service = $this->document->createElement('service');
         $service->setAttribute('id', $alias);
         $service->setAttribute('alias', $id);
-        if ($id->isPublic()) {
-            $service->setAttribute('public', 'true');
+        if (!$id->isPrivate()) {
+            $service->setAttribute('public', $id->isPublic() ? 'true' : 'false');
         }
 
         if ($id->isDeprecated()) {
-            $deprecation = $id->getDeprecation('%alias_id%');
             $deprecated = $this->document->createElement('deprecated');
-            $deprecated->appendChild($this->document->createTextNode($deprecation['message']));
-            $deprecated->setAttribute('package', $deprecation['package']);
-            $deprecated->setAttribute('version', $deprecation['version']);
+            $deprecated->appendChild($this->document->createTextNode($id->getDeprecationMessage('%alias_id%')));
 
             $service->appendChild($deprecated);
         }
@@ -251,7 +233,7 @@ class XmlDumper extends Dumper
         $parent->appendChild($service);
     }
 
-    private function addServices(\DOMElement $parent): void
+    private function addServices(\DOMElement $parent)
     {
         $definitions = $this->container->getDefinitions();
         if (!$definitions) {
@@ -273,25 +255,9 @@ class XmlDumper extends Dumper
         $parent->appendChild($services);
     }
 
-    private function addTagRecursiveAttributes(\DOMElement $parent, array $attributes): void
+    private function convertParameters(array $parameters, string $type, \DOMElement $parent, string $keyAttribute = 'key')
     {
-        foreach ($attributes as $name => $value) {
-            $attribute = $this->document->createElement('attribute');
-            $attribute->setAttribute('name', $name);
-
-            if (\is_array($value)) {
-                $this->addTagRecursiveAttributes($attribute, $value);
-            } else {
-                $attribute->appendChild($this->document->createTextNode($value));
-            }
-
-            $parent->appendChild($attribute);
-        }
-    }
-
-    private function convertParameters(array $parameters, string $type, \DOMElement $parent, string $keyAttribute = 'key'): void
-    {
-        $withKeys = !array_is_list($parameters);
+        $withKeys = array_keys($parameters) !== range(0, \count($parameters) - 1);
         foreach ($parameters as $key => $value) {
             $element = $this->document->createElement($type);
             if ($withKeys) {
@@ -315,26 +281,11 @@ class XmlDumper extends Dumper
                         $element->setAttribute('default-priority-method', $tag->getDefaultPriorityMethod());
                     }
                 }
-                if ($excludes = $tag->getExclude()) {
-                    if (1 === \count($excludes)) {
-                        $element->setAttribute('exclude', $excludes[0]);
-                    } else {
-                        foreach ($excludes as $exclude) {
-                            $element->appendChild($this->document->createElement('exclude', $exclude));
-                        }
-                    }
-                }
-                if (!$tag->excludeSelf()) {
-                    $element->setAttribute('exclude-self', 'false');
-                }
             } elseif ($value instanceof IteratorArgument) {
                 $element->setAttribute('type', 'iterator');
                 $this->convertParameters($value->getValues(), $type, $element, 'key');
             } elseif ($value instanceof ServiceLocatorArgument) {
                 $element->setAttribute('type', 'service_locator');
-                $this->convertParameters($value->getValues(), $type, $element, 'key');
-            } elseif ($value instanceof ServiceClosureArgument && !$value->getValues()[0] instanceof Reference) {
-                $element->setAttribute('type', 'service_closure');
                 $this->convertParameters($value->getValues(), $type, $element, 'key');
             } elseif ($value instanceof Reference || $value instanceof ServiceClosureArgument) {
                 $element->setAttribute('type', 'service');
@@ -358,17 +309,13 @@ class XmlDumper extends Dumper
                 $element->setAttribute('type', 'expression');
                 $text = $this->document->createTextNode(self::phpToXml((string) $value));
                 $element->appendChild($text);
-            } elseif (\is_string($value) && !preg_match('/^[^\x00-\x08\x0B\x0C\x0E-\x1F\x7F]*+$/u', $value)) {
+            } elseif (\is_string($value) && !preg_match('/^[^\x00-\x08\x0B\x0E-\x1A\x1C-\x1F\x7F]*+$/u', $value)) {
                 $element->setAttribute('type', 'binary');
                 $text = $this->document->createTextNode(self::phpToXml(base64_encode($value)));
                 $element->appendChild($text);
             } elseif ($value instanceof \UnitEnum) {
                 $element->setAttribute('type', 'constant');
                 $element->appendChild($this->document->createTextNode(self::phpToXml($value)));
-            } elseif ($value instanceof AbstractArgument) {
-                $element->setAttribute('type', 'abstract');
-                $text = $this->document->createTextNode(self::phpToXml($value->getText()));
-                $element->appendChild($text);
             } else {
                 if (\in_array($value, ['null', 'true', 'false'], true)) {
                     $element->setAttribute('type', 'string');
@@ -407,9 +354,11 @@ class XmlDumper extends Dumper
     /**
      * Converts php types to xml types.
      *
+     * @param mixed $value Value to convert
+     *
      * @throws RuntimeException When trying to dump object or resource
      */
-    public static function phpToXml(mixed $value): string
+    public static function phpToXml($value): string
     {
         switch (true) {
             case null === $value:
@@ -421,9 +370,9 @@ class XmlDumper extends Dumper
             case $value instanceof Parameter:
                 return '%'.$value.'%';
             case $value instanceof \UnitEnum:
-                return sprintf('%s::%s', $value::class, $value->name);
+                return sprintf('%s::%s', \get_class($value), $value->name);
             case \is_object($value) || \is_resource($value):
-                throw new RuntimeException(sprintf('Unable to dump a service container if a parameter is an object or a resource, got "%s".', get_debug_type($value)));
+                throw new RuntimeException('Unable to dump a service container if a parameter is an object or a resource.');
             default:
                 return (string) $value;
         }

@@ -69,11 +69,4 @@ class Some extends PagerPluginBase {
     $this->view->query->setOffset($this->options['offset']);
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function postExecute(&$result): void {
-    $this->total_items = count($result);
-  }
-
 }

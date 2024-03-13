@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\Tests\Core\Entity\EntityFieldManagerTest.
+ */
+
 namespace Drupal\Tests\Core\Entity;
 
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
@@ -421,14 +426,13 @@ class EntityFieldManagerTest extends UnitTestCase {
 
     $expected = ['id' => $field_definition];
 
-    $cacheBackend = $this->cacheBackend;
     $this->cacheBackend->get('entity_base_field_definitions:test_entity_type:en')
       ->willReturn(FALSE)
       ->shouldBeCalled();
     $this->cacheBackend->set('entity_base_field_definitions:test_entity_type:en', Argument::any(), Cache::PERMANENT, ['entity_types', 'entity_field_info'])
-      ->will(function (array $args) use ($cacheBackend) {
+      ->will(function ($args) {
         $data = (object) ['data' => $args[1]];
-        $cacheBackend->get('entity_base_field_definitions:test_entity_type:en')
+        $this->get('entity_base_field_definitions:test_entity_type:en')
           ->willReturn($data)
           ->shouldBeCalled();
       })
@@ -449,7 +453,6 @@ class EntityFieldManagerTest extends UnitTestCase {
 
     $expected = ['id' => $field_definition];
 
-    $cacheBackend = $this->cacheBackend;
     $this->cacheBackend->get('entity_base_field_definitions:test_entity_type:en')
       ->willReturn((object) ['data' => $expected])
       ->shouldBeCalledTimes(2);
@@ -457,9 +460,9 @@ class EntityFieldManagerTest extends UnitTestCase {
       ->willReturn(FALSE)
       ->shouldBeCalledTimes(1);
     $this->cacheBackend->set('entity_bundle_field_definitions:test_entity_type:test_bundle:en', Argument::any(), Cache::PERMANENT, ['entity_types', 'entity_field_info'])
-      ->will(function (array $args) use ($cacheBackend) {
+      ->will(function ($args) {
         $data = (object) ['data' => $args[1]];
-        $cacheBackend->get('entity_bundle_field_definitions:test_entity_type:test_bundle:en')
+        $this->get('entity_bundle_field_definitions:test_entity_type:test_bundle:en')
           ->willReturn($data)
           ->shouldBeCalled();
       })
@@ -499,15 +502,14 @@ class EntityFieldManagerTest extends UnitTestCase {
       'field_storage' => $field_storage_definition->reveal(),
     ];
 
-    $cacheBackend = $this->cacheBackend;
     $this->cacheBackend->get('entity_base_field_definitions:test_entity_type:en')
       ->willReturn((object) ['data' => ['id' => $expected['id']]])
       ->shouldBeCalledTimes(2);
     $this->cacheBackend->get('entity_field_storage_definitions:test_entity_type:en')->willReturn(FALSE);
 
     $this->cacheBackend->set('entity_field_storage_definitions:test_entity_type:en', Argument::any(), Cache::PERMANENT, ['entity_types', 'entity_field_info'])
-      ->will(function () use ($expected, $cacheBackend) {
-        $cacheBackend->get('entity_field_storage_definitions:test_entity_type:en')
+      ->will(function () use ($expected) {
+        $this->get('entity_field_storage_definitions:test_entity_type:en')
           ->willReturn((object) ['data' => $expected])
           ->shouldBeCalled();
       })
@@ -679,7 +681,7 @@ class EntityFieldManagerTest extends UnitTestCase {
     $processed_hook_bundle_extra_fields[$entity_type_id][$bundle] += [
       'display' => [],
     ];
-    $cache_id = 'entity_extra_field_info:' . $language_code;
+    $cache_id = 'entity_bundle_extra_fields:' . $entity_type_id . ':' . $bundle . ':' . $language_code;
 
     $language = new Language(['id' => $language_code]);
     $this->languageManager->getCurrentLanguage()
@@ -691,7 +693,7 @@ class EntityFieldManagerTest extends UnitTestCase {
     $this->moduleHandler->invokeAll('entity_extra_field_info')->willReturn($hook_bundle_extra_fields);
     $this->moduleHandler->alter('entity_extra_field_info', $hook_bundle_extra_fields)->shouldBeCalled();
 
-    $this->cacheBackend->set($cache_id, $processed_hook_bundle_extra_fields, Cache::PERMANENT, ['entity_field_info'])->shouldBeCalled();
+    $this->cacheBackend->set($cache_id, $processed_hook_bundle_extra_fields[$entity_type_id][$bundle], Cache::PERMANENT, ['entity_field_info'])->shouldBeCalled();
 
     $this->assertSame($processed_hook_bundle_extra_fields[$entity_type_id][$bundle], $this->entityFieldManager->getExtraFields($entity_type_id, $bundle));
   }

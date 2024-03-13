@@ -34,22 +34,23 @@ trait EntityTranslationRenderTrait {
         '***LANGUAGE_entity_translation***' => 'TranslationLanguageRenderer',
         '***LANGUAGE_entity_default***' => 'DefaultLanguageRenderer',
       ];
-      $entity_type = $this->getEntityTypeManager()->getDefinition($this->getEntityTypeId());
       if (isset($dynamic_renderers[$rendering_language])) {
         // Dynamic language set based on result rows or instance defaults.
-        $class = '\Drupal\views\Entity\Render\\' . $dynamic_renderers[$rendering_language];
-        $this->entityTranslationRenderer = new $class($view, $this->getLanguageManager(), $entity_type);
+        $renderer = $dynamic_renderers[$rendering_language];
       }
       else {
-        if (str_contains($rendering_language, '***LANGUAGE_')) {
+        if (strpos($rendering_language, '***LANGUAGE_') !== FALSE) {
           $langcode = PluginBase::queryLanguageSubstitutions()[$rendering_language];
         }
         else {
           // Specific langcode set.
           $langcode = $rendering_language;
         }
-        $this->entityTranslationRenderer = new ConfigurableLanguageRenderer($view, $this->getLanguageManager(), $entity_type, $langcode);
+        $renderer = 'ConfigurableLanguageRenderer';
       }
+      $class = '\Drupal\views\Entity\Render\\' . $renderer;
+      $entity_type = $this->getEntityTypeManager()->getDefinition($this->getEntityTypeId());
+      $this->entityTranslationRenderer = new $class($view, $this->getLanguageManager(), $entity_type, $langcode);
     }
     return $this->entityTranslationRenderer;
   }
@@ -64,41 +65,18 @@ trait EntityTranslationRenderTrait {
    *
    * @return \Drupal\Core\Entity\FieldableEntityInterface
    *   The entity translation object for the specified row.
-   *
-   * @deprecated in drupal:10.1.0 and is removed from drupal:11.0.0. Use
-   *   \Drupal\views\Entity\Render\EntityTranslationRenderTrait::getEntityTranslationByRelationship
-   *   instead.
-   *
-   * @see https://www.drupal.org/node/3311862
    */
   public function getEntityTranslation(EntityInterface $entity, ResultRow $row) {
-    @trigger_error('\Drupal\views\Entity\Render\EntityTranslationRenderTrait::getEntityTranslation is deprecated in drupal:10.1.0 and is removed from drupal:11.0.0. Use \Drupal\views\Entity\Render\EntityTranslationRenderTrait::getEntityTranslationByRelationship instead. See https://www.drupal.org/node/3311862', E_USER_DEPRECATED);
-    return $this->getEntityTranslationByRelationship($entity, $row);
-  }
-
-  /**
-   * Returns the entity translation matching the configured row language.
-   *
-   * @param \Drupal\Core\Entity\EntityInterface $entity
-   *   The entity object the field value being processed is attached to.
-   * @param \Drupal\views\ResultRow $row
-   *   The result row the field value being processed belongs to.
-   * @param string $relationship
-   *   The relationship to be used, or 'none' by default.
-   *
-   * @return \Drupal\Core\Entity\EntityInterface
-   *   The entity translation object for the specified row.
-   */
-  public function getEntityTranslationByRelationship(EntityInterface $entity, ResultRow $row, string $relationship = 'none'): EntityInterface {
     // We assume the same language should be used for all entity fields
     // belonging to a single row, even if they are attached to different entity
     // types. Below we apply language fallback to ensure a valid value is always
     // picked.
+    $translation = $entity;
     if ($entity instanceof TranslatableInterface && count($entity->getTranslationLanguages()) > 1) {
-      $langcode = $this->getEntityTranslationRenderer()->getLangcodeByRelationship($row, $relationship);
+      $langcode = $this->getEntityTranslationRenderer()->getLangcode($row);
       $translation = $this->getEntityRepository()->getTranslationFromContext($entity, $langcode);
     }
-    return $translation ?? $entity;
+    return $translation;
   }
 
   /**

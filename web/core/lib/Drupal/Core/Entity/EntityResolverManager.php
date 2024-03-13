@@ -33,7 +33,7 @@ class EntityResolverManager {
    *
    * @var \Drupal\Core\Entity\EntityTypeInterface[]
    */
-  protected ?array $entityTypes;
+  protected $entityTypes;
 
   /**
    * Constructs a new EntityRouteAlterSubscriber.
@@ -86,7 +86,7 @@ class EntityResolverManager {
       return NULL;
     }
 
-    if (!str_contains($controller, ':')) {
+    if (strpos($controller, ':') === FALSE) {
       if (method_exists($controller, '__invoke')) {
         return [$controller, '__invoke'];
       }
@@ -105,7 +105,7 @@ class EntityResolverManager {
       [$class_or_service, $method] = explode(':', $controller, 2);
       return [$this->classResolver->getInstanceFromDefinition($class_or_service), $method];
     }
-    elseif (str_contains($controller, '::')) {
+    elseif (strpos($controller, '::') !== FALSE) {
       // Controller in the class::method notation.
       return explode('::', $controller, 2);
     }
@@ -182,13 +182,13 @@ class EntityResolverManager {
     // Do not add parameter information if the route does not declare a
     // parameter in the first place. This is the case for add forms, for
     // example.
-    if (isset($entity_type) && isset($this->getEntityTypes()[$entity_type]) && str_contains($route->getPath(), '{' . $entity_type . '}')) {
+    if (isset($entity_type) && isset($this->getEntityTypes()[$entity_type]) && (strpos($route->getPath(), '{' . $entity_type . '}') !== FALSE)) {
       $parameter_definitions = $route->getOption('parameters') ?: [];
 
       // First try to figure out whether there is already a parameter upcasting
       // the same entity type already.
       foreach ($parameter_definitions as $info) {
-        if (isset($info['type']) && str_starts_with($info['type'], 'entity:')) {
+        if (isset($info['type']) && (strpos($info['type'], 'entity:') === 0)) {
           // The parameter types are in the form 'entity:$entity_type'.
           [, $parameter_entity_type] = explode(':', $info['type'], 2);
           if ($parameter_entity_type == $entity_type) {

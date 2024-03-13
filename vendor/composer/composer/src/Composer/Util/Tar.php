@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -17,7 +17,12 @@ namespace Composer\Util;
  */
 class Tar
 {
-    public static function getComposerJson(string $pathToArchive): ?string
+    /**
+     * @param string $pathToArchive
+     *
+     * @return string|null
+     */
+    public static function getComposerJson($pathToArchive)
     {
         $phar = new \PharData($pathToArchive);
 
@@ -29,15 +34,19 @@ class Tar
     }
 
     /**
+     * @param \PharData $phar
+     *
      * @throws \RuntimeException
+     *
+     * @return string
      */
-    private static function extractComposerJsonFromFolder(\PharData $phar): string
+    private static function extractComposerJsonFromFolder(\PharData $phar)
     {
         if (isset($phar['composer.json'])) {
             return $phar['composer.json']->getContent();
         }
 
-        $topLevelPaths = [];
+        $topLevelPaths = array();
         foreach ($phar as $folderFile) {
             $name = $folderFile->getBasename();
 

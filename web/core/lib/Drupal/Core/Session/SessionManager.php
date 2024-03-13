@@ -2,6 +2,7 @@
 
 namespace Drupal\Core\Session;
 
+use Drupal\Component\Utility\Crypt;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -77,7 +78,7 @@ class SessionManager extends NativeSessionStorage implements SessionManagerInter
    *   The session metadata bag.
    * @param \Drupal\Core\Session\SessionConfigurationInterface $session_configuration
    *   The session configuration interface.
-   * @param \Symfony\Component\HttpFoundation\Session\Storage\Proxy\AbstractProxy|\SessionHandlerInterface|null $handler
+   * @param \Symfony\Component\HttpFoundation\Session\Storage\Proxy\AbstractProxy|Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeSessionHandler|\SessionHandlerInterface|null $handler
    *   The object to register as a PHP session handler.
    *   @see \Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage::setSaveHandler()
    */
@@ -93,7 +94,7 @@ class SessionManager extends NativeSessionStorage implements SessionManagerInter
   /**
    * {@inheritdoc}
    */
-  public function start(): bool {
+  public function start() {
     if (($this->started || $this->startedLazy) && !$this->closed) {
       return $this->started;
     }
@@ -123,6 +124,23 @@ class SessionManager extends NativeSessionStorage implements SessionManagerInter
     }
 
     return $result;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getId() {
+    $id = parent::getId();
+
+    if (empty($id)) {
+      // Legacy code might rely on the existence of a session ID before a real
+      // session exists. In this case, generate a random session ID to provide
+      // backwards compatibility.
+      @trigger_error('Calling ' . __METHOD__ . '() outside of an actual existing session is deprecated in drupal:9.2.0 and will be removed in drupal:10.0.0. This is often used for anonymous users. See https://www.drupal.org/node/3006306', E_USER_DEPRECATED);
+      $id = Crypt::randomBytesBase64();
+      $this->setId($id);
+    }
+    return $id;
   }
 
   /**
@@ -184,10 +202,10 @@ class SessionManager extends NativeSessionStorage implements SessionManagerInter
   /**
    * {@inheritdoc}
    */
-  public function regenerate($destroy = FALSE, $lifetime = NULL): bool {
+  public function regenerate($destroy = FALSE, $lifetime = NULL) {
     // Nothing to do if we are not allowed to change the session.
     if ($this->isCli()) {
-      return FALSE;
+      return;
     }
 
     // Drupal will always destroy the existing session when regenerating a

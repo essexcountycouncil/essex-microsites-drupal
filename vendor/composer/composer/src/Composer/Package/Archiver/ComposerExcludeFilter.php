@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -23,7 +23,7 @@ class ComposerExcludeFilter extends BaseExcludeFilter
      * @param string $sourcePath Directory containing sources to be filtered
      * @param string[] $excludeRules An array of exclude rules from composer.json
      */
-    public function __construct(string $sourcePath, array $excludeRules)
+    public function __construct($sourcePath, array $excludeRules)
     {
         parent::__construct($sourcePath);
         $this->excludePatterns = $this->generatePatterns($excludeRules);

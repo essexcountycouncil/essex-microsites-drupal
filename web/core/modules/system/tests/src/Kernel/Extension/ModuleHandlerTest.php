@@ -3,7 +3,6 @@
 namespace Drupal\Tests\system\Kernel\Extension;
 
 use Drupal\Component\Render\FormattableMarkup;
-use Drupal\Core\Entity\ContentEntityTypeInterface;
 use Drupal\Core\Extension\MissingDependencyException;
 use Drupal\Core\Extension\ModuleUninstallValidatorException;
 use Drupal\Core\Extension\ProfileExtensionList;
@@ -251,7 +250,7 @@ class ModuleHandlerTest extends KernelTestBase {
     $this->installSchema('user', 'users_data');
     $entity_types = \Drupal::entityTypeManager()->getDefinitions();
     foreach ($entity_types as $entity_type) {
-      if ($entity_type instanceof ContentEntityTypeInterface && 'entity_test' == $entity_type->getProvider()) {
+      if ('entity_test' == $entity_type->getProvider()) {
         $this->installEntitySchema($entity_type->id());
       }
     }

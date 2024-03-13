@@ -11,18 +11,18 @@
  */
 
 .file {
-  min-height: calc(var(--space-m) + 0.0625rem);
-  padding-left: var(--space-l); /* LTR */
+  min-height: 1.0625rem;
+  padding-left: 1.5rem; /* LTR */
   background-position: left 0.0625rem;
-  background-size: var(--space-m) var(--space-m);
-  font-size: var(--font-size-s);
-  line-height: calc(18rem / 16);
+  background-size: 1rem 1rem;
+  font-size: 0.889rem;
+  line-height: 1.125rem;
 }
 
 [dir="rtl"] .file {
-  padding-right: var(--space-l);
+  padding-right: 1.5rem;
 }
 
 .file__size {
-  color: var(--color-gray-800);
+  color: #55565b;
 }

@@ -16,6 +16,11 @@ class StubConnection extends Connection {
   /**
    * {@inheritdoc}
    */
+  protected $statementClass = NULL;
+
+  /**
+   * {@inheritdoc}
+   */
   protected $statementWrapperClass = StatementWrapper::class;
 
   /**
@@ -35,9 +40,15 @@ class StubConnection extends Connection {
    *   An array of options for the connection.
    * @param string[]|null $identifier_quotes
    *   The identifier quote characters. Defaults to an empty strings.
+   * @param string|null $statement_class
+   *   A class to use as a statement class for deprecation testing.
    */
-  public function __construct(\PDO $connection, array $connection_options, $identifier_quotes = ['', '']) {
+  public function __construct(\PDO $connection, array $connection_options, $identifier_quotes = ['', ''], $statement_class = NULL) {
     $this->identifierQuotes = $identifier_quotes;
+    if ($statement_class) {
+      $this->statementClass = $statement_class;
+      $this->statementWrapperClass = NULL;
+    }
     parent::__construct($connection, $connection_options);
   }
 
@@ -53,6 +64,13 @@ class StubConnection extends Connection {
    */
   public function queryRange($query, $from, $count, array $args = [], array $options = []) {
     return NULL;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function queryTemporary($query, array $args = [], array $options = []) {
+    return '';
   }
 
   /**

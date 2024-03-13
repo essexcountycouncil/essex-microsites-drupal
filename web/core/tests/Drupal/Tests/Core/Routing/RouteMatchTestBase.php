@@ -8,8 +8,6 @@ use Symfony\Component\Routing\Route;
 
 /**
  * Base test class for testing classes implementing the route match interface.
- *
- * @coversDefaultClass \Drupal\Core\Routing\RouteMatch
  */
 abstract class RouteMatchTestBase extends UnitTestCase {
 

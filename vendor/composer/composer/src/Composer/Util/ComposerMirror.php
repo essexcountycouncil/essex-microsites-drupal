@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -22,34 +22,41 @@ use Composer\Pcre\Preg;
 class ComposerMirror
 {
     /**
-     * @param non-empty-string $mirrorUrl
-     * @return non-empty-string
+     * @param string      $mirrorUrl
+     * @param string      $packageName
+     * @param string      $version
+     * @param string|null $reference
+     * @param string|null $type
+     * @param string|null $prettyVersion
+     *
+     * @return string
      */
-    public static function processUrl(string $mirrorUrl, string $packageName, string $version, ?string $reference, ?string $type, ?string $prettyVersion = null): string
+    public static function processUrl($mirrorUrl, $packageName, $version, $reference, $type, $prettyVersion = null)
     {
         if ($reference) {
             $reference = Preg::isMatch('{^([a-f0-9]*|%reference%)$}', $reference) ? $reference : md5($reference);
         }
         $version = strpos($version, '/') === false ? $version : md5($version);
 
-        $from = ['%package%', '%version%', '%reference%', '%type%'];
-        $to = [$packageName, $version, $reference, $type];
+        $from = array('%package%', '%version%', '%reference%', '%type%');
+        $to = array($packageName, $version, $reference, $type);
         if (null !== $prettyVersion) {
             $from[] = '%prettyVersion%';
             $to[] = $prettyVersion;
         }
 
-        $url = str_replace($from, $to, $mirrorUrl);
-        assert($url !== '');
-
-        return $url;
+        return str_replace($from, $to, $mirrorUrl);
     }
 
     /**
-     * @param non-empty-string $mirrorUrl
+     * @param string      $mirrorUrl
+     * @param string      $packageName
+     * @param string      $url
+     * @param string|null $type
+     *
      * @return string
      */
-    public static function processGitUrl(string $mirrorUrl, string $packageName, string $url, ?string $type): string
+    public static function processGitUrl($mirrorUrl, $packageName, $url, $type)
     {
         if (Preg::isMatch('#^(?:(?:https?|git)://github\.com/|git@github\.com:)([^/]+)/(.+?)(?:\.git)?$#', $url, $match)) {
             $url = 'gh-'.$match[1].'/'.$match[2];
@@ -60,17 +67,21 @@ class ComposerMirror
         }
 
         return str_replace(
-            ['%package%', '%normalizedUrl%', '%type%'],
-            [$packageName, $url, $type],
+            array('%package%', '%normalizedUrl%', '%type%'),
+            array($packageName, $url, $type),
             $mirrorUrl
         );
     }
 
     /**
-     * @param non-empty-string $mirrorUrl
+     * @param string $mirrorUrl
+     * @param string $packageName
+     * @param string $url
+     * @param string $type
+     *
      * @return string
      */
-    public static function processHgUrl(string $mirrorUrl, string $packageName, string $url, string $type): string
+    public static function processHgUrl($mirrorUrl, $packageName, $url, $type)
     {
         return self::processGitUrl($mirrorUrl, $packageName, $url, $type);
     }

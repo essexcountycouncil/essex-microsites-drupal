@@ -2,7 +2,11 @@ WHAT IS THIS DIRECTORY FOR?
 --------------------------------
 This directory is for CSS files previously inherited from the Classy theme.
 
-WHY WERE CLASSY CSS FILES COPIED HERE?
+WHY ARE CLASSY CSS FILES BEING COPIED HERE?
 -------------------------------------------
-Classy was removed in Drupal 10. To prepare for Classy's removal, CSS files that
- would otherwise be inherited from Classy were copied here.
+Classy will be deprecated during the Drupal 9 lifecycle. To prepare for Classy's
+removal, CSS files that would otherwise be inherited from Classy are copied
+here.
+
+CSS files that differ from the Classy versions should not be placed in this
+directory or any subdirectory.

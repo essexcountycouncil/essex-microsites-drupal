@@ -8,7 +8,6 @@ use Drupal\Core\Database\Database;
  * Tests migration of tracker_node.
  *
  * @group tracker
- * @group legacy
  */
 class MigrateTrackerNodeTest extends MigrateDrupalTestBase {
 

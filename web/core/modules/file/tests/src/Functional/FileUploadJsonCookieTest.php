@@ -37,6 +37,6 @@ class FileUploadJsonCookieTest extends FileUploadResourceTestBase {
    *
    * @var string
    */
-  protected static string $entityTypeId;
+  protected static $entityTypeId;
 
 }

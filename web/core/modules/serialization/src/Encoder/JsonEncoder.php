@@ -37,14 +37,14 @@ class JsonEncoder extends BaseJsonEncoder {
   /**
    * {@inheritdoc}
    */
-  public function supportsEncoding(string $format, array $context = []): bool {
+  public function supportsEncoding($format) {
     return in_array($format, static::$format);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function supportsDecoding(string $format, array $context = []): bool {
+  public function supportsDecoding($format) {
     return in_array($format, static::$format);
   }
 

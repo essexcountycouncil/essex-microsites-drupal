@@ -107,12 +107,7 @@ class FieldLayoutBuilder implements ContainerInjectionInterface {
         // moving the field in the form structure. If a #group is already set,
         // do not overwrite it.
         if (isset($regions[$field['region']]) && !isset($build[$name]['#group'])) {
-          if (!empty($build['#parents'])) {
-            $build[$name]['#group'] = implode('][', array_merge($build['#parents'], ['_field_layout', $field['region']]));
-          }
-          else {
-            $build[$name]['#group'] = $field['region'];
-          }
+          $build[$name]['#group'] = $field['region'];
         }
       }
       // Ensure this will not conflict with any existing array elements by

@@ -29,27 +29,27 @@ abstract class Bundle implements BundleInterface
     protected $name;
     protected $extension;
     protected $path;
-    private string $namespace;
+    private $namespace;
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function boot()
     {
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function shutdown()
     {
     }
 
     /**
+     * {@inheritdoc}
+     *
      * This method can be overridden to register compilation passes,
      * other extensions, ...
-     *
-     * @return void
      */
     public function build(ContainerBuilder $container)
     {
@@ -58,16 +58,18 @@ abstract class Bundle implements BundleInterface
     /**
      * Returns the bundle's container extension.
      *
+     * @return ExtensionInterface|null The container extension
+     *
      * @throws \LogicException
      */
-    public function getContainerExtension(): ?ExtensionInterface
+    public function getContainerExtension()
     {
         if (null === $this->extension) {
             $extension = $this->createContainerExtension();
 
             if (null !== $extension) {
                 if (!$extension instanceof ExtensionInterface) {
-                    throw new \LogicException(sprintf('Extension "%s" must implement Symfony\Component\DependencyInjection\Extension\ExtensionInterface.', get_debug_type($extension)));
+                    throw new \LogicException(sprintf('Extension "%s" must implement Symfony\Component\DependencyInjection\Extension\ExtensionInterface.', \get_class($extension)));
                 }
 
                 // check naming convention
@@ -87,16 +89,22 @@ abstract class Bundle implements BundleInterface
         return $this->extension ?: null;
     }
 
-    public function getNamespace(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getNamespace()
     {
-        if (!isset($this->namespace)) {
+        if (null === $this->namespace) {
             $this->parseClassName();
         }
 
         return $this->namespace;
     }
 
-    public function getPath(): string
+    /**
+     * {@inheritdoc}
+     */
+    public function getPath()
     {
         if (null === $this->path) {
             $reflected = new \ReflectionObject($this);
@@ -118,17 +126,16 @@ abstract class Bundle implements BundleInterface
         return $this->name;
     }
 
-    /**
-     * @return void
-     */
     public function registerCommands(Application $application)
     {
     }
 
     /**
      * Returns the bundle's container extension class.
+     *
+     * @return string
      */
-    protected function getContainerExtensionClass(): string
+    protected function getContainerExtensionClass()
     {
         $basename = preg_replace('/Bundle$/', '', $this->getName());
 
@@ -137,16 +144,20 @@ abstract class Bundle implements BundleInterface
 
     /**
      * Creates the bundle's container extension.
+     *
+     * @return ExtensionInterface|null
      */
-    protected function createContainerExtension(): ?ExtensionInterface
+    protected function createContainerExtension()
     {
         return class_exists($class = $this->getContainerExtensionClass()) ? new $class() : null;
     }
 
-    private function parseClassName(): void
+    private function parseClassName()
     {
         $pos = strrpos(static::class, '\\');
         $this->namespace = false === $pos ? '' : substr(static::class, 0, $pos);
-        $this->name ??= false === $pos ? static::class : substr(static::class, $pos + 1);
+        if (null === $this->name) {
+            $this->name = false === $pos ? static::class : substr(static::class, $pos + 1);
+        }
     }
 }

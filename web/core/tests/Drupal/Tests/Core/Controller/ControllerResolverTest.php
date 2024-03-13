@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\Tests\Core\Controller\ControllerResolverTest.
+ */
+
 namespace Drupal\Tests\Core\Controller;
 
 use Drupal\Core\Controller\ControllerResolver;
@@ -7,7 +12,10 @@ use Drupal\Core\DependencyInjection\ClassResolver;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Tests\UnitTestCase;
-use GuzzleHttp\Psr7\HttpFactory;
+use Laminas\Diactoros\ResponseFactory;
+use Laminas\Diactoros\ServerRequestFactory;
+use Laminas\Diactoros\StreamFactory;
+use Laminas\Diactoros\UploadedFileFactory;
 use Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
@@ -52,7 +60,7 @@ class ControllerResolverTest extends UnitTestCase {
     $this->container = new ContainerBuilder();
     $class_resolver = new ClassResolver();
     $class_resolver->setContainer($this->container);
-    $this->httpMessageFactory = new PsrHttpFactory(new HttpFactory(), new HttpFactory(), new HttpFactory(), new HttpFactory());
+    $this->httpMessageFactory = new PsrHttpFactory(new ServerRequestFactory(), new StreamFactory(), new UploadedFileFactory(), new ResponseFactory());
     $this->controllerResolver = new ControllerResolver($this->httpMessageFactory, $class_resolver);
   }
 

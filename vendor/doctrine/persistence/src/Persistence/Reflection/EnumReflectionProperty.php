@@ -148,24 +148,4 @@ class EnumReflectionProperty extends ReflectionProperty
 
         return $this->enumType::from($value);
     }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @psalm-external-mutation-free
-     */
-    public function getModifiers(): int
-    {
-        return $this->originalReflectionProperty->getModifiers();
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @psalm-external-mutation-free
-     */
-    public function getDocComment(): string|false
-    {
-        return $this->originalReflectionProperty->getDocComment();
-    }
 }

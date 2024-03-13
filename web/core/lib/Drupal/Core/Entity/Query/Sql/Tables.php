@@ -284,7 +284,7 @@ class Tables implements TablesInterface {
         $entity_type_id = NULL;
         // Relationship specifier can also contain the entity type ID, i.e.
         // entity:node, entity:user or entity:taxonomy.
-        if (str_contains($relationship_specifier, ':')) {
+        if (strpos($relationship_specifier, ':') !== FALSE) {
           [$relationship_specifier, $entity_type_id] = explode(':', $relationship_specifier, 2);
         }
         // Check for a valid relationship.

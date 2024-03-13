@@ -87,14 +87,13 @@ class UserAccountFormPasswordResetTest extends KernelTestBase {
   protected function buildAccountForm($operation) {
     // @see HtmlEntityFormController::getFormObject()
     $entity_type = 'user';
+    $fields = [];
     if ($operation != 'register') {
-      $entity = $this->user;
+      $fields['uid'] = $this->user->id();
     }
-    else {
-      $entity = $this->container->get('entity_type.manager')
-        ->getStorage($entity_type)
-        ->create();
-    }
+    $entity = $this->container->get('entity_type.manager')
+      ->getStorage($entity_type)
+      ->create($fields);
 
     // @see EntityFormBuilder::getForm()
     return $this->container->get('entity.form_builder')->getForm($entity, $operation);

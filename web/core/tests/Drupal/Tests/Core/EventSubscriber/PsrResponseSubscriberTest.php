@@ -33,8 +33,6 @@ class PsrResponseSubscriberTest extends UnitTestCase {
    * {@inheritdoc}
    */
   protected function setUp(): void {
-    parent::setUp();
-
     $factory = $this->getMockBuilder('Symfony\Bridge\PsrHttpMessage\HttpFoundationFactoryInterface')
       ->disableOriginalConstructor()
       ->getMock();
@@ -87,7 +85,7 @@ class PsrResponseSubscriberTest extends UnitTestCase {
     return new ViewEvent(
       $this->createMock(HttpKernelInterface::class),
       $this->createMock(Request::class),
-      HttpKernelInterface::MAIN_REQUEST,
+      HttpKernelInterface::MASTER_REQUEST,
       $controller_result
     );
   }

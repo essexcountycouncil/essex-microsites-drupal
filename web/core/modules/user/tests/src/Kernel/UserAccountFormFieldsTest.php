@@ -4,8 +4,6 @@ namespace Drupal\Tests\user\Kernel;
 
 use Drupal\Core\Form\FormState;
 use Drupal\KernelTests\KernelTestBase;
-use Drupal\user\Entity\User;
-use Drupal\user\UserInterface;
 
 /**
  * Verifies the field order in user account forms.
@@ -20,11 +18,6 @@ class UserAccountFormFieldsTest extends KernelTestBase {
    * @var array
    */
   protected static $modules = ['system', 'user', 'field'];
-
-  /**
-   * @var \Drupal\user\UserInterface
-   */
-  protected UserInterface $user;
 
   /**
    * Tests the root user account form section in the "Configure site" form.
@@ -78,10 +71,6 @@ class UserAccountFormFieldsTest extends KernelTestBase {
   public function testUserEditForm() {
     // Install default configuration; required for AccountFormController.
     $this->installConfig(['user']);
-    $this->installEntitySchema('user');
-
-    $this->user = User::create(['name' => 'test']);
-    $this->user->save();
 
     $form = $this->buildAccountForm('default');
 
@@ -137,15 +126,13 @@ class UserAccountFormFieldsTest extends KernelTestBase {
   protected function buildAccountForm($operation) {
     // @see HtmlEntityFormController::getFormObject()
     $entity_type = 'user';
+    $fields = [];
     if ($operation != 'register') {
-      // Use an existing user.
-      $entity = $this->user;
+      $fields['uid'] = 2;
     }
-    else {
-      $entity = $this->container->get('entity_type.manager')
-        ->getStorage($entity_type)
-        ->create();
-    }
+    $entity = $this->container->get('entity_type.manager')
+      ->getStorage($entity_type)
+      ->create($fields);
 
     // @see EntityFormBuilder::getForm()
     return $this->container->get('entity.form_builder')->getForm($entity, $operation);

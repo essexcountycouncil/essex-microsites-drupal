@@ -161,7 +161,7 @@ class Link implements RenderableInterface {
    * @see \Drupal\Core\Link::toRenderable()
    */
   public function toString() {
-    return $this->getLinkGenerator()->generate($this->text, $this->url);
+    return $this->getLinkGenerator()->generateFromLink($this);
   }
 
   /**

@@ -653,7 +653,7 @@ class ContentTranslationHandler implements ContentTranslationHandlerInterface, E
     // If the current element does not have a (valid) title, try child elements.
     elseif ($children = Element::children($element)) {
       foreach ($children as $delta) {
-        $this->addTranslatabilityClue($element[$delta]);
+        $this->addTranslatabilityClue($element[$delta], $suffix);
       }
     }
     // If there are no children, fall back to the current #title attribute if it

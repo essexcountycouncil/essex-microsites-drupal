@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -27,39 +27,12 @@ class Platform
     private static $isWindowsSubsystemForLinux = null;
 
     /**
-     * getcwd() equivalent which always returns a string
-     *
-     * @throws \RuntimeException
-     */
-    public static function getCwd(bool $allowEmpty = false): string
-    {
-        $cwd = getcwd();
-
-        // fallback to realpath('') just in case this works but odds are it would break as well if we are in a case where getcwd fails
-        if (false === $cwd) {
-            $cwd = realpath('');
-        }
-
-        // crappy state, assume '' and hopefully relative paths allow things to continue
-        if (false === $cwd) {
-            if ($allowEmpty) {
-                return '';
-            }
-
-            throw new \RuntimeException('Could not determine the current working directory');
-        }
-
-        return $cwd;
-    }
-
-    /**
      * getenv() equivalent but reads from the runtime global variables first
      *
-     * @param non-empty-string $name
-     *
+     * @param  string $name
      * @return string|false
      */
-    public static function getEnv(string $name)
+    public static function getEnv($name)
     {
         if (array_key_exists($name, $_SERVER)) {
             return (string) $_SERVER[$name];
@@ -73,8 +46,12 @@ class Platform
 
     /**
      * putenv() equivalent but updates the runtime global variables too
+     *
+     * @param  string $name
+     * @param  string $value
+     * @return void
      */
-    public static function putEnv(string $name, string $value): void
+    public static function putEnv($name, $value)
     {
         $value = (string) $value;
         putenv($name . '=' . $value);
@@ -83,8 +60,11 @@ class Platform
 
     /**
      * putenv('X') equivalent but updates the runtime global variables too
+     *
+     * @param  string $name
+     * @return void
      */
-    public static function clearEnv(string $name): void
+    public static function clearEnv($name)
     {
         putenv($name);
         unset($_SERVER[$name], $_ENV[$name]);
@@ -92,19 +72,19 @@ class Platform
 
     /**
      * Parses tildes and environment variables in paths.
+     *
+     * @param  string $path
+     * @return string
      */
-    public static function expandPath(string $path): string
+    public static function expandPath($path)
     {
         if (Preg::isMatch('#^~[\\/]#', $path)) {
             return self::getUserDirectory() . substr($path, 1);
         }
 
-        return Preg::replaceCallback('#^(\$|(?P<percent>%))(?P<var>\w++)(?(percent)%)(?P<path>.*)#', static function ($matches): string {
-            assert(is_string($matches['var']));
-            assert('' !== $matches['var']);
-
+        return Preg::replaceCallback('#^(\$|(?P<percent>%))(?P<var>\w++)(?(percent)%)(?P<path>.*)#', function ($matches) {
             // Treat HOME as an alias for USERPROFILE on Windows for legacy reasons
-            if (Platform::isWindows() && $matches['var'] === 'HOME') {
+            if (Platform::isWindows() && $matches['var'] == 'HOME') {
                 return (Platform::getEnv('HOME') ?: Platform::getEnv('USERPROFILE')) . $matches['path'];
             }
 
@@ -116,7 +96,7 @@ class Platform
      * @throws \RuntimeException If the user home could not reliably be determined
      * @return string            The formal user home as detected from environment parameters
      */
-    public static function getUserDirectory(): string
+    public static function getUserDirectory()
     {
         if (false !== ($home = self::getEnv('HOME'))) {
             return $home;
@@ -138,7 +118,7 @@ class Platform
     /**
      * @return bool Whether the host machine is running on the Windows Subsystem for Linux (WSL)
      */
-    public static function isWindowsSubsystemForLinux(): bool
+    public static function isWindowsSubsystemForLinux()
     {
         if (null === self::$isWindowsSubsystemForLinux) {
             self::$isWindowsSubsystemForLinux = false;
@@ -151,7 +131,7 @@ class Platform
             if (
                 !ini_get('open_basedir')
                 && is_readable('/proc/version')
-                && false !== stripos((string)Silencer::call('file_get_contents', '/proc/version'), 'microsoft')
+                && false !== stripos(Silencer::call('file_get_contents', '/proc/version'), 'microsoft')
                 && !file_exists('/.dockerenv') // docker running inside WSL should not be seen as WSL
             ) {
                 return self::$isWindowsSubsystemForLinux = true;
@@ -164,15 +144,16 @@ class Platform
     /**
      * @return bool Whether the host machine is running a Windows OS
      */
-    public static function isWindows(): bool
+    public static function isWindows()
     {
         return \defined('PHP_WINDOWS_VERSION_BUILD');
     }
 
     /**
+     * @param  string $str
      * @return int    return a guaranteed binary length of the string, regardless of silly mbstring configs
      */
-    public static function strlen(string $str): int
+    public static function strlen($str)
     {
         static $useMbString = null;
         if (null === $useMbString) {
@@ -188,19 +169,17 @@ class Platform
 
     /**
      * @param  ?resource $fd Open file descriptor or null to default to STDOUT
+     * @return bool
      */
-    public static function isTty($fd = null): bool
+    public static function isTty($fd = null)
     {
         if ($fd === null) {
             $fd = defined('STDOUT') ? STDOUT : fopen('php://stdout', 'w');
-            if ($fd === false) {
-                return false;
-            }
         }
 
         // detect msysgit/mingw and assume this is a tty because detection
         // does not work correctly, see https://github.com/composer/composer/issues/9690
-        if (in_array(strtoupper(self::getEnv('MSYSTEM') ?: ''), ['MINGW32', 'MINGW64'], true)) {
+        if (in_array(strtoupper(self::getEnv('MSYSTEM') ?: ''), array('MINGW32', 'MINGW64'), true)) {
             return true;
         }
 
@@ -221,14 +200,9 @@ class Platform
     }
 
     /**
-     * @return bool Whether the current command is for bash completion
+     * @return void
      */
-    public static function isInputCompletionProcess(): bool
-    {
-        return '_complete' === ($_SERVER['argv'][1] ?? null);
-    }
-
-    public static function workaroundFilesystemIssues(): void
+    public static function workaroundFilesystemIssues()
     {
         if (self::isVirtualBoxGuest()) {
             usleep(200000);
@@ -239,8 +213,10 @@ class Platform
      * Attempts detection of VirtualBox guest VMs
      *
      * This works based on the process' user being "vagrant", the COMPOSER_RUNTIME_ENV env var being set to "virtualbox", or lsmod showing the virtualbox guest additions are loaded
+     *
+     * @return bool
      */
-    private static function isVirtualBoxGuest(): bool
+    private static function isVirtualBoxGuest()
     {
         if (null === self::$isVirtualBoxGuest) {
             self::$isVirtualBoxGuest = false;
@@ -277,7 +253,7 @@ class Platform
     /**
      * @return 'NUL'|'/dev/null'
      */
-    public static function getDevNull(): string
+    public static function getDevNull()
     {
         if (self::isWindows()) {
             return 'NUL';

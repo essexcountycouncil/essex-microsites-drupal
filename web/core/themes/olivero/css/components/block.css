@@ -11,13 +11,14 @@
  */
 
 .block__title {
-  margin-block: 0 var(--sp);
+  margin-top: 0;
+  margin-bottom: 1.125rem;
   letter-spacing: 0.02em;
-  color: var(--color-text-neutral-soft);
-  font-size: var(--font-size-s);
-  line-height: var(--sp);
+  color: #6e7172;
+  font-size: 0.875rem;
+  line-height: 1.125rem;
 }
 
 .site-footer .block__title {
-  color: var(--color--gray-65);
+  color: #9ea0a1;
 }

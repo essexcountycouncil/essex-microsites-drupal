@@ -90,10 +90,6 @@ class LanguageNegotiationContentEntity extends LanguageNegotiationMethodBase imp
    * {@inheritdoc}
    */
   public function getLangcode(Request $request = NULL) {
-    if ($request === NULL || $this->languageManager === NULL) {
-      return NULL;
-    }
-
     $langcode = $request->query->get(static::QUERY_PARAMETER);
 
     $language_enabled = array_key_exists($langcode, $this->languageManager->getLanguages());
@@ -209,7 +205,7 @@ class LanguageNegotiationContentEntity extends LanguageNegotiationMethodBase imp
    * outbound URL pointing to the same content entity.
    *
    * @param \Symfony\Component\Routing\Route $outbound_route
-   *   The route object for the current outbound URL being processed.
+   *   The route object for the current outbound url being processed.
    * @param \Symfony\Component\HttpFoundation\Request $request
    *   The HttpRequest object representing the current request.
    *

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -44,13 +44,13 @@ class Transaction
     /**
      * @var array<string, PackageInterface[]>
      */
-    protected $resultPackagesByName = [];
+    protected $resultPackagesByName = array();
 
     /**
      * @param PackageInterface[] $presentPackages
      * @param PackageInterface[] $resultPackages
      */
-    public function __construct(array $presentPackages, array $resultPackages)
+    public function __construct($presentPackages, $resultPackages)
     {
         $this->presentPackages = $presentPackages;
         $this->setResultPackageMaps($resultPackages);
@@ -60,20 +60,21 @@ class Transaction
     /**
      * @return OperationInterface[]
      */
-    public function getOperations(): array
+    public function getOperations()
     {
         return $this->operations;
     }
 
     /**
      * @param PackageInterface[] $resultPackages
+     * @return void
      */
-    private function setResultPackageMaps(array $resultPackages): void
+    private function setResultPackageMaps($resultPackages)
     {
-        $packageSort = static function (PackageInterface $a, PackageInterface $b): int {
+        $packageSort = function (PackageInterface $a, PackageInterface $b) {
             // sort alias packages by the same name behind their non alias version
-            if ($a->getName() === $b->getName()) {
-                if ($a instanceof AliasPackage !== $b instanceof AliasPackage) {
+            if ($a->getName() == $b->getName()) {
+                if ($a instanceof AliasPackage != $b instanceof AliasPackage) {
                     return $a instanceof AliasPackage ? -1 : 1;
                 }
                 // if names are the same, compare version, e.g. to sort aliases reliably, actual order does not matter
@@ -83,7 +84,7 @@ class Transaction
             return strcmp($b->getName(), $a->getName());
         };
 
-        $this->resultPackageMap = [];
+        $this->resultPackageMap = array();
         foreach ($resultPackages as $package) {
             $this->resultPackageMap[spl_object_hash($package)] = $package;
             foreach ($package->getNames() as $name) {
@@ -100,14 +101,14 @@ class Transaction
     /**
      * @return OperationInterface[]
      */
-    protected function calculateOperations(): array
+    protected function calculateOperations()
     {
-        $operations = [];
+        $operations = array();
 
-        $presentPackageMap = [];
-        $removeMap = [];
-        $presentAliasMap = [];
-        $removeAliasMap = [];
+        $presentPackageMap = array();
+        $removeMap = array();
+        $presentAliasMap = array();
+        $removeAliasMap = array();
         foreach ($this->presentPackages as $package) {
             if ($package instanceof AliasPackage) {
                 $presentAliasMap[$package->getName().'::'.$package->getVersion()] = $package;
@@ -120,8 +121,8 @@ class Transaction
 
         $stack = $this->getRootPackages();
 
-        $visited = [];
-        $processed = [];
+        $visited = array();
+        $processed = array();
 
         while (!empty($stack)) {
             $package = array_pop($stack);
@@ -161,7 +162,7 @@ class Transaction
 
                         // do we need to update?
                         // TODO different for lock?
-                        if ($package->getVersion() !== $presentPackageMap[$package->getName()]->getVersion() ||
+                        if ($package->getVersion() != $presentPackageMap[$package->getName()]->getVersion() ||
                             $package->getDistReference() !== $presentPackageMap[$package->getName()]->getDistReference() ||
                             $package->getSourceReference() !== $presentPackageMap[$package->getName()]->getSourceReference()
                         ) {
@@ -217,7 +218,7 @@ class Transaction
      *
      * @return array<string, PackageInterface>
      */
-    protected function getRootPackages(): array
+    protected function getRootPackages()
     {
         $roots = $this->resultPackageMap;
 
@@ -243,10 +244,10 @@ class Transaction
     /**
      * @return PackageInterface[]
      */
-    protected function getProvidersInResult(Link $link): array
+    protected function getProvidersInResult(Link $link)
     {
         if (!isset($this->resultPackagesByName[$link->getTarget()])) {
-            return [];
+            return array();
         }
 
         return $this->resultPackagesByName[$link->getTarget()];
@@ -265,14 +266,14 @@ class Transaction
      * @param  OperationInterface[] $operations
      * @return OperationInterface[] reordered operation list
      */
-    private function movePluginsToFront(array $operations): array
+    private function movePluginsToFront(array $operations)
     {
-        $dlModifyingPluginsNoDeps = [];
-        $dlModifyingPluginsWithDeps = [];
-        $dlModifyingPluginRequires = [];
-        $pluginsNoDeps = [];
-        $pluginsWithDeps = [];
-        $pluginRequires = [];
+        $dlModifyingPluginsNoDeps = array();
+        $dlModifyingPluginsWithDeps = array();
+        $dlModifyingPluginRequires = array();
+        $pluginsNoDeps = array();
+        $pluginsWithDeps = array();
+        $pluginRequires = array();
 
         foreach (array_reverse($operations, true) as $idx => $op) {
             if ($op instanceof Operation\InstallOperation) {
@@ -288,7 +289,7 @@ class Transaction
             // is this a downloads modifying plugin or a dependency of one?
             if ($isDownloadsModifyingPlugin || count(array_intersect($package->getNames(), $dlModifyingPluginRequires))) {
                 // get the package's requires, but filter out any platform requirements
-                $requires = array_filter(array_keys($package->getRequires()), static function ($req): bool {
+                $requires = array_filter(array_keys($package->getRequires()), function ($req) {
                     return !PlatformRepository::isPlatformPackage($req);
                 });
 
@@ -313,7 +314,7 @@ class Transaction
             // is this a plugin or a dependency of a plugin?
             if ($isPlugin || count(array_intersect($package->getNames(), $pluginRequires))) {
                 // get the package's requires, but filter out any platform requirements
-                $requires = array_filter(array_keys($package->getRequires()), static function ($req): bool {
+                $requires = array_filter(array_keys($package->getRequires()), function ($req) {
                     return !PlatformRepository::isPlatformPackage($req);
                 });
 
@@ -342,9 +343,9 @@ class Transaction
      * @param  OperationInterface[] $operations
      * @return OperationInterface[] reordered operation list
      */
-    private function moveUninstallsToFront(array $operations): array
+    private function moveUninstallsToFront(array $operations)
     {
-        $uninstOps = [];
+        $uninstOps = array();
         foreach ($operations as $idx => $op) {
             if ($op instanceof Operation\UninstallOperation || $op instanceof Operation\MarkAliasUninstalledOperation) {
                 $uninstOps[] = $op;

@@ -3,11 +3,9 @@
 namespace Drupal\Tests\Core\Session;
 
 use Drupal\Component\Utility\Crypt;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Session\PermissionsHashGenerator;
 use Drupal\Core\Site\Settings;
 use Drupal\Tests\UnitTestCase;
-use Drupal\user\RoleStorageInterface;
 
 /**
  * @coversDefaultClass \Drupal\Core\Session\PermissionsHashGenerator
@@ -144,20 +142,8 @@ class PermissionsHashGeneratorTest extends UnitTestCase {
     $this->staticCache = $this->getMockBuilder('Drupal\Core\Cache\CacheBackendInterface')
       ->disableOriginalConstructor()
       ->getMock();
-    $entityTypeManager = $this->getMockBuilder(EntityTypeManagerInterface::class)
-      ->disableOriginalConstructor()
-      ->getMock();
 
-    $roleStorage = $this->getMockBuilder(RoleStorageInterface::class)
-      ->disableOriginalConstructor()
-      ->getMock();
-
-    $entityTypeManager->expects($this->any())
-      ->method('getStorage')
-      ->with('user_role')
-      ->willReturn($roleStorage);
-
-    $this->permissionsHash = new PermissionsHashGenerator($this->privateKey, $this->cache, $this->staticCache, $entityTypeManager);
+    $this->permissionsHash = new PermissionsHashGenerator($this->privateKey, $this->cache, $this->staticCache);
   }
 
   /**
@@ -256,6 +242,21 @@ class PermissionsHashGeneratorTest extends UnitTestCase {
       ->with($expected_cid, $this->isType('string'));
 
     $this->permissionsHash->generate($this->account2);
+  }
+
+}
+
+namespace Drupal\Core\Session;
+
+// @todo remove once user_role_permissions() can be injected.
+if (!function_exists('user_role_permissions')) {
+
+  function user_role_permissions(array $roles) {
+    $role_permissions = [];
+    foreach ($roles as $rid) {
+      $role_permissions[$rid] = [];
+    }
+    return $role_permissions;
   }
 
 }

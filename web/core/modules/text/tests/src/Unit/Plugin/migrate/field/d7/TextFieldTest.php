@@ -21,8 +21,6 @@ class TextFieldTest extends UnitTestCase {
    * {@inheritdoc}
    */
   protected function setUp(): void {
-    parent::setUp();
-
     $this->plugin = new TextField([], 'text', []);
   }
 

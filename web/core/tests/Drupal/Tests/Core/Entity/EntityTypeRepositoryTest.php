@@ -155,16 +155,16 @@ class EntityTypeRepositoryTest extends UnitTestCase {
    * @covers ::getEntityTypeFromClass
    */
   public function testGetEntityTypeFromClassAmbiguous() {
-    $jazz = $this->prophesize(EntityTypeInterface::class);
-    $jazz->getOriginalClass()->willReturn('\Drupal\apple\Entity\Apple');
-    $jazz->id()->willReturn('jazz');
+    $boskoop = $this->prophesize(EntityTypeInterface::class);
+    $boskoop->getOriginalClass()->willReturn('\Drupal\apple\Entity\Apple');
+    $boskoop->id()->willReturn('boskop');
 
     $gala = $this->prophesize(EntityTypeInterface::class);
     $gala->getOriginalClass()->willReturn('\Drupal\apple\Entity\Apple');
     $gala->id()->willReturn('gala');
 
     $this->setUpEntityTypeDefinitions([
-      'jazz' => $jazz,
+      'boskoop' => $boskoop,
       'gala' => $gala,
     ]);
 

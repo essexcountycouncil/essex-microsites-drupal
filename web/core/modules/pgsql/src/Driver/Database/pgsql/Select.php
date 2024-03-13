@@ -72,7 +72,7 @@ class Select extends QuerySelect {
     }
 
     // If there is a table alias specified, split it up.
-    if (str_contains($field, '.')) {
+    if (strpos($field, '.') !== FALSE) {
       [$table, $table_field] = explode('.', $field);
     }
     // Figure out if the field has already been added.

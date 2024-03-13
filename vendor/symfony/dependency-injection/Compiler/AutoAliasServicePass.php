@@ -21,7 +21,7 @@ use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 class AutoAliasServicePass implements CompilerPassInterface
 {
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function process(ContainerBuilder $container)
     {
@@ -33,8 +33,7 @@ class AutoAliasServicePass implements CompilerPassInterface
 
                 $aliasId = $container->getParameterBag()->resolveValue($tag['format']);
                 if ($container->hasDefinition($aliasId) || $container->hasAlias($aliasId)) {
-                    $alias = new Alias($aliasId, $container->getDefinition($serviceId)->isPublic());
-                    $container->setAlias($serviceId, $alias);
+                    $container->setAlias($serviceId, new Alias($aliasId, true));
                 }
             }
         }

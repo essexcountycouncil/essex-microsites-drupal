@@ -1,5 +1,5 @@
 id: d6_custom_block_translation
-label: Content block translations
+label: Custom block translations
 migration_tags:
   - Drupal 6
   - Content

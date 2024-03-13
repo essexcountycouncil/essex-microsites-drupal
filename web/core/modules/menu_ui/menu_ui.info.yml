@@ -1,6 +1,6 @@
 name: Menu UI
 type: module
-description: 'Provides a user interface for managing menus.'
+description: 'Allows administrators to customize the site navigation menu.'
 package: Core
 version: VERSION
 configure: entity.menu.collection

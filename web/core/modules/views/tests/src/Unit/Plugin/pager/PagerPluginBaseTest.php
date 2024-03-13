@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\Tests\views\Unit\Plugin\pager\PagerPluginBaseTest.
+ */
+
 namespace Drupal\Tests\views\Unit\Plugin\pager;
 
 use Drupal\Tests\UnitTestCase;
@@ -23,8 +28,6 @@ class PagerPluginBaseTest extends UnitTestCase {
    * {@inheritdoc}
    */
   protected function setUp(): void {
-    parent::setUp();
-
     $this->pager = $this->getMockBuilder('Drupal\views\Plugin\views\pager\PagerPluginBase')
       ->disableOriginalConstructor()
       ->getMockForAbstractClass();

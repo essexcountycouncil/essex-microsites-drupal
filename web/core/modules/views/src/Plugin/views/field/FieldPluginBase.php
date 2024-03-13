@@ -108,21 +108,6 @@ abstract class FieldPluginBase extends HandlerBase implements FieldHandlerInterf
   protected $renderer;
 
   /**
-   * The last rendered value.
-   */
-  public string|MarkupInterface|NULL $last_render;
-
-  /**
-   * The last rendered text.
-   */
-  public string|MarkupInterface|NULL $last_render_text;
-
-  /**
-   * The last rendered tokens.
-   */
-  public array $last_tokens;
-
-  /**
    * Keeps track of the last render index.
    *
    * @var int|null
@@ -360,7 +345,7 @@ abstract class FieldPluginBase extends HandlerBase implements FieldHandlerInterf
    * {@inheritdoc}
    */
   public function tokenizeValue($value, $row_index = NULL) {
-    if (str_contains($value, '{{')) {
+    if (strpos($value, '{{') !== FALSE) {
       $fake_item = [
         'alter_text' => TRUE,
         'text' => $value,
@@ -420,35 +405,12 @@ abstract class FieldPluginBase extends HandlerBase implements FieldHandlerInterf
    */
   public function getEntity(ResultRow $values) {
     $relationship_id = $this->options['relationship'];
-    $entity = NULL;
     if ($relationship_id == 'none') {
-      $entity = $values->_entity;
+      return $values->_entity;
     }
     elseif (isset($values->_relationship_entities[$relationship_id])) {
-      $entity = $values->_relationship_entities[$relationship_id];
+      return $values->_relationship_entities[$relationship_id];
     }
-
-    if ($entity === NULL) {
-      // Don't log an error if we're getting an entity for an optional
-      // relationship.
-      if ($relationship_id !== 'none') {
-        $relationship = $this->view->relationship[$relationship_id] ?? NULL;
-        if ($relationship && !$relationship->options['required']) {
-          return NULL;
-        }
-      }
-      \Drupal::logger('views')->error(
-        'The view %id failed to load an entity of type %entity_type at row %index for field %field',
-        [
-          '%id' => $this->view->id(),
-          '%entity_type' => $this->configuration['entity_type'],
-          '%index' => $values->index,
-          '%field' => $this->label() ?: $this->realField,
-        ]
-      );
-      return NULL;
-    }
-    return $entity;
   }
 
   /**
@@ -658,7 +620,7 @@ abstract class FieldPluginBase extends HandlerBase implements FieldHandlerInterf
     ];
     $form['element_label_type'] = [
       '#title' => $this->t('Label HTML element'),
-      '#options' => $this->getElements(),
+      '#options' => $this->getElements(FALSE),
       '#type' => 'select',
       '#default_value' => $this->options['element_label_type'],
       '#description' => $this->t('Choose the HTML element to wrap around this label, e.g. H1, H2, etc.'),
@@ -702,7 +664,7 @@ abstract class FieldPluginBase extends HandlerBase implements FieldHandlerInterf
     ];
     $form['element_wrapper_type'] = [
       '#title' => $this->t('Wrapper HTML element'),
-      '#options' => $this->getElements(),
+      '#options' => $this->getElements(FALSE),
       '#type' => 'select',
       '#default_value' => $this->options['element_wrapper_type'],
       '#description' => $this->t('Choose the HTML element to wrap around this field and label, e.g. H1, H2, etc. This may not be used if the field and label are not rendered together, such as with a table.'),
@@ -1336,7 +1298,7 @@ abstract class FieldPluginBase extends HandlerBase implements FieldHandlerInterf
         // well.
         $base_path = base_path();
         // Checks whether the path starts with the base_path.
-        if (str_starts_with($more_link_path, $base_path)) {
+        if (strpos($more_link_path, $base_path) === 0) {
           $more_link_path = mb_substr($more_link_path, mb_strlen($base_path));
         }
 
@@ -1455,7 +1417,7 @@ abstract class FieldPluginBase extends HandlerBase implements FieldHandlerInterf
       // Tokens might have resolved URL's, as is the case for tokens provided by
       // Link fields, so all internal paths will be prefixed by base_path(). For
       // proper further handling reset this to internal:/.
-      if (str_starts_with($path, base_path())) {
+      if (strpos($path, base_path()) === 0) {
         $path = 'internal:/' . substr($path, strlen(base_path()));
       }
 
@@ -1470,7 +1432,7 @@ abstract class FieldPluginBase extends HandlerBase implements FieldHandlerInterf
       // 'http://www.example.com'.
       // Only do this when flag for external has been set, $path doesn't contain
       // a scheme and $path doesn't have a leading /.
-      if ($alter['external'] && !parse_url($path, PHP_URL_SCHEME) && !str_starts_with($path, '/')) {
+      if ($alter['external'] && !parse_url($path, PHP_URL_SCHEME) && strpos($path, '/') !== 0) {
         // There is no scheme, add the default 'http://' to the $path.
         $path = "http://" . $path;
       }

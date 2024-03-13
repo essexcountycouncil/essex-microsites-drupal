@@ -42,7 +42,7 @@ class SelectionPluginManager extends DefaultPluginManager implements SelectionPl
     ];
 
     // A specific selection plugin ID was already specified.
-    if (str_contains($options['handler'], ':')) {
+    if (strpos($options['handler'], ':') !== FALSE) {
       $plugin_id = $options['handler'];
     }
     // Only a selection group name was specified.

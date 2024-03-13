@@ -6,7 +6,6 @@ use Drupal\Core\Form\FormState;
 use Drupal\Core\Render\Element\Number;
 use Drupal\Core\Render\Element\Select;
 use Drupal\Core\Render\Element\Weight;
-use Drupal\element_info_test\ElementInfoTestNumberBuilder;
 use Drupal\KernelTests\KernelTestBase;
 
 /**
@@ -118,8 +117,8 @@ class WeightTest extends KernelTestBase {
       '#pre_render' => [
         [Number::class, 'preRenderNumber'],
         // The custom callback is appended.
-        /* @see \Drupal\element_info_test\ElementInfoTestNumberBuilder::preRender */
-        [ElementInfoTestNumberBuilder::class, 'preRender'],
+        /* @see element_info_test_element_info_alter() */
+        'element_info_test_element_pre_render',
       ],
     ]);
   }

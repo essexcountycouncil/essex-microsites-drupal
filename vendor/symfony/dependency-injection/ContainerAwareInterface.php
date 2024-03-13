@@ -20,8 +20,6 @@ interface ContainerAwareInterface
 {
     /**
      * Sets the container.
-     *
-     * @return void
      */
-    public function setContainer(?ContainerInterface $container);
+    public function setContainer(ContainerInterface $container = null);
 }

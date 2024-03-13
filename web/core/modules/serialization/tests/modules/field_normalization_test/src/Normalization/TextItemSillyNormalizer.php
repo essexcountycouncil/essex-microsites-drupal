@@ -13,7 +13,12 @@ class TextItemSillyNormalizer extends FieldItemNormalizer {
   /**
    * {@inheritdoc}
    */
-  public function normalize($object, $format = NULL, array $context = []): array|string|int|float|bool|\ArrayObject|NULL {
+  protected $supportedInterfaceOrClass = TextItemBase::class;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function normalize($object, $format = NULL, array $context = []) {
     $data = parent::normalize($object, $format, $context);
     $data['value'] .= '::silly_suffix';
     return $data;
@@ -26,13 +31,6 @@ class TextItemSillyNormalizer extends FieldItemNormalizer {
     $value = parent::constructValue($data, $context);
     $value['value'] = str_replace('::silly_suffix', '', $value['value']);
     return $value;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getSupportedTypes(?string $format): array {
-    return [TextItemBase::class => TRUE];
   }
 
 }

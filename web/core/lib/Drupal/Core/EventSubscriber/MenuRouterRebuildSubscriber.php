@@ -3,13 +3,11 @@
 namespace Drupal\Core\EventSubscriber;
 
 use Drupal\Core\Cache\Cache;
-use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\ReplicaKillSwitch;
 use Drupal\Core\Lock\LockBackendInterface;
 use Drupal\Core\Menu\MenuLinkManagerInterface;
 use Drupal\Core\Routing\RoutingEvents;
-use Drupal\Core\Utility\Error;
-use Psr\Log\LoggerInterface;
+use Drupal\Core\Database\Connection;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -54,18 +52,12 @@ class MenuRouterRebuildSubscriber implements EventSubscriberInterface {
    *   The database connection.
    * @param \Drupal\Core\Database\ReplicaKillSwitch $replica_kill_switch
    *   The replica kill switch.
-   * @param \Psr\Log\LoggerInterface|null $logger
-   *   The logger.
    */
-  public function __construct(LockBackendInterface $lock, MenuLinkManagerInterface $menu_link_manager, Connection $connection, ReplicaKillSwitch $replica_kill_switch, protected ?LoggerInterface $logger = NULL) {
+  public function __construct(LockBackendInterface $lock, MenuLinkManagerInterface $menu_link_manager, Connection $connection, ReplicaKillSwitch $replica_kill_switch) {
     $this->lock = $lock;
     $this->menuLinkManager = $menu_link_manager;
     $this->connection = $connection;
     $this->replicaKillSwitch = $replica_kill_switch;
-    if ($this->logger === NULL) {
-      @trigger_error('Calling ' . __METHOD__ . '() without the $logger argument is deprecated in drupal:10.1.0 and it will be required in drupal:11.0.0. See https://www.drupal.org/node/2932520', E_USER_DEPRECATED);
-      $this->logger = \Drupal::service('logger.channel.menu');
-    }
   }
 
   /**
@@ -95,7 +87,7 @@ class MenuRouterRebuildSubscriber implements EventSubscriberInterface {
         if (isset($transaction)) {
           $transaction->rollBack();
         }
-        Error::logException($this->logger, $e);
+        watchdog_exception('menu', $e);
       }
 
       $this->lock->release(__FUNCTION__);
@@ -111,7 +103,7 @@ class MenuRouterRebuildSubscriber implements EventSubscriberInterface {
   /**
    * {@inheritdoc}
    */
-  public static function getSubscribedEvents(): array {
+  public static function getSubscribedEvents() {
     // Run after CachedRouteRebuildSubscriber.
     $events[RoutingEvents::FINISHED][] = ['onRouterRebuild', 100];
     return $events;

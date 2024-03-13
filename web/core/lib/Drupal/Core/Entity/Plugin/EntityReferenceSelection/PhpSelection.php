@@ -119,7 +119,7 @@ class PhpSelection extends DefaultSelection {
         return strpos($label, $match) === 0;
 
       case 'CONTAINS':
-        return str_contains($label, $match);
+        return strpos($label, $match) !== FALSE;
 
       case 'ENDS_WITH':
         return mb_substr($label, -mb_strlen($match)) === (string) $match;

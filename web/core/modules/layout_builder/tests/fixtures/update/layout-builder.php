@@ -2,12 +2,19 @@
 
 /**
  * @file
- * Install layout_builder module before testing update paths.
+ * Test fixture.
  */
 
 use Drupal\Core\Database\Database;
 
 $connection = Database::getConnection();
+
+// Set the schema version.
+$connection->merge('key_value')
+  ->fields(['value' => 'i:8602;'])
+  ->condition('collection', 'system.schema')
+  ->condition('name', 'layout_builder')
+  ->execute();
 
 // Update core.extension.
 $extensions = $connection->select('config')

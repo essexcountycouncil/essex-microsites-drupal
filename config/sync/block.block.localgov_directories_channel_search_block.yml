@@ -23,8 +23,8 @@ settings:
   context_mapping:
     node: '@node.node_route_context:node'
 visibility:
-  'entity_bundle:node':
-    id: 'entity_bundle:node'
+  node_type:
+    id: node_type
     bundles:
       localgov_directory: localgov_directory
     negate: false

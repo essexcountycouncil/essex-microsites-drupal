@@ -28,6 +28,7 @@ class EntityNonRevisionableTranslatableFieldTest extends EntityKernelTestBase {
     parent::setUp();
 
     $this->installEntitySchema('entity_test_mulrev');
+    $this->installEntitySchema('configurable_language');
 
     ConfigurableLanguage::createFromLangcode('es')->save();
   }

@@ -7,7 +7,7 @@ use Drupal\Core\Entity\ContentEntityForm;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Form handler for the content block edit forms.
+ * Form handler for the custom block edit forms.
  *
  * @internal
  */
@@ -25,12 +25,13 @@ class BlockContentForm extends ContentEntityForm {
    */
   public function form(array $form, FormStateInterface $form_state) {
     $block = $this->entity;
+
     $form = parent::form($form, $form_state);
 
     if ($this->operation == 'edit') {
-      $form['#title'] = $this->t('Edit content block %label', ['%label' => $block->label()]);
+      $form['#title'] = $this->t('Edit custom block %label', ['%label' => $block->label()]);
     }
-    // Override the default CSS class name, since the user-defined content block
+    // Override the default CSS class name, since the user-defined custom block
     // type name in 'TYPE-block-form' potentially clashes with third-party class
     // names.
     $form['#attributes']['class'][0] = 'block-' . Html::getClass($block->bundle()) . '-form';
@@ -52,11 +53,11 @@ class BlockContentForm extends ContentEntityForm {
     $t_args = ['@type' => $block_type->label(), '%info' => $block->label()];
 
     if ($insert) {
-      $logger->info('@type: added %info.', $context);
+      $logger->notice('@type: added %info.', $context);
       $this->messenger()->addStatus($this->t('@type %info has been created.', $t_args));
     }
     else {
-      $logger->info('@type: updated %info.', $context);
+      $logger->notice('@type: updated %info.', $context);
       $this->messenger()->addStatus($this->t('@type %info has been updated.', $t_args));
     }
 

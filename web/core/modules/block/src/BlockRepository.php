@@ -78,7 +78,9 @@ class BlockRepository implements BlockRepositoryInterface {
     // Merge it with the actual values to maintain the region ordering.
     $assignments = array_intersect_key(array_merge($empty, $full), $empty);
     foreach ($assignments as &$assignment) {
-      uasort($assignment, 'Drupal\block\Entity\Block::sort');
+      // Suppress errors because PHPUnit will indirectly modify the contents,
+      // triggering https://bugs.php.net/bug.php?id=50688.
+      @uasort($assignment, 'Drupal\block\Entity\Block::sort');
     }
     return $assignments;
   }

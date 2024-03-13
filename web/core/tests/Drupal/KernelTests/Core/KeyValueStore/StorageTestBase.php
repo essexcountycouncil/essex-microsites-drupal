@@ -33,7 +33,7 @@ abstract class StorageTestBase extends KernelTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp(): void {
+  protected function setUp() {
     parent::setUp();
 
     // Define two data collections,

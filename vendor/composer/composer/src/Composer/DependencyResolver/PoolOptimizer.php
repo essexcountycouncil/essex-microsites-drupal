@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -36,39 +36,42 @@ class PoolOptimizer
     /**
      * @var array<int, true>
      */
-    private $irremovablePackages = [];
+    private $irremovablePackages = array();
 
     /**
      * @var array<string, array<string, ConstraintInterface>>
      */
-    private $requireConstraintsPerPackage = [];
+    private $requireConstraintsPerPackage = array();
 
     /**
      * @var array<string, array<string, ConstraintInterface>>
      */
-    private $conflictConstraintsPerPackage = [];
+    private $conflictConstraintsPerPackage = array();
 
     /**
      * @var array<int, true>
      */
-    private $packagesToRemove = [];
+    private $packagesToRemove = array();
 
     /**
      * @var array<int, BasePackage[]>
      */
-    private $aliasesPerPackage = [];
+    private $aliasesPerPackage = array();
 
     /**
      * @var array<string, array<string, string>>
      */
-    private $removedVersionsByPackage = [];
+    private $removedVersionsByPackage = array();
 
     public function __construct(PolicyInterface $policy)
     {
         $this->policy = $policy;
     }
 
-    public function optimize(Request $request, Pool $pool): Pool
+    /**
+     * @return Pool
+     */
+    public function optimize(Request $request, Pool $pool)
     {
         $this->prepare($request, $pool);
 
@@ -83,19 +86,22 @@ class PoolOptimizer
         // even more gains when ran again. Might change
         // in the future with additional optimizations.
 
-        $this->irremovablePackages = [];
-        $this->requireConstraintsPerPackage = [];
-        $this->conflictConstraintsPerPackage = [];
-        $this->packagesToRemove = [];
-        $this->aliasesPerPackage = [];
-        $this->removedVersionsByPackage = [];
+        $this->irremovablePackages = array();
+        $this->requireConstraintsPerPackage = array();
+        $this->conflictConstraintsPerPackage = array();
+        $this->packagesToRemove = array();
+        $this->aliasesPerPackage = array();
+        $this->removedVersionsByPackage = array();
 
         return $optimizedPool;
     }
 
-    private function prepare(Request $request, Pool $pool): void
+    /**
+     * @return void
+     */
+    private function prepare(Request $request, Pool $pool)
     {
-        $irremovablePackageConstraintGroups = [];
+        $irremovablePackageConstraintGroups = array();
 
         // Mark fixed or locked packages as irremovable
         foreach ($request->getFixedOrLockedPackages() as $package) {
@@ -125,7 +131,7 @@ class PoolOptimizer
             }
         }
 
-        $irremovablePackageConstraints = [];
+        $irremovablePackageConstraints = array();
         foreach ($irremovablePackageConstraintGroups as $packageName => $constraints) {
             $irremovablePackageConstraints[$packageName] = 1 === \count($constraints) ? $constraints[0] : new MultiConstraint($constraints, false);
         }
@@ -143,7 +149,10 @@ class PoolOptimizer
         }
     }
 
-    private function markPackageIrremovable(BasePackage $package): void
+    /**
+     * @return void
+     */
+    private function markPackageIrremovable(BasePackage $package)
     {
         $this->irremovablePackages[$package->id] = true;
         if ($package instanceof AliasPackage) {
@@ -161,10 +170,10 @@ class PoolOptimizer
     /**
      * @return Pool Optimized pool
      */
-    private function applyRemovalsToPool(Pool $pool): Pool
+    private function applyRemovalsToPool(Pool $pool)
     {
-        $packages = [];
-        $removedVersions = [];
+        $packages = array();
+        $removedVersions = array();
         foreach ($pool->getPackages() as $package) {
             if (!isset($this->packagesToRemove[$package->id])) {
                 $packages[] = $package;
@@ -178,10 +187,13 @@ class PoolOptimizer
         return $optimizedPool;
     }
 
-    private function optimizeByIdenticalDependencies(Request $request, Pool $pool): void
+    /**
+     * @return void
+     */
+    private function optimizeByIdenticalDependencies(Request $request, Pool $pool)
     {
-        $identicalDefinitionsPerPackage = [];
-        $packageIdenticalDefinitionLookup = [];
+        $identicalDefinitionsPerPackage = array();
+        $packageIdenticalDefinitionLookup = array();
 
         foreach ($pool->getPackages() as $package) {
 
@@ -196,12 +208,13 @@ class PoolOptimizer
             $dependencyHash = $this->calculateDependencyHash($package);
 
             foreach ($package->getNames(false) as $packageName) {
+
                 if (!isset($this->requireConstraintsPerPackage[$packageName])) {
                     continue;
                 }
 
                 foreach ($this->requireConstraintsPerPackage[$packageName] as $requireConstraint) {
-                    $groupHashParts = [];
+                    $groupHashParts = array();
 
                     if (CompilingMatcher::match($requireConstraint, Constraint::OP_EQ, $package->getVersion())) {
                         $groupHashParts[] = 'require:' . (string) $requireConstraint;
@@ -230,7 +243,7 @@ class PoolOptimizer
 
                     $groupHash = implode('', $groupHashParts);
                     $identicalDefinitionsPerPackage[$packageName][$groupHash][$dependencyHash][] = $package;
-                    $packageIdenticalDefinitionLookup[$package->id][$packageName] = ['groupHash' => $groupHash, 'dependencyHash' => $dependencyHash];
+                    $packageIdenticalDefinitionLookup[$package->id][$packageName] = array('groupHash' => $groupHash, 'dependencyHash' => $dependencyHash);
                 }
             }
         }
@@ -246,7 +259,7 @@ class PoolOptimizer
 
                     // Otherwise we find out which one is the preferred package in this constraint group which is
                     // then not allowed to be removed either
-                    $literals = [];
+                    $literals = array();
 
                     foreach ($packages as $package) {
                         $literals[] = $package->id;
@@ -260,16 +273,19 @@ class PoolOptimizer
         }
     }
 
-    private function calculateDependencyHash(BasePackage $package): string
+    /**
+     * @return string
+     */
+    private function calculateDependencyHash(BasePackage $package)
     {
         $hash = '';
 
-        $hashRelevantLinks = [
+        $hashRelevantLinks = array(
             'requires' => $package->getRequires(),
             'conflicts' => $package->getConflicts(),
             'replaces' => $package->getReplaces(),
-            'provides' => $package->getProvides(),
-        ];
+            'provides' => $package->getProvides()
+        );
 
         foreach ($hashRelevantLinks as $key => $links) {
             if (0 === \count($links)) {
@@ -279,7 +295,7 @@ class PoolOptimizer
             // start new hash section
             $hash .= $key . ':';
 
-            $subhash = [];
+            $subhash = array();
 
             foreach ($links as $link) {
                 // To get the best dependency hash matches we should use Intervals::compactConstraint() here.
@@ -300,7 +316,11 @@ class PoolOptimizer
         return $hash;
     }
 
-    private function markPackageForRemoval(int $id): void
+    /**
+     * @param int $id
+     * @return void
+     */
+    private function markPackageForRemoval($id)
     {
         // We are not allowed to remove packages if they have been marked as irremovable
         if (isset($this->irremovablePackages[$id])) {
@@ -313,8 +333,9 @@ class PoolOptimizer
     /**
      * @param array<string, array<string, array<string, list<BasePackage>>>> $identicalDefinitionsPerPackage
      * @param array<int, array<string, array{groupHash: string, dependencyHash: string}>> $packageIdenticalDefinitionLookup
+     * @return void
      */
-    private function keepPackage(BasePackage $package, array $identicalDefinitionsPerPackage, array $packageIdenticalDefinitionLookup): void
+    private function keepPackage(BasePackage $package, $identicalDefinitionsPerPackage, $packageIdenticalDefinitionLookup)
     {
         // Already marked to keep
         if (!isset($this->packagesToRemove[$package->id])) {
@@ -368,14 +389,16 @@ class PoolOptimizer
      * Use the list of locked packages to constrain the loaded packages
      * This will reduce packages with significant numbers of historical versions to a smaller number
      * and reduce the resulting rule set that is generated
+     *
+     * @return void
      */
-    private function optimizeImpossiblePackagesAway(Request $request, Pool $pool): void
+    private function optimizeImpossiblePackagesAway(Request $request, Pool $pool)
     {
         if (count($request->getLockedPackages()) === 0) {
             return;
         }
 
-        $packageIndex = [];
+        $packageIndex = array();
 
         foreach ($pool->getPackages() as $package) {
             $id = $package->id;
@@ -433,9 +456,11 @@ class PoolOptimizer
      * two require constraint groups in order for us to keep the best matching package for "^2.14" AND "^3.3" as otherwise, we'd
      * only keep either one which can cause trouble (e.g. when using --prefer-lowest).
      *
+     * @param string $package
+     * @param ConstraintInterface $constraint
      * @return void
      */
-    private function extractRequireConstraintsPerPackage(string $package, ConstraintInterface $constraint)
+    private function extractRequireConstraintsPerPackage($package, ConstraintInterface $constraint)
     {
         foreach ($this->expandDisjunctiveMultiConstraints($constraint) as $expanded) {
             $this->requireConstraintsPerPackage[$package][(string) $expanded] = $expanded;
@@ -447,9 +472,11 @@ class PoolOptimizer
      * two conflict constraint groups in order for us to keep the best matching package for "^2.14" AND "^3.3" as otherwise, we'd
      * only keep either one which can cause trouble (e.g. when using --prefer-lowest).
      *
+     * @param string $package
+     * @param ConstraintInterface $constraint
      * @return void
      */
-    private function extractConflictConstraintsPerPackage(string $package, ConstraintInterface $constraint)
+    private function extractConflictConstraintsPerPackage($package, ConstraintInterface $constraint)
     {
         foreach ($this->expandDisjunctiveMultiConstraints($constraint) as $expanded) {
             $this->conflictConstraintsPerPackage[$package][(string) $expanded] = $expanded;
@@ -457,6 +484,8 @@ class PoolOptimizer
     }
 
     /**
+     *
+     * @param ConstraintInterface $constraint
      * @return ConstraintInterface[]
      */
     private function expandDisjunctiveMultiConstraints(ConstraintInterface $constraint)
@@ -470,6 +499,6 @@ class PoolOptimizer
         }
 
         // Regular constraints and conjunctive MultiConstraints
-        return [$constraint];
+        return array($constraint);
     }
 }

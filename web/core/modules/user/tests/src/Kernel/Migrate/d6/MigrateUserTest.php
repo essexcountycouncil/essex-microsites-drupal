@@ -22,7 +22,7 @@ class MigrateUserTest extends MigrateDrupal6TestBase {
   /**
    * {@inheritdoc}
    */
-  protected static $modules = ['language', 'phpass'];
+  protected static $modules = ['language'];
 
   /**
    * {@inheritdoc}

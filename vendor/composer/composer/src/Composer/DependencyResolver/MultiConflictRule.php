@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -19,11 +19,11 @@ namespace Composer\DependencyResolver;
  */
 class MultiConflictRule extends Rule
 {
-    /** @var list<int> */
+    /** @var int[] */
     protected $literals;
 
     /**
-     * @param list<int> $literals
+     * @param int[] $literals
      */
     public function __construct(array $literals, $reason, $reasonData)
     {
@@ -40,9 +40,9 @@ class MultiConflictRule extends Rule
     }
 
     /**
-     * @return list<int>
+     * @return int[]
      */
-    public function getLiterals(): array
+    public function getLiterals()
     {
         return $this->literals;
     }
@@ -65,7 +65,7 @@ class MultiConflictRule extends Rule
      * @param  Rule $rule The rule to check against
      * @return bool Whether the rules are equal
      */
-    public function equals(Rule $rule): bool
+    public function equals(Rule $rule)
     {
         if ($rule instanceof MultiConflictRule) {
             return $this->literals === $rule->getLiterals();
@@ -74,7 +74,10 @@ class MultiConflictRule extends Rule
         return false;
     }
 
-    public function isAssertion(): bool
+    /**
+     * @return bool
+     */
+    public function isAssertion()
     {
         return false;
     }
@@ -83,21 +86,23 @@ class MultiConflictRule extends Rule
      * @return never
      * @throws \RuntimeException
      */
-    public function disable(): void
+    public function disable()
     {
         throw new \RuntimeException("Disabling multi conflict rules is not possible. Please contact composer at https://github.com/composer/composer to let us debug what lead to this situation.");
     }
 
     /**
      * Formats a rule as a string of the format (Literal1|Literal2|...)
+     *
+     * @return string
      */
-    public function __toString(): string
+    public function __toString()
     {
         // TODO multi conflict?
         $result = $this->isDisabled() ? 'disabled(multi(' : '(multi(';
 
         foreach ($this->literals as $i => $literal) {
-            if ($i !== 0) {
+            if ($i != 0) {
                 $result .= '|';
             }
             $result .= $literal;

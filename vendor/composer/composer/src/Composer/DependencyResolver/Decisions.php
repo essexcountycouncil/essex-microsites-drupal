@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -20,8 +20,8 @@ namespace Composer\DependencyResolver;
  */
 class Decisions implements \Iterator, \Countable
 {
-    public const DECISION_LITERAL = 0;
-    public const DECISION_REASON = 1;
+    const DECISION_LITERAL = 0;
+    const DECISION_REASON = 1;
 
     /** @var Pool */
     protected $pool;
@@ -30,24 +30,33 @@ class Decisions implements \Iterator, \Countable
     /**
      * @var array<array{0: int, 1: Rule}>
      */
-    protected $decisionQueue = [];
+    protected $decisionQueue = array();
 
     public function __construct(Pool $pool)
     {
         $this->pool = $pool;
-        $this->decisionMap = [];
+        $this->decisionMap = array();
     }
 
-    public function decide(int $literal, int $level, Rule $why): void
+    /**
+     * @param int $literal
+     * @param int $level
+     * @return void
+     */
+    public function decide($literal, $level, Rule $why)
     {
         $this->addDecision($literal, $level);
-        $this->decisionQueue[] = [
+        $this->decisionQueue[] = array(
             self::DECISION_LITERAL => $literal,
             self::DECISION_REASON => $why,
-        ];
+        );
     }
 
-    public function satisfy(int $literal): bool
+    /**
+     * @param int $literal
+     * @return bool
+     */
+    public function satisfy($literal)
     {
         $packageId = abs($literal);
 
@@ -57,7 +66,11 @@ class Decisions implements \Iterator, \Countable
         );
     }
 
-    public function conflict(int $literal): bool
+    /**
+     * @param int $literal
+     * @return bool
+     */
+    public function conflict($literal)
     {
         $packageId = abs($literal);
 
@@ -67,24 +80,40 @@ class Decisions implements \Iterator, \Countable
         );
     }
 
-    public function decided(int $literalOrPackageId): bool
+    /**
+     * @param int $literalOrPackageId
+     * @return bool
+     */
+    public function decided($literalOrPackageId)
     {
         return !empty($this->decisionMap[abs($literalOrPackageId)]);
     }
 
-    public function undecided(int $literalOrPackageId): bool
+    /**
+     * @param int $literalOrPackageId
+     * @return bool
+     */
+    public function undecided($literalOrPackageId)
     {
         return empty($this->decisionMap[abs($literalOrPackageId)]);
     }
 
-    public function decidedInstall(int $literalOrPackageId): bool
+    /**
+     * @param int $literalOrPackageId
+     * @return bool
+     */
+    public function decidedInstall($literalOrPackageId)
     {
         $packageId = abs($literalOrPackageId);
 
         return isset($this->decisionMap[$packageId]) && $this->decisionMap[$packageId] > 0;
     }
 
-    public function decisionLevel(int $literalOrPackageId): int
+    /**
+     * @param int $literalOrPackageId
+     * @return int
+     */
+    public function decisionLevel($literalOrPackageId)
     {
         $packageId = abs($literalOrPackageId);
         if (isset($this->decisionMap[$packageId])) {
@@ -94,7 +123,11 @@ class Decisions implements \Iterator, \Countable
         return 0;
     }
 
-    public function decisionRule(int $literalOrPackageId): ?Rule
+    /**
+     * @param int $literalOrPackageId
+     * @return Rule|null
+     */
+    public function decisionRule($literalOrPackageId)
     {
         $packageId = abs($literalOrPackageId);
 
@@ -108,29 +141,43 @@ class Decisions implements \Iterator, \Countable
     }
 
     /**
+     * @param int $queueOffset
      * @return array{0: int, 1: Rule} a literal and decision reason
      */
-    public function atOffset(int $queueOffset): array
+    public function atOffset($queueOffset)
     {
         return $this->decisionQueue[$queueOffset];
     }
 
-    public function validOffset(int $queueOffset): bool
+    /**
+     * @param int $queueOffset
+     * @return bool
+     */
+    public function validOffset($queueOffset)
     {
         return $queueOffset >= 0 && $queueOffset < \count($this->decisionQueue);
     }
 
-    public function lastReason(): Rule
+    /**
+     * @return Rule
+     */
+    public function lastReason()
     {
         return $this->decisionQueue[\count($this->decisionQueue) - 1][self::DECISION_REASON];
     }
 
-    public function lastLiteral(): int
+    /**
+     * @return int
+     */
+    public function lastLiteral()
     {
         return $this->decisionQueue[\count($this->decisionQueue) - 1][self::DECISION_LITERAL];
     }
 
-    public function reset(): void
+    /**
+     * @return void
+     */
+    public function reset()
     {
         while ($decision = array_pop($this->decisionQueue)) {
             $this->decisionMap[abs($decision[self::DECISION_LITERAL])] = 0;
@@ -138,9 +185,10 @@ class Decisions implements \Iterator, \Countable
     }
 
     /**
-     * @param int<-1, max> $offset
+     * @param int $offset
+     * @return void
      */
-    public function resetToOffset(int $offset): void
+    public function resetToOffset($offset)
     {
         while (\count($this->decisionQueue) > $offset + 1) {
             $decision = array_pop($this->decisionQueue);
@@ -148,18 +196,29 @@ class Decisions implements \Iterator, \Countable
         }
     }
 
-    public function revertLast(): void
+    /**
+     * @return void
+     */
+    public function revertLast()
     {
         $this->decisionMap[abs($this->lastLiteral())] = 0;
         array_pop($this->decisionQueue);
     }
 
-    public function count(): int
+    /**
+     * @return int
+     */
+    #[\ReturnTypeWillChange]
+    public function count()
     {
         return \count($this->decisionQueue);
     }
 
-    public function rewind(): void
+    /**
+     * @return void
+     */
+    #[\ReturnTypeWillChange]
+    public function rewind()
     {
         end($this->decisionQueue);
     }
@@ -173,36 +232,56 @@ class Decisions implements \Iterator, \Countable
         return current($this->decisionQueue);
     }
 
-    public function key(): ?int
+    /**
+     * @return ?int
+     */
+    #[\ReturnTypeWillChange]
+    public function key()
     {
         return key($this->decisionQueue);
     }
 
-    public function next(): void
+    /**
+     * @return void
+     */
+    #[\ReturnTypeWillChange]
+    public function next()
     {
         prev($this->decisionQueue);
     }
 
-    public function valid(): bool
+    /**
+     * @return bool
+     */
+    #[\ReturnTypeWillChange]
+    public function valid()
     {
         return false !== current($this->decisionQueue);
     }
 
-    public function isEmpty(): bool
+    /**
+     * @return bool
+     */
+    public function isEmpty()
     {
         return \count($this->decisionQueue) === 0;
     }
 
-    protected function addDecision(int $literal, int $level): void
+    /**
+     * @param int $literal
+     * @param int $level
+     * @return void
+     */
+    protected function addDecision($literal, $level)
     {
         $packageId = abs($literal);
 
-        $previousDecision = $this->decisionMap[$packageId] ?? 0;
-        if ($previousDecision !== 0) {
-            $literalString = $this->pool->literalToPrettyString($literal, []);
+        $previousDecision = isset($this->decisionMap[$packageId]) ? $this->decisionMap[$packageId] : null;
+        if ($previousDecision != 0) {
+            $literalString = $this->pool->literalToPrettyString($literal, array());
             $package = $this->pool->literalToPackage($literal);
             throw new SolverBugException(
-                "Trying to decide $literalString on level $level, even though $package was previously decided as ".$previousDecision."."
+                "Trying to decide $literalString on level $level, even though $package was previously decided as ".(int) $previousDecision."."
             );
         }
 
@@ -213,7 +292,10 @@ class Decisions implements \Iterator, \Countable
         }
     }
 
-    public function toString(?Pool $pool = null): string
+    /**
+     * @return string
+     */
+    public function toString(Pool $pool = null)
     {
         $decisionMap = $this->decisionMap;
         ksort($decisionMap);
@@ -226,7 +308,7 @@ class Decisions implements \Iterator, \Countable
         return $str;
     }
 
-    public function __toString(): string
+    public function __toString()
     {
         return $this->toString();
     }

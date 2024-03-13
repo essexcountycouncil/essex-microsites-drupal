@@ -21,7 +21,12 @@ class FieldNormalizer extends ListNormalizer implements DenormalizerInterface {
   /**
    * {@inheritdoc}
    */
-  public function denormalize($data, $class, $format = NULL, array $context = []): mixed {
+  protected $supportedInterfaceOrClass = FieldItemListInterface::class;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function denormalize($data, $class, $format = NULL, array $context = []) {
     if (!isset($context['target_instance'])) {
       throw new InvalidArgumentException('$context[\'target_instance\'] must be set to denormalize with the FieldNormalizer');
     }
@@ -47,15 +52,6 @@ class FieldNormalizer extends ListNormalizer implements DenormalizerInterface {
       $this->serializer->denormalize($item_data, $item_class, $format, $context);
     }
     return $items;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getSupportedTypes(?string $format): array {
-    return [
-      FieldItemListInterface::class => TRUE,
-    ];
   }
 
 }

@@ -48,11 +48,6 @@ abstract class QueryPluginBase extends PluginBase implements CacheableDependency
   protected $limit;
 
   /**
-   * The OFFSET on the query.
-   */
-  public int $offset;
-
-  /**
    * Controls how the WHERE and HAVING groups are put together.
    *
    * @var string

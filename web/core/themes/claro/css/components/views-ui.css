@@ -58,8 +58,8 @@ details.fieldset-no-legend {
 }
 
 .views-ui-dialog .form-item {
-  margin-top: var(--space-m);
-  margin-bottom: var(--space-m);
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 .views-ui-dialog .form-type--boolean {
@@ -85,9 +85,9 @@ details.fieldset-no-legend {
 }
 
 .views-ui-dialog .form-item:first-of-type.description {
-  margin: 0 0 var(--space-l) 0;
-  padding-bottom: var(--space-s);
-  border-bottom: 0.0625rem solid var(--color-gray-200);
+  margin: 0 0 1.5rem 0;
+  padding-bottom: 0.75rem;
+  border-bottom: 0.0625rem solid #d3d4d9;
   font-weight: bold;
 }
 
@@ -99,14 +99,21 @@ details.fieldset-no-legend {
 }
 
 .views-ui-dialog .form-element {
-  min-height: calc(((var(--input-padding-vertical--small) + var(--input-border-size)) * 2) + var(--input-line-height--small)); /* iOS. */
-  padding: var(--input-padding-vertical--small) var(--input-padding-horizontal--small);
-  font-size: var(--input-font-size--small);
-  line-height: var(--input-line-height--small);
+  min-height: calc(2.3125rem - 2px); /* iOS. */
+  padding: calc(0.5rem - 2px) calc(1rem - 1px);
+  font-size: 0.79rem;
+  line-height: 1.3125rem;
+}
+
+[dir="ltr"] .views-ui-dialog .form-element--type-select {
+  padding-right: calc(2rem - 1px);
+}
+
+[dir="rtl"] .views-ui-dialog .form-element--type-select {
+  padding-left: calc(2rem - 1px);
 }
 
 .views-ui-dialog .form-element--type-select {
-  padding-inline-end: calc(2rem - var(--input-border-size));
   background-position-y: 56%;
 }
 
@@ -179,7 +186,7 @@ details.fieldset-no-legend {
 }
 
 .views-display-top__extra-actions-wrapper {
-  margin: calc(var(--space-xs) / 2) var(--space-xs) var(--space-xs);
+  margin: 0.25rem 0.5rem 0.5rem;
 }
 
 /* @end */
@@ -196,7 +203,7 @@ details.fieldset-no-legend {
 /* @group Attachment details */
 
 #edit-display-settings-title {
-  color: var(--color-blue-400);
+  color: #3371ff;
 }
 
 /* @end */
@@ -214,7 +221,7 @@ details.fieldset-no-legend {
   display: flex;
   overflow: visible;
   flex-wrap: wrap;
-  margin: 0 var(--space-l) 0 0; /* LTR */
+  margin: 0 1.5rem 0 0; /* LTR */
   padding: 0;
   list-style: none;
   text-align: left; /* LTR */
@@ -223,12 +230,11 @@ details.fieldset-no-legend {
 
 [dir="rtl"] .views-tabs {
   margin-right: 0;
-  margin-left: var(--space-l);
+  margin-left: 1.5rem;
   text-align: right;
 }
 
 .views-tabs .views-display-deleted-link {
-  -webkit-text-decoration: line-through;
   text-decoration: line-through;
 }
 
@@ -269,7 +275,7 @@ details.fieldset-no-legend {
 .views-tabs a {
   display: inline-block;
   padding: 0.625rem;
-  border: var(--input-border-size) solid #cbcbcb;
+  border: 1px solid #cbcbcb;
   border-radius: 0.4375rem;
   font-size: small;
   line-height: 1.3333;
@@ -288,7 +294,6 @@ details.fieldset-no-legend {
 }
 
 .views-tabs li a {
-  -webkit-text-decoration: none;
   text-decoration: none;
   background-color: #fff;
 }
@@ -306,26 +311,26 @@ details.fieldset-no-legend {
 
 .views-tabs .add a {
   padding: 0.5625rem 0.8125rem 0.5625rem 0.5625rem;
-  color: var(--color-gray-800);
+  color: #55565b;
   border: none;
-  border-radius: var(--base-border-radius);
+  border-radius: 2px;
   background-color: transparent;
-  font-size: var(--font-size-base);
+  font-size: 1rem;
   font-weight: 700;
 }
 
 .views-tabs .add a::before {
   display: inline-block;
   width: 1em;
-  height: calc(1em - (var(--input-border-size) * 2));
+  height: calc(1em - 2px);
   content: "";
   /* Copy of icon from .action-link--icon-plus */
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' stroke-width='2' stroke='%23545560'%3E%3Cpath d='m3 8h10'/%3E%3Cpath d='m8 3v10'/%3E%3C/svg%3E");
 }
 
 .views-tabs .add a:hover {
-  color: var(--color-absolutezero-hover);
-  background-color: var(--color-bgblue-hover);
+  color: #0036b1;
+  background-color: #f5f8ff;
 }
 
 .views-tabs .add a:hover::before {
@@ -334,13 +339,13 @@ details.fieldset-no-legend {
 }
 
 .views-tabs .add a:focus {
-  background-color: var(--color-bgblue-active);
+  background-color: #e5edff;
   box-shadow: 0 0 0 3px #26a769;
 }
 
 .views-tabs .add.open a {
-  color: var(--color-white);
-  background-color: var(--color-absolutezero);
+  color: #fff;
+  background-color: #003ecc;
 }
 
 .views-tabs .add.open a::before {
@@ -359,7 +364,7 @@ details.fieldset-no-legend {
   top: 2.375rem;
   left: -2px; /* LTR */
   margin: 0;
-  box-shadow: var(--details-box-shadow);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 [dir="rtl"] .views-tabs .action-list {
@@ -380,25 +385,25 @@ details.fieldset-no-legend {
 
 .views-tabs .action-list li:first-child {
   border-width: 1px 1px 0;
-  border-radius: 0 var(--base-border-radius) 0 0; /* LTR */
+  border-radius: 0 2px 0 0; /* LTR */
 }
 
 [dir="rtl"] .views-tabs .action-list li:first-child {
-  border-radius: 0 0 0 var(--base-border-radius);
+  border-radius: 0 0 0 2px;
 }
 
 .views-tabs .action-list li:last-child,
 .views-displays .action-list li:last-child {
   padding-bottom: 0.4rem;
   border-width: 0 1px 1px;
-  border-bottom-right-radius: var(--button-border-radius-size);
-  border-bottom-left-radius: var(--button-border-radius-size);
+  border-bottom-right-radius: 2px;
+  border-bottom-left-radius: 2px;
 }
 
 .views-tabs__action-list-button {
   width: 100%;
   margin: 0;
-  padding: var(--space-s) var(--space-l);
+  padding: 0.75rem 1.5rem;
   text-align: left;
   border: medium none;
   border-radius: 0;
@@ -414,8 +419,8 @@ details.fieldset-no-legend {
 
 .views-tabs__action-list-button.button:hover,
 .views-tabs__action-list-button.button:focus {
-  color: var(--color-white);
-  background-color: var(--color-absolutezero);
+  color: #fff;
+  background-color: #003ecc;
 }
 
 /* Remove outline provided by default styling */
@@ -453,7 +458,7 @@ details.fieldset-no-legend {
 }
 
 .views-ui-rearrange-filter-form tr:first-of-type {
-  border-top: 0.0625rem solid var(--color-gray-200);
+  border-top: 0.0625rem solid #d3d4d9;
 }
 
 .views-ui-rearrange-filter-form tr:not(.draggable):hover {
@@ -483,6 +488,7 @@ details.fieldset-no-legend {
 }
 
 [dir="rtl"] .views-ui-rearrange-filter-form tr td:last-child {
+  border-right: 0;
   border-right: initial;
   border-left: medium none;
 }
@@ -516,8 +522,9 @@ details.fieldset-no-legend {
 /* @group Query info table */
 
 .views-query-info table {
-  border-spacing: 1px;
   border-radius: 0.4375rem;
+  -webkit-border-horizontal-spacing: 1px;
+  -webkit-border-vertical-spacing: 1px;
 }
 
 .views-query-info table tr td:last-child {
@@ -526,6 +533,7 @@ details.fieldset-no-legend {
 }
 
 [dir="rtl"] .views-query-info table tr td:last-child {
+  border-right: 0;
   border-right: initial;
   border-left: 0 none;
 }
@@ -570,26 +578,26 @@ details.fieldset-no-legend {
 
 .views-config-group-region {
   display: table;
-  margin: var(--space-l) 0;
-  border: 0.0625rem solid var(--color-gray-200);
+  margin: 1.5rem 0;
+  border: 0.0625rem solid #d3d4d9;
   border-collapse: collapse;
 }
 
 .views-config-group-region .views-group-box {
   position: relative;
   display: table-cell;
-  padding: var(--space-l);
-  border: 0.0625rem solid var(--color-gray-200);
+  padding: 1.5rem;
+  border: 0.0625rem solid #d3d4d9;
 }
 
 .views-config-group-region .views-group-box--operator {
-  padding-right: var(--space-xl);
+  padding-right: 3rem;
   border-right-width: 0;
 }
 
 [dir="rtl"] .views-config-group-region .views-group-box--operator {
-  padding-right: var(--space-l);
-  padding-left: var(--space-xl);
+  padding-right: 1.5rem;
+  padding-left: 3rem;
   border-right-width: 0.0625rem;
   border-left-width: 0;
 }
@@ -605,13 +613,13 @@ details.fieldset-no-legend {
 }
 
 .views-config-group-region .views-group-box--value > .form-item {
-  margin-right: var(--space-l); /* LTR */
-  margin-left: var(--space-xl); /* LTR */
+  margin-right: 1.5rem; /* LTR */
+  margin-left: 3rem; /* LTR */
 }
 
 [dir="rtl"] .views-config-group-region .views-group-box--value > .form-item {
-  margin-right: var(--space-xl); /* LTR */
-  margin-left: var(--space-l); /* LTR */
+  margin-right: 3rem; /* LTR */
+  margin-left: 1.5rem; /* LTR */
 }
 
 .views-config-group-region .views-group-box--value > .form-item::before {
@@ -621,7 +629,7 @@ details.fieldset-no-legend {
   width: 0.0625rem;
   height: 100%;
   content: "";
-  border-left: 0.0625rem solid var(--color-gray-200);
+  border-left: 0.0625rem solid #d3d4d9;
 }
 
 [dir="rtl"] .views-config-group-region .views-group-box--value > .form-item::before {
@@ -632,20 +640,56 @@ details.fieldset-no-legend {
   position: absolute;
   z-index: 1;
   top: 3.8rem;
-  left: calc(var(--space-m) * -1); /* LTR */
+  left: -1rem; /* LTR */
   padding: 0 0.3rem 0.3rem 0.4rem; /* LTR */
   content: ">";
-  color: var(--color-gray-600);
-  border: 0.0625rem solid var(--color-gray-200);
+  color: #828388;
+  border: 0.0625rem solid #d3d4d9;
   background: #fff;
-  font-size: var(--font-size-h1);
+  font-size: 2.027rem;
   font-weight: bold;
-  line-height: var(--font-size-h1);
+  line-height: 2.027rem;
 }
 
 [dir="rtl"] .views-config-group-region .views-group-box--value > .form-item::after {
-  right: calc(var(--space-m) * -1);
+  right: -1rem;
   left: auto;
   padding-right: 0.4rem;
   padding-left: 0.3rem;
+}
+
+@media all and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  /**
+   * Remove borders from IE11 filter config in IE11, as it does not fully support
+   * the CSS needed to size and position them properly. This results in a
+   * slightly different presentation for IE11, but one that users are accustomed
+   * to with the Seven theme.
+   */
+  .views-config-group-region .views-group-box--value > .form-item::before,
+  .views-config-group-region .views-group-box--value > .form-item::after {
+    content: "";
+    border: none;
+  }
+  .views-config-group-region,
+  .views-config-group-region .views-group-box {
+    border: none;
+  }
+
+  /**
+   * IE11 has trouble correctly using `justify-content: space-between` when a
+   * flex item has the `.visually-hidden` class. This addresses the issue and
+   * the end result is the extra action button remains in it's own column on
+   * wrap, which matches the experience when using the Seven theme.
+   */
+  .views-display-top {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+  }
+  .views-display-top__extra-actions-wrapper {
+    margin-left: auto; /* LTR */
+  }
+  [dir="rtl"] .views-display-top__extra-actions-wrapper {
+    margin-right: auto;
+    margin-left: 0.25rem;
+  }
 }

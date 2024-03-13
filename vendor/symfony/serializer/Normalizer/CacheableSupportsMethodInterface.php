@@ -19,8 +19,6 @@ namespace Symfony\Component\Serializer\Normalizer;
  * supports*() methods will be cached by type and format.
  *
  * @author Kévin Dunglas <dunglas@gmail.com>
- *
- * @deprecated since Symfony 6.3, implement "getSupportedTypes(?string $format)" instead
  */
 interface CacheableSupportsMethodInterface
 {

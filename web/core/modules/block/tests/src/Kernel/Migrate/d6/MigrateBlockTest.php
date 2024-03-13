@@ -252,7 +252,7 @@ class MigrateBlockTest extends MigrateDrupal6TestBase {
     ];
     $this->assertEntity('statistics', [], 'sidebar', 'olivero', 0, $settings);
 
-    // Check content blocks.
+    // Check custom blocks.
     $visibility = [
       'request_path' => [
         'id' => 'request_path',
@@ -302,7 +302,7 @@ class MigrateBlockTest extends MigrateDrupal6TestBase {
     ];
     $this->assertEntity('block_2', [], 'right', 'test_theme', -7, $settings);
 
-    // Content block with php code is not migrated.
+    // Custom block with php code is not migrated.
     $block = Block::load('block_3');
     $this->assertNotInstanceOf(Block::class, $block);
 

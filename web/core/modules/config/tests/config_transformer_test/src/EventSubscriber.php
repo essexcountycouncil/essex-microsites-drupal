@@ -105,7 +105,7 @@ class EventSubscriber implements EventSubscriberInterface {
   /**
    * {@inheritdoc}
    */
-  public static function getSubscribedEvents(): array {
+  public static function getSubscribedEvents() {
     $events[ConfigEvents::STORAGE_TRANSFORM_IMPORT][] = ['onImportTransform'];
     $events[ConfigEvents::STORAGE_TRANSFORM_EXPORT][] = ['onExportTransform'];
     return $events;

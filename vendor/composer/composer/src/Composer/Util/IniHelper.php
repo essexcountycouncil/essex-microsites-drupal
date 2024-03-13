@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -31,15 +31,17 @@ class IniHelper
      *
      * @return string[]
      */
-    public static function getAll(): array
+    public static function getAll()
     {
         return XdebugHandler::getAllIniFiles();
     }
 
     /**
      * Describes the location of the loaded php.ini file(s)
+     *
+     * @return string
      */
-    public static function getMessage(): string
+    public static function getMessage()
     {
         $paths = self::getAll();
 

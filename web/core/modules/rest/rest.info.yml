@@ -1,6 +1,6 @@
 name: 'RESTful Web Services'
 type: module
-description: 'Provides a framework for exposing REST resources.'
+description: 'Exposes entities and other resources as RESTful web API'
 package: Web services
 version: VERSION
 dependencies:

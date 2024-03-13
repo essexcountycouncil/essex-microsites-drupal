@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -18,7 +18,6 @@ use Composer\IO\IOInterface;
 use Composer\Pcre\Preg;
 use Composer\Util\ProcessExecutor;
 use Composer\Util\Perforce;
-use Composer\Util\Http\Response;
 
 /**
  * @author Matt Whittom <Matt.Whittom@veteransunited.com>
@@ -35,7 +34,7 @@ class PerforceDriver extends VcsDriver
     /**
      * @inheritDoc
      */
-    public function initialize(): void
+    public function initialize()
     {
         $this->depot = $this->repoConfig['depot'];
         $this->branch = '';
@@ -53,14 +52,16 @@ class PerforceDriver extends VcsDriver
 
     /**
      * @param array<string, mixed> $repoConfig
+     *
+     * @return void
      */
-    private function initPerforce(array $repoConfig): void
+    private function initPerforce($repoConfig)
     {
         if (!empty($this->perforce)) {
             return;
         }
 
-        if (!Cache::isUsable($this->config->get('cache-vcs-dir'))) {
+        if (!Cache::isUsable((string) $this->config->get('cache-vcs-dir'))) {
             throw new \RuntimeException('PerforceDriver requires a usable cache directory, and it looks like you set it to be disabled');
         }
 
@@ -71,7 +72,7 @@ class PerforceDriver extends VcsDriver
     /**
      * @inheritDoc
      */
-    public function getFileContent(string $file, string $identifier): ?string
+    public function getFileContent($file, $identifier)
     {
         return $this->perforce->getFileContent($file, $identifier);
     }
@@ -79,7 +80,7 @@ class PerforceDriver extends VcsDriver
     /**
      * @inheritDoc
      */
-    public function getChangeDate(string $identifier): ?\DateTimeImmutable
+    public function getChangeDate($identifier)
     {
         return null;
     }
@@ -87,7 +88,7 @@ class PerforceDriver extends VcsDriver
     /**
      * @inheritDoc
      */
-    public function getRootIdentifier(): string
+    public function getRootIdentifier()
     {
         return $this->branch;
     }
@@ -95,7 +96,7 @@ class PerforceDriver extends VcsDriver
     /**
      * @inheritDoc
      */
-    public function getBranches(): array
+    public function getBranches()
     {
         return $this->perforce->getBranches();
     }
@@ -103,7 +104,7 @@ class PerforceDriver extends VcsDriver
     /**
      * @inheritDoc
      */
-    public function getTags(): array
+    public function getTags()
     {
         return $this->perforce->getTags();
     }
@@ -111,7 +112,7 @@ class PerforceDriver extends VcsDriver
     /**
      * @inheritDoc
      */
-    public function getDist(string $identifier): ?array
+    public function getDist($identifier)
     {
         return null;
     }
@@ -119,20 +120,20 @@ class PerforceDriver extends VcsDriver
     /**
      * @inheritDoc
      */
-    public function getSource(string $identifier): array
+    public function getSource($identifier)
     {
-        return [
+        return array(
             'type' => 'perforce',
             'url' => $this->repoConfig['url'],
             'reference' => $identifier,
             'p4user' => $this->perforce->getUser(),
-        ];
+        );
     }
 
     /**
      * @inheritDoc
      */
-    public function getUrl(): string
+    public function getUrl()
     {
         return $this->url;
     }
@@ -140,7 +141,7 @@ class PerforceDriver extends VcsDriver
     /**
      * @inheritDoc
      */
-    public function hasComposerFile(string $identifier): bool
+    public function hasComposerFile($identifier)
     {
         $composerInfo = $this->perforce->getComposerInformation('//' . $this->depot . '/' . $identifier);
 
@@ -150,7 +151,7 @@ class PerforceDriver extends VcsDriver
     /**
      * @inheritDoc
      */
-    public function getContents(string $url): Response
+    public function getContents($url)
     {
         throw new \BadMethodCallException('Not implemented/used in PerforceDriver');
     }
@@ -158,7 +159,7 @@ class PerforceDriver extends VcsDriver
     /**
      * @inheritDoc
      */
-    public static function supports(IOInterface $io, Config $config, string $url, bool $deep = false): bool
+    public static function supports(IOInterface $io, Config $config, $url, $deep = false)
     {
         if ($deep || Preg::isMatch('#\b(perforce|p4)\b#i', $url)) {
             return Perforce::checkServerExists($url, new ProcessExecutor($io));
@@ -170,18 +171,24 @@ class PerforceDriver extends VcsDriver
     /**
      * @inheritDoc
      */
-    public function cleanup(): void
+    public function cleanup()
     {
         $this->perforce->cleanupClientSpec();
         $this->perforce = null;
     }
 
-    public function getDepot(): string
+    /**
+     * @return string
+     */
+    public function getDepot()
     {
         return $this->depot;
     }
 
-    public function getBranch(): string
+    /**
+     * @return string
+     */
+    public function getBranch()
     {
         return $this->branch;
     }

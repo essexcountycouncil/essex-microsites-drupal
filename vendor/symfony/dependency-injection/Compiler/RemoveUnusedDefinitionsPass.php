@@ -20,14 +20,20 @@ use Symfony\Component\DependencyInjection\Reference;
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  * @author Nicolas Grekas <p@tchwork.com>
  */
-class RemoveUnusedDefinitionsPass extends AbstractRecursivePass
+class RemoveUnusedDefinitionsPass extends AbstractRecursivePass implements RepeatablePassInterface
 {
-    private array $connectedIds = [];
+    private $connectedIds = [];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setRepeatedPass(RepeatedPass $repeatedPass)
+    {
+        @trigger_error(sprintf('The "%s()" method is deprecated since Symfony 4.2.', __METHOD__), \E_USER_DEPRECATED);
+    }
 
     /**
      * Processes the ContainerBuilder to remove unused definitions.
-     *
-     * @return void
      */
     public function process(ContainerBuilder $container)
     {
@@ -74,7 +80,10 @@ class RemoveUnusedDefinitionsPass extends AbstractRecursivePass
         }
     }
 
-    protected function processValue(mixed $value, bool $isRoot = false): mixed
+    /**
+     * {@inheritdoc}
+     */
+    protected function processValue($value, $isRoot = false)
     {
         if (!$value instanceof Reference) {
             return parent::processValue($value, $isRoot);

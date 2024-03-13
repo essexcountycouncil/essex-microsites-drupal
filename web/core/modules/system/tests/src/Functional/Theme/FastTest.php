@@ -3,7 +3,6 @@
 namespace Drupal\Tests\system\Functional\Theme;
 
 use Drupal\Tests\BrowserTestBase;
-use Drupal\user\Entity\User;
 
 /**
  * Tests autocompletion not loading registry.
@@ -29,7 +28,7 @@ class FastTest extends BrowserTestBase {
    *
    * @var \Drupal\user\Entity\User
    */
-  protected User $account;
+  protected $account;
 
   /**
    * {@inheritdoc}

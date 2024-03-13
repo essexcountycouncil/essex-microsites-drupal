@@ -35,8 +35,6 @@ class SqlBaseTest extends UnitTestCase {
   protected $display;
 
   protected function setUp(): void {
-    parent::setUp();
-
     $this->pager = $this->getMockBuilder('Drupal\views\Plugin\views\pager\SqlBase')
       ->disableOriginalConstructor()
       ->getMockForAbstractClass();

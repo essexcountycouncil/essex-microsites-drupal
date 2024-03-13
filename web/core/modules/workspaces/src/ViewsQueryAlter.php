@@ -64,13 +64,6 @@ class ViewsQueryAlter implements ContainerInjectionInterface {
   protected $languageManager;
 
   /**
-   * An array of tables adjusted for workspace_association join.
-   *
-   * @var \WeakMap
-   */
-  protected \WeakMap $adjustedTables;
-
-  /**
    * Constructs a new ViewsQueryAlter instance.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
@@ -93,7 +86,6 @@ class ViewsQueryAlter implements ContainerInjectionInterface {
     $this->viewsData = $views_data;
     $this->viewsJoinPluginManager = $views_join_plugin_manager;
     $this->languageManager = $language_manager;
-    $this->adjustedTables = new \WeakMap();
   }
 
   /**
@@ -353,7 +345,7 @@ class ViewsQueryAlter implements ContainerInjectionInterface {
         // If this table previously existed, but was not added by us, we need
         // to modify the join and make sure that 'workspace_association' comes
         // first.
-        if (!$this->adjustedTables->offsetExists($table_queue[$alias]['join'])) {
+        if (empty($table_queue[$alias]['join']->workspace_adjusted)) {
           $table_queue[$alias]['join'] = $this->getRevisionTableJoin($relationship, $base_revision_table, $revision_field, $workspace_association_table, $entity_type);
           // We also have to ensure that our 'workspace_association' comes before
           // this.
@@ -406,7 +398,7 @@ class ViewsQueryAlter implements ContainerInjectionInterface {
     /** @var \Drupal\views\Plugin\views\join\JoinPluginInterface $join */
     $join = $this->viewsJoinPluginManager->createInstance('standard', $definition);
     $join->adjusted = TRUE;
-    $this->adjustedTables[$join] = TRUE;
+    $join->workspace_adjusted = TRUE;
 
     return $join;
   }

@@ -58,6 +58,8 @@ class ResourceRoutes implements EventSubscriberInterface {
    *
    * @param \Drupal\Core\Routing\RouteBuildEvent $event
    *   The route build event.
+   *
+   * @return array
    */
   public function onDynamicRouteEvent(RouteBuildEvent $event) {
     // Iterate over all enabled REST resource config entities.
@@ -138,7 +140,7 @@ class ResourceRoutes implements EventSubscriberInterface {
   /**
    * {@inheritdoc}
    */
-  public static function getSubscribedEvents(): array {
+  public static function getSubscribedEvents() {
     $events[RoutingEvents::DYNAMIC] = 'onDynamicRouteEvent';
     return $events;
   }

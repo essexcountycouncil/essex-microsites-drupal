@@ -11,32 +11,31 @@
 
 namespace Symfony\Component\Console\Tester;
 
-use PHPUnit\Framework\Assert;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\StreamOutput;
-use Symfony\Component\Console\Tester\Constraint\CommandIsSuccessful;
 
 /**
  * @author Amrouche Hamza <hamza.simperfit@gmail.com>
  */
 trait TesterTrait
 {
-    private StreamOutput $output;
-    private array $inputs = [];
-    private bool $captureStreamsIndependently = false;
-    private InputInterface $input;
-    private int $statusCode;
+    /** @var StreamOutput */
+    private $output;
+    private $inputs = [];
+    private $captureStreamsIndependently = false;
 
     /**
      * Gets the display returned by the last execution of the command or application.
      *
-     * @throws \RuntimeException If it's called before the execute method
+     * @param bool $normalize Whether to normalize end of lines to \n or not
+     *
+     * @return string The display
      */
-    public function getDisplay(bool $normalize = false): string
+    public function getDisplay($normalize = false)
     {
-        if (!isset($this->output)) {
+        if (null === $this->output) {
             throw new \RuntimeException('Output not initialized, did you execute the command before requesting the display?');
         }
 
@@ -55,8 +54,10 @@ trait TesterTrait
      * Gets the output written to STDERR by the application.
      *
      * @param bool $normalize Whether to normalize end of lines to \n or not
+     *
+     * @return string
      */
-    public function getErrorOutput(bool $normalize = false): string
+    public function getErrorOutput($normalize = false)
     {
         if (!$this->captureStreamsIndependently) {
             throw new \LogicException('The error output is not available when the tester is run without "capture_stderr_separately" option set.');
@@ -75,16 +76,20 @@ trait TesterTrait
 
     /**
      * Gets the input instance used by the last execution of the command or application.
+     *
+     * @return InputInterface The current input instance
      */
-    public function getInput(): InputInterface
+    public function getInput()
     {
         return $this->input;
     }
 
     /**
      * Gets the output instance used by the last execution of the command or application.
+     *
+     * @return OutputInterface The current output instance
      */
-    public function getOutput(): OutputInterface
+    public function getOutput()
     {
         return $this->output;
     }
@@ -92,16 +97,11 @@ trait TesterTrait
     /**
      * Gets the status code returned by the last execution of the command or application.
      *
-     * @throws \RuntimeException If it's called before the execute method
+     * @return int The status code
      */
-    public function getStatusCode(): int
+    public function getStatusCode()
     {
-        return $this->statusCode ?? throw new \RuntimeException('Status code not initialized, did you execute the command before requesting the status code?');
-    }
-
-    public function assertCommandIsSuccessful(string $message = ''): void
-    {
-        Assert::assertThat($this->statusCode, new CommandIsSuccessful(), $message);
+        return $this->statusCode;
     }
 
     /**
@@ -112,7 +112,7 @@ trait TesterTrait
      *
      * @return $this
      */
-    public function setInputs(array $inputs): static
+    public function setInputs(array $inputs)
     {
         $this->inputs = $inputs;
 
@@ -128,7 +128,7 @@ trait TesterTrait
      *  * verbosity:                 Sets the output verbosity flag
      *  * capture_stderr_separately: Make output of stdOut and stdErr separately available
      */
-    private function initOutput(array $options): void
+    private function initOutput(array $options)
     {
         $this->captureStreamsIndependently = \array_key_exists('capture_stderr_separately', $options) && $options['capture_stderr_separately'];
         if (!$this->captureStreamsIndependently) {
@@ -152,10 +152,12 @@ trait TesterTrait
 
             $reflectedOutput = new \ReflectionObject($this->output);
             $strErrProperty = $reflectedOutput->getProperty('stderr');
+            $strErrProperty->setAccessible(true);
             $strErrProperty->setValue($this->output, $errorOutput);
 
             $reflectedParent = $reflectedOutput->getParentClass();
             $streamProperty = $reflectedParent->getProperty('stream');
+            $streamProperty->setAccessible(true);
             $streamProperty->setValue($this->output, fopen('php://memory', 'w', false));
         }
     }

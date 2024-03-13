@@ -160,22 +160,22 @@ class MediaSourceOEmbedVideoTest extends MediaSourceTestBase {
 
     // Try to create a media asset from a disallowed provider.
     $this->drupalGet("media/add/$media_type_id");
-    $assert_session->fieldExists('Remote video URL')->setValue('https://www.dailymotion.com/video/x2vzluh');
+    $assert_session->fieldExists('Remote video URL')->setValue('http://www.collegehumor.com/video/40003213/grant-and-katie-are-starting-their-own-company');
     $page->pressButton('Save');
 
-    $assert_session->pageTextContains('The Dailymotion provider is not allowed.');
+    $assert_session->pageTextContains('The CollegeHumor provider is not allowed.');
 
-    // Register a Dailymotion video as a second oEmbed resource. Note that its
+    // Register a CollegeHumor video as a second oEmbed resource. Note that its
     // thumbnail URL does not have a file extension.
     $media_type = MediaType::load($media_type_id);
     $source_configuration = $media_type->getSource()->getConfiguration();
-    $source_configuration['providers'][] = 'Dailymotion';
+    $source_configuration['providers'][] = 'CollegeHumor';
     $media_type->getSource()->setConfiguration($source_configuration);
     $media_type->save();
-    $video_url = 'https://www.dailymotion.com/video/x2vzluh';
-    ResourceController::setResourceUrl($video_url, $this->getFixturesDirectory() . '/video_dailymotion.xml');
+    $video_url = 'http://www.collegehumor.com/video/40003213/let-not-get-a-drink-sometime';
+    ResourceController::setResourceUrl($video_url, $this->getFixturesDirectory() . '/video_collegehumor.xml');
 
-    // Create a new media item using a Dailymotion video.
+    // Create a new media item using a CollegeHumor video.
     $this->drupalGet("media/add/$media_type_id");
     $assert_session->fieldExists('Remote video URL')->setValue($video_url);
     $assert_session->buttonExists('Save')->press();

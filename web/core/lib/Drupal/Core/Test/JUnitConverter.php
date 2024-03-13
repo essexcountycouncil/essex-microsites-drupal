@@ -90,9 +90,9 @@ class JUnitConverter {
       if ($file && !$child->attributes()->file) {
         $child->addAttribute('file', $file);
       }
-      $test_cases[] = static::findTestCases($child, $element);
+      $test_cases = array_merge($test_cases, static::findTestCases($child, $element));
     }
-    return array_merge(...$test_cases);
+    return $test_cases;
   }
 
   /**

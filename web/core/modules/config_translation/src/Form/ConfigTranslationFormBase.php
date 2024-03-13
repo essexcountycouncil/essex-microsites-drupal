@@ -221,7 +221,7 @@ abstract class ConfigTranslationFormBase extends FormBase implements BaseFormIdI
     }
 
     $form_state->setRedirect(
-      $this->mapper->getOverviewRouteName(),
+      $this->mapper->getOverviewRoute(),
       $this->mapper->getOverviewRouteParameters()
     );
   }

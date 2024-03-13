@@ -121,7 +121,6 @@ class FileViewsData extends EntityViewsData {
       'skip base' => ['node_field_data', 'node_field_revision', 'users_field_data', 'comment_field_data', 'taxonomy_term_field_data'],
       'real field' => 'id',
       'relationship' => [
-        'id' => 'standard',
         'title' => $this->t('Content'),
         'label' => $this->t('Content'),
         'base' => 'node_field_data',
@@ -138,7 +137,6 @@ class FileViewsData extends EntityViewsData {
       'skip base' => ['file_managed', 'users_field_data', 'comment_field_data', 'taxonomy_term_field_data'],
       'real field' => 'fid',
       'relationship' => [
-        'id' => 'standard',
         'title' => $this->t('File'),
         'label' => $this->t('File'),
         'base' => 'file_managed',
@@ -156,7 +154,6 @@ class FileViewsData extends EntityViewsData {
       'skip base' => ['node_field_data', 'node_field_revision', 'users_field_data', 'comment_field_data', 'taxonomy_term_field_data'],
       'real field' => 'id',
       'relationship' => [
-        'id' => 'standard',
         'title' => $this->t('User'),
         'label' => $this->t('User'),
         'base' => 'users',
@@ -173,7 +170,6 @@ class FileViewsData extends EntityViewsData {
       'skip base' => ['file_managed', 'node_field_data', 'node_field_revision', 'comment_field_data', 'taxonomy_term_field_data'],
       'real field' => 'fid',
       'relationship' => [
-        'id' => 'standard',
         'title' => $this->t('File'),
         'label' => $this->t('File'),
         'base' => 'file_managed',
@@ -191,7 +187,6 @@ class FileViewsData extends EntityViewsData {
       'skip base' => ['node_field_data', 'node_field_revision', 'users_field_data', 'comment_field_data', 'taxonomy_term_field_data'],
       'real field' => 'id',
       'relationship' => [
-        'id' => 'standard',
         'title' => $this->t('Comment'),
         'label' => $this->t('Comment'),
         'base' => 'comment_field_data',
@@ -208,7 +203,6 @@ class FileViewsData extends EntityViewsData {
       'skip base' => ['file_managed', 'node_field_data', 'node_field_revision', 'users_field_data', 'taxonomy_term_field_data'],
       'real field' => 'fid',
       'relationship' => [
-        'id' => 'standard',
         'title' => $this->t('File'),
         'label' => $this->t('File'),
         'base' => 'file_managed',
@@ -226,7 +220,6 @@ class FileViewsData extends EntityViewsData {
       'skip base' => ['node_field_data', 'node_field_revision', 'users_field_data', 'comment_field_data', 'taxonomy_term_field_data'],
       'real field' => 'id',
       'relationship' => [
-        'id' => 'standard',
         'title' => $this->t('Taxonomy Term'),
         'label' => $this->t('Taxonomy Term'),
         'base' => 'taxonomy_term_data',
@@ -243,7 +236,6 @@ class FileViewsData extends EntityViewsData {
       'skip base' => ['file_managed', 'node_field_data', 'node_field_revision', 'users_field_data', 'comment_field_data'],
       'real field' => 'fid',
       'relationship' => [
-        'id' => 'standard',
         'title' => $this->t('File'),
         'label' => $this->t('File'),
         'base' => 'file_managed',

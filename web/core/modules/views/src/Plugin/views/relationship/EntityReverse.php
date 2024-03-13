@@ -16,16 +16,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class EntityReverse extends RelationshipPluginBase {
 
   /**
-   * The views plugin join manager.
-   */
-  public ViewsHandlerManager $joinManager;
-
-  /**
-   * The alias for the left table.
-   */
-  public string $first_alias;
-
-  /**
    * Constructs an EntityReverse object.
    *
    * @param array $configuration
@@ -79,7 +69,13 @@ class EntityReverse extends RelationshipPluginBase {
       $first['extra'] = $this->definition['join_extra'];
     }
 
-    $first_join = $this->joinManager->createInstance('standard', $first);
+    if (!empty($def['join_id'])) {
+      $id = $def['join_id'];
+    }
+    else {
+      $id = 'standard';
+    }
+    $first_join = $this->joinManager->createInstance($id, $first);
 
     $this->first_alias = $this->query->addTable($this->definition['field table'], $this->relationship, $first_join);
 
@@ -97,7 +93,13 @@ class EntityReverse extends RelationshipPluginBase {
       $second['type'] = 'INNER';
     }
 
-    $second_join = $this->joinManager->createInstance('standard', $second);
+    if (!empty($def['join_id'])) {
+      $id = $def['join_id'];
+    }
+    else {
+      $id = 'standard';
+    }
+    $second_join = $this->joinManager->createInstance($id, $second);
     $second_join->adjusted = TRUE;
 
     // use a short alias for this:

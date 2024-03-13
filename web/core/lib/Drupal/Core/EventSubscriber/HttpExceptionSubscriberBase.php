@@ -120,7 +120,7 @@ abstract class HttpExceptionSubscriberBase implements EventSubscriberInterface {
    * @return array
    *   An array of event listener definitions.
    */
-  public static function getSubscribedEvents(): array {
+  public static function getSubscribedEvents() {
     $events[KernelEvents::EXCEPTION][] = ['onException', static::getPriority()];
     return $events;
   }

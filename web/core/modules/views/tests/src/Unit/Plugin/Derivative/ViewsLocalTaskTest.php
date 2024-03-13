@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\Tests\views\Unit\Plugin\Derivative\ViewsLocalTaskTest.
+ */
+
 namespace Drupal\Tests\views\Unit\Plugin\Derivative;
 
 use Drupal\Tests\UnitTestCase;
@@ -48,8 +53,6 @@ class ViewsLocalTaskTest extends UnitTestCase {
    * {@inheritdoc}
    */
   protected function setUp(): void {
-    parent::setUp();
-
     $this->routeProvider = $this->createMock('Drupal\Core\Routing\RouteProviderInterface');
     $this->state = $this->createMock('Drupal\Core\State\StateInterface');
     $this->viewStorage = $this->createMock('Drupal\Core\Entity\EntityStorageInterface');

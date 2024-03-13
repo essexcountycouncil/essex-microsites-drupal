@@ -20,7 +20,8 @@ class EventBaseTest extends UnitTestCase {
   public function testGetMigration() {
     $migration = $this->prophesize('\Drupal\migrate\Plugin\MigrationInterface')->reveal();
     $message_service = $this->prophesize('\Drupal\migrate\MigrateMessageInterface')->reveal();
-    $event = new EventBase($migration, $message_service);
+    $row = $this->prophesize('\Drupal\migrate\Row')->reveal();
+    $event = new EventBase($migration, $message_service, $row, [1, 2, 3]);
     $this->assertSame($migration, $event->getMigration());
   }
 

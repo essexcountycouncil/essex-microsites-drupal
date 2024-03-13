@@ -39,7 +39,7 @@ class MigrateFieldPluginManagerTest extends MigrateDrupalTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp(): void {
+  public function setUp(): void {
     parent::setUp();
     $this->pluginManager = $this->container->get('plugin.manager.migrate.field');
   }

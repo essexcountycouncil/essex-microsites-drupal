@@ -19,7 +19,9 @@ use function get_declared_classes;
 use function is_file;
 use function realpath;
 
-/** @internal */
+/**
+ * @internal
+ */
 final class Parser
 {
     /** @var ReflectionClass<TestCase> */
@@ -43,17 +45,12 @@ final class Parser
         if (! isset(self::$alreadyLoadedSources[$srcPath])) {
             $declaredClasses = get_declared_classes();
             try {
-                $refClass = (new StandardTestSuiteLoader())->load($srcPath);
-                if (! $refClass->isSubclassOf(TestCase::class)) {
-                    throw new NoClassInFileException($srcPath);
-                }
-
-                self::$alreadyLoadedSources[$srcPath] = $refClass;
+                self::$alreadyLoadedSources[$srcPath] = (new StandardTestSuiteLoader())->load($srcPath);
 
                 self::$externalClassesFound += array_diff(
                     get_declared_classes(),
                     $declaredClasses,
-                    [self::$alreadyLoadedSources[$srcPath]->getName()],
+                    [self::$alreadyLoadedSources[$srcPath]->getName()]
                 );
             } catch (Exception $exception) {
                 self::$externalClassesFound += array_diff(get_declared_classes(), $declaredClasses);
@@ -70,7 +67,7 @@ final class Parser
                 }
 
                 if ($reflFound === null || ! $reflFound->isSubclassOf(TestCase::class) || $reflFound->isAbstract()) {
-                    throw new NoClassInFileException($srcPath, 0, $exception);
+                    throw new NoClassInFileException('', 0, $exception);
                 }
 
                 self::$alreadyLoadedSources[$srcPath] = $reflFound;
@@ -96,7 +93,7 @@ final class Parser
         return new ParsedClass(
             $this->refl->getName(),
             $this->getMethods(),
-            $parentsCount,
+            $parentsCount
         );
     }
 

@@ -15,7 +15,7 @@
  */
 
 .search-admin-settings .container-inline {
-  margin-block-end: 1em;
+  margin-bottom: 1em;
 }
 
 .search-admin-settings label[for="edit-search-type"] {

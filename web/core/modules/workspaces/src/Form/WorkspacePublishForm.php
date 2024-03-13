@@ -133,7 +133,7 @@ class WorkspacePublishForm extends ConfirmFormBase implements WorkspaceFormInter
    * {@inheritdoc}
    */
   public function getCancelUrl() {
-    return Url::fromRoute('entity.workspace.collection', [], ['query' => $this->getDestinationArray()]);
+    return Url::fromRoute('entity.workspace.collection', [], ['query' => \Drupal::destination()->getAsArray()]);
   }
 
   /**
@@ -151,7 +151,6 @@ class WorkspacePublishForm extends ConfirmFormBase implements WorkspaceFormInter
     }
     catch (\Exception $e) {
       $this->messenger()->addMessage($this->t('Publication failed. All errors have been logged.'), 'error');
-      $this->getLogger('workspaces')->error($e->getMessage());
     }
   }
 

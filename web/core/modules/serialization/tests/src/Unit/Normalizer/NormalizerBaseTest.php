@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\Tests\serialization\Unit\Normalizer\NormalizerBaseTest.
+ */
+
 namespace Drupal\Tests\serialization\Unit\Normalizer;
 
 use Drupal\Tests\UnitTestCase;
@@ -64,27 +69,13 @@ class NormalizerBaseTest extends UnitTestCase {
 abstract class TestNormalizerBase extends NormalizerBase {
 
   /**
-   * The interface or class that this Normalizer supports.
-   *
-   * @var string[]
-   */
-  protected array $supportedTypes = ['*' => FALSE];
-
-  /**
    * Sets the protected supportedInterfaceOrClass property.
    *
    * @param string $supported_interface_or_class
    *   The class name to set.
    */
   public function setSupportedInterfaceOrClass($supported_interface_or_class) {
-    $this->supportedTypes = [$supported_interface_or_class => FALSE];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getSupportedTypes(?string $format): array {
-    return $this->supportedTypes;
+    $this->supportedInterfaceOrClass = $supported_interface_or_class;
   }
 
 }

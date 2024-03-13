@@ -118,7 +118,7 @@ class ConfigImporterFieldPurger {
     $field_storage_ids = [];
     foreach ($deletes as $config_name) {
       $field_storage_config_prefix = \Drupal::entityTypeManager()->getDefinition('field_storage_config')->getConfigPrefix();
-      if (str_starts_with($config_name, $field_storage_config_prefix . '.')) {
+      if (strpos($config_name, $field_storage_config_prefix . '.') === 0) {
         $field_storage_ids[] = ConfigEntityStorage::getIDFromConfigName($config_name, $field_storage_config_prefix);
       }
     }

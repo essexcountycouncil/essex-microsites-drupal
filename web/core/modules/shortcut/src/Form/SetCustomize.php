@@ -55,9 +55,8 @@ class SetCustomize extends EntityForm {
       $form['shortcuts']['links'][$id]['name'] = [
         '#type' => 'link',
         '#title' => $shortcut->getTitle(),
-        '#url' => $url,
-        '#options' => $url->getOptions(),
-      ];
+      ] + $url->toRenderArray();
+      unset($form['shortcuts']['links'][$id]['name']['#access_callback']);
       $form['shortcuts']['links'][$id]['#weight'] = $shortcut->getWeight();
       $form['shortcuts']['links'][$id]['weight'] = [
         '#type' => 'weight',

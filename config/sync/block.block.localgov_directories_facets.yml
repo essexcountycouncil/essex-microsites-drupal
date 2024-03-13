@@ -22,8 +22,8 @@ settings:
   provider: facets
   block_id: localgov_directories_facets
 visibility:
-  'entity_bundle:node':
-    id: 'entity_bundle:node'
+  node_type:
+    id: node_type
     negate: false
     context_mapping:
       node: '@node.node_route_context:node'

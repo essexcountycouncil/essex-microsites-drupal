@@ -17,10 +17,15 @@ use PHPUnit\Util\Configuration;
 use Symfony\Bridge\PhpUnit\SymfonyTestsListener;
 
 /**
+ * {@inheritdoc}
+ *
  * @internal
  */
 class CommandForV7 extends BaseCommand
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function createRunner(): BaseRunner
     {
         $this->arguments['listeners'] ?? $this->arguments['listeners'] = [];

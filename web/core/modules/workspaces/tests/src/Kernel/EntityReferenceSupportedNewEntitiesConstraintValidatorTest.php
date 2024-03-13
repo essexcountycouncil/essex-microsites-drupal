@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\workspaces\Kernel;
 
-use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\entity_test\Entity\EntityTest;
 use Drupal\entity_test\Entity\EntityTestMulRevPub;
@@ -34,7 +33,7 @@ class EntityReferenceSupportedNewEntitiesConstraintValidatorTest extends KernelT
    *
    * @var \Drupal\Core\Entity\EntityTypeManager
    */
-  protected EntityTypeManager $entityTypeManager;
+  protected $entityTypeManager;
 
   /**
    * {@inheritdoc}
@@ -84,7 +83,7 @@ class EntityReferenceSupportedNewEntitiesConstraintValidatorTest extends KernelT
     ]);
     $violations = $entity->validate();
     $this->assertCount(1, $violations);
-    $this->assertEquals('Test entity entities can only be created in the default workspace.', $violations[0]->getMessage());
+    $this->assertEquals('<em class="placeholder">Test entity entities</em> can only be created in the default workspace.', $violations[0]->getMessage());
   }
 
 }

@@ -7,7 +7,6 @@ namespace Drupal\Tests\ckeditor5\FunctionalJavascript;
 use Drupal\ckeditor5\Plugin\Editor\CKEditor5;
 use Drupal\editor\Entity\Editor;
 use Drupal\filter\Entity\FilterFormat;
-use Drupal\user\Entity\User;
 use Symfony\Component\Validator\ConstraintViolation;
 
 /**
@@ -30,7 +29,7 @@ class CKEditor5ToolbarTest extends CKEditor5TestBase {
    *
    * @var \Drupal\user\Entity\User
    */
-  protected User $user;
+  protected $user;
 
   /**
    * {@inheritdoc}

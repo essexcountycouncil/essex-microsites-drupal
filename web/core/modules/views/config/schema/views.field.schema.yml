@@ -12,10 +12,10 @@ views.field.boolean:
       type: string
       label: 'Output format'
     type_custom_true:
-      type: label
+      type: string
       label: 'Custom output for TRUE'
     type_custom_false:
-      type: label
+      type: string
       label: 'Custom output for FALSE'
     not:
       type: boolean

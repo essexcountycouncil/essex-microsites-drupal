@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -38,7 +38,7 @@ class StrictConfirmationQuestion extends Question
      * @param non-empty-string $trueAnswerRegex  A regex to match the "yes" answer
      * @param non-empty-string $falseAnswerRegex A regex to match the "no" answer
      */
-    public function __construct(string $question, bool $default = true, string $trueAnswerRegex = '/^y(?:es)?$/i', string $falseAnswerRegex = '/^no?$/i')
+    public function __construct($question, $default = true, $trueAnswerRegex = '/^y(?:es)?$/i', $falseAnswerRegex = '/^no?$/i')
     {
         parent::__construct($question, (bool) $default);
 
@@ -50,14 +50,16 @@ class StrictConfirmationQuestion extends Question
 
     /**
      * Returns the default answer normalizer.
+     *
+     * @return callable
      */
-    private function getDefaultNormalizer(): callable
+    private function getDefaultNormalizer()
     {
         $default = $this->getDefault();
         $trueRegex = $this->trueAnswerRegex;
         $falseRegex = $this->falseAnswerRegex;
 
-        return static function ($answer) use ($default, $trueRegex, $falseRegex) {
+        return function ($answer) use ($default, $trueRegex, $falseRegex) {
             if (is_bool($answer)) {
                 return $answer;
             }
@@ -79,10 +81,12 @@ class StrictConfirmationQuestion extends Question
 
     /**
      * Returns the default answer validator.
+     *
+     * @return callable
      */
-    private function getDefaultValidator(): callable
+    private function getDefaultValidator()
     {
-        return static function ($answer): bool {
+        return function ($answer) {
             if (!is_bool($answer)) {
                 throw new InvalidArgumentException('Please answer yes, y, no, or n.');
             }

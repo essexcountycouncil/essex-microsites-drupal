@@ -11,6 +11,7 @@ use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\File\Exception\FileException;
 use Drupal\file\FileInterface;
 use Drupal\user\EntityOwnerTrait;
+use Symfony\Component\Mime\MimeTypeGuesserInterface;
 
 /**
  * Defines the file entity class.
@@ -32,13 +33,6 @@ use Drupal\user\EntityOwnerTrait;
  *     "storage_schema" = "Drupal\file\FileStorageSchema",
  *     "access" = "Drupal\file\FileAccessControlHandler",
  *     "views_data" = "Drupal\file\FileViewsData",
- *     "list_builder" = "Drupal\Core\Entity\EntityListBuilder",
- *     "form" = {
- *       "delete" = "Drupal\Core\Entity\ContentEntityDeleteForm",
- *     },
- *     "route_provider" = {
- *       "html" = "Drupal\file\Entity\FileRouteProvider",
- *     },
  *   },
  *   base_table = "file_managed",
  *   entity_keys = {
@@ -47,9 +41,6 @@ use Drupal\user\EntityOwnerTrait;
  *     "langcode" = "langcode",
  *     "uuid" = "uuid",
  *     "owner" = "uid",
- *   },
- *   links = {
- *     "delete-form" = "/file/{file}/delete",
  *   }
  * )
  */
@@ -113,8 +104,7 @@ class File extends ContentEntityBase implements FileInterface {
    * {@inheritdoc}
    */
   public function getSize() {
-    $filesize = $this->get('filesize')->value;
-    return isset($filesize) ? (int) $filesize : NULL;
+    return $this->get('filesize')->value;
   }
 
   /**
@@ -128,8 +118,7 @@ class File extends ContentEntityBase implements FileInterface {
    * {@inheritdoc}
    */
   public function getCreatedTime() {
-    $created = $this->get('created')->value;
-    return isset($created) ? (int) $created : NULL;
+    return $this->get('created')->value;
   }
 
   /**
@@ -171,7 +160,14 @@ class File extends ContentEntityBase implements FileInterface {
 
     // Automatically detect filemime if not set.
     if (!isset($values['filemime']) && isset($values['uri'])) {
-      $values['filemime'] = \Drupal::service('file.mime_type.guesser')->guessMimeType($values['uri']);
+      $guesser = \Drupal::service('file.mime_type.guesser');
+      if ($guesser instanceof MimeTypeGuesserInterface) {
+        $values['filemime'] = $guesser->guessMimeType($values['uri']);
+      }
+      else {
+        $values['filemime'] = $guesser->guess($values['uri']);
+        @trigger_error('\Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesserInterface is deprecated in drupal:9.1.0 and is removed from drupal:10.0.0. Implement \Symfony\Component\Mime\MimeTypeGuesserInterface instead. See https://www.drupal.org/node/3133341', E_USER_DEPRECATED);
+      }
     }
   }
 

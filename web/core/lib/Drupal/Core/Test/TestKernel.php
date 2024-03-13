@@ -7,7 +7,7 @@ use Drupal\Component\DependencyInjection\ReverseContainer;
 use Drupal\Core\DrupalKernel;
 
 /**
- * Kernel that is only used by mock front controllers.
+ * Kernel to mock requests to test simpletest.
  */
 class TestKernel extends DrupalKernel {
 

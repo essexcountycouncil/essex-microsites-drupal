@@ -20,9 +20,6 @@ class QueryFactory implements QueryFactoryInterface {
 
   /**
    * Constructs a QueryFactory object.
-   *
-   * Initializes the list of namespaces used to locate query
-   * classes for different entity types.
    */
   public function __construct() {
     $this->namespaces = QueryBase::getNamespaces($this);

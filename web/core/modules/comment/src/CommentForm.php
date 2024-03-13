@@ -242,7 +242,7 @@ class CommentForm extends ContentEntityForm {
       '#access' => $is_admin,
     ];
 
-    return parent::form($form, $form_state);
+    return parent::form($form, $form_state, $comment);
   }
 
   /**

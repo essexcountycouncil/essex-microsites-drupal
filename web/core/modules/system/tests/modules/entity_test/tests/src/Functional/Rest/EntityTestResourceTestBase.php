@@ -2,8 +2,6 @@
 
 namespace Drupal\Tests\entity_test\Functional\Rest;
 
-use Drupal\Core\Entity\EntityDefinitionUpdateManagerInterface;
-use Drupal\Core\State\StateInterface;
 use Drupal\Tests\rest\Functional\EntityResource\ConfigEntityResourceTestBase;
 use Drupal\Tests\system\Functional\Entity\Traits\EntityDefinitionTestTrait;
 use Drupal\user\Entity\User;
@@ -32,7 +30,7 @@ abstract class EntityTestResourceTestBase extends ConfigEntityResourceTestBase {
    *
    * @var \Drupal\Core\State\StateInterface
    */
-  protected StateInterface $state;
+  protected $state;
 
   /**
    * @var \Drupal\entity_test\Entity\EntityTest
@@ -44,7 +42,7 @@ abstract class EntityTestResourceTestBase extends ConfigEntityResourceTestBase {
    *
    * @var \Drupal\Core\Entity\EntityDefinitionUpdateManagerInterface
    */
-  protected EntityDefinitionUpdateManagerInterface $entityDefinitionUpdateManager;
+  protected $entityDefinitionUpdateManager;
 
   /**
    * {@inheritdoc}

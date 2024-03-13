@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\taxonomy\Kernel\Views;
 
-use Drupal\TestTools\Random;
 use Drupal\views\Views;
 
 /**
@@ -48,16 +47,16 @@ class ArgumentTransformTermTest extends TaxonomyTestBase {
    * @return array[]
    *   Test data.
    */
-  public static function termArgumentTransformationProvider() {
+  public function termArgumentTransformationProvider() {
     return [
       'space in the middle' => [
-        'name' => Random::machineName() . ' ' . Random::machineName(),
+        'name' => $this->randomMachineName() . ' ' . $this->randomMachineName(),
       ],
       'space at the start' => [
-        'name' => ' ' . Random::machineName(),
+        'name' => ' ' . $this->randomMachineName(),
       ],
       'space at the end' => [
-        'name' => Random::machineName() . ' ',
+        'name' => $this->randomMachineName() . ' ',
       ],
     ];
   }

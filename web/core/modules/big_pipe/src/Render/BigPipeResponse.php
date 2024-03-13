@@ -108,7 +108,7 @@ class BigPipeResponse extends HtmlResponse {
   /**
    * {@inheritdoc}
    */
-  public function sendContent(): static {
+  public function sendContent() {
     $this->bigPipe->sendContent($this);
 
     // All BigPipe placeholders are processed, so update this response's

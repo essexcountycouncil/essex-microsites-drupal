@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -35,7 +35,7 @@ class ArchiveManager
     /**
      * @var ArchiverInterface[]
      */
-    protected $archivers = [];
+    protected $archivers = array();
 
     /**
      * @var bool
@@ -51,7 +51,12 @@ class ArchiveManager
         $this->loop = $loop;
     }
 
-    public function addArchiver(ArchiverInterface $archiver): void
+    /**
+     * @param ArchiverInterface $archiver
+     *
+     * @return void
+     */
+    public function addArchiver(ArchiverInterface $archiver)
     {
         $this->archivers[] = $archiver;
     }
@@ -63,59 +68,11 @@ class ArchiveManager
      *
      * @return $this
      */
-    public function setOverwriteFiles(bool $overwriteFiles): self
+    public function setOverwriteFiles($overwriteFiles)
     {
         $this->overwriteFiles = $overwriteFiles;
 
         return $this;
-    }
-
-    /**
-     * @return array<string, string>
-     * @internal
-     */
-    public function getPackageFilenameParts(CompletePackageInterface $package): array
-    {
-        $baseName = $package->getArchiveName();
-        if (null === $baseName) {
-            $baseName = Preg::replace('#[^a-z0-9-_]#i', '-', $package->getName());
-        }
-
-        $parts = [
-            'base' => $baseName,
-        ];
-
-        $distReference = $package->getDistReference();
-        if (null !== $distReference && Preg::isMatch('{^[a-f0-9]{40}$}', $distReference)) {
-            $parts['dist_reference'] = $distReference;
-            $parts['dist_type'] = $package->getDistType();
-        } else {
-            $parts['version'] = $package->getPrettyVersion();
-            $parts['dist_reference'] = $distReference;
-        }
-
-        $sourceReference = $package->getSourceReference();
-        if (null !== $sourceReference) {
-            $parts['source_reference'] = substr(sha1($sourceReference), 0, 6);
-        }
-
-        $parts = array_filter($parts);
-        foreach ($parts as $key => $part) {
-            $parts[$key] = str_replace('/', '-', $part);
-        }
-
-        return $parts;
-    }
-
-    /**
-     * @param array<string, string> $parts
-     *
-     * @return string
-     * @internal
-     */
-    public function getPackageFilenameFromParts(array $parts): string
-    {
-        return implode('-', $parts);
     }
 
     /**
@@ -125,9 +82,30 @@ class ArchiveManager
      *
      * @return string A filename without an extension
      */
-    public function getPackageFilename(CompletePackageInterface $package): string
+    public function getPackageFilename(CompletePackageInterface $package)
     {
-        return $this->getPackageFilenameFromParts($this->getPackageFilenameParts($package));
+        if ($package->getArchiveName()) {
+            $baseName = $package->getArchiveName();
+        } else {
+            $baseName = Preg::replace('#[^a-z0-9-_]#i', '-', $package->getName());
+        }
+        $nameParts = array($baseName);
+
+        if (null !== $package->getDistReference() && Preg::isMatch('{^[a-f0-9]{40}$}', $package->getDistReference())) {
+            array_push($nameParts, $package->getDistReference(), $package->getDistType());
+        } else {
+            array_push($nameParts, $package->getPrettyVersion(), $package->getDistReference());
+        }
+
+        if ($package->getSourceReference()) {
+            $nameParts[] = substr(sha1($package->getSourceReference()), 0, 6);
+        }
+
+        $name = implode('-', array_filter($nameParts, function ($p) {
+            return !empty($p);
+        }));
+
+        return str_replace('/', '-', $name);
     }
 
     /**
@@ -143,7 +121,7 @@ class ArchiveManager
      * @throws \RuntimeException
      * @return string                    The path of the created archive
      */
-    public function archive(CompletePackageInterface $package, string $format, string $targetDir, ?string $fileName = null, bool $ignoreFilters = false): string
+    public function archive(CompletePackageInterface $package, $format, $targetDir, $fileName = null, $ignoreFilters = false)
     {
         if (empty($format)) {
             throw new \InvalidArgumentException('Format must be specified');
@@ -196,13 +174,11 @@ class ArchiveManager
             }
         }
 
-        $supportedFormats = $this->getSupportedFormats();
-        $packageNameParts = null === $fileName ?
-            $this->getPackageFilenameParts($package)
-            : ['base' => $fileName];
-
-        $packageName = $this->getPackageFilenameFromParts($packageNameParts);
-        $excludePatterns = $this->buildExcludePatterns($packageNameParts, $supportedFormats);
+        if (null === $fileName) {
+            $packageName = $this->getPackageFilename($package);
+        } else {
+            $packageName = $fileName;
+        }
 
         // Archive filename
         $filesystem->ensureDirectoryExists($targetDir);
@@ -217,13 +193,7 @@ class ArchiveManager
         $tempTarget = sys_get_temp_dir().'/composer_archive'.uniqid().'.'.$format;
         $filesystem->ensureDirectoryExists(dirname($tempTarget));
 
-        $archivePath = $usableArchiver->archive(
-            $sourcePath,
-            $tempTarget,
-            $format,
-            array_merge($excludePatterns, $package->getArchiveExcludes()),
-            $ignoreFilters
-        );
+        $archivePath = $usableArchiver->archive($sourcePath, $tempTarget, $format, $package->getArchiveExcludes(), $ignoreFilters);
         $filesystem->rename($archivePath, $target);
 
         // cleanup temporary download
@@ -233,55 +203,5 @@ class ArchiveManager
         $filesystem->remove($tempTarget);
 
         return $target;
-    }
-
-    /**
-     * @param string[] $parts
-     * @param string[] $formats
-     *
-     * @return string[]
-     */
-    private function buildExcludePatterns(array $parts, array $formats): array
-    {
-        $base = $parts['base'];
-        if (count($parts) > 1) {
-            $base .= '-*';
-        }
-
-        $patterns = [];
-        foreach ($formats as $format) {
-            $patterns[] = "$base.$format";
-        }
-
-        return $patterns;
-    }
-
-    /**
-     * @return string[]
-     */
-    private function getSupportedFormats(): array
-    {
-        // The problem is that the \Composer\Package\Archiver\ArchiverInterface
-        // doesn't provide method to get the supported formats.
-        // Supported formats are also hard-coded into the description of the
-        // --format option.
-        // See \Composer\Command\ArchiveCommand::configure().
-        $formats = [];
-        foreach ($this->archivers as $archiver) {
-            $items = [];
-            switch (get_class($archiver)) {
-                case ZipArchiver::class:
-                    $items = ['zip'];
-                    break;
-
-                case PharArchiver::class:
-                    $items = ['zip', 'tar', 'tar.gz', 'tar.bz2'];
-                    break;
-            }
-
-            $formats = array_merge($formats, $items);
-        }
-
-        return array_unique($formats);
     }
 }

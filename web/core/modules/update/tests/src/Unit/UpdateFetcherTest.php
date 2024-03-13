@@ -2,7 +2,8 @@
 
 namespace Drupal\Tests\update\Unit;
 
-use ColinODell\PsrTestLogger\TestLogger;
+use Drupal\Core\Logger\LoggerChannelFactory;
+use Drupal\Core\Logger\RfcLoggerTrait;
 use Drupal\Core\Site\Settings;
 use Drupal\Tests\UnitTestCase;
 use Drupal\update\UpdateFetcher;
@@ -20,7 +21,8 @@ use Psr\Log\LoggerInterface;
  *
  * @group update
  */
-class UpdateFetcherTest extends UnitTestCase {
+class UpdateFetcherTest extends UnitTestCase implements LoggerInterface {
+  use RfcLoggerTrait;
 
   /**
    * The update fetcher to use.
@@ -58,11 +60,9 @@ class UpdateFetcherTest extends UnitTestCase {
   protected $testProject;
 
   /**
-   * The logger.
-   *
-   * @var \Psr\Log\LoggerInterface
+   * @var array
    */
-  protected LoggerInterface $logger;
+  protected $logMessages = [];
 
   /**
    * {@inheritdoc}
@@ -72,8 +72,7 @@ class UpdateFetcherTest extends UnitTestCase {
     $this->mockConfigFactory = $this->getConfigFactoryStub(['update.settings' => ['fetch_url' => 'http://www.example.com']]);
     $this->mockHttpClient = $this->createMock('\GuzzleHttp\ClientInterface');
     $settings = new Settings([]);
-    $this->logger = new TestLogger();
-    $this->updateFetcher = new UpdateFetcher($this->mockConfigFactory, $this->mockHttpClient, $settings, $this->logger);
+    $this->updateFetcher = new UpdateFetcher($this->mockConfigFactory, $this->mockHttpClient, $settings);
     $this->testProject = [
       'name' => 'update_test',
       'project_type' => '',
@@ -83,6 +82,17 @@ class UpdateFetcherTest extends UnitTestCase {
       ],
       'includes' => ['module1' => 'Module 1', 'module2' => 'Module 2'],
     ];
+
+    // Set up logger factory so that watchdog_exception() does not break and
+    // register this class as the logger so we can test messages.
+    $container = $this->createMock('Symfony\Component\DependencyInjection\ContainerInterface');
+    $logger_factory = new LoggerChannelFactory();
+    $logger_factory->addLogger($this);
+    $container->expects($this->any())
+      ->method('get')
+      ->with('logger.factory')
+      ->willReturn($logger_factory);
+    \Drupal::setContainer($container);
   }
 
   /**
@@ -103,7 +113,7 @@ class UpdateFetcherTest extends UnitTestCase {
   public function testUpdateBuildFetchUrl(array $project, $site_key, $expected) {
     $url = $this->updateFetcher->buildFetchUrl($project, $site_key);
     $this->assertEquals($url, $expected);
-    $this->assertFalse($this->logger->hasErrorRecords());
+    $this->assertSame([], $this->logMessages);
   }
 
   /**
@@ -178,9 +188,9 @@ class UpdateFetcherTest extends UnitTestCase {
     // First, try without the HTTP fallback setting, and HTTPS mocked to fail.
     $settings = new Settings([]);
     $this->mockClient(
-      new Response(500, [], 'HTTPS failed'),
+      new Response('500', [], 'HTTPS failed'),
     );
-    $update_fetcher = new UpdateFetcher($this->mockConfigFactory, $this->mockHttpClient, $settings, $this->logger);
+    $update_fetcher = new UpdateFetcher($this->mockConfigFactory, $this->mockHttpClient, $settings);
 
     $data = $update_fetcher->fetchProjectData($this->testProject, '');
     // There should only be one request / response pair.
@@ -193,10 +203,7 @@ class UpdateFetcherTest extends UnitTestCase {
     $response = $this->history[0]['response'];
     $this->assertEquals(500, $response->getStatusCode());
     $this->assertEmpty($data);
-
-    $this->assertTrue($this->logger->hasErrorThatPasses(function (array $record) {
-      return $record['context']['@message'] === "Server error: `GET https://www.example.com/update_test/current` resulted in a `500 Internal Server Error` response:\nHTTPS failed\n";
-    }));
+    $this->assertSame(["Server error: `GET https://www.example.com/update_test/current` resulted in a `500 Internal Server Error` response:\nHTTPS failed\n"], $this->logMessages);
   }
 
   /**
@@ -206,10 +213,10 @@ class UpdateFetcherTest extends UnitTestCase {
   public function testUpdateFetcherHttpFallback() {
     $settings = new Settings(['update_fetch_with_http_fallback' => TRUE]);
     $this->mockClient(
-      new Response(500, [], 'HTTPS failed'),
-      new Response(200, [], 'HTTP worked'),
+      new Response('500', [], 'HTTPS failed'),
+      new Response('200', [], 'HTTP worked'),
     );
-    $update_fetcher = new UpdateFetcher($this->mockConfigFactory, $this->mockHttpClient, $settings, $this->logger);
+    $update_fetcher = new UpdateFetcher($this->mockConfigFactory, $this->mockHttpClient, $settings);
 
     $data = $update_fetcher->fetchProjectData($this->testProject, '');
 
@@ -230,9 +237,14 @@ class UpdateFetcherTest extends UnitTestCase {
     // Although this is a bogus mocked response, it's what fetchProjectData()
     // should return in this case.
     $this->assertEquals('HTTP worked', $data);
-    $this->assertTrue($this->logger->hasErrorThatPasses(function (array $record) {
-      return $record['context']['@message'] === "Server error: `GET https://www.example.com/update_test/current` resulted in a `500 Internal Server Error` response:\nHTTPS failed\n";
-    }));
+    $this->assertSame(["Server error: `GET https://www.example.com/update_test/current` resulted in a `500 Internal Server Error` response:\nHTTPS failed\n"], $this->logMessages);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function log($level, $message, array $context = []) {
+    $this->logMessages[] = $context['@message'];
   }
 
 }

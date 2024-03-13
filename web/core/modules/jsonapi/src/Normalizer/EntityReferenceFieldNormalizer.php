@@ -27,7 +27,12 @@ class EntityReferenceFieldNormalizer extends FieldNormalizer {
   /**
    * {@inheritdoc}
    */
-  public function normalize($field, $format = NULL, array $context = []): array|string|int|float|bool|\ArrayObject|NULL {
+  protected $supportedInterfaceOrClass = EntityReferenceFieldItemListInterface::class;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function normalize($field, $format = NULL, array $context = []) {
     assert($field instanceof EntityReferenceFieldItemListInterface);
     // Build the relationship object based on the Entity Reference and normalize
     // that object instead.
@@ -108,15 +113,6 @@ class EntityReferenceFieldNormalizer extends FieldNormalizer {
       }
     }
     return FALSE;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getSupportedTypes(?string $format): array {
-    return [
-      EntityReferenceFieldItemListInterface::class => TRUE,
-    ];
   }
 
 }

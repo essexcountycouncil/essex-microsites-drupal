@@ -12,9 +12,10 @@
 namespace Symfony\Component\Validator\Mapping;
 
 use Symfony\Component\Validator\Constraint;
-use Symfony\Component\Validator\Constraints\Cascade;
 use Symfony\Component\Validator\Constraints\DisableAutoMapping;
 use Symfony\Component\Validator\Constraints\EnableAutoMapping;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Traverse;
 use Symfony\Component\Validator\Constraints\Valid;
 use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
@@ -94,7 +95,7 @@ class GenericMetadata implements MetadataInterface
      *
      * @return string[]
      */
-    public function __sleep(): array
+    public function __sleep()
     {
         return [
             'constraints',
@@ -133,13 +134,13 @@ class GenericMetadata implements MetadataInterface
      *
      * @return $this
      *
-     * @throws ConstraintDefinitionException When trying to add the {@link Cascade}
-     *                                       or {@link Traverse} constraint
+     * @throws ConstraintDefinitionException When trying to add the
+     *                                       {@link Traverse} constraint
      */
-    public function addConstraint(Constraint $constraint): static
+    public function addConstraint(Constraint $constraint)
     {
-        if ($constraint instanceof Traverse || $constraint instanceof Cascade) {
-            throw new ConstraintDefinitionException(sprintf('The constraint "%s" can only be put on classes. Please use "Symfony\Component\Validator\Constraints\Valid" instead.', get_debug_type($constraint)));
+        if ($constraint instanceof Traverse) {
+            throw new ConstraintDefinitionException(sprintf('The constraint "%s" can only be put on classes. Please use "Symfony\Component\Validator\Constraints\Valid" instead.', \get_class($constraint)));
         }
 
         if ($constraint instanceof Valid && null === $constraint->groups) {
@@ -177,7 +178,7 @@ class GenericMetadata implements MetadataInterface
      *
      * @return $this
      */
-    public function addConstraints(array $constraints): static
+    public function addConstraints(array $constraints)
     {
         foreach ($constraints as $constraint) {
             $this->addConstraint($constraint);
@@ -186,33 +187,51 @@ class GenericMetadata implements MetadataInterface
         return $this;
     }
 
-    public function getConstraints(): array
+    /**
+     * {@inheritdoc}
+     */
+    public function getConstraints()
     {
+        $this->configureLengthConstraints($this->constraints);
+
         return $this->constraints;
     }
 
     /**
      * Returns whether this element has any constraints.
+     *
+     * @return bool
      */
-    public function hasConstraints(): bool
+    public function hasConstraints()
     {
         return \count($this->constraints) > 0;
     }
 
     /**
+     * {@inheritdoc}
+     *
      * Aware of the global group (* group).
      */
-    public function findConstraints(string $group): array
+    public function findConstraints($group)
     {
-        return $this->constraintsByGroup[$group] ?? [];
+        $constraints = $this->constraintsByGroup[$group] ?? [];
+        $this->configureLengthConstraints($constraints);
+
+        return $constraints;
     }
 
-    public function getCascadingStrategy(): int
+    /**
+     * {@inheritdoc}
+     */
+    public function getCascadingStrategy()
     {
         return $this->cascadingStrategy;
     }
 
-    public function getTraversalStrategy(): int
+    /**
+     * {@inheritdoc}
+     */
+    public function getTraversalStrategy()
     {
         return $this->traversalStrategy;
     }
@@ -223,5 +242,27 @@ class GenericMetadata implements MetadataInterface
     public function getAutoMappingStrategy(): int
     {
         return $this->autoMappingStrategy;
+    }
+
+    private function configureLengthConstraints(array $constraints): void
+    {
+        $allowEmptyString = true;
+
+        foreach ($constraints as $constraint) {
+            if ($constraint instanceof NotBlank) {
+                $allowEmptyString = false;
+                break;
+            }
+        }
+
+        if ($allowEmptyString) {
+            return;
+        }
+
+        foreach ($constraints as $constraint) {
+            if ($constraint instanceof Length && null === $constraint->allowEmptyString) {
+                $constraint->allowEmptyString = false;
+            }
+        }
     }
 }

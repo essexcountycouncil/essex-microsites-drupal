@@ -3,7 +3,6 @@
 namespace Drupal\update;
 
 use Drupal\Core\Extension\ExtensionVersion;
-use Drupal\Core\Utility\Error;
 
 /**
  * Calculates a project's security coverage information.
@@ -225,7 +224,12 @@ final class ProjectSecurityData {
         // Ignore releases that are in an invalid format. Although this is
         // highly unlikely we should still process releases in the correct
         // format.
-        Error::logException(\Drupal::logger('update'), $exception, 'Invalid project format: @release', ['@release' => print_r($release_info, TRUE)]);
+        watchdog_exception(
+          'update',
+          $exception,
+          'Invalid project format: @release',
+          ['@release' => print_r($release_info, TRUE)]
+        );
         continue;
       }
       $release_version = ExtensionVersion::createFromVersionString($release->getVersion());

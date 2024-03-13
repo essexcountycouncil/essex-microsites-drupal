@@ -123,13 +123,13 @@ class SiteInformationForm extends ConfigFormBase {
       '#title' => $this->t('Front page'),
       '#open' => TRUE,
     ];
+    $front_page = $site_config->get('page.front') != '/user/login' ? $this->aliasManager->getAliasByPath($site_config->get('page.front')) : '';
     $form['front_page']['site_frontpage'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Default front page'),
-      '#default_value' => $this->aliasManager->getAliasByPath($site_config->get('page.front')),
-      '#required' => TRUE,
+      '#default_value' => $front_page,
       '#size' => 40,
-      '#description' => $this->t('Specify a relative URL to display as the front page.'),
+      '#description' => $this->t('Optionally, specify a relative URL to display as the front page. Leave blank to display the default front page.'),
       '#field_prefix' => $this->requestContext->getCompleteBaseUrl(),
     ];
     $form['error_page'] = [
@@ -159,8 +159,15 @@ class SiteInformationForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    // Get the normal path of the front page.
-    $form_state->setValueForElement($form['front_page']['site_frontpage'], $this->aliasManager->getPathByAlias($form_state->getValue('site_frontpage')));
+    // Check for empty front page path.
+    if ($form_state->isValueEmpty('site_frontpage')) {
+      // Set to default "user/login".
+      $form_state->setValueForElement($form['front_page']['site_frontpage'], '/user/login');
+    }
+    else {
+      // Get the normal path of the front page.
+      $form_state->setValueForElement($form['front_page']['site_frontpage'], $this->aliasManager->getPathByAlias($form_state->getValue('site_frontpage')));
+    }
     // Validate front page path.
     if (($value = $form_state->getValue('site_frontpage')) && $value[0] !== '/') {
       $form_state->setErrorByName('site_frontpage', $this->t("The path '%path' has to start with a slash.", ['%path' => $form_state->getValue('site_frontpage')]));

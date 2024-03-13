@@ -23,7 +23,7 @@ abstract class BaseFieldDefinitionTestBase extends UnitTestCase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp(): void {
+  protected function setUp() {
     parent::setUp();
 
     // getModuleAndPath() returns an array of the module name and directory.

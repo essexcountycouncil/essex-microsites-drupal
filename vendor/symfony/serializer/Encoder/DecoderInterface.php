@@ -34,7 +34,7 @@ interface DecoderInterface
      *
      * @throws UnexpectedValueException
      */
-    public function decode(string $data, string $format, array $context = []);
+    public function decode($data, $format, array $context = []);
 
     /**
      * Checks whether the deserializer can decode from given format.
@@ -43,5 +43,5 @@ interface DecoderInterface
      *
      * @return bool
      */
-    public function supportsDecoding(string $format);
+    public function supportsDecoding($format);
 }

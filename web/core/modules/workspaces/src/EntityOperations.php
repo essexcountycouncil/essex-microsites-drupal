@@ -136,10 +136,8 @@ class EntityOperations implements ContainerInjectionInterface {
       // become the default revision only when it is replicated to the default
       // workspace.
       $entity->isDefaultRevision(FALSE);
-    }
 
-    // Track the workspaces in which the new revision was saved.
-    if (!$entity->isSyncing()) {
+      // Track the workspaces in which the new revision was saved.
       $field_name = $entity_type->getRevisionMetadataKey('workspace');
       $entity->{$field_name}->target_id = $this->workspaceManager->getActiveWorkspace()->id();
     }

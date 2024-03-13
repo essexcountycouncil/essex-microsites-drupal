@@ -14,25 +14,24 @@ namespace Symfony\Component\Lock\Store;
 use Symfony\Component\Lock\Exception\InvalidArgumentException;
 use Symfony\Component\Lock\Exception\InvalidTtlException;
 use Symfony\Component\Lock\Exception\LockConflictedException;
+use Symfony\Component\Lock\Exception\NotSupportedException;
 use Symfony\Component\Lock\Key;
-use Symfony\Component\Lock\PersistingStoreInterface;
+use Symfony\Component\Lock\StoreInterface;
 
 /**
  * MemcachedStore is a PersistingStoreInterface implementation using Memcached as store engine.
  *
  * @author Jérémy Derussé <jeremy@derusse.com>
  */
-class MemcachedStore implements PersistingStoreInterface
+class MemcachedStore implements StoreInterface
 {
     use ExpiringStoreTrait;
 
-    private \Memcached $memcached;
-    private int $initialTtl;
-    private bool $useExtendedReturn;
+    private $memcached;
+    private $initialTtl;
+    /** @var bool */
+    private $useExtendedReturn;
 
-    /**
-     * @return bool
-     */
     public static function isSupported()
     {
         return \extension_loaded('memcached');
@@ -56,7 +55,7 @@ class MemcachedStore implements PersistingStoreInterface
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function save(Key $key)
     {
@@ -71,9 +70,20 @@ class MemcachedStore implements PersistingStoreInterface
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
+     *
+     * @deprecated since Symfony 4.4.
      */
-    public function putOffExpiration(Key $key, float $ttl)
+    public function waitAndSave(Key $key)
+    {
+        @trigger_error(sprintf('%s() is deprecated since Symfony 4.4 and will be removed in Symfony 5.0.', __METHOD__), \E_USER_DEPRECATED);
+        throw new NotSupportedException(sprintf('The store "%s" does not support blocking locks.', static::class));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function putOffExpiration(Key $key, $ttl)
     {
         if ($ttl < 1) {
             throw new InvalidTtlException(sprintf('"%s()" expects a TTL greater or equals to 1 second. Got %s.', __METHOD__, $ttl));
@@ -110,7 +120,7 @@ class MemcachedStore implements PersistingStoreInterface
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function delete(Key $key)
     {
@@ -133,7 +143,10 @@ class MemcachedStore implements PersistingStoreInterface
         $this->memcached->delete((string) $key);
     }
 
-    public function exists(Key $key): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function exists(Key $key)
     {
         return $this->memcached->get((string) $key) === $this->getUniqueToken($key);
     }
@@ -150,7 +163,11 @@ class MemcachedStore implements PersistingStoreInterface
 
     private function getValueAndCas(Key $key): array
     {
-        if ($this->useExtendedReturn ??= version_compare(phpversion('memcached'), '2.9.9', '>')) {
+        if (null === $this->useExtendedReturn) {
+            $this->useExtendedReturn = version_compare(phpversion('memcached'), '2.9.9', '>');
+        }
+
+        if ($this->useExtendedReturn) {
             $extendedReturn = $this->memcached->get((string) $key, null, \Memcached::GET_EXTENDED);
             if (\Memcached::GET_ERROR_RETURN_VALUE === $extendedReturn) {
                 return [$extendedReturn, 0.0];

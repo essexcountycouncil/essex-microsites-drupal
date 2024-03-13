@@ -13,6 +13,8 @@ use Drupal\Tests\BrowserTestBase;
  *
  * @group Test
  * @group FunctionalTestSetupTrait
+ *
+ * @see \Drupal\simpletest\Tests\SimpleTestInstallBatchTest
  */
 class ModuleInstallBatchTest extends BrowserTestBase {
 

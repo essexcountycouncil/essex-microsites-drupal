@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * This file is part of Composer.
@@ -21,11 +21,14 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class AboutCommand extends BaseCommand
 {
-    protected function configure(): void
+    /**
+     * @return void
+     */
+    protected function configure()
     {
         $this
             ->setName('about')
-            ->setDescription('Shows a short information about Composer')
+            ->setDescription('Shows a short information about Composer.')
             ->setHelp(
                 <<<EOT
 <info>php composer.phar about</info>
@@ -34,7 +37,7 @@ EOT
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         $composerVersion = Composer::getVersion();
 

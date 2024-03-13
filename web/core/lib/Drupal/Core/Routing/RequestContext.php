@@ -31,7 +31,7 @@ class RequestContext extends SymfonyRequestContext {
   /**
    * {@inheritdoc}
    */
-  public function fromRequest(Request $request): static {
+  public function fromRequest(Request $request) {
     // @todo Extract the code in DrupalKernel::initializeRequestGlobals.
     //   See https://www.drupal.org/node/2404601
     if (isset($GLOBALS['base_url'])) {

@@ -50,7 +50,7 @@ class PathProcessorImageStyles implements InboundPathProcessorInterface {
     }
     // Check if the string '/system/files/styles/' exists inside the path,
     // that means we have a case of private file's image style.
-    elseif (str_contains($path, '/system/files/styles/')) {
+    elseif (strpos($path, '/system/files/styles/') !== FALSE) {
       $path_prefix = '/system/files/styles/';
       $path = substr($path, strpos($path, $path_prefix), strlen($path));
     }

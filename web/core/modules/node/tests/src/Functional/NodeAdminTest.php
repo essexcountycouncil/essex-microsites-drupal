@@ -127,8 +127,6 @@ class NodeAdminTest extends NodeTestBase {
         ':label' => $string,
       ]));
     }
-    // Verify aria-sort is present and its value matches the sort order.
-    $this->assertSession()->elementAttributeContains('css', 'table thead tr th.views-field-title', 'aria-sort', 'ascending');
   }
 
   /**

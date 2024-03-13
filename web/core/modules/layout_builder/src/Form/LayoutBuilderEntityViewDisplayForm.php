@@ -143,9 +143,7 @@ class LayoutBuilderEntityViewDisplayForm extends EntityViewDisplayEditForm {
 
     // The default mode is valid if the canonical mode is not enabled.
     if ($mode === 'default') {
-      /** @var \Drupal\Core\Config\Entity\ConfigEntityStorageInterface $storage */
-      $storage = $this->entityTypeManager->getStorage($this->entity->getEntityTypeId());
-      $query = $storage->getQuery()
+      $query = $this->entityTypeManager->getStorage($this->entity->getEntityTypeId())->getQuery()
         ->condition('targetEntityType', $this->entity->getTargetEntityTypeId())
         ->condition('bundle', $this->entity->getTargetBundle())
         ->condition('status', TRUE)

@@ -41,10 +41,27 @@ class DatabaseTestController extends ControllerBase {
   }
 
   /**
+   * Creates temporary table and outputs the table name and its number of rows.
+   *
+   * We need to test that the table created is temporary, so we run it here, in a
+   * separate menu callback request; After this request is done, the temporary
+   * table should automatically dropped.
+   *
+   * @return \Symfony\Component\HttpFoundation\JsonResponse
+   */
+  public function dbQueryTemporary() {
+    $table_name = $this->connection->queryTemporary('SELECT [age] FROM {test}', []);
+    return new JsonResponse([
+      'table_name' => $table_name,
+      'row_count' => $this->connection->select($table_name)->countQuery()->execute()->fetchField(),
+    ]);
+  }
+
+  /**
    * Runs a pager query and returns the results.
    *
    * This function does care about the page GET parameter, as set by the
-   * test HTTP call.
+   * simpletest HTTP call.
    *
    * @return \Symfony\Component\HttpFoundation\JsonResponse
    */
@@ -70,7 +87,7 @@ class DatabaseTestController extends ControllerBase {
    * Runs a pager query and returns the results.
    *
    * This function does care about the page GET parameter, as set by the
-   * test HTTP call.
+   * simpletest HTTP call.
    *
    * @return \Symfony\Component\HttpFoundation\JsonResponse
    */
@@ -96,7 +113,7 @@ class DatabaseTestController extends ControllerBase {
    * Runs a tablesort query and returns the results.
    *
    * This function does care about the page GET parameter, as set by the
-   * test HTTP call.
+   * simpletest HTTP call.
    *
    * @return \Symfony\Component\HttpFoundation\JsonResponse
    */
@@ -128,7 +145,7 @@ class DatabaseTestController extends ControllerBase {
    * Runs a tablesort query with a second order_by after and returns the results.
    *
    * This function does care about the page GET parameter, as set by the
-   * test HTTP call.
+   * simpletest HTTP call.
    *
    * @return \Symfony\Component\HttpFoundation\JsonResponse
    */

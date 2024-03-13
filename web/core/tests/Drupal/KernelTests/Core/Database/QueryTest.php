@@ -9,7 +9,6 @@ use Drupal\Core\Database\Database;
 /**
  * Tests Drupal's extended prepared statement syntax..
  *
- * @coversDefaultClass \Drupal\Core\Database\Connection
  * @group Database
  */
 class QueryTest extends DatabaseTestBase {

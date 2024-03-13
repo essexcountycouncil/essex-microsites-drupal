@@ -15,49 +15,46 @@ use Symfony\Component\Lock\Exception\InvalidArgumentException;
 use Symfony\Component\Lock\Exception\LockAcquiringException;
 use Symfony\Component\Lock\Exception\LockConflictedException;
 use Symfony\Component\Lock\Exception\LockReleasingException;
+use Symfony\Component\Lock\Exception\NotSupportedException;
 use Symfony\Component\Lock\Key;
-use Symfony\Component\Lock\PersistingStoreInterface;
+use Symfony\Component\Lock\StoreInterface;
 
 /**
  * ZookeeperStore is a PersistingStoreInterface implementation using Zookeeper as store engine.
  *
  * @author Ganesh Chandrasekaran <gchandrasekaran@wayfair.com>
  */
-class ZookeeperStore implements PersistingStoreInterface
+class ZookeeperStore implements StoreInterface
 {
     use ExpiringStoreTrait;
 
-    private \Zookeeper $zookeeper;
+    private $zookeeper;
 
     public function __construct(\Zookeeper $zookeeper)
     {
         $this->zookeeper = $zookeeper;
     }
 
-    public static function createConnection(#[\SensitiveParameter] string $dsn): \Zookeeper
+    public static function createConnection(string $dsn): \Zookeeper
     {
         if (!str_starts_with($dsn, 'zookeeper:')) {
-            throw new InvalidArgumentException('Unsupported DSN for Zookeeper.');
+            throw new InvalidArgumentException(sprintf('Unsupported DSN: "%s".', $dsn));
         }
 
         if (false === $params = parse_url($dsn)) {
-            throw new InvalidArgumentException('Invalid Zookeeper DSN.');
+            throw new InvalidArgumentException(sprintf('Invalid Zookeeper DSN: "%s".', $dsn));
         }
 
         $host = $params['host'] ?? '';
-        $hosts = explode(',', $host);
-
-        foreach ($hosts as $index => $host) {
-            if (isset($params['port'])) {
-                $hosts[$index] = $host.':'.$params['port'];
-            }
+        if (isset($params['port'])) {
+            $host .= ':'.$params['port'];
         }
 
-        return new \Zookeeper(implode(',', $hosts));
+        return new \Zookeeper($host);
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function save(Key $key)
     {
@@ -69,13 +66,12 @@ class ZookeeperStore implements PersistingStoreInterface
         $token = $this->getUniqueToken($key);
 
         $this->createNewLock($resource, $token);
-        $key->markUnserializable();
 
         $this->checkNotExpired($key);
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function delete(Key $key)
     {
@@ -92,20 +88,34 @@ class ZookeeperStore implements PersistingStoreInterface
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function exists(Key $key): bool
     {
         $resource = $this->getKeyResource($key);
         try {
             return $this->zookeeper->get($resource) === $this->getUniqueToken($key);
-        } catch (\ZookeeperException) {
+        } catch (\ZookeeperException $ex) {
             return false;
         }
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
+     *
+     * @deprecated since Symfony 4.4.
      */
-    public function putOffExpiration(Key $key, float $ttl)
+    public function waitAndSave(Key $key)
+    {
+        @trigger_error(sprintf('%s() is deprecated since Symfony 4.4 and will be removed in Symfony 5.0.', __METHOD__), \E_USER_DEPRECATED);
+        throw new NotSupportedException();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function putOffExpiration(Key $key, $ttl)
     {
         // do nothing, zookeeper locks forever.
     }
@@ -119,7 +129,7 @@ class ZookeeperStore implements PersistingStoreInterface
      * @throws LockConflictedException
      * @throws LockAcquiringException
      */
-    private function createNewLock(string $node, string $value): void
+    private function createNewLock(string $node, string $value)
     {
         // Default Node Permissions
         $acl = [['perms' => \Zookeeper::PERM_ALL, 'scheme' => 'world', 'id' => 'anyone']];

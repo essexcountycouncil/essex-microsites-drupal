@@ -60,7 +60,7 @@ class ConfigValidation {
    *   The validation execution context.
    */
   public static function validateGiraffes($string, ExecutionContextInterface $context) {
-    if (!str_starts_with($string, 'hum')) {
+    if (strpos($string, 'hum') !== 0) {
       $context->addViolation('Giraffes just hum');
     }
   }

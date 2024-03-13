@@ -8,7 +8,6 @@ use Drupal\Core\Logger\RfcLoggerTrait;
 use Drupal\Core\Logger\RfcLogLevel;
 use Drupal\KernelTests\KernelTestBase;
 use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\TransferException;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
@@ -26,11 +25,11 @@ class SecurityAdvisoriesFetcherTest extends KernelTestBase implements LoggerInte
   use RfcLoggerTrait;
 
   /**
-   * The error messages.
+   * The log messages from watchdog_exception.
    *
    * @var string[]
    */
-  protected $errorMessages = [];
+  protected $watchdogExceptionMessages = [];
 
   /**
    * The log error log messages.
@@ -658,7 +657,7 @@ class SecurityAdvisoriesFetcherTest extends KernelTestBase implements LoggerInte
     $this->assertCount(1, $advisories);
     $this->assertSame('http://example.com', $advisories[0]->getUrl());
     $this->assertSame('SA title', $advisories[0]->getTitle());
-    $this->assertSame(["Server error: `GET https://updates.drupal.org/psa.json` resulted in a `500 Internal Server Error` response:\nHTTPS failed\n"], $this->errorMessages);
+    $this->assertSame(["Server error: `GET https://updates.drupal.org/psa.json` resulted in a `500 Internal Server Error` response:\nHTTPS failed\n"], $this->watchdogExceptionMessages);
   }
 
   /**
@@ -724,7 +723,6 @@ class SecurityAdvisoriesFetcherTest extends KernelTestBase implements LoggerInte
     $this->container = $this->container->get('kernel')->getContainer();
     $this->container->get('logger.factory')->addLogger($this);
     $this->container->set('http_client', new Client(['handler' => $handler_stack]));
-    $this->container->setAlias(ClientInterface::class, 'http_client');
   }
 
   /**
@@ -745,7 +743,7 @@ class SecurityAdvisoriesFetcherTest extends KernelTestBase implements LoggerInte
    */
   public function log($level, $message, array $context = []): void {
     if (isset($context['@message'])) {
-      $this->errorMessages[] = $context['@message'];
+      $this->watchdogExceptionMessages[] = $context['@message'];
     }
     if ($level === RfcLogLevel::ERROR) {
       $this->logErrorMessages[] = $message;

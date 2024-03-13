@@ -2,6 +2,7 @@
 
 namespace Drupal\path;
 
+use Drupal\Component\Utility\Unicode;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityListBuilder;
 use Drupal\Core\Entity\EntityStorageInterface;
@@ -167,14 +168,13 @@ class PathAliasListBuilder extends EntityListBuilder {
 
     $row['data']['alias']['data'] = [
       '#type' => 'link',
-      '#title' => $alias,
-      '#url' => $url,
+      '#title' => Unicode::truncate($alias, 50, FALSE, TRUE),
+      '#url' => $url->setOption('attributes', ['title' => $alias]),
     ];
-
     $row['data']['path']['data'] = [
       '#type' => 'link',
-      '#title' => $path,
-      '#url' => $url,
+      '#title' => Unicode::truncate($path, 50, FALSE, TRUE),
+      '#url' => $url->setOption('attributes', ['title' => $path]),
     ];
 
     if ($this->languageManager->isMultilingual()) {

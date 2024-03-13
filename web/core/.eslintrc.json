@@ -10,9 +10,6 @@
     "es6": true,
     "node": true
   },
-  "parserOptions": {
-    "ecmaVersion": 2020
-  },
   "globals": {
     "Drupal": true,
     "drupalSettings": true,
@@ -23,9 +20,11 @@
     "Backbone": true,
     "Modernizr": true,
     "loadjs": true,
+    "Popper": true,
     "Shepherd": true,
     "Sortable": true,
     "once": true,
+    "CKEDITOR": true,
     "CKEditor5": true,
     "tabbable": true
   },

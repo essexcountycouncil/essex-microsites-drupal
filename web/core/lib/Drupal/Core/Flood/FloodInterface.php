@@ -21,10 +21,7 @@ interface FloodInterface {
    *   table from growing indefinitely.
    * @param string $identifier
    *   (optional) Unique identifier of the current user. Defaults to the current
-   *   user's IP address. The identifier can be given an additional prefix
-   *   separated by "-". Flood backends may then optionally implement the
-   *   PrefixFloodInterface which allows all flood events that share the same
-   *   prefix to be cleared simultaneously.
+   *   user's IP address).
    */
   public function register($name, $window = 3600, $identifier = NULL);
 

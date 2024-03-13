@@ -52,13 +52,13 @@ class EntityRevisionsTest extends EntityKernelTestBase {
     // ID yet).
     $this->assertEquals($entity->getRevisionId(), $loaded->getLoadedRevisionId());
     $this->assertNotEquals($loaded->getRevisionId(), $loaded->getLoadedRevisionId());
-    $this->assertNull($loaded->getRevisionId());
+    $this->assertSame(NULL, $loaded->getRevisionId());
 
     // After updating the loaded Revision ID the result should be the same.
     $loaded->updateLoadedRevisionId();
     $this->assertEquals($entity->getRevisionId(), $loaded->getLoadedRevisionId());
     $this->assertNotEquals($loaded->getRevisionId(), $loaded->getLoadedRevisionId());
-    $this->assertNull($loaded->getRevisionId());
+    $this->assertSame(NULL, $loaded->getRevisionId());
 
     $loaded->save();
 
@@ -112,7 +112,7 @@ class EntityRevisionsTest extends EntityKernelTestBase {
 
     // Creating a duplicate should set a NULL loaded Revision ID.
     $duplicate = $loaded->createDuplicate();
-    $this->assertNull($duplicate->getLoadedRevisionId());
+    $this->assertSame(NULL, $duplicate->getLoadedRevisionId());
   }
 
   /**

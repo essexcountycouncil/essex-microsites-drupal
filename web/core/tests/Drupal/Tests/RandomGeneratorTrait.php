@@ -2,7 +2,7 @@
 
 namespace Drupal\Tests;
 
-use Drupal\TestTools\Random;
+use Drupal\Component\Utility\Random;
 
 /**
  * Provides random generator utility methods.
@@ -10,14 +10,21 @@ use Drupal\TestTools\Random;
 trait RandomGeneratorTrait {
 
   /**
+   * The random generator.
+   *
+   * @var \Drupal\Component\Utility\Random
+   */
+  protected $randomGenerator;
+
+  /**
    * Generates a pseudo-random string of ASCII characters of codes 32 to 126.
    *
    * Do not use this method when special characters are not possible (e.g., in
    * machine or file names that have already been validated); instead, use
-   * \Drupal\Tests\RandomGeneratorTrait::randomMachineName(). If $length is
-   * greater than 3 the random string will include at least one ampersand ('&')
-   * and at least one greater than ('>') character to ensure coverage for
-   * special characters and avoid the introduction of random test failures.
+   * \Drupal\simpletest\TestBase::randomMachineName(). If $length is greater
+   * than 3 the random string will include at least one ampersand ('&') and
+   * at least one greater than ('>') character to ensure coverage for special
+   * characters and avoid the introduction of random test failures.
    *
    * @param int $length
    *   Length of random string to generate.
@@ -28,7 +35,18 @@ trait RandomGeneratorTrait {
    * @see \Drupal\Component\Utility\Random::string()
    */
   public function randomString($length = 8) {
-    return Random::string($length);
+    if ($length < 4) {
+      return $this->getRandomGenerator()->string($length, TRUE, [$this, 'randomStringValidate']);
+    }
+
+    // To prevent the introduction of random test failures, ensure that the
+    // returned string contains a character that needs to be escaped in HTML by
+    // injecting an ampersand into it.
+    $replacement_pos = floor($length / 2);
+    // Remove 2 from the length to account for the ampersand and greater than
+    // characters.
+    $string = $this->getRandomGenerator()->string($length - 2, TRUE, [$this, 'randomStringValidate']);
+    return substr_replace($string, '>&', $replacement_pos, 0);
   }
 
   /**
@@ -43,14 +61,25 @@ trait RandomGeneratorTrait {
    *   TRUE if the random string is valid, FALSE if not.
    */
   public function randomStringValidate($string) {
-    return Random::stringValidate($string);
+    // Consecutive spaces causes issues for link validation.
+    if (preg_match('/\s{2,}/', $string)) {
+      return FALSE;
+    }
+
+    // Starting or ending with a space means that length might not be what is
+    // expected.
+    if (preg_match('/^\s|\s$/', $string)) {
+      return FALSE;
+    }
+
+    return TRUE;
   }
 
   /**
    * Generates a unique random string containing letters and numbers.
    *
    * Do not use this method when testing unvalidated user input. Instead, use
-   * \Drupal\Tests\RandomGeneratorTrait::randomString().
+   * \Drupal\simpletest\TestBase::randomString().
    *
    * @param int $length
    *   Length of random string to generate.
@@ -61,7 +90,7 @@ trait RandomGeneratorTrait {
    * @see \Drupal\Component\Utility\Random::name()
    */
   protected function randomMachineName($length = 8) {
-    return Random::machineName($length);
+    return $this->getRandomGenerator()->name($length, TRUE);
   }
 
   /**
@@ -77,7 +106,7 @@ trait RandomGeneratorTrait {
    * @see \Drupal\Component\Utility\Random::object()
    */
   public function randomObject($size = 4) {
-    return Random::object($size);
+    return $this->getRandomGenerator()->object($size);
   }
 
   /**
@@ -87,7 +116,10 @@ trait RandomGeneratorTrait {
    *   The random generator.
    */
   protected function getRandomGenerator() {
-    return Random::getGenerator();
+    if (!is_object($this->randomGenerator)) {
+      $this->randomGenerator = new Random();
+    }
+    return $this->randomGenerator;
   }
 
 }

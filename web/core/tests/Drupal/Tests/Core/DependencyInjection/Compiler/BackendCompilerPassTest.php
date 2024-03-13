@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\Tests\Core\DependencyInjection\Compiler\BackendCompilerPassTest.
+ */
+
 namespace Drupal\Tests\Core\DependencyInjection\Compiler;
 
 use Drupal\Core\DependencyInjection\Compiler\BackendCompilerPass;
@@ -25,8 +30,6 @@ class BackendCompilerPassTest extends UnitTestCase {
    * {@inheritdoc}
    */
   protected function setUp(): void {
-    parent::setUp();
-
     $this->backendPass = new BackendCompilerPass();
   }
 

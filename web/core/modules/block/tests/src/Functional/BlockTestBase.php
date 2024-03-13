@@ -40,7 +40,7 @@ abstract class BlockTestBase extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp(): void {
+  protected function setUp() {
     parent::setUp();
 
     // Use the test page as the front page.
