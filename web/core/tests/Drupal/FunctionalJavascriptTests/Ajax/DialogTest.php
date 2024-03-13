@@ -3,7 +3,6 @@
 namespace Drupal\FunctionalJavascriptTests\Ajax;
 
 use Drupal\ajax_test\Controller\AjaxTestController;
-use Drupal\Component\Render\FormattableMarkup;
 use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
 
 /**
@@ -21,7 +20,7 @@ class DialogTest extends WebDriverTestBase {
   /**
    * {@inheritdoc}
    */
-  protected $defaultTheme = 'starterkit_theme';
+  protected $defaultTheme = 'stark';
 
   /**
    * Tests sending non-JS and AJAX requests to open and manipulate modals.
@@ -72,7 +71,7 @@ class DialogTest extends WebDriverTestBase {
     $dialog = $this->assertSession()->waitForElementVisible('css', 'div.ui-dialog');
     $this->assertNotNull($dialog, 'Link was used to open a dialog ( non-modal, with options )');
     $style = $dialog->getAttribute('style');
-    $this->assertStringContainsString('width: 400px;', $style, new FormattableMarkup('Modal respected the dialog-options width parameter.  Style = style', ['%style' => $style]));
+    $this->assertStringContainsString('width: 400px;', $style, "Modal respected the dialog-options width parameter.  Style = $style");
 
     // Reset: Return to the dialog links page.
     $this->drupalGet('ajax-test/dialog');
@@ -97,7 +96,7 @@ class DialogTest extends WebDriverTestBase {
     $contents_no_target = $no_target_dialog->find('css', 'div.ui-dialog-content');
     $this->assertNotNull($contents_no_target, 'non-modal dialog opens ( no target ). ');
     $id = $contents_no_target->getAttribute('id');
-    $partial_match = strpos($id, 'drupal-dialog-ajax-testdialog-contents') === 0;
+    $partial_match = str_starts_with($id, 'drupal-dialog-ajax-testdialog-contents');
     $this->assertTrue($partial_match, 'The non-modal ID has the expected prefix.');
 
     $no_target_button = $no_target_dialog->findButton('Close');
@@ -186,6 +185,40 @@ class DialogTest extends WebDriverTestBase {
 
     $form_title = $dialog_add->find('css', "span.ui-dialog-title:contains('Add contact form')");
     $this->assertNotNull($form_title, 'The add form title is as expected.');
+  }
+
+  /**
+   * Tests dialog link opener with different HTTP methods.
+   */
+  public function testHttpMethod(): void {
+    $assert = $this->assertSession();
+    $script = <<<SCRIPT
+      (function() {
+        return document.querySelector('div[aria-describedby="drupal-modal"]').offsetWidth;
+      }())
+      SCRIPT;
+
+    // Open the modal dialog with POST HTTP method.
+    $this->drupalGet('/ajax-test/http-methods');
+    $this->clickLink('Link');
+    $assert->assertWaitOnAjaxRequest();
+    $assert->pageTextContains('Modal dialog contents');
+    $width = $this->getSession()->getDriver()->evaluateScript($script);
+    // The theme is adding 4px as padding and border on each side.
+    $this->assertSame(808, $width);
+
+    // Switch to GET HTTP method.
+    // @see \Drupal\ajax_test\Controller\AjaxTestController::httpMethods()
+    \Drupal::state()->set('ajax_test.http_method', 'GET');
+
+    // Open the modal dialog with GET HTTP method.
+    $this->drupalGet('/ajax-test/http-methods');
+    $this->clickLink('Link');
+    $assert->assertWaitOnAjaxRequest();
+    $assert->pageTextContains('Modal dialog contents');
+    $width = $this->getSession()->getDriver()->evaluateScript($script);
+    // The theme is adding 4px as padding and border on each side.
+    $this->assertSame(808, $width);
   }
 
 }

@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\Tests\Core\Render\RendererBubblingTest.
- */
-
 namespace Drupal\Tests\Core\Render;
 
 use Drupal\Core\Cache\MemoryBackend;
@@ -46,7 +41,7 @@ class RendererBubblingTest extends RendererTestBase {
     $element = [
       '#type' => 'container',
       '#cache' => [
-        'keys' => ['simpletest', 'renderer', 'children_attached'],
+        'keys' => ['test', 'renderer', 'children_attached'],
       ],
       '#attached' => ['library' => ['test/parent']],
       '#title' => 'Parent',
@@ -68,7 +63,7 @@ class RendererBubblingTest extends RendererTestBase {
 
     // Load the element from cache and verify the presence of the #attached
     // JavaScript.
-    $element = ['#cache' => ['keys' => ['simpletest', 'renderer', 'children_attached']]];
+    $element = ['#cache' => ['keys' => ['test', 'renderer', 'children_attached']]];
     // Verify that the element was retrieved from the cache.
     $this->assertNotEmpty($this->renderer->renderRoot($element));
     $this->assertEquals($element['#attached']['library'], $expected_libraries, 'The element, child and subchild #attached libraries are included.');
@@ -562,7 +557,7 @@ class RendererBubblingTest extends RendererTestBase {
     $this->memoryCache->set('cached_nested', ['#markup' => 'Cached nested!', '#attached' => [], '#cache' => ['contexts' => [], 'tags' => []]]);
 
     // Simulate the rendering of an entire response (i.e. a root call).
-    $output = $this->renderer->renderRoot($test_element);
+    $output = (string) $this->renderer->renderRoot($test_element);
 
     // First, assert the render array is of the expected form.
     $this->assertEquals('Cache context!Cache tag!Asset!Placeholder!barquxNested!Cached nested!', trim($output), 'Expected HTML generated.');

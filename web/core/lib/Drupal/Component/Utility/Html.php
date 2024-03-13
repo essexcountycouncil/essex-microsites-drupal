@@ -279,6 +279,11 @@ class Html {
 <body>!html</body>
 </html>
 EOD;
+
+    // PHP's \DOMDocument::saveXML() encodes carriage returns as &#13; so
+    // normalize all newlines to line feeds.
+    $html = str_replace(["\r\n", "\r"], "\n", $html);
+
     // PHP's \DOMDocument serialization adds extra whitespace when the markup
     // of the wrapping document contains newlines, so ensure we remove all
     // newlines before injecting the actual HTML body to be processed.
@@ -345,17 +350,16 @@ EOD;
   public static function escapeCdataElement(\DOMNode $node, $comment_start = '//', $comment_end = '') {
     foreach ($node->childNodes as $child_node) {
       if ($child_node instanceof \DOMCdataSection) {
-        $embed_prefix = "\n<!--{$comment_start}--><![CDATA[{$comment_start} ><!--{$comment_end}\n";
-        $embed_suffix = "\n{$comment_start}--><!]]>{$comment_end}\n";
+        $data = $child_node->data;
+        if (!str_contains($child_node->data, 'CDATA')) {
+          $embed_prefix = "\n{$comment_start}<![CDATA[{$comment_end}\n";
+          $embed_suffix = "\n{$comment_start}]]>{$comment_end}\n";
 
-        // Prevent invalid cdata escaping as this would throw a DOM error.
-        // This is the same behavior as found in libxml2.
-        // Related W3C standard: http://www.w3.org/TR/REC-xml/#dt-cdsection
-        // Fix explanation: http://wikipedia.org/wiki/CDATA#Nesting
-        $data = str_replace(']]>', ']]]]><![CDATA[>', $child_node->data);
+          $data = $embed_prefix . $data . $embed_suffix;
+        }
 
         $fragment = $node->ownerDocument->createDocumentFragment();
-        $fragment->appendXML($embed_prefix . $data . $embed_suffix);
+        $fragment->appendXML($data);
         $node->appendChild($fragment);
         $node->removeChild($child_node);
       }
@@ -476,11 +480,10 @@ EOD;
         // @see https://html.spec.whatwg.org/multipage/embedded-content.html#attr-img-srcset
         // @see https://html.spec.whatwg.org/multipage/embedded-content.html#image-candidate-string
         $image_candidate_strings = explode(',', $node->getAttribute('srcset'));
-        $image_candidate_strings = array_map('trim', $image_candidate_strings);
-        for ($i = 0; $i < count($image_candidate_strings); $i++) {
-          $image_candidate_string = $image_candidate_strings[$i];
+        $image_candidate_strings = array_filter(array_map('trim', $image_candidate_strings));
+        foreach ($image_candidate_strings as $key => $image_candidate_string) {
           if ($image_candidate_string[0] === '/' && $image_candidate_string[1] !== '/') {
-            $image_candidate_strings[$i] = $scheme_and_host . $image_candidate_string;
+            $image_candidate_strings[$key] = $scheme_and_host . $image_candidate_string;
           }
         }
         $node->setAttribute('srcset', implode(', ', $image_candidate_strings));

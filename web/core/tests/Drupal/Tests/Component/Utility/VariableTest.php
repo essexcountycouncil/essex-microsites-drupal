@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\Tests\Component\Utility\VariableTest.
- */
-
 namespace Drupal\Tests\Component\Utility;
 
 use Drupal\Component\Utility\Variable;
@@ -164,7 +159,9 @@ class VariableTest extends TestCase {
       [
         // A not-stdClass object. Since PHP 8.2 exported namespace is prefixed,
         // see https://github.com/php/php-src/pull/8233 for reasons.
-        (PHP_VERSION_ID >= 80200 ? '\\' : '') . "Drupal\Tests\Component\Utility\StubVariableTestClass::__set_state(array(\n))",
+        PHP_VERSION_ID >= 80200 ?
+        "\Drupal\Tests\Component\Utility\StubVariableTestClass::__set_state(array(\n))" :
+        "Drupal\Tests\Component\Utility\StubVariableTestClass::__set_state(array(\n))",
         new StubVariableTestClass(),
       ],
     ];

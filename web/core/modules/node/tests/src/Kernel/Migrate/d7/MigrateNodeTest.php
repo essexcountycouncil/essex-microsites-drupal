@@ -60,8 +60,8 @@ class MigrateNodeTest extends MigrateDrupal7TestBase {
       'd7_language_content_settings',
       'd7_comment_field',
       'd7_comment_field_instance',
-      'd7_node',
       'd7_node_translation',
+      'd7_node',
       'd7_entity_translation_settings',
       'd7_taxonomy_term_entity_translation',
       'd7_node_entity_translation',
@@ -277,7 +277,7 @@ class MigrateNodeTest extends MigrateDrupal7TestBase {
     $this->assertTrue($metadata_fr->isOutdated());
     $this->assertSame('2', $node_fr->getOwnerId());
     $this->assertSame('1529615802', $node_fr->getCreatedTime());
-    $this->assertSame('1529615802', $node_fr->getChangedTime());
+    $this->assertSame(1529615802, $node_fr->getChangedTime());
     $this->assertTrue($node_fr->isPublished());
 
     // Test that the Icelandic translation metadata is correctly migrated.
@@ -286,7 +286,7 @@ class MigrateNodeTest extends MigrateDrupal7TestBase {
     $this->assertFalse($metadata_is->isOutdated());
     $this->assertSame('1', $node_is->getOwnerId());
     $this->assertSame('1529615813', $node_is->getCreatedTime());
-    $this->assertSame('1529615813', $node_is->getChangedTime());
+    $this->assertSame(1529615813, $node_is->getChangedTime());
     $this->assertFalse($node_is->isPublished());
   }
 

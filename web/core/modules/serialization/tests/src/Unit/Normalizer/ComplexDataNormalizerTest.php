@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\Tests\serialization\Unit\Normalizer\ComplexDataNormalizerTest.
- */
-
 namespace Drupal\Tests\serialization\Unit\Normalizer;
 
 use Drupal\Core\TypedData\ComplexDataInterface;
@@ -38,6 +33,8 @@ class ComplexDataNormalizerTest extends UnitTestCase {
    * {@inheritdoc}
    */
   protected function setUp(): void {
+    parent::setUp();
+
     $this->normalizer = new ComplexDataNormalizer();
   }
 

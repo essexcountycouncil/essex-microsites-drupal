@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies:
   module:
-    - localgov_geo
+    - geo_entity
     - media
     - search_api_autocomplete
     - system
