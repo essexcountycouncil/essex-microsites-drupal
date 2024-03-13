@@ -74,7 +74,8 @@ phpunit --filter=myTestName
 
 ## Maintainers
 
-This project is currently maintained by:
+This project is currently maintained by: 
+
  - Ekes: https://www.drupal.org/u/ekes
  - Finn Lewis: https://www.drupal.org/u/finn-lewis
- - Stephen Cox: https://www.drupal.org/u/stephen-cox
+ - Stephen Cox: https://www.drupal.org/u/stephen-cox 
