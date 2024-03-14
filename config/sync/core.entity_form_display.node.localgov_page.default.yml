@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.localgov_page.field_body
     - field.field.node.localgov_page.localgov_hide_summary
     - field.field.node.localgov_page.localgov_page_banner
     - field.field.node.localgov_page.localgov_page_summary
@@ -12,6 +13,7 @@ dependencies:
     - layout_paragraphs
     - paragraphs
     - path
+    - text
 _core:
   default_config_hash: ir8nBc0AMAHZVxZLTC11XTQU3GeIxDGdDF5zCq1jix4
 id: node.localgov_page.default
@@ -21,9 +23,17 @@ mode: default
 content:
   created:
     type: datetime_timestamp
-    weight: 7
+    weight: 8
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_body:
+    type: text_textarea
+    weight: 4
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
     third_party_settings: {  }
   localgov_hide_summary:
     type: boolean_checkbox
@@ -61,36 +71,37 @@ content:
     third_party_settings: {  }
   localgov_paragraph_content:
     type: layout_paragraphs
-    weight: 4
+    weight: 5
     region: content
     settings:
       preview_view_mode: preview
       nesting_depth: 0
       require_layouts: 1
+      empty_message: ''
     third_party_settings: {  }
   path:
     type: path
-    weight: 10
+    weight: 11
     region: content
     settings: {  }
     third_party_settings: {  }
   promote:
     type: boolean_checkbox
-    weight: 8
+    weight: 9
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 5
+    weight: 6
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   sticky:
     type: boolean_checkbox
-    weight: 9
+    weight: 10
     region: content
     settings:
       display_label: true
@@ -105,12 +116,17 @@ content:
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 6
+    weight: 7
     region: content
     settings:
       match_operator: CONTAINS
       match_limit: 10
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  url_redirects:
+    weight: 12
+    region: content
+    settings: {  }
     third_party_settings: {  }
 hidden: {  }

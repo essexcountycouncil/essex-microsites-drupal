@@ -1,0 +1,21 @@
+uuid: b555b8b2-31f7-4887-bee1-f668df6d2b28
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_body
+    - node.type.localgov_page
+  module:
+    - text
+id: node.localgov_page.field_body
+field_name: field_body
+entity_type: node
+bundle: localgov_page
+label: Body
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

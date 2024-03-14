@@ -3,14 +3,17 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.localgov_page.field_body
     - field.field.node.localgov_page.localgov_hide_summary
     - field.field.node.localgov_page.localgov_page_banner
     - field.field.node.localgov_page.localgov_page_summary
     - field.field.node.localgov_page.localgov_paragraph_content
     - node.type.localgov_page
   module:
+    - entity_reference_revisions
     - field_group
     - layout_paragraphs
+    - text
     - user
 third_party_settings:
   field_group:
@@ -59,11 +62,17 @@ targetEntityType: node
 bundle: localgov_page
 mode: default
 content:
+  field_body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
   localgov_page_banner:
-    type: entity_reference_entity_view
+    type: entity_reference_revisions_label
     label: hidden
     settings:
-      view_mode: responsive_banner
       link: false
     third_party_settings: {  }
     weight: 0
@@ -82,7 +91,7 @@ content:
       view_mode: default
       link: ''
     third_party_settings: {  }
-    weight: 2
+    weight: 3
     region: content
 hidden:
   links: true
