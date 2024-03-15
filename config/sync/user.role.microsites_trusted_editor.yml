@@ -10,7 +10,6 @@ dependencies:
     - domain_path
     - entity_browser
     - localgov_directories
-    - localgov_geo
     - localgov_sa11y
     - media
     - node

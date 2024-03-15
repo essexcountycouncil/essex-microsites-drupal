@@ -8,7 +8,6 @@ dependencies:
   module:
     - filter
     - fontawesome
-    - localgov_geo
     - media
     - system
 _core:

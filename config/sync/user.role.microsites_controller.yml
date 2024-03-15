@@ -13,7 +13,6 @@ dependencies:
     - entity_browser
     - group
     - localgov_directories
-    - localgov_geo
     - localgov_microsites_group
     - media
     - redirect
