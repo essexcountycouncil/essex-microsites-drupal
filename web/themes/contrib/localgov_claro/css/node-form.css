@@ -5,22 +5,25 @@
     grid-template-columns: 75% 25%;
   }
 
-  .layout-node-form > .layout-region--node-main {
+  .layout-node-form .layout-region--node-main {
     grid-row: 1;
     grid-column: 1;
     width: 100%;
-    max-width: 100%;
+    max-width: none;
   }
 
-  .layout-node-form > .layout-region--node-secondary {
+  .layout-node-form .layout-region--node-secondary {
     grid-row: 1;
     grid-column: 2;
   }
 
-  .container > .layout-region--node-footer {
+  .container .layout-region--node-footer {
     grid-row: 2;
     grid-column: 1 / span 2;
     width: 100%;
+  }
+  .layout-region--node-main .layout-region__content {
+    max-width: none;
   }
 }
 

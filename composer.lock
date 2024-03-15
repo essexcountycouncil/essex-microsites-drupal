@@ -7594,16 +7594,16 @@
         },
         {
             "name": "localgovdrupal/localgov_claro",
-            "version": "2.1.1",
+            "version": "2.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/localgovdrupal/localgov_claro.git",
-                "reference": "a183df81179fb595fb4948db5964879799041edf"
+                "reference": "2c708059e3e449f70a5a91517e6edf88f19f6ba1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/localgovdrupal/localgov_claro/zipball/a183df81179fb595fb4948db5964879799041edf",
-                "reference": "a183df81179fb595fb4948db5964879799041edf",
+                "url": "https://api.github.com/repos/localgovdrupal/localgov_claro/zipball/2c708059e3e449f70a5a91517e6edf88f19f6ba1",
+                "reference": "2c708059e3e449f70a5a91517e6edf88f19f6ba1",
                 "shasum": ""
             },
             "type": "drupal-theme",
@@ -7615,9 +7615,9 @@
             "homepage": "https://github.com/localgovdrupal/localgov_claro",
             "support": {
                 "issues": "https://github.com/localgovdrupal/localgov_claro/issues",
-                "source": "https://github.com/localgovdrupal/localgov_claro/tree/2.1.1"
+                "source": "https://github.com/localgovdrupal/localgov_claro/tree/2.1.2"
             },
-            "time": "2024-02-15T12:07:17+00:00"
+            "time": "2024-03-15T09:34:26+00:00"
         },
         {
             "name": "localgovdrupal/localgov_core",
