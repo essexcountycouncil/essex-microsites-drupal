@@ -1,7 +1,12 @@
-# Custom module library for general purposes.
+# Essex Waste module library for general purposes.
 ecc_waste:
   css:
     component:
       css/ecc-waste.css: {}
+  js:
+    js/fathom.js: {}
+    https://cdn.usefathom.com/script.js: { type: external, attributes: { 'data-site': 'DIMECUNG', 'defer': TRUE } }
+
+ecc_waste_edit:
   js:
     js/search-checkboxes.js: {}

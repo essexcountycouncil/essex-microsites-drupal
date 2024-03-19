@@ -102,7 +102,7 @@ function ecc_waste_preprocess_node (&$variables) {
  */
 function ecc_waste_form_node_waste_disposal_option_edit_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
 
-  $form['#attached']['library'][] = 'ecc_waste/ecc_waste';
+  $form['#attached']['library'][] = 'ecc_waste/ecc_waste_edit';
   $form['field_disposal_option_items']['checkbox_search'] = [
     '#type' => 'textfield',
     '#title' => t('Filter waste items'),

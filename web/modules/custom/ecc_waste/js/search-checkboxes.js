@@ -1,10 +1,8 @@
 Drupal.behaviors.searchCheckboxes = {
   attach: function (context, settings) {
-    //Using once() to apply the selectA11y effect when you want to run just one function.
+    // Using once() to apply the effect when you want to run just one function.
     once('searchCheckboxes', 'html', context).forEach(function (element) {
       element.classList.add('processed');
-
-
       const search = document.querySelector('.form-item--checkbox-search input.form-text');
 
       const labels = document.querySelectorAll("#edit-field-disposal-option-items .form-type--checkbox label");
@@ -20,7 +18,3 @@ Drupal.behaviors.searchCheckboxes = {
     });
   }
 };
-
-// element.style.display = element.childNodes[1].id.
-
-//  element.childNodes.textContent.toLowerCase().includes(search.value.toLowerCase()) ? "inline" : "none" )
