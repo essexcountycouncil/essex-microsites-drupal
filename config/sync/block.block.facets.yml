@@ -6,6 +6,7 @@ dependencies:
     - facets.facet.localgov_directories_facets
   module:
     - facets
+    - node
   theme:
     - essex_microsites_base
 id: facets
@@ -21,4 +22,11 @@ settings:
   provider: facets
   context_mapping: {  }
   block_id: facets
-visibility: {  }
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      localgov_directory: localgov_directory
