@@ -92,6 +92,7 @@ module:
   localgov_microsites_directories: 0
   localgov_microsites_events: 0
   localgov_microsites_group: 0
+  localgov_microsites_group_content_clone: 0
   localgov_microsites_group_term_ui: 0
   localgov_microsites_group_webform: 0
   localgov_microsites_media: 0
@@ -128,6 +129,7 @@ module:
   redirect: 0
   redirect_404: 0
   replicate: 0
+  replicate_ui: 0
   require_login: 0
   responsive_image: 0
   role_delegation: 0

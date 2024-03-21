@@ -16,6 +16,7 @@ dependencies:
     - localgov_microsites_group
     - media
     - redirect
+    - replicate_ui
     - role_delegation
     - system
     - toolbar
@@ -85,6 +86,7 @@ permissions:
   - 'edit webform submissions own node'
   - 'edit webform twig'
   - 'edit webform variants'
+  - 'replicate entities'
   - 'select account cancellation method'
   - 'update any media'
   - 'update media'

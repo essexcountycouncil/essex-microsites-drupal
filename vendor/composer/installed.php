@@ -3,7 +3,7 @@
         'name' => 'localgovdrupal/localgov_microsites_project',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '738c7b4878e4679ea12ecd5f7d019f62c3c3815f',
+        'reference' => '7eb85f977d1dfa6cc5cae5ef67e825477d68fd5c',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -1032,6 +1032,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'drupal/replicate_ui' => array(
+            'pretty_version' => '1.1.0',
+            'version' => '1.1.0.0',
+            'reference' => '8.x-1.1',
+            'type' => 'drupal-module',
+            'install_path' => __DIR__ . '/../../web/modules/contrib/replicate_ui',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'drupal/require_login' => array(
             'pretty_version' => '3.0.6',
             'version' => '3.0.6.0',
@@ -1445,7 +1454,7 @@
         'localgovdrupal/localgov_microsites_project' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '738c7b4878e4679ea12ecd5f7d019f62c3c3815f',
+            'reference' => '7eb85f977d1dfa6cc5cae5ef67e825477d68fd5c',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

@@ -15,6 +15,7 @@ dependencies:
     - node
     - override_node_options
     - redirect
+    - replicate_ui
     - system
     - toolbar
     - webform_node
@@ -46,6 +47,7 @@ permissions:
   - 'edit own image media'
   - 'edit own remote_video media'
   - 'override all published option'
+  - 'replicate entities'
   - 'revert all revisions'
   - 'update any media'
   - 'update media'
