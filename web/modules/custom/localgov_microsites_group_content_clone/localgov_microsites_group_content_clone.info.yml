@@ -1,0 +1,8 @@
+name: LocalGov Microsites Group Content Clone
+type: module
+description: Allows editors to clone content
+package: LocalGov Drupal
+core_version_requirement: ^9 || ^10
+dependencies:
+  - localgov_microsites_group:localgov_microsites_group
+  - replicate_ui:replicate_ui
