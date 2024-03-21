@@ -30,6 +30,7 @@
         "drupal/core-composer-scaffold": "^9.3",
         "drupal/core-recommended": "^9.3",
         "drupal/devel": "^5.1",
+        "drupal/replicate_ui": "^1.1",
         "drupal/upgrade_status": "^4.0",
         "drush/drush": "^11.5",
         "localgovdrupal/localgov_microsites": "^2.1.0-beta6",
