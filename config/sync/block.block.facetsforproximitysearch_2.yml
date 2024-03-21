@@ -1,0 +1,24 @@
+uuid: abeb7021-e3a9-433f-83a3-3d290e47261f
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.localgov_directories_facets_proximity_search
+  module:
+    - facets
+  theme:
+    - love_essex
+id: facetsforproximitysearch_2
+theme: love_essex
+region: sidebar_first
+weight: 0
+provider: null
+plugin: 'facet_block:localgov_directories_facets_proximity_search'
+settings:
+  id: 'facet_block:localgov_directories_facets_proximity_search'
+  label: 'Facets for proximity search'
+  label_display: '0'
+  provider: facets
+  context_mapping: {  }
+  block_id: facetsforproximitysearch_2
+visibility: {  }

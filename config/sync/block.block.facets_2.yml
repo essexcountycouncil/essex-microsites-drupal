@@ -1,4 +1,4 @@
-uuid: ef065d09-e66e-4a4f-8783-28de60b5c3e4
+uuid: 1defce7a-54f2-4e73-b5b4-0d0787de764e
 langcode: en
 status: true
 dependencies:
@@ -7,9 +7,9 @@ dependencies:
   module:
     - facets
   theme:
-    - essex_microsites_base
-id: facets
-theme: essex_microsites_base
+    - love_essex
+id: facets_2
+theme: love_essex
 region: sidebar_first
 weight: 0
 provider: null
@@ -17,8 +17,8 @@ plugin: 'facet_block:localgov_directories_facets'
 settings:
   id: 'facet_block:localgov_directories_facets'
   label: Facets
-  label_display: '0'
+  label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: facets
+  block_id: facets_2
 visibility: {  }
