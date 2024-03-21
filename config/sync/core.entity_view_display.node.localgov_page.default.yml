@@ -70,10 +70,11 @@ content:
     weight: 2
     region: content
   localgov_page_banner:
-    type: entity_reference_revisions_label
+    type: entity_reference_revisions_entity_view
     label: hidden
     settings:
-      link: false
+      view_mode: default
+      link: ''
     third_party_settings: {  }
     weight: 0
     region: content
