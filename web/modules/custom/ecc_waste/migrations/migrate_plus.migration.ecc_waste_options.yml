@@ -1,0 +1,116 @@
+langcode: en
+status: true
+dependencies: {  }
+id: ecc_waste_options
+migration_group: ECC Waste
+label: 'ECC Waste Disposal Options'
+
+source:
+  plugin: csv
+  path: private://migrate/source/waste_disposal_options.csv
+  # Column delimiter. Comma (,) by default.
+  delimiter: ','
+  # Field enclosure. Double quotation marks (") by default.
+  enclosure: '"'
+  # The row to be used as the CSV header (indexed from 0),
+  # or null if there is no header row.
+  header_offset: 0
+  # The column(s) to use as a key. Each column specified will
+  # create an index in the migration table and too many columns
+  # may throw an index size error.
+  ids:
+    - admin_title
+  # Here we identify the columns of interest in the source file.
+  # Each numeric key is the 0-based index of the column.
+  # For each column, the key below is the field name assigned to
+  # the data on import, to be used in field mappings below.
+  # The label value is a user-friendly string for display by the
+  # migration UI.
+  fields:
+    0:
+      name: admin_title
+      label: admin_title
+    1:
+      name: display_title
+      label: display_title
+    2:
+      name: body
+      label: body
+    3:
+      name: districts
+      label: districts
+    4:
+      name: items
+      label: items
+    5:
+      name: location
+      label: location
+    6:
+      name: url
+      label: url
+    7:
+      name: service_type
+      label: service_type
+
+process:
+  title:
+    source: admin_title
+    plugin: callback
+    callable: trim
+  field_disposal_display_title:
+    source: display_title
+    plugin: callback
+    callable: trim
+  body:
+    source: body
+    plugin: callback
+    callable: trim
+  field_disposal_option_districts:
+    -
+        source: districts
+        plugin: explode
+        delimiter: ','
+    -
+      value: 'Name'
+      plugin: entity_lookup
+      value_key: name
+      bundle_key: vid
+      bundle: county_district
+      entity_type: taxonomy_term
+      ignore_case: true
+  field_disposal_option_items:
+    -
+        source: items
+        plugin: explode
+        delimiter: ','
+    -
+      value: 'Name'
+      plugin: entity_lookup
+      value_key: name
+      bundle_key: vid
+      bundle: waste_item
+      entity_type: taxonomy_term
+      ignore_case: true
+  field_do_waste_service_type:
+    -
+        source: service_type
+        plugin: explode
+        delimiter: ','
+    -
+      value: 'Name'
+      plugin: entity_lookup
+      value_key: name
+      bundle_key: vid
+      bundle: waste_item
+      entity_type: taxonomy_term
+      ignore_case: true
+  field_disposal_option_url:
+    source: url
+    plugin: callback
+    callable: trim
+
+destination:
+  plugin: 'entity:node'
+  default_bundle: waste_disposal_option
+
+migration_dependencies: {  }
