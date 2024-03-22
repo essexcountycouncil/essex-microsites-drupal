@@ -1,0 +1,7 @@
+ecc_waste.settings:
+  path: '/admin/config/system/settings'
+  defaults:
+    _title: 'Ecc Waste Settings'
+    _form: 'Drupal\ecc_waste\Form\SettingsForm'
+  requirements:
+    _permission: 'administer site configuration'
