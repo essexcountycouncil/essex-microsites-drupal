@@ -1,0 +1,51 @@
+langcode: en
+status: true
+dependencies: {  }
+id: ecc_waste_ratings
+migration_group: ECC Waste
+label: 'ECC Waste Environmental Ratings'
+
+source:
+  plugin: csv
+  path: private://migrate/source/ratings.csv
+  # Column delimiter. Comma (,) by default.
+  delimiter: ','
+  # Field enclosure. Double quotation marks (") by default.
+  enclosure: '"'
+  # The row to be used as the CSV header (indexed from 0),
+  # or null if there is no header row.
+  header_offset: 0
+  # The column(s) to use as a key. Each column specified will
+  # create an index in the migration table and too many columns
+  # may throw an index size error.
+  ids:
+    - admin_title
+  # Here we identify the columns of interest in the source file.
+  # Each numeric key is the 0-based index of the column.
+  # For each column, the key below is the field name assigned to
+  # the data on import, to be used in field mappings below.
+  # The label value is a user-friendly string for display by the
+  # migration UI.
+  fields:
+    0:
+      name: admin_title
+      label: admin_title
+    1:
+      name: visible_title
+      label: visible_title
+
+process:
+  name:
+    source: admin_title
+    plugin: callback
+    callable: trim
+  field_env_rating_visible_title:
+    source: visible_title
+    plugin: callback
+    callable: trim
+
+destination:
+  plugin: 'entity:taxonomy_term'
+  default_bundle: environmental_rating
+
+migration_dependencies: {  }
