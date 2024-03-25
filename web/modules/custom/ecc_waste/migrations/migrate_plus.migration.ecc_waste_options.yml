@@ -20,6 +20,10 @@ source:
   # may throw an index size error.
   ids:
     - admin_title
+  constants:
+    location_prefix: '{"type":"Point","coordinates":['
+    location_suffix: ']}'
+
   # Here we identify the columns of interest in the source file.
   # Each numeric key is the 0-based index of the column.
   # For each column, the key below is the field name assigned to
@@ -108,6 +112,15 @@ process:
     source: url
     plugin: callback
     callable: trim
+  field_disposal_option_location:
+    - plugin: skip_on_empty
+      method: process
+      source: location
+    - plugin: concat
+      source:
+       - 'constants/location_prefix'
+       - location
+       - 'constants/location_suffix'
 
 destination:
   plugin: 'entity:node'
