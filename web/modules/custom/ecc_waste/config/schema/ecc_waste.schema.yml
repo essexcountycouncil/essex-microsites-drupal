@@ -1,0 +1,8 @@
+# Schema for the configuration files of the ECC Waste module.
+ecc_waste.settings:
+  type: config_object
+  label: 'ECC Waste settings'
+  mapping:
+    example:
+      type: string
+      label: 'Example'

@@ -4,7 +4,6 @@ status: true
 dependencies:
   config:
     - field.field.taxonomy_term.waste_item.field_waste_item_advice_text
-    - field.field.taxonomy_term.waste_item.field_waste_item_service_type
     - field.field.taxonomy_term.waste_item.field_waste_item_synonyms
     - taxonomy.vocabulary.waste_item
   module:
@@ -21,12 +20,6 @@ content:
     settings:
       rows: 5
       placeholder: ''
-    third_party_settings: {  }
-  field_waste_item_service_type:
-    type: options_buttons
-    weight: 3
-    region: content
-    settings: {  }
     third_party_settings: {  }
   field_waste_item_synonyms:
     type: string_textfield

@@ -5,7 +5,6 @@ dependencies:
   config:
     - core.entity_view_mode.taxonomy_term.waste_item
     - field.field.taxonomy_term.waste_item.field_waste_item_advice_text
-    - field.field.taxonomy_term.waste_item.field_waste_item_service_type
     - field.field.taxonomy_term.waste_item.field_waste_item_synonyms
     - taxonomy.vocabulary.waste_item
   module:
@@ -38,5 +37,4 @@ content:
     weight: 2
     region: content
 hidden:
-  field_waste_item_service_type: true
   search_api_excerpt: true

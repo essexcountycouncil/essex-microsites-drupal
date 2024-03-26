@@ -58,11 +58,20 @@ function ecc_waste_preprocess_node (&$variables) {
       }
     }
 
+    $display_title = $variables['node']->get('field_disposal_display_title')->getValue();
     $url = $variables['node']->get('field_disposal_option_url')->uri;
     if (!empty($url)) {
       $variables['url'] = $url;
       unset($variables['content']['field_disposal_option_url']);
     }
+    // If we have a display title, show it instead of a node title.
+    if (!empty($display_title)) {
+      $variables['title_attributes']['class'][] = 'visually-hidden';
+      $variables['content']['field_disposal_display_title']['#prefix'] = '<h3><a href="' . $variables['url'] . '">';
+      $variables['content']['field_disposal_display_title']['#suffix'] = '</a></h3>';
+    }
+
+
 
     // Calculate distance from our postcode location.
     $session = \Drupal::service('session');
@@ -74,7 +83,16 @@ function ecc_waste_preprocess_node (&$variables) {
     if (!empty($postcode_location_data) && !empty($variables['node']->get('field_disposal_option_location')->getValue())) {
       $node_location = $variables['node']->get('field_disposal_option_location')->getValue();
       $distance = ecc_waste_calculate_distance($postcode_location_data['lat'], $postcode_location_data['lon'], $node_location[0]['lat'], $node_location[0]['lon'], $unit = 'miles');
-      $variables['content']['distance']['#markup'] = '<div>About ' . ceil($distance) . ' miles away</div>';
+      $distance_markup = '';
+      $distance = (int)ceil($distance);
+      if ($distance > 1) {
+        $distance_markup = '<div>About ' . $distance . ' miles away</div>';
+      }
+      elseif ($distance === 1) {
+        $distance_markup = '<div>About ' . $distance . ' mile away</div>';
+      }
+
+      $variables['content']['distance']['#markup'] = $distance_markup;
     }
   }
 }
@@ -84,7 +102,7 @@ function ecc_waste_preprocess_node (&$variables) {
  */
 function ecc_waste_form_node_waste_disposal_option_edit_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
 
-  $form['#attached']['library'][] = 'ecc_waste/ecc_waste';
+  $form['#attached']['library'][] = 'ecc_waste/ecc_waste_edit';
   $form['field_disposal_option_items']['checkbox_search'] = [
     '#type' => 'textfield',
     '#title' => t('Filter waste items'),
@@ -152,7 +170,6 @@ function ecc_waste_views_pre_render(ViewExecutable $view) {
     $counted_values = array_count_values($ratings);
     foreach ($counted_values as $rating => $count) {
       if ($count > 3) {
-        // @todo proximity/sort logic.
         $working_row_data = [];
         foreach ($view->result as $index => $row) {
           if ($row->taxonomy_term_field_data_taxonomy_term__field_service_enviro == $rating) {
@@ -168,9 +185,9 @@ function ecc_waste_views_pre_render(ViewExecutable $view) {
               ];
             }
             else {
-              $working_row_data[$index] = [
+              $working_row_data[] = [
                 'index' => $index,
-                'distance' => NULL,
+                'distance' => 0,
                 'data' => $row,
               ];
             }
@@ -179,9 +196,10 @@ function ecc_waste_views_pre_render(ViewExecutable $view) {
         // Sort by proximity.
         $unsorted_row_data = $working_row_data;
         usort($working_row_data, 'ecc_waste_sort_by_distance');
+        $sorted_row_data = $working_row_data;
         // Iterate through swapping our results into place,
         // and unsetting all after 3.
-        foreach ($working_row_data as $j => $item) {
+        foreach ($sorted_row_data as $j => $item) {
           $view->result[$unsorted_row_data[$j]['index']] = $item['data'];
           if ($j > 2) {
             unset($view->result[$unsorted_row_data[$j]['index']]);
@@ -231,4 +249,15 @@ function ecc_waste_calculate_distance($lat1, $lon1, $lat2, $lon2, $unit = 'miles
         default:
             return $miles;
     }
+}
+
+
+/**
+ * Implements template_preprocess_taxonomy_term()
+ */
+function ecc_waste_preprocess_taxonomy_term(&$variables) {
+
+  if ($variables['name']['#bundle'] == 'environmental_rating') {
+    $variables['attributes']['class'][] = 'term-environmental-rating';
+  }
 }

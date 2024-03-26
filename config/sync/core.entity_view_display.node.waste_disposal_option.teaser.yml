@@ -5,6 +5,7 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.waste_disposal_option.body
+    - field.field.node.waste_disposal_option.field_disposal_display_title
     - field.field.node.waste_disposal_option.field_disposal_option_districts
     - field.field.node.waste_disposal_option.field_disposal_option_image
     - field.field.node.waste_disposal_option.field_disposal_option_items
@@ -30,7 +31,17 @@ content:
     settings:
       trim_length: 600
     third_party_settings: {  }
-    weight: 1
+    weight: 2
+    region: content
+  field_disposal_display_title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings:
+      field_formatter_class:
+        class: ''
+    weight: 0
     region: content
   field_disposal_option_image:
     type: media_thumbnail
@@ -41,7 +52,7 @@ content:
       image_loading:
         attribute: lazy
     third_party_settings: {  }
-    weight: 0
+    weight: 1
     region: content
   field_disposal_option_url:
     type: link
@@ -55,7 +66,7 @@ content:
     third_party_settings:
       field_formatter_class:
         class: ''
-    weight: 2
+    weight: 3
     region: content
 hidden:
   field_disposal_option_districts: true

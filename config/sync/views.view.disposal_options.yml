@@ -33,7 +33,7 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: 'Disposal Options'
+      title: 'Waste Disposal Options in Essex'
       fields:
         title:
           id: title
@@ -159,7 +159,7 @@ display:
           offset: 0
           items_per_page: 200
       exposed_form:
-        type: basic
+        type: input_required
         options:
           submit_button: Apply
           reset_button: true
@@ -168,6 +168,8 @@ display:
           expose_sort_order: false
           sort_asc_label: Asc
           sort_desc_label: Desc
+          text_input_required: ''
+          text_input_required_format: wysiwyg
       access:
         type: perm
         options:
@@ -854,6 +856,59 @@ display:
           expose:
             operator_limit_selection: false
             operator_list: {  }
+        field_waste_item_synonyms_value:
+          id: field_waste_item_synonyms_value
+          table: taxonomy_term__field_waste_item_synonyms
+          field: field_waste_item_synonyms_value
+          relationship: field_disposal_option_items
+          group_type: group
+          admin_label: ''
+          plugin_id: string
+          operator: contains
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_waste_item_synonyms_value_op
+            label: Item
+            description: ''
+            use_operator: false
+            operator: field_waste_item_synonyms_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: item
+            required: true
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              microsites_controller: '0'
+              microsites_trusted_editor: '0'
+              localgov_news_editor: '0'
+              waste_admin: '0'
+            placeholder: ''
+            autocomplete_filter: 1
+            autocomplete_min_chars: '3'
+            autocomplete_items: '10'
+            autocomplete_field: field_waste_item_synonyms
+            autocomplete_raw_suggestion: 0
+            autocomplete_raw_dropdown: 0
+            autocomplete_dependent: 0
+            min_placeholder: ''
+            max_placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
         postcode_search_custom_filter:
           id: postcode_search_custom_filter
           table: views
@@ -893,59 +948,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           postcode: ''
-        field_waste_item_synonyms_value:
-          id: field_waste_item_synonyms_value
-          table: taxonomy_term__field_waste_item_synonyms
-          field: field_waste_item_synonyms_value
-          relationship: field_disposal_option_items
-          group_type: group
-          admin_label: ''
-          plugin_id: string
-          operator: contains
-          value: ''
-          group: 1
-          exposed: true
-          expose:
-            operator_id: field_waste_item_synonyms_value_op
-            label: Item
-            description: ''
-            use_operator: false
-            operator: field_waste_item_synonyms_value_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: item
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-              anonymous: '0'
-              microsites_controller: '0'
-              microsites_trusted_editor: '0'
-              localgov_news_editor: '0'
-              waste_admin: '0'
-            placeholder: ''
-            autocomplete_filter: 1
-            autocomplete_min_chars: '1'
-            autocomplete_items: '10'
-            autocomplete_field: field_waste_item_synonyms
-            autocomplete_raw_suggestion: 0
-            autocomplete_raw_dropdown: 0
-            autocomplete_dependent: 0
-            min_placeholder: ''
-            max_placeholder: ''
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:

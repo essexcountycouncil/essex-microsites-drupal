@@ -55,20 +55,24 @@ class PostcodeFilter extends FilterPluginBase {
    * {@inheritdoc}
    */
   public function query() {
-    $tid = $this->getTermIdFromPostcode($this->value[0], $this->view);
-    if (!empty($tid) && is_numeric($tid)) {
+    if (!empty($this->value[0])) {
+      $tid = $this->getTermIdFromPostcode($this->value[0]);
       $field = 'node__field_disposal_option_districts.field_disposal_option_districts_target_id';
-      // Implement the logic to make cURL request and apply taxonomy term filter.
-      // Use $this->value to get the value from the submitted form.
-      // Modify $this->query->addWhere() to apply the taxonomy term filter.
       $this->ensureMyTable();
 
       /** @var \Drupal\views\Plugin\views\query\Sql $query */
       $query = $this->query;
       $table = array_key_first($query->tables);
       $this->query->addTable('node__field_disposal_option_districts');
-      $this->query->addWhere($this->options['group'], $field, $tid, '=');
+
+      if (!empty($tid) && is_numeric($tid)) {
+        $this->query->addWhere($this->options['group'], $field, $tid, '=');
+      }
+      else {
+        $this->query->addWhere($this->options['group'], $field, NULL, 'IS NULL');
+      }
     }
+
   }
 
   /**
@@ -132,7 +136,8 @@ class PostcodeFilter extends FilterPluginBase {
    */
   public function getTermIdFromPostcode($value) {
     if (!empty($value)) {
-      $url = 'https://api.os.uk/search/places/v1/postcode?postcode=' . $value . '&key=EBJme6M7CYzCfMtjtnsJgudt6mcMjxXl&maxresults=1&output_srs=EPSG:4326';
+      $api_key = \Drupal::config('ecc_waste.settings')->get('osdata_api_key');
+      $url = 'https://api.os.uk/search/places/v1/postcode?postcode=' . $value . '&key=' . $api_key . '&maxresults=1&output_srs=EPSG:4326';
       $client = \Drupal::httpClient();
 
       try {
@@ -145,38 +150,44 @@ class PostcodeFilter extends FilterPluginBase {
         /** @var SharedTempStoreFactory $shared_tempstore */
         $shared_tempstore = \Drupal::service('tempstore.shared');
         $store =  $shared_tempstore->get('ecc_waste');
-
-        foreach ($result['results'] as $i => $item) {
-          if ($i === 0) {
-            $district = $item['DPA']['LOCAL_CUSTODIAN_CODE_DESCRIPTION'];
-            $location = [
-              'lat' => $item['DPA']['LAT'],
-              'lon' => $item['DPA']['LNG'],
-            ];
-            $store->set('ecc_waste_location_' . $session->getID(), $location);
-
-            // Get the current active group.
-            $active_group_id = \Drupal::service('domain_group_resolver')->getActiveDomainGroupId();
-            // Load district term entities.
-            $active_group = \Drupal\group\Entity\Group::load($active_group_id);
-            $terms = $active_group->getRelatedEntities('group_term:county_district');
-
-            foreach ($terms as $term) {
-              $term_id = $term->id();
+        if (!empty($result['results'])) {
+          foreach ($result['results'] as $i => $item) {
+            if ($i === 0) {
+              $district = $item['DPA']['LOCAL_CUSTODIAN_CODE_DESCRIPTION'];
+              $location = [
+                'lat' => $item['DPA']['LAT'],
+                'lon' => $item['DPA']['LNG'],
+              ];
+              $store->set('ecc_waste_location_' . $session->getID(), $location);
+              $vid = 'county_district';
+              $terms = \Drupal::entityTypeManager()
+                ->getStorage('taxonomy_term')
+                ->loadByProperties([
+                        'vid' => $vid,
+                        'name' => $district,
+                    ]);
+              foreach ($terms as $term) {
+                $term_id = $term->id();
+              }
+              if (empty($term_id)) {
+                \Drupal::messenger()->addError($this->t('Sorry, the postcode you’ve entered is outside the area covered by this website.'));
+                $district = 'none';
+              }
+              else {
+                $district = $term_id;
+              }
+              return $district;
             }
-            if (empty($term_id)) {
-              $district = 'All';
-            }
-            else {
-               $district = $term_id;
-            }
-            return $district;
           }
+        }
+        else {
+          \Drupal::messenger()->addError($this->t('Sorry, the postcode you’ve entered is outside the area covered by this website.'));
+          return 'none';
         }
       }
       catch (RequestException $e) {
         // log exception
-        \Drupal::messenger()->addMessage($this->t('The postcode search service appears to be unavailable.'));
+        \Drupal::messenger()->addError($this->t('The postcode search service appears to be unavailable.'));
         \Drupal::logger('Postcode search')->error('The postcode search service appears to be unavailable.');
       }
     }

@@ -1,0 +1,5 @@
+ecc_waste.settings:
+  title: Ecc Waste Settings
+  parent: system.admin_config_system
+  route_name: ecc_waste.settings
+  weight: 10

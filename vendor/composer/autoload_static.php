@@ -42,6 +42,7 @@ class ComposerStaticInitd0a74afab30d5542a6c9ec30d9e3e1b8
         '9c67151ae59aff4788964ce8eb2a0f43' => __DIR__ . '/..' . '/clue/stream-filter/src/functions_include.php',
         '8cff32064859f4559445b89279f3199c' => __DIR__ . '/..' . '/php-http/message/src/filters.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
+        '9e4824c5afbdc1482b6025ce3d4dfde8' => __DIR__ . '/..' . '/league/csv/src/functions_include.php',
         '9b38cf48e83f5d8f60375221cd213eee' => __DIR__ . '/..' . '/phpstan/phpstan/bootstrap.php',
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
         '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
@@ -155,6 +156,7 @@ class ComposerStaticInitd0a74afab30d5542a6c9ec30d9e3e1b8
         array (
             'LocalgovDrupal\\OsPlacesGeocoder\\Tests\\' => 38,
             'LocalgovDrupal\\OsPlacesGeocoder\\' => 32,
+            'League\\Csv\\' => 11,
             'League\\Container\\' => 17,
             'Laminas\\Stdlib\\' => 15,
             'Laminas\\Feed\\' => 13,
@@ -527,6 +529,10 @@ class ComposerStaticInitd0a74afab30d5542a6c9ec30d9e3e1b8
         'LocalgovDrupal\\OsPlacesGeocoder\\' => 
         array (
             0 => __DIR__ . '/..' . '/localgovdrupal/localgov_os_places_geocoder_provider/src',
+        ),
+        'League\\Csv\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/league/csv/src',
         ),
         'League\\Container\\' => 
         array (

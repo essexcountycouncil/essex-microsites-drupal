@@ -15,6 +15,7 @@ module:
   content_moderation: 0
   contextual: 0
   crop: 0
+  csv_serialization: 0
   date_recur: 0
   date_recur_modular: 0
   datetime: 0
@@ -117,6 +118,11 @@ module:
   metatag: 0
   metatag_open_graph: 0
   metatag_twitter_cards: 0
+  migrate: 0
+  migrate_devel: 0
+  migrate_plus: 0
+  migrate_source_csv: 0
+  migrate_tools: 0
   multiple_select: 0
   mysql: 0
   node: 0
@@ -131,6 +137,7 @@ module:
   replicate: 0
   require_login: 0
   responsive_image: 0
+  rest: 0
   role_delegation: 0
   schema_article: 0
   schema_metatag: 0
@@ -140,6 +147,7 @@ module:
   search_api_location: 0
   search_api_location_geocoder: 0
   search_api_location_views: 0
+  serialization: 0
   system: 0
   tablefield: 0
   taxonomy: 0
@@ -153,6 +161,7 @@ module:
   variationcache: 0
   views_autocomplete_filters: 0
   views_bulk_operations: 0
+  views_data_export: 0
   views_ui: 0
   viewsreference: 0
   webform: 0
