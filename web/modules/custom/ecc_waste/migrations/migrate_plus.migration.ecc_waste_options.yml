@@ -112,15 +112,24 @@ process:
     source: url
     plugin: callback
     callable: trim
-  field_disposal_option_location:
-    - plugin: skip_on_empty
+  _location_coords:
+    -
+      plugin: skip_on_empty
       method: process
       source: location
-    - plugin: concat
+    -
+      plugin: ecc_swap_values
+  field_disposal_option_location:
+    -
+      plugin: skip_on_empty
+      method: process
+      source: '@_location_coords'
+    -
+      plugin: concat
       source:
-       - 'constants/location_prefix'
-       - location
-       - 'constants/location_suffix'
+        - 'constants/location_prefix'
+        - '@_location_coords'
+        - 'constants/location_suffix'
   status:
     - plugin: default_value
       default_value: 1
