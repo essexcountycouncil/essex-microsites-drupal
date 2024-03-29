@@ -1,0 +1,6 @@
+services:
+  ecc_microsites_redirect_dashboard.redirect_subscriber:
+    class: Drupal\ecc_microsites_redirect_dashboard\EventSubscriber\RedirectSubscriber
+    arguments: ['@group.membership_loader']
+    tags:
+      - { name: event_subscriber }

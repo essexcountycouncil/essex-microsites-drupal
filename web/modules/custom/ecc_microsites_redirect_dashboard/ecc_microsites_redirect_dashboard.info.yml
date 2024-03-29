@@ -1,0 +1,5 @@
+name: ecc_microsites_redirect_dashboard
+type: module
+description: Redirects editors from dashboard to content list
+package: LocalGov Drupal
+core_version_requirement: ^9 || ^10
