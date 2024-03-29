@@ -1,0 +1,64 @@
+langcode: en
+status: true
+dependencies: {  }
+id: ecc_waste_group_items
+migration_group: ECC Waste
+label: 'ECC Waste Items group terms'
+
+source:
+  plugin: csv
+  path: private://migrate/source/waste_items.csv
+  # Column delimiter. Comma (,) by default.
+  delimiter: ','
+  # Field enclosure. Double quotation marks (") by default.
+  enclosure: '"'
+  # The row to be used as the CSV header (indexed from 0),
+  # or null if there is no header row.
+  header_offset: 0
+  # The column(s) to use as a key. Each column specified will
+  # create an index in the migration table and too many columns
+  # may throw an index size error.
+  ids:
+    - name
+  # Here we identify the columns of interest in the source file.
+  # Each numeric key is the 0-based index of the column.
+  # For each column, the key below is the field name assigned to
+  # the data on import, to be used in field mappings below.
+  # The label value is a user-friendly string for display by the
+  # migration UI.
+  fields:
+    0:
+      name: name
+      label: name
+
+
+process:
+  gid:
+    -
+      plugin: default_value
+      default_value: 3
+  type:
+    -
+      plugin: default_value
+      default_value: microsite-group_term-waste_item
+  entity_id:
+    -
+      plugin: migration_lookup
+      source: name
+      migration: 'ecc_waste_items'
+      no_stub: false
+    -
+      # If no entity found or no stub could be created, skip
+      plugin: skip_on_empty
+      method: row
+  uid:
+    -
+      plugin: default_value
+      default_value: 1
+
+
+destination:
+  plugin: 'entity:group_relationship'
+
+
+migration_dependencies: {  }
