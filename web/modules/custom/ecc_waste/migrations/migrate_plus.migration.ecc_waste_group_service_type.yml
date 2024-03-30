@@ -36,7 +36,7 @@ process:
   gid:
     -
       plugin: default_value
-      default_value: 3
+      default_value: 1
   type:
     -
       plugin: default_value
