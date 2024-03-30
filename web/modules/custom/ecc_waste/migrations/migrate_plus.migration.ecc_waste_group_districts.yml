@@ -61,4 +61,7 @@ destination:
   plugin: 'entity:group_relationship'
 
 
-migration_dependencies: {  }
+migration_dependencies:
+  required:
+    - ecc_waste_districts
+  optional: []

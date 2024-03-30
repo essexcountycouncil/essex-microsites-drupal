@@ -138,4 +138,10 @@ destination:
   plugin: 'entity:node'
   default_bundle: waste_disposal_option
 
-migration_dependencies: {  }
+migration_dependencies:
+  required:
+    - ecc_waste_items
+    - ecc_waste_districts
+    - ecc_waste_ratings
+    - ecc_waste_services
+  optional: []
