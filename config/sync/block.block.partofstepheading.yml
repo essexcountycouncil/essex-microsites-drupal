@@ -1,0 +1,20 @@
+uuid: 812fc042-67f9-4bc4-b240-0cc7820e0fac
+langcode: en
+status: true
+dependencies:
+  module:
+    - localgov_step_by_step
+  theme:
+    - essex_microsites_base
+id: partofstepheading
+theme: essex_microsites_base
+region: sidebar_second
+weight: 0
+provider: null
+plugin: step_part_of_block
+settings:
+  id: step_part_of_block
+  label: 'Part of step heading'
+  label_display: '0'
+  provider: localgov_step_by_step
+visibility: {  }

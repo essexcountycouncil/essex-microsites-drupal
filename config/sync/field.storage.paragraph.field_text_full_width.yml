@@ -1,0 +1,18 @@
+uuid: 86c7f194-ba5f-41ad-9141-79ea56c8b813
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs
+id: paragraph.field_text_full_width
+field_name: field_text_full_width
+entity_type: paragraph
+type: boolean
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

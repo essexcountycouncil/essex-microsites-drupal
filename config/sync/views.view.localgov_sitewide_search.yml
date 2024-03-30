@@ -221,6 +221,8 @@ display:
               localgov_news_article: search_result
               localgov_newsroom: search_result
               localgov_page: search_result
+              localgov_step_by_step_overview: search_result
+              localgov_step_by_step_page: search_result
               localgov_webform: search_result
               waste_disposal_option: search_result
               webform: search_result

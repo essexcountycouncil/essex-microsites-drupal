@@ -1,0 +1,10 @@
+uuid: 6748d94e-5d30-40dc-bb20-11083273c018
+langcode: en
+status: true
+dependencies: {  }
+id: call_to_action
+label: 'Call to Action'
+icon_uuid: null
+icon_default: null
+description: 'Add image/logo left and/or right along with text and a CTA link.'
+behavior_plugins: {  }

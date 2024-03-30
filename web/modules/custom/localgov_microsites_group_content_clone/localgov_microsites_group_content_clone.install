@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the LocalGov Microsites Group Content Clone module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function localgov_microsites_group_content_clone_install() {
+  \Drupal::messenger()->addStatus(__FUNCTION__);
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function localgov_microsites_group_content_clone_uninstall() {
+  \Drupal::messenger()->addStatus(__FUNCTION__);
+}

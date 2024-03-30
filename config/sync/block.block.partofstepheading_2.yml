@@ -1,0 +1,20 @@
+uuid: 08e684a6-b415-4e95-8286-2304173dbae8
+langcode: en
+status: true
+dependencies:
+  module:
+    - localgov_step_by_step
+  theme:
+    - love_essex
+id: partofstepheading_2
+theme: love_essex
+region: sidebar_second
+weight: 0
+provider: null
+plugin: step_part_of_block
+settings:
+  id: step_part_of_block
+  label: 'Part of step heading'
+  label_display: '0'
+  provider: localgov_step_by_step
+visibility: {  }

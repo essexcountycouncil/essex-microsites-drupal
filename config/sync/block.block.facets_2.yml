@@ -1,0 +1,32 @@
+uuid: 1defce7a-54f2-4e73-b5b4-0d0787de764e
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.localgov_directories_facets
+  module:
+    - facets
+    - node
+  theme:
+    - love_essex
+id: facets_2
+theme: love_essex
+region: sidebar_first
+weight: 0
+provider: null
+plugin: 'facet_block:localgov_directories_facets'
+settings:
+  id: 'facet_block:localgov_directories_facets'
+  label: Facets
+  label_display: '0'
+  provider: facets
+  context_mapping: {  }
+  block_id: facets_2
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      localgov_directory: localgov_directory

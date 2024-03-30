@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   module:
-    - localgov_geo
     - media
     - search_api_autocomplete
     - system
@@ -16,5 +15,4 @@ is_admin: false
 permissions:
   - 'access content'
   - 'use search_api_autocomplete for localgov_news_search'
-  - 'view geo'
   - 'view media'

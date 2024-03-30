@@ -5,21 +5,74 @@ variables:
       # This ensures that in the cascade, your variables come after the base theme's
       # variables.
       css/base/variables.css: {}
+      css/base/utilities.css: {}
 
-# To override CSS from the base theme, add your library here, and then use
-# `libraries-extend` to add that code to the library from the base theme. See the
-# love_essex.info.yml file for an example, using this `sample-library`.
+fonts:
+  css:
+    base:
+      css/base/fonts.css: {}
 
-# sample-library
-#   css:
-#     theme:
-#       css/overrides.css: {}
+base:
+  css:
+    base:
+      css/base/base.css: {}
 
-# If your CSS is for a new component, and is not going to override existing CSS, you
-# can add that to your component in the usual ways - via `{{ attach_library }}` or a
-# preprocess hook, or similar approach.
+# Layout
+header:
+  css:
+    theme:
+      css/components/header.css: {}
 
-# sample-library-2
-#   css:
-#     theme:
-#       css/sample.css: {}
+footer:
+  css:
+    theme:
+      css/components/footer.css: {}
+
+breadcrumbs:
+  css:
+    theme:
+      css/components/breadcrumbs.css: {}
+
+
+# Content types
+step-by-step:
+  css:
+    theme:
+      css/components/step-by-step.css: {}
+
+# Paragraphs
+page-sections:
+  css:
+    theme:
+      css/components/page-sections.css: {}
+
+text-component:
+  css:
+    theme:
+      css/components/text-component.css: {}
+
+featured-teasers:
+  css:
+    theme:
+      css/components/featured-teasers.css: {}
+
+banner:
+  css:
+    theme:
+      css/components/banner.css: {}
+
+media-with-text:
+  css:
+    theme:
+      css/components/media-with-text.css: {}
+
+call-to-action:
+  css:
+    theme:
+      css/components/call-to-action.css: {}
+
+# Utilities
+wysiwyg-styles:
+  css:
+    theme:
+      css/components/wysiwyg-styles.css: {}

@@ -15,13 +15,13 @@ settings:
   allowed_values:
     -
       value: colour-1
-      label: Accent
+      label: 'Accent 1'
     -
       value: colour-2
-      label: 'Accent Alt'
+      label: 'Accent 2'
     -
       value: colour-3
-      label: 'Light Grey'
+      label: 'Accent 3'
   allowed_values_function: ''
 module: options
 locked: false

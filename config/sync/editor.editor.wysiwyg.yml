@@ -19,6 +19,7 @@ settings:
       - underline
       - bold
       - italic
+      - alignment
       - '|'
       - undo
       - redo
@@ -109,6 +110,12 @@ settings:
     ckeditor5_list:
       reversed: false
       startIndex: true
+    ckeditor5_alignment:
+      enabled_alignments:
+        - left
+        - center
+        - right
+        - justify
     ckeditor5_imageResize:
       allow_resize: true
     media_media:

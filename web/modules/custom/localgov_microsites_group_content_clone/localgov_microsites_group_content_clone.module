@@ -1,0 +1,54 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for LocalGov Microsites Group Content Clone module.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\node\Entity\Node;
+
+function localgov_microsites_group_content_clone_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+  // List the forms we want to call our custom submit handler on.
+  // Basically, all node forms.
+  $forms = [
+    'node_localgov_page_replicate_form',
+    'node_localgov_blog_post_replicate_form',
+    'node_localgov_directory_replicate_form',
+    'node_localgov_directories_page_replicate_form',
+    'node_localgov_directory_promo_page_replicate_form',
+    'node_localgov_directories_venue_replicate_form',
+    'node_localgov_event_replicate_form',
+    'node_localgov_webform_replicate_form',
+    'node_localgov_news_article_replicate_form',
+    'node_localgov_newsroom_replicate_form',
+    'node_localgov_step_by_step_overview_replicate_form',
+    'node_webform_replicate_form',
+  ];
+
+  if (in_array($form_id, $forms)) {
+    $form['actions']['submit']['#submit'][] = 'localgov_microsites_group_content_clone_form_submit';
+  }
+}
+
+function localgov_microsites_group_content_clone_form_submit(array &$form, FormStateInterface $form_state) {
+  $current_user = \Drupal::currentUser();
+  $replicated_entity = $form_state->getStorage()['replicated_entity'];
+  $new_node_id = $replicated_entity->id();
+  $node = Node::load($new_node_id);
+
+  // Change the owner of this node to the current logged in user.
+  $node->setOwnerId($current_user->id());
+  $node->save();
+
+  // Add this replicated node to the current microsite.
+  $current_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
+  if ($current_domain && !empty($current_domain->get('third_party_settings'))) {
+    $current_group_id = $current_domain->get('third_party_settings')['domain_group']['group'];
+    $current_group = \Drupal::entityTypeManager()->getStorage('group')->load($current_group_id);
+
+    // Add relationship between the current group and the node that was cloned.
+    $current_group->addRelationship($node, 'group_node:' . $node->getType());
+    $current_group->save();
+  }
+}

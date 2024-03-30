@@ -3,6 +3,8 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.localgov_page_section.field_margin_after_regions
+    - field.field.paragraph.localgov_page_section.field_margin_regions
     - field.field.paragraph.localgov_page_section.localgov_bg_colour_of_section
     - field.field.paragraph.localgov_page_section.localgov_padding_bottom_section
     - field.field.paragraph.localgov_page_section.localgov_padding_top_section
@@ -16,6 +18,8 @@ bundle: localgov_page_section
 mode: default
 content: {  }
 hidden:
+  field_margin_after_regions: true
+  field_margin_regions: true
   localgov_bg_colour_of_section: true
   localgov_padding_bottom_section: true
   localgov_padding_top_section: true

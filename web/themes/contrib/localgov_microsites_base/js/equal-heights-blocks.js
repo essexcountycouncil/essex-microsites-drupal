@@ -13,6 +13,12 @@
           const blocksToEqualiseHeights = item.querySelectorAll(typeOfBlock);
           const blockHeights = [];
 
+          function removeExistingHeights() {
+            blocksToEqualiseHeights.forEach(block => {
+              block.style.height = "";
+            });
+          }
+
           function handleGetHeights() {
             blocksToEqualiseHeights.forEach(block => {
               blockHeights.push(block.offsetHeight);
@@ -28,23 +34,27 @@
           // before they are in place, then they get positioned
           // wrong on first load.
           setTimeout(() => {
+            removeExistingHeights();
             handleGetHeights();
           }, 250);
         })
       }
 
-      layoutsWithCallOutBox.forEach(layout => {
-        equaliseHeightsOfTheseBlocks(layoutsWithCallOutBox, '.call-out-box');
-      });
+      function handleEqualise() {
+        layoutsWithCallOutBox.forEach(layout => {
+          equaliseHeightsOfTheseBlocks(layoutsWithCallOutBox, '.call-out-box');
+        });
+        layoutsWithIaBlocks.forEach(layout => {
+          equaliseHeightsOfTheseBlocks(layoutsWithIaBlocks, '.ia-block');
+        });
+        layoutsWithTeaserBlocks.forEach(layout => {
+          equaliseHeightsOfTheseBlocks(layoutsWithTeaserBlocks, '.featured-teaser');
+        });
+      }
 
-      layoutsWithIaBlocks.forEach(layout => {
-        equaliseHeightsOfTheseBlocks(layoutsWithIaBlocks, '.ia-block');
-      });
-
-      layoutsWithTeaserBlocks.forEach(layout => {
-        equaliseHeightsOfTheseBlocks(layoutsWithTeaserBlocks, '.featured-teaser');
-      });
-
+      handleEqualise();
+      
+      window.addEventListener('resize', Drupal.debounce(handleEqualise, 250, true));
     }
   };
 }(Drupal));

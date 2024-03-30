@@ -1,0 +1,13 @@
+/* Utility classes - use sparingly */
+
+.flow {
+  --flow-space: var(--spacing);
+}
+
+.flow > * + * {
+  margin-top: var(--flow-space);
+}
+
+.flow--large {
+  --flow-space: var(--spacing-large);
+}

@@ -10,7 +10,8 @@ variables:
 # `libraries-extend` to add that code to the library from the base theme. See the
 # essex_microsites_base.info.yml file for an example, using this `sample-library`.
 
-fonts:
+# Content types
+step-by-step:
   css:
-    base:
-      css/base/fonts.css: {}
+    theme:
+      css/components/step-by-step.css: {}

@@ -1,0 +1,17 @@
+uuid: 0248537d-8036-4b54-aa61-471c93365071
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.microsite
+    - node.type.localgov_step_by_step_overview
+  module:
+    - gnode
+    - node
+id: microsite-7ef30bfab8f4cd75668459
+group_type: microsite
+content_plugin: 'group_node:localgov_step_by_step_overview'
+plugin_config:
+  group_cardinality: 0
+  entity_cardinality: 1
+  use_creation_wizard: false

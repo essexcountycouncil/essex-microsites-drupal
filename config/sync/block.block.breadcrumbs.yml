@@ -1,0 +1,24 @@
+uuid: c997c617-deff-43bc-b986-e72fd7dddd6d
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - essex_microsites_base
+id: breadcrumbs
+theme: essex_microsites_base
+region: breadcrumb
+weight: 0
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  label_display: '0'
+  provider: system
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    pages: '<front>'

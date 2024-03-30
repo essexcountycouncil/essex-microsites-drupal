@@ -1,0 +1,25 @@
+uuid: 93213b58-2f15-485d-84d1-52c675b7f8c9
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.localgov_step_by_step_navigation
+  module:
+    - views
+  theme:
+    - love_essex
+id: views_block__localgov_step_by_step_navigation_prev_next_2
+theme: love_essex
+region: content_bottom
+weight: 0
+provider: null
+plugin: 'views_block:localgov_step_by_step_navigation-prev_next'
+settings:
+  id: 'views_block:localgov_step_by_step_navigation-prev_next'
+  label: ''
+  label_display: '0'
+  provider: views
+  context_mapping: {  }
+  views_label: ''
+  items_per_page: none
+visibility: {  }

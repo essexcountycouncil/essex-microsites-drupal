@@ -17,7 +17,9 @@ label: 'Padding Top'
 description: 'Adds a padding buffer to the top of this page section.'
 required: false
 translatable: false
-default_value: {  }
+default_value:
+  -
+    value: medium
 default_value_callback: ''
 settings: {  }
 field_type: list_string

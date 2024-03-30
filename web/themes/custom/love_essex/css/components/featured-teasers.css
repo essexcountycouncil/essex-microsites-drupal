@@ -1,0 +1,31 @@
+/* Cards Listing */
+.featured-teasers__teasers > .field__items {
+  --columns: 1;
+  display: grid;
+  gap: var(--spacing);
+  grid-template-columns: repeat(var(--columns), 1fr);
+}
+
+@media screen and (min-width: 768px) {
+  .featured-teasers__teasers > .field__items {
+    --columns: 2;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .featured-teasers__teasers > .field__items {
+    --columns: 3;
+  }
+}
+
+.featured-teasers__teasers > .field__items > .field__item + .field__item {
+  margin-top: 0;
+}
+
+.featured-teaser {
+  border-radius: var(--border-radius);
+}
+
+.featured-teaser__image img {
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+}

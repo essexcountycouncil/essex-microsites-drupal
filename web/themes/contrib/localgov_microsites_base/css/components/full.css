@@ -8,9 +8,9 @@
   margin-bottom: var(--spacing-large);
 }
 
-.full__page-top > *,
-.full__page-top > .field--name-localgov-event-location > article > * {
-  margin-bottom: var(--spacing-large);
+.full__page-top > * + *,
+.full__page-top > .field--name-localgov-event-location > article > * + * {
+  margin-top: var(--spacing-large);
 }
 
 .full .field--name-localgov-directory-standfirst,

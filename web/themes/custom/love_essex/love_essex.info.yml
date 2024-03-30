@@ -2,18 +2,34 @@ name: "Essex: Love Essex"
 description: "Your sub-theme, which uses localgov_microsites_base as its base theme."
 type: theme
 core_version_requirement: ^9 || ^10
-base theme: "essex_microsites_base"
+base theme: "localgov_microsites_base"
 
 libraries-extend:
-  # Add libraries that you want to load on every page of your site to the list
-  # of those extending localgov_microsites_base/global
-  essex_microsites_base/variables:
+  localgov_microsites_base/variables:
     - love_essex/variables
-    # - love_essex/other-library-to-load-on-every-page
-    # - love_essex/other-library-to-load-on-every-page
-  # Add libraries here that extend specific libraries.
-  # localgov_microsites_base/sample-library:
-    # - love_essex/sample-library
+  localgov_microsites_base/fonts:
+    - love_essex/fonts
+  localgov_microsites_base/base:
+    - love_essex/base
+  localgov_microsites_base/header:
+    - love_essex/header
+  localgov_microsites_base/footer:
+    - love_essex/footer
+  localgov_microsites_base/page-sections:
+    - love_essex/page-sections
+  localgov_microsites_base/featured-teasers:
+    - love_essex/featured-teasers
+  localgov_microsites_base/banner:
+    - love_essex/banner
+  localgov_microsites_base/media-with-text:
+    - love_essex/media-with-text
+  # Localgov Base Overrides
+  localgov_base/breadcrumbs:
+  - love_essex/breadcrumbs
+  localgov_base/wysiwyg-styles:
+    - love_essex/wysiwyg-styles
+  localgov_base/step-by-step:
+    - essex_microsites_base/step-by-step
 
 regions:
   tabs: "Tabs"

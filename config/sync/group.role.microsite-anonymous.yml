@@ -29,6 +29,8 @@ permissions:
   - 'view group_node:localgov_news_article entity'
   - 'view group_node:localgov_newsroom entity'
   - 'view group_node:localgov_page entity'
+  - 'view group_node:localgov_step_by_step_overview entity'
+  - 'view group_node:localgov_step_by_step_page entity'
   - 'view group_node:localgov_webform entity'
   - 'view group_node:waste_disposal_option entity'
   - 'view group_term:county_district entity'

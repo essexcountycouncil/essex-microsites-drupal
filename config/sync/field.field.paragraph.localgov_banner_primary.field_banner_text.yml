@@ -1,0 +1,21 @@
+uuid: 68af22f4-d383-4cef-98a0-ec2e03dea191
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_banner_text
+    - paragraphs.paragraphs_type.localgov_banner_primary
+  module:
+    - text
+id: paragraph.localgov_banner_primary.field_banner_text
+field_name: field_banner_text
+entity_type: paragraph
+bundle: localgov_banner_primary
+label: 'Banner text'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

@@ -28,6 +28,7 @@ equal-heights-blocks:
     js/equal-heights-blocks.js: {}
   dependencies:
     - core/drupal
+    - core/drupal.debounce
 
 header-js:
   js:

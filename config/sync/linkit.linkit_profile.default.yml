@@ -17,12 +17,23 @@ matchers:
       metadata: ''
       bundles: {  }
       group_by_bundle: true
-      include_unpublished: false
       substitution_type: canonical
       limit: 100
+      include_unpublished: false
     weight: 0
   c3257417-fce9-4307-8251-58672edf88be:
     id: email
     uuid: c3257417-fce9-4307-8251-58672edf88be
     settings: {  }
+    weight: 0
+  5caf5f4e-c70a-429d-81f5-9e7563f40bd6:
+    id: 'entity:media'
+    uuid: 5caf5f4e-c70a-429d-81f5-9e7563f40bd6
+    settings:
+      metadata: ''
+      bundles:
+        document: document
+      group_by_bundle: true
+      substitution_type: media
+      limit: 100
     weight: 0

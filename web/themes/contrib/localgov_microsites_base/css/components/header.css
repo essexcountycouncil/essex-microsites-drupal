@@ -1,3 +1,10 @@
+.microsite-header {
+  --header-items-alignment: center;
+  --header-items-justify: space-between;
+  --header-items-wrap: wrap;
+  --header-items-direction: row;
+}
+
 .microsite-header__pre-header {
   padding: var(--spacing);
   color: var(--pre-header-text-color);
@@ -30,15 +37,11 @@
 
 .microsite-header__main {
   display: flex;
-  flex-direction: column;
+  flex-direction: var(--header-items-direction);
+  flex-wrap: var(--header-items-wrap);
+  align-items: var(--header-items-alignment);
+  justify-content: var(--header-items-justify);
   gap: var(--spacing);
-}
-
-@media screen and (min-width: 768px) {
-  .microsite-header__main {
-    flex-direction: row;
-    align-items: var(--header-items-alignment);
-  }
 }
 
 .microsite-header__logo {
