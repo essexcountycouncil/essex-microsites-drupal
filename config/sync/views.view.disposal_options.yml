@@ -863,8 +863,8 @@ display:
               waste_admin: '0'
             placeholder: ''
             autocomplete_filter: 1
-            autocomplete_min_chars: '3'
-            autocomplete_items: '10'
+            autocomplete_min_chars: '1'
+            autocomplete_items: '0'
             autocomplete_field: field_waste_item_synonyms
             autocomplete_raw_suggestion: 0
             autocomplete_raw_dropdown: 0
