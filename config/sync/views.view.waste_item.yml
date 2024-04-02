@@ -3,9 +3,12 @@ langcode: en
 status: true
 dependencies:
   config:
+    - core.entity_view_mode.taxonomy_term.waste_item
+    - field.storage.taxonomy_term.field_p_factoid
     - field.storage.taxonomy_term.field_waste_item_advice_text
     - taxonomy.vocabulary.waste_item
   module:
+    - entity_reference_revisions
     - taxonomy
     - text
     - user
@@ -135,6 +138,11 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+        field_p_factoid:
+          id: field_p_factoid
+          table: taxonomy_term__field_p_factoid
+          field: field_p_factoid
+          plugin_id: field
       pager:
         type: some
         options:
@@ -242,12 +250,10 @@ display:
       style:
         type: default
       row:
-        type: fields
+        type: 'entity:taxonomy_term'
         options:
-          default_field_elements: true
-          inline: {  }
-          separator: ''
-          hide_empty: false
+          relationship: none
+          view_mode: waste_item
       query:
         type: views_query
         options:
@@ -268,6 +274,7 @@ display:
         - url
         - user.permissions
       tags:
+        - 'config:field.storage.taxonomy_term.field_p_factoid'
         - 'config:field.storage.taxonomy_term.field_waste_item_advice_text'
   block_1:
     id: block_1
@@ -285,4 +292,5 @@ display:
         - url
         - user.permissions
       tags:
+        - 'config:field.storage.taxonomy_term.field_p_factoid'
         - 'config:field.storage.taxonomy_term.field_waste_item_advice_text'
