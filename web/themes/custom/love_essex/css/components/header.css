@@ -1,3 +1,15 @@
 .region-microsites-header {
   padding-block: var(--spacing-largest);
 }
+
+.path-frontpage .region-microsites-header {
+  background-color: var(--color-accent);
+}
+
+.path-frontpage .microsite-header__menu .menu {
+  background-color: var(--color-accent);
+}
+
+.path-frontpage .region-microsites-header a {
+  color: var(--color-white);
+}
