@@ -70,42 +70,48 @@ process:
     plugin: callback
     callable: trim
   field_disposal_option_districts:
+    - plugin: skip_on_empty
+      source: districts
+      method: process
+      message: 'No districts listed.'
     -
-        source: districts
-        plugin: explode
-        delimiter: ','
+      plugin: explode
+      delimiter: ', '
     -
-      value: 'Name'
+      plugin: callback
+      callable: trim
+    -
       plugin: entity_lookup
       value_key: name
-      bundle_key: vid
       bundle: county_district
       entity_type: taxonomy_term
       ignore_case: true
   field_disposal_option_items:
+    - plugin: skip_on_empty
+      source: items
+      method: process
+      message: 'No items listed.'
     -
-        source: items
-        plugin: explode
-        delimiter: ','
+      plugin: explode
+      delimiter: ', '
     -
-      value: 'Name'
       plugin: entity_lookup
       value_key: name
-      bundle_key: vid
       bundle: waste_item
       entity_type: taxonomy_term
       ignore_case: true
   field_do_waste_service_type:
+    - plugin: skip_on_empty
+      source: service_type
+      method: process
+      message: 'No service_type listed.'
     -
-        source: service_type
-        plugin: explode
-        delimiter: ','
+      plugin: explode
+      delimiter: ', '
     -
-      value: 'Name'
       plugin: entity_lookup
       value_key: name
-      bundle_key: vid
-      bundle: waste_item
+      bundle: waste_disposal_service_type
       entity_type: taxonomy_term
       ignore_case: true
   field_disposal_option_url:
