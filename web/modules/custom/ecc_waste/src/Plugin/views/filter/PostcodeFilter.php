@@ -78,7 +78,7 @@ class PostcodeFilter extends FilterPluginBase {
     $form['postcode'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Postcode'),
-      '#description' => $this->t('Enter your postcode.'),
+      '#description' => $this->t('Enter an Essex postcode.'),
       '#required' => FALSE,
     ];
     if ($this->canExpose()) {
@@ -103,7 +103,7 @@ class PostcodeFilter extends FilterPluginBase {
     $form['value'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Postcode'),
-      '#description' => $this->t('Enter your postcode.'),
+      '#description' => $this->t('Enter an Essex postcode.'),
       '#required' => FALSE,
     ];
   }
