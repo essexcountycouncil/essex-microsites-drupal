@@ -3,16 +3,35 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.taxonomy_term.waste_item.field_p_factoid
     - field.field.taxonomy_term.waste_item.field_waste_item_advice_text
     - field.field.taxonomy_term.waste_item.field_waste_item_synonyms
     - taxonomy.vocabulary.waste_item
   module:
+    - entity_reference_revisions
+    - field_formatter_class
+    - field_formatter_range
     - text
 id: taxonomy_term.waste_item.default
 targetEntityType: taxonomy_term
 bundle: waste_item
 mode: default
 content:
+  field_p_factoid:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings:
+      field_formatter_class:
+        class: ''
+      field_formatter_range:
+        order: 2
+        limit: 1
+        offset: 0
+    weight: 1
+    region: content
   field_waste_item_advice_text:
     type: text_default
     label: above

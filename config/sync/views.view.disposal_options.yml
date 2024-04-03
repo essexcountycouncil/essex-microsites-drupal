@@ -890,7 +890,7 @@ display:
             placeholder: ''
             autocomplete_filter: 1
             autocomplete_min_chars: '3'
-            autocomplete_items: '10'
+            autocomplete_items: '20'
             autocomplete_field: field_waste_item_synonyms
             autocomplete_raw_suggestion: 0
             autocomplete_raw_dropdown: 0

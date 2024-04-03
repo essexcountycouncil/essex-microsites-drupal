@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a002b1f8ea8087153d3733456cfe3a7a",
+    "content-hash": "edd60f3f4ac893b9881f75a8700376a0",
     "packages": [
         {
             "name": "anrt-tools/docksal-configuration",
@@ -3544,6 +3544,54 @@
             "support": {
                 "source": "https://git.drupalcode.org/project/field_formatter_class",
                 "issues": "https://www.drupal.org/project/issues/field_formatter_class"
+            }
+        },
+        {
+            "name": "drupal/field_formatter_range",
+            "version": "1.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/field_formatter_range.git",
+                "reference": "8.x-1.5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/field_formatter_range-8.x-1.5.zip",
+                "reference": "8.x-1.5",
+                "shasum": "1b83a653360f3cd31194b13af34b78f67f1b9503"
+            },
+            "require": {
+                "drupal/core": "^9.2 || ^10"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.5",
+                    "datestamp": "1706781468",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Grimreaper",
+                    "homepage": "https://www.drupal.org/user/2388214"
+                },
+                {
+                    "name": "pdureau",
+                    "homepage": "https://www.drupal.org/user/1903334"
+                }
+            ],
+            "description": "Enhances the field formatters with range and offset settings.",
+            "homepage": "https://www.drupal.org/project/field_formatter_range",
+            "support": {
+                "source": "https://git.drupalcode.org/project/field_formatter_range"
             }
         },
         {

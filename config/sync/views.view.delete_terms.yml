@@ -1,19 +1,19 @@
-uuid: c24b5de0-422d-4575-b54f-1782df479af8
+uuid: 9b6d0150-6a6c-44c6-ab09-55845669205a
 langcode: en
 status: true
 dependencies:
   config:
-    - core.entity_view_mode.taxonomy_term.waste_item
-    - field.storage.taxonomy_term.field_p_factoid
-    - field.storage.taxonomy_term.field_waste_item_advice_text
+    - system.menu.admin
+    - taxonomy.vocabulary.county_district
+    - taxonomy.vocabulary.environmental_rating
+    - taxonomy.vocabulary.waste_disposal_service_type
     - taxonomy.vocabulary.waste_item
   module:
-    - entity_reference_revisions
     - taxonomy
-    - text
     - user
-id: waste_item
-label: 'Waste Item'
+    - views_bulk_operations
+id: delete_terms
+label: 'delete terms'
 module: views
 description: ''
 tag: ''
@@ -26,7 +26,6 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: 'Waste Item'
       fields:
         name:
           id: name
@@ -76,15 +75,15 @@ display:
           separator: ', '
           field_api_classes: false
           convert_spaces: false
-        field_waste_item_advice_text:
-          id: field_waste_item_advice_text
-          table: taxonomy_term__field_waste_item_advice_text
-          field: field_waste_item_advice_text
+        views_bulk_operations_bulk_form:
+          id: views_bulk_operations_bulk_form
+          table: views
+          field: views_bulk_operations_bulk_form
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: field
-          label: ''
+          plugin_id: views_bulk_operations_bulk_form
+          label: 'Views bulk operations'
           exclude: false
           alter:
             alter_text: false
@@ -117,7 +116,7 @@ display:
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: false
+          element_label_colon: true
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
@@ -125,41 +124,45 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          click_sort_column: value
-          type: text_default
-          settings: {  }
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-        field_p_factoid:
-          id: field_p_factoid
-          table: taxonomy_term__field_p_factoid
-          field: field_p_factoid
-          plugin_id: field
+          batch: true
+          batch_size: 10
+          form_step: true
+          ajax_loader: false
+          buttons: false
+          action_title: Action
+          clear_on_exposed: true
+          force_selection_info: false
+          selected_actions:
+            -
+              action_id: views_bulk_operations_delete_entity
       pager:
-        type: some
+        type: mini
         options:
           offset: 0
-          items_per_page: 1
+          items_per_page: 10
+          total_pages: null
+          id: 0
+          tags:
+            next: ››
+            previous: ‹‹
+          expose:
+            items_per_page: false
+            items_per_page_label: 'Items per page'
+            items_per_page_options: '5, 10, 25, 50'
+            items_per_page_options_all: false
+            items_per_page_options_all_label: '- All -'
+            offset: false
+            offset_label: Offset
       exposed_form:
-        type: input_required
+        type: basic
         options:
           submit_button: Apply
           reset_button: false
           reset_button_label: Reset
           exposed_sorts_label: 'Sort by'
-          expose_sort_order: false
+          expose_sort_order: true
           sort_asc_label: Asc
           sort_desc_label: Desc
-          text_input_required: ''
-          text_input_required_format: wysiwyg
       access:
         type: perm
         options:
@@ -188,35 +191,29 @@ display:
           id: vid
           table: taxonomy_term_field_data
           field: vid
-          entity_type: taxonomy_term
-          entity_field: vid
-          plugin_id: bundle
-          value:
-            waste_item: waste_item
-          expose:
-            operator_limit_selection: false
-            operator_list: {  }
-        field_waste_item_synonyms_value:
-          id: field_waste_item_synonyms_value
-          table: taxonomy_term__field_waste_item_synonyms
-          field: field_waste_item_synonyms_value
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: string
-          operator: contains
-          value: ''
+          entity_type: taxonomy_term
+          entity_field: vid
+          plugin_id: bundle
+          operator: in
+          value:
+            county_district: county_district
+            environmental_rating: environmental_rating
+            waste_disposal_service_type: waste_disposal_service_type
+            waste_item: waste_item
           group: 1
           exposed: true
           expose:
-            operator_id: field_waste_item_synonyms_value_op
-            label: Item
+            operator_id: vid_op
+            label: Vocabulary
             description: ''
             use_operator: false
-            operator: field_waste_item_synonyms_value_op
+            operator: vid_op
             operator_limit_selection: false
             operator_list: {  }
-            identifier: item
+            identifier: vid
             required: false
             remember: false
             multiple: false
@@ -227,14 +224,7 @@ display:
               microsites_trusted_editor: '0'
               localgov_news_editor: '0'
               waste_admin: '0'
-            placeholder: ''
-            autocomplete_filter: 0
-            autocomplete_min_chars: ''
-            autocomplete_items: ''
-            autocomplete_field: ''
-            autocomplete_raw_suggestion: 0
-            autocomplete_raw_dropdown: 0
-            autocomplete_dependent: 0
+            reduce: true
           is_grouped: false
           group_info:
             label: ''
@@ -248,12 +238,35 @@ display:
             default_group_multiple: {  }
             group_items: {  }
       style:
-        type: default
-      row:
-        type: 'entity:taxonomy_term'
+        type: table
         options:
-          relationship: none
-          view_mode: waste_item
+          grouping: {  }
+          row_class: ''
+          default_row_class: true
+          columns:
+            name: name
+          default: '-1'
+          info:
+            name:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+          override: true
+          sticky: false
+          summary: ''
+          empty_table: false
+          caption: ''
+          description: ''
+      row:
+        type: fields
+        options:
+          default_field_elements: true
+          inline: {  }
+          separator: ''
+          hide_empty: false
       query:
         type: views_query
         options:
@@ -267,30 +280,37 @@ display:
       footer: {  }
       display_extenders: {  }
     cache_metadata:
-      max-age: -1
+      max-age: 0
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
+        - url.query_args
         - user.permissions
-      tags:
-        - 'config:field.storage.taxonomy_term.field_p_factoid'
-        - 'config:field.storage.taxonomy_term.field_waste_item_advice_text'
-  block_1:
-    id: block_1
-    display_title: Block
-    display_plugin: block
+      tags: {  }
+  page_1:
+    id: page_1
+    display_title: Page
+    display_plugin: page
     position: 1
     display_options:
-      exposed_block: true
       display_extenders: {  }
+      path: admin/structure/taxonomy/delete-items
+      menu:
+        type: normal
+        title: 'Bulk delete terms'
+        description: ''
+        weight: 0
+        expanded: false
+        menu_name: admin
+        parent: entity.taxonomy_vocabulary.collection
+        context: '0'
     cache_metadata:
-      max-age: -1
+      max-age: 0
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
+        - url.query_args
         - user.permissions
-      tags:
-        - 'config:field.storage.taxonomy_term.field_p_factoid'
-        - 'config:field.storage.taxonomy_term.field_waste_item_advice_text'
+      tags: {  }
