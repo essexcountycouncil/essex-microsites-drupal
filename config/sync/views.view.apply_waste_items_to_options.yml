@@ -5,7 +5,9 @@ dependencies:
   config:
     - node.type.waste_disposal_option
     - system.menu.admin
+    - user.role.authenticated
   module:
+    - group
     - node
     - user
     - views_bulk_operations
@@ -164,9 +166,10 @@ display:
           sort_asc_label: Asc
           sort_desc_label: Desc
       access:
-        type: perm
+        type: role
         options:
-          perm: 'edit any waste_disposal_option content'
+          role:
+            authenticated: authenticated
       cache:
         type: tag
         options: {  }
@@ -300,7 +303,33 @@ display:
           distinct: false
           replica: false
           query_tags: {  }
-      relationships: {  }
+      relationships:
+        group_relationship:
+          id: group_relationship
+          table: node_field_data
+          field: group_relationship
+          relationship: none
+          group_type: group
+          admin_label: 'Content group relationship'
+          entity_type: node
+          plugin_id: group_relationship_to_entity_reverse
+          required: false
+          group_relation_plugins:
+            'group_node:waste_disposal_option': 'group_node:waste_disposal_option'
+            'group_node:localgov_blog_channel': '0'
+            'group_node:localgov_blog_post': '0'
+            'group_node:localgov_directories_page': '0'
+            'group_node:localgov_directories_venue': '0'
+            'group_node:localgov_directory': '0'
+            'group_node:localgov_directory_promo_page': '0'
+            'group_node:localgov_event': '0'
+            'group_node:localgov_newsroom': '0'
+            'group_node:localgov_news_article': '0'
+            'group_node:localgov_page': '0'
+            'group_node:localgov_step_by_step_overview': '0'
+            'group_node:localgov_step_by_step_page': '0'
+            'group_node:localgov_webform': '0'
+            'group_node:webform': '0'
       header: {  }
       footer: {  }
       display_extenders: {  }
@@ -312,7 +341,7 @@ display:
         - url
         - url.query_args
         - 'user.node_grants:view'
-        - user.permissions
+        - user.roles
       tags: {  }
   page_1:
     id: page_1
@@ -322,7 +351,7 @@ display:
     display_options:
       display_description: ''
       display_extenders: {  }
-      path: admin/content/waste/items/add
+      path: admin/microsites/waste-items/add
       menu:
         type: normal
         title: 'Apply Waste Items to Options'
@@ -340,5 +369,5 @@ display:
         - url
         - url.query_args
         - 'user.node_grants:view'
-        - user.permissions
+        - user.roles
       tags: {  }
