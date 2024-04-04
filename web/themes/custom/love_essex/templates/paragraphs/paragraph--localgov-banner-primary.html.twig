@@ -39,10 +39,15 @@
  */
 #}
 
+{% if paragraph.field_banner_theme.value %}
+  {% set banner_theme = paragraph.field_banner_theme.value %}
+{% endif %}
+
 {%
   set classes = [
     'banner',
     'banner--primary',
+    banner_theme ? 'banner--' ~ banner_theme|clean_class,
     'paragraph',
     'paragraph--type--' ~ paragraph.bundle|clean_class,
     view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
@@ -56,8 +61,8 @@
 
 <div{{attributes.addClass(classes)}}>
   <div class="banner__inner">
-    <div class="banner__content">
-      <div class="lgd-container padding-horizontal">
+    <div class="lgd-container padding-horizontal">
+      <div class="banner__content">
         <div class="banner__content-inner flow flow--large">
           {{ content|without('localgov_image', 'localgov_url', 'localgov_logo', 'field_banner_cta') }}
           {% if paragraph.field_banner_cta.value %}
@@ -68,12 +73,12 @@
             </div>
           {% endif %}
         </div>
+        {% if paragraph.localgov_image.value %}
+          <div class="banner__image">
+            {{ content.localgov_image }}
+          </div>
+        {% endif %}
       </div>
     </div>
-    {% if paragraph.localgov_image.value %}
-      <div class="banner__image">
-        {{ content.localgov_image }}
-      </div>
-    {% endif %}
   </div>
 </div>

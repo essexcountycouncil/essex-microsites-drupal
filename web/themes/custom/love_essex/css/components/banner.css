@@ -1,56 +1,46 @@
-.banner--primary .banner__inner {
-  display: grid;
-  grid-template-areas:
-    "first"
-    "second";
+.banner--primary {
+  background-color: var(--color-accent);
+}
+
+.banner--primary .banner__content {
+  grid-template-columns: 1fr;
+  gap: var(--spacing-largest);
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  padding-block: var(--spacing-largest);
+  background-color: transparent;
+}
+
+.banner--primary .banner__content * {
+  grid-column: initial;
 }
 
 @media screen and (min-width: 768px) {
-  .banner--primary .banner__inner {
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
-    grid-template-areas:
-      "content";
+  .banner--primary .banner__content {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 .banner--primary .banner__image {
-  grid-area: first;
+  order: -1;
 }
-.banner--primary .banner__content {
-  display: block;
-  max-width: none;
-  margin: 0;
-  padding: 0;
-  background-color: transparent;
+
+@media screen and (min-width: 768px) {
+  .banner--primary .banner__image {
+    order: 1;
+  }
 }
 
 .banner--primary .banner__content-inner {
-  margin: calc(var(--spacing) * -3) var(--spacing-large) var(--spacing-large);
-  padding: var(--spacing-large);
-  background-color: var(--color-accent);
+  padding: 0;
 }
 
-.banner--primary .banner__content * {
-  grid-column: auto;
-}
 @media screen and (min-width: 768px) {
-  .banner--primary .banner__content,
-  .banner--primary .banner__image {
-    grid-area: content;
-    grid-column: 1 / -1;
-    grid-row: 1 / -1;
-  }
-  .banner--primary .banner__content > * {
-    height: calc(100% - (var(--spacing-largest) * 2));
-  }
   .banner--primary .banner__content-inner {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 100%;
-    margin: var(--spacing-largest) 0 0;
-    max-width: 50%;
   }
 }
 
@@ -74,4 +64,15 @@
     background-color: var(--color-accent-2-contrast);
     text-decoration: underline;
   }
+}
+
+/* Overrides for specific 'Banner theme' field */
+.banner--primary.banner--theme-2 {
+  background-color: var(--color-accent-2);
+}
+.banner--primary.banner--theme-2 .field--name-field-banner-call-to-action > a {
+  background-color: var(--color-accent);
+}
+.banner--primary.banner--theme-2 .field--name-field-banner-call-to-action > a:hover {
+  color: var(--color-white);
 }

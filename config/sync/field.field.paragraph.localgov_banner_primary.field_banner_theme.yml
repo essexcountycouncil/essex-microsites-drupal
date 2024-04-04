@@ -1,0 +1,21 @@
+uuid: 5957703a-d2fb-4de4-815f-b71316ab9672
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_banner_theme
+    - paragraphs.paragraphs_type.localgov_banner_primary
+  module:
+    - options
+id: paragraph.localgov_banner_primary.field_banner_theme
+field_name: field_banner_theme
+entity_type: paragraph
+bundle: localgov_banner_primary
+label: 'Banner theme'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

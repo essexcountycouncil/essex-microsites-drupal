@@ -16,3 +16,11 @@
     text-decoration: underline;
   }
 }
+
+/*
+  Hide the breadcrumbs region on pages which have banners.
+  Hopefully these are all top level, landing pages.
+*/
+.region-breadcrumb:has(~ .main .banner) {
+  display: none;
+}

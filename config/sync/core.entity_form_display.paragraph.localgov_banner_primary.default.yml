@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.paragraph.localgov_banner_primary.field_banner_call_to_action
     - field.field.paragraph.localgov_banner_primary.field_banner_text
+    - field.field.paragraph.localgov_banner_primary.field_banner_theme
     - field.field.paragraph.localgov_banner_primary.localgov_image
     - field.field.paragraph.localgov_banner_primary.localgov_subsites_banner_logo
     - field.field.paragraph.localgov_banner_primary.localgov_subsites_banner_text
@@ -38,6 +39,12 @@ content:
     settings:
       rows: 5
       placeholder: ''
+    third_party_settings: {  }
+  field_banner_theme:
+    type: options_select
+    weight: 4
+    region: content
+    settings: {  }
     third_party_settings: {  }
   localgov_image:
     type: media_library_widget
