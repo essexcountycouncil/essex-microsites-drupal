@@ -8,6 +8,7 @@ dependencies:
     - media.type.remote_video
   module:
     - domain_path
+    - draggableviews
     - entity_browser
     - localgov_directories
     - localgov_sa11y
@@ -26,6 +27,7 @@ label: 'Microsites trusted editor'
 weight: 3
 is_admin: null
 permissions:
+  - 'access draggableviews'
   - 'access localgov_geo_library entity browser pages'
   - 'access media overview'
   - 'access toolbar'
