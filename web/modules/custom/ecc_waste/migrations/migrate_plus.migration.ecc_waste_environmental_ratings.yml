@@ -33,6 +33,9 @@ source:
     1:
       name: visible_title
       label: visible_title
+    2:
+      name: weight
+      label: weight
 
 process:
   name:
@@ -43,6 +46,7 @@ process:
     source: visible_title
     plugin: callback
     callable: trim
+  weight: weight
 
 destination:
   plugin: 'entity:taxonomy_term'
