@@ -26,6 +26,7 @@ module:
   domain_group: 0
   domain_path: 0
   domain_path_pathauto: 0
+  draggableviews: 0
   dynamic_page_cache: 0
   ecc_microsites_redirect_dashboard: 0
   ecc_waste: 0
