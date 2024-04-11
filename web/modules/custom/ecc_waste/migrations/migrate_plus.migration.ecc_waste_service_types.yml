@@ -33,6 +33,9 @@ source:
     1:
       name: rating
       label: rating
+    2:
+      name: weight
+      label: weight
 
 process:
   name:
@@ -48,6 +51,7 @@ process:
       bundle: environmental_rating
       entity_type: taxonomy_term
       ignore_case: true
+  weight: weight
 
 destination:
   plugin: 'entity:taxonomy_term'

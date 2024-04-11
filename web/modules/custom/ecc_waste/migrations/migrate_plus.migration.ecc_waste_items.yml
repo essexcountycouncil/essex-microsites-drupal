@@ -36,6 +36,9 @@ source:
     2:
       name: synonyms
       label: synonyms
+    3:
+      name: weight
+      label: weight
 
 process:
   name:
@@ -52,6 +55,7 @@ process:
       source: synonyms
     - plugin: callback
       callable: trim
+  weight: weight
 
 destination:
   plugin: 'entity:taxonomy_term'
