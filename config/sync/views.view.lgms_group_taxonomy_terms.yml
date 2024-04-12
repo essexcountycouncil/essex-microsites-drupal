@@ -600,7 +600,12 @@ display:
             'group_term:localgov_event_locality': '0'
             'group_term:localgov_event_price': '0'
             'group_term:localgov_topic': '0'
-      header: {  }
+      header:
+        area:
+          id: area
+          table: views
+          field: area
+          plugin_id: text
       footer: {  }
       display_extenders: {  }
     cache_metadata:
@@ -1039,7 +1044,20 @@ display:
         fields: false
         filters: false
         filter_groups: false
+        header: false
       use_ajax: true
+      header:
+        area_text_custom:
+          id: area_text_custom
+          table: views
+          field: area_text_custom
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text_custom
+          empty: false
+          content: ''
+          tokenize: false
       display_extenders: {  }
       path: group/%group/taxonomy/%vid
     cache_metadata:
