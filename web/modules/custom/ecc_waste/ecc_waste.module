@@ -22,23 +22,6 @@ function ecc_waste_views_post_render(ViewExecutable $view, array &$output, Cache
   }
 }
 
-/**
- * Alter the query before it is executed.
- *
- * @param \Drupal\views\ViewExecutable $view
- *   The view object about to be processed.
- * @param \Drupal\views\Plugin\views\query\QueryPluginBase $query
- *   The query plugin object for the query.
- *
- * @see hook_views_query_substitutions()
- * @see \Drupal\views\Plugin\views\query\Sql
- *
- */
-function ecc_waste_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
-   if ($view->id() == 'disposal_options') {
-    // Nout for now.
-  }
-}
 
 /**
  * Implements template_preprocess_node()
@@ -261,3 +244,5 @@ function ecc_waste_preprocess_taxonomy_term(&$variables) {
     $variables['attributes']['class'][] = 'term-environmental-rating';
   }
 }
+
+
