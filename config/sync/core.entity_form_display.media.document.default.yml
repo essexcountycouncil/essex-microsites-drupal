@@ -7,7 +7,6 @@ dependencies:
     - media.type.document
   module:
     - file
-    - path
 _core:
   default_config_hash: 1xA1MtmU9pm0vIQOUkDnSVs_WC4xm8XP7JiAH5IaTc4
 id: media.document.default
@@ -15,42 +14,23 @@ targetEntityType: media
 bundle: document
 mode: default
 content:
-  created:
-    type: datetime_timestamp
-    weight: 10
-    region: content
-    settings: {  }
-    third_party_settings: {  }
   field_media_document:
-    settings:
-      progress_indicator: throbber
-    third_party_settings: {  }
     type: file_generic
     weight: 0
     region: content
-  path:
-    type: path
-    weight: 4
-    region: content
-    settings: {  }
+    settings:
+      progress_indicator: throbber
     third_party_settings: {  }
   status:
     type: boolean_checkbox
+    weight: 1
+    region: content
     settings:
       display_label: true
-    weight: 100
-    region: content
-    third_party_settings: {  }
-  uid:
-    type: entity_reference_autocomplete
-    weight: 5
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
-    region: content
     third_party_settings: {  }
 hidden:
+  created: true
   moderation_state: true
   name: true
+  path: true
+  uid: true
