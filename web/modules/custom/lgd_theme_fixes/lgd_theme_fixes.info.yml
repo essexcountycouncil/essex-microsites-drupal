@@ -1,0 +1,5 @@
+name: 'LGD Theme Fixes'
+type: module
+description: 'Small tweaks to fix issues with the admin theme.'
+package: Custom
+core_version_requirement: ^9 || ^10 || ^11

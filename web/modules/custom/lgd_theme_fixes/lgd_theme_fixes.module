@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for LGD Theme Fixes module.
+ */
+
+/**
+ * Implements hook_page_attachments_alter().
+ */
+function lgd_theme_fixes_page_attachments_alter(&$attachments) {
+  $admin_theme = \Drupal::config('system.theme')->get('admin');
+  if (\Drupal::service('theme.manager')->getActiveTheme()->getName() == $admin_theme) {
+    // For some reason the CKEditor link dialog is not working in the admin.
+    // It's z-index is too low for it to be visible.
+    $attachments['#attached']['library'][] = 'lgd_theme_fixes/ckeditor_link_dialog';
+  }
+}
