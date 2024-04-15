@@ -8,6 +8,7 @@ dependencies:
   module:
     - filter
     - fontawesome
+    - localgov_geo
     - media
     - system
 _core:
@@ -21,4 +22,5 @@ permissions:
   - 'access fontawesome additional settings'
   - 'use text format webform_default'
   - 'use text format wysiwyg'
+  - 'view geo'
   - 'view media'
