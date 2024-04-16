@@ -30,6 +30,7 @@
         "drupal/core-composer-scaffold": "^9.3",
         "drupal/core-recommended": "^9.3",
         "drupal/devel": "^5.1",
+        "drupal/draggableviews": "^2.1",
         "drupal/field_formatter_range": "^1.5",
         "drupal/migrate_devel": "^2.3",
         "drupal/migrate_plus": "^6.0",
