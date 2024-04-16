@@ -74,6 +74,7 @@ module:
   layout_paragraphs: 0
   leaflet: 0
   leaflet_views: 0
+  lgd_theme_fixes: 0
   link: 0
   link_attributes: 0
   linkit: 0

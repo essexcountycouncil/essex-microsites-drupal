@@ -23,9 +23,16 @@
 }
 
 .featured-teaser {
+  position: relative;
   border-radius: var(--border-radius);
 }
 
 .featured-teaser__image img {
   border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.featured-teaser .field--name-localgov-link a::after {
+  position: absolute;
+  inset: 0;
+  content: '';
 }

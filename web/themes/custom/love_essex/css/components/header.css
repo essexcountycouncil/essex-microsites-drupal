@@ -13,3 +13,7 @@
 .path-frontpage .region-microsites-header a {
   color: var(--color-white);
 }
+
+.region-microsites-header .menu a:focus {
+  color: var(--color-black);
+}

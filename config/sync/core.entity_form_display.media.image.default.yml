@@ -8,7 +8,6 @@ dependencies:
     - media.type.image
   module:
     - image_widget_crop
-    - path
 _core:
   default_config_hash: vQdPxNqdm0mOB8MMhxNizrjoYL1V0FGd0vnRNPtIPBA
 id: media.image.default
@@ -16,16 +15,12 @@ targetEntityType: media
 bundle: image
 mode: default
 content:
-  created:
-    type: datetime_timestamp
-    weight: 5
-    region: content
-    settings: {  }
-    third_party_settings: {  }
   field_media_image:
+    type: image_widget_crop
+    weight: 1
+    region: content
     settings:
-      show_default_crop: true
-      warn_multiple_usages: true
+      progress_indicator: throbber
       preview_image_style: thumbnail
       crop_preview_image_style: crop_thumbnail
       crop_list:
@@ -36,13 +31,11 @@ content:
         - '8_7'
         - square
         - freestyle
-      progress_indicator: throbber
       crop_types_required: {  }
+      warn_multiple_usages: true
       show_crop_area: false
+      show_default_crop: true
     third_party_settings: {  }
-    type: image_widget_crop
-    weight: 1
-    region: content
   name:
     type: string_textfield
     weight: 0
@@ -51,33 +44,20 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  path:
-    type: path
-    weight: 3
-    region: content
-    settings: {  }
-    third_party_settings: {  }
   status:
     type: boolean_checkbox
+    weight: 2
+    region: content
     settings:
       display_label: true
-    weight: 7
-    region: content
     third_party_settings: {  }
   translation:
     weight: 6
     region: content
     settings: {  }
     third_party_settings: {  }
-  uid:
-    type: entity_reference_autocomplete
-    weight: 4
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
-    region: content
-    third_party_settings: {  }
 hidden:
+  created: true
   moderation_state: true
+  path: true
+  uid: true
