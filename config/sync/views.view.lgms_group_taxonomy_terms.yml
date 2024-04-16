@@ -1045,7 +1045,7 @@ display:
         filters: false
         filter_groups: false
         header: false
-      use_ajax: true
+      use_ajax: false
       header:
         area_text_custom:
           id: area_text_custom
