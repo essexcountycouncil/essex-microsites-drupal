@@ -10,7 +10,6 @@ dependencies:
     - domain
     - domain_group
     - domain_path
-    - draggableviews
     - entity_browser
     - group
     - localgov_directories
@@ -34,7 +33,6 @@ is_admin: null
 permissions:
   - 'access administration pages'
   - 'access any webform configuration'
-  - 'access draggableviews'
   - 'access localgov_geo_library entity browser pages'
   - 'access media overview'
   - 'access microsites overview'
