@@ -1479,6 +1479,10 @@ display:
             name: '0'
             changed: '0'
             weight: '0'
+      pager:
+        type: none
+        options:
+          offset: 0
       sorts:
         weight:
           id: weight
@@ -1671,6 +1675,7 @@ display:
         type: fields
         options: {  }
       defaults:
+        pager: false
         style: false
         row: false
         fields: false
@@ -2126,6 +2131,10 @@ display:
             name: '0'
             changed: '0'
             weight: '0'
+      pager:
+        type: none
+        options:
+          offset: 0
       sorts:
         weight:
           id: weight
@@ -2318,6 +2327,7 @@ display:
         type: fields
         options: {  }
       defaults:
+        pager: false
         style: false
         row: false
         fields: false
