@@ -3,10 +3,11 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.storage.taxonomy_term.field_env_rating_visible_title
     - taxonomy.vocabulary.environmental_rating
   module:
-    - draggableviews
     - group
+    - sortableviews
     - taxonomy
 _core:
   default_config_hash: KDfeJZaHDQqHfx9AUZQRAkbH-66YIFrJWqjyRZwPbcs
@@ -606,7 +607,13 @@ display:
           table: views
           field: area
           plugin_id: text
-      footer: {  }
+      footer:
+        save_sortable_changes:
+          id: save_sortable_changes
+          table: taxonomy_term_field_data
+          field: save_sortable_changes
+          entity_type: taxonomy_term
+          plugin_id: save_sortable_changes
       display_extenders: {  }
     cache_metadata:
       max-age: -1
@@ -1077,6 +1084,56 @@ display:
     position: 1
     display_options:
       fields:
+        sortable_handle:
+          id: sortable_handle
+          table: group_relationship_field_data
+          field: sortable_handle
+          relationship: group_relationship
+          group_type: group
+          admin_label: ''
+          entity_type: group_relationship
+          plugin_id: sortable_views_handle
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
         name:
           id: name
           table: taxonomy_term_field_data
@@ -1125,6 +1182,69 @@ display:
           separator: ', '
           field_api_classes: false
           convert_spaces: false
+        field_env_rating_visible_title:
+          id: field_env_rating_visible_title
+          table: taxonomy_term__field_env_rating_visible_title
+          field: field_env_rating_visible_title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: 'Visible Title'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
         changed:
           id: changed
           table: taxonomy_term_field_data
@@ -1182,72 +1302,6 @@ display:
             date_format: medium
             custom_date_format: ''
             timezone: ''
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-        weight:
-          id: weight
-          table: taxonomy_term_field_data
-          field: weight
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: taxonomy_term
-          entity_field: weight
-          plugin_id: field
-          label: Weight
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: number_integer
-          settings:
-            thousand_separator: ''
-            prefix_suffix: true
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -1420,77 +1474,22 @@ display:
             name: '0'
             changed: '0'
             weight: '0'
-        draggableviews:
-          id: draggableviews
-          table: taxonomy_term_field_data
-          field: draggableviews
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: taxonomy_term
-          entity_field: tid
-          plugin_id: draggable_views_field
-          label: 'Taxonomy term'
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          action_title: Action
-          include_exclude: exclude
-          selected_actions: {  }
       sorts:
         weight:
           id: weight
-          table: draggableviews_structure
+          table: taxonomy_term_field_data
           field: weight
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: draggable_views_sort_default
+          entity_type: taxonomy_term
+          entity_field: weight
+          plugin_id: standard
           order: ASC
           expose:
             label: ''
             field_identifier: ''
           exposed: false
-          draggable_views_reference: this
-          draggable_views_null_order: after
-          draggable_views_pass_arguments: false
       arguments:
         gid:
           id: gid
@@ -1594,7 +1593,7 @@ display:
         groups:
           1: AND
       style:
-        type: table
+        type: sortable_table
         options:
           grouping: {  }
           row_class: ''
@@ -1610,7 +1609,7 @@ display:
           default: '-1'
           info:
             name:
-              sortable: false
+              sortable: true
               default_sort_order: asc
               align: ''
               separator: ''
@@ -1662,6 +1661,7 @@ display:
           empty_table: false
           caption: ''
           description: ''
+          weight_field: weight
       row:
         type: fields
         options: {  }
@@ -1673,11 +1673,48 @@ display:
         arguments: false
         filters: false
         filter_groups: false
+        header: false
+        footer: false
       display_description: ''
+      header:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: false
+          content:
+            value: 'Drag your terms to order them. The save button will appear when you have made changes!'
+            format: wysiwyg
+          tokenize: false
+        save_sortable_changes:
+          id: save_sortable_changes
+          table: group_relationship_field_data
+          field: save_sortable_changes
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: group_relationship
+          plugin_id: save_sortable_changes
+          empty: false
+      footer:
+        save_sortable_changes:
+          id: save_sortable_changes
+          table: taxonomy_term_field_data
+          field: save_sortable_changes
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: taxonomy_term
+          plugin_id: save_sortable_changes
+          empty: false
       display_extenders: {  }
       path: group/%group/taxonomy/order-environmental-ratings
     cache_metadata:
-      max-age: 0
+      max-age: -1
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
@@ -1685,4 +1722,5 @@ display:
         - url
         - url.query_args
         - user.group_permissions
-      tags: {  }
+      tags:
+        - 'config:field.storage.taxonomy_term.field_env_rating_visible_title'
