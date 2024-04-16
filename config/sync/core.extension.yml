@@ -26,7 +26,6 @@ module:
   domain_group: 0
   domain_path: 0
   domain_path_pathauto: 0
-  draggableviews: 0
   dynamic_page_cache: 0
   ecc_microsites_redirect_dashboard: 0
   ecc_waste: 0
@@ -155,6 +154,7 @@ module:
   search_api_location_geocoder: 0
   search_api_location_views: 0
   serialization: 0
+  sortableviews: 0
   system: 0
   tablefield: 0
   taxonomy: 0
