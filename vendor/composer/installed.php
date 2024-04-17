@@ -3,7 +3,11 @@
         'name' => 'localgovdrupal/localgov_microsites_project',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
+<<<<<<< HEAD
         'reference' => '05b2328eb79c393542c06c8f8d5b89f006a9f0a8',
+=======
+        'reference' => '2b63f87cd495a1f22f923b45fff87d50aeeff673',
+>>>>>>> 06556d8153a48fae89a6377223248a9ba8e837a0
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -1178,6 +1182,15 @@
             ),
             'dev_requirement' => false,
         ),
+        'drupal/sortableviews' => array(
+            'pretty_version' => '1.1.0',
+            'version' => '1.1.0.0',
+            'reference' => '8.x-1.1',
+            'type' => 'drupal-module',
+            'install_path' => __DIR__ . '/../../web/modules/contrib/sortableviews',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'drupal/tablefield' => array(
             'pretty_version' => '2.4.0',
             'version' => '2.4.0.0',
@@ -1573,7 +1586,11 @@
         'localgovdrupal/localgov_microsites_project' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
+<<<<<<< HEAD
             'reference' => '05b2328eb79c393542c06c8f8d5b89f006a9f0a8',
+=======
+            'reference' => '2b63f87cd495a1f22f923b45fff87d50aeeff673',
+>>>>>>> 06556d8153a48fae89a6377223248a9ba8e837a0
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

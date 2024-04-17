@@ -215,6 +215,10 @@ function ecc_waste_views_pre_render(ViewExecutable $view) {
       $button_markup = '<a href="order-environmental-ratings" class="button button--primary">Order Environmental Ratings</a>';
       $view->header['area_text_custom']->options['content'] = $button_markup;
     }
+    if ($view->current_display == 'page' && !empty($view->args[1]) && $view->args[1] == 'waste_item') {
+      $button_markup = '<a href="order-waste-items" class="button button--primary">Order Waste Items</a>';
+      $view->header['area_text_custom']->options['content'] = $button_markup;
+    }
   }
 }
 

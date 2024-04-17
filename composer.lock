@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "eb8d3147833815b635f49f2c251e9503",
+    "content-hash": "fcf4c8c06b199b9157200982509319e9",
     "packages": [
         {
             "name": "anrt-tools/docksal-configuration",
@@ -6558,6 +6558,54 @@
                 "source": "http://git.drupal.org/project/search_api_location.git",
                 "issues": "https://www.drupal.org/project/issues/search_api_location",
                 "irc": "irc://irc.freenode.org/drupal-search-api"
+            }
+        },
+        {
+            "name": "drupal/sortableviews",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/sortableviews.git",
+                "reference": "8.x-1.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/sortableviews-8.x-1.1.zip",
+                "reference": "8.x-1.1",
+                "shasum": "272c8cdec60625cdb5ee4b493d297bf01e07b353"
+            },
+            "require": {
+                "drupal/core": "^8.8 || ^9 || ^10"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.1",
+                    "datestamp": "1682673199",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "DieterHolvoet",
+                    "homepage": "https://www.drupal.org/user/3567222"
+                },
+                {
+                    "name": "ibustos",
+                    "homepage": "https://www.drupal.org/user/2476894"
+                }
+            ],
+            "description": "Enables users to sort views by using drag and drop",
+            "homepage": "https://www.drupal.org/project/sortableviews",
+            "support": {
+                "source": "https://git.drupalcode.org/project/sortableviews"
             }
         },
         {
