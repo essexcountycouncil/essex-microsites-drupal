@@ -3,11 +3,7 @@
         'name' => 'localgovdrupal/localgov_microsites_project',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-<<<<<<< HEAD
-        'reference' => '05b2328eb79c393542c06c8f8d5b89f006a9f0a8',
-=======
-        'reference' => '2b63f87cd495a1f22f923b45fff87d50aeeff673',
->>>>>>> 06556d8153a48fae89a6377223248a9ba8e837a0
+        'reference' => 'cd346f6d0f1a7890983e1be53d6fcfb970af1af6',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -1586,11 +1582,7 @@
         'localgovdrupal/localgov_microsites_project' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-<<<<<<< HEAD
-            'reference' => '05b2328eb79c393542c06c8f8d5b89f006a9f0a8',
-=======
-            'reference' => '2b63f87cd495a1f22f923b45fff87d50aeeff673',
->>>>>>> 06556d8153a48fae89a6377223248a9ba8e837a0
+            'reference' => 'cd346f6d0f1a7890983e1be53d6fcfb970af1af6',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
