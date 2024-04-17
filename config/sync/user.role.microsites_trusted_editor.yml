@@ -17,6 +17,7 @@ dependencies:
     - override_node_options
     - redirect
     - replicate_ui
+    - responsive_preview
     - system
     - toolbar
     - webform_node
@@ -29,6 +30,7 @@ is_admin: null
 permissions:
   - 'access localgov_geo_library entity browser pages'
   - 'access media overview'
+  - 'access responsive preview'
   - 'access toolbar'
   - 'administer media'
   - 'administer redirects'

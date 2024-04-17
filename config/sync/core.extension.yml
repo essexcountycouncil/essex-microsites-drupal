@@ -143,6 +143,7 @@ module:
   replicate_ui: 0
   require_login: 0
   responsive_image: 0
+  responsive_preview: 0
   rest: 0
   role_delegation: 0
   schema_article: 0
