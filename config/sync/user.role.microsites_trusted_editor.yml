@@ -18,6 +18,7 @@ dependencies:
     - override_node_options
     - redirect
     - replicate_ui
+    - responsive_preview
     - system
     - toolbar
     - webform_node
@@ -31,6 +32,7 @@ permissions:
   - 'access draggableviews'
   - 'access localgov_geo_library entity browser pages'
   - 'access media overview'
+  - 'access responsive preview'
   - 'access toolbar'
   - 'administer media'
   - 'administer redirects'

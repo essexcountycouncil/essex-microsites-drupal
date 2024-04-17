@@ -179,11 +179,17 @@ abstract class PluginBase extends ComponentPluginBase implements ContainerFactor
    */
   protected function setOptionDefaults(array &$storage, array $options) {
     foreach ($options as $option => $definition) {
+
+
       if (isset($definition['contains'])) {
         $storage[$option] = [];
         $this->setOptionDefaults($storage[$option], $definition['contains']);
       }
       else {
+        if (!isset($definition['default'])) {
+          // dump($option);
+          // dump(debug_backtrace()); exit;
+        }
         $storage[$option] = $definition['default'];
       }
     }

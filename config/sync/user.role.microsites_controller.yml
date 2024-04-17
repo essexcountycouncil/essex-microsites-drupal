@@ -19,6 +19,7 @@ dependencies:
     - media
     - redirect
     - replicate_ui
+    - responsive_preview
     - role_delegation
     - system
     - toolbar
@@ -39,6 +40,7 @@ permissions:
   - 'access media overview'
   - 'access microsites overview'
   - 'access own webform configuration'
+  - 'access responsive preview'
   - 'access toolbar'
   - 'access tour'
   - 'access user profiles'
