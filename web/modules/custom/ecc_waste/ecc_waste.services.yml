@@ -8,3 +8,11 @@ services:
     class: Drupal\ecc_waste\Access\WasteAccessChecker
     tags:
       - { name: access_check, applies_to: _waste_microsite_access_check }
+
+  ecc_waste.group_node_access_control_decorator:
+    class: Drupal\ecc_waste\CustomGroupNodeAccessControlDecorator
+    decorates: 'group.relation_handler.access_control.group_node'
+    decoration_priority: 0
+    arguments: ['@ecc_waste.group_node_access_control_decorator.inner']
+    public: false
+    shared: false
