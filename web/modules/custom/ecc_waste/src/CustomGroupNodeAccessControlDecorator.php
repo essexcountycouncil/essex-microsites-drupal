@@ -25,9 +25,10 @@ class CustomGroupNodeAccessControlDecorator implements AccessControlInterface {
    * {@inheritdoc}
    */
   public function relationshipCreateAccess(GroupInterface $group, AccountInterface $account, $return_as_object = FALSE) {
-
-    if (!in_array($group->id(), $this->groups) && $this->pluginId === 'group_node:waste_disposal_option') {
-      return $return_as_object ? AccessResult::forbidden()->addCacheContexts(['user.group_permissions']) : FALSE;
+    if (!empty($this->groups)) {
+      if (!in_array($group->id(), $this->groups) && $this->pluginId === 'group_node:waste_disposal_option') {
+        return $return_as_object ? AccessResult::forbidden()->addCacheContexts(['user.group_permissions']) : FALSE;
+      }
     }
 
     return $this->parent->relationshipCreateAccess($group, $account, $return_as_object);
@@ -37,9 +38,10 @@ class CustomGroupNodeAccessControlDecorator implements AccessControlInterface {
    * {@inheritdoc}
    */
   public function entityCreateAccess(GroupInterface $group, AccountInterface $account, $return_as_object = FALSE) {
-
-    if (!in_array($group->id(), $this->groups) && $this->pluginId === 'group_node:waste_disposal_option') {
-      return $return_as_object ? AccessResult::forbidden()->addCacheContexts(['user.group_permissions']) : FALSE;
+    if (!empty($this->groups)) {
+      if (!in_array($group->id(), $this->groups) && $this->pluginId === 'group_node:waste_disposal_option') {
+        return $return_as_object ? AccessResult::forbidden()->addCacheContexts(['user.group_permissions']) : FALSE;
+      }
     }
 
     return $this->parent->entityCreateAccess($group, $account, $return_as_object);
