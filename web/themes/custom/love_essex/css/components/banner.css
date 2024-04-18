@@ -32,6 +32,10 @@
   }
 }
 
+.banner--primary .banner__image img {
+  border-radius: var(--border-radius);
+}
+
 .banner--primary .banner__content-inner {
   padding: 0;
 }

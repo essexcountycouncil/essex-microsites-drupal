@@ -1,3 +1,7 @@
+.media-with-text {
+  position: relative;
+}
+
 .media-with-text__body {
   color: var(--color-accent);
 }
@@ -29,10 +33,17 @@
   }
 }
 
+.media-with-text__link::after {
+  position: absolute;
+  inset: 0;
+  content: '';
+}
+
+/* Features Media with Text items */
 .media-with-text--featured {
   border-radius: var(--border-radius);
   border: none;
-  background-color: transparent;
+  background-color: var(--color-white);
 }
 
 .media-with-text--featured .media-with-text__media {

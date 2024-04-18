@@ -10,14 +10,15 @@ dependencies:
     - domain
     - domain_group
     - domain_path
-    - draggableviews
     - entity_browser
     - group
     - localgov_directories
+    - localgov_geo
     - localgov_microsites_group
     - media
     - redirect
     - replicate_ui
+    - responsive_preview
     - role_delegation
     - system
     - toolbar
@@ -33,11 +34,11 @@ is_admin: null
 permissions:
   - 'access administration pages'
   - 'access any webform configuration'
-  - 'access draggableviews'
   - 'access localgov_geo_library entity browser pages'
   - 'access media overview'
   - 'access microsites overview'
   - 'access own webform configuration'
+  - 'access responsive preview'
   - 'access toolbar'
   - 'access tour'
   - 'access user profiles'
@@ -59,6 +60,7 @@ permissions:
   - 'create directory facets'
   - 'create document media'
   - 'create domains'
+  - 'create geo'
   - 'create image media'
   - 'create media'
   - 'create microsite group'
@@ -67,6 +69,7 @@ permissions:
   - 'delete any webform'
   - 'delete any webform submission'
   - 'delete directory facets'
+  - 'delete geo'
   - 'delete own webform'
   - 'delete own webform submission'
   - 'delete webform submissions any node'
@@ -78,6 +81,7 @@ permissions:
   - 'edit any webform submission'
   - 'edit directory facets'
   - 'edit domain path entity'
+  - 'edit geo'
   - 'edit own document media'
   - 'edit own image media'
   - 'edit own remote_video media'

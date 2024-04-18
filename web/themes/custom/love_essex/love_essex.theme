@@ -4,3 +4,38 @@
  * @file
  * Theme function for the Love Essex theme.
  */
+use Drupal\localgov_microsites_group\Entity\MicrositeGroupInterface;
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function love_essex_preprocess_page(&$variables) {
+
+  $parent_group_id = \Drupal::service('domain_group_resolver')->getActiveDomainGroupId();
+  if ($parent_group_id) {
+    $group = \Drupal::entityTypeManager()->getStorage('group')->load($parent_group_id);
+  }
+  if (empty($group)) {
+    $group = \Drupal::request()->attributes->get('group');
+  }
+
+  // We have 2 different logos, one for the home page and one for other pages.
+  // However, we only have 1 logo field, so we are going to override that field
+  // with the 2 logos stored in the theme instead.
+  if ($group instanceof MicrositeGroupInterface) {
+    if ($variables['is_front']) {
+      $variables['microsites']['header']['items']['lgms_main_logo'] = [
+        '#theme' => 'image',
+        '#uri' => '/themes/custom/love_essex/assets/images/logos/love-essex-logo-white.png',
+        '#alt' => t('Love Essex'),
+      ];
+    } else {
+      $variables['microsites']['header']['items']['lgms_main_logo'] = [
+        '#theme' => 'image',
+        '#uri' => '/themes/custom/love_essex/assets/images/logos/love-essex-logo-transparent.png',
+        '#alt' => t('Love Essex'),
+      ];
+    }
+
+  }
+}

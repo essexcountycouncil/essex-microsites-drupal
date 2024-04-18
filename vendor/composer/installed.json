@@ -7472,6 +7472,69 @@
             "install-path": "../../web/modules/contrib/require_login"
         },
         {
+            "name": "drupal/responsive_preview",
+            "version": "2.1.1",
+            "version_normalized": "2.1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/responsive_preview.git",
+                "reference": "2.1.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/responsive_preview-2.1.1.zip",
+                "reference": "2.1.1",
+                "shasum": "cfc9599aaf3d6cd60ffd4c90c3cc2933c103bc2c"
+            },
+            "require": {
+                "drupal/core": "^9.2 || ^10"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "2.1.1",
+                    "datestamp": "1687782148",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "installation-source": "dist",
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "chr.fritsch",
+                    "homepage": "https://www.drupal.org/user/2103716"
+                },
+                {
+                    "name": "eatings",
+                    "homepage": "https://www.drupal.org/user/105524"
+                },
+                {
+                    "name": "jessebeach",
+                    "homepage": "https://www.drupal.org/user/748566"
+                },
+                {
+                    "name": "Rajeshreeputra",
+                    "homepage": "https://www.drupal.org/user/3418561"
+                },
+                {
+                    "name": "willzyx",
+                    "homepage": "https://www.drupal.org/user/1043862"
+                }
+            ],
+            "description": "Provides a component that previews a page in various device dimensions.",
+            "homepage": "https://www.drupal.org/project/responsive_preview",
+            "support": {
+                "source": "https://git.drupalcode.org/project/responsive_preview"
+            },
+            "install-path": "../../web/modules/contrib/responsive_preview"
+        },
+        {
             "name": "drupal/role_delegation",
             "version": "1.2.0",
             "version_normalized": "1.2.0.0",
@@ -7795,6 +7858,57 @@
                 "irc": "irc://irc.freenode.org/drupal-search-api"
             },
             "install-path": "../../web/modules/contrib/search_api_location"
+        },
+        {
+            "name": "drupal/sortableviews",
+            "version": "1.1.0",
+            "version_normalized": "1.1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/sortableviews.git",
+                "reference": "8.x-1.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/sortableviews-8.x-1.1.zip",
+                "reference": "8.x-1.1",
+                "shasum": "272c8cdec60625cdb5ee4b493d297bf01e07b353"
+            },
+            "require": {
+                "drupal/core": "^8.8 || ^9 || ^10"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.1",
+                    "datestamp": "1682673199",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "installation-source": "dist",
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "DieterHolvoet",
+                    "homepage": "https://www.drupal.org/user/3567222"
+                },
+                {
+                    "name": "ibustos",
+                    "homepage": "https://www.drupal.org/user/2476894"
+                }
+            ],
+            "description": "Enables users to sort views by using drag and drop",
+            "homepage": "https://www.drupal.org/project/sortableviews",
+            "support": {
+                "source": "https://git.drupalcode.org/project/sortableviews"
+            },
+            "install-path": "../../web/modules/contrib/sortableviews"
         },
         {
             "name": "drupal/tablefield",

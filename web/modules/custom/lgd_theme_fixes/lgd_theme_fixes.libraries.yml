@@ -1,0 +1,4 @@
+ckeditor_link_dialog:
+  css:
+    theme:
+      css/ckeditor_link_dialog.css: {}

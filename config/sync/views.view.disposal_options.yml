@@ -1047,9 +1047,9 @@ display:
           inherit_arguments: false
       exposed_block: true
       display_extenders: {  }
-      path: disposal-options/search
+      path: disposal-options
       menu:
-        type: 'default tab'
+        type: none
         title: Search
         description: ''
         weight: 0
@@ -1080,6 +1080,7 @@ display:
     display_plugin: page
     position: 2
     display_options:
+      enabled: false
       fields:
         title:
           id: title

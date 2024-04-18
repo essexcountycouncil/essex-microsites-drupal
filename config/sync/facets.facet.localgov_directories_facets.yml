@@ -46,9 +46,14 @@ processor_configs:
   display_value_widget_order:
     processor_id: display_value_widget_order
     weights:
-      build: 40
+      sort: -7
     settings:
       sort: ASC
+  hierarchy_processor:
+    processor_id: hierarchy_processor
+    weights:
+      build: 100
+    settings: {  }
   translate_entity:
     processor_id: translate_entity
     weights:
@@ -63,4 +68,6 @@ processor_configs:
   weight_property_order:
     processor_id: weight_property_order
     weights:
-      build: -5
+      sort: -8
+    settings:
+      sort: ASC
