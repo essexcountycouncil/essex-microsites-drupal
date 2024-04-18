@@ -17,16 +17,12 @@ class EccWasteRouteSubscriber extends RouteSubscriberBase {
    * {@inheritdoc}
    */
   protected function alterRoutes(RouteCollection $collection) {
-// dpm(\Drupal::routeMatch()->getRouteName());
+
     foreach ($collection->all() as $id => $route) {
       if ($id === 'entity.group_relationship.create_form') {
         // Alter the access requirements for the route.
         $route->setRequirement('_custom_access', 'access_check.ecc_waste.microsite:access');
       }
-      // // Hide taxonomy pages from unprivileged users.
-      // if (strpos($route->getPath(), '/taxonomy/term') === 0) {
-      //   $route->setRequirement('_role', 'administrator');
-      // }
     }
   }
 
