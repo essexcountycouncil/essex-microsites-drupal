@@ -93,7 +93,7 @@ function ecc_waste_preprocess_node (&$variables) {
       }
 
       $variables['content']['distance']['#markup'] = $distance_markup;
-      $variables['#cache']['contexts'][] = 'session.exists';
+      $variables['#cache']['contexts'][] = 'session';
     }
   }
 }
