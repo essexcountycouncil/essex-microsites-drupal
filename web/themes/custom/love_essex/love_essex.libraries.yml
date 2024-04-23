@@ -44,6 +44,14 @@ step-by-step:
     theme:
       css/components/step-by-step.css: {}
 
+# Blocks
+directory-facets-block:
+  css:
+    theme:
+      css/components/directory-facets-block.css: {}
+  js:
+    js/directory-facets-block.js: {}
+
 # Paragraphs
 page-sections:
   css:
@@ -81,7 +89,6 @@ call-to-action:
       css/components/call-to-action.css: {}
 
 # View modes
-
 teaser:
   css:
     theme:
