@@ -56,6 +56,11 @@ featured-teasers:
     theme:
       css/components/featured-teasers.css: {}
 
+image-with-caption:
+  css:
+    theme:
+      css/components/image-with-caption.css: {}
+
 banner:
   css:
     theme:

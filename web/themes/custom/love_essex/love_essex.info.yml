@@ -30,6 +30,8 @@ libraries-extend:
     - love_essex/wysiwyg-styles
   localgov_base/step-by-step:
     - essex_microsites_base/step-by-step
+  localgov_base/image-with-caption:
+    - love_essex/image-with-caption
 
 regions:
   tabs: "Tabs"
