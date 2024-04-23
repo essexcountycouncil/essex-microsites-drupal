@@ -1,0 +1,20 @@
+ecc_waste.view.apply_waste_items_to_options.page_1:
+  route_name: 'view.apply_waste_items_to_options.page_1'
+  title: 'Add waste item to disposal options'
+  appears_on:
+    - 'view.group_nodes.page_1'
+    - 'view.group_nodes.microsite_page'
+
+ecc_waste.view.disposal_option_admin.page_1:
+  route_name: 'view.disposal_option_admin.page_1'
+  title: 'Disposal Options Admin'
+  appears_on:
+    - 'view.group_nodes.page_1'
+    - 'view.group_nodes.microsite_page'
+
+ecc_waste.view.group_nodes.page_1:
+  route_name: 'view.group_nodes.page_1'
+  title: 'Back to content'
+  appears_on:
+    - 'view.apply_waste_items_to_options.page_1'
+    - 'view.disposal_option_admin.page_1'
