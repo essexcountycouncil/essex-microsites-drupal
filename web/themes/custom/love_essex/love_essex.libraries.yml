@@ -33,6 +33,10 @@ breadcrumbs:
     theme:
       css/components/breadcrumbs.css: {}
 
+sidebar:
+  css:
+    theme:
+      css/components/sidebar.css: {}
 
 # Content types
 step-by-step:
@@ -75,6 +79,13 @@ call-to-action:
   css:
     theme:
       css/components/call-to-action.css: {}
+
+# View modes
+
+teaser:
+  css:
+    theme:
+      css/components/teaser.css: {}
 
 # Utilities
 wysiwyg-styles:

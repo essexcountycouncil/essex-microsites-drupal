@@ -23,6 +23,8 @@ libraries-extend:
     - love_essex/banner
   localgov_microsites_base/media-with-text:
     - love_essex/media-with-text
+  localgov_microsites_base/sidebar:
+    - love_essex/sidebar
   # Localgov Base Overrides
   localgov_base/breadcrumbs:
   - love_essex/breadcrumbs
@@ -32,6 +34,8 @@ libraries-extend:
     - essex_microsites_base/step-by-step
   localgov_base/image-with-caption:
     - love_essex/image-with-caption
+  localgov_base/teaser:
+    - love_essex/teaser
 
 regions:
   tabs: "Tabs"
