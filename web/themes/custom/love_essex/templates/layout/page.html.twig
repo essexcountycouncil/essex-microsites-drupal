@@ -175,10 +175,10 @@
   <footer class="microsite-footer">
     <div class="lgd-container padding-horizontal">
     <div class="microsite-footer__top">
-      {% if microsites.header.items.lgms_main_logo %}
+      {% if microsites.footer.items.lgms_main_logo %}
           <div class="microsite-footer__logo">
             <a href="/">
-              {{ microsites.header.items.lgms_main_logo }}
+              {{ microsites.footer.items.lgms_main_logo }}
             </a>
           </div>
       {% endif %}
@@ -189,7 +189,7 @@
               <span class="visually-hidden">facebook</span>
               {% include "@localgov_base/includes/icons/icon.html.twig" with {
                   theme: 'localgov_base',
-                  icon_name: 'facebook-square',
+                  icon_name: 'facebook',
                   icon_classes: 'lgd-icon--larger',
                 }
               %}
@@ -200,7 +200,7 @@
               <span class="visually-hidden">twitter</span>
               {% include "@localgov_base/includes/icons/icon.html.twig" with {
                   theme: 'localgov_base',
-                  icon_name: 'twitter-square',
+                  icon_name: 'twitter',
                   icon_classes: 'lgd-icon--larger',
                 }
               %}
@@ -211,7 +211,7 @@
               <span class="visually-hidden">instagram</span>
               {% include "@localgov_base/includes/icons/icon.html.twig" with {
                   theme: 'localgov_base',
-                  icon_name: 'instagram-square',
+                  icon_name: 'instagram',
                   icon_classes: 'lgd-icon--larger',
                 }
               %}
@@ -222,7 +222,7 @@
               <span class="visually-hidden">youtube</span>
               {% include "@localgov_base/includes/icons/icon.html.twig" with {
                   theme: 'localgov_base',
-                  icon_name: 'youtube-square',
+                  icon_name: 'youtube',
                   icon_classes: 'lgd-icon--larger',
                 }
               %}
