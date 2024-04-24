@@ -68,9 +68,13 @@
 				{% if media_position == 'left' or media_position == 'top' %}
 					<div class="media-with-text__media">
 						{% if paragraph.field_rounded_image.value == "1" %}
-							{{ drupal_entity('media', media_id, 'square') }}
+							{% if media_id %}
+								{{ drupal_entity('media', media_id, 'square') }}
+							{% endif %}
 							{% else %}
-								{{ drupal_entity('media', media_id) }}
+								{% if media_id %}
+									{{ drupal_entity('media', media_id) }}
+								{% endif %}
 						{% endif %}
 					</div>
 					<div class="media-with-text__body">
@@ -86,9 +90,13 @@
 					</div>
 					<div class="media-with-text__media">
 						{% if paragraph.field_rounded_image.value == "1" %}
-							{{ drupal_entity('media', media_id, 'square') }}
+							{% if media_id %}
+								{{ drupal_entity('media', media_id, 'square') }}
+							{% endif %}
 							{% else %}
-								{{ drupal_entity('media', media_id) }}
+								{% if media_id %}
+									{{ drupal_entity('media', media_id) }}
+								{% endif %}
 						{% endif %}
 					</div>
 				{% endif %}
