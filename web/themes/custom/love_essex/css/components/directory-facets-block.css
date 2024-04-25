@@ -1,0 +1,21 @@
+.directory-facets-block__button {
+  margin-bottom: var(--spacing-mega);
+  padding-left: 0;
+  line-height: var(--line-height-small);
+  font-size: var(--font-size-h3);
+  font-weight: var(--heading-3-font-weight);
+  font-family: var(--font-heading-3);
+  border: none;
+  background-color: transparent;
+  color: var(--color-black);
+  &:hover,  &:focus {
+    border: none;
+    background-color: transparent;
+    color: var(--color-black);
+  }
+}
+
+.directory-facets-block__button[aria-expanded="true"] > .directory-facets-block__button-icon {
+  display: inline-block;
+  transform: rotate(90deg);
+}

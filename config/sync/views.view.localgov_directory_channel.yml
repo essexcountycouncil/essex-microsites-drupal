@@ -726,6 +726,8 @@ display:
         type: none
       defaults:
         cache: false
+        css_class: false
+      css_class: 'view--teasers lgd-teaser-list'
       display_extenders: {  }
     cache_metadata:
       max-age: -1

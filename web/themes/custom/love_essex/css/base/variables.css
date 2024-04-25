@@ -56,6 +56,7 @@ body {
   --menu-main-font-size: var(--font-size);
   --footer-background-color: var(--color-grey-darkest);
   --footer-grid-column-justification: start;
+  --footer-grid-column-spacing: var(--grid-column-spacing);
   --color-page-section-background-color-3: var(--color-accent-3);
   --color-page-section-background-color-3-text-color: var(--color-accent-3-contrast);
 }

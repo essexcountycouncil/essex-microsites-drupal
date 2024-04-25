@@ -33,12 +33,24 @@ breadcrumbs:
     theme:
       css/components/breadcrumbs.css: {}
 
+sidebar:
+  css:
+    theme:
+      css/components/sidebar.css: {}
 
 # Content types
 step-by-step:
   css:
     theme:
       css/components/step-by-step.css: {}
+
+# Blocks
+directory-facets-block:
+  css:
+    theme:
+      css/components/directory-facets-block.css: {}
+  js:
+    js/directory-facets-block.js: {}
 
 # Paragraphs
 page-sections:
@@ -56,6 +68,11 @@ featured-teasers:
     theme:
       css/components/featured-teasers.css: {}
 
+image-with-caption:
+  css:
+    theme:
+      css/components/image-with-caption.css: {}
+
 banner:
   css:
     theme:
@@ -70,6 +87,12 @@ call-to-action:
   css:
     theme:
       css/components/call-to-action.css: {}
+
+# View modes
+teaser:
+  css:
+    theme:
+      css/components/teaser.css: {}
 
 # Utilities
 wysiwyg-styles:

@@ -36,6 +36,12 @@ function love_essex_preprocess_page(&$variables) {
         '#alt' => t('Love Essex'),
       ];
     }
+    // check what region we are in
+    $variables['microsites']['footer']['items']['lgms_main_logo'] = [
+      '#theme' => 'image',
+      '#uri' => '/themes/custom/love_essex/assets/images/logos/love-essex-logo-white.png',
+      '#alt' => t('Love Essex'),
+    ];
 
   }
 }

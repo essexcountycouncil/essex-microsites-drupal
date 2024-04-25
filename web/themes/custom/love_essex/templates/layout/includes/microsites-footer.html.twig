@@ -18,6 +18,7 @@
 {%
   set footer_classes = [
     'region-microsites-footer',
+    'lgd-region',
     microsites.footer.width.content_centered ? 'lgd-container' : '',
   ]
 %}
@@ -41,73 +42,68 @@
 <div{{ footer_attributes.addClass(footer_classes) }}>
 
 {% if microsites.footer.width.full_width_content_contained %}
-  <div class="lgd-container padding-horizontal">
+  <div class="lgd-container">
 {% endif %}
-  <div class="lgd-region__inner lgd-region__inner--{{ region|clean_class }}">
+  <div class="lgd-region__inner lgd-region__inner--region-microsites-footer">
 
-{% if microsites.footer.items.lgms_footer_text_block_1 or microsites.footer.items.lgms_footer_text_block_2 or microsites.footer.items.lgms_footer_text_block_3 or microsites.footer.items.lgms_footer_text_block_4 %}
-  <div class="lgd-row">
-    {# Begin Footer text blocks #}
-      {% if microsites.footer.items.lgms_footer_text_block_1 %}
-        <div class="lgd-row__one-quarter">
-          <div class="microsite-footer__block microsite-footer__text-block microsite-footer__text-block--1">
-            {{ microsites.footer.items.lgms_footer_text_block_1 }}
-          </div>
-        </div>
-      {% endif %}
-      {% if microsites.footer.items.lgms_footer_text_block_2 %}
-        <div class="lgd-row__one-quarter">
-          <div class="microsite-footer__block microsite-footer__text-block microsite-footer__text-block--2">
-            {{ microsites.footer.items.lgms_footer_text_block_2 }}
-          </div>
-        </div>
-      {% endif %}
-      {% if microsites.footer.items.lgms_footer_text_block_3 %}
-        <div class="lgd-row__one-quarter">
-          <div class="microsite-footer__block microsite-footer__text-block microsite-footer__text-block--3">
-            {{ microsites.footer.items.lgms_footer_text_block_3 }}
-          </div>
-        </div>
-      {% endif %}
-      {% if microsites.footer.items.lgms_footer_text_block_4 %}
-        <div class="lgd-row__one-quarter">
-          <div class="microsite-footer__block microsite-footer__text-block microsite-footer__text-block--4">
-            {{ microsites.footer.items.lgms_footer_text_block_4 }}
-          </div>
-        </div>
-      {% endif %}
-    {# End Footer text blocks #}
-  </div>
-{% endif %}
+    {% if microsites.footer.items.lgms_footer_text_block_1 or microsites.footer.items.lgms_footer_text_block_2 or microsites.footer.items.lgms_footer_text_block_3 or microsites.footer.items.lgms_footer_text_block_4 %}
+      <div class="lgd-row lgd-row--microsites-footer-1">
+        {# Begin Footer text blocks #}
+          {% if microsites.footer.items.lgms_footer_text_block_1 %}
+            <div class="lgd-row__one-half">
+              <div class="microsite-footer__block microsite-footer__text-block microsite-footer__text-block--1">
+                {{ microsites.footer.items.lgms_footer_text_block_1 }}
+              </div>
+            </div>
+          {% endif %}
+          {% if microsites.footer.items.lgms_footer_text_block_2 %}
+            <div class="lgd-row__one-half">
+              <div class="microsite-footer__block microsite-footer__text-block microsite-footer__text-block--2">
+                {{ microsites.footer.items.lgms_footer_text_block_2 }}
+              </div>
+            </div>
+          {% endif %}
+          {% if microsites.footer.items.lgms_footer_text_block_3 %}
+            <div class="lgd-row__one-half">
+              <div class="microsite-footer__block microsite-footer__text-block microsite-footer__text-block--3">
+                {{ microsites.footer.items.lgms_footer_text_block_3 }}
+              </div>
+            </div>
+          {% endif %}
+          {% if microsites.footer.items.lgms_footer_text_block_4 %}
+            <div class="lgd-row__one-half">
+              <div class="microsite-footer__block microsite-footer__text-block microsite-footer__text-block--4">
+                {{ microsites.footer.items.lgms_footer_text_block_4 }}
+              </div>
+            </div>
+          {% endif %}
+        {# End Footer text blocks #}
+      </div>
+    {% endif %}
 
-  {# Begin Footer Housekeeping Menu #}
     {% if has_footer_menu %}
-      <div class="lgd-row">
-        <div class="lgd-row__full">
+      <div class="lgd-row lgd-row--microsites-footer-2">
+        {# Begin Footer Housekeeping Menu #}
+        <div class="lgd-row__three-thirds">
           <div class="microsite-footer__block microsite-footer__housekeeping">
           {{ page.footer_menu }}
           </div>
         </div>
-      </div>
-    {% endif %}
-
-  {# End Footer Housekeeping Menu #}
-
-  {# Begin Footer Copyright Notice #}
-    {% if microsites.footer.items.lgms_footer_copyright_notice %}
-      <div class="lgd-row">
-        <div class="lgd-row__full">
-          <div class="microsite-footer__block microsite-footer__copyright">
-          {{ microsites.footer.items.lgms_footer_copyright_notice }}
+        {# End Footer Housekeeping Menu #}
+        {# Begin Footer Copyright Notice #}
+        {% if microsites.footer.items.lgms_footer_copyright_notice %}
+          <div class="lgd-row__three-thirds">
+            <div class="microsite-footer__block microsite-footer__copyright">
+              {{ microsites.footer.items.lgms_footer_copyright_notice }}
+            </div>
           </div>
-        </div>
+        {% endif %}
+        {# End Footer Copyright Notice #}
       </div>
     {% endif %}
-  {# End Footer Copyright Notice #}
-
     {# Begin Footer Powered By #}
       {% if microsites.footer.items.lgms_powered_by %}
-        <div class="lgd-row">
+        <div class="lgd-row lgd-row--microsites-footer-3">
           <div class="lgd-row__full">
             <div class="microsite-footer__block microsite-footer__powered_by">
             {{ microsites.footer.items.lgms_powered_by }}

@@ -1,0 +1,7 @@
+.view-localgov-directory-channel.lgd-teaser-list .views-row {
+  margin-top: var(--vertical-rhythm-spacing);
+}
+
+.lgd-teaser .field--name-body > *:last-child {
+  margin-bottom: 0;
+}

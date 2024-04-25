@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Default theme implementation to display a Media with text paragraph.
+ * Default theme implementation to display a Featured teaser paragraph.
  *
  * Available variables:
  * - paragraph: Full paragraph entity.
@@ -33,74 +33,69 @@
  * - is_admin: Flag for admin user status. Will be true when the current user
  *   is an administrator.
  * - heading: Title (heading element).
- * - link: Link element.
- * - media_position: Postion of the media item in the paragraph (Media position
- *   field's value: 'top', 'bottom', 'left' or 'right').
- * - style: Paragraph's style (Style field's value: 'default' or 'featured').
  *
  * @see template_preprocess_paragraph()
  *
  * @ingroup themeable
  */
 #}
+
+{% if not localgov_base_remove_css %}
+  {{ attach_library('localgov_base/featured-teasers') }}
+{% endif %}
+
 {%
   set classes = [
+    'featured-teaser',
+    paragraph.localgov_image.value ? 'featured-teaser--has-image',
     'paragraph',
     'paragraph--type--' ~ paragraph.bundle|clean_class,
     view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
     not paragraph.isPublished() ? 'paragraph--unpublished',
-    'media-with-text',
-    'media-with-text--' ~ style|clean_class,
-    'media-with-text--media-' ~ media_position|clean_class,
-    media_size ? 'media-with-text--media-' ~ media_size|clean_class,
-		paragraph.field_rounded_image.value == "1" ? 'media-with-text--rounded-image'
   ]
 %}
 
-{{ attach_library('localgov_base/media-with-text') }}
+<div{{ attributes.addClass(classes) }}>
 
-{% set media_id = paragraph.localgov_media_item.entity.mid.value %}
+  {% if paragraph.localgov_image.value %}
+    <div class="featured-teaser__image">
+      {{ content.localgov_image }}
+    </div>
+  {% endif %}
 
-{% block paragraph %}
-	<section{{attributes.addClass(classes)}}>
-		<div class="media-with-text__inner">
-			{% block content %}
-				{% if media_position == 'left' or media_position == 'top' %}
-					<div class="media-with-text__media">
-						{% if paragraph.field_rounded_image.value == "1" %}
-							{% if media_id %}
-								{{ drupal_entity('media', media_id, 'square') }}
-							{% endif %}
-							{% else %}
-								{% if media_id %}
-									{{ drupal_entity('media', media_id) }}
-								{% endif %}
-						{% endif %}
-					</div>
-					<div class="media-with-text__body">
-						{{ heading }}
-						{{ content.localgov_text }}
-						{{ link }}
-					</div>
-				{% else %}
-					<div class="media-with-text__body">
-						{{ heading }}
-						{{ content.localgov_text }}
-						{{ link }}
-					</div>
-					<div class="media-with-text__media">
-						{% if paragraph.field_rounded_image.value == "1" %}
-							{% if media_id %}
-								{{ drupal_entity('media', media_id, 'square') }}
-							{% endif %}
-							{% else %}
-								{% if media_id %}
-									{{ drupal_entity('media', media_id) }}
-								{% endif %}
-						{% endif %}
-					</div>
-				{% endif %}
-			{% endblock %}
-		</div>
-	</section>
-{% endblock paragraph %}
+  <div class="featured-teaser__content">
+    {% if heading %}
+      <div class="featured-teaser__heading">
+        {{ heading }}
+      </div>
+    {% endif %}
+
+    {{ content|without('localgov_image', 'localgov_link') }}
+
+    {#
+      When a featured teaser has a link, the whole teaser must be clickable.
+      However, we want the option to sometimes have a link but not the link text
+      to be visible on the page.
+
+      Drupal outputs the link title to be the same value as the link URL in the
+      case of a link field not having the title set, so it's hard to check if
+      there is no link title.
+
+      The check we are doing here is to check if the URL and title are identical.
+      If it is, then we are going to assume this is a link without a title, and
+      so should not be visible on the page, but should still allow the full
+      teaser to be clickable. If this is false, we'll assume we have a link
+      with a URL and title and print the full item.
+    #}
+    {% if content.localgov_link.0['#url'].toString() == content.localgov_link.0['#title'] %}
+      <div class="field--name-localgov-link">
+        <a href="{{ content.localgov_link.0['#url'] }}">
+          <span class="visually-hidden">{{ content.localgov_link.0['#title'] }}</span>
+        </a>
+      </div>
+    {% else %}
+      {{ content.localgov_link}}
+    {% endif %}
+  </div>
+
+</div>
