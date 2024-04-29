@@ -1,0 +1,21 @@
+uuid: 870a25cb-09fc-4885-b7f5-59bb73332fd6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_text_bg_colour
+    - paragraphs.paragraphs_type.localgov_text
+  module:
+    - options
+id: paragraph.localgov_text.field_text_bg_colour
+field_name: field_text_bg_colour
+entity_type: paragraph
+bundle: localgov_text
+label: 'Background colour'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

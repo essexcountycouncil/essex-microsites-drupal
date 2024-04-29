@@ -1,3 +1,41 @@
+.full .text-component {
+  max-width: var(--width-restricted-width-section);
+}
+.full .text-component--full-width {
+  max-width: 100%;
+}
+
 .full .text-component--full-width .field--name-localgov-text {
   max-width: 100%;
+}
+
+.text-component--has-bg-colour {
+  padding: var(--spacing-largest);
+  border-radius: var(--border-radius);
+}
+
+.text-component--bg-text-bg-colour-1 {
+  background-color: var(--color-accent);
+  color: var(--color-white);
+}
+.text-component--bg-text-bg-colour-2 {
+  background-color: var(--color-accent-2);
+  color: var(--color-white);
+}
+.text-component--bg-text-bg-colour-3 {
+  background-color: var(--color-white);
+  color: var(--color-black);
+}
+.text-component--bg-text-bg-colour-4 {
+  background-color: var(--color-accent-lightest);
+  color: var(--color-black);
+}
+
+.text-component--has-bg-colour.text-component--bg-text-bg-colour-1 :where(h1, h2, h3, h4 ,h5, h6),
+.text-component--has-bg-colour.text-component--bg-text-bg-colour-2 :where(h1, h2, h3, h4 ,h5, h6) {
+  color: var(--color-white);
+}
+.text-component--has-bg-colour.text-component--bg-text-bg-colour-3 :where(h1, h2, h3, h4 ,h5, h6),
+.text-component--has-bg-colour.text-component--bg-text-bg-colour-4 :where(h1, h2, h3, h4 ,h5, h6) {
+  color: var(--color-black);
 }

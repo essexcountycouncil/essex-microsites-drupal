@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.localgov_text.field_text_bg_colour
     - field.field.paragraph.localgov_text.field_text_full_width
     - field.field.paragraph.localgov_text.localgov_text
     - paragraphs.paragraphs_type.localgov_text
@@ -23,5 +24,6 @@ content:
     weight: 0
     region: content
 hidden:
+  field_text_bg_colour: true
   field_text_full_width: true
   search_api_excerpt: true

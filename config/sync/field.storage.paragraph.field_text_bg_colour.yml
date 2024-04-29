@@ -1,0 +1,33 @@
+uuid: 15b86936-a5aa-4d80-adab-48ddba74bc80
+langcode: en
+status: true
+dependencies:
+  module:
+    - options
+    - paragraphs
+id: paragraph.field_text_bg_colour
+field_name: field_text_bg_colour
+entity_type: paragraph
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: text-bg-colour-3
+      label: White
+    -
+      value: text-bg-colour-4
+      label: Light
+    -
+      value: text-bg-colour-1
+      label: 'Accent 1'
+    -
+      value: text-bg-colour-2
+      label: 'Accent 2'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

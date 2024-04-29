@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.localgov_text.field_text_bg_colour
     - field.field.paragraph.localgov_text.field_text_full_width
     - field.field.paragraph.localgov_text.localgov_text
     - paragraphs.paragraphs_type.localgov_text
@@ -15,6 +16,12 @@ targetEntityType: paragraph
 bundle: localgov_text
 mode: default
 content:
+  field_text_bg_colour:
+    type: options_select
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_text_full_width:
     type: boolean_checkbox
     weight: 0
@@ -24,7 +31,7 @@ content:
     third_party_settings: {  }
   localgov_text:
     type: text_textarea
-    weight: 1
+    weight: 2
     region: content
     settings:
       rows: 5

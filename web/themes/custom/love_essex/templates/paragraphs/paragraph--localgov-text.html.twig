@@ -45,10 +45,16 @@
   {% set full_width = true %}
 {% endif %}
 
+{% if paragraph.field_text_bg_colour.value %}
+  {% set bg_colour = paragraph.field_text_bg_colour.value %}
+{% endif %}
+
 {%
   set classes = [
     'text-component',
     full_width ? 'text-component--full-width',
+    bg_colour ? 'text-component--has-bg-colour',
+    bg_colour ? 'text-component--bg-' ~ bg_colour,
     'paragraph',
     'paragraph--type--' ~ paragraph.bundle|clean_class,
     view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
