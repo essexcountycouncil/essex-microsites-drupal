@@ -36,6 +36,8 @@ libraries-extend:
     - love_essex/image-with-caption
   localgov_base/teaser:
     - love_essex/teaser
+  localgov_base/news:
+    - love_essex/news
 
 regions:
   tabs: "Tabs"

@@ -44,6 +44,11 @@ step-by-step:
     theme:
       css/components/step-by-step.css: {}
 
+news:
+  css:
+    theme:
+      css/components/news.css: {}
+
 # Blocks
 directory-facets-block:
   css:

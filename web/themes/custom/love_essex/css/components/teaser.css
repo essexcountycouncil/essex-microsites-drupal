@@ -5,3 +5,7 @@
 .lgd-teaser .field--name-body > *:last-child {
   margin-bottom: 0;
 }
+
+.lgd-teaser-list .views-row {
+  border-color: var(--color-grey-light);
+}

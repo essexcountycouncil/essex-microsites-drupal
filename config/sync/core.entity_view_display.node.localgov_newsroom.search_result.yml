@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.search_result
+    - field.field.node.localgov_newsroom.field_body
     - field.field.node.localgov_newsroom.localgov_newsroom_featured
     - node.type.localgov_newsroom
   module:
@@ -25,6 +26,7 @@ content:
     region: content
 hidden:
   content_moderation_control: true
+  field_body: true
   links: true
   localgov_news_facets: true
   localgov_news_search: true

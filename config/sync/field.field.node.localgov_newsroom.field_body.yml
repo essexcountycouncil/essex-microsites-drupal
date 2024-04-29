@@ -1,0 +1,21 @@
+uuid: ebe9c3df-1999-49a3-b87f-aba5d896dabc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_body
+    - node.type.localgov_newsroom
+  module:
+    - text
+id: node.localgov_newsroom.field_body
+field_name: field_body
+entity_type: node
+bundle: localgov_newsroom
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

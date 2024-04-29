@@ -5,3 +5,7 @@
 .sidebar .facet-group__title ~ .facet-group__title {
   margin-top: var(--spacing-largest);
 }
+
+aside.lgd-row__one-third {
+  border-color: var(--color-grey-light);
+}

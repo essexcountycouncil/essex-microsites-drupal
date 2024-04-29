@@ -1,0 +1,11 @@
+{#
+  The only reason we need this file is because it's defined in the
+  news module, so we need this to override the one that comes with
+  that module.
+#}
+
+{% if node.localgov_news_date.value %}
+  {% set teaser_date = content.localgov_news_date %}
+{% endif %}
+
+{% include "node--teaser.html.twig" %}
