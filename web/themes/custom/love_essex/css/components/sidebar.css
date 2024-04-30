@@ -1,3 +1,15 @@
+/*
+  This padding is added via localgov_base, but for some reason when CSS
+  aggregation is turned on, the padding is not applied. This is a temporary
+  fix until we can figure out why the padding is not being applied.
+*/
+.sidebar .lgd-region__inner > *,
+.blog-channel__sidebar > *,
+.newsroom__sidebar > * {
+  padding: var(--sidebar-exposed-form-padding-vertical)
+    var(--sidebar-exposed-form-padding-horizontal);
+}
+
 .sidebar .facet-group__title {
   margin-bottom: var(--spacing-large);
 }
