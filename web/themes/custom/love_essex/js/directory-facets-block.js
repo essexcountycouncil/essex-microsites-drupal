@@ -46,6 +46,22 @@
           }
         });
       }
+
+      // Currently you see no results when you do a search, because they are
+      // down the page a bit. This will scroll the user to the map when they
+      // search.
+      const url = window.location;
+      // If url contains a ? query string, then we know that the user has
+      // searched for something
+      if (url.search) {
+        // Scroll to map.
+        const map = document.querySelector("#leaflet-map-view-localgov-directory-channel-embed-map");
+        map.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+
     },
   };
 })(Drupal);
