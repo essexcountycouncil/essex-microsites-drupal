@@ -16,7 +16,7 @@ missing_label: others
 url_alias: localgov_directories_facets
 facet_source_id: 'search_api:views_embed__localgov_directory_channel__node_embed'
 field_identifier: localgov_directory_facets_filter
-query_operator: or
+query_operator: and
 hard_limit: 0
 exclude: false
 use_hierarchy: false
