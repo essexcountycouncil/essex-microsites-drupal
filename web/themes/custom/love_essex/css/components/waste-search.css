@@ -1,11 +1,30 @@
 .paragraph--type--waste-search .views-exposed-form form .form-submit {
   border: 2px solid var(--color-accent-light);
+  background-image: url('../../assets/images/icons/magnifying-glass-white.svg');
+  background-repeat: no-repeat;
+  background-size: 50% 50%;
+  background-position: right center;
+  padding-right: 4em;
 }
-
-.paragraph--type--waste-search .views-exposed-form form .form-item {
-  max-width: 30%;
+.paragraph--type--waste-search .views-exposed-form form .form-submit:hover {
+  background-image: url('../../assets/images/icons/magnifying-glass-black.svg');
 }
 
 .paragraph--type--waste-search .views-exposed-form form {
-  justify-content: flex-start;
+  display: block;
+}
+.paragraph--type--waste-search .views-exposed-form form .form-item {
+  margin-bottom: 0.5em;
+}
+@media screen and (min-width: 1024px) {
+  .paragraph--type--waste-search .views-exposed-form form {
+    display: flex;
+    justify-content: flex-start;
+  }
+  .paragraph--type--waste-search .views-exposed-form form .form-item {
+    max-width: 30%;
+  }
+  .paragraph--type--waste-search .views-exposed-form form .form-item {
+    margin-bottom: 0;
+  }
 }
