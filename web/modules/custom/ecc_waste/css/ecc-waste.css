@@ -23,3 +23,20 @@
 .term-environmental-rating h2 {
   display: none;
 }
+
+.paragraph--type--waste-search .views-exposed-form h2,
+.paragraph--type--waste-search .views-exposed-form .description {
+  display: none;
+}
+.paragraph--type--waste-search .views-exposed-form form {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1em;
+}
+.paragraph--type--waste-search .views-exposed-form form .form-item {
+  margin-bottom: 0;
+}
+.paragraph--type--waste-search .views-exposed-form form .form-submit {
+  border: 2px solid black;
+}
