@@ -81,7 +81,7 @@ class PostcodeFilter extends FilterPluginBase {
   public function buildOptionsForm(&$form, FormStateInterface $form_state) {
     $form['postcode'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Postcode'),
+      '#title' => $this->t('Postcode in Essex'),
       '#description' => $this->t('Enter an Essex postcode.'),
       '#required' => FALSE,
     ];
@@ -106,7 +106,7 @@ class PostcodeFilter extends FilterPluginBase {
   protected function valueForm(&$form, FormStateInterface $form_state) {
     $form['value'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Postcode'),
+      '#title' => $this->t('Postcode in Essex'),
       '#description' => $this->t('Enter an Essex postcode.'),
       '#required' => FALSE,
     ];
