@@ -790,7 +790,7 @@ display:
           exposed: true
           expose:
             operator_id: postcode_search_custom_filter_op
-            label: 'Postcode in Essex'
+            label: 'Essex Postcode'
             description: null
             use_operator: false
             operator: postcode_search_custom_filter_op

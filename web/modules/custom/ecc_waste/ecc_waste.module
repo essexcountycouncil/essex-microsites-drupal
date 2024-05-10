@@ -103,9 +103,9 @@ function ecc_waste_form_node_waste_disposal_option_edit_form_alter(&$form, \Drup
 function ecc_waste_views_data_alter(array &$data) {
   // Modify $data to include the necessary filter.
   $data['views']['postcode_search_custom_filter'] = [
-    'title' =>  t('Postcode in Essex'),
+    'title' =>  t('Essex Postcode'),
     'filter' => [
-      'title' => t('Postcode in Essex'),
+      'title' => t('Essex Postcode'),
       'field' => 'id',
       'id' => 'postcode_filter',
     ],
