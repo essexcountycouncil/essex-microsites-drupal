@@ -1,0 +1,19 @@
+
+{{ attach_library('ecc_waste/ecc_waste') }}
+
+{%
+  set classes = [
+    'waste-search',
+    'paragraph',
+    'paragraph--type--' ~ paragraph.bundle|clean_class,
+    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
+    not paragraph.isPublished() ? 'paragraph--unpublished'
+  ]
+%}
+{% block paragraph %}
+  <div{{ attributes.addClass(classes) }}>
+    {% block content %}
+      {{ drupal_block('views_exposed_filter_block:disposal_options-page_disposal_search') }}
+    {% endblock %}
+  </div>
+{% endblock paragraph %}

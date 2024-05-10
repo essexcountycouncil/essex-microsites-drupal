@@ -20,6 +20,7 @@ dependencies:
     - paragraphs.paragraphs_type.localgov_table
     - paragraphs.paragraphs_type.localgov_text
     - paragraphs.paragraphs_type.localgov_video
+    - paragraphs.paragraphs_type.waste_search
   module:
     - entity_reference_revisions
 _core:
@@ -53,6 +54,7 @@ settings:
       localgov_table: localgov_table
       localgov_text: localgov_text
       localgov_video: localgov_video
+      waste_search: waste_search
     negate: 0
     target_bundles_drag_drop:
       call_to_action:
@@ -168,5 +170,8 @@ settings:
         enabled: true
       localgov_video:
         weight: 69
+        enabled: true
+      waste_search:
+        weight: 78
         enabled: true
 field_type: entity_reference_revisions

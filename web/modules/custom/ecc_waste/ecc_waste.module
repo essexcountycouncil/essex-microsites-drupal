@@ -258,3 +258,36 @@ function ecc_waste_preprocess_taxonomy_term(&$variables) {
 }
 
 
+/**
+ * Implements hook_theme().
+ *
+ * Use a module-provided template.
+ */
+function ecc_waste_theme($existing, $type, $theme, $path) {
+  return [
+    'paragraph__waste_search' => [
+      'template' => 'paragraph--waste-search',
+      'base hook' => 'paragraph',
+      'path' => $path . '/templates',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_theme_suggestions_alter().
+ *
+ * @param  array  $suggestions
+ * @param  array  $variables
+ * @param  [type] $hook
+ * @return void
+ */
+function ecc_waste_theme_suggestions_alter(array &$suggestions, array &$variables, $hook) {
+  if ($hook == 'paragraph') {
+    $paragraph = $variables['elements']['#paragraph'];
+    if (!empty($paragraph)) {
+      if (!empty($paragraph->getType()) && $paragraph->getType() ==='waste_search') {
+        $suggestions[] = $hook . '__' . 'waste_search';
+      }
+    }
+  }
+}

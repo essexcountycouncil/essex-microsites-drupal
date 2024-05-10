@@ -1,0 +1,10 @@
+uuid: 759607c8-9f2d-4099-a433-88323bf6d702
+langcode: en
+status: true
+dependencies: {  }
+id: waste_search
+label: 'Waste Search'
+icon_uuid: null
+icon_default: null
+description: 'Waste search form. '
+behavior_plugins: {  }
