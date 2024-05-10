@@ -31,7 +31,7 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: 'Waste Disposal Options in Essex'
+      title: 'Waste Disposal'
       fields:
         title:
           id: title
