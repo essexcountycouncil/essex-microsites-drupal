@@ -8,14 +8,12 @@ dependencies:
     - field.storage.taxonomy_term.field_service_environmental
     - field.storage.taxonomy_term.field_waste_item_synonyms
     - node.type.waste_disposal_option
-    - system.menu.main
     - taxonomy.vocabulary.waste_item
     - views.view.waste_item
   module:
     - ecc_waste
     - geofield
     - group
-    - leaflet_views
     - node
     - taxonomy
     - user
@@ -161,7 +159,7 @@ display:
       exposed_form:
         type: input_required
         options:
-          submit_button: Apply
+          submit_button: Search
           reset_button: true
           reset_button_label: Reset
           exposed_sorts_label: 'Sort by'
@@ -737,7 +735,7 @@ display:
           exposed: true
           expose:
             operator_id: field_waste_item_synonyms_value_op
-            label: Item
+            label: 'What do you want to get rid of?'
             description: ''
             use_operator: false
             operator: field_waste_item_synonyms_value_op
@@ -762,6 +760,8 @@ display:
             autocomplete_raw_suggestion: 0
             autocomplete_raw_dropdown: 0
             autocomplete_dependent: 0
+            autocomplete_contextual: 0
+            autocomplete_autosubmit: 0
             min_placeholder: ''
             max_placeholder: ''
           is_grouped: false
@@ -790,7 +790,7 @@ display:
           exposed: true
           expose:
             operator_id: postcode_search_custom_filter_op
-            label: Postcode
+            label: 'Postcode in Essex'
             description: null
             use_operator: false
             operator: postcode_search_custom_filter_op
