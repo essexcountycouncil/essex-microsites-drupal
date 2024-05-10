@@ -93,6 +93,11 @@ call-to-action:
     theme:
       css/components/call-to-action.css: {}
 
+waste-search:
+  css:
+    theme:
+      css/components/waste-search.css: {}
+
 # View modes
 teaser:
   css:

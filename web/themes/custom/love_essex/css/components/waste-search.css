@@ -1,0 +1,11 @@
+.paragraph--type--waste-search .views-exposed-form form .form-submit {
+  border: 2px solid var(--color-accent-light);
+}
+
+.paragraph--type--waste-search .views-exposed-form form .form-item {
+  max-width: 30%;
+}
+
+.paragraph--type--waste-search .views-exposed-form form {
+  justify-content: flex-start;
+}
