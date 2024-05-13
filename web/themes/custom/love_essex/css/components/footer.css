@@ -108,3 +108,26 @@
 .microsite-footer__copyright {
   justify-content: right;
 }
+
+@media screen and (max-width: 980px) {
+  .microsite-footer__socials {
+    margin-bottom: 1em;
+  }
+  .microsite-footer__text-block--1 {
+    font-size: var(--font-size-h2);
+    font-weight: var(--heading-2-font-weight);
+  }
+  .microsite-footer__copyright {
+    justify-content: left;
+  }
+  .microsite-footer .microsite-footer__logo {
+    max-width: 150px;
+    margin-left: 0;
+  }
+  .lgd-row--microsites-footer-2 .lgd-row__three-thirds {
+    width: 100%;
+  }
+  .lgd-row--microsites-footer-2 .lgd-row__three-thirds .block-group-content-menulgms-footer-housekeeping ul.menu {
+    display: block;
+  }
+}
