@@ -1,0 +1,42 @@
+uuid: 64b62ef0-e52d-4c18-be5b-f72cb8df2b01
+langcode: en
+status: true
+dependencies:
+  module:
+    - domain
+id: GTM-K9MV6M.6641f2ff5b9ff9.98294221
+label: GTM-K9MV6M
+weight: 0
+tag_container_ids:
+  - GTM-K9MV6M
+advanced_settings:
+  consent_mode: true
+  gtm:
+    GTM-K9MV6M:
+      data_layer: dataLayer
+      include_classes: false
+      allowlist_classes: ''
+      blocklist_classes: ''
+      include_environment: false
+      environment_id: ''
+      environment_token: ''
+dimensions_metrics: {  }
+conditions:
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      group_1: group_1
+events:
+  search: {  }
+  login:
+    method: CMS
+  sign_up:
+    method: CMS
+  webform_purchase: {  }
+  generate_lead:
+    value: ''
+    currency: ''
+  custom: {  }

@@ -53,6 +53,7 @@ module:
   geolocation_google_maps: 0
   ginvite: 0
   gnode: 0
+  google_tag: 0
   group: 0
   group_content_menu: 0
   group_permissions: 0
