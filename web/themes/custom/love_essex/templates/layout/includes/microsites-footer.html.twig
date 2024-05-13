@@ -45,17 +45,27 @@
   <div class="lgd-container">
 {% endif %}
   <div class="lgd-region__inner lgd-region__inner--region-microsites-footer">
-
-    {% if microsites.footer.items.lgms_footer_text_block_1 or microsites.footer.items.lgms_footer_text_block_2 or microsites.footer.items.lgms_footer_text_block_3 or microsites.footer.items.lgms_footer_text_block_4 %}
+    {% if microsites.footer.items.lgms_footer_text_block_1 or microsites.footer.items.lgms_main_logo %}
+      <div class="lgd-row lgd-row--microsites-footer-1">
+        {% if microsites.footer.items.lgms_footer_text_block_1 %}
+          <div class="lgd-row__two-thirds">
+            <div class="microsite-footer__block microsite-footer__text-block microsite-footer__text-block--1">
+              {{ microsites.footer.items.lgms_footer_text_block_1 }}
+            </div>
+          </div>
+        {% endif %}
+        {% if microsites.footer.items.lgms_main_logo %}
+          <div class="microsite-footer__logo lgd-row__one-third">
+            <a href="/">
+              {{ microsites.footer.items.lgms_main_logo }}
+            </a>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+    {% if microsites.footer.items.lgms_footer_text_block_2 or microsites.footer.items.lgms_footer_text_block_3 or microsites.footer.items.lgms_footer_text_block_4 %}
       <div class="lgd-row lgd-row--microsites-footer-1">
         {# Begin Footer text blocks #}
-          {% if microsites.footer.items.lgms_footer_text_block_1 %}
-            <div class="lgd-row__one-half">
-              <div class="microsite-footer__block microsite-footer__text-block microsite-footer__text-block--1">
-                {{ microsites.footer.items.lgms_footer_text_block_1 }}
-              </div>
-            </div>
-          {% endif %}
           {% if microsites.footer.items.lgms_footer_text_block_2 %}
             <div class="lgd-row__one-half">
               <div class="microsite-footer__block microsite-footer__text-block microsite-footer__text-block--2">
@@ -80,7 +90,54 @@
         {# End Footer text blocks #}
       </div>
     {% endif %}
-
+    <div class="microsite-footer__socials">
+      <ul>
+        <li>
+          <a href="https://www.facebook.com/loveessexuk/">
+            <span class="visually-hidden">facebook</span>
+            {% include "@localgov_base/includes/icons/icon.html.twig" with {
+                theme: 'localgov_base',
+                icon_name: 'facebook',
+                icon_classes: 'lgd-icon--larger',
+              }
+            %}
+          </a>
+        </li>
+        <li>
+          <a href="https://twitter.com/loveessexuk">
+            <span class="visually-hidden">twitter</span>
+            {% include "@localgov_base/includes/icons/icon.html.twig" with {
+                theme: 'love_essex',
+                icon_name: 'x-twitter',
+                icon_classes: 'lgd-icon--larger',
+              }
+            %}
+          </a>
+        </li>
+        <li>
+          <a href="https://www.instagram.com/loveessexuk/">
+            <span class="visually-hidden">instagram</span>
+            {% include "@localgov_base/includes/icons/icon.html.twig" with {
+                theme: 'localgov_base',
+                icon_name: 'instagram',
+                icon_classes: 'lgd-icon--larger',
+              }
+            %}
+          </a>
+        </li>
+        <li>
+          <a href="https://www.youtube.com/@loveessex5885">
+            <span class="visually-hidden">youtube</span>
+            {% include "@localgov_base/includes/icons/icon.html.twig" with {
+                theme: 'localgov_base',
+                icon_name: 'youtube',
+                icon_classes: 'lgd-icon--larger',
+              }
+            %}
+          </a>
+        </li>
+      </ul>
+    </div>
     {% if has_footer_menu %}
       <div class="lgd-row lgd-row--microsites-footer-2">
         {# Begin Footer Housekeeping Menu #}
@@ -89,29 +146,23 @@
           {{ page.footer_menu }}
           </div>
         </div>
+        <div class="lgd-row__three-thirds">
         {# End Footer Housekeeping Menu #}
-        {# Begin Footer Copyright Notice #}
-        {% if microsites.footer.items.lgms_footer_copyright_notice %}
-          <div class="lgd-row__three-thirds">
+          {% if microsites.footer.items.lgms_footer_copyright_notice %}
             <div class="microsite-footer__block microsite-footer__copyright">
               {{ microsites.footer.items.lgms_footer_copyright_notice }}
             </div>
-          </div>
-        {% endif %}
-        {# End Footer Copyright Notice #}
+          {% endif %}
+          {# Begin Footer Powered By #}
+          {% if microsites.footer.items.lgms_powered_by %}
+              <div class="microsite-footer__block microsite-footer__powered_by">
+                {{ microsites.footer.items.lgms_powered_by }}
+              </div>
+          {% endif %}
+          {# End Footer Powered By #}
+        </div>
       </div>
     {% endif %}
-    {# Begin Footer Powered By #}
-      {% if microsites.footer.items.lgms_powered_by %}
-        <div class="lgd-row lgd-row--microsites-footer-3">
-          <div class="lgd-row__full">
-            <div class="microsite-footer__block microsite-footer__powered_by">
-            {{ microsites.footer.items.lgms_powered_by }}
-            </div>
-          </div>
-        </div>
-      {% endif %}
-    {# End Footer Powered By #}
   </div>
 {% if microsites.footer.width.full_width_content_contained %}
   </div>
