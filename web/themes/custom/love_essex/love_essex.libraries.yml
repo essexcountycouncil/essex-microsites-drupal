@@ -93,6 +93,11 @@ call-to-action:
     theme:
       css/components/call-to-action.css: {}
 
+did-you-know:
+  css:
+    theme:
+      css/components/did-you-know.css: {}
+
 waste-search:
   css:
     theme:

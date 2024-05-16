@@ -1,0 +1,44 @@
+.paragraph--type--did-you-know {
+  background-color: var(--color-accent);
+  border-radius: var(--border-radius);
+  padding: 1em;
+  color: var(--color-white);
+  background-image: url(../../assets/images/icons/heart.svg);
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: contain;
+}
+
+.did-you-know__inner {
+  display:flex;
+  gap: var(--spacing-largest);
+  align-items: center;
+}
+
+@media screen and (max-width: 768px) {
+  .paragraph--type--did-you-know {
+    background-size: cover;
+  }
+  .did-you-know__inner {
+    display: block;
+  }
+  .did-you-know__image .field--name-field-media-image img {
+    margin: auto;
+    margin-bottom: 2em
+  }
+}
+
+.paragraph--type--did-you-know a,
+.paragraph--type--did-you-know h2,
+.paragraph--type--did-you-know p {
+  color: var(--color-white);
+}
+
+.did-you-know__link a {
+  display: inline-block;
+  padding: var(--spacing-small) var(--spacing-largest);
+  color: var(--color-accent);
+  background-color: var(--color-white);
+  text-decoration: none;
+  font-weight: bold;
+}
