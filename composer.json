@@ -40,6 +40,7 @@
         "drupal/multiple_select": "^2.0",
         "drupal/replicate_ui": "^1.1",
         "drupal/responsive_preview": "^2.1",
+        "drupal/scheduler": "^2.0",
         "drupal/sortableviews": "^1.1",
         "drupal/upgrade_status": "^4.0",
         "drupal/views_autocomplete_filters": "^2.0",
