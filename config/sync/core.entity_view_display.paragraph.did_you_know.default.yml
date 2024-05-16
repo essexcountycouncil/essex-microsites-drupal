@@ -7,10 +7,12 @@ dependencies:
     - field.field.paragraph.did_you_know.field_p_dyk_factoid
     - field.field.paragraph.did_you_know.field_p_dyk_heading
     - field.field.paragraph.did_you_know.field_p_dyk_image
+    - image.style.medium
     - paragraphs.paragraphs_type.did_you_know
   module:
     - field_formatter_class
     - link
+    - media
     - text
 id: paragraph.did_you_know.default
 targetEntityType: paragraph
@@ -45,11 +47,13 @@ content:
     weight: 1
     region: content
   field_p_dyk_image:
-    type: entity_reference_entity_view
+    type: media_thumbnail
     label: hidden
     settings:
-      view_mode: localgov_newsroom_teaser
-      link: false
+      image_link: ''
+      image_style: medium
+      image_loading:
+        attribute: lazy
     third_party_settings:
       field_formatter_class:
         class: ''
