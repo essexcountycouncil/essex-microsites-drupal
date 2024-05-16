@@ -3,7 +3,7 @@
         'name' => 'localgovdrupal/localgov_microsites_project',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'e01cd3a474177fcf69ea8e1edbb45827a3c16ceb',
+        'reference' => 'b6edd4c842812468219f8672d48992d78e5424c0',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -1149,6 +1149,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'drupal/scheduler' => array(
+            'pretty_version' => '2.0.3',
+            'version' => '2.0.3.0',
+            'reference' => '2.0.3',
+            'type' => 'drupal-module',
+            'install_path' => __DIR__ . '/../../web/modules/contrib/scheduler',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'drupal/schema_metatag' => array(
             'pretty_version' => '2.5.0',
             'version' => '2.5.0.0',
@@ -1589,7 +1598,7 @@
         'localgovdrupal/localgov_microsites_project' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'e01cd3a474177fcf69ea8e1edbb45827a3c16ceb',
+            'reference' => 'b6edd4c842812468219f8672d48992d78e5424c0',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
