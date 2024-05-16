@@ -147,6 +147,7 @@ module:
   responsive_preview: 0
   rest: 0
   role_delegation: 0
+  scheduler: 0
   schema_article: 0
   schema_metatag: 0
   search_api: 0
