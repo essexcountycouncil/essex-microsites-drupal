@@ -46,3 +46,26 @@
   text-decoration: none;
   font-weight: bold;
 }
+
+.layout--twocol .paragraph--type--did-you-know,
+.layout--threecol .paragraph--type--did-you-know,
+.layout--fourcol .paragraph--type--did-you-know {
+  background-position: right bottom;
+}
+.layout--twocol .did-you-know__inner,
+.layout--threecol .did-you-know__inner,
+.layout--fourcol .did-you-know__inner {
+  display: block;
+}
+.layout--twocol .did-you-know__link a,
+.layout--threecol .did-you-know__link a,
+.layout--fourcol .did-you-know__link a {
+  display: block;
+  text-align: center;
+}
+.layout--twocol .did-you-know__image .field--name-field-media-image img,
+.layout--threecol .did-you-know__image .field--name-field-media-image img,
+.layout--fourcol .did-you-know__image .field--name-field-media-image img {
+  margin: auto;
+  margin-bottom: 1em;
+}
