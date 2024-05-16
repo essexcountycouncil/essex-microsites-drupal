@@ -37,7 +37,7 @@ third_party_settings:
       label: Enquiries
       parent_name: ''
       region: content
-      weight: 4
+      weight: 3
       format_type: fieldset
       format_settings:
         classes: ''
@@ -51,7 +51,7 @@ third_party_settings:
       label: Venue
       parent_name: ''
       region: content
-      weight: 3
+      weight: 2
       format_type: fieldset
       format_settings:
         classes: ''
@@ -69,7 +69,7 @@ content:
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 1
+    weight: 0
     region: content
   field_directory_venue_dyk:
     type: entity_reference_revisions_entity_view
@@ -78,14 +78,14 @@ content:
       view_mode: default
       link: ''
     third_party_settings: {  }
-    weight: 0
+    weight: 4
     region: content
   localgov_directory_email:
     type: basic_string
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 8
+    weight: 4
     region: content
   localgov_directory_files:
     type: entity_reference_label
@@ -93,7 +93,7 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 2
+    weight: 1
     region: content
   localgov_directory_job_title:
     type: string
@@ -101,7 +101,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 6
+    weight: 2
     region: content
   localgov_directory_name:
     type: string
@@ -109,21 +109,21 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 4
+    weight: 1
     region: content
   localgov_directory_notes:
     type: text_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 5
+    weight: 3
     region: content
   localgov_directory_opening_times:
     type: text_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 3
+    weight: 2
     region: content
   localgov_directory_phone:
     type: telephone_link
@@ -131,7 +131,7 @@ content:
     settings:
       title: ''
     third_party_settings: {  }
-    weight: 7
+    weight: 3
     region: content
   localgov_directory_website:
     type: link
@@ -143,7 +143,7 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    weight: 9
+    weight: 5
     region: content
   localgov_location:
     type: entity_reference_entity_view
@@ -152,7 +152,7 @@ content:
       view_mode: embed
       link: false
     third_party_settings: {  }
-    weight: 2
+    weight: 1
     region: content
 hidden:
   links: true
