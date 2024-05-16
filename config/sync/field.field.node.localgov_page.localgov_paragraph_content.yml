@@ -6,6 +6,7 @@ dependencies:
     - field.storage.node.localgov_paragraph_content
     - node.type.localgov_page
     - paragraphs.paragraphs_type.call_to_action
+    - paragraphs.paragraphs_type.did_you_know
     - paragraphs.paragraphs_type.localgov_accordion
     - paragraphs.paragraphs_type.localgov_call_out_box
     - paragraphs.paragraphs_type.localgov_documents
@@ -41,6 +42,7 @@ settings:
     target_bundles:
       localgov_accordion: localgov_accordion
       call_to_action: call_to_action
+      did_you_know: did_you_know
       localgov_call_out_box: localgov_call_out_box
       localgov_documents: localgov_documents
       localgov_embed_views: localgov_embed_views
@@ -59,6 +61,9 @@ settings:
     target_bundles_drag_drop:
       call_to_action:
         weight: 39
+        enabled: true
+      did_you_know:
+        weight: 42
         enabled: true
       from_library:
         weight: 36
