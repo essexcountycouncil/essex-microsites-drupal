@@ -97,6 +97,10 @@ did-you-know:
   css:
     theme:
       css/components/did-you-know.css: {}
+  js:
+    js/did-you-know.js: {}
+  dependencies:
+    - core/once
 
 waste-search:
   css:

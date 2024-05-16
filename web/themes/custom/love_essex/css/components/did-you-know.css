@@ -2,11 +2,15 @@
   background-color: var(--color-accent);
   border-radius: var(--border-radius);
   padding: 1em;
+  margin-bottom: 1em;
   color: var(--color-white);
   background-image: url(../../assets/images/icons/heart.svg);
   background-repeat: no-repeat;
   background-position: right center;
   background-size: contain;
+}
+.paragraph--type--did-you-know {
+  display: none;
 }
 
 .did-you-know__inner {
