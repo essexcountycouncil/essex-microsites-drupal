@@ -1,0 +1,59 @@
+uuid: 81fa8bd3-fd3f-480e-a161-ad79693682bc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.did_you_know.field_p_dyk_cta_link
+    - field.field.paragraph.did_you_know.field_p_dyk_factoid
+    - field.field.paragraph.did_you_know.field_p_dyk_heading
+    - field.field.paragraph.did_you_know.field_p_dyk_image
+    - paragraphs.paragraphs_type.did_you_know
+  module:
+    - field_formatter_class
+    - link
+    - text
+id: paragraph.did_you_know.default
+targetEntityType: paragraph
+bundle: did_you_know
+mode: default
+content:
+  field_p_dyk_cta_link:
+    type: link
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_p_dyk_factoid:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_p_dyk_heading:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_p_dyk_image:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: localgov_newsroom_teaser
+      link: false
+    third_party_settings:
+      field_formatter_class:
+        class: ''
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

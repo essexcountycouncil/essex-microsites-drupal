@@ -1,0 +1,21 @@
+uuid: 3ad63f44-d661-4864-8bfd-b7808b133783
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_p_dyk_heading
+    - paragraphs.paragraphs_type.did_you_know
+id: paragraph.did_you_know.field_p_dyk_heading
+field_name: field_p_dyk_heading
+entity_type: paragraph
+bundle: did_you_know
+label: Heading
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 'Did you know?'
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -5,6 +5,7 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.localgov_directories_venue.body
+    - field.field.node.localgov_directories_venue.field_directory_venue_dyk
     - field.field.node.localgov_directories_venue.localgov_directory_channels
     - field.field.node.localgov_directories_venue.localgov_directory_email
     - field.field.node.localgov_directories_venue.localgov_directory_facets_select
@@ -29,14 +30,15 @@ bundle: localgov_directories_venue
 mode: teaser
 content:
   body:
-    label: hidden
     type: text_summary_or_trimmed
-    weight: 0
+    label: hidden
     settings:
       trim_length: 600
     third_party_settings: {  }
+    weight: 0
     region: content
 hidden:
+  field_directory_venue_dyk: true
   links: true
   localgov_directory_channels: true
   localgov_directory_email: true

@@ -1,0 +1,19 @@
+uuid: d76cb3dd-40ad-4563-989a-b1fa1b5f57be
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs
+    - text
+id: paragraph.field_p_dyk_factoid
+field_name: field_p_dyk_factoid
+entity_type: paragraph
+type: text_long
+settings: {  }
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

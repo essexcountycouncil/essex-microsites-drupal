@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.localgov_directories_venue.body
+    - field.field.node.localgov_directories_venue.field_directory_venue_dyk
     - field.field.node.localgov_directories_venue.localgov_directory_channels
     - field.field.node.localgov_directories_venue.localgov_directory_email
     - field.field.node.localgov_directories_venue.localgov_directory_facets_select
@@ -18,6 +19,7 @@ dependencies:
     - field.field.node.localgov_directories_venue.localgov_location
     - node.type.localgov_directories_venue
   module:
+    - entity_reference_revisions
     - field_group
     - link
     - telephone
@@ -32,29 +34,29 @@ third_party_settings:
         - localgov_directory_phone
         - localgov_directory_email
         - localgov_directory_website
-      parent_name: ''
-      weight: 3
-      format_type: fieldset
-      region: content
-      format_settings:
-        id: ''
-        classes: ''
-        description: ''
       label: Enquiries
+      parent_name: ''
+      region: content
+      weight: 4
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        id: ''
+        description: ''
     group_venue:
       children:
         - localgov_location
         - localgov_directory_opening_times
         - localgov_directory_notes
-      parent_name: ''
-      weight: 2
-      format_type: fieldset
-      region: content
-      format_settings:
-        id: ''
-        classes: ''
-        description: ''
       label: Venue
+      parent_name: ''
+      region: content
+      weight: 3
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        id: ''
+        description: ''
 _core:
   default_config_hash: QSk3UiE5Jz66Zf3hqjzQg5MVD3USfMDnTeSU1W1KWmk
 id: node.localgov_directories_venue.default
@@ -63,67 +65,76 @@ bundle: localgov_directories_venue
 mode: default
 content:
   body:
-    label: hidden
     type: text_default
-    weight: 0
+    label: hidden
     settings: {  }
     third_party_settings: {  }
+    weight: 1
+    region: content
+  field_directory_venue_dyk:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 0
     region: content
   localgov_directory_email:
-    weight: 8
+    type: basic_string
     label: inline
     settings: {  }
     third_party_settings: {  }
-    type: basic_string
+    weight: 8
     region: content
   localgov_directory_files:
-    weight: 1
+    type: entity_reference_label
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    type: entity_reference_label
+    weight: 2
     region: content
   localgov_directory_job_title:
-    weight: 6
+    type: string
     label: inline
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 6
     region: content
   localgov_directory_name:
-    weight: 4
+    type: string
     label: inline
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 4
     region: content
   localgov_directory_notes:
-    weight: 4
+    type: text_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: text_default
+    weight: 5
     region: content
   localgov_directory_opening_times:
-    weight: 3
+    type: text_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: text_default
+    weight: 3
     region: content
   localgov_directory_phone:
-    weight: 7
+    type: telephone_link
     label: inline
     settings:
       title: ''
     third_party_settings: {  }
-    type: telephone_link
+    weight: 7
     region: content
   localgov_directory_website:
-    weight: 9
+    type: link
     label: above
     settings:
       trim_length: 80
@@ -132,16 +143,16 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    type: link
+    weight: 9
     region: content
   localgov_location:
-    weight: 2
+    type: entity_reference_entity_view
     label: hidden
     settings:
       view_mode: embed
       link: false
     third_party_settings: {  }
-    type: entity_reference_entity_view
+    weight: 2
     region: content
 hidden:
   links: true

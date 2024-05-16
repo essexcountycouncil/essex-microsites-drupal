@@ -5,6 +5,7 @@ dependencies:
   config:
     - core.entity_view_mode.node.directory_index
     - field.field.node.localgov_directories_venue.body
+    - field.field.node.localgov_directories_venue.field_directory_venue_dyk
     - field.field.node.localgov_directories_venue.localgov_directory_channels
     - field.field.node.localgov_directories_venue.localgov_directory_email
     - field.field.node.localgov_directories_venue.localgov_directory_facets_select
@@ -19,6 +20,7 @@ dependencies:
     - field.field.node.localgov_directories_venue.localgov_location
     - node.type.localgov_directories_venue
   module:
+    - entity_reference_revisions
     - link
     - text
     - user
@@ -30,90 +32,97 @@ bundle: localgov_directories_venue
 mode: directory_index
 content:
   body:
-    label: hidden
     type: text_default
-    weight: 1
+    label: hidden
     settings: {  }
     third_party_settings: {  }
+    weight: 2
+    region: content
+  field_directory_venue_dyk:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 1
     region: content
   links:
-    weight: 0
-    region: content
     settings: {  }
     third_party_settings: {  }
+    weight: 0
+    region: content
   localgov_directory_channels:
-    weight: 3
+    type: entity_reference_label
     label: hidden
     settings:
       link: false
     third_party_settings: {  }
-    type: entity_reference_label
+    weight: 4
     region: content
   localgov_directory_email:
     type: basic_string
-    weight: 4
-    region: content
     label: hidden
     settings: {  }
     third_party_settings: {  }
+    weight: 5
+    region: content
   localgov_directory_facets_select:
-    weight: 2
+    type: entity_reference_label
     label: hidden
     settings:
       link: false
     third_party_settings: {  }
-    type: entity_reference_label
+    weight: 3
     region: content
   localgov_directory_files:
     type: entity_reference_label
-    weight: 6
-    region: content
     label: hidden
     settings:
       link: true
     third_party_settings: {  }
-  localgov_directory_job_title:
-    type: string
-    weight: 5
-    region: content
-    label: hidden
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-  localgov_directory_name:
-    type: string
     weight: 7
     region: content
+  localgov_directory_job_title:
+    type: string
     label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
-  localgov_directory_notes:
-    type: text_default
+    weight: 6
+    region: content
+  localgov_directory_name:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
     weight: 8
     region: content
+  localgov_directory_notes:
+    type: text_default
     label: hidden
     settings: {  }
     third_party_settings: {  }
-  localgov_directory_opening_times:
-    type: text_default
     weight: 9
     region: content
+  localgov_directory_opening_times:
+    type: text_default
     label: hidden
     settings: {  }
     third_party_settings: {  }
+    weight: 10
+    region: content
   localgov_directory_phone:
     type: string
-    weight: 11
-    region: content
     label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
+    weight: 12
+    region: content
   localgov_directory_website:
     type: link_separate
-    weight: 10
-    region: content
     label: hidden
     settings:
       trim_length: 80
@@ -122,14 +131,16 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
+    weight: 11
+    region: content
   localgov_location:
-    weight: 12
+    type: entity_reference_entity_view
     label: hidden
     settings:
-      link: true
       view_mode: default
+      link: true
     third_party_settings: {  }
-    type: entity_reference_entity_view
+    weight: 13
     region: content
 hidden:
   localgov_directory_search: true

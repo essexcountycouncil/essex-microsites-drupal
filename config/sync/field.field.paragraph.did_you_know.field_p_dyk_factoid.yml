@@ -1,0 +1,21 @@
+uuid: 8ac94394-7b40-46af-adcb-e59cdb877779
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_p_dyk_factoid
+    - paragraphs.paragraphs_type.did_you_know
+  module:
+    - text
+id: paragraph.did_you_know.field_p_dyk_factoid
+field_name: field_p_dyk_factoid
+entity_type: paragraph
+bundle: did_you_know
+label: Factoid
+description: 'The text of the ''did you know...'''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long
