@@ -2,6 +2,10 @@
   background-color: var(--color-accent);
 }
 
+.banner--primary .banner__content .full__title {
+  color: var(--banner-content-text-color);
+}
+
 .banner--primary .banner__content {
   grid-template-columns: 1fr;
   gap: var(--spacing-largest);
