@@ -121,6 +121,9 @@
             },
             "drupal/group": {
               "Allow VBO to play nicely with Group": "https://www.drupal.org/files/issues/2024-03-21/3020883-37.patch"
+            },
+            "drupal/honeypot": {
+              "honeypot clientside": "https://git.drupalcode.org/project/honeypot/-/merge_requests/22.patch"
             }
         }
     },
