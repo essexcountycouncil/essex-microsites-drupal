@@ -65,3 +65,37 @@ function love_essex_preprocess_breadcrumb(&$variables) {
     );
   }
 }
+
+/**
+ * Implements hook_preprocess_html().
+ *
+ * Set a custom title tag value.
+ */
+function love_essex_preprocess_html(array &$attachments) {
+  // Check if the current page is a node page.
+  if (\Drupal::routeMatch()->getRouteName() == 'entity.node.canonical') {
+    // Load the current node.
+    $node = \Drupal::routeMatch()->getParameter('node');
+    if ($node instanceof \Drupal\node\NodeInterface) {
+      // Check if the node has the field you are interested in.
+      if ($node->hasField('localgov_page_banner') && !$node->get('localgov_page_banner')->isEmpty()) {
+        // Load the paragraphs from the banner field.
+        $paragraphs = $node->get('localgov_page_banner')->referencedEntities();
+        // Iterate over each paragraph to find the desired content.
+        foreach ($paragraphs as $paragraph) {
+          if ($paragraph->bundle() == 'localgov_banner_primary' && $paragraph->hasField('localgov_title')) {
+            // Get the title from the banner paragraph.
+            $banner_title = $paragraph->get('localgov_title')->value;
+            // Alter the page title.
+            if ($banner_title) {
+              // Load the site name out of configuration.
+              $config = \Drupal::config('system.site');
+              $site_name = $config->get('name');
+              $attachments['head_title']['title'] = $banner_title . ' | ' . $site_name;
+            }
+          }
+        }
+      }
+    }
+  }
+}
