@@ -27,6 +27,7 @@
         "anrt-tools/docksal-configuration": "dev-master",
         "composer/installers": "^1.12",
         "cweagans/composer-patches": "^1.7",
+        "drupal/antibot": "^2.0",
         "drupal/core-composer-scaffold": "^9.3",
         "drupal/core-recommended": "^9.3",
         "drupal/devel": "^5.1",
