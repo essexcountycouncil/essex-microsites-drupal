@@ -5,7 +5,7 @@
       // Find all Did You Know content.
       const dykContent = once('js-processed', '.paragraph--type--did-you-know', context);
       // Pick one randomly.
-      if (dykContent.length > 1) {
+      if (dykContent.length > 0) {
         selectedDyk = Math.floor(Math.random() * dykContent.length);
         // Hide the rest.
         for (var i = 0; i < dykContent.length; i++) {
