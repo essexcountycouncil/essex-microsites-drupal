@@ -78,9 +78,18 @@ function love_essex_preprocess_html(array &$attachments) {
     $node = \Drupal::routeMatch()->getParameter('node');
     if ($node instanceof \Drupal\node\NodeInterface) {
       // Check if the node has the field you are interested in.
+      // There's 3 different possible paragraph fields.
+      // If it exists, get the referenced entities.
       if ($node->hasField('localgov_page_banner') && !$node->get('localgov_page_banner')->isEmpty()) {
-        // Load the paragraphs from the banner field.
         $paragraphs = $node->get('localgov_page_banner')->referencedEntities();
+      }
+      elseif ($node->hasField('localgov_directory_banner') && !$node->get('localgov_directory_banner')->isEmpty()) {
+        $paragraphs = $node->get('localgov_directory_banner')->referencedEntities();
+      }
+      elseif ($node->hasField('lgms_banner') && !$node->get('lgms_banner')->isEmpty()) {
+        $paragraphs = $node->get('lgms_banner')->referencedEntities();
+      }
+      if (!empty($paragraphs)) {
         // Iterate over each paragraph to find the desired content.
         foreach ($paragraphs as $paragraph) {
           if ($paragraph->bundle() == 'localgov_banner_primary' && $paragraph->hasField('localgov_title')) {
