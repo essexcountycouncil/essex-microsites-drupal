@@ -55,6 +55,10 @@
   ]
 %}
 
+{# When node-based banner content is used,
+   the title is used as main page title, so we adjust the markup to suit. #}
+{% set primary_banner_fields = ['lgms_banner', 'localgov_directory_banner', 'localgov_page_banner'] %}
+
 {% if not localgov_base_remove_css %}
 	{{ attach_library('localgov_base/banner') }}
 {% endif %}
@@ -64,7 +68,12 @@
     <div class="lgd-container padding-horizontal">
       <div class="banner__content">
         <div class="banner__content-inner flow flow--large">
-          {{ content|without('localgov_image', 'localgov_url', 'localgov_logo', 'field_banner_cta') }}
+          {% if paragraph.get('parent_field_name').value in primary_banner_fields %}
+            <h1 class="full__title">{{ content.localgov_title[0]['#context']['value'] }}</h1>
+            {{ content|without('localgov_title', 'localgov_image', 'localgov_url', 'localgov_logo', 'field_banner_cta') }}
+          {% else %}
+            {{ content|without('localgov_image', 'localgov_url', 'localgov_logo', 'field_banner_cta') }}
+          {% endif %}
           {% if paragraph.field_banner_cta.value %}
             <div class="banner__cta">
               <a href="{{ content.field_banner_cta.0['#url'] }}">
