@@ -1,0 +1,21 @@
+uuid: f816c030-eaa6-44f6-82a0-4d2dfd2a7570
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_page_colour_swatch
+    - node.type.localgov_page
+  module:
+    - options
+id: node.localgov_page.field_page_colour_swatch
+field_name: field_page_colour_swatch
+entity_type: node
+bundle: localgov_page
+label: 'Colour Swatch'
+description: 'Applies a pre-built colour scheme to the page.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

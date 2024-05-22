@@ -1,0 +1,33 @@
+uuid: 75a31b60-1b67-4431-bfc9-078ef6e46637
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_page_colour_swatch
+field_name: field_page_colour_swatch
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: love_essex_green
+      label: 'Love Essex Green'
+    -
+      value: love_essex_orange
+      label: 'Love Essex Orange'
+    -
+      value: love_essex_red
+      label: 'Love Essex Red'
+    -
+      value: love_essex_blue
+      label: 'Love Essex Blue'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
