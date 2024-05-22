@@ -1,0 +1,409 @@
+/* Love Essex Green */
+body {
+  /* Banner/Heading */
+  --color-leg-header-background: #78BE20;
+  --color-leg-header-heading-text: #000;
+  --color-leg-header-text: #000;
+  --color-leg-header-button-color: #015226;
+  --color-leg-header-button-text: #fff;
+  /* Page Default */
+  --color-leg-page-background: #f1efe1;
+  --color-leg-page-heading-text: #000;
+  --color-leg-page-text: #000;
+  --color-leg-page-button-color: var(--color-accent);
+  --color-leg-page-button-text: #fff;
+  /* Colour block 1 */
+  --color-leg-colour-block-1-background: #02843D;
+  --color-leg-colour-block-1-heading-text: #fff;
+  --color-leg-colour-block-1-text: #fff;
+  --color-leg-colour-block-1-button-color: #000;
+  --color-leg-colour-block-1-button-text: #fff;
+  /* Colour block 2 */
+  --color-leg-colour-block-2-background: #59534B;
+  --color-leg-colour-block-2-heading-text: #fff;
+  --color-leg-colour-block-2-text: #fff;
+  --color-leg-colour-block-2-button-text: #fff;
+}
+
+/* Love Essex Orange */
+body {
+  /* Banner/Heading */
+  --color-leo-header-background: #ffae2e;
+  --color-leo-header-heading-text: #000;
+  --color-leo-header-text: #000;
+  --color-leo-header-button-color: #015226;
+  --color-leo-header-button-text: #fff;
+  /* Page Default */
+  --color-leo-page-background: #f1efe1;
+  --color-leo-page-heading-text: #000;
+  --color-leo-page-text: #000;
+  --color-leo-page-button-color: var(--color-accent);
+  --color-leo-page-button-text: #fff;
+  /* Colour block 1 */
+  --color-leo-colour-block-1-background: #E97321;
+  --color-leo-colour-block-1-heading-text: #000;
+  --color-leo-colour-block-1-text: #000;
+  --color-leo-colour-block-1-button-color: #015226;
+  --color-leo-colour-block-1-button-text: #fff;
+  /* Colour block 2 */
+  --color-leo-colour-block-2-background: #96698a;
+  --color-leo-colour-block-2-heading-text: #fff;
+  --color-leo-colour-block-2-text: #fff;
+  --color-leo-colour-block-2-button-text: #fff;
+}
+/* Love Essex Red */
+body {
+  /* Banner/Heading */
+  --color-ler-header-background: #fa9baa;
+  --color-ler-header-heading-text: #000;
+  --color-ler-header-text: #000;
+  --color-ler-header-button-color: #b21f2f;
+  --color-ler-header-button-text: #fff;
+  /* Page Default */
+  --color-ler-page-background: #f4f2ed;
+  --color-ler-page-heading-text: #000;
+  --color-ler-page-text: #000;
+  --color-ler-page-button-color: #b21f2f;
+  --color-ler-page-button-text: #fff;
+  /* Colour block 1 */
+  --color-ler-colour-block-1-background: #B21F2F;
+  --color-ler-colour-block-1-heading-text: #fff;
+  --color-ler-colour-block-1-text: #fff;
+  --color-ler-colour-block-1-button-color: #fff;
+  --color-ler-colour-block-1-button-text: #B21F2F;
+
+  /* Colour block 2 */
+  --color-ler-colour-block-2-background: #96698a;
+  --color-ler-colour-block-2-heading-text: #fff;
+  --color-ler-colour-block-2-text: #fff;
+  --color-ler-colour-block-2-button-text: #fff;
+}
+/* Love Essex Blue */
+body {
+  /* Banner/Heading */
+  --color-leb-header-background: #73cceb;
+  --color-leb-header-heading-text: #000;
+  --color-leb-header-text: #000;
+  --color-leb-header-button-color: #000;
+  --color-leb-header-button-text: #fff;
+  /* Page Default */
+  --color-leb-page-background: #f0f5fa;
+  --color-leb-page-heading-text: #000;
+  --color-leb-page-text: #000;
+  --color-leb-page-button-color: #004c94;
+  --color-leb-page-button-text: #fff;
+  /* Colour block 1 */
+  --color-leb-colour-block-1-background: #004c94;
+  --color-leb-colour-block-1-heading-text: #fff;
+  --color-leb-colour-block-1-text: #fff;
+  --color-leb-colour-block-1-button-color: #fff;
+  --color-leb-colour-block-1-button-text: #004c94;
+  /* Colour block 2 */
+  --color-leb-colour-block-2-background: #7054de;
+  --color-leb-colour-block-2-heading-text: #fff;
+  --color-leb-colour-block-2-text: #fff;
+  --color-leb-colour-block-2-button-text: #fff;
+}
+
+/**
+ * GREEN.
+ */
+
+/* Banner/Heading */
+.love_essex_green .banner--primary {
+  background-color: var(--color-leg-header-background);
+}
+.love_essex_green .banner--primary .banner__content .full__title {
+  color: var(--color-leg-header-heading-text);
+}
+.love_essex_green .banner--primary .banner__content {
+  color: var(--color-leg-header-heading-text);
+}
+.love_essex_green .banner--primary .field--name-field-banner-call-to-action > a {
+  background-color: var(--color-leg-header-button-color);
+  color: var(--color-leg-header-button-text);
+}
+
+/* Page Default */
+.love_essex_green .full--localgov-page {
+  background-color: var(--color-leg-page-background);
+}
+.love_essex_green .full--localgov-page button {
+  color: var(--color-leg-page-text);
+}
+.love_essex_green .lgd-page-section {
+  background-color: var(--color-leg-page-background);
+  color: var(--color-leg-page-text);
+}
+.love_essex_green .lgd-page-section h2 {
+  color: var(--color-leg-page-heading-text);
+}
+.love_essex_green .lgd-page-section a:not(.call-to-action__link a) {
+  color: var(--color-leg-page-text);
+  background-color: var(--color-leg-page-button-colour);
+}
+
+/* Colour block 1 */
+.love_essex_green .lgd-page-section.lgd-page-section--bg-colour-1 {
+  background-color: var(--color-leg-colour-block-1-background);
+  color: var(--color-leg-colour-block-1-heading-text);
+}
+.love_essex_green .lgd-page-section--bg-colour-1 h2,
+.love_essex_green .lgd-page-section--bg-colour-1 h3,
+.love_essex_green .lgd-page-section--bg-colour-1 button {
+  color: var(--color-leg-colour-block-1-heading-text);
+}
+.love_essex_green .lgd-page-section--bg-colour-1 a {
+  color: var(--color-leg-colour-block-1-heading-text);
+}
+
+
+/* Colour block 2 */
+.love_essex_green .lgd-page-section.lgd-page-section--bg-colour-2 {
+  background-color: var(--color-leg-colour-block-2-background);
+  color: var(--color-leg-colour-block-2-heading-text);
+}
+
+.love_essex_green .lgd-page-section--bg-colour-2 h2,
+.love_essex_green .lgd-page-section--bg-colour-2 h3,
+.love_essex_green .lgd-page-section--bg-colour-2 button {
+  color: var(--color-leg-colour-block-2-heading-text);
+}
+
+.love_essex_green .lgd-page-section--bg-colour-2 a:not(.call-to-action__link a) {
+  color: var(--color-leg-colour-block-2-text);
+}
+
+/**
+ * ORANGE.
+ */
+
+/* Banner/Heading */
+.love_essex_orange .banner--primary {
+  background-color: var(--color-leo-header-background);
+}
+
+.love_essex_orange .banner--primary .banner__content .full__title {
+  color: var(--color-leo-header-heading-text);
+}
+
+.love_essex_orange .banner--primary .banner__content {
+  color: var(--color-leo-header-heading-text);
+}
+
+.love_essex_orange .banner--primary .field--name-field-banner-call-to-action>a {
+  background-color: var(--color-leo-header-button-color);
+  color: var(--color-leo-header-button-text);
+}
+
+/* Page Default */
+.love_essex_orange .full--localgov-page {
+  background-color: var(--color-leo-page-background);
+}
+
+.love_essex_orange .full--localgov-page button {
+  color: var(--color-leo-page-text);
+}
+
+.love_essex_orange .lgd-page-section {
+  background-color: var(--color-leo-page-background);
+  color: var(--color-leo-page-text);
+}
+
+.love_essex_orange .lgd-page-section h2 {
+  color: var(--color-leo-page-heading-text);
+}
+
+.love_essex_orange .lgd-page-section a:not(.call-to-action__link a) {
+  color: var(--color-leo-page-text);
+  background-color: var(--color-leo-page-button-colour);
+}
+
+/* Colour block 1 */
+.love_essex_orange .lgd-page-section.lgd-page-section--bg-colour-1 {
+  background-color: var(--color-leo-colour-block-1-background);
+  color: var(--color-leo-colour-block-1-heading-text);
+}
+
+.love_essex_orange .lgd-page-section--bg-colour-1 h2,
+.love_essex_orange .lgd-page-section--bg-colour-1 h3,
+.love_essex_orange .lgd-page-section--bg-colour-1 button {
+  color: var(--color-leo-colour-block-1-heading-text);
+}
+
+.love_essex_orange .lgd-page-section--bg-colour-1 a {
+  color: var(--color-leo-colour-block-1-heading-text);
+}
+
+
+/* Colour block 2 */
+.love_essex_orange .lgd-page-section.lgd-page-section--bg-colour-2 {
+  background-color: var(--color-leo-colour-block-2-background);
+  color: var(--color-leo-colour-block-2-heading-text);
+}
+
+.love_essex_orange .lgd-page-section--bg-colour-2 h2,
+.love_essex_orange .lgd-page-section--bg-colour-2 h3,
+.love_essex_orange .lgd-page-section--bg-colour-2 button {
+  color: var(--color-leo-colour-block-2-heading-text);
+}
+
+.love_essex_orange .lgd-page-section--bg-colour-2 a:not(.call-to-action__link a) {
+  color: var(--color-leo-colour-block-2-text);
+}
+
+/**
+ * RED.
+ */
+
+/* Banner/Heading */
+.love_essex_red .banner--primary {
+  background-color: var(--color-ler-header-background);
+}
+
+.love_essex_red .banner--primary .banner__content .full__title {
+  color: var(--color-ler-header-heading-text);
+}
+
+.love_essex_red .banner--primary .banner__content {
+  color: var(--color-ler-header-heading-text);
+}
+
+.love_essex_red .banner--primary .field--name-field-banner-call-to-action>a {
+  background-color: var(--color-ler-header-button-color);
+  color: var(--color-ler-header-button-text);
+}
+
+/* Page Default */
+.love_essex_red .full--localgov-page {
+  background-color: var(--color-ler-page-background);
+}
+
+.love_essex_red .full--localgov-page button {
+  color: var(--color-ler-page-text);
+}
+
+.love_essex_red .lgd-page-section {
+  background-color: var(--color-ler-page-background);
+  color: var(--color-ler-page-text);
+}
+
+.love_essex_red .lgd-page-section h2 {
+  color: var(--color-ler-page-heading-text);
+}
+
+.love_essex_red .lgd-page-section a:not(.call-to-action__link a) {
+  color: var(--color-ler-page-text);
+  background-color: var(--color-ler-page-button-colour);
+}
+
+/* Colour block 1 */
+.love_essex_red .lgd-page-section.lgd-page-section--bg-colour-1 {
+  background-color: var(--color-ler-colour-block-1-background);
+  color: var(--color-ler-colour-block-1-heading-text);
+}
+
+.love_essex_red .lgd-page-section--bg-colour-1 h2,
+.love_essex_red .lgd-page-section--bg-colour-1 h3,
+.love_essex_red .lgd-page-section--bg-colour-1 button {
+  color: var(--color-ler-colour-block-1-heading-text);
+}
+
+.love_essex_red .lgd-page-section--bg-colour-1 a {
+  color: var(--color-ler-colour-block-1-heading-text);
+}
+
+
+/* Colour block 2 */
+.love_essex_red .lgd-page-section.lgd-page-section--bg-colour-2 {
+  background-color: var(--color-ler-colour-block-2-background);
+  color: var(--color-ler-colour-block-2-heading-text);
+}
+
+.love_essex_red .lgd-page-section--bg-colour-2 h2,
+.love_essex_red .lgd-page-section--bg-colour-2 h3,
+.love_essex_red .lgd-page-section--bg-colour-2 button {
+  color: var(--color-ler-colour-block-2-heading-text);
+}
+
+.love_essex_red .lgd-page-section--bg-colour-2 a:not(.call-to-action__link a) {
+  color: var(--color-ler-colour-block-2-text);
+}
+
+/**
+ * BLUE.
+ */
+
+/* Banner/Heading */
+.love_essex_blue .banner--primary {
+  background-color: var(--color-leb-header-background);
+}
+
+.love_essex_blue .banner--primary .banner__content .full__title {
+  color: var(--color-leb-header-heading-text);
+}
+
+.love_essex_blue .banner--primary .banner__content {
+  color: var(--color-leb-header-heading-text);
+}
+
+.love_essex_blue .banner--primary .field--name-field-banner-call-to-action>a {
+  background-color: var(--color-leb-header-button-color);
+  color: var(--color-leb-header-button-text);
+}
+
+/* Page Default */
+.love_essex_blue .full--localgov-page {
+  background-color: var(--color-leb-page-background);
+}
+
+.love_essex_blue .full--localgov-page button {
+  color: var(--color-leb-page-text);
+}
+
+.love_essex_blue .lgd-page-section {
+  background-color: var(--color-ler-page-background);
+  color: var(--color-leb-page-text);
+}
+
+.love_essex_blue .lgd-page-section h2 {
+  color: var(--color-leb-page-heading-text);
+}
+
+.love_essex_blue .lgd-page-section a:not(.call-to-action__link a) {
+  color: var(--color-leb-page-text);
+  background-color: var(--color-leb-page-button-colour);
+}
+
+/* Colour block 1 */
+.love_essex_blue .lgd-page-section.lgd-page-section--bg-colour-1 {
+  background-color: var(--color-leb-colour-block-1-background);
+  color: var(--color-leb-colour-block-1-heading-text);
+}
+
+.love_essex_blue .lgd-page-section--bg-colour-1 h2,
+.love_essex_blue .lgd-page-section--bg-colour-1 h3,
+.love_essex_blue .lgd-page-section--bg-colour-1 button {
+  color: var(--color-leb-colour-block-1-heading-text);
+}
+
+.love_essex_blue .lgd-page-section--bg-colour-1 a {
+  color: var(--color-leb-colour-block-1-heading-text);
+}
+
+
+/* Colour block 2 */
+.love_essex_blue .lgd-page-section.lgd-page-section--bg-colour-2 {
+  background-color: var(--color-leb-colour-block-2-background);
+  color: var(--color-leb-colour-block-2-heading-text);
+}
+
+.love_essex_blue .lgd-page-section--bg-colour-2 h2,
+.love_essex_blue .lgd-page-section--bg-colour-2 h3,
+.love_essex_blue .lgd-page-section--bg-colour-2 button {
+  color: var(--color-leb-colour-block-2-heading-text);
+}
+
+.love_essex_blue .lgd-page-section--bg-colour-2 a:not(.call-to-action__link a) {
+  color: var(--color-leb-colour-block-2-text);
+}
