@@ -16,3 +16,24 @@ function lgd_theme_fixes_page_attachments_alter(&$attachments) {
     $attachments['#attached']['library'][] = 'lgd_theme_fixes/ckeditor_link_dialog';
   }
 }
+
+/**
+ * Implements hook_form_alter()
+ *
+ * Adding in reset buttons to views because Views is misbehaving.
+ * Something unknown was setting reset buttons #access to FALSE.
+ */
+function lgd_theme_fixes_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id === 'views_exposed_form') {
+    if ($form['#id'] === 'views-exposed-form-group-nodes-microsite-page') {
+      if (!empty($form['actions']['reset'])) {
+        $form['actions']['reset']['#access'] = TRUE;
+      }
+    }
+    if ($form['#id'] === 'views-exposed-form-group-media-page-1') {
+      if (!empty($form['actions']['reset'])) {
+        $form['actions']['reset']['#access'] = TRUE;
+      }
+    }
+  }
+}
