@@ -49,6 +49,11 @@ news:
     theme:
       css/components/news.css: {}
 
+campaign-pages:
+  css:
+    theme:
+      css/components/campaign-pages.css: {}
+
 # Blocks
 directory-facets-block:
   css:
