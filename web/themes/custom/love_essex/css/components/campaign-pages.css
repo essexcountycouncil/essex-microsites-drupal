@@ -140,7 +140,11 @@ body {
 }
 .love_essex_green .lgd-page-section a:not(.call-to-action__link a) {
   color: var(--color-leg-page-text);
-  background-color: var(--color-leg-page-button-colour);
+  background-color: var(--color-leg-page-button-color);
+}
+.love_essex_orange .lgd-page-section .btn.btn-start {
+  color: var(--color-leg-page-button-text);
+  background-color: var(--color-leg-page-button-color);
 }
 
 /* Colour block 1 */
@@ -216,7 +220,7 @@ body {
 
 .love_essex_orange .lgd-page-section a:not(.call-to-action__link a) {
   color: var(--color-leo-page-text);
-  background-color: var(--color-leo-page-button-colour);
+  background-color: var(--color-leo-page-button-color);
 }
 
 /* Colour block 1 */
@@ -236,7 +240,7 @@ body {
 }
 .love_essex_orange .lgd-page-section.lgd-page-section--bg-colour-1 .btn.btn-start {
   color: var(--color-leo-colour-block-1-button-text);
-  background-color: var(--color-leo-colour-block-1-button-colour);
+  background-color: var(--color-leo-colour-block-1-button-color);
 }
 
 
@@ -298,7 +302,11 @@ body {
 
 .love_essex_red .lgd-page-section a:not(.call-to-action__link a) {
   color: var(--color-ler-page-text);
-  background-color: var(--color-ler-page-button-colour);
+  background-color: var(--color-ler-page-button-color);
+}
+.love_essex_red .lgd-page-section .btn.btn-start {
+  color: var(--color-ler-page-button-text);
+  background-color: var(--color-ler-page-button-color);
 }
 
 /* Colour block 1 */
@@ -318,7 +326,7 @@ body {
 }
 .love_essex_red .lgd-page-section.lgd-page-section--bg-colour-1 .btn.btn-start {
   color: var(--color-ler-colour-block-1-button-text);
-  background-color: var(--color-ler-colour-block-1-button-colour);
+  background-color: var(--color-ler-colour-block-1-button-color);
 }
 
 
@@ -380,7 +388,7 @@ body {
 
 .love_essex_blue .lgd-page-section a:not(.call-to-action__link a) {
   color: var(--color-leb-page-text);
-  background-color: var(--color-leb-page-button-colour);
+  background-color: var(--color-leb-page-button-color);
 }
 
 /* Colour block 1 */
@@ -400,7 +408,7 @@ body {
 }
 .love_essex_blue .lgd-page-section.lgd-page-section--bg-colour-1 .btn.btn-start {
   color: var(--color-leb-colour-block-1-button-text);
-  background-color: var(--color-leb-colour-block-1-button-colour);
+  background-color: var(--color-leb-colour-block-1-button-color);
 }
 
 
