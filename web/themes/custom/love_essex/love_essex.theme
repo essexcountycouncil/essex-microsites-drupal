@@ -105,6 +105,13 @@ function love_essex_preprocess_html(array &$attachments) {
           }
         }
       }
+
+      // We need to add a class to Page nodes.
+      if ($node->hasField('field_page_colour_swatch') && !$node->get('field_page_colour_swatch')->isEmpty()) {
+        $colour_swatch_value = $node->get('field_page_colour_swatch')->value;
+        $attachments['attributes']['class'][] = $colour_swatch_value;
+      }
+
     }
   }
 }
