@@ -234,6 +234,10 @@ body {
 .love_essex_orange .lgd-page-section .lgd-page-section--bg-colour-1 a {
   color: var(--color-leo-colour-block-1-heading-text);
 }
+.love_essex_orange .lgd-page-section.lgd-page-section--bg-colour-1 .btn.btn-start {
+  color: var(--color-leo-colour-block-1-button-text);
+  background-color: var(--color-leo-colour-block-1-button-colour);
+}
 
 
 /* Colour block 2 */
@@ -310,7 +314,11 @@ body {
 }
 
 .love_essex_red .lgd-page-section .lgd-page-section--bg-colour-1 a {
-  color: var(--color-ler-colour-block-1-heading-text);
+  color: var(--color-ler-colour-block-1-button-text);
+}
+.love_essex_red .lgd-page-section.lgd-page-section--bg-colour-1 .btn.btn-start {
+  color: var(--color-ler-colour-block-1-button-text);
+  background-color: var(--color-ler-colour-block-1-button-colour);
 }
 
 
@@ -389,6 +397,10 @@ body {
 
 .love_essex_blue .lgd-page-section .lgd-page-section--bg-colour-1 a {
   color: var(--color-leb-colour-block-1-heading-text);
+}
+.love_essex_blue .lgd-page-section.lgd-page-section--bg-colour-1 .btn.btn-start {
+  color: var(--color-leb-colour-block-1-button-text);
+  background-color: var(--color-leb-colour-block-1-button-colour);
 }
 
 
