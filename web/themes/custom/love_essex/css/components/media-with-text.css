@@ -58,11 +58,11 @@
   border-radius: var(--border-radius) var(--border-radius) 0 0;
 }
 
-.media-with-text--featured h2,
-.media-with-text--featured h3,
-.media-with-text--featured h4,
-.media-with-text--featured .media-with-text__body,
-.media-with-text--featured .media-with-text__link {
+.paragraph--type--localgov-media-with-text.media-with-text--featured h2,
+.paragraph--type--localgov-media-with-text.media-with-text--featured h3,
+.paragraph--type--localgov-media-with-text.media-with-text--featured h4,
+.paragraph--type--localgov-media-with-text.media-with-text--featured .media-with-text__body,
+.paragraph--type--localgov-media-with-text.media-with-text--featured .media-with-text__link {
   color: var(--color-black);
 }
 
