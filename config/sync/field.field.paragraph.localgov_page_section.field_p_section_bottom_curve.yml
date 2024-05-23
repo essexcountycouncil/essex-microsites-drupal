@@ -1,0 +1,23 @@
+uuid: 35a16b48-5912-4468-bfad-537a54521adf
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_p_section_bottom_curve
+    - paragraphs.paragraphs_type.localgov_page_section
+id: paragraph.localgov_page_section.field_p_section_bottom_curve
+field_name: field_p_section_bottom_curve
+entity_type: paragraph
+bundle: localgov_page_section
+label: 'Bottom Curve'
+description: 'Place a curve at the bottom of this page section, matching its background colour.'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

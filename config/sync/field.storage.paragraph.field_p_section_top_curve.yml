@@ -1,0 +1,18 @@
+uuid: a85c4b31-bce5-4972-b770-e2e804b9d420
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs
+id: paragraph.field_p_section_top_curve
+field_name: field_p_section_top_curve
+entity_type: paragraph
+type: boolean
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
