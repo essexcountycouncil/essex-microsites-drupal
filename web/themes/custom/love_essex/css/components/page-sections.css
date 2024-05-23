@@ -39,3 +39,29 @@
 .lgd-page-section--margin-after-largest {
   --page-section-margin-after: var(--spacing-largest);
 }
+
+.section-top-curve svg,
+.section-bottom-curve svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.section-top-curve.lgd-page-section--bg-colour-1 svg path,
+.section-bottom-curve.lgd-page-section--bg-colour-1 svg path {
+  fill: var(--color-page-section-background-color-1);
+}
+
+.section-top-curve.lgd-page-section--bg-colour-2 svg path,
+.section-bottom-curve.lgd-page-section--bg-colour-2 svg path {
+  fill: var(--color-page-section-background-color-2);
+}
+
+.section-top-curve.lgd-page-section--bg-colour-3 svg path,
+.section-bottom-curve.lgd-page-section--bg-colour-3 svg path {
+  fill: var(--color-page-section-background-color-3);
+}
+
+.section-bottom-curve.lgd-page-section {
+  background: none;
+}

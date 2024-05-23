@@ -67,6 +67,14 @@
   {% set margin_after_regions = paragraph.field_margin_after_regions.value %}
 {% endif %}
 
+{% if paragraph.field_p_section_top_curve.value %}
+  {% set top_curve = paragraph.field_p_section_top_curve.value %}
+{% endif %}
+
+{% if paragraph.field_p_section_bottom_curve.value %}
+  {% set bottom_curve = paragraph.field_p_section_bottom_curve.value %}
+{% endif %}
+
 {%
   set classes = [
     'lgd-page-section',
@@ -79,13 +87,34 @@
     padding_top ? 'lgd-page-section--padding-top-' ~ padding_top|clean_class,
     padding_bottom ? 'lgd-page-section--padding-bottom-' ~ padding_bottom|clean_class,
     margin_regions ? 'lgd-page-section--regions-margin-' ~ margin_regions|clean_class,
-    margin_after_regions ? 'lgd-page-section--margin-after-' ~ margin_after_regions|clean_class,
+    margin_after_regions and not bottom_curve ? 'lgd-page-section--margin-after-' ~ margin_after_regions|clean_class,
     'paragraph',
     'paragraph--type--' ~ paragraph.bundle|clean_class,
     view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
     not paragraph.isPublished() ? 'paragraph--unpublished'
   ]
 %}
+
+{% if top_curve %}
+  {% set top_curve_attributes = create_attribute() %}
+  {% set top_curve_classes = [
+    'section-top-curve',
+    width ? 'lgd-page-section--' ~ width : 'lgd-container padding-horizontal',
+    width == 'full-width' ? 'padding-horizontal',
+    width == 'contained-content' ? 'padding-horizontal',
+    width == 'contained-content' ? 'lgd-container',
+    bg_colour ? 'lgd-page-section--has-bg-colour' : 'lgd-page-section--no-bg-colour',
+    bg_colour ? 'lgd-page-section--bg-' ~ bg_colour|clean_class
+    ]
+  %}
+  {# No alt text for decorative images. #}
+  <div {{ top_curve_attributes.addClass(top_curve_classes) }}>
+    <svg width="1278" height="139" viewBox="0 0 1278 139" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 139L1278 139V55.6247C692.4 -75.9228 182 56.3967 0 139Z" fill="#00843D"/>
+    </svg>
+  </div>
+{% endif %}
+
 
 <div{{ attributes.addClass(classes) }}>
 
@@ -103,3 +132,20 @@
 
 </div>
 
+{% if bottom_curve %}
+  {% set bottom_curve_attributes = create_attribute() %}
+  {% set bottom_curve_classes = [
+    'lgd-page-section',
+    'section-bottom-curve',
+    margin_after_regions ? 'lgd-page-section--margin-after-' ~ margin_after_regions|clean_class,
+    bg_colour ? 'lgd-page-section--bg-' ~ bg_colour|clean_class
+    ]
+  %}
+  {# No alt text for decorative images. #}
+  {#  #}
+  <div {{ bottom_curve_attributes.addClass(bottom_curve_classes) }}>
+    <svg width="1278" height="139" viewBox="0 0 1278 139" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M1278 0.000106812L1.21518e-05 -4.91479e-06L4.86287e-06 83.3752C585.6 214.923 1096 82.6033 1278 0.000106812Z" fill="#00843D"/>
+    </svg>
+  </div>
+{% endif %}
