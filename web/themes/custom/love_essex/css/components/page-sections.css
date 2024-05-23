@@ -46,6 +46,12 @@
   width: 100%;
   height: auto;
 }
+.section-top-curve {
+  margin-bottom: -1px;
+}
+.section-bottom-curve {
+  margin-top: -1px;
+}
 
 .section-top-curve.lgd-page-section--bg-colour-1 svg path,
 .section-bottom-curve.lgd-page-section--bg-colour-1 svg path {
