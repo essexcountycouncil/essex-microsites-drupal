@@ -39,3 +39,8 @@
 .paragraph--type--waste-search .views-exposed-form form .form-submit {
   border: 2px solid black;
 }
+
+.view-disposal-options .view-id-waste_item .view-content {
+  display: block;
+}
+
