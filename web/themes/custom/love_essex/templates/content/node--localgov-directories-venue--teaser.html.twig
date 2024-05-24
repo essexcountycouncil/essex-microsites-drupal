@@ -71,10 +71,12 @@
  */
 #}
 
+{% set content_type = node.bundle %}
+{{ attach_library('love_essex/directory-venue') }}
 {%
   set classes = [
-    'full',
-    'full--' ~ node.bundle|clean_class,
+    'lgd-teaser',
+    'lgd-teaser--' ~ content_type|clean_class,
     'node',
     'node--type-' ~ node.bundle|clean_class,
     node.isPromoted() ? 'node--promoted',
@@ -84,44 +86,45 @@
   ]
 %}
 
-{{ attach_library('localgov_microsites_base/full') }}
-{{ attach_library('love_essex/directory-channel') }}
-
-{% block library_extend %}{% endblock %}
+{% if not localgov_base_remove_css %}
+  {{ attach_library('localgov_base/teaser') }}
+{% endif %}
 
 <article{{ attributes.addClass(classes).removeAttribute('role') }}>
 
-  {% if content.group_banner %}
-    {{ content.group_banner }}
-  {% endif %}
-
-  <div class="lgd-container padding-horizontal">
-
-    {# Removing title from node template here as preprocess is shifting it
-       into another region. #}
-
-    {% if content.group_page_top %}
-      {% block blog_meta %}
-        {# Populated in the node--localgov-blog-post--full.html.twig template #}
-      {% endblock %}
-
-      {{ content.group_page_top|without('localgov_blog_author', 'localgov_blog_date', 'localgov_blog_categories') }}
-    {% endif %}
-
-    <div{{ content_attributes.addClass('full__content') }}>
-      {{ content|without('group_banner', 'group_page_top', 'group_page_bottom', 'localgov_paragraph_content') }}
-    </div>
-  </div>
-  {% if node.localgov_paragraph_content.value %}
-    <div class="full__layout-section">
-      {{ content.localgov_paragraph_content }}
+  {#
+    The event content type has a specific field set for its teaser so we
+    are adding that here specifically. Hopefully all other content types
+    will use the same `field_media_image` field.
+  #}
+  {% if node.field_media_image.value or node.localgov_event_image.value %}
+    <div class="lgd-teaser__image">
+      {{ content.field_media_image }}
+      {{ content.localgov_event_image }}
     </div>
   {% endif %}
 
-  <div class="lgd-container padding-horizontal">
-    {% if content.group_page_bottom %}
-      {{ content.group_page_bottom }}
+  <div{{ content_attributes.addClass('lgd-teaser__content', 'lgd-teaser__content--' ~ content_type|clean_class) }}>
+
+    {% if teaser_date %}
+      <div class="lgd-teaser__date">
+        {{ teaser_date }}
+      </div>
     {% endif %}
+
+    {{ title_prefix }}
+    {% if label and not page %}
+      <h3{{ title_attributes }}>
+        <a href="{{ url }}" rel="bookmark">{{ label }}</a>
+      </h3>
+    {% endif %}
+    {{ title_suffix }}
+
+    {#
+      We render the full content variable here, so any new fields added
+      are visible.
+    #}
+    {{ content|without('field_media_image', 'localgov_event_image', 'localgov_news_date') }}
   </div>
 
 </article>

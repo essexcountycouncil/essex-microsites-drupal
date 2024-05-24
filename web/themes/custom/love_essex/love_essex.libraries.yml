@@ -54,6 +54,16 @@ campaign-pages:
     theme:
       css/components/campaign-pages.css: {}
 
+directory-channel:
+  css:
+    theme:
+      css/components/directory-channel.css: {}
+
+directory-venue:
+  css:
+    theme:
+      css/components/directory-venue.css: {}
+
 # Blocks
 directory-facets-block:
   css:
