@@ -24,7 +24,7 @@ third_party_settings:
       label: 'Page Top'
       parent_name: ''
       region: content
-      weight: 1
+      weight: 2
       format_type: html_element
       format_settings:
         classes: full__page-top
@@ -68,7 +68,7 @@ content:
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 2
+    weight: 3
     region: content
   localgov_page_banner:
     type: entity_reference_revisions_entity_view
@@ -84,7 +84,7 @@ content:
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 1
+    weight: 3
     region: content
   localgov_paragraph_content:
     type: layout_paragraphs
@@ -93,7 +93,7 @@ content:
       view_mode: default
       link: ''
     third_party_settings: {  }
-    weight: 3
+    weight: 4
     region: content
 hidden:
   field_page_colour_swatch: true

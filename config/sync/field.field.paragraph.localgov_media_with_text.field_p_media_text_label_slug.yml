@@ -1,0 +1,19 @@
+uuid: e0c1b8b6-fe2a-4ae9-a1f1-3165178be05e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_p_media_text_label_slug
+    - paragraphs.paragraphs_type.localgov_media_with_text
+id: paragraph.localgov_media_with_text.field_p_media_text_label_slug
+field_name: field_p_media_text_label_slug
+entity_type: paragraph
+bundle: localgov_media_with_text
+label: 'Label Slug'
+description: 'Adds a simple text slug at top of the component. It acts as a visual label only.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
