@@ -4,7 +4,7 @@ status: true
 dependencies:
   config:
     - field.storage.taxonomy_term.field_p_factoid
-    - paragraphs.paragraphs_type.localgov_link_and_summary
+    - paragraphs.paragraphs_type.did_you_know
     - taxonomy.vocabulary.waste_item
   module:
     - entity_reference_revisions
@@ -22,9 +22,15 @@ settings:
   handler: 'default:paragraph'
   handler_settings:
     target_bundles:
-      localgov_link_and_summary: localgov_link_and_summary
+      did_you_know: did_you_know
     negate: 0
     target_bundles_drag_drop:
+      call_to_action:
+        weight: 41
+        enabled: false
+      did_you_know:
+        weight: 42
+        enabled: true
       from_library:
         weight: 38
         enabled: false
@@ -102,7 +108,7 @@ settings:
         enabled: false
       localgov_link_and_summary:
         weight: 63
-        enabled: true
+        enabled: false
       localgov_media_with_text:
         weight: 64
         enabled: false
@@ -135,5 +141,8 @@ settings:
         enabled: false
       localgov_video:
         weight: 74
+        enabled: false
+      waste_search:
+        weight: 80
         enabled: false
 field_type: entity_reference_revisions
