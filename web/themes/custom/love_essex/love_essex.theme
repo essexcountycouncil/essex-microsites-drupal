@@ -5,12 +5,12 @@
  * Theme function for the Love Essex theme.
  */
 use Drupal\localgov_microsites_group\Entity\MicrositeGroupInterface;
+use Drupal\node\Entity\Node;
 
 /**
  * Implements hook_preprocess_HOOK().
  */
 function love_essex_preprocess_page(&$variables) {
-
   $parent_group_id = \Drupal::service('domain_group_resolver')->getActiveDomainGroupId();
   if ($parent_group_id) {
     $group = \Drupal::entityTypeManager()->getStorage('group')->load($parent_group_id);
@@ -36,13 +36,68 @@ function love_essex_preprocess_page(&$variables) {
         '#alt' => t('Love Essex'),
       ];
     }
-    // check what region we are in
+    // Check what region we are in.
     $variables['microsites']['footer']['items']['lgms_main_logo'] = [
       '#theme' => 'image',
       '#uri' => '/themes/custom/love_essex/assets/images/logos/love-essex-logo-white.png',
       '#alt' => t('Love Essex'),
     ];
+  }
 
+  // Shift some content to another region for certain nodes.
+  // Check if the current page is a node and the view mode is 'full'.
+  if (isset($variables['node']) && $variables['node'] instanceof Node) {
+    $node = $variables['node'];
+    // Check if the node type is 'localgov_directory'.
+    if ($node->bundle() === 'localgov_directory') {
+      // Get the title and body field values.
+      $title = $node->getTitle();
+      $body = $node->get('body')->view();
+
+      // Remove title and body from the 'content' region.
+      unset($variables['content']['node_title']);
+      unset($variables['content']['node_body']);
+
+      // Add title and body to the 'content_top' region.
+      $variables['page']['content_top']['container'] = [
+        '#type' => 'container',
+        '#attributes' => [
+          'class' => ['lgd-container', 'padding-horizontal'],
+          'id' => ['region-content-top'],
+        ],
+      ];
+      $variables['page']['content_top']['container']['row'] = [
+        '#type' => 'container',
+        '#attributes' => [
+          'class' => ['lgd-row'],
+        ],
+      ];
+
+      $variables['page']['content_top']['container']['row']['node_title'] = [
+        '#markup' => '<h1>' . $title . '</h1>',
+        '#allowed_tags' => ['h1'],
+      ];
+      $variables['page']['content_top']['container']['row']['node_body'] = $body;
+      $variables['page']['content_top']['container']['row']['node_body']["#label_display"] = 'hidden';
+      $variables['has_content_top'] = TRUE;
+    }
+  }
+}
+
+/**
+ * Implements template_preprocess_node()
+ *
+ * Prevent unwanted values from printing on directory channel pages.
+ *
+ * @param  array $variables
+ * @return void
+ */
+function love_essex_preprocess_node(&$variables) {
+  if ($variables['view_mode'] === 'full' && $variables['page'] === TRUE) {
+    if ($variables['content_type'] === 'localgov_directory') {
+      unset($variables['content']['body']);
+      unset($variables['elements']['#title']);
+    }
   }
 }
 
