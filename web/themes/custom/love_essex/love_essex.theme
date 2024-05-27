@@ -169,7 +169,25 @@ function love_essex_preprocess_html(array &$attachments) {
         $colour_swatch_value = $node->get('field_page_colour_swatch')->value;
         $attachments['attributes']['class'][] = $colour_swatch_value;
       }
+    }
+  }
+}
 
+/**
+ * Implements hook_form_alter()
+ *
+ * Hide some field titles on the home page.
+ */
+function love_essex_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  if (\Drupal::service('path.matcher')->isFrontPage()) {
+    if ($form['#id'] === 'views-exposed-form-disposal-options-page-disposal-search') {
+      $form['title'] = [
+        '#type' => 'item',
+        '#markup' => '<h3>What do you want to dispose of?</h3>',
+        '#weight' => '-1',
+      ];
+      $form['item']['#title_display'] = 'invisible';
+      $form['postcode']['#title_display'] = 'invisible';
     }
   }
 }
