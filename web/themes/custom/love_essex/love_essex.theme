@@ -53,10 +53,7 @@ function love_essex_preprocess_page(&$variables) {
       // Get the title and body field values.
       $title = $node->getTitle();
       $body = $node->get('body')->view();
-
-      // Remove title and body from the 'content' region.
-      unset($variables['content']['node_title']);
-      unset($variables['content']['node_body']);
+      $channel_logo = $node->get('field_directory_channel_logo')->view('thumbnail');
 
       // Add title and body to the 'content_top' region.
       $variables['page']['content_top']['container'] = [
@@ -72,6 +69,11 @@ function love_essex_preprocess_page(&$variables) {
           'class' => ['lgd-row'],
         ],
       ];
+      if (!empty($channel_logo)) {
+        $variables['page']['content_top']['container']['row']['secondary_logo'] = [
+          $channel_logo,
+        ];
+      }
 
       $variables['page']['content_top']['container']['row']['node_title'] = [
         '#markup' => '<h1>' . $title . '</h1>',
@@ -97,6 +99,7 @@ function love_essex_preprocess_node(&$variables) {
     if ($variables['content_type'] === 'localgov_directory') {
       unset($variables['content']['body']);
       unset($variables['elements']['#title']);
+      unset($variables['content']['field_directory_channel_logo']);
     }
   }
 }
