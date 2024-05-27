@@ -10,3 +10,11 @@
 .path-frontpage h2.full__title {
   margin: 0;
 }
+
+.path-frontpage .block-views-exposed-filter-blockdisposal-options-page-disposal-search h2 {
+  display: none;
+}
+
+.path-frontpage .block-views-exposed-filter-blockdisposal-options-page-disposal-search .form-item-title {
+  flex-basis: 100%;
+}
