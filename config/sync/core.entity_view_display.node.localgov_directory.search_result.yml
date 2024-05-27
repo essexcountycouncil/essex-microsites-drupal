@@ -5,6 +5,7 @@ dependencies:
   config:
     - core.entity_view_mode.node.search_result
     - field.field.node.localgov_directory.body
+    - field.field.node.localgov_directory.field_directory_channel_logo
     - field.field.node.localgov_directory.localgov_directory_channel_types
     - field.field.node.localgov_directory.localgov_directory_facets_enable
     - field.field.node.localgov_directory.localgov_proximity_search_cfg
@@ -26,6 +27,7 @@ content:
 hidden:
   body: true
   content_moderation_control: true
+  field_directory_channel_logo: true
   links: true
   localgov_directory_channel_types: true
   localgov_directory_facets: true

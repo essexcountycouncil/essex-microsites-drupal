@@ -1,0 +1,20 @@
+uuid: b03d2f8e-ccf6-4e6c-a1fe-c16722bcff97
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+    - node
+id: node.field_directory_channel_logo
+field_name: field_directory_channel_logo
+entity_type: node
+type: entity_reference
+settings:
+  target_type: media
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
