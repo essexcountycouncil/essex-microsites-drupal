@@ -6,3 +6,7 @@
 .path-frontpage .full__banner {
   margin-bottom: 0;
 }
+
+.path-frontpage h2.full__title {
+  margin: 0;
+}
