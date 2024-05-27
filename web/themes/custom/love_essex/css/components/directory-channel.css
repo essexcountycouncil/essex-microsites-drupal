@@ -9,3 +9,21 @@
 .view .pager__items a {
   color: var(--color-accent);
 }
+
+.page-node-type-localgov-directory #main-content:after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 330px;
+  background: transparent url(../../assets/images/pre-footer-decoration.svg) no-repeat;
+  background-size: cover;
+}
+
+.page-node-type-localgov-directory #main-content {
+  padding-bottom: 0;
+}
+
+.page-node-type-localgov-directory .microsite-footer {
+  margin-block-start: 0;
+  padding-block-start: 0;
+}
