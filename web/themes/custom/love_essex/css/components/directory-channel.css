@@ -2,3 +2,10 @@
   flex-basis: 100%;
   margin-bottom: 3em;
 }
+
+.view .pager__items {
+  color: var(--color-accent);
+}
+.view .pager__items a {
+  color: var(--color-accent);
+}
