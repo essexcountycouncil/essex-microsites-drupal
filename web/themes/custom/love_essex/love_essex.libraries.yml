@@ -54,6 +54,11 @@ campaign-pages:
     theme:
       css/components/campaign-pages.css: {}
 
+front:
+  css:
+    theme:
+      css/components/front.css: {}
+
 directory-channel:
   css:
     theme:

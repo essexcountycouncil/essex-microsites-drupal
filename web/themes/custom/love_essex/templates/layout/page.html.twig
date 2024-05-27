@@ -57,6 +57,10 @@
 {{ attach_library('localgov_microsites_base/header-js') }}
 {{ attach_library('localgov_microsites_base/footer') }}
 
+{% if is_front %}
+  {{ attach_library('love_essex/front') }}
+{% endif %}
+
 {% if has_tabs %}
   {{ page.tabs }}
 {% endif %}

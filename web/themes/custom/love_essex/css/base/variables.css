@@ -41,6 +41,7 @@ body {
   --color-accent-3-contrast: var(--color-white);
   --color-accent-lightest: #F6F4F0;
   --color-grey-darkest: #292924;
+  --color-tan: #DAD2C4;
   --font-primary: 'Poppins', sans-serif;
   --font-secondary: var(--font-primary);
   --line-height: 1.75;

@@ -1,0 +1,8 @@
+.path-frontpage .field--name-localgov-paragraph-content .field__item:first-child .lgd-page-section {
+  background-color: var(--color-tan);
+  padding-top: var(--spacing-largest);
+  padding-bottom: var(--spacing-largest);
+}
+.path-frontpage .full__banner {
+  margin-bottom: 0;
+}
