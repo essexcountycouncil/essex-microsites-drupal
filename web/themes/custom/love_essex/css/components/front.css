@@ -15,6 +15,9 @@
   display: none;
 }
 
-.path-frontpage .block-views-exposed-filter-blockdisposal-options-page-disposal-search .form-item-title {
-  flex-basis: 100%;
+.path-frontpage .block-views-exposed-filter-blockdisposal-options-page-disposal-search .waste-search-paragraph-title {
+  width: 100%;
+  text-align: center;
+  margin-top: 1em;
+  margin-bottom: 1em;
 }
