@@ -752,7 +752,7 @@ display:
               microsites_trusted_editor: '0'
               localgov_news_editor: '0'
               waste_admin: '0'
-            placeholder: ''
+            placeholder: 'e.g. Wood, food'
             autocomplete_filter: 1
             autocomplete_min_chars: '3'
             autocomplete_items: '20'
