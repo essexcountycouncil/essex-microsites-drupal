@@ -138,11 +138,10 @@ body {
 .love_essex_green .lgd-page-section h2 {
   color: var(--color-leg-page-heading-text);
 }
-.love_essex_green .lgd-page-section a:not(.call-to-action__link a) {
+.love_essex_green .lgd-page-section.lgd-page-section--no-bg-colour a {
   color: var(--color-leg-page-text);
-  background-color: var(--color-leg-page-button-color);
 }
-.love_essex_orange .lgd-page-section .btn.btn-start {
+.love_essex_green .lgd-page-section.lgd-page-section--no-bg-colour a.btn.btn-start {
   color: var(--color-leg-page-button-text);
   background-color: var(--color-leg-page-button-color);
 }
@@ -156,6 +155,9 @@ body {
 .love_essex_green .lgd-page-section--bg-colour-1 h3,
 .love_essex_green .lgd-page-section--bg-colour-1 button {
   color: var(--color-leg-colour-block-1-heading-text);
+}
+.love_essex_green .lgd-page-section--bg-colour-1 .featured-teaser h3 {
+  color: inherit;
 }
 .love_essex_green .lgd-page-section--bg-colour-1 a {
   color: var(--color-leg-colour-block-1-heading-text);
@@ -173,9 +175,17 @@ body {
 .love_essex_green .lgd-page-section--bg-colour-2 button {
   color: var(--color-leg-colour-block-2-heading-text);
 }
+.love_essex_green .lgd-page-section--bg-colour-2 .featured-teaser h3 {
+  color: inherit;
+}
 
 .love_essex_green .lgd-page-section--bg-colour-2 a:not(.call-to-action__link a) {
   color: var(--color-leg-colour-block-2-text);
+}
+
+.love_essex_green .lgd-page-section.lgd-page-section--bg-colour-1 .btn.btn-start {
+  color: var(--color-leg-colour-block-1-button-text);
+  background-color: var(--color-leg-colour-block-1-button-color);
 }
 
 /**
@@ -218,9 +228,13 @@ body {
   color: var(--color-leo-page-heading-text);
 }
 
-.love_essex_orange .lgd-page-section a:not(.call-to-action__link a) {
-  color: var(--color-leo-page-text);
-  background-color: var(--color-leo-page-button-color);
+.love_essex_orange .lgd-page-section.lgd-page-section--no-bg-colour a {
+  color: var(--color-leo-colour-block-1-heading-text);
+}
+
+.love_essex_orange .lgd-page-section.lgd-page-section--no-bg-colour .btn.btn-start {
+  color: var(--color-leo-colour-block-1-button-text);
+  background-color: var(--color-leo-colour-block-1-button-color);
 }
 
 /* Colour block 1 */
@@ -231,8 +245,12 @@ body {
 
 .love_essex_orange .lgd-page-section--bg-colour-1 h2,
 .love_essex_orange .lgd-page-section--bg-colour-1 h3,
-.love_essex_orange .lgd-page-section--bg-colour-1 button {
+.love_essex_orange .lgd-page-section--bg-colour-1 button,
+.love_essex_orange .lgd-page-section--bg-colour-1 .media-with-text__body {
   color: var(--color-leo-colour-block-1-heading-text);
+}
+.love_essex_orange .lgd-page-section--bg-colour-1 .featured-teaser h3 {
+  color: inherit;
 }
 
 .love_essex_orange .lgd-page-section .lgd-page-section--bg-colour-1 a {
@@ -252,12 +270,21 @@ body {
 
 .love_essex_orange .lgd-page-section--bg-colour-2 h2,
 .love_essex_orange .lgd-page-section--bg-colour-2 h3,
-.love_essex_orange .lgd-page-section--bg-colour-2 button {
+.love_essex_orange .lgd-page-section--bg-colour-2 button,
+.love_essex_orange .lgd-page-section--bg-colour-2 .media-with-text__body {
   color: var(--color-leo-colour-block-2-heading-text);
 }
+.love_essex_orange .lgd-page-section--bg-colour-2 .featured-teaser h3 {
+  color: inherit;
+}
 
-.love_essex_orange .lgd-page-section--bg-colour-2 a:not(.call-to-action__link a) {
-  color: var(--color-leo-colour-block-2-text);
+.love_essex_orange .lgd-page-section .lgd-page-section--bg-colour-2 a {
+  color: var(--color-leo-colour-block-1-heading-text);
+}
+
+.love_essex_orange .lgd-page-section.lgd-page-section--bg-colour-2 .btn.btn-start {
+  color: var(--color-leo-colour-block-1-button-text);
+  background-color: var(--color-leo-colour-block-1-button-color);
 }
 
 /**
@@ -296,13 +323,14 @@ body {
   color: var(--color-ler-page-text);
 }
 
-.love_essex_red .lgd-page-section h2 {
+.love_essex_red .lgd-page-section h2,
+.love_essex_red .lgd-page-section h3 {
   color: var(--color-ler-page-heading-text);
 }
 
-.love_essex_red .lgd-page-section a:not(.call-to-action__link a) {
+.love_essex_red .lgd-page-section.lgd-page-section--no-bg-colour a {
   color: var(--color-ler-page-text);
-  background-color: var(--color-ler-page-button-color);
+  background-color: none;
 }
 .love_essex_red .lgd-page-section .btn.btn-start {
   color: var(--color-ler-page-button-text);
@@ -317,8 +345,12 @@ body {
 
 .love_essex_red .lgd-page-section--bg-colour-1 h2,
 .love_essex_red .lgd-page-section--bg-colour-1 h3,
-.love_essex_red .lgd-page-section--bg-colour-1 button {
+.love_essex_red .lgd-page-section--bg-colour-1 button,
+.love_essex_red .lgd-page-section--bg-colour-1 .media-with-text__body {
   color: var(--color-ler-colour-block-1-heading-text);
+}
+.love_essex_red .lgd-page-section--bg-colour-1 .featured-teaser h3 {
+  color: inherit;
 }
 
 .love_essex_red .lgd-page-section .lgd-page-section--bg-colour-1 a {
@@ -338,8 +370,12 @@ body {
 
 .love_essex_red .lgd-page-section--bg-colour-2 h2,
 .love_essex_red .lgd-page-section--bg-colour-2 h3,
-.love_essex_red .lgd-page-section--bg-colour-2 button {
+.love_essex_red .lgd-page-section--bg-colour-2 button,
+.love_essex_red .lgd-page-section--bg-colour-2 .media-with-text__body {
   color: var(--color-ler-colour-block-2-heading-text);
+}
+.love_essex_red .lgd-page-section--bg-colour-2 .featured-teaser h3 {
+  color: inherit;
 }
 
 .love_essex_red .lgd-page-section--bg-colour-2 a:not(.call-to-action__link a) {
@@ -378,7 +414,7 @@ body {
 }
 
 .love_essex_blue .lgd-page-section {
-  background-color: var(--color-ler-page-background);
+  background-color: var(--color-leb-page-background);
   color: var(--color-leb-page-text);
 }
 
@@ -386,10 +422,15 @@ body {
   color: var(--color-leb-page-heading-text);
 }
 
-.love_essex_blue .lgd-page-section a:not(.call-to-action__link a) {
+.love_essex_blue .lgd-page-section.lgd-page-section--no-bg-colour a {
   color: var(--color-leb-page-text);
+  background-color: none;
+}
+.love_essex_blue .lgd-page-section .btn.btn-start {
+  color: var(--color-leb-page-button-text);
   background-color: var(--color-leb-page-button-color);
 }
+
 
 /* Colour block 1 */
 .love_essex_blue .lgd-page-section.lgd-page-section--bg-colour-1 {
@@ -399,8 +440,12 @@ body {
 
 .love_essex_blue .lgd-page-section--bg-colour-1 h2,
 .love_essex_blue .lgd-page-section--bg-colour-1 h3,
-.love_essex_blue .lgd-page-section--bg-colour-1 button {
+.love_essex_blue .lgd-page-section--bg-colour-1 button,
+.love_essex_blue .lgd-page-section--bg-colour-1 .media-with-text__body {
   color: var(--color-leb-colour-block-1-heading-text);
+}
+.love_essex_blue .lgd-page-section--bg-colour-1 .featured-teaser h3 {
+  color: inherit;
 }
 
 .love_essex_blue .lgd-page-section .lgd-page-section--bg-colour-1 a {
@@ -420,10 +465,20 @@ body {
 
 .love_essex_blue .lgd-page-section--bg-colour-2 h2,
 .love_essex_blue .lgd-page-section--bg-colour-2 h3,
-.love_essex_blue .lgd-page-section--bg-colour-2 button {
+.love_essex_blue .lgd-page-section--bg-colour-2 button,
+.love_essex_blue .lgd-page-section--bg-colour-2 .media-with-text__body {
   color: var(--color-leb-colour-block-2-heading-text);
 }
+.love_essex_blue .lgd-page-section--bg-colour-2 .featured-teaser h3 {
+  color: inherit;
+}
 
-.love_essex_blue .lgd-page-section--bg-colour-2 a:not(.call-to-action__link a) {
-  color: var(--color-leb-colour-block-2-text);
+.love_essex_blue .lgd-page-section.lgd-page-section--bg-colour-2 a {
+  color: var(--color-leb-page-text);
+  background-color: none;
+}
+
+.love_essex_blue .lgd-page-section .lgd-page-section--bg-colour-2 .btn.btn-start {
+  color: var(--color-leb-page-button-text);
+  background-color: var(--color-leb-page-button-color);
 }
