@@ -1,0 +1,10 @@
+uuid: a791811d-d7e8-4c6d-ba24-a41669e44c20
+langcode: en
+status: true
+dependencies: {  }
+id: logo_list
+label: 'Logo List'
+icon_uuid: null
+icon_default: null
+description: 'An inline list of images, designed for logos. Laid out side-by-side, wrapping within their container.'
+behavior_plugins: {  }

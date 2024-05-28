@@ -122,6 +122,11 @@ did-you-know:
   dependencies:
     - core/once
 
+logo-lists:
+  css:
+    theme:
+      css/components/logo-lists.css: {}
+
 waste-search:
   css:
     theme:

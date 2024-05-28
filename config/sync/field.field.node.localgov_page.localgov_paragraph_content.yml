@@ -21,6 +21,7 @@ dependencies:
     - paragraphs.paragraphs_type.localgov_table
     - paragraphs.paragraphs_type.localgov_text
     - paragraphs.paragraphs_type.localgov_video
+    - paragraphs.paragraphs_type.logo_list
     - paragraphs.paragraphs_type.waste_search
   module:
     - entity_reference_revisions
@@ -50,6 +51,7 @@ settings:
       localgov_ia_block: localgov_ia_block
       localgov_image: localgov_image
       localgov_link: localgov_link
+      logo_list: logo_list
       localgov_media_with_text: localgov_media_with_text
       localgov_quote: localgov_quote
       localgov_page_section: localgov_page_section
@@ -60,123 +62,126 @@ settings:
     negate: 0
     target_bundles_drag_drop:
       call_to_action:
-        weight: 39
+        weight: -80
         enabled: true
       did_you_know:
-        weight: 42
+        weight: -76
         enabled: true
       from_library:
-        weight: 36
+        weight: -83
         enabled: false
       localgov_accordion:
-        weight: 37
+        weight: -82
         enabled: true
       localgov_accordion_pane:
-        weight: 38
+        weight: -81
         enabled: false
       localgov_banner_primary:
-        weight: 39
+        weight: -79
         enabled: false
       localgov_banner_secondary:
-        weight: 40
+        weight: -78
         enabled: false
       localgov_block_view:
-        weight: 41
+        weight: -77
         enabled: false
       localgov_box_link:
-        weight: 42
+        weight: -75
         enabled: false
       localgov_box_links_listing:
-        weight: 43
+        weight: -74
         enabled: false
       localgov_call_out_box:
-        weight: 44
+        weight: -73
         enabled: true
       localgov_contact:
-        weight: 45
+        weight: -72
         enabled: false
       localgov_documents:
-        weight: 46
+        weight: -71
         enabled: true
       localgov_embed_views:
-        weight: 48
+        weight: -69
         enabled: true
       localgov_fact_box:
-        weight: 47
+        weight: -70
         enabled: false
       localgov_featured_campaign:
-        weight: 48
+        weight: -68
         enabled: false
       localgov_featured_subsite:
-        weight: 49
+        weight: -67
         enabled: false
       localgov_featured_teaser:
-        weight: 50
+        weight: -66
         enabled: false
       localgov_featured_teasers:
-        weight: 51
+        weight: -65
         enabled: true
       localgov_ia_block:
-        weight: 52
+        weight: -64
         enabled: true
       localgov_image:
-        weight: 53
+        weight: -63
         enabled: true
       localgov_key_contact_item:
-        weight: 55
+        weight: -61
         enabled: false
       localgov_key_contacts:
-        weight: 54
+        weight: -62
         enabled: false
       localgov_key_fact:
-        weight: 56
+        weight: -60
         enabled: false
       localgov_key_facts:
-        weight: 57
+        weight: -59
         enabled: false
       localgov_labelled_icon:
-        weight: 58
+        weight: -58
         enabled: false
       localgov_link:
-        weight: 59
+        weight: -57
         enabled: true
       localgov_link_and_summary:
-        weight: 60
+        weight: -56
         enabled: false
       localgov_media_with_text:
-        weight: 61
+        weight: -54
         enabled: true
       localgov_newsroom_teaser:
-        weight: 62
+        weight: -53
         enabled: false
       localgov_numbered_text:
-        weight: 68
+        weight: -46
         enabled: false
       localgov_page_section:
-        weight: 64
+        weight: -51
         enabled: true
       localgov_quote:
-        weight: 63
+        weight: -52
         enabled: true
       localgov_subscribe_panel:
-        weight: 64
+        weight: -50
         enabled: false
       localgov_tab_panel:
-        weight: 67
+        weight: -47
         enabled: false
       localgov_table:
-        weight: 65
+        weight: -49
         enabled: true
       localgov_tabs:
-        weight: 66
+        weight: -48
         enabled: false
       localgov_text:
-        weight: 68
+        weight: -45
         enabled: true
       localgov_video:
-        weight: 69
+        weight: -44
+        enabled: true
+      logo_list:
+        weight: -55
         enabled: true
       waste_search:
-        weight: 78
+        weight: -43
         enabled: true
 field_type: entity_reference_revisions

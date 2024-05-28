@@ -1,0 +1,9 @@
+.paragraph--type--logo-list .field__items {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  row-gap: 2em;
+}
+.paragraph--type--logo-list .field__items .field__item {
+  flex-basis: 17%;
+}

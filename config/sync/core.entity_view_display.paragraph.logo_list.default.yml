@@ -1,0 +1,32 @@
+uuid: 550fb91b-ea97-4bbc-a970-456c98239c25
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.logo_list.field_p_list_logo
+    - paragraphs.paragraphs_type.logo_list
+  module:
+    - field_formatter_class
+    - field_formatter_range
+id: paragraph.logo_list.default
+targetEntityType: paragraph
+bundle: logo_list
+mode: default
+content:
+  field_p_list_logo:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: localgov_event_thumbnail
+      link: false
+    third_party_settings:
+      field_formatter_class:
+        class: ''
+      field_formatter_range:
+        order: 0
+        limit: 0
+        offset: 0
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true
