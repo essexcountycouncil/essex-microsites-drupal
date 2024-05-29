@@ -4,21 +4,25 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.logo_list.field_p_list_logo
+    - image.style.freestyle_md
     - paragraphs.paragraphs_type.logo_list
   module:
     - field_formatter_class
     - field_formatter_range
+    - media
 id: paragraph.logo_list.default
 targetEntityType: paragraph
 bundle: logo_list
 mode: default
 content:
   field_p_list_logo:
-    type: entity_reference_entity_view
+    type: media_thumbnail
     label: hidden
     settings:
-      view_mode: localgov_event_thumbnail
-      link: false
+      image_link: ''
+      image_style: freestyle_md
+      image_loading:
+        attribute: lazy
     third_party_settings:
       field_formatter_class:
         class: ''
