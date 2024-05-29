@@ -374,8 +374,15 @@ body {
 .love_essex_red .lgd-page-section--bg-colour-2 .media-with-text__body {
   color: var(--color-ler-colour-block-2-heading-text);
 }
+.love_essex_red .lgd-page-section--bg-colour-2 .text-component.text-component--has-bg-colour h2,
+.love_essex_red .lgd-page-section--bg-colour-2 .text-component.text-component--has-bg-colour h3,
+.love_essex_red .lgd-page-section--bg-colour-2 .featured-teaser h2,
 .love_essex_red .lgd-page-section--bg-colour-2 .featured-teaser h3 {
   color: inherit;
+}
+
+.love_essex_red .lgd-page-section--bg-colour-3 .media-with-text__body {
+  color: var(--color-ler-page-text);
 }
 
 .love_essex_red .lgd-page-section--bg-colour-2 a:not(.call-to-action__link a) {
