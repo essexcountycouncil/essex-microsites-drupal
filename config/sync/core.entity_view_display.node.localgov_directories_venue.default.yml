@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.localgov_directories_venue.body
+    - field.field.node.localgov_directories_venue.field_directory_channel_logo
     - field.field.node.localgov_directories_venue.field_directory_venue_dyk
     - field.field.node.localgov_directories_venue.localgov_directory_channels
     - field.field.node.localgov_directories_venue.localgov_directory_email
@@ -18,12 +19,15 @@ dependencies:
     - field.field.node.localgov_directories_venue.localgov_directory_website
     - field.field.node.localgov_directories_venue.localgov_location
     - field.field.node.localgov_directories_venue.localgov_paragraph_content
+    - image.style.freestyle_md
     - node.type.localgov_directories_venue
   module:
     - entity_reference_revisions
+    - field_formatter_class
     - field_group
     - layout_paragraphs
     - link
+    - media
     - telephone
     - text
     - user
@@ -39,7 +43,7 @@ third_party_settings:
       label: Enquiries
       parent_name: ''
       region: content
-      weight: 3
+      weight: 4
       format_type: fieldset
       format_settings:
         classes: ''
@@ -53,7 +57,7 @@ third_party_settings:
       label: Venue
       parent_name: ''
       region: content
-      weight: 2
+      weight: 3
       format_type: fieldset
       format_settings:
         classes: ''
@@ -71,6 +75,19 @@ content:
     label: hidden
     settings: {  }
     third_party_settings: {  }
+    weight: 1
+    region: content
+  field_directory_channel_logo:
+    type: media_thumbnail
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: freestyle_md
+      image_loading:
+        attribute: lazy
+    third_party_settings:
+      field_formatter_class:
+        class: ''
     weight: 0
     region: content
   field_directory_venue_dyk:
@@ -80,7 +97,7 @@ content:
       view_mode: default
       link: ''
     third_party_settings: {  }
-    weight: 4
+    weight: 5
     region: content
   localgov_directory_email:
     type: basic_string
@@ -95,7 +112,7 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 1
+    weight: 2
     region: content
   localgov_directory_job_title:
     type: string

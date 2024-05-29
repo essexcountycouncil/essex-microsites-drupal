@@ -5,6 +5,7 @@ dependencies:
   config:
     - core.entity_view_mode.node.directory_index
     - field.field.node.localgov_directories_venue.body
+    - field.field.node.localgov_directories_venue.field_directory_channel_logo
     - field.field.node.localgov_directories_venue.field_directory_venue_dyk
     - field.field.node.localgov_directories_venue.localgov_directory_channels
     - field.field.node.localgov_directories_venue.localgov_directory_email
@@ -144,6 +145,7 @@ content:
     weight: 13
     region: content
 hidden:
+  field_directory_channel_logo: true
   localgov_directory_search: true
   localgov_directory_title_sort: true
   localgov_paragraph_content: true
