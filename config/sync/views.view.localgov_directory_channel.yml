@@ -735,11 +735,16 @@ display:
     display_plugin: embed
     position: 1
     display_options:
+      pager:
+        type: none
+        options:
+          offset: 0
       cache:
         type: none
       defaults:
         cache: false
         css_class: false
+        pager: false
       css_class: 'view--teasers lgd-teaser-list'
       display_extenders: {  }
     cache_metadata:
@@ -747,7 +752,6 @@ display:
       contexts:
         - 'languages:language_interface'
         - url
-        - url.query_args
         - 'user.node_grants:view'
       tags:
         - 'config:search_api.index.localgov_directories_index_default'
