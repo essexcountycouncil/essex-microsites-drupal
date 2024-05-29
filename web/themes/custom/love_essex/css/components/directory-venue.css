@@ -3,3 +3,7 @@
   gap: 1em;
   justify-content: space-between;
 }
+
+.full--localgov-directories-venue .field--name-field-directory-channel-logo {
+  margin-bottom: 2em;
+}
