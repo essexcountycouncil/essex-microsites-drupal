@@ -30,6 +30,5 @@ settings:
     lgms_embed_blogs: lgms_embed_blogs
     lgms_embed_view_events: lgms_embed_view_events
     lgms_embed_view_news: lgms_embed_view_news
-  enabled_settings:
-    limit: 1
+  enabled_settings: {  }
 field_type: viewsreference
