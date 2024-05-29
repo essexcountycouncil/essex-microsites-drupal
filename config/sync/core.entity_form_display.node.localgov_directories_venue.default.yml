@@ -18,10 +18,12 @@ dependencies:
     - field.field.node.localgov_directories_venue.localgov_directory_title_sort
     - field.field.node.localgov_directories_venue.localgov_directory_website
     - field.field.node.localgov_directories_venue.localgov_location
+    - field.field.node.localgov_directories_venue.localgov_paragraph_content
     - node.type.localgov_directories_venue
   module:
     - entity_browser
     - field_group
+    - layout_paragraphs
     - link
     - localgov_directories
     - media_library
@@ -36,8 +38,8 @@ third_party_settings:
         - group_description
         - group_directory
         - group_enquiries
-        - group_venue
         - group_did_you_know
+        - group_venue
       label: tabs
       region: content
       parent_name: ''
@@ -117,9 +119,9 @@ third_party_settings:
       children:
         - field_directory_venue_dyk
       label: 'Did you know'
-      region: hidden
+      region: content
       parent_name: group_tabs
-      weight: 10
+      weight: 8
       format_type: tab
       format_settings:
         classes: ''
@@ -147,7 +149,7 @@ content:
     third_party_settings: {  }
   created:
     type: datetime_timestamp
-    weight: 3
+    weight: 2
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -265,6 +267,16 @@ content:
       field_widget_display_settings: {  }
       selection_mode: selection_append
     third_party_settings: {  }
+  localgov_paragraph_content:
+    type: layout_paragraphs
+    weight: 9
+    region: content
+    settings:
+      preview_view_mode: default
+      nesting_depth: 0
+      require_layouts: 1
+      empty_message: ''
+    third_party_settings: {  }
   path:
     type: path
     weight: 6
@@ -315,4 +327,6 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  publish_on: true
+  unpublish_on: true

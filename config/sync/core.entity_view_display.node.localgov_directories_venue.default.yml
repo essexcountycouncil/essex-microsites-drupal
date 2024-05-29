@@ -17,10 +17,12 @@ dependencies:
     - field.field.node.localgov_directories_venue.localgov_directory_title_sort
     - field.field.node.localgov_directories_venue.localgov_directory_website
     - field.field.node.localgov_directories_venue.localgov_location
+    - field.field.node.localgov_directories_venue.localgov_paragraph_content
     - node.type.localgov_directories_venue
   module:
     - entity_reference_revisions
     - field_group
+    - layout_paragraphs
     - link
     - telephone
     - text
@@ -153,6 +155,15 @@ content:
       link: false
     third_party_settings: {  }
     weight: 1
+    region: content
+  localgov_paragraph_content:
+    type: layout_paragraphs
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 6
     region: content
 hidden:
   links: true
