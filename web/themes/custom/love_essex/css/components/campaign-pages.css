@@ -106,6 +106,32 @@ body {
   --color-leb-colour-block-2-button-text: #fff;
 }
 
+
+.love_essex_blue,
+.love_essex_green,
+.love_essex_orange,
+.love_essex_red {
+  .lgd-page-section--bg-colour-1,
+  .lgd-page-section--bg-colour-2,
+  .lgd-page-section--bg-colour-3 {
+    .media-with-text--featured .media-with-text__inner {
+      color: var(--color-campaign-text-default);
+      h2,
+      h3 {
+        color: var(--color-campaign-text-default);
+      }
+      .media-with-text__body {
+        color: var(--color-campaign-text-default);
+
+        .media-with-text__link {
+          color: var(--color-campaign-text-default);
+        }
+      }
+    }
+  }
+}
+
+
 /**
  * GREEN.
  */
@@ -371,21 +397,6 @@ body {
 .love_essex_red .lgd-page-section--bg-colour-1 button {
   color: var(--color-ler-colour-block-1-heading-text);
 }
-.love_essex_red .lgd-page-section--bg-colour-1,
-.love_essex_red .lgd-page-section--bg-colour-2,
-.love_essex_red .lgd-page-section--bg-colour-3 {
-  .media-with-text--featured .media-with-text__inner {
-    color: var(--color-campaign-text-default);
-
-    .media-with-text__body {
-      color: var(--color-campaign-text-default);
-
-      .media-with-text__link {
-        color: var(--color-campaign-text-default);
-      }
-    }
-  }
-}
 .love_essex_red .lgd-page-section--bg-colour-1 .featured-teaser h3 {
   color: inherit;
 }
@@ -482,21 +493,6 @@ body {
   background-color: var(--color-leb-page-button-color);
 }
 
-.love_essex_blue .lgd-page-section--bg-colour-1,
-.love_essex_blue .lgd-page-section--bg-colour-2,
-.love_essex_blue .lgd-page-section--bg-colour-3 {
-  .media-with-text--featured .media-with-text__inner {
-    color: var(--color-campaign-text-default);
-
-    .media-with-text__body {
-      color: var(--color-campaign-text-default);
-
-      .media-with-text__link {
-        color: var(--color-campaign-text-default);
-      }
-    }
-  }
-}
 /* Colour block 1 */
 .love_essex_blue .lgd-page-section.lgd-page-section--bg-colour-1 {
   background-color: var(--color-leb-colour-block-1-background);
