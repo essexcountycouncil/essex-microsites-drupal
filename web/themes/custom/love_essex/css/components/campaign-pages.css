@@ -106,15 +106,19 @@ body {
   --color-leb-colour-block-2-button-text: #fff;
 }
 
-
+/**
+ * Featured Media With Text.
+ */
 .love_essex_blue,
 .love_essex_green,
 .love_essex_orange,
 .love_essex_red {
   .lgd-page-section--bg-colour-1,
   .lgd-page-section--bg-colour-2,
-  .lgd-page-section--bg-colour-3 {
-    .media-with-text--featured .media-with-text__inner {
+  .lgd-page-section--bg-colour-3,
+  .lgd-page-section--no-bg-colour {
+    .media-with-text--featured .media-with-text__inner,
+    .media-with-text--default .media-with-text__inner {
       color: var(--color-campaign-text-default);
       h2,
       h3 {
@@ -131,7 +135,82 @@ body {
   }
 }
 
+/**
+ * Call To Action component.
+ */
+.love_essex_blue .lgd-page-section.lgd-page-section--bg-colour-1,
+.love_essex_blue .lgd-page-section.lgd-page-section--bg-colour-2,
+.love_essex_blue .lgd-page-section.lgd-page-section--bg-colour-3,
+.love_essex_blue .lgd-page-section.lgd-page-section--no-bg-colour {
+  .field--name-field-cta-link a {
+    background-color: var(--color-leb-page-button-color);
+    color: var(--color-leb-page-button-text);
+  }
+}
 
+.love_essex_green .lgd-page-section.lgd-page-section--bg-colour-1,
+.love_essex_green .lgd-page-section.lgd-page-section--bg-colour-2,
+.love_essex_green .lgd-page-section.lgd-page-section--bg-colour-3,
+.love_essex_green .lgd-page-section.lgd-page-section--no-bg-colour {
+   .field--name-field-cta-link a {
+    background-color: var(--color-leg-page-button-color);
+    color: var(--color-leg-page-button-text);
+  }
+}
+.love_essex_orange .lgd-page-section.lgd-page-section--bg-colour-1,
+.love_essex_orange .lgd-page-section.lgd-page-section--bg-colour-2,
+.love_essex_orange .lgd-page-section.lgd-page-section--bg-colour-3,
+.love_essex_orange .lgd-page-section.lgd-page-section--no-bg-colour {
+  .field--name-field-cta-link a {
+    background-color: var(--color-leo-page-button-color);
+    color: var(--color-leo-page-button-text);
+  }
+}
+
+.love_essex_red .lgd-page-section.lgd-page-section--bg-colour-1,
+.love_essex_red .lgd-page-section.lgd-page-section--bg-colour-2,
+.love_essex_red .lgd-page-section.lgd-page-section--bg-colour-3,
+.love_essex_red .lgd-page-section.lgd-page-section--no-bg-colour {
+  .field--name-field-cta-link a {
+    background-color: var(--color-ler-page-button-color);
+    color: var(--color-ler-page-button-text);
+  }
+}
+
+/**
+ * Text Component.
+ */
+.love_essex_blue,
+.love_essex_green,
+.love_essex_orange,
+.love_essex_red {
+  .lgd-page-section {
+    .text-component--bg-text-bg-colour-1,
+    .text-component--bg-text-bg-colour-1 h2 {
+      background-color: var(--color-accent);
+      color: var(--color-white);
+    }
+
+    .text-component--bg-text-bg-colour-2,
+    .text-component--bg-text-bg-colour-2 h2 {
+      background-color: var(--color-accent-2);
+      color: var(--color-white);
+    }
+
+    .text-component--bg-text-bg-colour-3,
+    .text-component--bg-text-bg-colour-3 h2 {
+      background-color: var(--color-white);
+      color: var(--color-black);
+    }
+
+    .text-component--bg-text-bg-colour-4,
+    .text-component--bg-text-bg-colour-4 h2 {
+      background-color: var(--color-accent-lightest);
+      color: var(--color-black);
+    }
+  }
+
+}
 /**
  * GREEN.
  */
