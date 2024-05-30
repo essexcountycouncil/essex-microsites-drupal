@@ -53,6 +53,7 @@ permissions:
   - 'edit own image media'
   - 'edit own remote_video media'
   - 'override all published option'
+  - 'override localgov_news_article promote to front page option'
   - 'replicate entities'
   - 'revert all revisions'
   - 'update any media'

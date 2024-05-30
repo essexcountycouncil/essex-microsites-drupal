@@ -8,6 +8,7 @@ dependencies:
   module:
     - media
     - node
+    - override_node_options
     - system
     - toolbar
   enforced:
@@ -32,6 +33,7 @@ permissions:
   - 'edit any localgov_news_article content'
   - 'edit own image media'
   - 'edit own localgov_news_article content'
+  - 'override localgov_news_article promote to front page option'
   - 'revert localgov_news_article revisions'
   - 'view localgov_news_article revisions'
   - 'view the administration theme'
