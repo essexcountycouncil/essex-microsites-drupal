@@ -3,6 +3,7 @@
   justify-content: space-evenly;
   flex-wrap: wrap;
   row-gap: 2em;
+  align-items: center;
 }
 .paragraph--type--logo-list .field__items .field__item {
   flex-basis: 17%;
