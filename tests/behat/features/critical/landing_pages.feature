@@ -10,28 +10,22 @@
 Feature: Check structure of main landing/listing pages
 
 
-  Scenario: Check Services page
-    Given I am on "/services"
+  Scenario: Check News page
+    Given I am on "/news"
     # There should be a grid of probably six things.
-    Then I should see at least 3 instances of the element with selector ".tiled-layout .tile"
+    Then I should see at least 3 instances of the element with selector ".newsroom__featured-news .lgd-teaser--localgov-news-article"
     # Check a likely tile heading or two.
-    Then I should see text matching "Health Information"
-    Then I should see text matching "Reading"
+    Then I should see text matching "News"
+    Then I should see text matching "Love Essex is the official website of the Essex Waste Partnership "
+    Then I should see text matching "Search news"
+    Then I should see at least 1 instances of the element with selector ".views-exposed-form .form-text"
+    Then I should see at least 2 instances of the element with selector ".facet-item"
 
-  Scenario: Check Local Libraries page
-    Given I am on "/local-libraries"
-    Then I should see text matching "Join Your Library Service"
-    Then I should see at least 2 instances of the element with selector ".tiled-layout .tile"
-
-
-  Scenario: ELibrary page
-    Given I am on "/elibrary"
-    Then I should see text matching "eBooks"
-    Then I should see text matching "eLearning Courses"
-    Then I should see at least 3 instances of the element with selector ".tiled-layout .tile"
-    # Check for an exposed filter for the map.
-    Then the response should contain "Select Your Library Service"
-
-
+  Scenario: Check Disposal Options page
+    Given I am on "/disposal-options"
+    Then I should see text matching "What do you want to get rid of?"
+    Then I should see text matching "Essex Postcode"
+    Then I should see at least 1 instances of the element with selector ".form-item-postcode"
+    Then I should see at least 1 instances of the element with selector ".form-item-item"
 
 
