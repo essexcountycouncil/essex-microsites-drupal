@@ -1,0 +1,52 @@
+default:
+  suites:
+    default:
+      contexts:
+        - FeatureContext
+        - DrevOps\BehatScreenshotExtension\Context\ScreenshotContext
+        - Drupal\DrupalExtension\Context\DrupalContext
+        - Drupal\DrupalExtension\Context\MinkContext
+        - Drupal\DrupalExtension\Context\MessageContext
+        - Drupal\DrupalExtension\Context\DrushContext
+  extensions:
+    DrevOps\BehatScreenshotExtension:
+      fail: true
+      fail_prefix: 'failed_'
+      purge: true
+    Drupal\MinkExtension:
+      browserkit_http: ~
+      base_url: '%env(BEHAT_BASE_URL)%'
+    Drupal\DrupalExtension:
+      blackbox: ~
+      api_driver: 'drupal'
+      region_map:
+        header: 'header'
+        content: 'main'
+        footer: 'footer'
+      drupal:
+        # Site docroot inside DDEV.
+        drupal_root: /var/www/html
+      drush:
+        # Site docroot inside DDEV.
+        root: /var/www/html
+
+# Docker profile.
+# For use inside the CLI container in Docksal.
+docker:
+  extensions:
+    Behat\MinkExtension:
+      # URL of the site when accessed inside Docksal.
+      base_url: '%env(BEHAT_BASE_URL)%'
+      # Configure browser to be used. Browser must be available on wd_host.
+      # Stick with chrome by default. It's 2x faster than firefox or phantomjs (your results may vary).
+      browser_name: chrome
+      selenium2:
+        wd_host: http://browser:4444/wd/hub
+        capabilities: { "browser": "chrome", "version": "*" }
+    Drupal\DrupalExtension:
+      drupal:
+        # Site docroot inside Docksal.
+        drupal_root: /var/www/web
+      drush:
+        # Site docroot inside Docksal.
+        root: /var/www/web
