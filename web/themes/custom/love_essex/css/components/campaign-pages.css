@@ -134,6 +134,24 @@ body {
     }
   }
 }
+.love_essex_blue {
+  .lgd-page-section--bg-colour-1,
+  .lgd-page-section--bg-colour-2 {
+    .media-with-text--default .media-with-text__inner {
+      h2,
+      h3 {
+        color: var(--color-leb-colour-block-2-text);
+      }
+      .media-with-text__body {
+        color: var(--color-leb-colour-block-2-text);
+
+        .media-with-text__link {
+          color: var(--color-leb-colour-block-2-text);
+        }
+      }
+    }
+  }
+}
 
 /**
  * Call To Action component.
