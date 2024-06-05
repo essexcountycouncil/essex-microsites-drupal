@@ -1,1 +1,5 @@
 version: "3.9"
+services:
+  cli:
+    environment:
+      - BEHAT_BASE_URL
