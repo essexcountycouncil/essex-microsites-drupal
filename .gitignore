@@ -75,3 +75,6 @@ tests/backstop/backstop_data/html_report/config.js
 
 # Ignore private files.
 private
+
+# Ignore node_modules
+node_modules/
