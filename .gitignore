@@ -8,9 +8,6 @@
 /web/profiles/contrib/
 /web/libraries/
 
-# Ignore composer.lock as this is template project
-# /composer.lock
-
 # Ignore sensitive information
 /web/sites/*/settings*.php
 /web/sites/*/services*.yml
@@ -66,3 +63,6 @@
 
 # Ignore temp files
 /.phpunit.result.cache
+
+# Ignore the private directory
+/private
