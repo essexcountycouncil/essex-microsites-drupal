@@ -3256,7 +3256,6 @@
                     }
                 },
                 "patches_applied": {
-                    "PHP 8.2 dynamic property deprecation 1": "https://www.drupal.org/files/issues/2024-04-15/fix-php82-deprecation-3355495-19.patch",
                     "PHP 8.2 dynamic property deprecation 2": "https://www.drupal.org/files/issues/2023-04-20/autosave_form-dynamic-property-deprecation.patch"
                 }
             },
@@ -6191,6 +6190,9 @@
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
                     }
+                },
+                "patches_applied": {
+                    "restore term relationships": "https://git.drupalcode.org/project/group_term/-/merge_requests/12.patch"
                 }
             },
             "installation-source": "dist",

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6c9f2167923bd4ef48d9164ba166b964",
+    "content-hash": "cce25de4590bfe895ad0d55b50c12c2f",
     "packages": [
         {
             "name": "anrt-tools/docksal-configuration",
@@ -19162,7 +19162,8 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "anrt-tools/docksal-configuration": 20,
-        "localgovdrupal/localgov_microsites": 15
+        "drupal/domain_group": 20,
+        "drupal/group_permissions": 15
     },
     "prefer-stable": true,
     "prefer-lowest": false,
