@@ -17,27 +17,27 @@ final class SubdivisionRepositoryTest extends TestCase
      *
      * @var array
      */
-    protected $subdivisions = [
+    protected array $subdivisions = [
         'BR' => [
             'country_code' => 'BR',
             'locale' => 'pt',
             'subdivisions' => [
                 'SC' => [
+                    'code' => 'SC',
                     'name' => 'Santa Catarina',
-                    'iso_code' => 'BR-SC',
                     'postal_code_pattern' => '8[89]',
                     'postal_code_pattern_type' => 'full',
                     'has_children' => true,
                 ],
                 'SP' => [
+                    'code' => 'SP',
                     'name' => 'São Paulo',
-                    'iso_code' => 'BR-SP',
                     'postal_code_pattern' => '[01][1-9]',
                     'has_children' => true,
                 ],
             ],
         ],
-        'BR-249a39f10ac434b1fcd4d51516266b8e' => [
+        'BR-SC' => [
             'country_code' => 'BR',
             'parents' => ['BR', 'SC'],
             'locale' => 'pt',
@@ -45,20 +45,20 @@ final class SubdivisionRepositoryTest extends TestCase
                 'Abelardo Luz' => [],
             ],
         ],
-        'BR-8ef7a36db3f5d47d46566f851be5f610' => [
+        'BR-SP' => [
             'country_code' => 'BR',
             'parents' => ['BR', 'SP'],
             'locale' => 'pt',
             'subdivisions' => [
                 'Anhumas' => [],
-            ]
+            ],
         ],
     ];
 
     /**
      * @covers ::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): SubdivisionRepository
     {
         // Mock the existence of JSON definitions on the filesystem.
         $root = vfsStream::setup('resources');
@@ -73,7 +73,7 @@ final class SubdivisionRepositoryTest extends TestCase
         $subdivisionRepository = new SubdivisionRepository(null, 'vfs://resources/subdivision/');
 
         $reflected_constraint = (new \ReflectionObject($subdivisionRepository))->getProperty('definitionPath');
-        $reflected_constraint->setAccessible(TRUE);
+        $reflected_constraint->setAccessible(true);
         $definitionPath = $reflected_constraint->getValue($subdivisionRepository);
         $this->assertEquals('vfs://resources/subdivision/', $definitionPath);
 
@@ -90,7 +90,7 @@ final class SubdivisionRepositoryTest extends TestCase
      *
      * @depends testConstructor
      */
-    public function testGet($subdivisionRepository)
+    public function testGet($subdivisionRepository): void
     {
         $subdivision = $subdivisionRepository->get('SC', ['BR']);
         $subdivisionChild = $subdivisionRepository->get('Abelardo Luz', ['BR', 'SC']);
@@ -98,18 +98,18 @@ final class SubdivisionRepositoryTest extends TestCase
         $this->assertInstanceOf(Subdivision::class, $subdivision);
         $this->assertEquals(null, $subdivision->getParent());
         $this->assertEquals('BR', $subdivision->getCountryCode());
+        $this->assertEquals('SC', $subdivision->getId());
         $this->assertEquals('pt', $subdivision->getLocale());
         $this->assertEquals('SC', $subdivision->getCode());
         $this->assertEquals('Santa Catarina', $subdivision->getName());
-        $this->assertEquals('BR-SC', $subdivision->getIsoCode());
-        $this->assertEquals('8[89]', $subdivision->getPostalCodePattern());
-        $this->assertEquals('full', $subdivision->getPostalCodePatternType());
 
         $children = $subdivision->getChildren();
         $this->assertEquals($subdivisionChild, $children['Abelardo Luz']);
 
         $this->assertInstanceOf(Subdivision::class, $subdivisionChild);
+        $this->assertEquals('Abelardo Luz', $subdivisionChild->getId());
         $this->assertEquals('Abelardo Luz', $subdivisionChild->getCode());
+        $this->assertEquals('Abelardo Luz', $subdivisionChild->getName());
         // $subdivision contains the loaded children while $parent doesn't,
         // so they can't be compared directly.
         $parent = $subdivisionChild->getParent();
@@ -127,7 +127,7 @@ final class SubdivisionRepositoryTest extends TestCase
      *
      * @depends testConstructor
      */
-    public function testGetInvalidSubdivision($subdivisionRepository)
+    public function testGetInvalidSubdivision($subdivisionRepository): void
     {
         $subdivision = $subdivisionRepository->get('FAKE', ['BR']);
         $this->assertNull($subdivision);
@@ -143,7 +143,7 @@ final class SubdivisionRepositoryTest extends TestCase
      *
      * @depends testConstructor
      */
-    public function testGetAll($subdivisionRepository)
+    public function testGetAll($subdivisionRepository): void
     {
         $subdivisions = $subdivisionRepository->getAll(['RS']);
         $this->assertEquals([], $subdivisions);
@@ -170,7 +170,7 @@ final class SubdivisionRepositoryTest extends TestCase
      *
      * @depends testConstructor
      */
-    public function testGetList($subdivisionRepository)
+    public function testGetList($subdivisionRepository): void
     {
         $list = $subdivisionRepository->getList(['RS']);
         $this->assertEquals([], $list);

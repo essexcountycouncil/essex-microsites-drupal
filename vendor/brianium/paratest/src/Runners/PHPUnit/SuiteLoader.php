@@ -48,9 +48,7 @@ use function version_compare;
 
 use const PHP_VERSION;
 
-/**
- * @internal
- */
+/** @internal */
 final class SuiteLoader
 {
     /**
@@ -136,7 +134,7 @@ final class SuiteLoader
 
             $this->files = array_merge(
                 $this->files,
-                (new Facade())->getFilesAsArray($path, ['Test.php'])
+                (new Facade())->getFilesAsArray($path, ['Test.php']),
             );
         } elseif (
             $this->options->parallelSuite()
@@ -156,7 +154,7 @@ final class SuiteLoader
                 function (TestSuite $testSuite): bool {
                     return $this->options->testsuite() === [] ||
                         in_array($testSuite->name(), $this->options->testsuite(), true);
-                }
+                },
             );
 
             foreach ($testSuiteCollection as $testSuite) {
@@ -226,8 +224,8 @@ final class SuiteLoader
                 $path,
                 $methodBatch,
                 $this->options->hasCoverage(),
-                $this->options->hasLogTeamcity(),
-                $this->options->tmpDir()
+                $this->options->needsTeamcity(),
+                $this->options->tmpDir(),
             );
         }
 
@@ -341,7 +339,7 @@ final class SuiteLoader
                 $test = sprintf(
                     '%s with data set %s',
                     $method->getName(),
-                    is_int($key) ? '#' . $key : '"' . $key . '"'
+                    is_int($key) ? '#' . $key : '"' . $key . '"',
                 );
                 if (! $this->testMatchFilterOptions($class->getName(), $test)) {
                     continue;
@@ -356,9 +354,7 @@ final class SuiteLoader
         return $result;
     }
 
-    /**
-     * @param string[] $groups
-     */
+    /** @param string[] $groups */
     private function testMatchGroupOptions(array $groups): bool
     {
         if ($this->options->group() === [] && $this->options->excludeGroup() === []) {
@@ -396,11 +392,11 @@ final class SuiteLoader
             $path,
             $this->executableTests(
                 $path,
-                $class
+                $class,
             ),
             $this->options->hasCoverage(),
-            $this->options->hasLogTeamcity(),
-            $this->options->tmpDir()
+            $this->options->needsTeamcity(),
+            $this->options->tmpDir(),
         );
     }
 
@@ -409,14 +405,12 @@ final class SuiteLoader
         return new FullSuite(
             $suiteName,
             $this->options->hasCoverage(),
-            $this->options->hasLogTeamcity(),
-            $this->options->tmpDir()
+            $this->options->needsTeamcity(),
+            $this->options->tmpDir(),
         );
     }
 
-    /**
-     * @see \PHPUnit\TextUI\XmlConfiguration\TestSuiteMapper::map
-     */
+    /** @see \PHPUnit\TextUI\XmlConfiguration\TestSuiteMapper::map */
     private function loadFilesFromTestSuite(TestSuite $testSuiteCollection): void
     {
         foreach ($testSuiteCollection->directories() as $directory) {
@@ -424,7 +418,7 @@ final class SuiteLoader
                 ! version_compare(
                     PHP_VERSION,
                     $directory->phpVersion(),
-                    $directory->phpVersionOperator()->asString()
+                    $directory->phpVersionOperator()->asString(),
                 )
             ) {
                 continue; // @codeCoverageIgnore
@@ -440,7 +434,7 @@ final class SuiteLoader
                 $directory->path(),
                 $directory->suffix(),
                 $directory->prefix(),
-                $exclude
+                $exclude,
             ));
         }
 
@@ -449,7 +443,7 @@ final class SuiteLoader
                 ! version_compare(
                     PHP_VERSION,
                     $file->phpVersion(),
-                    $file->phpVersionOperator()->asString()
+                    $file->phpVersionOperator()->asString(),
                 )
             ) {
                 continue; // @codeCoverageIgnore
@@ -482,7 +476,8 @@ final class SuiteLoader
     private function warmCoverageCache(): void
     {
         if (
-            ! (new Runtime())->canCollectCodeCoverage()
+            ! $this->options->hasCoverage()
+            || ! (new Runtime())->canCollectCodeCoverage()
             || ($configuration = $this->options->configuration()) === null
             || ! $configuration->codeCoverage()->hasCacheDirectory()
         ) {
@@ -492,7 +487,7 @@ final class SuiteLoader
         $filter = new Filter();
         (new FilterMapper())->map(
             $filter,
-            $configuration->codeCoverage()
+            $configuration->codeCoverage(),
         );
         $timer = new Timer();
         $timer->start();
@@ -503,14 +498,14 @@ final class SuiteLoader
             $configuration->codeCoverage()->cacheDirectory()->path(),
             ! $configuration->codeCoverage()->disableCodeCoverageIgnore(),
             $configuration->codeCoverage()->ignoreDeprecatedCodeUnits(),
-            $filter
+            $filter,
         );
 
-        $this->output->writeln('done [' . $timer->stop()->asString() . ']');
+        $this->output->write(sprintf("done [%s]\n\n", $timer->stop()->asString()));
     }
 
     /**
-     * @see PHPUnit\Framework\TestCase::containsOnlyVirtualGroups
+     * @see \PHPUnit\Framework\TestSuite::containsOnlyVirtualGroups
      *
      * @param string[] $groups
      */

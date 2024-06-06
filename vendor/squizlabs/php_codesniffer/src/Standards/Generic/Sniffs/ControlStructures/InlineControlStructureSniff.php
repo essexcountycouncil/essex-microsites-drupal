@@ -75,7 +75,7 @@ class InlineControlStructureSniff implements Sniff
 
         // Ignore the ELSE in ELSE IF. We'll process the IF part later.
         if ($tokens[$stackPtr]['code'] === T_ELSE) {
-            $next = $phpcsFile->findNext(T_WHITESPACE, ($stackPtr + 1), null, true);
+            $next = $phpcsFile->findNext(Tokens::$emptyTokens, ($stackPtr + 1), null, true);
             if ($tokens[$next]['code'] === T_IF) {
                 return;
             }
@@ -150,7 +150,7 @@ class InlineControlStructureSniff implements Sniff
             // tag in short open tags and scan run with short_open_tag=Off.
             // Bow out completely as any further detection will be unreliable
             // and create incorrect fixes or cause fixer conflicts.
-            return ($phpcsFile->numTokens + 1);
+            return $phpcsFile->numTokens;
         }
 
         unset($nextNonEmpty, $start);

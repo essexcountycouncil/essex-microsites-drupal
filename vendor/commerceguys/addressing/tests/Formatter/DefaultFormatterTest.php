@@ -17,33 +17,13 @@ use PHPUnit\Framework\TestCase;
  */
 final class DefaultFormatterTest extends TestCase
 {
-    /**
-     * The address format repository.
-     *
-     * @var AddressFormatRepositoryInterface
-     */
-    protected $addressFormatRepository;
+    protected AddressFormatRepositoryInterface $addressFormatRepository;
 
-    /**
-     * The country repository.
-     *
-     * @var CountryRepositoryInterface
-     */
-    protected $countryRepository;
+    protected CountryRepositoryInterface $countryRepository;
 
-    /**
-     * The subdivision repository.
-     *
-     * @var SubdivisionRepositoryInterface
-     */
-    protected $subdivisionRepository;
+    protected SubdivisionRepositoryInterface $subdivisionRepository;
 
-    /**
-     * The formatter.
-     *
-     * @var DefaultFormatter
-     */
-    protected $formatter;
+    protected DefaultFormatter $formatter;
 
     /**
      * {@inheritdoc}
@@ -64,17 +44,17 @@ final class DefaultFormatterTest extends TestCase
         $formatter = new DefaultFormatter($this->addressFormatRepository, $this->countryRepository, $this->subdivisionRepository);
 
         $reflected_constraint = (new \ReflectionObject($formatter))->getProperty('addressFormatRepository');
-        $reflected_constraint->setAccessible(TRUE);
+        $reflected_constraint->setAccessible(true);
         $constraint = $reflected_constraint->getValue($formatter);
         $this->assertInstanceOf(AddressFormatRepository::class, $constraint);
 
         $reflected_constraint = (new \ReflectionObject($formatter))->getProperty('countryRepository');
-        $reflected_constraint->setAccessible(TRUE);
+        $reflected_constraint->setAccessible(true);
         $constraint = $reflected_constraint->getValue($formatter);
         $this->assertInstanceOf(CountryRepository::class, $constraint);
 
         $reflected_constraint = (new \ReflectionObject($formatter))->getProperty('subdivisionRepository');
-        $reflected_constraint->setAccessible(TRUE);
+        $reflected_constraint->setAccessible(true);
         $constraint = $reflected_constraint->getValue($formatter);
         $this->assertInstanceOf(SubdivisionRepository::class, $constraint);
     }
@@ -82,7 +62,7 @@ final class DefaultFormatterTest extends TestCase
     /**
      * @covers ::__construct
      */
-    public function testUnrecognizedOption()
+    public function testUnrecognizedOption(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $formatter = new DefaultFormatter($this->addressFormatRepository, $this->countryRepository, $this->subdivisionRepository, ['unrecognized' => '123']);
@@ -91,7 +71,7 @@ final class DefaultFormatterTest extends TestCase
     /**
      * @covers ::__construct
      */
-    public function testInvalidOption()
+    public function testInvalidOption(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $formatter = new DefaultFormatter($this->addressFormatRepository, $this->countryRepository, $this->subdivisionRepository, ['html' => 'INVALID']);
@@ -100,12 +80,12 @@ final class DefaultFormatterTest extends TestCase
     /**
      * @covers \CommerceGuys\Addressing\Formatter\DefaultFormatter
      */
-    public function testAndorraAddress()
+    public function testAndorraAddress(): void
     {
         $address = new Address();
         $address = $address
             ->withCountryCode('AD')
-            ->withLocality("Parròquia d'Andorra la Vella")
+            ->withLocality("07")
             ->withPostalCode('AD500')
             ->withAddressLine1('C. Prat de la Creu, 62-64');
 
@@ -123,12 +103,12 @@ final class DefaultFormatterTest extends TestCase
     /**
      * @covers \CommerceGuys\Addressing\Formatter\DefaultFormatter
      */
-    public function testElSalvadorAddress()
+    public function testElSalvadorAddress(): void
     {
         $address = new Address();
         $address = $address
             ->withCountryCode('SV')
-            ->withAdministrativeArea('Ahuachapán')
+            ->withAdministrativeArea('AH')
             ->withLocality('Ahuachapán')
             ->withAddressLine1('Some Street 12');
 
@@ -136,7 +116,7 @@ final class DefaultFormatterTest extends TestCase
             '<p translate="no">',
             '<span class="address-line1">Some Street 12</span><br>',
             '<span class="locality">Ahuachapán</span><br>',
-            '<span class="administrative-area">Ahuachapán</span><br>',
+            '<span class="administrative-area">Ahuachapan</span><br>',
             '<span class="country">El Salvador</span>',
             '</p>',
         ];
@@ -146,7 +126,7 @@ final class DefaultFormatterTest extends TestCase
         $expectedTextLines = [
             'Some Street 12',
             'Ahuachapán',
-            'Ahuachapán',
+            'Ahuachapan',
             'El Salvador',
         ];
         $textAddress = $this->formatter->format($address, ['html' => false]);
@@ -157,7 +137,7 @@ final class DefaultFormatterTest extends TestCase
             '<p translate="no">',
             '<span class="address-line1">Some Street 12</span><br>',
             '<span class="postal-code">CP 2101</span>-<span class="locality">Ahuachapán</span><br>',
-            '<span class="administrative-area">Ahuachapán</span><br>',
+            '<span class="administrative-area">Ahuachapan</span><br>',
             '<span class="country">El Salvador</span>',
             '</p>',
         ];
@@ -167,7 +147,7 @@ final class DefaultFormatterTest extends TestCase
         $expectedTextLines = [
             'Some Street 12',
             'CP 2101-Ahuachapán',
-            'Ahuachapán',
+            'Ahuachapan',
             'El Salvador',
         ];
         $textAddress = $this->formatter->format($address, ['html' => false]);
@@ -177,14 +157,14 @@ final class DefaultFormatterTest extends TestCase
     /**
      * @covers \CommerceGuys\Addressing\Formatter\DefaultFormatter
      */
-    public function testTaiwanAddress()
+    public function testTaiwanAddress(): void
     {
         // Real addresses in the major-to-minor order would be completely in
         // Traditional Chinese. That's not the case here, for readability.
         $address = new Address();
         $address = $address
             ->withCountryCode('TW')
-            ->withAdministrativeArea('Taipei City')
+            ->withAdministrativeArea('TPE')
             ->withLocality("Da'an District")
             ->withAddressLine1('Sec. 3 Hsin-yi Rd.')
             ->withPostalCode('106')
@@ -233,7 +213,7 @@ final class DefaultFormatterTest extends TestCase
     /**
      * @covers \CommerceGuys\Addressing\Formatter\DefaultFormatter
      */
-    public function testUnitedStatesIncompleteAddress()
+    public function testUnitedStatesIncompleteAddress(): void
     {
         // Create a US address without a locality.
         $address = new Address();
@@ -286,9 +266,68 @@ final class DefaultFormatterTest extends TestCase
     }
 
     /**
+     * @covers \CommerceGuys\Addressing\Formatter\DefaultFormatter
+     */
+    public function testUruguayAddress(): void
+    {
+        $address = new Address();
+        $address = $address
+            ->withCountryCode('UY')
+            ->withAdministrativeArea('CA')
+            ->withLocality('Pando')
+            ->withPostalCode('15600')
+            ->withAddressLine1('Some Street 12');
+
+        $expectedHtmlLines = [
+            '<p translate="no">',
+            '<span class="address-line1">Some Street 12</span><br>',
+            '<span class="postal-code">15600</span> - <span class="locality">Pando</span>, <span class="administrative-area">Canelones</span><br>',
+            '<span class="country">Uruguay</span>',
+            '</p>',
+        ];
+        $htmlAddress = $this->formatter->format($address);
+        $this->assertFormattedAddress($expectedHtmlLines, $htmlAddress);
+
+        $expectedTextLines = [
+            'Some Street 12',
+            '15600 - Pando, Canelones',
+            'Uruguay',
+        ];
+        $textAddress = $this->formatter->format($address, ['html' => false]);
+        $this->assertFormattedAddress($expectedTextLines, $textAddress);
+
+        // A formatted address without an administrative area should not have a
+        // trailing comma after the locality.
+        $address = new Address();
+        $address = $address
+            ->withCountryCode('UY')
+            ->withLocality('Canelones')
+            ->withPostalCode('90000')
+            ->withAddressLine1('Some Street 12');
+
+        $expectedHtmlLines = [
+            '<p translate="no">',
+            '<span class="address-line1">Some Street 12</span><br>',
+            '<span class="postal-code">90000</span> - <span class="locality">Canelones</span><br>',
+            '<span class="country">Uruguay</span>',
+            '</p>',
+        ];
+        $htmlAddress = $this->formatter->format($address);
+        $this->assertFormattedAddress($expectedHtmlLines, $htmlAddress);
+
+        $expectedTextLines = [
+            'Some Street 12',
+            '90000 - Canelones',
+            'Uruguay',
+        ];
+        $textAddress = $this->formatter->format($address, ['html' => false]);
+        $this->assertFormattedAddress($expectedTextLines, $textAddress);
+    }
+
+    /**
      * Asserts that the formatted address is valid.
      */
-    protected function assertFormattedAddress(array $expectedLines, string $formattedAddress)
+    protected function assertFormattedAddress(array $expectedLines, string $formattedAddress): void
     {
         $expectedLines = implode("\n", $expectedLines);
         $this->assertEquals($expectedLines, $formattedAddress);

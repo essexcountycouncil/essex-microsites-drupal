@@ -15,9 +15,7 @@ use function max;
 use function range;
 use function usleep;
 
-/**
- * @internal
- */
+/** @internal */
 final class Runner extends BaseRunner
 {
     /**
@@ -69,7 +67,7 @@ final class Runner extends BaseRunner
             $this->running[$token] = new RunnerWorker($executableTest, $this->options, $token);
             $this->running[$token]->run();
 
-            if ($this->options->verbosity() < Options::VERBOSITY_VERY_VERBOSE) {
+            if (! $this->options->debug()) {
                 continue;
             }
 
@@ -93,7 +91,7 @@ final class Runner extends BaseRunner
         }
 
         $this->exitcode = max($this->exitcode, (int) $worker->stop());
-        if ($this->options->stopOnFailure() && $this->exitcode > 0) {
+        if (($this->options->stopOnFailure() || $this->options->stopOnError()) && $this->exitcode > 0) {
             $this->pending = [];
         }
 
