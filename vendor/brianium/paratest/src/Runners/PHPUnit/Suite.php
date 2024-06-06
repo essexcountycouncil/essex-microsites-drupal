@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace ParaTest\Runners\PHPUnit;
 
-use function count;
+use function array_map;
+use function array_sum;
 
 /**
  * A suite represents an entire PHPUnit Test Suite
@@ -22,12 +23,11 @@ final class Suite extends ExecutableTest
      */
     private $functions;
 
-    /**
-     * @param TestMethod[] $functions
-     */
+    /** @param TestMethod[] $functions */
     public function __construct(string $path, array $functions, bool $needsCoverage, bool $needsTeamcity, string $tmpDir)
     {
         parent::__construct($path, $needsCoverage, $needsTeamcity, $tmpDir);
+
         $this->functions = $functions;
     }
 
@@ -44,16 +44,16 @@ final class Suite extends ExecutableTest
     /**
      * Get the expected count of tests to be executed.
      *
-     * @psalm-return 0|positive-int
+     * @psalm-return int
      */
     public function getTestCount(): int
     {
-        return count($this->functions);
+        return array_sum(array_map(static function (TestMethod $method): int {
+            return $method->getTestCount();
+        }, $this->functions));
     }
 
-    /**
-     * @inheritDoc
-     */
+    /** @inheritDoc */
     protected function prepareOptions(array $options): array
     {
         return $options;

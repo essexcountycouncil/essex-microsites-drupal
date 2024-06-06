@@ -10,7 +10,7 @@ those namespaces so that PHPStan can properly discover symbols in your Drupal co
 
 ## Sponsors
 
-<a href="https://www.undpaul.de/"><img src="https://www.undpaul.de/themes/custom/undpaul3/logo.svg" alt="undpaul" width="250" /></a> <a href="https://www.optasy.com/"><img src="https://www.optasy.com/images/logo.svg" alt="undpaul" width="200" /></a>
+<a href="https://www.undpaul.de/"><img src="https://www.undpaul.de/themes/custom/undpaul3/logo.svg" alt="undpaul" width="250" /></a> <a href="https://www.optasy.com/"><img src="https://optasy.com/themes/custom/optasy/img/logo_optasy.png" alt="Optasy" width="250"></a> <a href="https://www.fame.fi/"><img src="https://www.fame.fi/assets/images/fame-logo.png" alt="Fame Helsinki" width="250" ></a>
 
 [Would you like to sponsor?](https://github.com/sponsors/mglaman)
 
@@ -90,6 +90,19 @@ To disable deprecation rules while using `phpstan/extension-installer`, you can 
 See the `extension-installer` documentation for more information: https://github.com/phpstan/extension-installer#ignoring-a-particular-extension
 
 ## Adapting to your project
+
+### Customizing rules
+
+#### Disabling checks for extending `@internal` classes
+
+You can disable the `ClassExtendsInternalClassRule` rule by adding the following to your `phpstan.neon`:
+
+```neon
+parameters: 
+    drupal:
+        rules:
+            classExtendsInternalClassRule: false
+```
 
 ### Specifying your Drupal project's root
 

@@ -142,6 +142,9 @@ class DeprecationErrorHandler
         if ($deprecation->isMuted()) {
             return null;
         }
+        if ($this->getConfiguration()->isIgnoredDeprecation($deprecation)) {
+            return null;
+        }
         if ($this->getConfiguration()->isBaselineDeprecation($deprecation)) {
             return null;
         }
@@ -337,9 +340,14 @@ class DeprecationErrorHandler
 
                     $countsByCaller = $notice->getCountsByCaller();
                     arsort($countsByCaller);
+                    $limit = 5;
 
                     foreach ($countsByCaller as $method => $count) {
                         if ('count' !== $method) {
+                            if (!$limit--) {
+                                fwrite($handle, "    ...\n");
+                                break;
+                            }
                             fwrite($handle, sprintf("    %dx in %s\n", $count, preg_replace('/(.*)\\\\(.*?::.*?)$/', '$2 from $1', $method)));
                         }
                     }
@@ -352,7 +360,7 @@ class DeprecationErrorHandler
         }
     }
 
-    private static function getPhpUnitErrorHandler()
+    private static function getPhpUnitErrorHandler(): callable
     {
         if (!$eh = self::$errorHandler) {
             if (class_exists(Handler::class)) {
@@ -368,6 +376,12 @@ class DeprecationErrorHandler
 
         if ('PHPUnit\Util\ErrorHandler::handleError' === $eh) {
             return $eh;
+        } elseif (ErrorHandler::class === $eh) {
+            return function (int $errorNumber, string $errorString, string $errorFile, int $errorLine) {
+                ErrorHandler::instance()($errorNumber, $errorString, $errorFile, $errorLine);
+
+                return true;
+            };
         }
 
         foreach (debug_backtrace(\DEBUG_BACKTRACE_PROVIDE_OBJECT | \DEBUG_BACKTRACE_IGNORE_ARGS) as $frame) {

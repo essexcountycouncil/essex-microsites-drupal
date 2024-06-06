@@ -15,7 +15,7 @@ $ composer require localgovdrupal/localgov_os_places_geocoder_provider
 ## Sample Usage
 ### Setup
 ```
-$ composer require localgovdrupal/localgov_os_places_geocoder_provider php-http/guzzle6-adapter php-http/message
+$ composer require localgovdrupal/localgov_os_places_geocoder_provider:1.x-dev php-http/guzzle6-adapter php-http/message
 ```
 
 ### Code

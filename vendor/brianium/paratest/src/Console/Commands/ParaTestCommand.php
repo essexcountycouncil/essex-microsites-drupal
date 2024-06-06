@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace ParaTest\Console\Commands;
 
 use InvalidArgumentException;
+use Jean85\PrettyVersions;
 use ParaTest\Runners\PHPUnit\Options;
 use ParaTest\Runners\PHPUnit\Runner;
 use ParaTest\Runners\PHPUnit\RunnerInterface;
 use ParaTest\Runners\PHPUnit\WrapperRunner;
+use PHPUnit\Runner\Version;
+use SebastianBergmann\Environment\Console;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -21,9 +24,7 @@ use function is_string;
 use function is_subclass_of;
 use function sprintf;
 
-/**
- * @internal
- */
+/** @internal */
 final class ParaTestCommand extends Command
 {
     public const COMMAND_NAME = 'paratest';
@@ -39,6 +40,7 @@ final class ParaTestCommand extends Command
     public function __construct(string $cwd, ?string $name = null)
     {
         $this->cwd = $cwd;
+
         parent::__construct($name);
     }
 
@@ -47,6 +49,8 @@ final class ParaTestCommand extends Command
         $application = new Application();
         $command     = new self($cwd, self::COMMAND_NAME);
 
+        $application->setName('ParaTest');
+        $application->setVersion(PrettyVersions::getVersion('brianium/paratest')->getPrettyVersion());
         $application->add($command);
         $application->setDefaultCommand((string) $command->getName(), true);
 
@@ -71,9 +75,23 @@ final class ParaTestCommand extends Command
     /**
      * Executes the specified tester.
      */
-    public function execute(InputInterface $input, OutputInterface $output): int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $options = Options::fromConsoleInput($input, $this->cwd);
+        $application = $this->getApplication();
+        assert($application !== null);
+
+        $output->write(sprintf(
+            "%s upon %s\n",
+            $application->getLongVersion(),
+            Version::getVersionString(),
+        ));
+        $output->write("\n");
+
+        $options = Options::fromConsoleInput(
+            $input,
+            $this->cwd,
+            (new Console())->hasColorSupport(),
+        );
         if ($options->configuration() === null && $options->path() === null) {
             return $this->displayHelp($output);
         }
@@ -99,9 +117,7 @@ final class ParaTestCommand extends Command
         return $help->run($input, $output);
     }
 
-    /**
-     * @return class-string<RunnerInterface>
-     */
+    /** @return class-string<RunnerInterface> */
     private function getRunnerClass(InputInterface $input): string
     {
         $runnerClass = $input->getOption('runner');
@@ -112,7 +128,7 @@ final class ParaTestCommand extends Command
             throw new InvalidArgumentException(sprintf(
                 'Selected runner class "%s" does not exist or does not implement %s',
                 $runnerClass,
-                RunnerInterface::class
+                RunnerInterface::class,
             ));
         }
 

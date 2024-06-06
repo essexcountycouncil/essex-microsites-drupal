@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ParaTest\Runners\PHPUnit;
 
+use Fidry\CpuCoreCounter\CpuCoreCounter;
+use Fidry\CpuCoreCounter\NumberOfCpuCoreNotFound;
 use InvalidArgumentException;
 use ParaTest\Util\Str;
 use PHPUnit\TextUI\DefaultResultPrinter;
@@ -22,9 +24,7 @@ use function count;
 use function dirname;
 use function escapeshellarg;
 use function explode;
-use function fgets;
 use function file_exists;
-use function file_get_contents;
 use function implode;
 use function in_array;
 use function intdiv;
@@ -34,10 +34,7 @@ use function is_file;
 use function is_numeric;
 use function is_string;
 use function ksort;
-use function pclose;
-use function popen;
 use function preg_match;
-use function preg_match_all;
 use function realpath;
 use function sprintf;
 use function strlen;
@@ -69,10 +66,6 @@ final class Options
         self::ORDER_RANDOM,
         self::ORDER_REVERSE,
     ];
-
-    public const VERBOSITY_NORMAL       = 1;
-    public const VERBOSITY_VERBOSE      = 2;
-    public const VERBOSITY_VERY_VERBOSE = 4;
 
     /**
      * @see \PHPUnit\Util\Configuration
@@ -117,6 +110,13 @@ final class Options
      * @var bool
      */
     private $stopOnFailure;
+
+    /**
+     * Prevents starting new tests after a test has errored.
+     *
+     * @var bool
+     */
+    private $stopOnError;
 
     /**
      * A collection of post-processed option values. This is the collection
@@ -175,8 +175,10 @@ final class Options
      */
     private $passthruPhp;
 
-    /** @var int */
-    private $verbosity;
+    /** @var bool */
+    private $verbose;
+    /** @var bool */
+    private $debug;
 
     /**
      * Limit the number of tests recorded in coverage reports
@@ -209,6 +211,8 @@ final class Options
     private $cwd;
     /** @var string|null */
     private $logJunit;
+    /** @var bool */
+    private $teamcity;
     /** @var string|null */
     private $logTeamcity;
     /** @var string|null */
@@ -221,6 +225,8 @@ final class Options
     private $randomOrderSeed;
     /** @var int */
     private $repeat;
+    /** @var bool */
+    private $testdox;
 
     /**
      * @param array<string, string|null> $filtered
@@ -249,6 +255,7 @@ final class Options
         bool $functional,
         array $group,
         ?string $logJunit,
+        bool $teamcity,
         ?string $logTeamcity,
         ?int $maxBatchSize,
         bool $noCoverage,
@@ -261,13 +268,16 @@ final class Options
         int $processes,
         string $runner,
         bool $stopOnFailure,
+        bool $stopOnError,
         array $testsuite,
         string $tmpDir,
-        int $verbosity,
+        bool $verbose,
+        bool $debug,
         ?string $whitelist,
         string $orderBy,
         int $randomOrderSeed,
-        int $repeat
+        int $repeat,
+        bool $testdox
     ) {
         $this->bootstrap         = $bootstrap;
         $this->colors            = $colors;
@@ -287,6 +297,7 @@ final class Options
         $this->functional        = $functional;
         $this->group             = $group;
         $this->logJunit          = $logJunit;
+        $this->teamcity          = $teamcity;
         $this->logTeamcity       = $logTeamcity;
         $this->maxBatchSize      = $maxBatchSize;
         $this->noCoverage        = $noCoverage;
@@ -299,22 +310,25 @@ final class Options
         $this->processes         = $processes;
         $this->runner            = $runner;
         $this->stopOnFailure     = $stopOnFailure;
+        $this->stopOnError       = $stopOnError;
         $this->testsuite         = $testsuite;
         $this->tmpDir            = $tmpDir;
-        $this->verbosity         = $verbosity;
+        $this->verbose           = $verbose;
+        $this->debug             = $debug;
         $this->whitelist         = $whitelist;
         $this->orderBy           = $orderBy;
         $this->randomOrderSeed   = $randomOrderSeed;
         $this->repeat            = $repeat;
+        $this->testdox           = $testdox;
     }
 
-    public static function fromConsoleInput(InputInterface $input, string $cwd): self
+    public static function fromConsoleInput(InputInterface $input, string $cwd, bool $hasColorSupport): self
     {
         /** @var array<string, (bool|int|string|null)> $options */
         $options = $input->getOptions();
 
         assert($options['bootstrap'] === null || is_string($options['bootstrap']));
-        assert(is_bool($options['colors']));
+        assert($options['colors'] === false || $options['colors'] === null || is_string($options['colors']));
         assert($options['configuration'] === null || is_string($options['configuration']));
         assert($options['coverage-clover'] === null || is_string($options['coverage-clover']));
         assert($options['coverage-cobertura'] === null || is_string($options['coverage-cobertura']));
@@ -323,9 +337,11 @@ final class Options
         assert($options['coverage-php'] === null || is_string($options['coverage-php']));
         assert($options['coverage-text'] === false || $options['coverage-text'] === null || is_string($options['coverage-text']));
         assert($options['coverage-xml'] === null || is_string($options['coverage-xml']));
+        assert(is_bool($options['debug']));
         assert($options['filter'] === null || is_string($options['filter']));
         assert(is_bool($options['functional']));
         assert($options['log-junit'] === null || is_string($options['log-junit']));
+        assert(is_bool($options['teamcity']));
         assert($options['log-teamcity'] === null || is_string($options['log-teamcity']));
         assert(is_bool($options['no-coverage']));
         assert(is_bool($options['no-test-tokens']));
@@ -337,12 +353,17 @@ final class Options
         assert($options['random-order-seed'] === null || is_string($options['random-order-seed']));
         assert(is_string($options['runner']));
         assert(is_bool($options['stop-on-failure']));
+        assert(is_bool($options['stop-on-error']));
         assert(is_string($options['tmp-dir']));
         assert($options['whitelist'] === null || is_string($options['whitelist']));
         assert($options['repeat'] === null || is_string($options['repeat']));
+        assert(is_bool($options['verbose']));
+        assert(is_bool($options['testdox']));
 
         if ($options['path'] === null) {
-            $options['path'] = $input->getArgument('path');
+            $path = $input->getArgument('path');
+            assert($path === null || is_string($path));
+            $options['path'] = $path;
         }
 
         assert($options['path'] === null || is_string($options['path']));
@@ -359,7 +380,7 @@ final class Options
         if (is_string($options['testsuite'])) {
             $testsuite = Str::explodeWithCleanup(
                 self::TEST_SUITE_FILTER_SEPARATOR,
-                $options['testsuite']
+                $options['testsuite'],
             );
         }
 
@@ -387,7 +408,7 @@ final class Options
             if (! is_numeric($options['random-order-seed'])) {
                 throw new InvalidArgumentException(sprintf(
                     'Option --random-order-seed should have a number value, "%s" given',
-                    $options['random-order-seed']
+                    $options['random-order-seed'],
                 ));
             }
 
@@ -434,7 +455,7 @@ final class Options
             if ($options['repeat'] !== (string) (int) $options['repeat']) {
                 throw new InvalidArgumentException(sprintf(
                     'Option --repeat should have an integer value, "%s" given',
-                    $options['repeat']
+                    $options['repeat'],
                 ));
             }
 
@@ -445,14 +466,18 @@ final class Options
             $filtered['stop-on-failure'] = null;
         }
 
-        $colors = $options['colors'];
+        if ($options['stop-on-error']) {
+            $filtered['stop-on-error'] = null;
+        }
 
         $configuration     = null;
         $configurationFile = self::guessConfigurationFile($options['configuration'], $cwd);
         if ($configurationFile !== null) {
             $configuration = (new Loader())->load($configurationFile);
 
-            $colors = $colors || $configuration->phpunit()->colors() !== DefaultResultPrinter::COLOR_NEVER;
+            if ($options['colors'] === false) {
+                $options['colors'] = $configuration->phpunit()->colors();
+            }
 
             $codeCoverage = $configuration->codeCoverage();
 
@@ -498,27 +523,21 @@ final class Options
             $filtered['configuration'] = $configuration->filename();
         }
 
+        if ($options['colors'] === null) {
+            $options['colors'] = DefaultResultPrinter::COLOR_AUTO;
+        }
+
+        if ($options['colors'] === DefaultResultPrinter::COLOR_AUTO && $hasColorSupport) {
+            $colors = true;
+        } else {
+            $colors = $options['colors'] === DefaultResultPrinter::COLOR_ALWAYS;
+        }
+
         ksort($filtered);
 
         // Must be a static non-customizable reference because ParaTest code
         // is strictly coupled with PHPUnit pinned version
         $phpunit = self::getPhpunitBinary();
-
-        $verbosity = self::VERBOSITY_NORMAL;
-        if (
-            $input->hasParameterOption('-vv', true)
-            || $input->hasParameterOption('--verbose=2', true)
-            || $input->getParameterOption('--verbose', false, true) === 2
-        ) {
-            $verbosity = self::VERBOSITY_VERY_VERBOSE;
-        } elseif (
-            $input->hasParameterOption('-v', true)
-            || $input->hasParameterOption('--verbose=1', true)
-            || $input->hasParameterOption('--verbose', true)
-            || $input->getParameterOption('--verbose', false, true) === 1
-        ) {
-            $verbosity = self::VERBOSITY_VERBOSE;
-        }
 
         return new self(
             $options['bootstrap'],
@@ -539,6 +558,7 @@ final class Options
             $options['functional'],
             $group,
             $options['log-junit'],
+            $options['teamcity'],
             $options['log-teamcity'],
             (int) $options['max-batch-size'],
             $options['no-coverage'],
@@ -551,13 +571,16 @@ final class Options
             $options['processes'],
             $options['runner'],
             $options['stop-on-failure'],
+            $options['stop-on-error'],
             $testsuite,
             $options['tmp-dir'],
-            $verbosity,
+            $options['verbose'],
+            $options['debug'],
             $options['whitelist'],
             $options['order-by'] ?? self::ORDER_DEFAULT,
             (int) $options['random-order-seed'],
-            (int) $options['repeat']
+            (int) $options['repeat'],
+            $options['testdox'],
         );
     }
 
@@ -583,7 +606,7 @@ final class Options
             new InputArgument(
                 'path',
                 InputArgument::OPTIONAL,
-                'The path to a directory or file containing tests.'
+                'The path to a directory or file containing tests.',
             ),
 
             // Options
@@ -591,226 +614,249 @@ final class Options
                 'bootstrap',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'The bootstrap file to be used by PHPUnit.'
+                'The bootstrap file to be used by PHPUnit.',
             ),
             new InputOption(
                 'colors',
                 null,
-                InputOption::VALUE_NONE,
-                'Displays a colored bar as a test result.'
+                InputOption::VALUE_OPTIONAL,
+                'Use colors in output ("never", "auto" or "always").',
+                false,
             ),
             new InputOption(
                 'configuration',
                 'c',
                 InputOption::VALUE_REQUIRED,
-                'The PHPUnit configuration file to use.'
+                'The PHPUnit configuration file to use.',
             ),
             new InputOption(
                 'coverage-clover',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'Generate code coverage report in Clover XML format.'
+                'Generate code coverage report in Clover XML format.',
             ),
             new InputOption(
                 'coverage-cobertura',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'Generate code coverage report in Cobertura XML format.'
+                'Generate code coverage report in Cobertura XML format.',
             ),
             new InputOption(
                 'coverage-crap4j',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'Generate code coverage report in Crap4J XML format.'
+                'Generate code coverage report in Crap4J XML format.',
             ),
             new InputOption(
                 'coverage-html',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'Generate code coverage report in HTML format.'
+                'Generate code coverage report in HTML format.',
             ),
             new InputOption(
                 'coverage-php',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'Serialize PHP_CodeCoverage object to file.'
+                'Serialize PHP_CodeCoverage object to file.',
             ),
             new InputOption(
                 'coverage-test-limit',
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Limit the number of tests to record for each line of code. Helps to reduce memory and size of ' .
-                'coverage reports.'
+                'coverage reports.',
             ),
             new InputOption(
                 'coverage-text',
                 null,
                 InputOption::VALUE_OPTIONAL,
                 'Generate code coverage report in text format.',
-                false
+                false,
             ),
             new InputOption(
                 'coverage-xml',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'Generate code coverage report in PHPUnit XML format.'
+                'Generate code coverage report in PHPUnit XML format.',
+            ),
+            new InputOption(
+                'debug',
+                null,
+                InputOption::VALUE_NONE,
+                'Display debugging information',
             ),
             new InputOption(
                 'exclude-group',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'Don\'t run tests from the specified group(s).'
+                'Don\'t run tests from the specified group(s).',
             ),
             new InputOption(
                 'filter',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'Filter (only for functional mode).'
+                'Filter (only for functional mode).',
             ),
             new InputOption(
                 'functional',
                 'f',
                 InputOption::VALUE_NONE,
-                'Run test methods instead of classes in separate processes.'
+                'Run test methods instead of classes in separate processes.',
             ),
             new InputOption(
                 'group',
                 'g',
                 InputOption::VALUE_REQUIRED,
-                'Only runs tests from the specified group(s).'
+                'Only runs tests from the specified group(s).',
             ),
             new InputOption(
                 'help',
                 'h',
                 InputOption::VALUE_NONE,
-                'Display this help message.'
+                'Display this help message.',
             ),
             new InputOption(
                 'log-junit',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'Log test execution in JUnit XML format to file.'
+                'Log test execution in JUnit XML format to file.',
             ),
             new InputOption(
                 'log-teamcity',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'Log test execution in Teamcity format to file.'
+                'Log test execution in Teamcity format to file.',
             ),
             new InputOption(
                 'max-batch-size',
                 'm',
                 InputOption::VALUE_REQUIRED,
                 'Max batch size (only for functional mode).',
-                '0'
+                '0',
             ),
             new InputOption(
                 'no-coverage',
                 null,
                 InputOption::VALUE_NONE,
-                'Ignore code coverage configuration.'
+                'Ignore code coverage configuration.',
             ),
             new InputOption(
                 'no-test-tokens',
                 null,
                 InputOption::VALUE_NONE,
-                'Disable TEST_TOKEN environment variables. <comment>(default: variable is set)</comment>'
+                'Disable TEST_TOKEN environment variables. <comment>(default: variable is set)</comment>',
             ),
             new InputOption(
                 'order-by',
                 null,
-                InputOption::VALUE_OPTIONAL,
-                'Run tests in order: default|random|reverse'
+                InputOption::VALUE_REQUIRED,
+                'Run tests in order: default|random|reverse',
             ),
             new InputOption(
                 'parallel-suite',
                 null,
                 InputOption::VALUE_NONE,
-                'Run the suites of the config in parallel.'
+                'Run the suites of the config in parallel.',
             ),
             new InputOption(
                 'passthru',
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Pass the given arguments verbatim to the underlying test framework. Example: ' .
-                '--passthru="\'--prepend\' \'xdebug-filter.php\'"'
+                '--passthru="\'--prepend\' \'xdebug-filter.php\'"',
             ),
             new InputOption(
                 'passthru-php',
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Pass the given arguments verbatim to the underlying php process. Example: --passthru-php="\'-d\' ' .
-                '\'zend_extension=xdebug.so\'"'
+                '\'zend_extension=xdebug.so\'"',
             ),
             new InputOption(
                 'path',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'An alias for the path argument.'
+                'An alias for the path argument.',
             ),
             new InputOption(
                 'processes',
                 'p',
                 InputOption::VALUE_REQUIRED,
                 'The number of test processes to run.',
-                'auto'
+                'auto',
             ),
             new InputOption(
                 'random-order-seed',
                 null,
-                InputOption::VALUE_OPTIONAL,
-                'Use a specific random seed <N> for random order'
+                InputOption::VALUE_REQUIRED,
+                'Use a specific random seed <N> for random order',
             ),
             new InputOption(
                 'repeat',
                 null,
-                InputOption::VALUE_OPTIONAL,
-                'Runs the test(s) repeatedly.'
+                InputOption::VALUE_REQUIRED,
+                'Runs the test(s) repeatedly.',
             ),
             new InputOption(
                 'runner',
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Runner or WrapperRunner.',
-                'Runner'
+                'Runner',
+            ),
+            new InputOption(
+                'stop-on-error',
+                null,
+                InputOption::VALUE_NONE,
+                'Don\'t start any more processes after an error.',
             ),
             new InputOption(
                 'stop-on-failure',
                 null,
                 InputOption::VALUE_NONE,
-                'Don\'t start any more processes after a failure.'
+                'Don\'t start any more processes after a failure.',
+            ),
+            new InputOption(
+                'teamcity',
+                null,
+                InputOption::VALUE_NONE,
+                'Output test results in Teamcity format.',
+            ),
+            new InputOption(
+                'testdox',
+                null,
+                InputOption::VALUE_NONE,
+                'Report test execution progress in TestDox format.',
             ),
             new InputOption(
                 'testsuite',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'Filter which testsuite to run'
+                'Filter which testsuite to run',
             ),
             new InputOption(
                 'tmp-dir',
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Temporary directory for internal ParaTest files',
-                sys_get_temp_dir()
+                sys_get_temp_dir(),
             ),
             new InputOption(
                 'verbose',
-                'v|vv',
+                'v',
                 InputOption::VALUE_NONE,
-                'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output'
+                'Output more verbose information',
             ),
             new InputOption(
                 'whitelist',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'Directory to add to the coverage whitelist.'
+                'Directory to add to the coverage whitelist.',
             ),
         ]);
     }
 
-    /**
-     * @return string $phpunit the path to phpunit
-     */
+    /** @return string $phpunit the path to phpunit */
     private static function getPhpunitBinary(): string
     {
         $tryPaths = [
@@ -871,35 +917,14 @@ final class Options
      */
     public static function getNumberOfCPUCores(): int
     {
-        $cores = 2;
-        if (is_file('/proc/cpuinfo')) {
-            // Linux (and potentially Windows with linux sub systems)
-            $cpuinfo = file_get_contents('/proc/cpuinfo');
-            assert($cpuinfo !== false);
-            preg_match_all('/^processor/m', $cpuinfo, $matches);
-            $cores = count($matches[0]);
-        // @codeCoverageIgnoreStart
-        } elseif (DIRECTORY_SEPARATOR === '\\') {
-            // Windows
-            if (($process = @popen('wmic cpu get NumberOfCores', 'rb')) !== false) {
-                fgets($process);
-                $cores = (int) fgets($process);
-                pclose($process);
-            }
-        } elseif (($process = @popen('sysctl -n hw.ncpu', 'rb')) !== false) {
-            // *nix (Linux, BSD and Mac)
-            $cores = (int) fgets($process);
-            pclose($process);
+        try {
+            return (new CpuCoreCounter())->getCount();
+        } catch (NumberOfCpuCoreNotFound $exception) {
+            return 2;
         }
-
-        // @codeCoverageIgnoreEnd
-
-        return $cores;
     }
 
-    /**
-     * @return string[]|null
-     */
+    /** @return string[]|null */
     private static function parsePassthru(?string $param): ?array
     {
         if ($param === null) {
@@ -911,8 +936,8 @@ final class Options
                 '%s -r %s -- %s',
                 escapeshellarg(PHP_BINARY),
                 escapeshellarg('echo serialize($argv);'),
-                $param
-            )
+                $param,
+            ),
         );
         $stringToArgumentProcess->mustRun();
 
@@ -955,6 +980,11 @@ final class Options
     public function stopOnFailure(): bool
     {
         return $this->stopOnFailure;
+    }
+
+    public function stopOnError(): bool
+    {
+        return $this->stopOnError;
     }
 
     /** @return array<string, string|null> */
@@ -1023,9 +1053,14 @@ final class Options
         return $this->passthruPhp;
     }
 
-    public function verbosity(): int
+    public function verbose(): bool
     {
-        return $this->verbosity;
+        return $this->verbose;
+    }
+
+    public function debug(): bool
+    {
+        return $this->debug;
     }
 
     public function coverageTestLimit(): int
@@ -1083,6 +1118,11 @@ final class Options
         return $this->logJunit;
     }
 
+    public function teamcity(): bool
+    {
+        return $this->teamcity;
+    }
+
     public function logTeamcity(): ?string
     {
         return $this->logTeamcity;
@@ -1091,6 +1131,11 @@ final class Options
     public function hasLogTeamcity(): bool
     {
         return $this->logTeamcity !== null;
+    }
+
+    public function needsTeamcity(): bool
+    {
+        return $this->teamcity() || $this->hasLogTeamcity();
     }
 
     public function tmpDir(): string
@@ -1118,9 +1163,7 @@ final class Options
         return $this->repeat;
     }
 
-    /**
-     * @return array{PARATEST: int, TEST_TOKEN?: int, UNIQUE_TEST_TOKEN?: string}
-     */
+    /** @return array{PARATEST: int, TEST_TOKEN?: int, UNIQUE_TEST_TOKEN?: string} */
     public function fillEnvWithTokens(int $inc): array
     {
         $env = ['PARATEST' => 1];
@@ -1130,5 +1173,10 @@ final class Options
         }
 
         return $env;
+    }
+
+    public function testdox(): bool
+    {
+        return $this->testdox;
     }
 }

@@ -12,12 +12,6 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 final class CountryConstraintValidatorTest extends ConstraintValidatorTestCase
 {
     /**
-     * @var CountryConstraint
-     */
-    protected $constraint;
-
-
-    /**
      * {@inheritdoc}
      */
     protected function setUp(): void
@@ -51,7 +45,7 @@ final class CountryConstraintValidatorTest extends ConstraintValidatorTestCase
         $this->restoreDefaultTimezone();
     }
 
-    protected function createValidator()
+    protected function createValidator(): CountryConstraintValidator
     {
         return new CountryConstraintValidator();
     }
@@ -59,7 +53,7 @@ final class CountryConstraintValidatorTest extends ConstraintValidatorTestCase
     /**
      * @covers \CommerceGuys\Addressing\Validator\Constraints\CountryConstraintValidator
      */
-    public function testEmptyIsValid()
+    public function testEmptyIsValid(): void
     {
         $this->validator->validate(null, $this->constraint);
         $this->assertNoViolation();
@@ -70,10 +64,8 @@ final class CountryConstraintValidatorTest extends ConstraintValidatorTestCase
 
     /**
      * @covers \CommerceGuys\Addressing\Validator\Constraints\CountryConstraintValidator
-     *
-     *
      */
-    public function testInvalidValueType()
+    public function testInvalidValueType(): void
     {
         $this->expectException(\Symfony\Component\Validator\Exception\UnexpectedTypeException::class);
         $this->validator->validate(new \stdClass(), $this->constraint);
@@ -82,7 +74,7 @@ final class CountryConstraintValidatorTest extends ConstraintValidatorTestCase
     /**
      * @covers \CommerceGuys\Addressing\Validator\Constraints\CountryConstraintValidator
      */
-    public function testInvalidCountry()
+    public function testInvalidCountry(): void
     {
         $this->validator->validate('InvalidValue', $this->constraint);
         $this->buildViolation($this->constraint->message)
@@ -96,7 +88,7 @@ final class CountryConstraintValidatorTest extends ConstraintValidatorTestCase
      *
      * @dataProvider getValidCountries
      */
-    public function testValidCountries($country)
+    public function testValidCountries($country): void
     {
         $this->validator->validate($country, $this->constraint);
         $this->assertNoViolation();

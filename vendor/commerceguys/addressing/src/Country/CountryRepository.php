@@ -15,21 +15,21 @@ class CountryRepository implements CountryRepositoryInterface
      *
      * @var string
      */
-    protected $defaultLocale;
+    protected string $defaultLocale;
 
     /**
      * The fallback locale.
      *
      * @var string
      */
-    protected $fallbackLocale;
+    protected string $fallbackLocale;
 
     /**
      * The path where per-locale definitions are stored.
      *
      * @var string
      */
-    protected $definitionPath;
+    protected string $definitionPath;
 
     /**
      * Base country definitions.
@@ -39,32 +39,32 @@ class CountryRepository implements CountryRepositoryInterface
      *
      * @var array
      */
-    protected $baseDefinitions = [];
+    protected array $baseDefinitions = [];
 
     /**
      * Per-locale country definitions.
      *
      * @var array
      */
-    protected $definitions = [];
+    protected array $definitions = [];
 
     /**
      * The available locales.
      *
      * @var array
      */
-    protected $availableLocales = [
+    protected array $availableLocales = [
         'af', 'am', 'ar', 'ar-LY', 'ar-SA', 'as', 'az', 'be', 'bg', 'bn',
         'bn-IN', 'bs', 'ca', 'chr', 'cs', 'cy', 'da', 'de', 'de-AT', 'de-CH',
-        'dsb', 'el', 'en', 'en-001', 'en-AU', 'en-CA', 'en-MV', 'es', 'es-419',
-        'es-AR', 'es-BO', 'es-CL', 'es-CO', 'es-CR', 'es-DO', 'es-EC', 'es-GT',
-        'es-HN', 'es-MX', 'es-NI', 'es-PA', 'es-PE', 'es-PR', 'es-PY', 'es-SV',
-        'es-US', 'es-VE', 'et', 'eu', 'fa', 'fa-AF', 'fi', 'fil', 'fr',
-        'fr-BE', 'fr-CA', 'ga', 'gd', 'gl', 'gu', 'he', 'hi', 'hi-Latn', 'hr',
-        'hsb', 'hu', 'hy', 'id', 'ig', 'is', 'it', 'ja', 'ka', 'kk', 'km',
-        'ko', 'ko-KP', 'kok', 'ky', 'lo', 'lt', 'lv', 'mk', 'ml', 'mn', 'mr',
-        'ms', 'my', 'ne', 'nl', 'nn', 'no', 'or', 'pa', 'pcm', 'pl', 'ps',
-        'ps-PK', 'pt', 'pt-PT', 'qu', 'ro', 'ro-MD', 'ru', 'ru-UA', 'si', 'sk',
+        'dsb', 'el', 'el-polyton', 'en', 'en-001', 'en-AU', 'en-CA', 'en-ID',
+        'en-MV', 'es', 'es-419', 'es-AR', 'es-BO', 'es-CL', 'es-CO', 'es-CR',
+        'es-DO', 'es-EC', 'es-GT', 'es-HN', 'es-MX', 'es-NI', 'es-PA', 'es-PE',
+        'es-PR', 'es-PY', 'es-SV', 'es-US', 'es-VE', 'et', 'eu', 'fa', 'fa-AF',
+        'fi', 'fil', 'fr', 'fr-BE', 'fr-CA', 'ga', 'gd', 'gl', 'gu', 'he',
+        'hi', 'hi-Latn', 'hr', 'hsb', 'hu', 'hy', 'id', 'ig', 'is', 'it', 'ja',
+        'ka', 'kk', 'km', 'ko', 'ko-KP', 'kok', 'ky', 'lo', 'lt', 'lv', 'mk',
+        'ml', 'mn', 'mr', 'ms', 'my', 'ne', 'nl', 'nn', 'no', 'or', 'pa', 'pl',
+        'ps', 'ps-PK', 'pt', 'pt-PT', 'ro', 'ro-MD', 'ru', 'ru-UA', 'si', 'sk',
         'sl', 'so', 'sq', 'sr', 'sr-Cyrl-BA', 'sr-Cyrl-ME', 'sr-Cyrl-XK',
         'sr-Latn', 'sr-Latn-BA', 'sr-Latn-ME', 'sr-Latn-XK', 'sv', 'sw',
         'sw-CD', 'sw-KE', 'ta', 'te', 'th', 'tk', 'tr', 'uk', 'ur', 'ur-IN',
@@ -83,13 +83,13 @@ class CountryRepository implements CountryRepositoryInterface
     {
         $this->defaultLocale = $defaultLocale;
         $this->fallbackLocale = $fallbackLocale;
-        $this->definitionPath = $definitionPath ? $definitionPath : __DIR__ . '/../../resources/country/';
+        $this->definitionPath = $definitionPath ?: __DIR__ . '/../../resources/country/';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function get($countryCode, $locale = null): Country
+    public function get(string $countryCode, string $locale = null): Country
     {
         $countryCode = strtoupper($countryCode);
         $baseDefinitions = $this->getBaseDefinitions();
@@ -99,7 +99,7 @@ class CountryRepository implements CountryRepositoryInterface
         $locale = $locale ?: $this->defaultLocale;
         $locale = Locale::resolve($this->availableLocales, $locale, $this->fallbackLocale);
         $definitions = $this->loadDefinitions($locale);
-        $country = new Country([
+        return new Country([
             'country_code' => $countryCode,
             'name' => $definitions[$countryCode],
             'three_letter_code' => $baseDefinitions[$countryCode][0],
@@ -107,14 +107,12 @@ class CountryRepository implements CountryRepositoryInterface
             'currency_code' => $baseDefinitions[$countryCode][2],
             'locale' => $locale,
         ]);
-
-        return $country;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getAll($locale = null): array
+    public function getAll(string $locale = null): array
     {
         $locale = $locale ?: $this->defaultLocale;
         $locale = Locale::resolve($this->availableLocales, $locale, $this->fallbackLocale);
@@ -138,7 +136,7 @@ class CountryRepository implements CountryRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function getList($locale = null): array
+    public function getList(string $locale = null): array
     {
         $locale = $locale ?: $this->defaultLocale;
         $locale = Locale::resolve($this->availableLocales, $locale, $this->fallbackLocale);
@@ -232,7 +230,7 @@ class CountryRepository implements CountryRepositoryInterface
             'CO' => ['COL', '170', 'COP'],
             'CP' => ['CPT', null, null],
             'CR' => ['CRI', '188', 'CRC'],
-            'CU' => ['CUB', '192', 'CUC'],
+            'CU' => ['CUB', '192', 'CUP'],
             'CV' => ['CPV', '132', 'CVE'],
             'CW' => ['CUW', '531', 'ANG'],
             'CX' => ['CXR', '162', 'AUD'],
@@ -424,7 +422,7 @@ class CountryRepository implements CountryRepositoryInterface
             'VA' => ['VAT', '336', 'EUR'],
             'VC' => ['VCT', '670', 'XCD'],
             'VE' => ['VEN', '862', 'VES'],
-            'VG' => ['VGB', '092', 'GBP'],
+            'VG' => ['VGB', '092', 'USD'],
             'VI' => ['VIR', '850', 'USD'],
             'VN' => ['VNM', '704', 'VND'],
             'VU' => ['VUT', '548', 'VUV'],
