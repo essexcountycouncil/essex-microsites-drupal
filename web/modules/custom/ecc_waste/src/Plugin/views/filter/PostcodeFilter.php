@@ -42,6 +42,14 @@ class PostcodeFilter extends FilterPluginBase {
   protected $currentDisplay;
 
   /**
+   * The displayed filter title.
+   *
+   * @var string
+   *   The displayed filter title.
+   */
+  protected $valueTitle;
+
+  /**
    * {@inheritdoc}
    */
   public function init(ViewExecutable $view, DisplayPluginBase $display, array &$options = NULL) {
