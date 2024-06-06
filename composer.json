@@ -32,11 +32,13 @@
         "drupal/core-project-message": "^10.1",
         "drupal/core-recommended": "^10.1",
         "drupal/devel": "^5.1",
+        "drupal/domain_group": "3.x-dev@dev",
         "drupal/draggableviews": "^2.1",
         "drupal/field_formatter_range": "^1.5",
         "drupal/geocoder": "^4.23",
         "drupal/geofield_map": "^3.0",
         "drupal/google_tag": "^2.0",
+        "drupal/group_permissions": "^2.0@alpha",
         "drupal/honeypot": "^2.1",
         "drupal/migrate_devel": "^2.3",
         "drupal/migrate_plus": "^6.0",
@@ -52,7 +54,7 @@
         "drupal/views_bulk_operations": "^4.2",
         "drupal/views_data_export": "1.4",
         "drush/drush": "^12",
-        "localgovdrupal/localgov_microsites": "^3.0@alpha",
+        "localgovdrupal/localgov_microsites": "^3.0",
         "localgovdrupal/localgov_step_by_step": "^2.1",
         "platformsh/config-reader": "^2.4",
         "topfloor/composer-cleanup-vcs-dirs": "^1.1"
@@ -129,8 +131,10 @@
               "honeypot clientside": "https://git.drupalcode.org/project/honeypot/-/merge_requests/22.patch"
             },
             "drupal/autosave_form": {
-              "PHP 8.2 dynamic property deprecation 1": "https://www.drupal.org/files/issues/2024-04-15/fix-php82-deprecation-3355495-19.patch",
               "PHP 8.2 dynamic property deprecation 2": "https://www.drupal.org/files/issues/2023-04-20/autosave_form-dynamic-property-deprecation.patch"
+            },
+            "drupal/group_term": {
+              "restore term relationships": "https://git.drupalcode.org/project/group_term/-/merge_requests/12.patch"
             }
         }
     },
