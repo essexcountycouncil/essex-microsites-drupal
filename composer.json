@@ -52,9 +52,10 @@
         "drupal/upgrade_status": "^4.0",
         "drupal/views_autocomplete_filters": "^2.0",
         "drupal/views_bulk_operations": "^4.2",
-        "drupal/views_data_export": "1.4",
-        "drush/drush": "^12",
-        "localgovdrupal/localgov_microsites": "^3.0",
+        "drupal/views_data_export": "^1.4",
+        "drush/drush": "^11.5",
+        "joachim-n/composer-manifest": "^1.1",
+        "localgovdrupal/localgov_microsites": "^2.1.0-beta6",
         "localgovdrupal/localgov_step_by_step": "^2.1",
         "platformsh/config-reader": "^2.4",
         "topfloor/composer-cleanup-vcs-dirs": "^1.1"
@@ -74,7 +75,7 @@
     "prefer-stable": true,
     "config": {
         "sort-packages": true,
-        "bin-dir": "bin/",
+        "bin-dir": "vendor/bin/",
         "allow-plugins": {
             "composer/installers": true,
             "cweagans/composer-patches": true,
@@ -83,7 +84,8 @@
             "phpstan/extension-installer": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "php-http/discovery": true,
-            "topfloor/composer-cleanup-vcs-dirs": true
+            "topfloor/composer-cleanup-vcs-dirs": true,
+            "joachim-n/composer-manifest": true
         }
     },
     "extra": {

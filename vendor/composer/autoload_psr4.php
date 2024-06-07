@@ -148,6 +148,7 @@ return array(
     'Composer\\ClassMapGenerator\\' => array($vendorDir . '/composer/class-map-generator/src'),
     'Composer\\CaBundle\\' => array($vendorDir . '/composer/ca-bundle/src'),
     'Composer\\' => array($vendorDir . '/composer/composer/src/Composer'),
+    'ComposerManifest\\' => array($vendorDir . '/joachim-n/composer-manifest'),
     'CommerceGuys\\Addressing\\' => array($vendorDir . '/commerceguys/addressing/src'),
     'ColinODell\\PsrTestLogger\\' => array($vendorDir . '/colinodell/psr-testlogger/src'),
     'Clue\\StreamFilter\\' => array($vendorDir . '/clue/stream-filter/src'),
