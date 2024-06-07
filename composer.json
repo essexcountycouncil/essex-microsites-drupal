@@ -128,11 +128,8 @@
         }
     },
     "scripts": {
-        "post-install-cmd": [
-            "Anrt\\Tools\\DocksalConfiguration\\Scripts::postUpdate"
-          ],
-        "post-update-cmd": [
-            "Anrt\\Tools\\DocksalConfiguration\\Scripts::postUpdate"
+        "tests-required": [
+            "composer validate"
         ]
     }
 }
