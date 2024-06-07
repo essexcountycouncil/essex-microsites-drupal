@@ -1,0 +1,57 @@
+apiVersion: 2019-12-01
+location: uksouth
+name: lgDrupalContainerGroup
+properties:
+  containers:
+  - name: nginx-drupal
+    properties:
+      image: microsites-nginx-drupal:latest
+      resources:
+        requests:
+          cpu: 1
+          memoryInGb: 1.5
+      ports:
+        - port: 443
+  - name: drupal-fpm
+    properties:
+      image: microsites-drupal-fpm:latest
+      resources:
+        requests:
+          cpu: 1
+          memoryInGb: 1.5
+      environmentVariables:
+      - name: MYSQL_HOST
+        value: mariadb-ecc-gov-dev-svr.mariadb.database.azure.com
+      - name: MYSQL_USER
+        value: mariadb-root
+      - name: MYSQL_PASSWORD
+        secureValue: <PASSWORD>
+      - name: MYSQL_DATABASE
+        value: drupal
+      volumeMounts:
+      - mountPath: /drupal/web/sites/default/files
+        name: filesharevol
+      - mountPath: /drupal/data/default/private
+        name: privsharevol
+  osType: Linux
+  ipAddress:
+    type: Public
+    ports:
+    - protocol: tcp
+      port: 443
+    dnsNameLabel: ecc-microsites-drupal-dev
+  volumes:
+  - name: filesharevol
+    azurefile:
+      sharename: eccgovdrupalshare
+      storageAccountName: eccgovdrupalsa
+      storageAccountKey: <KEY>
+  - name: privsharevol
+    azurefile:
+      sharename: eccgovdrupalprivate
+      storageAccountName: eccgovdrupalsa
+      storageAccountKey: <KEY>
+tags: {owner: devops}
+type: Microsoft.ContainerInstance/containerGroups
+
+

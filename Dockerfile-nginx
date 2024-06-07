@@ -1,0 +1,5 @@
+FROM nginx
+
+ENV X_ROBOTS_TAG="none"
+COPY --chown=www-data:www-data --from=microsites-drupal-fpm /drupal /drupal
+COPY nginx-conf/nginx.conf /etc/nginx/templates/default.conf.template

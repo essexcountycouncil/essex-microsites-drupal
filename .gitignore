@@ -8,9 +8,6 @@
 /web/profiles/contrib/
 /web/libraries/
 
-# Ignore composer.lock as this is template project
-# /composer.lock
-
 # Ignore sensitive information
 /web/sites/*/settings*.php
 /web/sites/*/services*.yml
@@ -68,6 +65,7 @@
 /.phpunit.result.cache
 
 # Ignore backstop.
+tests/backstop/core
 tests/backstop/backstop-local.js
 tests/backstop/backstop_data/bitmaps_reference/*
 tests/backstop/backstop_data/bitmaps_test/*
@@ -77,3 +75,6 @@ tests/backstop/backstop_data/html_report/config.js
 
 # Ignore private files.
 private
+
+# Ignore node_modules
+node_modules/
