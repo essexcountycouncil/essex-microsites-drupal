@@ -77,3 +77,11 @@
     background-size: contain;
   }
 }
+
+.view-disposal-options > .view-header {
+  margin-bottom: 4em;
+}
+
+.view-id-waste_item .field--name-name {
+  display: inline;
+}
