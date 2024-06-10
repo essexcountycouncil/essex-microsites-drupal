@@ -58,6 +58,9 @@
 *.mysql
 *.mysql.gz
 
+# Ignore Docksal overrides
+.docksal/docksal-local.*
+
 # Ignore Lando overrides
 .lando.local.yml
 
