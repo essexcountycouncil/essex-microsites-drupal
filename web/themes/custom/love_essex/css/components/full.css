@@ -1,3 +1,7 @@
 .full .lgd-container.padding-horizontal .field--name-localgov-page-summary {
   max-width: none;
 }
+
+.full h2.full__title {
+  font-size: var(--font-size-h1);
+}
