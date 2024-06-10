@@ -115,3 +115,10 @@ article.lgd-teaser--waste-disposal-option.node {
   margin-top: var(--spacing-small);
   margin-bottom: var(--spacing-smallest);
 }
+
+.view-disposal-options .view-footer {
+  .full__title {
+    text-align: center;
+    margin-top: 2em;
+  }
+}
