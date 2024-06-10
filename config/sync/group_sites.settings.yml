@@ -1,0 +1,5 @@
+_core:
+  default_config_hash: HQIflDYU9XwDokxrOtz9yhlpREy8JBY41tPmkpLT8WI
+context_provider: '@group.group_route_context:group'
+no_site_access_policy: group_sites.no_site_access_policy.deny_all
+site_access_policy: group_sites.site_access_policy.single

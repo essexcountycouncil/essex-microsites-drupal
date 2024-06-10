@@ -1,0 +1,5 @@
+group_sites.settings:
+  title: 'Group Sites settings'
+  base_route: 'entity.group.collection'
+  route_name: 'group_sites.settings'
+  weight: 25

@@ -1,0 +1,13 @@
+group_sites_test.admin_mode_required:
+  path: '/admin/group/sites/test/admin_mode_required'
+  defaults:
+    _form: '\Drupal\group_sites\Form\GroupSitesSettingsForm'
+  requirements:
+    _group_sites_admin_mode: 'TRUE'
+
+group_sites.admin_mode.admin_mode_forbidden:
+  path: '/admin/group/sites/test/admin_mode_forbidden'
+  defaults:
+    _form: '\Drupal\group_sites\Form\GroupSitesSettingsForm'
+  requirements:
+    _group_sites_admin_mode: 'FALSE'

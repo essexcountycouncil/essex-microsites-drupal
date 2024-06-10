@@ -1,0 +1,24 @@
+# General routes for the Group Sites module.
+group_sites.settings:
+  path: '/admin/group/sites/settings'
+  defaults:
+    _form: '\Drupal\group_sites\Form\GroupSitesSettingsForm'
+    _title: 'Group Sites settings'
+  requirements:
+    _permission: 'configure group_sites'
+
+group_sites.admin_mode.activate:
+  path: '/admin/group/sites/activate_admin_mode'
+  defaults:
+    _controller: '\Drupal\group_sites\Controller\GroupSitesAdminModeController::activate'
+  requirements:
+    _permission: 'use group_sites admin mode'
+    _group_sites_admin_mode: 'FALSE'
+
+group_sites.admin_mode.deactivate:
+  path: '/admin/group/sites/deactivate_admin_mode'
+  defaults:
+    _controller: '\Drupal\group_sites\Controller\GroupSitesAdminModeController::deactivate'
+  requirements:
+    _permission: 'use group_sites admin mode'
+    _group_sites_admin_mode: 'TRUE'

@@ -59,7 +59,9 @@ module:
   google_tag: 0
   group: 0
   group_content_menu: 0
+  group_context_domain: 0
   group_permissions: 0
+  group_sites: 0
   group_term: 0
   group_webform: 0
   groupmedia: 0

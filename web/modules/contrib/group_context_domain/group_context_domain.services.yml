@@ -1,0 +1,11 @@
+services:
+  cache_context.url.site.group:
+    class: 'Drupal\group_context_domain\Cache\Context\DomainGroupCacheContext'
+    arguments: ['@domain.negotiator', '@entity.repository']
+    tags:
+      - { name: 'cache.context'}
+  group_context_domain.group_from_domain_context:
+    class: 'Drupal\group_context_domain\Context\GroupFromDomainContext'
+    arguments: ['@domain.negotiator', '@entity.repository', '@string_translation']
+    tags:
+      - { name: 'context_provider' }
