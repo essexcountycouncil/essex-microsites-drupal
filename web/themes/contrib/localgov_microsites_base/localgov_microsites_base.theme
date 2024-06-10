@@ -13,18 +13,13 @@ use Drupal\views\ViewExecutable;
  */
 function localgov_microsites_base_preprocess_html(&$variables) {
 
-  $parent_group_id = \Drupal::service('domain_group_resolver')->getActiveDomainGroupId();
-  if ($parent_group_id) {
-    $group = \Drupal::entityTypeManager()->getStorage('group')->load($parent_group_id);
-  }
-  if (empty($group)) {
-    $group = \Drupal::request()->attributes->get('group');
-  }
+  // Load the group by context. See localgov_microsites_group.module.
+  $group = localgov_microsites_group_get_by_context();
 
   if ($group instanceof MicrositeGroupInterface) {
     // Adds classes that can be used to let CSS target specific microsites.
     $variables['attributes']['class'][] = 'lgd-ms';
-    $variables['attributes']['class'][] = 'lgd-ms--' . $parent_group_id;
+    $variables['attributes']['class'][] = 'lgd-ms--' . $group->id();
 
     // Styleguide primary colour.
     if (!is_null($group->get('lgms_primary_colour')[0])) {
@@ -444,16 +439,11 @@ function localgov_microsites_base_preprocess_node(&$variables) {
   $variables['content_type'] = $variables['node']->getType();
   $variables['teaser'] = $variables['view_mode'] == 'teaser';
 
-  $parent_group_id = \Drupal::service('domain_group_resolver')->getActiveDomainGroupId();
-  if ($parent_group_id) {
-    $group = \Drupal::entityTypeManager()->getStorage('group')->load($parent_group_id);
-  }
-  if (empty($group)) {
-    $group = \Drupal::request()->attributes->get('group');
-  }
+  // Load the group by context. See localgov_microsites_group.module.
+  $group = localgov_microsites_group_get_by_context();
 
   if ($group instanceof MicrositeGroupInterface) {
-    $front_page = \Drupal::config('domain.config.group_' . $parent_group_id . '.system.site')->get('page.front');
+    $front_page = \Drupal::config('domain.config.group_' . $group->id() . '.system.site')->get('page.front');
     $current_path = \Drupal::service('path.current')->getPath();
     $current_path_alias = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
 
@@ -527,13 +517,8 @@ function localgov_microsites_base_views_pre_render(ViewExecutable $view) {
 
     $view->element['#attached']['library'][] = 'localgov_microsites_base/view-events';
 
-    $parent_group_id = \Drupal::service('domain_group_resolver')->getActiveDomainGroupId();
-    if ($parent_group_id) {
-      $group = \Drupal::entityTypeManager()->getStorage('group')->load($parent_group_id);
-    }
-    else {
-      $group = \Drupal::request()->attributes->get('group');
-    }
+    // Load the group by context. See localgov_microsites_group.module.
+    $group = localgov_microsites_group_get_by_context();
 
     if (!is_null($group) && !empty($group->get('lgms_teaser_image_style')->getValue())) {
 
@@ -576,13 +561,8 @@ function localgov_microsites_base_preprocess_page(&$variables) {
   $variables['site_name'] = $config->get('name');
   $variables['site_slogan'] = $config->get('slogan');
 
-  $parent_group_id = \Drupal::service('domain_group_resolver')->getActiveDomainGroupId();
-  if ($parent_group_id) {
-    $group = \Drupal::entityTypeManager()->getStorage('group')->load($parent_group_id);
-  }
-  if (empty($group)) {
-    $group = \Drupal::request()->attributes->get('group');
-  }
+  // Load the group by context. See localgov_microsites_group.module.
+  $group = localgov_microsites_group_get_by_context();
 
   if ($group instanceof MicrositeGroupInterface) {
 

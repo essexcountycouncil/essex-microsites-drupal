@@ -3,8 +3,8 @@
 namespace Drupal\Tests\localgov_microsites_group\Functional;
 
 use Drupal\Tests\BrowserTestBase;
-use Drupal\Tests\domain_group\Traits\GroupCreationTrait;
-use Drupal\Tests\domain_group\Traits\InitializeGroupsTrait;
+use Drupal\Tests\localgov_microsites_group\Traits\GroupCreationTrait;
+use Drupal\Tests\localgov_microsites_group\Traits\InitializeGroupsTrait;
 use Drupal\Tests\node\Traits\NodeCreationTrait;
 
 /**
@@ -58,7 +58,7 @@ class MicrositeCachingTest extends BrowserTestBase {
 
     // Create some microsites.
     $this->group = $this->createGroup([
-      'label' => 'group-a1',
+      'label' => 'group-1',
       'type' => 'microsite',
     ]);
     $this->domain = \Drupal::entityTypeManager()->getStorage('domain')->create([
@@ -66,15 +66,16 @@ class MicrositeCachingTest extends BrowserTestBase {
       'name' => $this->group->label(),
       'hostname' => $this->group->label() . '.' . $this->baseHostname,
       'third_party_settings' => [
-        'domain_group' => ['group' => $this->group->id()],
+        'group_context_domain' => ['group_uuid' => $this->group->uuid()],
       ],
     ]);
     $this->domain->save();
 
     // Login as admin user.
-    $user = $this->drupalCreateUser([], NULL, TRUE);
+    $user = $this->drupalCreateUser(['use group_sites admin mode'], NULL, TRUE);
     $this->group->addMember($user, ['group_roles' => ['microsite-admin']]);
     $this->drupalLogin($user);
+    \Drupal::service('group_sites.admin_mode')->setAdminMode(TRUE);
   }
 
   /**

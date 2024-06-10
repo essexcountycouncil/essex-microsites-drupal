@@ -65,6 +65,7 @@ dependencies:
     - field.field.group.microsite.lgms_main_logo
     - field.field.group.microsite.lgms_main_menu_font_size
     - field.field.group.microsite.lgms_main_menu_font_weight
+    - field.field.group.microsite.lgms_modules_disabled
     - field.field.group.microsite.lgms_off_canvas_bg_colour
     - field.field.group.microsite.lgms_off_canvas_menu_icon
     - field.field.group.microsite.lgms_off_canvas_text_colour
@@ -262,6 +263,7 @@ hidden:
   lgms_link_colour: true
   lgms_main_menu_font_size: true
   lgms_main_menu_font_weight: true
+  lgms_modules_disabled: true
   lgms_off_canvas_bg_colour: true
   lgms_off_canvas_menu_icon: true
   lgms_off_canvas_text_colour: true

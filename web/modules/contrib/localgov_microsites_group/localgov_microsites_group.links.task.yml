@@ -1,0 +1,4 @@
+domain_group.group_domain_settings:
+  title: 'Domain settings'
+  base_route: 'entity.group.canonical'
+  route_name: 'domain_group.domain_group_settings_form'

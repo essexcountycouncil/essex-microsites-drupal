@@ -53,17 +53,7 @@ class GroupDefaultContent implements GroupDefaultContentInterface {
   }
 
   /**
-   * Generate default content for group.
-   *
-   * Configuration:
-   * localgov_microsites_group.settings.default_group_node can contain the node
-   * id to clone to place as default content into the group.
-   *
-   * @param \Drupal\group\Entity\GroupInterface $group
-   *   The group for which to generate the content.
-   *
-   * @return \Drupal\node\NodeInterface|null
-   *   The new or cloned node added as default content.
+   * {@inheritdoc}
    */
   public function generate(GroupInterface $group): ?NodeInterface {
     $node = NULL;
@@ -72,6 +62,8 @@ class GroupDefaultContent implements GroupDefaultContentInterface {
       $plugin_id = 'group_node:' . $default->bundle();
       if ($group->getGroupType()->hasPlugin($plugin_id)) {
         $node = $this->replicator->replicateEntity($default);
+        assert($node instanceof NodeInterface);
+        $node->setPublished();
         $this->attachMediaToGroup($node, $group);
         // NB not dispatching ReplicatorEvents::AFTER_SAVE here we don't use it,
         // but it could be added if needed.

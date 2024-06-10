@@ -3,6 +3,7 @@
 namespace Drupal\localgov_microsites_group\Plugin\DomainGroupSettings;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ThemeExtensionList;
 use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -11,11 +12,10 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\domain\DomainInterface;
-use Drupal\domain\DomainStorageInterface;
-use Drupal\domain\Entity\Domain;
-use Drupal\domain_group\Plugin\DomainGroupSettingsBase;
 use Drupal\group\Access\GroupAccessResult;
 use Drupal\group\Entity\GroupInterface;
+use Drupal\localgov_microsites_group\DomainFromGroupTrait;
+use Drupal\localgov_microsites_group\Plugin\DomainGroupSettingsBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -29,6 +29,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class ThemeSettings extends DomainGroupSettingsBase implements ContainerFactoryPluginInterface {
 
   use StringTranslationTrait;
+  use DomainFromGroupTrait;
 
   /**
    * The config factory.
@@ -36,13 +37,6 @@ class ThemeSettings extends DomainGroupSettingsBase implements ContainerFactoryP
    * @var \Drupal\Core\Config\ConfigFactoryInterface
    */
   protected $configFactory;
-
-  /**
-   * The domain entity storage.
-   *
-   * @var \Drupal\domain\DomainStorageInterface
-   */
-  protected $domainStorage;
 
   /**
    * The language manager.
@@ -61,10 +55,10 @@ class ThemeSettings extends DomainGroupSettingsBase implements ContainerFactoryP
   /**
    * {@inheritdoc}
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, ConfigFactoryInterface $config_factory, DomainStorageInterface $domain_storage, LanguageManagerInterface $language_manager, ThemeHandlerInterface $theme_handler) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, ConfigFactoryInterface $config_factory, EntityTypeManagerInterface $entity_type_manager, LanguageManagerInterface $language_manager, ThemeHandlerInterface $theme_handler) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->configFactory = $config_factory;
-    $this->domainStorage = $domain_storage;
+    $this->entityTypeManager = $entity_type_manager;
     $this->languageManager = $language_manager;
     $this->themeHandler = $theme_handler;
   }
@@ -78,7 +72,7 @@ class ThemeSettings extends DomainGroupSettingsBase implements ContainerFactoryP
       $plugin_id,
       $plugin_definition,
       $container->get('config.factory'),
-      $container->get('entity_type.manager')->getStorage('domain'),
+      $container->get('entity_type.manager'),
       $container->get('language_manager'),
       $container->get('theme_handler')
     );
@@ -96,7 +90,7 @@ class ThemeSettings extends DomainGroupSettingsBase implements ContainerFactoryP
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state, GroupInterface $group) {
     $config_override = NULL;
-    if (!$group->isNew() && $domain = $this->domainStorage->load('group_' . $group->id())) {
+    if (!$group->isNew() && $domain = $this->getDomainFromGroup($group)) {
       $config_override = $this->loadConfigOverride($domain);
       if ($config_override->isNew()) {
         $config_override = NULL;
@@ -172,7 +166,7 @@ class ThemeSettings extends DomainGroupSettingsBase implements ContainerFactoryP
    */
   public function submitConfigurationForm(array &$form, FormStateInterface $form_state) {
     $group = $form_state->get('group');
-    $domain = Domain::load('group_' . $group->id());
+    $domain = $this->getDomainFromGroup($group);
     $config_override = $this->loadConfigOverride($domain);
 
     foreach (['admin', 'default'] as $field_name) {

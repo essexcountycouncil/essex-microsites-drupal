@@ -273,8 +273,8 @@ class ComposerStaticInitcce25de4590bfe895ad0d55b50c12c2f
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
         ),
         'mglaman\\PHPStanDrupal\\' => 
         array (
@@ -502,8 +502,8 @@ class ComposerStaticInitcce25de4590bfe895ad0d55b50c12c2f
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -555,8 +555,8 @@ class ComposerStaticInitcce25de4590bfe895ad0d55b50c12c2f
         ),
         'PHPStan\\' => 
         array (
-            0 => __DIR__ . '/..' . '/phpstan/phpstan-phpunit/src',
-            1 => __DIR__ . '/..' . '/phpstan/phpstan-deprecation-rules/src',
+            0 => __DIR__ . '/..' . '/phpstan/phpstan-deprecation-rules/src',
+            1 => __DIR__ . '/..' . '/phpstan/phpstan-phpunit/src',
         ),
         'PHPCSStandards\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\' => 
         array (
@@ -757,9 +757,8 @@ class ComposerStaticInitcce25de4590bfe895ad0d55b50c12c2f
         ),
         'Doctrine\\Common\\' => 
         array (
-            0 => __DIR__ . '/..' . '/doctrine/event-manager/src',
-            1 => __DIR__ . '/..' . '/doctrine/reflection/lib/Doctrine/Common',
-            2 => __DIR__ . '/..' . '/doctrine/common/src',
+            0 => __DIR__ . '/..' . '/doctrine/common/src',
+            1 => __DIR__ . '/..' . '/doctrine/event-manager/src',
         ),
         'Dflydev\\DotAccessData\\' => 
         array (
@@ -851,7 +850,7 @@ class ComposerStaticInitcce25de4590bfe895ad0d55b50c12c2f
         ),
         'Behat\\Mink\\Driver\\' => 
         array (
-            0 => __DIR__ . '/..' . '/friends-of-behat/mink-browserkit-driver/src',
+            0 => __DIR__ . '/..' . '/behat/mink-browserkit-driver/src',
             1 => __DIR__ . '/..' . '/behat/mink-selenium2-driver/src',
         ),
         'Behat\\Mink\\' => 

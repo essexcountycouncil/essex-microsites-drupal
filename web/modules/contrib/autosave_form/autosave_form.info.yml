@@ -2,7 +2,7 @@ name: Autosave Form
 type: module
 description: 'Adds autosave feature on forms.'
 package: Content
-core_version_requirement: ^9 || ^10
+core_version_requirement: ^9.5 || ^10
 configure: autosave_form.admin_settings
 dependencies:
   - drupal:system

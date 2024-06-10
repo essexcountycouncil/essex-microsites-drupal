@@ -19,9 +19,8 @@ class GroupDefaultContentTest extends GroupKernelTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = [
+  protected static $modules = [
     'domain',
-    'domain_group',
     'domain_path',
     'entity_reference_revisions',
     'field_formatter_class',
@@ -33,7 +32,7 @@ class GroupDefaultContentTest extends GroupKernelTestBase {
     'gnode',
     'groupmedia',
     'group_content_menu',
-    'group_permissions',
+    'group_sites',
     'layout_discovery',
     'layout_paragraphs',
     'layout_paragraphs_permissions',

@@ -8,7 +8,6 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\TempStore\PrivateTempStoreFactory;
 use Drupal\group\Entity\GroupTypeInterface;
-use Drupal\localgov_microsites_group\Form\DomainGroupConfigAdd;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -129,7 +128,17 @@ class DomainGroupAddController extends ControllerBase {
     }
     else {
       $group = $store->get("$store_id:entity");
-      $form = $this->formBuilder()->getForm(DomainGroupConfigAdd::class, $group, $extra);
+      // Only create a new domain if we have nothing stored.
+      if (!$domain = $store->get("$store_id:domain")) {
+        $domain = $this->entityTypeManager()->getStorage('domain')->create([
+          'name' => $group->label(),
+          'hostname' => '',
+        ]);
+      }
+      $form = $this->entityFormBuilder->getForm($domain, 'new_microsite', $extra);
+      // We can add the value on save. Also our value isn't available by the
+      // time of the #entity_builders.
+      unset($form['group_uuid']);
     }
 
     return $form;

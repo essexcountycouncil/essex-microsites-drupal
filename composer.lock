@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4dcecf2265357aa27012597380520b56",
+    "content-hash": "04e18f9275a5a9b9b8de657d976f8cf0",
     "packages": [
         {
             "name": "anrt-tools/docksal-configuration",
@@ -4672,6 +4672,57 @@
             }
         },
         {
+            "name": "drupal/group_context_domain",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/group_context_domain.git",
+                "reference": "1.0.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/group_context_domain-1.0.0.zip",
+                "reference": "1.0.0",
+                "shasum": "38bdbb833353466ce46bc1e75430c7659be2c6ff"
+            },
+            "require": {
+                "drupal/core": "^9.5 || ^10 || ^11",
+                "drupal/domain": "^2",
+                "drupal/group": "^2 || ^3"
+            },
+            "require-dev": {
+                "jangregor/phpstan-prophecy": "^1.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "1.0.0",
+                    "datestamp": "1716379642",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Kristiaan Van den Eynde",
+                    "homepage": "https://www.drupal.org/u/kristiaanvandeneynde",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "This module provides a Group context based on Domain so blocks, Group Sites, etc. can consume it",
+            "homepage": "http://drupal.org/project/group_context_domain",
+            "support": {
+                "source": "https://git.drupalcode.org/project/group_context_domain",
+                "issues": "https://drupal.org/project/issues/group_context_domain"
+            }
+        },
+        {
             "name": "drupal/group_permissions",
             "version": "2.0.0-alpha5",
             "source": {
@@ -4701,6 +4752,56 @@
                 "source": "https://git.drupalcode.org/project/group_permissions"
             },
             "time": "2022-11-20T13:51:12+00:00"
+        },
+        {
+            "name": "drupal/group_sites",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/group_sites.git",
+                "reference": "1.0.3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/group_sites-1.0.3.zip",
+                "reference": "1.0.3",
+                "shasum": "bfafb6fd6bd4f0cdbde75240f3c522046f1998a1"
+            },
+            "require": {
+                "drupal/core": "^9.5 || ^10",
+                "drupal/group": "^2 || ^3"
+            },
+            "require-dev": {
+                "jangregor/phpstan-prophecy": "^1.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "1.0.3",
+                    "datestamp": "1717752440",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Kristiaan Van den Eynde",
+                    "homepage": "https://www.drupal.org/u/kristiaanvandeneynde",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "This module allows you to create microsites based on groups",
+            "homepage": "http://drupal.org/project/group_sites",
+            "support": {
+                "source": "https://git.drupalcode.org/project/group_sites",
+                "issues": "https://drupal.org/project/issues/group_sites"
+            }
         },
         {
             "name": "drupal/group_term",
@@ -5279,17 +5380,17 @@
         },
         {
             "name": "drupal/layout_paragraphs",
-            "version": "2.0.4",
+            "version": "2.0.5",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/layout_paragraphs.git",
-                "reference": "2.0.4"
+                "reference": "2.0.5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/layout_paragraphs-2.0.4.zip",
-                "reference": "2.0.4",
-                "shasum": "60062a4c6ca1779ba74881572ebf71b730566cca"
+                "url": "https://ftp.drupal.org/files/projects/layout_paragraphs-2.0.5.zip",
+                "reference": "2.0.5",
+                "shasum": "7063fd980f8cf174d35fa6d749fefe0c8840d015"
             },
             "require": {
                 "drupal/core": "^9.2 || ^10",
@@ -5303,8 +5404,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "2.0.4",
-                    "datestamp": "1702252843",
+                    "version": "2.0.5",
+                    "datestamp": "1717779453",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -9070,16 +9171,16 @@
         },
         {
             "name": "localgovdrupal/localgov_microsites",
-            "version": "3.0.0-alpha1",
+            "version": "4.0.0-beta1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/localgovdrupal/localgov_microsites.git",
-                "reference": "57c21d857f34720ade4278fd69380a4e5f7f6ec2"
+                "reference": "6549c52f5ba9f28b68af8dfeb24dc772275287f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/localgovdrupal/localgov_microsites/zipball/57c21d857f34720ade4278fd69380a4e5f7f6ec2",
-                "reference": "57c21d857f34720ade4278fd69380a4e5f7f6ec2",
+                "url": "https://api.github.com/repos/localgovdrupal/localgov_microsites/zipball/6549c52f5ba9f28b68af8dfeb24dc772275287f7",
+                "reference": "6549c52f5ba9f28b68af8dfeb24dc772275287f7",
                 "shasum": ""
             },
             "require": {
@@ -9087,7 +9188,6 @@
                 "drupal/autosave_form": "^1.3",
                 "drupal/core": "^10.0",
                 "drupal/default_content": "^2.0@alpha",
-                "drupal/domain_group": "3.x-dev#a05b26d9",
                 "drupal/domain_path": "^1.2",
                 "drupal/gin": "^3.0@RC",
                 "drupal/gin_login": "^2.0",
@@ -9099,9 +9199,9 @@
                 "localgovdrupal/localgov_core": "^2.12",
                 "localgovdrupal/localgov_directories": "^3.0@alpha",
                 "localgovdrupal/localgov_events": "^3.0@alpha",
-                "localgovdrupal/localgov_microsites_base": "^2.0.0-beta8",
+                "localgovdrupal/localgov_microsites_base": "^2.0@beta",
                 "localgovdrupal/localgov_microsites_colour_picker_fields": "^1.0.0-beta1",
-                "localgovdrupal/localgov_microsites_group": "^3.0.0-alpha1",
+                "localgovdrupal/localgov_microsites_group": "^4.0@beta",
                 "localgovdrupal/localgov_news": "^2.3",
                 "localgovdrupal/localgov_page": "^1.0.0-beta2",
                 "localgovdrupal/localgov_sa11y": "^1.0.0-beta1",
@@ -9118,6 +9218,9 @@
                     "drupal/domain_path": {
                         "https://github.com/localgovdrupal/localgov_microsites/pull/175#issuecomment-1172879196": "https://raw.githubusercontent.com/localgovdrupal/localgov_microsites/995261d0909065e3124fba3fc0dce3e823aefa1d/patches/domain_path.146-url-aliases.patch",
                         "https://github.com/localgovdrupal/localgov_microsites_group/issues/326": "https://raw.githubusercontent.com/localgovdrupal/localgov_microsites/4cbdbe6ae3c3e95e7d2ed15d918c66805ad8e7f1/patches/localgov_microsites_group_326.domain_path_pathauto.unserializable.patch"
+                    },
+                    "drupal/autosave_form": {
+                        "PHP 8.2 deprecation issue with AutosaveFormBuilder": "https://www.drupal.org/files/issues/2024-04-15/fix-php82-deprecation-3355495-19.patch"
                     }
                 }
             },
@@ -9129,28 +9232,28 @@
             "homepage": "https://github.com/localgovdrupal/localgov_microsites",
             "support": {
                 "issues": "https://github.com/localgovdrupal/localgov_microsites/issues",
-                "source": "https://github.com/localgovdrupal/localgov_microsites/tree/3.0.0-alpha1"
+                "source": "https://github.com/localgovdrupal/localgov_microsites/tree/4.0.0-beta1"
             },
-            "time": "2023-10-02T15:16:04+00:00"
+            "time": "2024-05-02T14:59:33+00:00"
         },
         {
             "name": "localgovdrupal/localgov_microsites_base",
-            "version": "2.0.0-beta15",
+            "version": "2.0.0-beta16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/localgovdrupal/localgov_microsites_base.git",
-                "reference": "772c07ca771905c35a52a4bcbbd42c8919c18279"
+                "reference": "6d8e7ba303790b15e5c6b4c3aac50153fbb671f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/localgovdrupal/localgov_microsites_base/zipball/772c07ca771905c35a52a4bcbbd42c8919c18279",
-                "reference": "772c07ca771905c35a52a4bcbbd42c8919c18279",
+                "url": "https://api.github.com/repos/localgovdrupal/localgov_microsites_base/zipball/6d8e7ba303790b15e5c6b4c3aac50153fbb671f9",
+                "reference": "6d8e7ba303790b15e5c6b4c3aac50153fbb671f9",
                 "shasum": ""
             },
             "require": {
                 "drupal/twig_tweak": "^3.2",
                 "localgovdrupal/localgov_base": "^1.0.0",
-                "localgovdrupal/localgov_microsites_group": "^2.0.0@beta || ^3.0.0@alpha || ^4.0.0@alpha "
+                "localgovdrupal/localgov_microsites_group": "^4.0.0-alpha3"
             },
             "type": "drupal-theme",
             "notification-url": "https://packagist.org/downloads/",
@@ -9161,9 +9264,9 @@
             "homepage": "https://github.com/localgovdrupal/localgov_microsites_base",
             "support": {
                 "issues": "https://github.com/localgovdrupal/localgov_microsites_base/issues",
-                "source": "https://github.com/localgovdrupal/localgov_microsites_base/tree/2.0.0-beta15"
+                "source": "https://github.com/localgovdrupal/localgov_microsites_base/tree/2.0.0-beta16"
             },
-            "time": "2024-03-04T13:26:22+00:00"
+            "time": "2024-05-02T14:10:28+00:00"
         },
         {
             "name": "localgovdrupal/localgov_microsites_colour_picker_fields",
@@ -9200,16 +9303,16 @@
         },
         {
             "name": "localgovdrupal/localgov_microsites_group",
-            "version": "3.0.0-alpha3",
+            "version": "4.0.0-beta3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/localgovdrupal/localgov_microsites_group.git",
-                "reference": "9eeeae568c9a4fd553c9125ff79fef427462807f"
+                "reference": "08cce6cac83c226347d471e425ca739ff41d5165"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/localgovdrupal/localgov_microsites_group/zipball/9eeeae568c9a4fd553c9125ff79fef427462807f",
-                "reference": "9eeeae568c9a4fd553c9125ff79fef427462807f",
+                "url": "https://api.github.com/repos/localgovdrupal/localgov_microsites_group/zipball/08cce6cac83c226347d471e425ca739ff41d5165",
+                "reference": "08cce6cac83c226347d471e425ca739ff41d5165",
                 "shasum": ""
             },
             "require": {
@@ -9218,7 +9321,8 @@
                 "drupal/ginvite": "4.0.0-alpha1",
                 "drupal/group": "^3.2",
                 "drupal/group_content_menu": "^3.0",
-                "drupal/group_permissions": "2.0.0-alpha5",
+                "drupal/group_context_domain": "^1.0",
+                "drupal/group_sites": "^1.0",
                 "drupal/group_term": "^4.0",
                 "drupal/groupmedia": "^4.0.1",
                 "drupal/override_node_options": "^2.6",
@@ -9230,8 +9334,8 @@
                 "localgovdrupal/localgov_search": "^1.2"
             },
             "require-dev": {
-                "localgovdrupal/localgov_directories": "^3.0@alpha",
-                "localgovdrupal/localgov_events": "^3.0@alpha",
+                "localgovdrupal/localgov_directories": "^3.0",
+                "localgovdrupal/localgov_events": "^3.0",
                 "localgovdrupal/localgov_news": "^2.1"
             },
             "type": "drupal-module",
@@ -9247,9 +9351,6 @@
                     },
                     "drupal/ginvite": {
                         "View schema fix #3324625": "https://www.drupal.org/files/issues/2022-11-30/3324625-2-schema-fix-for-4.0.x.patch"
-                    },
-                    "drupal/group_permissions": {
-                        "Access checking must be explicitly set on entity queries #3368882": "https://www.drupal.org/files/issues/2023-07-11/add_access_check_to_entity_query.patch"
                     }
                 }
             },
@@ -9260,9 +9361,9 @@
             "description": "Group integration required for LocalGov Microsites.",
             "support": {
                 "issues": "https://github.com/localgovdrupal/localgov_microsites_group/issues",
-                "source": "https://github.com/localgovdrupal/localgov_microsites_group/tree/3.0.0-alpha3"
+                "source": "https://github.com/localgovdrupal/localgov_microsites_group/tree/4.0.0-beta3"
             },
-            "time": "2024-03-19T12:36:23+00:00"
+            "time": "2024-05-30T13:54:25+00:00"
         },
         {
             "name": "localgovdrupal/localgov_news",
@@ -10583,16 +10684,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.11.3",
+            "version": "1.11.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "e64220a05c1209fc856d58e789c3b7a32c0bb9a5"
+                "reference": "9100a76ce8015b9aa7125b9171ae3a76887b6c82"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/e64220a05c1209fc856d58e789c3b7a32c0bb9a5",
-                "reference": "e64220a05c1209fc856d58e789c3b7a32c0bb9a5",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/9100a76ce8015b9aa7125b9171ae3a76887b6c82",
+                "reference": "9100a76ce8015b9aa7125b9171ae3a76887b6c82",
                 "shasum": ""
             },
             "require": {
@@ -10637,7 +10738,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-05-31T13:53:37+00:00"
+            "time": "2024-06-06T12:19:22+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",
@@ -11093,16 +11194,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.12.3",
+            "version": "v0.12.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "b6b6cce7d3ee8fbf31843edce5e8f5a72eff4a73"
+                "reference": "2fd717afa05341b4f8152547f142cd2f130f6818"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/b6b6cce7d3ee8fbf31843edce5e8f5a72eff4a73",
-                "reference": "b6b6cce7d3ee8fbf31843edce5e8f5a72eff4a73",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/2fd717afa05341b4f8152547f142cd2f130f6818",
+                "reference": "2fd717afa05341b4f8152547f142cd2f130f6818",
                 "shasum": ""
             },
             "require": {
@@ -11166,9 +11267,9 @@
             ],
             "support": {
                 "issues": "https://github.com/bobthecow/psysh/issues",
-                "source": "https://github.com/bobthecow/psysh/tree/v0.12.3"
+                "source": "https://github.com/bobthecow/psysh/tree/v0.12.4"
             },
-            "time": "2024-04-02T15:57:53+00:00"
+            "time": "2024-06-10T01:18:23+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -11216,16 +11317,16 @@
         },
         {
             "name": "rlanvin/php-rrule",
-            "version": "v2.4.1",
+            "version": "v2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rlanvin/php-rrule.git",
-                "reference": "7ddef3d49b7a6461dc070f671f0d94509c9a537b"
+                "reference": "75b76c85c949fdfb39024a36d83f08dc95c90c8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rlanvin/php-rrule/zipball/7ddef3d49b7a6461dc070f671f0d94509c9a537b",
-                "reference": "7ddef3d49b7a6461dc070f671f0d94509c9a537b",
+                "url": "https://api.github.com/repos/rlanvin/php-rrule/zipball/75b76c85c949fdfb39024a36d83f08dc95c90c8c",
+                "reference": "75b76c85c949fdfb39024a36d83f08dc95c90c8c",
                 "shasum": ""
             },
             "require": {
@@ -11259,9 +11360,9 @@
             ],
             "support": {
                 "issues": "https://github.com/rlanvin/php-rrule/issues",
-                "source": "https://github.com/rlanvin/php-rrule/tree/v2.4.1"
+                "source": "https://github.com/rlanvin/php-rrule/tree/v2.5.0"
             },
-            "time": "2023-06-07T13:15:59+00:00"
+            "time": "2024-06-08T06:10:35+00:00"
         },
         {
             "name": "sebastian/diff",
@@ -14675,16 +14776,16 @@
         },
         {
             "name": "composer/class-map-generator",
-            "version": "1.3.2",
+            "version": "1.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/class-map-generator.git",
-                "reference": "acd227952154850d0bb7d65caa4f9edf9cd806a7"
+                "reference": "61804f9973685ec7bead0fb7fe022825e3cd418e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/class-map-generator/zipball/acd227952154850d0bb7d65caa4f9edf9cd806a7",
-                "reference": "acd227952154850d0bb7d65caa4f9edf9cd806a7",
+                "url": "https://api.github.com/repos/composer/class-map-generator/zipball/61804f9973685ec7bead0fb7fe022825e3cd418e",
+                "reference": "61804f9973685ec7bead0fb7fe022825e3cd418e",
                 "shasum": ""
             },
             "require": {
@@ -14728,7 +14829,7 @@
             ],
             "support": {
                 "issues": "https://github.com/composer/class-map-generator/issues",
-                "source": "https://github.com/composer/class-map-generator/tree/1.3.2"
+                "source": "https://github.com/composer/class-map-generator/tree/1.3.3"
             },
             "funding": [
                 {
@@ -14744,7 +14845,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-05-31T19:45:56+00:00"
+            "time": "2024-06-10T11:53:54+00:00"
         },
         {
             "name": "composer/composer",
@@ -16671,16 +16772,16 @@
         },
         {
             "name": "phpstan/extension-installer",
-            "version": "1.3.1",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/extension-installer.git",
-                "reference": "f45734bfb9984c6c56c4486b71230355f066a58a"
+                "reference": "f6b87faf9fc7978eab2f7919a8760bc9f58f9203"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/extension-installer/zipball/f45734bfb9984c6c56c4486b71230355f066a58a",
-                "reference": "f45734bfb9984c6c56c4486b71230355f066a58a",
+                "url": "https://api.github.com/repos/phpstan/extension-installer/zipball/f6b87faf9fc7978eab2f7919a8760bc9f58f9203",
+                "reference": "f6b87faf9fc7978eab2f7919a8760bc9f58f9203",
                 "shasum": ""
             },
             "require": {
@@ -16709,9 +16810,9 @@
             "description": "Composer plugin for automatic installation of PHPStan extensions",
             "support": {
                 "issues": "https://github.com/phpstan/extension-installer/issues",
-                "source": "https://github.com/phpstan/extension-installer/tree/1.3.1"
+                "source": "https://github.com/phpstan/extension-installer/tree/1.4.1"
             },
-            "time": "2023-05-24T08:59:17+00:00"
+            "time": "2024-06-10T08:20:49+00:00"
         },
         {
             "name": "phpstan/phpdoc-parser",

@@ -4,8 +4,8 @@ description: Provides a UI for the Group Term module for use with LocalGov Micro
 package: LocalGov Drupal
 core_version_requirement: ^9 || ^10
 dependencies:
-  - domain_group:domain_group
   - drupal:taxonomy
   - drupal:views
   - group:group
   - group_term:group_term
+  - localgov_microsites_group:localgov_microsites_group

@@ -3,3 +3,11 @@ manage microsite enabled module permissions:
 set localgov microsite theme override:
   title: 'Override base themes for domain groups'
   description: 'The LocalGov Microsites theme can be configured. This is to change the theme completely.'
+administer group domain settings:
+  title: 'Administer microsite domain settings'
+  description: 'Create, update and delete the microsite domain'
+  restrict access: TRUE
+administer group domain site settings:
+  title: 'Administer microsite domain site settings'
+  description: 'Edit the site settings for a microsite'
+  restrict access: TRUE

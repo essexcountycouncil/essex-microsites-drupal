@@ -8,7 +8,7 @@ use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\domain_group\DomainGroupResolverInterface;
+use Drupal\domain\DomainNegotiatorInterface;
 use Drupal\group\Entity\GroupInterface;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\Plugin\EntityReferenceSelection\TermSelection;
@@ -26,13 +26,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * )
  */
 class GroupTermSelection extends TermSelection {
-
-  /**
-   * The Domain Group resolver.
-   *
-   * @var \Drupal\domain_group\DomainGroupResolverInterface
-   */
-  protected $domainGroupResolver;
 
   /**
    * Constructs a new GroupTermSelection object.
@@ -55,13 +48,11 @@ class GroupTermSelection extends TermSelection {
    *   The entity type bundle info service.
    * @param \Drupal\Core\Entity\EntityRepositoryInterface $entity_repository
    *   The entity repository.
-   * @param \Drupal\domain_group\DomainGroupResolverInterface $domain_group_resolver
-   *   The domain group resolver service.
+   * @param \Drupal\domain\DomainNegotiatorInterface $domainNegotiator
+   *   The domain negotiator service.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, ModuleHandlerInterface $module_handler, AccountInterface $current_user, EntityFieldManagerInterface $entity_field_manager, EntityTypeBundleInfoInterface $entity_type_bundle_info = NULL, EntityRepositoryInterface $entity_repository, DomainGroupResolverInterface $domain_group_resolver) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, ModuleHandlerInterface $module_handler, AccountInterface $current_user, EntityFieldManagerInterface $entity_field_manager, EntityTypeBundleInfoInterface $entity_type_bundle_info = NULL, EntityRepositoryInterface $entity_repository, protected DomainNegotiatorInterface $domainNegotiator) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $entity_type_manager, $module_handler, $current_user, $entity_field_manager, $entity_type_bundle_info, $entity_repository);
-
-    $this->domainGroupResolver = $domain_group_resolver;
   }
 
   /**
@@ -78,7 +69,7 @@ class GroupTermSelection extends TermSelection {
       $container->get('entity_field.manager'),
       $container->get('entity_type.bundle.info'),
       $container->get('entity.repository'),
-      $container->get('domain_group_resolver')
+      $container->get('domain.negotiator')
     );
   }
 
@@ -89,10 +80,7 @@ class GroupTermSelection extends TermSelection {
     $options = parent::getReferenceableEntities($match, $match_operator, $limit);
 
     // Try and load the group.
-    $group_id = \Drupal::service('domain_group_resolver')->getActiveDomainGroupId();
-    if ($group_id) {
-      $group = \Drupal::entityTypeManager()->getStorage('group')->load($group_id);
-    }
+    $group = $this->getGroupFromDomain();
     if (empty($group)) {
       $group = \Drupal::request()->attributes->get('group');
     }
@@ -109,6 +97,26 @@ class GroupTermSelection extends TermSelection {
     }
 
     return $options;
+  }
+
+  /**
+   * Retrieves the group entity from the current domain.
+   *
+   * Copied from trait as currently DefaultSelection::enityRepository isn't
+   * type hinted, but GroupFromDomainContextTrait has the property hinted.
+   *
+   * @see GroupFromDomainContextTrait
+   *
+   * @return \Drupal\group\Entity\GroupInterface|null
+   *   A group entity if one could be found, NULL otherwise.
+   */
+  public function getGroupFromDomain(): GroupInterface|null {
+    if ($domain = $this->domainNegotiator->getActiveDomain()) {
+      if ($uuid = $domain->getThirdPartySetting('group_context_domain', 'group_uuid')) {
+        return $this->entityRepository->loadEntityByUuid('group', $uuid);
+      }
+    }
+    return NULL;
   }
 
 }

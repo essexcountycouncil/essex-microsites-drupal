@@ -5,7 +5,8 @@
  * LocalGov Microsites Group install file.
  */
 
-use Drupal\Core\Serialization\Yaml;
+use Drupal\Core\Config\ConfigManagerInterface;
+use Drupal\group\Entity\Group;
 use Drupal\search_api\Entity\Index;
 
 /**
@@ -17,6 +18,12 @@ function localgov_microsites_group_install($is_syncing) {
     return;
   }
 
+  // Group sites should be installed aleady. It provides configuration, so we
+  // can't, but must update its default config.
+  $group_sites = \Drupal::configFactory()->getEditable('group_sites.settings');
+  $group_sites->set('context_provider', '@group_context_domain.group_from_domain_context:group');
+  $group_sites->save();
+
   // Add domain access to exclude other sites results.
   $index = Index::load('localgov_sitewide_search');
   $processor = \Drupal::getContainer()
@@ -27,107 +34,65 @@ function localgov_microsites_group_install($is_syncing) {
 }
 
 /**
- * Uninstall the menu_link_reference module.
+ * Implements hook_update_last_removed().
  */
-function localgov_microsites_group_update_9001(&$sandbox) {
+function localgov_microsites_group_update_last_removed() {
+  return 9003;
+}
 
-  if (\Drupal::service('module_handler')->moduleExists('menu_link_reference')) {
-
-    // Uninstall old field definition.
-    // @see https://www.drupal.org/project/group_content_menu/issues/3333968#comment-14942988
-    $entity_definition_update_manager = \Drupal::entityDefinitionUpdateManager();
-    if ($entity_definition_update_manager->getEntityType('group_content_menu') !== NULL) {
-      $storage_definition = $entity_definition_update_manager->getFieldStorageDefinition('parent', 'group_content_menu');
-      if ($storage_definition !== NULL) {
-        $entity_definition_update_manager->uninstallFieldStorageDefinition($storage_definition);
-      }
+/**
+ * Migrate microsite domains to group_context_domain from domain_group.
+ */
+function localgov_microsites_group_update_9004() {
+  foreach (\Drupal::entityTypeManager()->getStorage('domain')->loadMultiple() as $domain) {
+    if (
+      ($group_id = $domain->getThirdPartySetting('domain_group', 'group')) &&
+      ($group = Group::load($group_id))
+    ) {
+      $domain->setThirdPartySetting('group_context_domain', 'group_uuid', $group->uuid());
+      $domain->unsetThirdPartySetting('domain_group', 'group');
+      $domain->save();
     }
-
-    // Uninstall the menu_link_reference module.
-    \Drupal::service('module_installer')->uninstall(['menu_link_reference']);
   }
 }
 
 /**
- * Add missing displays to group content views.
+ * Update configuration dependencies.
  */
-function localgov_microsites_group_update_9002(&$sandbox) {
-
-  $module_path = \Drupal::service('extension.list.module')->getPath('localgov_microsites_group');
-  $view_storage = \Drupal::entityTypeManager()->getStorage('view');
-
-  $group_node_view = $view_storage->load('group_nodes');
-  if ($group_node_view) {
-    $displays = $group_node_view->get('display');
-    if (!isset($displays['microsite_page']) || !isset($displays['microsite_dashboard_embed'])) {
-      $view_override = Yaml::decode(file_get_contents($module_path . '/config/overrides/views.view.group_nodes.yml'));
-      $displays['microsite_page'] = $view_override['display']['microsite_page'];
-      $displays['microsite_dashboard_embed'] = $view_override['display']['microsite_dashboard_embed'];
-      $group_node_view->set('display', $displays);
-      $group_node_view->save();
-    }
-  }
-
-  $group_member_view = $view_storage->load('group_members');
-  if ($group_member_view) {
-    $displays = $group_member_view->get('display');
-    if (!isset($displays['microsite_dashboard_embed'])) {
-      $view_override = Yaml::decode(file_get_contents($module_path . '/config/overrides/views.view.group_members.yml'));
-      $displays['microsite_dashboard_embed'] = $view_override['display']['microsite_dashboard_embed'];
-      $group_member_view->set('display', $displays);
-      $group_member_view->save();
-    }
-  }
-
-  $my_invitations_view = $view_storage->load('my_invitations');
-  if ($my_invitations_view) {
-    $view_override = Yaml::decode(file_get_contents($module_path . '/config/overrides/views.view.my_invitations.yml'));
-    $displays = $my_invitations_view->get('display');
-    $displays['default']['display_options']['arguments'] = $view_override['display']['default']['display_options']['arguments'];
-    $displays['default']['display_options']['filters'] = $view_override['display']['default']['display_options']['filters'];
-    $displays['default']['display_options']['query'] = $view_override['display']['default']['display_options']['query'];
-    $my_invitations_view->set('display', $displays);
-    $my_invitations_view->save();
+function localgov_microsites_group_update_9005() {
+  $config_manager = \Drupal::service('config.manager');
+  assert($config_manager instanceof ConfigManagerInterface);
+  // $config_manager->loadConfigEntityByName('')
+  $dependencies = $config_manager->findConfigEntityDependencies('module', ['domain_group']);
+  foreach ($dependencies as $name => $dependency) {
+    var_dump($name);
+    $config = $config_manager->loadConfigEntityByName($name);
+    $config->save();
   }
 }
 
 /**
- * Configure the new 'access microsites overview' permission.
+ * Remove any group permissions entities before removing the module.
  */
-function localgov_microsites_group_update_9003() {
-
-  $permission = 'access microsites overview';
-  $old_permission = 'bypass group access';
-  /** @var \Drupal\user\Entity\Role $controller_role */
-  $controller_role = \Drupal::entityTypeManager()
-    ->getStorage('user_role')
-    ->load('microsites_controller');
-
-  // Add 'access microsites overview' permission to microsites controller role.
-  if (!$controller_role->hasPermission($permission)) {
-    $controller_role->grantPermission($permission);
-    $controller_role->save();
+function localgov_microsites_group_update_9006() {
+  $permission_storage = \Drupal::entityTypeManager()->getStorage('group_permission');
+  if ($permissions = $permission_storage->loadMultiple()) {
+    $permission_storage->delete($permissions);
   }
+}
 
-  // Remove 'bypass group access' permission from microsites controller role.
-  if ($controller_role->hasPermission($old_permission)) {
-    $controller_role->revokePermission($old_permission);
-    $controller_role->save();
-  }
+/**
+ * Disable domain_group and group_permissions.
+ */
+function localgov_microsites_group_update_9007() {
+  \Drupal::service('module_installer')->uninstall(['domain_group', 'group_permissions']);
+}
 
-  // Update access to the microsites overview view.
-  $microsites_view = \Drupal::entityTypeManager()
-    ->getStorage('view')
-    ->load('localgov_microsites_overview');
-  $displays = $microsites_view->get('display');
-  if (
-    isset($displays['default']['display_options']['access']['type']) &&
-    $displays['default']['display_options']['access']['type'] === 'perm' &&
-    isset($displays['default']['display_options']['access']['options']['perm']) &&
-    $displays['default']['display_options']['access']['options']['perm'] == $old_permission
-  ) {
-    $displays['default']['display_options']['access']['options']['perm'] = $permission;
-    $microsites_view->set('display', $displays);
-    $microsites_view->save();
-  }
+/**
+ * Set group sites context as would be done on install.
+ */
+function localgov_microsites_group_update_9008() {
+  $group_sites = \Drupal::configFactory()->getEditable('group_sites.settings');
+  $group_sites->set('context_provider', '@group_context_domain.group_from_domain_context:group');
+  $group_sites->save();
 }

@@ -16,11 +16,12 @@ class UserRoleTest extends GroupKernelTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = [
+  protected static $modules = [
+    'domain',
     'gnode',
     'group',
     'group_content_menu',
-    'group_permissions',
+    'group_sites',
     'image',
     'media',
     'media_library',

@@ -5,30 +5,28 @@ declare(strict_types=1);
 namespace Drupal\localgov_microsites_group;
 
 use Drupal\group\Entity\GroupInterface;
-use Drupal\group_permissions\Entity\GroupPermissionInterface;
 
 /**
- * GroupPermissionsHelper interface.
+ * ContentTypeHelper interface.
  */
-interface GroupPermissionsHelperInterface {
+interface ContentTypeHelperInterface {
 
   /**
-   * Module permissions status: Has no group permissions.
+   * Module status: Has no controlled content types.
    */
   const NOT_APPLICABLE = 'not_applicable';
 
   /**
-   * Module permissions status: has modifications to permissions.
-   */
-  const UNKNOWN = 'unknown';
-
-  /**
-   * Module permissions status: enabled, all permissions in place.
+   * Module status: enabled.
+   *
+   * All controlled types can be created.
    */
   const ENABLED = 'enabled';
 
   /**
-   * Module permissions status: disabled, all permissions removed.
+   * Module status: disabled.
+   *
+   * Controlled types can't be created, unless supplied by another module.
    */
   const DISABLED = 'disabled';
 
@@ -59,7 +57,7 @@ interface GroupPermissionsHelperInterface {
    *
    * @return string
    *   Class module permissions status constant. One of self::ENABLED
-   *   self::DISABLED self::UNKNOWN self::NOT_APPLICABLE.
+   *   self::DISABLED self::NOT_APPLICABLE.
    */
   public function moduleStatus($module, GroupInterface $group): string;
 
@@ -82,18 +80,5 @@ interface GroupPermissionsHelperInterface {
    *   The group to disable permissions for.
    */
   public function moduleDisable($module, GroupInterface $group);
-
-  /**
-   * Get group permissions entity for group.
-   *
-   * Will return an existing or populated new entity.
-   *
-   * @param \Drupal\group\Entity\GroupInterface $group
-   *   The group te retrieve group permissions entity for.
-   *
-   * @return \Drupal\group_permissions\Entity\GroupPermissionInterface
-   *   The existing, or new, group permissions entity, with role permissions.
-   */
-  public function getGroupPermissions(GroupInterface $group): GroupPermissionInterface;
 
 }

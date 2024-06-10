@@ -1,7 +1,0 @@
-name: Localgov Microsites Permissions
-type: module
-description: Permissions for Microsite groups.
-package: LocalGov Drupal
-core_version_requirement: ^9 || ^10
-dependencies:
-  - group_permissions:group_permissions

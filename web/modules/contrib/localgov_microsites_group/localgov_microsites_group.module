@@ -13,7 +13,6 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
-use Drupal\group\Entity\Group;
 use Drupal\group\Entity\GroupInterface;
 use Drupal\group\Entity\GroupRelationshipInterface;
 use Drupal\localgov_microsites_group\DomainSettingsHelper;
@@ -21,6 +20,7 @@ use Drupal\localgov_microsites_group\Entity\MicrositeGroup;
 use Drupal\localgov_microsites_group\Entity\MicrositeGroupInterface;
 use Drupal\localgov_microsites_group\Form\DomainGroupAdd;
 use Drupal\localgov_microsites_group\Form\DomainGroupContentAdd;
+use Drupal\localgov_microsites_group\Form\MicrositeDomainAdd;
 use Drupal\localgov_microsites_group\GroupExtraFieldDisplay;
 use Drupal\localgov_microsites_group\RolesHelper;
 use Drupal\menu_link_content\MenuLinkContentInterface;
@@ -106,6 +106,7 @@ function localgov_microsites_group_entity_type_build(array &$entity_types) {
   /** @var \Drupal\Core\Entity\EntityTypeInterface[] $entity_types */
   $entity_types['group']->setFormClass('new_domain', DomainGroupAdd::class);
   $entity_types['group_relationship']->setFormClass('new_domain', DomainGroupContentAdd::class);
+  $entity_types['domain']->setFormClass('new_microsite', MicrositeDomainAdd::class);
 }
 
 /**
@@ -139,17 +140,14 @@ function localgov_microsites_group_entity_extra_field_info() {
 function localgov_microsites_group_menu_link_content_presave(MenuLinkContentInterface $entity) {
 
   // Find active group.
-  $group_id = \Drupal::service('domain_group_resolver')->getActiveDomainGroupId();
-  if (is_null($group_id)) {
+  $group = localgov_microsites_group_get_by_context();
+  if (is_null($group)) {
     $group = \Drupal::request()->attributes->get('group');
-    if ($group) {
-      $group_id = $group->id();
-    }
   }
 
   // Clear group cache so menu links are visible.
-  if ($group_id) {
-    Cache::invalidateTags(['group:' . $group_id]);
+  if ($group) {
+    Cache::invalidateTags(['group:' . $group->id()]);
   }
 }
 
@@ -286,9 +284,9 @@ function localgov_microsites_group_user_login_form_submit($form, FormStateInterf
     $form_state->setRedirect('system.admin');
   }
   // Login to a domain group.
-  $group_id = \Drupal::service('domain_group_resolver')->getActiveDomainGroupId();
-  if ($group_id) {
-    $form_state->setRedirect('entity.group.canonical', ['group' => $group_id]);
+  $group = localgov_microsites_group_get_by_context();
+  if ($group) {
+    $form_state->setRedirect('entity.group.canonical', ['group' => $group->id()]);
   }
 }
 
@@ -296,11 +294,10 @@ function localgov_microsites_group_user_login_form_submit($form, FormStateInterf
  * Additional submit handler to associate media with group when in domain group.
  */
 function localgov_microsites_group_media_library_add_form_submit($form, FormStateInterface $form_state) {
-  if (($group_id = \Drupal::service('domain_group_resolver')->getActiveDomainGroupId()) &&
+  if (($group = localgov_microsites_group_get_by_context()) &&
     ($added_media = $form_state->get('media'))
   ) {
-    $groups[] = Group::load($group_id);
-    \Drupal::service('groupmedia.attach_group')->assignMediaToGroups($added_media, $groups);
+    \Drupal::service('groupmedia.attach_group')->assignMediaToGroups($added_media, [$group]);
   }
 }
 
@@ -345,7 +342,6 @@ function localgov_microsites_group_local_task_hidden($task_id) {
       'group.delete_form',
       'group.content',
       'group.version_history',
-      'group_permissions.link.group_permissions_parent',
       'views_view:view.group_nodes.page_1',
     ]);
 }
@@ -480,4 +476,33 @@ function localgov_microsites_group_localgov_microsites_roles_default() {
       ],
     ],
   ];
+}
+
+/**
+ * Get current group from the domain context.
+ *
+ * @see https://www.drupal.org/project/group_sites/issues/3437912
+ *
+ * @return \Drupal\group\Entity\GroupInterface|null
+ *   The group from group_site context if there is one.
+ */
+function localgov_microsites_group_get_by_context(): ?GroupInterface {
+
+  $context_id = \Drupal::service('config.factory')->get('group_sites.settings')->get('context_provider');
+  if ($context_id === NULL) {
+    return NULL;
+  }
+
+  $contexts = \Drupal::service('context.repository')->getRuntimeContexts([$context_id]);
+
+  $context = count($contexts) ? reset($contexts) : NULL;
+
+  if ($group = $context?->getContextValue()) {
+    if (!$group instanceof GroupInterface) {
+      throw new \InvalidArgumentException('Context value is not a Group entity.');
+    }
+    return $group;
+  }
+
+  return NULL;
 }

@@ -7,6 +7,7 @@ dependencies:
     - field.field.group.microsite.lgms_base_line_height
     - field.field.group.microsite.lgms_base_spacing
     - field.field.group.microsite.lgms_body_font
+    - field.field.group.microsite.lgms_display_sitewide_search
     - field.field.group.microsite.lgms_favicon
     - field.field.group.microsite.lgms_footer_background_colour
     - field.field.group.microsite.lgms_footer_banner
@@ -64,6 +65,7 @@ dependencies:
     - field.field.group.microsite.lgms_main_logo
     - field.field.group.microsite.lgms_main_menu_font_size
     - field.field.group.microsite.lgms_main_menu_font_weight
+    - field.field.group.microsite.lgms_modules_disabled
     - field.field.group.microsite.lgms_off_canvas_bg_colour
     - field.field.group.microsite.lgms_off_canvas_menu_icon
     - field.field.group.microsite.lgms_off_canvas_text_colour
@@ -210,6 +212,7 @@ hidden:
   lgms_base_line_height: true
   lgms_base_spacing: true
   lgms_body_font: true
+  lgms_display_sitewide_search: true
   lgms_favicon: true
   lgms_footer_background_colour: true
   lgms_footer_banner: true
@@ -267,6 +270,7 @@ hidden:
   lgms_main_logo: true
   lgms_main_menu_font_size: true
   lgms_main_menu_font_weight: true
+  lgms_modules_disabled: true
   lgms_off_canvas_bg_colour: true
   lgms_off_canvas_menu_icon: true
   lgms_off_canvas_text_colour: true

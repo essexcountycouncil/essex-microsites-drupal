@@ -3,11 +3,12 @@
 namespace Drupal\Tests\localgov_microsites_group\Functional;
 
 use Drupal\group\Entity\GroupInterface;
+use Drupal\localgov_microsites_group\DomainFromGroupTrait;
 use Drupal\node\NodeInterface;
 use Drupal\search_api\Entity\Index;
 use Drupal\Tests\BrowserTestBase;
-use Drupal\Tests\domain_group\Traits\GroupCreationTrait;
-use Drupal\Tests\domain_group\Traits\InitializeGroupsTrait;
+use Drupal\Tests\localgov_microsites_group\Traits\GroupCreationTrait;
+use Drupal\Tests\localgov_microsites_group\Traits\InitializeGroupsTrait;
 use Drupal\Tests\node\Traits\NodeCreationTrait;
 
 /**
@@ -17,9 +18,11 @@ use Drupal\Tests\node\Traits\NodeCreationTrait;
  */
 class MicrositeSitewideSearchTest extends BrowserTestBase {
 
-  use GroupCreationTrait;
   use InitializeGroupsTrait;
   use NodeCreationTrait;
+  use GroupCreationTrait, DomainFromGroupTrait {
+    GroupCreationTrait::getEntityTypeManager insteadof DomainFromGroupTrait;
+  }
 
   /**
    * Will be removed when issue #3204455 on Domain Site Settings gets merged.
@@ -56,33 +59,17 @@ class MicrositeSitewideSearchTest extends BrowserTestBase {
   protected function setUp(): void {
     parent::setUp();
 
-    // Set base hostname.
-    $this->setBaseHostname();
-
-    // Create some microsites.
-    $this->group1 = $this->createGroup([
-      'label' => 'group-a1',
-      'type' => 'microsite',
-    ]);
-    $this->group2 = $this->createGroup([
-      'label' => 'group-a2',
-      'type' => 'microsite',
-    ]);
-    $this->allTestGroups = [
-      $this->group1,
-      $this->group2,
-    ];
-    $this->initializeTestGroupsDomains();
-    $domain_storage = \Drupal::entityTypeManager()->getStorage('domain');
-    $this->domain1 = $domain_storage->load('group_' . $this->group1->id());
-    $this->domain2 = $domain_storage->load('group_' . $this->group2->id());
+    $this->createMicrositeGroups([], 2);
+    $this->createMicrositeGroupsDomains($this->groups);
+    $this->domain1 = $this->getDomainFromGroup($this->groups[1]);
+    $this->domain2 = $this->getDomainFromGroup($this->groups[2]);
 
     // Create some content.
     $this->pages1 = [
-      $this->createPage($this->group1),
-      $this->createPage($this->group1),
+      $this->createPage($this->groups[1]),
+      $this->createPage($this->groups[1]),
     ];
-    $this->pages2 = [$this->createPage($this->group2)];
+    $this->pages2 = [$this->createPage($this->groups[2])];
 
     // Index directory content.
     $index = Index::load('localgov_sitewide_search');

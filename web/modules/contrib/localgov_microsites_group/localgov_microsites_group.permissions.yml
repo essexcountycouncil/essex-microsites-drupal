@@ -1,2 +1,5 @@
 access microsites overview:
   title: 'Access the Microsites overview page'
+bypass domain group permissions:
+  title: 'Bypass per group settings permissions'
+  description: 'Allow to administer all groups domain group settings.'

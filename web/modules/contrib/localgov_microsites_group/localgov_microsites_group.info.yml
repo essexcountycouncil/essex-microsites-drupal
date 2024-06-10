@@ -12,7 +12,6 @@ dependencies:
   # Contrib
   - admin_toolbar:admin_toolbar
   - domain:domain
-  - domain_group:domain_group
   - domain_path:domain_path
   - domain_path:domain_path_pathauto
   - field_group:field_group
@@ -21,7 +20,8 @@ dependencies:
   - group:gnode
   - groupmedia:groupmedia
   - groupmedia_paragraphs:groupmedia_paragraphs
-  - group_permissions:group_permissions
+  - group_sites:group_sites
+  - group_context_domain:group_context_domain
   - group_content_menu:group_content_menu
   - layout_paragraphs:layout_paragraphs_permissions
   - media_library:media_library

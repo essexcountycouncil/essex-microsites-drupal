@@ -69,9 +69,11 @@ class ManageGroupTermsTest extends BrowserTestBase {
    */
   public function testGroupTermUi() {
 
-    $user = $this->drupalCreateUser([]);
+    $user = $this->drupalCreateUser(['use group_sites admin mode']);
     $this->group->addMember($user, ['group_roles' => ['default-admin']]);
     $this->drupalLogin($user);
+    // Disable group_sites enforcement.
+    \Drupal::service('group_sites.admin_mode')->setAdminMode(TRUE);
 
     $this->drupalGet($this->group->toUrl()->toString() . '/edit');
     $this->assertSession()->pageTextContains('Taxonomies');
@@ -111,9 +113,10 @@ class ManageGroupTermsTest extends BrowserTestBase {
     $this->group->addRelationship($term, 'group_term:localgov_topic');
 
     // Login as a group member.
-    $user = $this->drupalCreateUser([]);
+    $user = $this->drupalCreateUser(['use group_sites admin mode']);
     $this->group->addMember($user, ['group_roles' => ['default-member']]);
     $this->drupalLogin($user);
+    \Drupal::service('group_sites.admin_mode')->setAdminMode(TRUE);
 
     // Check access to taxonomy management page.
     $taxonomy_url = Url::fromRoute('localgov_microsites_group_term_ui.taxononmy.list',

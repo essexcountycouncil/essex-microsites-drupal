@@ -7,9 +7,9 @@ dependencies:
     - media.type.remote_video
   module:
     - domain
-    - domain_group
     - domain_path
     - group
+    - group_sites
     - media
     - role_delegation
     - system
@@ -48,6 +48,7 @@ permissions:
   - 'select account cancellation method'
   - 'update any media'
   - 'update media'
+  - 'use group_sites admin mode'
   - 'view all media revisions'
   - 'view assigned domains'
   - 'view domain list'

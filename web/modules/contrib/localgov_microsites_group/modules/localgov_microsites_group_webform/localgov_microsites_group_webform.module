@@ -5,7 +5,7 @@
  * LocalGov Microsites Group Webform module file.
  */
 
-use Drupal\group\Entity\Group;
+use Drupal\group\Entity\GroupInterface;
 use Drupal\group\Entity\Storage\GroupRelationshipTypeStorageInterface;
 use Drupal\localgov_microsites_group\RolesHelper;
 
@@ -44,30 +44,17 @@ function localgov_microsites_group_webform_entity_insert($entity) {
     $storage = \Drupal::entityTypeManager()->getStorage('group_relationship_type');
     assert($storage instanceof GroupRelationshipTypeStorageInterface);
     $storage->createFromPlugin($group_type, $plugin_id)->save();
-
   }
 
   // For the webform_submission, we just need to hook into the submission and
   // add it to the group with $group->addRelationship.
   if ($entity_type == 'webform_submission') {
 
-    // Find the active group.
-    $group_id = \Drupal::service('domain_group_resolver')->getActiveDomainGroupId();
+    // Get the group from the domain context.
+    $group = localgov_microsites_group_get_by_context();
 
-    // If we can't find it with the domain_group_resolver, try with the url.
-    // @todo check if this is actually necessary.
-    if (is_null($group_id)) {
-      $group = \Drupal::request()->attributes->get('group');
-      if ($group) {
-        $group_id = $group->id();
-      }
-    }
-
-    // If we have a $group_id, let's load it and add a new group relationsship.
-    if ($group_id) {
-
-      // Load the group.
-      $group = Group::load($group_id);
+    // If we have a $group, add a new group relationsship.
+    if ($group instanceof GroupInterface) {
 
       // Get the webform and then webform_id to generate the expected plugin_id.
       $webform = $entity->getWebform();

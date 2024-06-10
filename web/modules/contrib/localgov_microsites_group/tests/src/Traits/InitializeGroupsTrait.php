@@ -38,7 +38,7 @@ trait InitializeGroupsTrait {
    *   Groups generated also assigned to $this->groups.
    */
   public function createMicrositeGroups(array $settings = [], int $count = 5) {
-    for ($i = 0; $i < $count; $i++) {
+    for ($i = 1; $i <= $count; $i++) {
       $group = Group::create($settings + [
         'type' => 'microsite',
         'label' => $this->randomString(),
@@ -60,13 +60,13 @@ trait InitializeGroupsTrait {
   public function createMicrositeGroupsDomains(array $groups) {
     $this->setBaseHostname();
     $domains = [''];
-    foreach ($groups as $group) {
+    foreach ($groups as $delta => $group) {
       $domains[] = [
-        'subdomain' => strtolower($group->label()),
+        'subdomain' => 'group-' . $delta,
         'id' => 'group_' . $group->id(),
         'name' => $group->label(),
         'third_party_settings' => [
-          'domain_group' => ['group' => $group->id()],
+          'group_context_domain' => ['group_uuid' => $group->uuid()],
         ],
       ];
     }

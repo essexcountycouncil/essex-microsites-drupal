@@ -88,7 +88,7 @@ class MicrositeTasksBlock extends BlockBase implements ContainerFactoryPluginInt
       $plugin_id,
       $plugin_definition,
       $container->get('plugin.manager.menu.local_task'),
-      $container->get('domain_group_resolver'),
+      $container->get('group_context_domain'),
       $container->get('access_manager'),
       $container->get('current_user')
     );

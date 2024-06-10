@@ -15,3 +15,13 @@ localgov_microsites_group.microsite_admin:
     _controller: '\Drupal\localgov_microsites_group\Controller\MicrositeAdminController::redirectToMicrositeAdmin'
   requirements:
     _custom_access: '\Drupal\localgov_microsites_group\Controller\MicrositeAdminController::access'
+
+domain_group.domain_group_settings_form:
+  path: '/group/{group}/domain-settings'
+  defaults:
+    _form: '\Drupal\localgov_microsites_group\Form\DomainGroupSettingsForm'
+    _title: 'Domain Settings'
+  options:
+    _admin_route: TRUE
+  requirements:
+    _custom_access: '\Drupal\localgov_microsites_group\Form\DomainGroupSettingsForm::access'

@@ -34,7 +34,6 @@ class ModuleSettingsFormTest extends BrowserTestBase {
     'block',
     'group',
     'domain',
-    'domain_group',
     'localgov_microsites_group',
   ];
 
@@ -55,14 +54,14 @@ class ModuleSettingsFormTest extends BrowserTestBase {
    */
   protected function setUp(): void {
     parent::setUp();
-    $this->ownerUser = $this->createUser();
-    $this->adminUser = $this->createUser();
-    $this->memberUser = $this->createUser();
+    $this->ownerUser = $this->createUser(['use group_sites admin mode']);
+    $this->adminUser = $this->createUser(['use group_sites admin mode']);
+    $this->memberUser = $this->createUser(['use group_sites admin mode']);
     $this->createMicrositeGroups([
       'uid' => $this->ownerUser->id(),
     ]);
-    $this->groups[0]->addMember($this->adminUser, ['group_roles' => 'microsite-admin']);
-    $this->groups[0]->addMember($this->memberUser);
+    $this->groups[1]->addMember($this->adminUser, ['group_roles' => 'microsite-admin']);
+    $this->groups[1]->addMember($this->memberUser);
     $this->createMicrositeGroupsDomains($this->groups);
   }
 
@@ -70,9 +69,10 @@ class ModuleSettingsFormTest extends BrowserTestBase {
    * Test group domain settings form.
    */
   public function testDomainGroupForm() {
-    $group = $this->groups[0];
+    $group = $this->groups[1];
     // Going to domain group settings form.
     $this->drupalLogin($this->adminUser);
+    \Drupal::service('group_sites.admin_mode')->setAdminMode(TRUE);
     $this->drupalGet('group/' . $group->id() . '/domain-settings');
     $this->assertSession()->pageTextContains($group->label() . ' - Domain Settings');
     $this->assertSession()->pageTextContains('There are no modules with permissions enabled yet.');
@@ -105,10 +105,11 @@ class ModuleSettingsFormTest extends BrowserTestBase {
    * Test access to group management pages.
    */
   public function testGroupManagementAccess() {
-    $group = $this->groups[0];
+    $group = $this->groups[1];
 
     // Test admin access.
     $this->drupalLogin($this->adminUser);
+    \Drupal::service('group_sites.admin_mode')->setAdminMode(TRUE);
     $this->drupalGet('group/' . $group->id());
     $this->assertSession()->statusCodeEquals(200);
     $this->drupalGet('group/' . $group->id() . '/domain-settings');
@@ -124,6 +125,7 @@ class ModuleSettingsFormTest extends BrowserTestBase {
 
     // Test member access.
     $this->drupalLogin($this->memberUser);
+    \Drupal::service('group_sites.admin_mode')->setAdminMode(TRUE);
     $this->drupalGet('group/' . $group->id());
     $this->assertSession()->statusCodeEquals(200);
     $this->drupalGet('group/' . $group->id() . '/domain-settings');

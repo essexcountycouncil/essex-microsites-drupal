@@ -4,8 +4,9 @@ namespace Drupal\localgov_microsites_group\Controller;
 
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Plugin\Context\ContextRepositoryInterface;
 use Drupal\Core\Url;
-use Drupal\domain_group\DomainGroupResolverInterface;
+use Drupal\group\Entity\GroupInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -15,29 +16,21 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 class MicrositeAdminController extends ControllerBase {
 
   /**
-   * The Domain Group resolver.
-   *
-   * @var \Drupal\domain_group\DomainGroupResolverInterface
-   */
-  protected $domainGroupResolver;
-
-  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('domain_group_resolver')
+      $container->get('context.repository')
     );
   }
 
   /**
    * Initialise a MicrositeAdminController instance.
    *
-   * @param \Drupal\domain_group\DomainGroupResolverInterface $domain_group_resolver
-   *   The domain group resolver service.
+   * @param \Drupal\Core\Plugin\Context\ContextRepositoryInterface $contextRepository
+   *   The context repository service.
    */
-  public function __construct(DomainGroupResolverInterface $domain_group_resolver) {
-    $this->domainGroupResolver = $domain_group_resolver;
+  public function __construct(protected ContextRepositoryInterface $contextRepository) {
   }
 
   /**
@@ -45,7 +38,7 @@ class MicrositeAdminController extends ControllerBase {
    */
   public function redirectToMicrositeAdmin() {
 
-    $group_id = $this->domainGroupResolver->getActiveDomainGroupId();
+    $group_id = $this->getGroupId();
     $url = Url::fromRoute('entity.group.canonical', ['group' => $group_id]);
     return new RedirectResponse($url->toString());
   }
@@ -58,10 +51,35 @@ class MicrositeAdminController extends ControllerBase {
    */
   public function access() {
 
-    if (!is_null($this->domainGroupResolver->getActiveDomainGroupId())) {
+    if (!is_null($this->getGroupId())) {
       return AccessResult::allowed();
     }
     return AccessResult::forbidden();
+  }
+
+  /**
+   * Tries to retrieve the current group id from the current context.
+   *
+   * @return int|null
+   *   The group id or null.
+   */
+  protected function getGroupId(): int|null {
+    $context_id = $this->config('group_sites.settings')->get('context_provider');
+    if ($context_id === NULL) {
+      return NULL;
+    }
+
+    $contexts = $this->contextRepository->getRuntimeContexts([$context_id]);
+
+    $context = count($contexts) ? reset($contexts) : NULL;
+
+    if ($group = $context?->getContextValue()) {
+      if (!$group instanceof GroupInterface) {
+        throw new \InvalidArgumentException('Context value is not a Group entity.');
+      }
+      return $group->id();
+    }
+    return NULL;
   }
 
 }

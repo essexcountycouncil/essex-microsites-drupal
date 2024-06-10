@@ -2,9 +2,10 @@
 
 namespace Drupal\localgov_microsites_events\EventSubscriber;
 
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\domain_group\DomainGroupResolver;
-use Drupal\localgov_microsites_group\GroupPermissionsHelperInterface;
+use Drupal\Core\Entity\EntityRepositoryInterface;
+use Drupal\domain\DomainNegotiatorInterface;
+use Drupal\group_context_domain\GroupFromDomainContextTrait;
+use Drupal\localgov_microsites_group\ContentTypeHelperInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -15,41 +16,29 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class EventsListingCheckEventSubscriber implements EventSubscriberInterface {
 
-  /**
-   * The domain  group resolver.
-   *
-   * @var \Drupal\domain_group\DomainGroupResolver
-   */
-  protected $domainGroupResolver;
-
-  /**
-   * The entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
+  use GroupFromDomainContextTrait;
 
   /**
    * The group permissions helper.
    *
-   * @var \Drupal\localgov_microsites_group\GroupPermissionsHelperInterface
+   * @var \Drupal\localgov_microsites_group\ContentTypeHelperInterface
    */
-  protected $groupPermissionsHelper;
+  protected $contentTypeHelper;
 
   /**
    * Returns an EventsListingCheckEventSubscriber instance.
    *
-   * @param \Drupal\domain_group\DomainGroupResolver $domain_group_resolver
-   *   The domain group resolver.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
-   *   The entity type manager.
-   * @param \Drupal\localgov_microsites_group\GroupPermissionsHelperInterface $permissions_helper
-   *   The group permissions helper.
+   * @param \Drupal\Core\Entity\EntityRepositoryInterface $entity_repository
+   *   The entity repository interface.
+   * @param \Drupal\domain\DomainNegotiatorInterface $domain_negotiator
+   *   The domain negotiator interface.
+   * @param \Drupal\localgov_microsites_group\ContentTypeHelperInterface $content_type_helper
+   *   The group content type helper.
    */
-  public function __construct(DomainGroupResolver $domain_group_resolver, EntityTypeManagerInterface $entity_type_manager, GroupPermissionsHelperInterface $permissions_helper) {
-    $this->domainGroupResolver = $domain_group_resolver;
-    $this->entityTypeManager = $entity_type_manager;
-    $this->groupPermissionsHelper = $permissions_helper;
+  public function __construct(EntityRepositoryInterface $entity_repository, DomainNegotiatorInterface $domain_negotiator, ContentTypeHelperInterface $content_type_helper) {
+    $this->entityRepository = $entity_repository;
+    $this->domainNegotiator = $domain_negotiator;
+    $this->contentTypeHelper = $content_type_helper;
   }
 
   /**
@@ -82,18 +71,13 @@ class EventsListingCheckEventSubscriber implements EventSubscriberInterface {
       return;
     }
 
-    // Check we're in a group.
-    $group_id = $this->domainGroupResolver->getActiveDomainGroupId();
-    if (!$group_id) {
-      return;
-    }
-    $group = $this->entityTypeManager->getStorage('group')->load($group_id);
+    $group = $this->getGroupFromDomain();
     if (!$group) {
       return;
     }
 
     // If events aren't enabled return a 404.
-    if ($this->groupPermissionsHelper->moduleStatus('localgov_microsites_events', $group) != $this->groupPermissionsHelper::ENABLED) {
+    if ($this->contentTypeHelper->moduleStatus('localgov_microsites_events', $group) != $this->contentTypeHelper::ENABLED) {
       throw new NotFoundHttpException();
     }
   }

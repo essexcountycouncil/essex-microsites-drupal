@@ -4,9 +4,9 @@ namespace Drupal\localgov_microsites_group;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\domain\DomainInterface;
-use Drupal\domain\DomainStorageInterface;
 use Drupal\file\FileInterface;
 use Drupal\file\Plugin\Field\FieldType\FileFieldItemList;
 use Drupal\group\Entity\GroupInterface;
@@ -21,19 +21,14 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class DomainSettingsHelper implements ContainerInjectionInterface {
 
+  use DomainFromGroupTrait;
+
   /**
    * The config factory.
    *
    * @var \Drupal\Core\Config\ConfigFactoryInterface
    */
   protected $configFactory;
-
-  /**
-   * The domain entity storage.
-   *
-   * @var \Drupal\domain\DomainStorageInterface
-   */
-  protected $domainStorage;
 
   /**
    * The language manager.
@@ -47,14 +42,14 @@ class DomainSettingsHelper implements ContainerInjectionInterface {
    *
    * @param Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The config factory.
-   * @param Drupal\domain\DomainStorageInterface $domain_storage
+   * @param Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The domain entity storage.
    * @param Drupal\language\LanguageManagerInterface $language_manager
    *   The language manager.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, DomainStorageInterface $domain_storage, LanguageManagerInterface $language_manager) {
+  public function __construct(ConfigFactoryInterface $config_factory, EntityTypeManagerInterface $entity_type_manager, LanguageManagerInterface $language_manager) {
     $this->configFactory = $config_factory;
-    $this->domainStorage = $domain_storage;
+    $this->entityTypeManager = $entity_type_manager;
     $this->languageManager = $language_manager;
   }
 
@@ -64,7 +59,7 @@ class DomainSettingsHelper implements ContainerInjectionInterface {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('config.factory'),
-      $container->get('entity_type.manager')->getStorage('domain'),
+      $container->get('entity_type.manager'),
       $container->get('language_manager')
     );
   }
@@ -73,7 +68,7 @@ class DomainSettingsHelper implements ContainerInjectionInterface {
    * Handle the favicon file field.
    */
   public function faviconField(GroupInterface $group, FileFieldItemList $favicon_field) {
-    if ($domain = $this->getGroupDomain($group)) {
+    if ($domain = $this->getDomainFromGroup($group)) {
       $theme = $this->getDomainTheme($domain);
       if ($favicon_field->isEmpty()) {
         $this->unsetFavicon($domain, $theme);
@@ -125,19 +120,6 @@ class DomainSettingsHelper implements ContainerInjectionInterface {
     ];
     $config_override->setData($data);
     $config_override->save();
-  }
-
-  /**
-   * Get the Domain for a Group.
-   *
-   * @param \Drupal\group\Entity\GroupInterface $group
-   *   The group.
-   *
-   * @return \Drupal\Domain\DomainInterface
-   *   The related domain.
-   */
-  private function getGroupDomain(GroupInterface $group): ?DomainInterface {
-    return $this->domainStorage->load('group_' . $group->id());
   }
 
   /**

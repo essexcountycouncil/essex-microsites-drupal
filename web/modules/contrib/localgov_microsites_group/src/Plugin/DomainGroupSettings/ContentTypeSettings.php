@@ -8,10 +8,10 @@ use Drupal\Core\Messenger\MessengerTrait;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\domain_group\Plugin\DomainGroupSettingsBase;
 use Drupal\group\Access\GroupAccessResult;
 use Drupal\group\Entity\GroupInterface;
-use Drupal\localgov_microsites_group\GroupPermissionsHelperInterface;
+use Drupal\localgov_microsites_group\ContentTypeHelperInterface;
+use Drupal\localgov_microsites_group\Plugin\DomainGroupSettingsBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -37,9 +37,9 @@ class ContentTypeSettings extends DomainGroupSettingsBase implements ContainerFa
   /**
    * The group permissions helper.
    *
-   * @var \Drupal\localgov_microsites_group\GroupPermissionsHelperInterface
+   * @var \Drupal\localgov_microsites_group\ContentTypeHelperInterface
    */
-  protected $groupPermissionsHelper;
+  protected $contentTypeHelper;
 
   /**
    * The module extension list service.
@@ -51,9 +51,9 @@ class ContentTypeSettings extends DomainGroupSettingsBase implements ContainerFa
   /**
    * {@inheritdoc}
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, GroupPermissionsHelperInterface $permissions_helper, ModuleExtensionList $module_extension_list) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, ContentTypeHelperInterface $content_type_helper, ModuleExtensionList $module_extension_list) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->groupPermissionsHelper = $permissions_helper;
+    $this->contentTypeHelper = $content_type_helper;
     $this->moduleExtensionList = $module_extension_list;
   }
 
@@ -65,7 +65,7 @@ class ContentTypeSettings extends DomainGroupSettingsBase implements ContainerFa
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('localgov_microsites_group.permissions_helper'),
+      $container->get('localgov_microsites_group.content_type_helper'),
       $container->get('extension.list.module'),
     );
   }
@@ -83,10 +83,7 @@ class ContentTypeSettings extends DomainGroupSettingsBase implements ContainerFa
   public function buildConfigurationForm(array $form, FormStateInterface $form_state, GroupInterface $group) {
     $hide_descriptions = system_admin_compact_mode();
     $this->group = $group;
-    $module_permissions = $this->groupPermissionsHelper->modulesList($group);
-    $module_permissions = array_filter($module_permissions, function ($status) {
-      return $status != GroupPermissionsHelperInterface::NOT_APPLICABLE;
-    });
+    $module_permissions = $this->contentTypeHelper->modulesList($group);
     if (empty($module_permissions)) {
       $form['empty'] = [
         '#type' => 'markup',
@@ -124,16 +121,14 @@ class ContentTypeSettings extends DomainGroupSettingsBase implements ContainerFa
         // @codingStandardsIgnoreLine
         $form['modules'][$module_name]['module']['#context']['description'] = $this->t($module['description']);
       }
-      if ($status != GroupPermissionsHelperInterface::UNKNOWN) {
-        $form['modules'][$module_name]['enabled'] = [
-          '#type' => 'submit',
-          '#value' => $status == GroupPermissionsHelperInterface::ENABLED ? $this->t('Disable') : $this->t('Enable'),
-          '#name' => $module_name,
-          '#submit' => $status == GroupPermissionsHelperInterface::ENABLED ?
-            [[$this, 'disableModule']] :
-            [[$this, 'enableModule']],
-        ];
-      }
+      $form['modules'][$module_name]['enabled'] = [
+        '#type' => 'submit',
+        '#value' => $status == ContentTypeHelperInterface::ENABLED ? $this->t('Disable') : $this->t('Enable'),
+        '#name' => $module_name,
+        '#submit' => $status == ContentTypeHelperInterface::ENABLED ?
+          [[$this, 'disableModule']] :
+          [[$this, 'enableModule']],
+      ];
     }
 
     return $form;
@@ -156,7 +151,7 @@ class ContentTypeSettings extends DomainGroupSettingsBase implements ContainerFa
    */
   public function enableModule(array &$form, FormStateInterface $form_state) {
     $module = $form_state->getTriggeringElement()['#name'];
-    $this->groupPermissionsHelper->moduleEnable($module, $this->group);
+    $this->contentTypeHelper->moduleEnable($module, $this->group);
     $info = $this->moduleExtensionList->getExtensionInfo($module);
     // @codingStandardsIgnoreLine
     $name = $this->t($info['name']);
@@ -168,7 +163,7 @@ class ContentTypeSettings extends DomainGroupSettingsBase implements ContainerFa
    */
   public function disableModule(array &$form, FormStateInterface $form_state) {
     $module = $form_state->getTriggeringElement()['#name'];
-    $this->groupPermissionsHelper->moduleDisable($module, $this->group);
+    $this->contentTypeHelper->moduleDisable($module, $this->group);
     $info = $this->moduleExtensionList->getExtensionInfo($module);
     // @codingStandardsIgnoreLine
     $name = $this->t($info['name']);

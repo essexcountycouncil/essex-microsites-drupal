@@ -1,6 +1,6 @@
 services:
-  redirect.request_subscriber:
+  localgov_microsites_events.request_subscriber:
     class: Drupal\localgov_microsites_events\EventSubscriber\EventsListingCheckEventSubscriber
-    arguments: ['@domain_group_resolver', '@entity_type.manager', '@localgov_microsites_group.permissions_helper']
+    arguments: ['@entity.repository', '@domain.negotiator', '@localgov_microsites_group.content_type_helper']
     tags:
       - { name: event_subscriber }

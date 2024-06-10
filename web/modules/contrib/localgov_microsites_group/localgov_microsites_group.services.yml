@@ -3,9 +3,9 @@ services:
     class: Drupal\localgov_microsites_group\GroupDefaultContent
     arguments: ['@entity_type.manager', '@config.factory', '@replicate.replicator']
 
-  localgov_microsites_group.permissions_helper:
-    class: Drupal\localgov_microsites_group\GroupPermissionsHelper
-    arguments: ['@entity_type.manager', '@group.permissions', '@group_permissions.group_permissions_manager', '@module_handler']
+  localgov_microsites_group.content_type_helper:
+    class: Drupal\localgov_microsites_group\ContentTypeHelper
+    arguments: ['@entity_type.manager', '@module_handler', '@group_relation_type.manager']
 
   theme.negotiator.localgov_microsites_group:
     class: Drupal\localgov_microsites_group\Theme\ThemeSwitcherNegotiator
@@ -39,4 +39,42 @@ services:
     decorates: group.relation_handler.ui_text_provider
     class: Drupal\localgov_microsites_group\Plugin\Group\RelationHandlerDefault\UiTextProvider
     arguments: ['@localgov_microsites_group.relation_handler.ui_text_provider.inner', '@entity_type.manager', '@string_translation']
+    shared: false
+
+  plugin.manager.domain_group_settings:
+    class: Drupal\localgov_microsites_group\Plugin\DomainGroupSettingsManager
+    parent: default_plugin_manager
+
+  localgov_microsites_group.config_sync_event_subscriber:
+    class: Drupal\localgov_microsites_group\EventSubscriber\ConfigSubscriber
+    arguments: ['@config.storage', '@config.storage.sync']
+    tags:
+      - { name: event_subscriber }
+
+  localgov_microsites_group.site_admin_mode:
+    class: Drupal\localgov_microsites_group\EventSubscriber\SiteAdminMode
+    arguments: ['@domain.negotiator', '@group_sites.admin_mode']
+    tags:
+      - { name: event_subscriber }
+
+  domain_group_resolver:
+    class: Drupal\localgov_microsites_group\DomainGroupResolver
+    arguments: ['@entity_type.manager', '@domain.negotiator', '@current_route_match', '@entity.repository']
+    deprecated: 'The "%service_id%" service is deprecated. You should use the group sites context directly instead.'
+
+  domain_group.domain_group_context:
+    class: Drupal\localgov_microsites_group\ContextProvider\DomainGroupContext
+    arguments: ['@domain.negotiator', '@entity.repository', '@string_translation']
+    tags:
+      - { name: 'context_provider' }
+    deprecated: 'The "%service_id%" service is deprecated. You should use the group sites context directly instead.'
+
+  group.relation_handler.access_control.group_node:
+    class: 'Drupal\localgov_microsites_group\Plugin\Group\RelationHandler\ContentTypeAccessControl'
+    arguments: ['@group.relation_handler.access_control', '@localgov_microsites_group.content_type_helper']
+    shared: false
+
+  group.relation_handler.access_control.group_term:
+    class: 'Drupal\localgov_microsites_group\Plugin\Group\RelationHandler\ContentTypeAccessControl'
+    arguments: ['@group.relation_handler.access_control', '@localgov_microsites_group.content_type_helper']
     shared: false
