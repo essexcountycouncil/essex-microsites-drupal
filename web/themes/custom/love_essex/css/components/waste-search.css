@@ -64,6 +64,7 @@
   padding-bottom: 4em;
   border-bottom: 1px solid black;
   margin-bottom: 2em;
+  position: relative;
   &::after {
     content: ' ';
     display: block;
