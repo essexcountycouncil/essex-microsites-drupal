@@ -24,7 +24,6 @@ module:
   default_content: 0
   domain: 0
   domain_config: 0
-  domain_group: 0
   domain_path: 0
   domain_path_pathauto: 0
   dynamic_page_cache: 0
@@ -60,7 +59,6 @@ module:
   group: 0
   group_content_menu: 0
   group_context_domain: 0
-  group_permissions: 0
   group_sites: 0
   group_term: 0
   group_webform: 0

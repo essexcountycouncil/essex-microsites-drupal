@@ -19,11 +19,11 @@ index_id: localgov_news
 suggester_settings:
   live_results:
     fields: {  }
-    view_modes: {  }
     highlight:
       enabled: false
       field: ''
     suggest_keys: false
+    view_modes: {  }
 suggester_weights: {  }
 suggester_limits: {  }
 search_settings:

@@ -11,7 +11,7 @@ dependencies:
   module:
     - node
     - search_api
-    - domain_group
+    - localgov_microsites_group
   enforced:
     module:
       - localgov_news

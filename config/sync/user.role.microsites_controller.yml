@@ -8,7 +8,6 @@ dependencies:
     - media.type.remote_video
   module:
     - domain
-    - domain_group
     - domain_path
     - file
     - geo_entity
@@ -55,7 +54,6 @@ permissions:
   - 'administer webform submission'
   - 'assign microsites_controller role'
   - 'assign microsites_trusted_editor role'
-  - 'bypass domain group permissions'
   - 'cancel account'
   - 'change own username'
   - 'create directory facets'
