@@ -85,3 +85,29 @@
 .view-id-waste_item .field--name-name {
   display: inline;
 }
+
+article.lgd-teaser--waste-disposal-option.node {
+  background-color: var(--color-white);
+  padding: 1em;
+  border-bottom: none;
+}
+
+.view-disposal-options .view-content .views-row {
+  flex: 1 0 0;
+  justify-content: stretch;
+  background-color: var(--color-white);
+  .lgd-teaser--waste-disposal-option {
+    h3 {
+      font-size: var(--font-size-h4);
+      color: var(--color-accent-light);
+      a {
+        color: var(--color-accent);
+      }
+    }
+  }
+}
+
+.view-disposal-options .view-content h3 {
+  margin-top: var(--spacing-small);
+  margin-bottom: var(--spacing-smallest);
+}
