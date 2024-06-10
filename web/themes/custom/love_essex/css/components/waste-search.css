@@ -86,6 +86,10 @@
   display: inline;
 }
 
+.view-disposal-options .view-header .view-waste-item .view-content .views-row {
+  background: none;
+}
+
 article.lgd-teaser--waste-disposal-option.node {
   background-color: var(--color-white);
   padding: 1em;
