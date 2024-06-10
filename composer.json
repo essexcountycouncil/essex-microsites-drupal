@@ -12,15 +12,18 @@
         "drupal": {
             "type": "composer",
             "url": "https://packages.drupal.org/8",
-            "exclude": ["drupal/domain_group", "drupal/group_permissions"]
+            "exclude": [
+                "drupal/domain_group",
+                "drupal/group_permissions"
+            ]
         },
         "drupal/domain_group": {
             "type": "vcs",
             "url": "https://git.drupalcode.org/project/domain_group.git"
         },
         "drupal/group_permissions": {
-          "type": "vcs",
-          "url": "https://git.drupalcode.org/project/group_permissions.git"
+            "type": "vcs",
+            "url": "https://git.drupalcode.org/project/group_permissions.git"
         }
     },
     "require": {
@@ -31,6 +34,7 @@
         "drupal/core-composer-scaffold": "^10.1",
         "drupal/core-project-message": "^10.1",
         "drupal/core-recommended": "^10.1",
+        "drush/drush": "^12.0",
         "drupal/devel": "^5.1",
         "drupal/domain_group": "3.x-dev@dev",
         "drupal/draggableviews": "^2.1",
@@ -52,20 +56,18 @@
         "drupal/upgrade_status": "^4.0",
         "drupal/views_autocomplete_filters": "^2.0",
         "drupal/views_bulk_operations": "^4.2",
-        "drupal/views_data_export": "^1.4",
-        "drush/drush": "^11.5",
-        "joachim-n/composer-manifest": "^1.1",
-        "localgovdrupal/localgov_microsites": "^2.1.0-beta6",
+        "drupal/views_data_export": "1.4",
         "localgovdrupal/localgov_step_by_step": "^2.1",
         "platformsh/config-reader": "^2.4",
-        "topfloor/composer-cleanup-vcs-dirs": "^1.1"
+        "topfloor/composer-cleanup-vcs-dirs": "^1.1",
+        "localgovdrupal/localgov_microsites": "^4.0"
     },
     "require-dev": {
         "brianium/paratest": "^6.3",
         "drupal/core-dev": "^10.1",
-        "mglaman/phpstan-drupal": "^1.0",
+        "mglaman/phpstan-drupal": "^1.1",
         "phpspec/prophecy-phpunit": "^2",
-        "phpstan/phpstan": "^1.0",
+        "phpstan/phpstan": "^1.5",
         "phpstan/phpstan-deprecation-rules": "^1.0"
     },
     "conflict": {
@@ -109,40 +111,59 @@
             }
         },
         "installer-paths": {
-            "web/core": ["type:drupal-core"],
-            "web/libraries/{$name}": ["type:drupal-library" ],
-            "web/modules/contrib/{$name}": ["type:drupal-module"],
-            "web/profiles/contrib/{$name}": ["type:drupal-profile"],
-            "web/themes/contrib/{$name}": ["type:drupal-theme"],
-            "drush/Commands/contrib/{$name}": ["type:drupal-drush"],
-            "web/modules/custom/{$name}": ["type:drupal-custom-module"],
-            "web/themes/custom/{$name}": ["type:drupal-custom-theme" ]
+            "web/core": [
+                "type:drupal-core"
+            ],
+            "web/libraries/{$name}": [
+                "type:drupal-library"
+            ],
+            "web/modules/contrib/{$name}": [
+                "type:drupal-module"
+            ],
+            "web/profiles/contrib/{$name}": [
+                "type:drupal-profile"
+            ],
+            "web/themes/contrib/{$name}": [
+                "type:drupal-theme"
+            ],
+            "drush/Commands/contrib/{$name}": [
+                "type:drupal-drush"
+            ],
+            "web/modules/custom/{$name}": [
+                "type:drupal-custom-module"
+            ],
+            "web/themes/custom/{$name}": [
+                "type:drupal-custom-theme"
+            ]
         },
         "composer-exit-on-patch-failure": true,
         "patchLevel": {
-          "drupal/core": "-p2"
+            "drupal/core": "-p2"
         },
         "patches": {
             "drupal/multiple_select": {
                 "play nice inside field groups": "https://www.drupal.org/files/issues/2023-06-26/multiple_select-compatibility_field_group-3368546-7-D9.patch"
             },
             "drupal/group": {
-              "Allow VBO to play nicely with Group": "https://www.drupal.org/files/issues/2024-03-21/3020883-37.patch"
+                "Allow VBO to play nicely with Group": "https://www.drupal.org/files/issues/2024-03-21/3020883-37.patch"
             },
             "drupal/honeypot": {
-              "honeypot clientside": "https://git.drupalcode.org/project/honeypot/-/merge_requests/22.patch"
+                "honeypot clientside": "https://git.drupalcode.org/project/honeypot/-/merge_requests/22.patch"
             },
             "drupal/autosave_form": {
-              "PHP 8.2 dynamic property deprecation 2": "https://www.drupal.org/files/issues/2023-04-20/autosave_form-dynamic-property-deprecation.patch"
+                "PHP 8.2 dynamic property deprecation 2": "https://www.drupal.org/files/issues/2023-04-20/autosave_form-dynamic-property-deprecation.patch"
             },
             "drupal/group_term": {
-              "restore term relationships": "https://git.drupalcode.org/project/group_term/-/merge_requests/12.patch"
+                "restore term relationships": "https://git.drupalcode.org/project/group_term/-/merge_requests/12.patch"
             }
         }
     },
     "scripts": {
-        "tests-required": [
-            "composer validate"
+        "post-install-cmd": [
+            "Anrt\\Tools\\DocksalConfiguration\\Scripts::postUpdate"
+        ],
+        "post-update-cmd": [
+            "Anrt\\Tools\\DocksalConfiguration\\Scripts::postUpdate"
         ]
     }
 }
