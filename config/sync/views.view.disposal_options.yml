@@ -11,7 +11,7 @@ dependencies:
     - taxonomy.vocabulary.waste_item
     - views.view.waste_item
   content:
-    - 'node:localgov_page:526b5199-a2a6-4c88-b1e1-2b5af6af7601'
+    - 'node:localgov_page:240fb948-4f3d-414f-bfb3-41d64c5babfd'
   module:
     - ecc_waste
     - geofield
@@ -348,7 +348,7 @@ display:
           admin_label: ''
           plugin_id: entity
           empty: true
-          target: 526b5199-a2a6-4c88-b1e1-2b5af6af7601
+          target: 240fb948-4f3d-414f-bfb3-41d64c5babfd
           view_mode: full
           tokenize: false
           bypass_access: false
