@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * @file
+ * Install and update functions for the field_formatter_range module.
+ */
+
+declare(strict_types = 1);
+
+/**
+ * Update all existing settings.
+ */
+function field_formatter_range_update_9101(): void {
+  \Drupal::service('field_formatter_range.updater')->update9101();
+}

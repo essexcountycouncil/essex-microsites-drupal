@@ -1,0 +1,35 @@
+/*
+ * @file
+ * Provides the layout styles for layout_threecol_33_34_33.
+ */
+
+.layout--fourcol-25-25-25-25 {
+  --lgd-page-section-gap: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--lgd-page-section-gap);
+}
+
+.layout--fourcol-25-25-25-25 > .layout__region {
+  /* To equalise the heights in each row */
+  display: grid;
+}
+
+@media screen and (min-width: 40em) {
+  .layout--fourcol-25-25-25-25 {
+    /*
+      If you need to add some gap between items here, you can set the
+      --lgd-page-section-gap variable to whatever gap size you need.
+      e.g.
+        --lgd-page-section-gap: 1rem;
+        --lgd-page-section-gap: var(--spacing);
+    */
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (min-width: 60em) {
+  .layout--fourcol-25-25-25-25 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

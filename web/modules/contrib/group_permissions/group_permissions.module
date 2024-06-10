@@ -1,0 +1,32 @@
+<?php
+
+/**
+ * @file
+ * Hooks for handling group_permissions module features.
+ */
+
+use Drupal\group\Entity\GroupInterface;
+
+/**
+ * Implements hook_entity_delete().
+ */
+function group_permissions_group_delete(GroupInterface $group) {
+  if ($group_permissions = \Drupal::service('group_permissions.group_permissions_manager')->loadByGroup($group)) {
+    $group_permissions->delete();
+  }
+}
+
+/**
+ * Implements hook_menu_local_tasks_alter().
+ */
+function group_permissions_menu_local_tasks_alter(&$data, $route_name) {
+  $group = \Drupal::service('current_route_match')->getParameter('group');
+  if (!$group instanceof GroupInterface) {
+    return;
+  }
+  $group_permission = \Drupal::service('group_permissions.group_permissions_manager')->loadByGroup($group);
+  if (empty($group_permission)) {
+    unset($data['tabs'][1]['group_permissions.link.group_permissions_revisions']);
+    unset($data['tabs'][1]['group_permissions.link.group_permissions_delete']);
+  }
+}

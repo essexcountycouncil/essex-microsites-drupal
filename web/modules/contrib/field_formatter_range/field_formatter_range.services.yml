@@ -1,0 +1,6 @@
+services:
+  field_formatter_range.updater:
+    class: Drupal\field_formatter_range\Service\FieldFormatterRangeUpdater
+    arguments:
+      - '@config.factory'
+      - '@module_handler'

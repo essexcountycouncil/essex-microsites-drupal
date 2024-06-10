@@ -1,0 +1,15 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.microsite
+  module:
+    - localgov_directories
+    - localgov_microsites_directories
+id: microsite-972e8dbb4b20d1b691c351
+group_type: microsite
+content_plugin: group_localgov_directories_facets
+plugin_config:
+  group_cardinality: 1
+  entity_cardinality: 1
+  use_creation_wizard: false

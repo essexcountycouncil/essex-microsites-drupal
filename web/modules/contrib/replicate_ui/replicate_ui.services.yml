@@ -1,0 +1,12 @@
+services:
+  replicate_ui.route_subscriber:
+    class: \Drupal\replicate_ui\RouteSubscriber
+    arguments: ['@entity_type.manager', '@config.factory']
+    tags:
+      - { name: event_subscriber }
+
+  replicate_ui.access_check:
+    class: \Drupal\replicate_ui\ReplicateAccessChecker
+    arguments: ['@access_check.permission', '@access_check.entity']
+    tags:
+      - { name: access_check, applies_to: _replicate_access }

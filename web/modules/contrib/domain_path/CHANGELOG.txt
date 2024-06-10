@@ -1,0 +1,18 @@
+Domain Path 8.x-1.0-beta4 , 2020-05-22
+--------------------------------------
+#3136977: When deleting an entity, translated domain paths are not deleted
+#3112534: Wrong validation on edit (Domain path matches an existing domain path alias...)
+#3137375: Remove deprecated code on DomainPathForm
+#3131284: Support pathauto for domain
+#3138970: Delete domain paths on domain delete
+#3040648: Unsaved Node Preview Causes fatal error.
+
+Domain Path 8.x-1.0-beta3 , 2020-05-12
+--------------------------------------
+#2976931: 'View' permission check name doesn't match permission definition
+#3009372: Domain path fieldset not in advanced node sidebar after upgrade to Drupal 8.6.x
+#3121647: Domain specific path validation does not work when pathauto autogenerate enabled
+#3121607: Add domain label title configuration options like domain navigation block does
+#3122607: processOutbound is generating wrong path when entity is not available on current domain
+#3128283: Respect url language options
+#3127593: Domain path field not hidden for disallowed domains

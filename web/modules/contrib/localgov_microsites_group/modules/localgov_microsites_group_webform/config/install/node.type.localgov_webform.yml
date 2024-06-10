@@ -1,0 +1,17 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+name: 'Microsites webform'
+type: localgov_webform
+description: 'A simple page to which a webform can be embedded with field based overrides for target email address and other webform configuration.'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

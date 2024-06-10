@@ -1,0 +1,71 @@
+<?php
+
+/**
+ * @file
+ * Hook implementations for Sortable Views.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function sortableviews_help($route_name, RouteMatchInterface $route_match) {
+  if ($route_name == 'help.page.sortableviews') {
+    $output = '';
+    $output .= '<h3>' . t('Sortableviews') . '</h3>';
+    $output .= '<p>' . t('This is an alternative for the popular <a href=":draggable">Draggable module</a> module. The difference lies in that whereas Draggableviews uses it\'s own table to store weights, this module uses the Field API to store weights directly in entity tables.', [':draggable' => 'https://www.drupal.org/project/draggableviews']) . '</p>';
+    $output .= '<p>' . t('Here is how it works:') . '</p>';
+    $output .= '<ol><li>' . t('Create a view of any entity and have its format be any of "Sortable HTML list", "Sortable Unformatted list" or "Sortable table".') . '</li>';
+    $output .= '<li>' . t('Make sure the entity type has a spare integer field or base field.') . '</li>';
+    $output .= '<li>' . t('In the view format settings, specify the field to use for storing weight.') . '</li>';
+    $output .= '<li>' . t('Add your weight field as a sort criteria as well.') . '</li>';
+    $output .= '<li>' . t('Finally, add the "Save Sortableviews changes" handler to either your view header of footer.') . '</li></ol>';
+    $output .= '<p>' . t('Your view should now be sortable.') . '</p>';
+    $output .= '<p>' . t('Be aware that the sorting process will always overwrite whatever weight an entity had. Also, weight conflicts may occur if using multiple sortableviews for the same entity type and bundle.') . '</p>';
+    return $output;
+  }
+}
+
+/**
+ * Implements hook_views_data_alter().
+ */
+function sortableviews_views_data_alter(&$data) {
+  foreach (\Drupal::entityTypeManager()->getDefinitions() as $entity_type) {
+    $base_table = $entity_type->getDataTable() ?: $entity_type->getBaseTable();
+    if ($base_table && isset($data[$base_table]['table'])) {
+      $data[$base_table]['sortable_handle'] = [
+        'title' => t('Drag and drop handle.'),
+        'group' => t('Sortableviews'),
+        'help' => t('Provides a handle for drag and drop sorting'),
+        'field' => [
+          'id' => 'sortable_views_handle',
+          'click sortable' => FALSE,
+        ],
+      ];
+      $data[$base_table]['save_sortable_changes'] = [
+        'title' => t('Save Sortableviews changes'),
+        'help' => t('Saves changes by drag and drop using Sortableviews.'),
+        'area' => [
+          'id' => 'save_sortable_changes',
+        ],
+      ];
+    }
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function sortableviews_theme($existing, $type, $theme, $path) {
+  return [
+    'sortableviews_handle' => [
+      'variables' => [
+        'attributes' => [
+          'class' => ['sortableviews-handle', 'tabledrag-handle'],
+        ],
+        'dataid' => '',
+      ],
+    ],
+  ];
+}

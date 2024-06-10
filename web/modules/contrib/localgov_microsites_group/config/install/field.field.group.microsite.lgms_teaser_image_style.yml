@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_teaser_image_style
+    - group.type.microsite
+  module:
+    - options
+id: group.microsite.lgms_teaser_image_style
+field_name: lgms_teaser_image_style
+entity_type: group
+bundle: microsite
+label: 'Teaser Image Style'
+description: 'Choose what ratio you want images to appear when looking at teasers of your content (e.g. events listing, directories listing, etc). If nothing is chosen here, it will default to ''Landscape 4x3''.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

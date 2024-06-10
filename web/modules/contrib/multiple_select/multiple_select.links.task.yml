@@ -1,0 +1,4 @@
+multiple_select.admin_form:
+  title: 'Settings'
+  base_route: 'entity.group.collection'
+  route_name: 'multiple_select.admin_form'

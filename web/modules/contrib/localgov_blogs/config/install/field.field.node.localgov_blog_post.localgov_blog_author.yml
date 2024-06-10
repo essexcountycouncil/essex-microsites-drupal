@@ -1,0 +1,28 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.localgov_blog_author
+    - node.type.localgov_blog_post
+    - taxonomy.vocabulary.localgov_blog_author
+id: node.localgov_blog_post.localgov_blog_author
+field_name: localgov_blog_author
+entity_type: node
+bundle: localgov_blog_post
+label: 'Blog author'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      localgov_blog_author: localgov_blog_author
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

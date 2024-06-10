@@ -1,0 +1,23 @@
+group_permissions.link.group_permissions_parent:
+  title: 'Group permissions'
+  route_name: 'entity.group_permission.canonical'
+  base_route: 'entity.group.canonical'
+  weight: 10
+
+group_permissions.link.group_permissions:
+  title: 'View'
+  route_name: 'entity.group_permission.canonical'
+  parent_id: 'group_permissions.link.group_permissions_parent'
+  weight: 10
+
+group_permissions.link.group_permissions_revisions:
+  title: 'Revisions'
+  route_name: 'entity.group_permission.version-history'
+  parent_id: 'group_permissions.link.group_permissions_parent'
+  weight: 20
+
+group_permissions.link.group_permissions_delete:
+  title: 'Delete'
+  route_name: 'entity.group_permission.delete-form'
+  parent_id: 'group_permissions.link.group_permissions_parent'
+  weight: 30

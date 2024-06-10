@@ -1,0 +1,5 @@
+entity.group_content_menu_type.collection:
+  title: Group content menu types
+  parent: system.admin_structure
+  description: Manage and CRUD actions on group menu types
+  route_name: entity.group_content_menu_type.collection

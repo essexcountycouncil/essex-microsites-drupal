@@ -1,0 +1,33 @@
+uuid: 82a4fb8f-1f57-481e-9190-27bd2e9575bb
+langcode: en
+status: true
+dependencies:
+  module:
+    - group
+    - options
+id: group.lgms_off_canvas_menu_icon
+field_name: lgms_off_canvas_menu_icon
+entity_type: group
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: menu
+      label: 'Burger menu equal length'
+    -
+      value: menu-left
+      label: 'Burger menu unequal length'
+    -
+      value: more-vertical-alt
+      label: 'Three vertical dots'
+    -
+      value: more-vertical-o
+      label: 'Three vertical dots in a circle'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

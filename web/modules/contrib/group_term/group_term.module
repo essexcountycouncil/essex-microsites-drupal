@@ -1,0 +1,52 @@
+<?php
+
+/**
+ * @file
+ * Enables Group functionality for the Taxonomy term entities.
+ */
+
+use Drupal\Core\Database\Query\AlterableInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Url;
+use Drupal\taxonomy\Entity\Vocabulary;
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function group_term_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.group_term':
+      return '<p>' . t('This module is created to allow you to use Taxonomy term entities as group content when used with the Group module.') . '</p>';
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_insert().
+ */
+function group_term_taxonomy_vocabulary_insert(Vocabulary $vocabulary) {
+  \Drupal::service('group_relation_type.manager')->clearCachedDefinitions();
+}
+
+/**
+ * Implements hook_entity_operation().
+ */
+function group_term_entity_operation(EntityInterface $entity) {
+  $operations = [];
+
+  if ($entity->getEntityTypeId() == 'group'
+    && \Drupal::moduleHandler()->moduleExists('views')
+    && $entity->hasPermission('access group_term overview', \Drupal::currentUser())
+  ) {
+    /** @var \Symfony\Component\Routing\RouterInterface $router */
+    $router = \Drupal::service('router.no_access_checks');
+    if ($router->getRouteCollection()->get('view.group_terms.page_1')) {
+      $operations['terms'] = [
+        'title' => t('Terms'),
+        'weight' => 20,
+        'url' => Url::fromRoute('view.group_terms.page_1', ['group' => $entity->id()]),
+      ];
+    }
+  }
+  return $operations;
+}

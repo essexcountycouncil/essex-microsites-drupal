@@ -1,0 +1,246 @@
+<?php
+
+/**
+ * @file
+ * LocalGov DrupalBlogs module file.
+ */
+
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\localgov_roles\RolesHelper;
+use Drupal\node\NodeForm;
+use Drupal\node\NodeInterface;
+use Drupal\views\Views;
+
+/**
+ * Implements hook_entity_extra_field_info().
+ */
+function localgov_blogs_entity_extra_field_info() {
+  $fields = [];
+
+  // Add a blog listing field to blog channels.
+  $fields['node']['localgov_blog_channel']['display']['localgov_blog_listing'] = [
+    'label' => t('Blog post listing'),
+    'description' => t('View of blog posts without the the featured posts.'),
+    'weight' => -20,
+    'visible' => TRUE,
+  ];
+
+  // Add promote to blog channel field to posts.
+  $fields['node']['localgov_blog_post']['form']['localgov_blog_channel_promote'] = [
+    'label' => t('Promote on blog channel'),
+    'description' => t("Add to promoted blog posts for selected channel."),
+    'weight' => 1,
+    'visible' => TRUE,
+  ];
+
+  return $fields;
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_view() for node entities.
+ */
+function localgov_blogs_node_view(array &$build, NodeInterface $node, EntityViewDisplayInterface $display, $view_mode) {
+
+  // Add the blog listing view to blog channels.
+  if ($display->getComponent('localgov_blog_listing')) {
+    $view_id = 'localgov_blog_list';
+    $display_id = 'blog_listing';
+    $view = Views::getView($view_id);
+    if ($view && $view->access($display_id)) {
+      $build['localgov_blog_listing'] = [
+        '#type' => 'view',
+        '#name' => $view_id,
+        '#display_id' => $display_id,
+        '#arguments' => [
+          $node->id(),
+        ],
+      ];
+    }
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function localgov_blogs_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+  // Add promote to channel field to blog posts.
+  if (
+    ($form_id == 'node_localgov_blog_post_form' || $form_id == 'node_localgov_blog_post_edit_form') &&
+    ($form_display = $form_state->get('form_display')) &&
+    $form_display->getComponent('localgov_blog_channel_promote')
+  ) {
+
+    // Check if the current post is promoted on channel.
+    $post = $form_state->getFormObject()->getEntity();
+    $channel = $post->get('localgov_blog_channel')->entity;
+    if (!is_null($channel)) {
+      $featured_posts = $channel->get('localgov_blog_channel_featured')->getValue();
+      $promoted = in_array($post->id(), array_column($featured_posts, 'target_id'));
+    }
+    else {
+      $promoted = FALSE;
+    }
+
+    $form['localgov_blog_channel_promote'] = [
+      '#title' => t('Promote on channel'),
+      '#type' => 'checkbox',
+      '#description' => t("Include in promoted posts on the channel."),
+      '#default_value' => $promoted,
+      '#weight' => 3,
+    ];
+    if (isset($form['#fieldgroups'])) {
+      $form['#fieldgroups']['group_about']->children[] = 'localgov_blog_channel_promote';
+    }
+    $form['actions']['submit']['#submit'][] = 'localgov_blogs_blog_channel_promote_submit';
+  }
+}
+
+/**
+ * Custom submit handler for localgov_blog_channel_promote field.
+ */
+function localgov_blogs_blog_channel_promote_submit(array $form, FormStateInterface $form_state) {
+
+  if (
+    $form_state->getFormObject() instanceof NodeForm &&
+    !is_null($form_state->getValue('localgov_blog_channel_promote'))
+  ) {
+    $post = $form_state->getFormObject()->getEntity();
+    $channel = $post->get('localgov_blog_channel')->entity;
+    $featured_posts = $channel->get('localgov_blog_channel_featured')->getValue();
+    $to_promote = $form_state->getValue('localgov_blog_channel_promote');
+    $is_promoted = in_array($post->id(), array_column($featured_posts, 'target_id'));
+
+    if ($to_promote != $is_promoted) {
+      if ($to_promote) {
+
+        // Add to promoted posts.
+        array_unshift($featured_posts, ['target_id' => $post->id()]);
+        $channel->get('localgov_blog_channel_featured')->setValue($featured_posts);
+        $channel->save();
+      }
+      else {
+
+        // Remove from promoted posts.
+        $i = array_search(['target_id' => $post->id()], $featured_posts);
+        $channel->get('localgov_blog_channel_featured')->removeItem($i);
+        $channel->save();
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_field_widget_complete_form_alter().
+ */
+function localgov_blogs_field_widget_complete_form_alter(&$field_widget_complete_form, FormStateInterface $form_state, $context) {
+
+  // Check the blog channel select options.
+  $field_definition = $context['items']->getFieldDefinition();
+  if ($field_definition->getName() == 'localgov_blog_channel' && isset($field_widget_complete_form['widget']['#options'])) {
+    $options = $field_widget_complete_form['widget']['#options'];
+
+    // If there are no blog channels display a warning.
+    if (count($options) == 1 && isset($options['_none'])) {
+      $create_channel_path = 'localgov_blog_channel';
+      if (\Drupal::moduleHandler()->moduleExists('localgov_microsites_group')) {
+        $group = localgov_microsites_group_get_by_context();
+        if ($group instanceof GroupInterface) {
+          $create_channel_path = 'group_node:' . $create_channel_path;
+        }
+      }
+      \Drupal::messenger()->addWarning(t('There are no blogs channels. Please <a href="./@link">create a blog channel</a> to add this post to.', ['@link' => $create_channel_path]));
+    }
+
+    // If there's only one blog channel just use that.
+    unset($options['_none']);
+    if (count($options) == 1) {
+      $field_widget_complete_form['widget']['#value'] = key($options);
+      $field_widget_complete_form['widget']['#type'] = 'value';
+    }
+  }
+}
+
+/**
+ * Implements hook_localgov_roles_default().
+ */
+function localgov_blogs_localgov_roles_default(): array {
+
+  // Content editing permissions.
+  $perms = [
+    RolesHelper::EDITOR_ROLE => [
+      'create localgov_blog_post content',
+      'delete any localgov_blog_post content',
+      'delete localgov_blog_post revisions',
+      'delete own localgov_blog_post content',
+      'edit any localgov_blog_post content',
+      'edit own localgov_blog_post content',
+      'revert localgov_blog_post revisions',
+      'view localgov_blog_post revisions',
+      'create localgov_blog_channel content',
+      'delete any localgov_blog_channel content',
+      'delete localgov_blog_channel revisions',
+      'delete own localgov_blog_channel content',
+      'edit any localgov_blog_channel content',
+      'edit own localgov_blog_channel content',
+      'revert localgov_blog_channel revisions',
+      'view localgov_blog_channel revisions',
+      'create terms in localgov_blog_author',
+      'delete terms in localgov_blog_author',
+      'edit terms in localgov_blog_author',
+    ],
+    RolesHelper::AUTHOR_ROLE => [
+      'create localgov_blog_post content',
+      'delete own localgov_blog_post content',
+      'edit own localgov_blog_post content',
+      'revert localgov_blog_post revisions',
+      'view localgov_blog_post revisions',
+      'create localgov_blog_channel content',
+      'delete own localgov_blog_channel content',
+      'edit own localgov_blog_channel content',
+      'revert localgov_blog_channel revisions',
+      'view localgov_blog_channel revisions',
+    ],
+    RolesHelper::CONTRIBUTOR_ROLE => [
+      'create localgov_blog_post content',
+      'delete own localgov_blog_post content',
+      'edit own localgov_blog_post content',
+      'view localgov_blog_post revisions',
+      'create localgov_blog_channel content',
+      'delete own localgov_blog_channel content',
+      'edit own localgov_blog_channel content',
+      'view localgov_blog_channel revisions',
+    ],
+  ];
+
+  // Content scheduling permissions required by localgov_workflows.
+  if (\Drupal::moduleHandler()->moduleExists('localgov_workflows')) {
+    $perms[RolesHelper::EDITOR_ROLE] = array_merge($perms[RolesHelper::EDITOR_ROLE], [
+      'add scheduled transitions node localgov_blog_post',
+      'reschedule scheduled transitions node localgov_blog_post',
+      'view scheduled transitions node localgov_blog_post',
+      'add scheduled transitions node localgov_blog_channel',
+      'reschedule scheduled transitions node localgov_blog_channel',
+      'view scheduled transitions node localgov_blog_channel',
+    ]);
+    $perms[RolesHelper::AUTHOR_ROLE] = array_merge($perms[RolesHelper::AUTHOR_ROLE], [
+      'add scheduled transitions node localgov_blog_post',
+      'reschedule scheduled transitions node localgov_blog_post',
+      'view scheduled transitions node localgov_blog_post',
+      'add scheduled transitions node localgov_blog_channel',
+      'reschedule scheduled transitions node localgov_blog_channel',
+      'view scheduled transitions node localgov_blog_channel',
+    ]);
+    $perms[RolesHelper::CONTRIBUTOR_ROLE] = array_merge($perms[RolesHelper::CONTRIBUTOR_ROLE], [
+      'add scheduled transitions node localgov_blog_post',
+      'reschedule scheduled transitions node localgov_blog_post',
+      'view scheduled transitions node localgov_blog_post',
+      'add scheduled transitions node localgov_blog_channel',
+      'reschedule scheduled transitions node localgov_blog_channel',
+      'view scheduled transitions node localgov_blog_channel',
+    ]);
+  }
+
+  return $perms;
+}

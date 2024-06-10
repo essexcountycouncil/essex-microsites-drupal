@@ -1,0 +1,23 @@
+{
+    "name": "drupal/group_permissions",
+    "type": "drupal-module",
+    "description": "Group permissions module provides custom permissions per group.",
+    "homepage": "https://github.com/cnect-web/group_permissions",
+    "authors": [
+        {
+            "name": "Nikolay Lobachev",
+            "homepage": "https://www.drupal.org/u/lobsterr",
+            "role": "Maintainer"
+        }
+    ],
+    "support": {
+        "issues": "https://www.drupal.org/project/issues/group_permissions",
+        "source": "https://git.drupalcode.org/project/group_permissions"
+    },
+    "license": "GPL-2.0-or-later",
+    "minimum-stability": "dev",
+    "require": {
+        "drupal/core": "^9 || ^10",
+        "drupal/group": "^2.0 || ^3.0"
+    }
+}

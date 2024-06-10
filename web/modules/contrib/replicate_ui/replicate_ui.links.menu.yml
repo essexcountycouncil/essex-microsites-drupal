@@ -1,0 +1,5 @@
+replicate_ui.settings:
+  title: 'Replicate settings'
+  parent: system.admin_config_content
+  description: 'Enable replication on a per-entity type basis.'
+  route_name: replicate_ui.settings

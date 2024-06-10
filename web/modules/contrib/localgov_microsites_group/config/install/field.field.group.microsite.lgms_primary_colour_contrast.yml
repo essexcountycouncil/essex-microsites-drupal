@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_primary_colour_contrast
+    - group.type.microsite
+id: group.microsite.lgms_primary_colour_contrast
+field_name: lgms_primary_colour_contrast
+entity_type: group
+bundle: microsite
+label: 'Primary contrast colour'
+description: 'Choose a colour with sufficient colour contrast with the Primary colour.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

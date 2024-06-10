@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * @file
+ * Post update functions for group permissions.
+ */
+
+/**
+ * Implements hook_update_last_removed().
+ */
+function group_permissions_update_last_removed() {
+  return 8003;
+}

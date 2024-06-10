@@ -1,0 +1,5 @@
+localgov_microsites_group_term_ui.taxononmy.add:
+  route_name: localgov_microsites_group_term_ui.taxononmy.add
+  title: 'Add term'
+  appears_on:
+    - view.lgms_group_taxonomy_terms.page

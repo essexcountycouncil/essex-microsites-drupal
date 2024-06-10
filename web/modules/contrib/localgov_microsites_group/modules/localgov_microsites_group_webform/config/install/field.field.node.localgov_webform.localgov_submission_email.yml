@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.localgov_submission_email
+    - node.type.localgov_webform
+id: node.localgov_webform.localgov_submission_email
+field_name: localgov_submission_email
+entity_type: node
+bundle: localgov_webform
+label: 'Submission email'
+description: 'Please specify the email address to which form submissions should be sent.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: email

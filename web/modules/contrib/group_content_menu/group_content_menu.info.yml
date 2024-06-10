@@ -1,0 +1,16 @@
+name: Group content menu
+type: module
+description: Provides features for a menu per group
+package: Group
+core_version_requirement: ^9.3 || ^10
+php: 8.0
+dependencies:
+  - drupal:block
+  - drupal:menu_ui
+  - group:group
+configure: entity.group_content_menu_type.collection
+
+# Information added by Drupal.org packaging script on 2024-05-31
+version: '3.0.2'
+project: 'group_content_menu'
+datestamp: 1717168698

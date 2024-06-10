@@ -1,0 +1,7 @@
+langcode: en
+status: true
+dependencies: {  }
+name: 'Blog author'
+vid: localgov_blog_author
+description: 'Blog authors for blog posts.'
+weight: 0

@@ -1,0 +1,7 @@
+replicate_ui.settings:
+  path: '/admin/config/content/replicate'
+  defaults:
+    _title: 'Replicate'
+    _form: \Drupal\replicate_ui\Form\ReplicateUISettingsForm
+  requirements:
+    _permission: 'administer site configuration'

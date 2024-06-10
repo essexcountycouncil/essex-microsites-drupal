@@ -1,0 +1,12 @@
+name: 'LocalGov Directories Location'
+type: module
+description: 'Provides location fields and functionality for directory entries.'
+package: LocalGov Drupal
+core_version_requirement: ^9 || ^10
+dependencies:
+  - inline_entity_form:inline_entity_form
+  - localgov_directories:localgov_directories
+  - localgov_geo:localgov_geo_address
+  - leaflet:leaflet_views
+  - search_api_location:search_api_location_views
+  - search_api_location:search_api_location_geocoder

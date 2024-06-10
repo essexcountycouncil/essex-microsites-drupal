@@ -1,0 +1,16 @@
+geocode-leaflet:
+  js:
+    js/geocode-leaflet.js: {}
+  dependencies:
+    - core/once
+
+geocode-geofield:
+  js:
+    js/geocode-geofield.js: {}
+  dependencies:
+    - core/once
+
+geobrowser:
+  css:
+    theme:
+      css/geobrowser.css: {}

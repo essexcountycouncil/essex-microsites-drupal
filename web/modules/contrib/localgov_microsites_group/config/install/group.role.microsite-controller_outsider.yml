@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.microsite
+    - user.role.microsites_controller
+id: microsite-controller_outsider
+label: 'Controller (outsider)'
+weight: -97
+admin: true
+scope: outsider
+global_role: microsites_controller
+group_type: microsite
+permissions: {  }

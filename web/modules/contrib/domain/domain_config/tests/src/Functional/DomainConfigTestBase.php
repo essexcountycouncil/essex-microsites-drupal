@@ -1,0 +1,74 @@
+<?php
+
+namespace Drupal\Tests\domain_config\Functional;
+
+use Drupal\Tests\domain\Functional\DomainTestBase;
+
+/**
+ * Helper test methods for Domain Config testing.
+ */
+abstract class DomainConfigTestBase extends DomainTestBase {
+
+  /**
+   * Disabled config schema checking.
+   *
+   * Domain Config actually duplicates schemas provided by other modules,
+   * so it cannot define its own.
+   *
+   * @var bool
+   */
+  protected $strictConfigSchema = FALSE; // phpcs:ignore
+
+  /**
+   * Languages to enable.
+   *
+   * Note that English is already enabled.
+   *
+   * @var array
+   */
+  protected $langcodes = ['es' => 'Spanish'];
+
+  /**
+   * {@inheritdoc}
+   */
+  protected static $modules = [
+    'domain',
+    'language',
+    'domain_config_test',
+    'domain_config',
+  ];
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function setUp(): void {
+    parent::setUp();
+
+    // Create and login user.
+    $perms = ['administer languages', 'access administration pages'];
+    $admin_user = $this->drupalCreateUser($perms);
+    $this->drupalLogin($admin_user);
+
+    // Add language.
+    $edit = [
+      'predefined_langcode' => 'es',
+    ];
+    $this->drupalGet('admin/config/regional/language/add');
+    $this->submitForm($edit, 'Add language');
+
+    // Enable URL language detection and selection.
+    $edit = ['language_interface[enabled][language-url]' => '1'];
+    $this->drupalGet('admin/config/regional/language/detection');
+    $this->submitForm($edit, 'Save settings');
+
+    $this->drupalLogout();
+
+    // In order to reflect the changes for a multilingual site in the container
+    // we have to rebuild it.
+    $this->rebuildContainer();
+
+    $es = \Drupal::entityTypeManager()->getStorage('configurable_language')->load('es');
+    $this->assertNotEmpty($es, 'Created test language.');
+  }
+
+}

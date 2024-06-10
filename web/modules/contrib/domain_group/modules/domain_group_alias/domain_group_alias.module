@@ -1,0 +1,285 @@
+<?php
+
+/**
+ * @file
+ * Contains domain_group_alias.module.
+ */
+
+use Drupal\Core\Render\BubbleableMetadata;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\domain\Entity\Domain;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\group\Entity\GroupRelationship;
+use Drupal\Core\Url;
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_help().
+ */
+function domain_group_alias_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the vibrent_users module.
+    case 'help.page.domain_group_alias':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Domain Group Alias initially for group node content.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function domain_group_alias_module_implements_alter(&$implementations, $hook) {
+  switch ($hook) {
+    // Move our hook_entity_type_insert() implementation to the end of the list.
+    case 'form_alter':
+      $group = $implementations['domain_group_alias'];
+      unset($implementations['domain_group_alias']);
+      $implementations['domain_group_alias'] = $group;
+      break;
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function domain_group_alias_form_alter(&$form, &$form_state, $form_id) {
+  if (isset($form['path']['widget']) && ($object = $form_state->getFormObject())
+    && !empty($object) && is_callable([$object, 'getEntity'])
+    && ($entity = $object->getEntity())) {
+    if ($entity instanceof GroupRelationship) {
+      // Skip if we are on group creator wizard.
+      if ($form_state->has('group_wizard') && $form_state->get('group_wizard_id') == 'group_creator') {
+        return;
+      }
+      /** @var \Drupal\group\Entity\Group $group */
+      $group = $entity->getGroup();
+      $domain_id = 'group_' . $group->id();
+      if (isset($form['path']['domain_path'])) {
+        foreach ($form['path']['domain_path'] as $key => &$item) {
+          if (is_array($item) && isset($item["#type"]) && $item["#type"] == 'textfield') {
+            if ($key == $domain_id) {
+              $item['#states']['enabled']['input[name="domain_path[domain_group_alias_auto]"]'] = ['checked' => FALSE];
+              // Provide checkbox to allow alias pattern override.
+              $account = \Drupal::currentUser();
+              if ($group->hasPermission('administer group domain settings', $account)) {
+                $domain_group_settings_link = Url::fromRoute('domain_group.domain_group_settings_form', ['group' => $group->id()])
+                  ->toString();
+                $description = t('Uncheck this to create a custom alias below. <a href="@admin_link">Configure URL alias patterns for this group.</a>', [
+                  '@admin_link' => $domain_group_settings_link,
+                ],
+                [
+                  'fragment' => 'edit-domain-group-alias-settings',
+                ]);
+              }
+              else {
+                $description = t('Uncheck this to create a custom alias below.');
+              }
+              $is_custom_alias = \Drupal::keyValue('domain_group_alias_custom.' . $domain_id)
+                ->get($entity->id(), FALSE);
+              $form['path']['domain_path']['domain_group_alias_auto'] = [
+                '#type' => 'checkbox',
+                '#title' => t('Generate automatic URL alias'),
+                '#default_value' => !$is_custom_alias,
+                '#description' => $description,
+                '#weight' => -1,
+              ];
+              $form_state->set('domain_group_alias_gc_id', $entity->id());
+              $form_state->set('domain_group_alias_domain_id', $domain_id);
+              $form['#validate'][] = 'domain_group_alias_validate';
+              $form['actions']['submit']['#submit'][] = 'domain_group_alias_submit';
+            }
+            else {
+              $item["#access"] = FALSE;
+            }
+          }
+        }
+      }
+
+      // If current menu has domain.
+      if (isset($form['path']['domain_path'][$domain_id])) {
+        $form["path"]["domain_path"]["domain_path_delete"]["#access"] = FALSE;
+      }
+      else {
+        $form["path"]["domain_path"]["#access"] = FALSE;
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_delete().
+ */
+function domain_group_alias_group_delete(EntityInterface $entity) {
+  if ($domain = Domain::load('group_' . $entity->id())) {
+    \Drupal::service('domain_path.helper')->deleteEntityDomainPaths($domain);
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_update().
+ */
+function domain_group_alias_node_update(EntityInterface $entity) {
+  $group_relationship = GroupRelationship::loadByEntity($entity);
+  if ($group_relationship) {
+    $group_relationship = reset($group_relationship);
+    domain_group_alias_set_domain_alias($group_relationship, $entity);
+  }
+}
+
+/**
+ * Create or update the domain path alias entity.
+ *
+ * @param \Drupal\group\Entity\GroupRelationship $group_relationship
+ *   The Group content.
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ *   The Source entity.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   Form State.
+ *
+ * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+ * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+ * @throws \Drupal\Core\Entity\EntityStorageException
+ */
+function domain_group_alias_set_domain_alias(GroupRelationship $group_relationship, EntityInterface $entity, FormStateInterface $form_state = NULL) {
+  $gid = $group_relationship->getGroup()->id();
+  if ($domain = Domain::load('group_' . $gid)) {
+    $domain_alias_custom = NULL;
+    $lang = $entity->language()->getId();
+    $domain_id = $domain->id();
+
+    $config_factory = \Drupal::configFactory()->get('domain_site_settings.domainconfigsettings');
+    $token_value = $config_factory->get($domain_id . '_alias_' . $entity->bundle());
+    if ($token_value) {
+      $domain_alias_token = domain_group_alias_get_alias_token($token_value, $group_relationship, $lang);
+      $gc_path = '/group/' . $gid . '/content/' . $group_relationship->id();
+      $properties = [
+        'source' => $gc_path,
+        'domain_id' => $domain_id,
+        'language' => $lang,
+      ];
+      $domain_alias = \Drupal::entityTypeManager()
+        ->getStorage('domain_path')
+        ->loadByProperties($properties);
+
+      if ($form_state) {
+        $domain_path_values = $form_state->getUserInput()['domain_path'];
+        if (!$domain_path_values['domain_group_alias_auto'] || is_null($domain_path_values['domain_group_alias_auto'])) {
+          $domain_path_values = $form_state->getValue('domain_path');
+          $domain_alias_custom = isset($domain_path_values[$domain_id]) ? trim($domain_path_values[$domain_id]) : $gc_path;
+        }
+      }
+
+      if ($domain_alias) {
+        $is_custom_alias = \Drupal::keyValue('domain_group_alias_custom.' . $domain_id)
+          ->get($group_relationship->id(), FALSE);
+        if (!$is_custom_alias) {
+          /** @var \Drupal\domain_alias\Entity\DomainAlias $domain_alias */
+          $domain_alias = reset($domain_alias);
+          $domain_alias_token = ($domain_alias_custom) ? $domain_alias_custom : $domain_alias_token;
+          $domain_alias->set('alias', $domain_alias_token);
+          $domain_alias->save();
+        }
+      }
+      // Create domain path.
+      else {
+        $domain_path_storage = \Drupal::entityTypeManager()->getStorage('domain_path');
+        $domain_path_entity = $domain_path_storage->create(['type' => 'domain_path']);
+        $domain_specific_alias_path = !empty($domain_alias_token) ? $domain_alias_token : $gc_path;
+        $domain_specific_alias_path = ($domain_alias_custom) ? $domain_alias_custom : $domain_specific_alias_path;
+        $domain_path_entity->set('alias', $domain_specific_alias_path);
+        $domain_path_entity->set('domain_id', $domain_id);
+        $domain_path_entity->set('language', $lang);
+        $domain_path_entity->set('source', $gc_path);
+        $domain_path_entity->save();
+      }
+    }
+  }
+}
+
+/**
+ * Returns the alias for the given token and gc entity.
+ *
+ * @param string $token_value
+ *   The alias pattern.
+ * @param \Drupal\group\Entity\GroupRelationship $group_relationship
+ *   The group content entity.
+ * @param string $lang
+ *   The source entity language.
+ *
+ * @return string
+ *   The alias.
+ */
+function domain_group_alias_get_alias_token($token_value, GroupRelationship $group_relationship, $lang) {
+  $opts = [
+    'clear' => TRUE,
+    'callback' => [
+      \Drupal::service('pathauto.alias_cleaner'),
+      'cleanTokenValues',
+    ],
+    'langcode' => $lang,
+    'pathauto' => TRUE,
+  ];
+  $bubbleable_metadata = BubbleableMetadata::createFromObject($group_relationship);
+  return \Drupal::token()->replace($token_value, ['group_relationship' => $group_relationship], $opts, $bubbleable_metadata);
+}
+
+/**
+ * Validation handler form group domain alias.
+ *
+ * @param array $form
+ *   The form array.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   The form state object.
+ */
+function domain_group_alias_validate(array &$form, FormStateInterface $form_state) {
+  if (!$form_state->hasAnyErrors()) {
+    $domain_group_alias_auto = $form_state->getValue([
+      'domain_path',
+      'domain_group_alias_auto',
+    ]);
+    if ($domain_group_alias_auto) {
+      // If auto-geneated alias.
+      $form_state->unsetValue(['domain_path', 'domain_group_alias_auto']);
+      if ($dga_gc = $form_state->get('domain_group_alias_gc_id')) {
+        \Drupal::keyValue('domain_group_alias_custom.' . $form_state->get('domain_group_alias_domain_id'))
+          ->delete($dga_gc);
+      }
+    }
+    else {
+      $form_state->unsetValue(['domain_path', 'domain_group_alias_auto']);
+      // Trim slashes and whitespace from end of path value.
+      $domain_path_values = $form_state->getValue('domain_path');
+      $domain_id = $form_state->get('domain_group_alias_domain_id');
+      $path_value = isset($domain_path_values[$domain_id]) ? rtrim(trim($domain_path_values[$domain_id]), " \\/") : NULL;
+
+      // Check that the paths start with a slash.
+      if ($path_value && $path_value[0] !== '/') {
+        $form_state->setError($form['path']['domain_path'][$domain_id], t('Domain path "%path" needs to start with a slash.', ['%path' => $path_value]));
+      }
+
+      if ($dga_gc = $form_state->get('domain_group_alias_gc_id')) {
+        \Drupal::keyValue('domain_group_alias_custom.' . $domain_id)
+          ->set($dga_gc, TRUE);
+      }
+    }
+  }
+}
+
+/**
+ * Submit handler form group domain alias.
+ *
+ * @param array $form
+ *   The form array.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   The form state object.
+ */
+function domain_group_alias_submit(array &$form, FormStateInterface $form_state) {
+  $entity = $form_state->getFormObject()->getEntity();
+  $source_entity = $entity->getEntity();
+  /** @var Drupal\group\Entity\GroupRelationship $entity */
+  domain_group_alias_set_domain_alias($entity, $source_entity, $form_state);
+}

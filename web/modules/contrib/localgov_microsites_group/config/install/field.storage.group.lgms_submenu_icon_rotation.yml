@@ -1,0 +1,30 @@
+uuid: 25a3c1e9-3fbb-4336-bb30-7b3eb3e7a8cc
+langcode: en
+status: true
+dependencies:
+  module:
+    - group
+    - options
+id: group.lgms_submenu_icon_rotation
+field_name: lgms_submenu_icon_rotation
+entity_type: group
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: 45deg
+      label: '45° rotation'
+    -
+      value: 90deg
+      label: '90° rotation'
+    -
+      value: 180deg
+      label: '180° rotation'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

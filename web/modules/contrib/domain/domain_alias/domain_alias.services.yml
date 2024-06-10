@@ -1,0 +1,4 @@
+services:
+  domain_alias.validator:
+    class: Drupal\domain_alias\DomainAliasValidator
+    arguments: ['@config.factory', '@entity_type.manager']

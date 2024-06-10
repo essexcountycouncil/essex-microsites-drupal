@@ -1,0 +1,43 @@
+<?php
+
+/**
+ * @file
+ * Enables Group functionality for the Node module.
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Url;
+use Drupal\group\Entity\GroupInterface;
+use Drupal\webform\WebformInterface;
+use Symfony\Component\Routing\RouterInterface;
+
+/**
+ * Implements hook_ENTITY_TYPE_insert().
+ */
+function group_webform_webform_insert(WebformInterface $webform) {
+  \Drupal::service('group_relation_type.manager')->clearCachedDefinitions();
+}
+
+/**
+ * Implements hook_entity_operation().
+ */
+function group_webform_entity_operation(EntityInterface $entity) {
+  $operations = [];
+
+  if ($entity->getEntityTypeId() == 'group' && \Drupal::moduleHandler()->moduleExists('views')) {
+    assert($entity instanceof GroupInterface);
+    if ($entity->hasPermission('access group_webform overview', \Drupal::currentUser())) {
+      $router = \Drupal::service('router.no_access_checks');
+      assert($router instanceof RouterInterface);
+      if ($router->getRouteCollection()->get('view.group_webforms.page_1') !== NULL) {
+        $operations['webform'] = [
+          'title' => t('Webforms'),
+          'weight' => 20,
+          'url' => Url::fromRoute('view.group_webform.page_1', ['group' => $entity->id()]),
+        ];
+      }
+    }
+  }
+
+  return $operations;
+}

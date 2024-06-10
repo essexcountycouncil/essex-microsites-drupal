@@ -1,0 +1,13 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.microsites_controller
+  module:
+    - user
+id: user_remove_role_action.microsites_controller
+label: 'Remove the Microsites controller role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: microsites_controller

@@ -1,0 +1,76 @@
+<?php
+/**
+ * @file
+ * Provide a user interface for the Replicate API.
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\replicate_ui\Hooks\EntityTypeBuild;
+
+/**
+ * Implements hook_help().
+ */
+function replicate_ui_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.replicate_ui':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('This module provides user interface integration for the simple yet powerful Replicate API.') . '</p>';
+      $output .= '<h3>' . t('Uses') . '</h3>';
+      $output .= '<dl>';
+      $output .= '<dt>' . t('This module provides integration with Drupal actions which means that you can start to replicate things via the user interfaces with built in support for:') . '</dt>';
+      $output .= '<dd>' . t('Drupal core nodes') . '</dd>';
+      $output .= '<dd>' . t('Drupal core actions') . '</dd>';
+      $output .= '<dd>' . t('"Any" Drupal Entity available to <a href=":entityapi">Entity API</a> (see hook_menu)', [':entityapi' => 'https://www.drupal.org/project/entity']) . '</dd>';
+      $output .= '<dd>' . t('<a href=":views">Views</a>', [':views' => 'https://www.drupal.org/project/views']) . '</dd>';
+      $output .= '<dd>' . t('<a href=":vbo">Views Bulk Operations</a>', [':vbo' => 'https://www.drupal.org/project/Views_bulk_operations']) . '</dd>';
+      $output .= '<dd>' . t('<a href=":rules">Rules</a>', [':rules' => 'https://www.drupal.org/project/rules']) . '</dd>';
+      $output .= '<dd>' . t('<a href=":fc">Field Collection</a>', [':fc' => 'https://www.drupal.org/project/field_collection']) . '</dd>';
+      $output .= '<dt>' . t('Other Replicate modules:') . '</dt>';
+      $output .= '<dd>' . t('<a href=":rfc">Replicate Field Collection</a>', [':rfc' => 'https://www.drupal.org/project/replicate_field_collection']) . '</dd>';
+      $output .= '<dd>' . t('<a href=":rc">Replicate Commerce</a>', [':rc' => 'https://www.drupal.org/project/replicate_commerce']) . '</dd>';
+      $output .= '<dd>' . t('<a href=":rb">Replicate Bean</a>', [':rb' => 'https://www.drupal.org/project/replicate_bean']) . '</dd>';
+      $output .= '<dd>' . t('<a href=":re">Replicate Entityform</a>', [':re' => 'https://www.drupal.org/project/replicate_entityform']) . '</dd>';
+      $output .= '<dd>' . t('<a href=":ru">Replicate User</a>', [':ru' => 'https://www.drupal.org/project/replicate_user']) . '</dd>';
+      $output .= '</dl>';
+
+      return $output;
+  }
+}
+
+/**
+ * Implements hook_entity_type_build().
+ */
+function replicate_ui_entity_type_build(array &$entity_types) {
+  \Drupal::classResolver(EntityTypeBuild::class)->build($entity_types);
+}
+
+/**
+ * Implements hook_entity_operation().
+ */
+function replicate_ui_entity_operation(EntityInterface $entity) {
+  $operations = [];
+
+  $supports_replicate = in_array(
+    $entity->getEntityTypeId(),
+    (array) \Drupal::config('replicate_ui.settings')->get('entity_types')
+  );
+
+  if ($supports_replicate && $entity->hasLinkTemplate('replicate')) {
+    $url = $entity->toUrl('replicate');
+
+    if ($url->access()) {
+      $operations['replicate'] = [
+        'title' => t('Replicate'),
+        'weight' => 45,
+        'url' => $url,
+        'query' => [
+          'destination' => NULL,
+        ],
+      ];
+    }
+  }
+
+  return $operations;
+}

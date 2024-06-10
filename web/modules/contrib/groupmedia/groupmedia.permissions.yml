@@ -1,0 +1,4 @@
+administer groupmedia:
+  title: 'Administer group media settings'
+  description: 'Configure group media settings.'
+  restrict access: TRUE

@@ -1,0 +1,30 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.search_result
+    - field.field.node.localgov_page.localgov_hide_summary
+    - field.field.node.localgov_page.localgov_page_banner
+    - field.field.node.localgov_page.localgov_page_summary
+    - field.field.node.localgov_page.localgov_paragraph_content
+    - node.type.localgov_page
+  module:
+    - text
+    - user
+id: node.localgov_page.search_result
+targetEntityType: node
+bundle: localgov_page
+mode: search_result
+content:
+  localgov_page_summary:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  links: true
+  localgov_hide_summary: true
+  localgov_page_banner: true
+  localgov_paragraph_content: true

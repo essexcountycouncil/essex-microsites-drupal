@@ -1,0 +1,7 @@
+multiple_select.settings:
+  type: config_entity
+  label: 'Multiple Select Settings'
+  mapping:
+    table:
+      type: string
+      label: 'Json encoded settings'

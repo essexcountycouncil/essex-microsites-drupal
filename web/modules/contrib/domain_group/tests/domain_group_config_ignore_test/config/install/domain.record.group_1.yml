@@ -1,0 +1,15 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - domain_group
+third_party_settings:
+  domain_group:
+    group: 1
+id: group_1
+domain_id: 4567776
+hostname: group-a1.localhost
+name: 'Microsite 1'
+scheme: variable
+weight: 2
+is_default: false

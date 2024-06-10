@@ -1,0 +1,6 @@
+sortableviews.ajax:
+  path: '/sortableviews/ajax'
+  defaults:
+    _controller: '\Drupal\sortableviews\Controller\AjaxController::ajaxSave'
+  requirements:
+    _sortableviews: 'TRUE'

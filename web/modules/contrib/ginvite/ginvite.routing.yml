@@ -1,0 +1,49 @@
+ginvite.invitation.accept:
+  path: '/ginvite/{group_relationship}/accept'
+  defaults:
+    _controller: '\Drupal\ginvite\Controller\InvitationOperations::accept'
+    _title: 'Accept invitation and join group'
+  requirements:
+    _custom_access: '\Drupal\ginvite\Controller\InvitationOperations::checkAccess'
+  options:
+    parameters:
+      group_relationship:
+        type: entity:group_relationship
+
+ginvite.invitation.decline:
+  path: '/ginvite/{group_relationship}/decline'
+  defaults:
+    _controller: '\Drupal\ginvite\Controller\InvitationOperations::decline'
+    _title: 'Decline invitation'
+  requirements:
+    _custom_access: '\Drupal\ginvite\Controller\InvitationOperations::checkAccess'
+  options:
+    parameters:
+      group_relationship:
+        type: entity:group_relationship
+
+ginvite.invitation.bulk:
+  path: '/group/{group}/invite-members'
+  defaults:
+    _form: '\Drupal\ginvite\Form\BulkGroupInvitation'
+    _title_callback: '\Drupal\ginvite\Controller\InvitationOperations::invitationTitle'
+  requirements:
+    _group_permission: 'invite users to group'
+    _group_installed_content: 'group_invitation'
+  options:
+    parameters:
+      group:
+        type: 'entity:group'
+
+ginvite.invitation.bulk.confirm:
+  path: '/group/{group}/invite-members/confirm'
+  defaults:
+    _form: '\Drupal\ginvite\Form\BulkGroupInvitationConfirm'
+    _title_callback: '\Drupal\ginvite\Controller\InvitationOperations::invitationTitle'
+  requirements:
+    _group_permission: 'invite users to group'
+    _group_installed_content: 'group_invitation'
+  options:
+    parameters:
+      group:
+        type: 'entity:group'

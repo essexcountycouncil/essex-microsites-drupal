@@ -1,0 +1,6 @@
+domain_group.general_settings:
+  title: Domains group settings
+  route_name: domain_group.domain_group_general_form
+  description: 'Domain group general settings.'
+  parent: domain.admin
+  weight: 11

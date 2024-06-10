@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.localgov_hide_summary
+    - node.type.localgov_page
+id: node.localgov_page.localgov_hide_summary
+field_name: localgov_hide_summary
+entity_type: node
+bundle: localgov_page
+label: 'Hide summary'
+description: 'Hide the summary field when viewing this page; instead use it only for displays in teasers.'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

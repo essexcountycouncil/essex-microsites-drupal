@@ -1,0 +1,7 @@
+localgov_microsites_group.microsite_admin:
+  title: 'Microsite administration'
+  description: 'Manage the current microsite'
+  menu_name: admin
+  parent: system.admin
+  weight: 2
+  route_name: localgov_microsites_group.microsite_admin

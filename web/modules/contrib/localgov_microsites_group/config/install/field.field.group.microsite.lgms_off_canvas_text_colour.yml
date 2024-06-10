@@ -1,0 +1,19 @@
+uuid: 95af68a8-17ad-4548-9928-e28b2ef53f5e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_off_canvas_text_colour
+    - group.type.microsite
+id: group.microsite.lgms_off_canvas_text_colour
+field_name: lgms_off_canvas_text_colour
+entity_type: group
+bundle: microsite
+label: 'Off-canvas text colour'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

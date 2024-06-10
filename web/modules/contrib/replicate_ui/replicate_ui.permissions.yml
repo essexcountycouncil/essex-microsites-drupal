@@ -1,0 +1,3 @@
+replicate entities:
+  title: Replicate entities via UI
+  description: Makes the replicate / duplicate functionality available via the UI. Still requires Create permissions on an entity to display.

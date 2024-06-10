@@ -1,0 +1,118 @@
+<?php
+
+/**
+ * @file
+ * LocalGov Microsites Events module file.
+ */
+
+use Drupal\localgov_microsites_group\RolesHelper;
+
+/**
+ * Implements hook_localgov_microsites_roles_default().
+ */
+function localgov_microsites_events_localgov_microsites_roles_default() {
+  return [
+    'global' => [
+      RolesHelper::MICROSITES_CONTROLLER_ROLE => [
+        'access geo_entity_library entity browser pages',
+        'create geo',
+        'delete geo',
+        'edit geo',
+      ],
+      RolesHelper::MICROSITES_EDITOR_ROLE => [
+        'access geo_entity_library entity browser pages',
+        'create geo',
+        'delete geo',
+        'edit geo',
+      ],
+    ],
+    'group' => [
+      RolesHelper::GROUP_ADMIN_ROLE => [
+        'access group_term overview',
+        'create group_node:localgov_event entity',
+        'create group_term:localgov_event_category entity',
+        'create group_term:localgov_event_locality entity',
+        'create group_term:localgov_event_price entity',
+        'delete any group_node:localgov_event relationship',
+        'delete any group_node:localgov_event entity',
+        'delete own group_node:localgov_event relationship',
+        'delete own group_node:localgov_event entity',
+        'delete any group_term:localgov_event_category relationship',
+        'delete any group_term:localgov_event_category entity',
+        'delete any group_term:localgov_event_locality relationship',
+        'delete any group_term:localgov_event_locality entity',
+        'delete any group_term:localgov_event_price relationship',
+        'delete any group_term:localgov_event_price entity',
+        'delete own group_term:localgov_event_category relationship',
+        'delete own group_term:localgov_event_locality relationship',
+        'delete own group_term:localgov_event_price relationship',
+        'update any group_node:localgov_event relationship',
+        'update any group_node:localgov_event entity',
+        'update own group_node:localgov_event relationship',
+        'update own group_node:localgov_event entity',
+        'update any group_term:localgov_event_category relationship',
+        'update any group_term:localgov_event_category entity',
+        'update any group_term:localgov_event_locality relationship',
+        'update any group_term:localgov_event_locality entity',
+        'update any group_term:localgov_event_price relationship',
+        'update any group_term:localgov_event_price entity',
+        'update own group_term:localgov_event_category relationship',
+        'update own group_term:localgov_event_locality relationship',
+        'update own group_term:localgov_event_price relationship',
+        'view any unpublished group_term:localgov_event_category entity',
+        'view any unpublished group_term:localgov_event_locality entity',
+        'view any unpublished group_term:localgov_event_price entity',
+        'view group_node:localgov_event relationship',
+        'view group_node:localgov_event entity',
+        'view group_term:localgov_event_category relationship',
+        'view group_term:localgov_event_category entity',
+        'view group_term:localgov_event_locality relationship',
+        'view group_term:localgov_event_locality entity',
+        'view group_term:localgov_event_price relationship',
+        'view group_term:localgov_event_price entity',
+        'view unpublished group_node:localgov_event entity',
+      ],
+      RolesHelper::GROUP_ANONYMOUS_ROLE => [
+        'view group_node:localgov_event entity',
+        'view group_term:localgov_event_category entity',
+        'view group_term:localgov_event_locality entity',
+        'view group_term:localgov_event_price entity',
+      ],
+      RolesHelper::GROUP_MEMBER_ROLE => [
+        'access group_term overview',
+        'create group_node:localgov_event entity',
+        'create group_term:localgov_event_category entity',
+        'create group_term:localgov_event_locality entity',
+        'create group_term:localgov_event_price entity',
+        'delete any group_term:localgov_event_category entity',
+        'delete any group_term:localgov_event_locality entity',
+        'delete any group_term:localgov_event_price entity',
+        'update any group_node:localgov_event relationship',
+        'update any group_node:localgov_event entity',
+        'update own group_node:localgov_event relationship',
+        'update own group_node:localgov_event entity',
+        'update any group_term:localgov_event_category entity',
+        'update any group_term:localgov_event_locality entity',
+        'update any group_term:localgov_event_price entity',
+        'view any unpublished group_term:localgov_event_category entity',
+        'view any unpublished group_term:localgov_event_locality entity',
+        'view any unpublished group_term:localgov_event_price entity',
+        'view group_node:localgov_event entity',
+        'view group_term:localgov_event_category entity',
+        'view group_term:localgov_event_locality entity',
+        'view group_term:localgov_event_price entity',
+        'view unpublished group_node:localgov_event entity',
+        'delete any group_node:localgov_event relationship',
+        'delete any group_node:localgov_event entity',
+        'delete own group_node:localgov_event relationship',
+        'delete own group_node:localgov_event entity',
+      ],
+      RolesHelper::GROUP_OUTSIDER_ROLE => [
+        'view group_node:localgov_event entity',
+        'view group_term:localgov_event_category entity',
+        'view group_term:localgov_event_locality entity',
+        'view group_term:localgov_event_price entity',
+      ],
+    ],
+  ];
+}

@@ -1,0 +1,8 @@
+add group permission entities:
+  title: 'Create new Group permission entities'
+
+delete group permission entities:
+  title: 'Delete Group permission entities'
+
+edit group permission entities:
+  title: 'Edit Group permission entities'

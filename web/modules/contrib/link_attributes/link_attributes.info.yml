@@ -1,0 +1,11 @@
+name: Link attributes
+type: module
+description: Provides a widget to allow settings of link attributes for menu links.
+core_version_requirement: ^9 || ^10
+dependencies:
+  - drupal:link
+
+# Information added by Drupal.org packaging script on 2023-06-22
+version: '8.x-1.14'
+project: 'link_attributes'
+datestamp: 1687393689

@@ -1,0 +1,5 @@
+langcode: en
+status: true
+dependencies: {}
+id: lgms_footer_housekeeping
+label: "Footer housekeeping"
