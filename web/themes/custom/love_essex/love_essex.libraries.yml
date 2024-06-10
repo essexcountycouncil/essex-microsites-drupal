@@ -39,6 +39,11 @@ sidebar:
       css/components/sidebar.css: {}
 
 # Content types
+full:
+  css:
+    theme:
+      css/components/full.css: {}
+
 step-by-step:
   css:
     theme:
