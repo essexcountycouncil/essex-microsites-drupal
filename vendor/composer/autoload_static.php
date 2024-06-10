@@ -276,14 +276,6 @@ class ComposerStaticInitcce25de4590bfe895ad0d55b50c12c2f
             1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
         ),
-        'phootwork\\lang\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/phootwork/lang',
-        ),
-        'phootwork\\collection\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/phootwork/collection',
-        ),
         'mglaman\\PHPStanDrupal\\' => 
         array (
             0 => __DIR__ . '/..' . '/mglaman/phpstan-drupal/src',
@@ -632,7 +624,8 @@ class ComposerStaticInitcce25de4590bfe895ad0d55b50c12c2f
         ),
         'Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/php-http/message/src',
+            0 => __DIR__ . '/..' . '/php-http/message-factory/src',
+            1 => __DIR__ . '/..' . '/php-http/message/src',
         ),
         'Http\\Discovery\\' => 
         array (
@@ -765,7 +758,8 @@ class ComposerStaticInitcce25de4590bfe895ad0d55b50c12c2f
         'Doctrine\\Common\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/event-manager/src',
-            1 => __DIR__ . '/..' . '/doctrine/common/src',
+            1 => __DIR__ . '/..' . '/doctrine/reflection/lib/Doctrine/Common',
+            2 => __DIR__ . '/..' . '/doctrine/common/src',
         ),
         'Dflydev\\DotAccessData\\' => 
         array (
@@ -857,8 +851,8 @@ class ComposerStaticInitcce25de4590bfe895ad0d55b50c12c2f
         ),
         'Behat\\Mink\\Driver\\' => 
         array (
-            0 => __DIR__ . '/..' . '/behat/mink-selenium2-driver/src',
-            1 => __DIR__ . '/..' . '/behat/mink-browserkit-driver/src',
+            0 => __DIR__ . '/..' . '/friends-of-behat/mink-browserkit-driver/src',
+            1 => __DIR__ . '/..' . '/behat/mink-selenium2-driver/src',
         ),
         'Behat\\Mink\\' => 
         array (

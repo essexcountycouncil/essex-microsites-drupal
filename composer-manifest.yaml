@@ -79,7 +79,7 @@ packages:
     drupal/ginvite: 4.0.0-alpha1
     drupal/google_tag: 2.0.4
     drupal/group: 3.2.2
-    drupal/group_content_menu: 'dev-3.0.x:b2aa20da849643aad50bbe2c55a16721a4b549f7'
+    drupal/group_content_menu: '3.0.x-dev:b2aa20da849643aad50bbe2c55a16721a4b549f7'
     drupal/group_permissions: 2.0.0-alpha5
     drupal/group_term: 4.0.0-alpha5
     drupal/groupmedia: 4.0.0-alpha1
@@ -114,7 +114,7 @@ packages:
     drupal/schema_metatag: 2.5.0
     drupal/search_api: 1.30.0
     drupal/search_api_autocomplete: 1.8.0
-    drupal/search_api_location: 'dev-1.x:cf3e546770099b1f136c020ade79a650d4178ad6'
+    drupal/search_api_location: '1.x-dev:cf3e546770099b1f136c020ade79a650d4178ad6'
     drupal/sortableviews: 1.1.0
     drupal/tablefield: 2.4.0
     drupal/token: 1.13.0
