@@ -526,7 +526,6 @@ display:
           default_argument_type: fixed
           default_argument_options:
             argument: ''
-          default_argument_skip_url: false
           summary_options:
             base_path: ''
             count: true
@@ -888,7 +887,6 @@ display:
         - route.group
         - url
         - url.query_args
-        - user
         - user.group_permissions
         - 'user.node_grants:view'
       tags:
@@ -939,7 +937,6 @@ display:
         - request_format
         - route.group
         - url
-        - user
         - user.group_permissions
         - 'user.node_grants:view'
       tags:
@@ -965,7 +962,6 @@ display:
         - route.group
         - url
         - url.query_args
-        - user
         - user.group_permissions
         - 'user.node_grants:view'
       tags:

@@ -144,7 +144,8 @@ mode: default
 content:
   localgov_contact_address:
     weight: 35
-    settings: {  }
+    settings:
+      wrapper_type: details
     third_party_settings: {  }
     type: address_default
     region: content
@@ -294,7 +295,7 @@ content:
           marker_opacity:
             weight: 0
             settings:
-              opacity: !!float 1
+              opacity: 1.0
             enabled: false
           geolocation_marker_scroll_to_id:
             weight: 0

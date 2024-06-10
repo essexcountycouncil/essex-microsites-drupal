@@ -29,7 +29,7 @@ display:
         options:
           perm: 'access content'
       cache:
-        type: none
+        type: search_api_none
         options: {  }
       query:
         type: search_api_query
@@ -259,7 +259,7 @@ display:
       display_extenders: {  }
       path: events/search
       cache:
-        type: none
+        type: search_api_none
       defaults:
         cache: false
       exposed_block: true

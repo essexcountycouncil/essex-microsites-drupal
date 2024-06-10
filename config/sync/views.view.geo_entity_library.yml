@@ -1,18 +1,18 @@
-uuid: 419e8654-12c2-4ca9-891e-210c06211087
+uuid: cdce55ff-24ab-41bb-99e2-3e015f2377a9
 langcode: en
 status: true
 dependencies:
   module:
     - entity_browser
-    - localgov_geo
+    - geo_entity
 _core:
-  default_config_hash: g1a37HWGGozwIItYeuAmnmtmEMVzVBPrCynxXLzAB0o
-id: localgov_geo_library
+  default_config_hash: qK9G-f8afToL2Llzi7jj61WSlVQYcc8cgm2ABnCfXUc
+id: geo_entity_library
 label: 'Geo library'
 module: views
 description: ''
 tag: ''
-base_table: localgov_geo_field_data
+base_table: geo_entity_field_data
 base_field: id
 display:
   default:
@@ -80,7 +80,7 @@ display:
       fields:
         entity_browser_select:
           id: entity_browser_select
-          table: localgov_geo
+          table: geo_entity
           field: entity_browser_select
           relationship: none
           group_type: group
@@ -127,10 +127,10 @@ display:
           empty_zero: false
           hide_alter_empty: true
           use_field_cardinality: false
-          entity_type: localgov_geo
+          entity_type: geo_entity
           plugin_id: entity_browser_select
         label:
-          table: localgov_geo_field_data
+          table: geo_entity_field_data
           field: label
           id: label
           entity_type: null
@@ -196,7 +196,7 @@ display:
       filters:
         label:
           id: label
-          table: localgov_geo_field_data
+          table: geo_entity_field_data
           field: label
           relationship: none
           group_type: group
@@ -220,8 +220,6 @@ display:
             remember_roles:
               authenticated: authenticated
               anonymous: '0'
-              localgov_editor: '0'
-              localgov_author: '0'
             placeholder: ''
           is_grouped: false
           group_info:
@@ -235,7 +233,7 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          entity_type: localgov_geo
+          entity_type: geo_entity
           entity_field: label
           plugin_id: string
       sorts: {  }

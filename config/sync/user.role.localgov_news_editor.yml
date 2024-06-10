@@ -6,6 +6,7 @@ dependencies:
     - media.type.image
     - node.type.localgov_news_article
   module:
+    - file
     - media
     - node
     - override_node_options
@@ -27,6 +28,7 @@ permissions:
   - 'create image media'
   - 'create localgov_news_article content'
   - 'delete any localgov_news_article content'
+  - 'delete own files'
   - 'delete own image media'
   - 'delete own localgov_news_article content'
   - 'edit any image media'

@@ -1,15 +1,15 @@
-uuid: 1a8c12c8-23ac-4561-b0b3-60c081f219b7
+uuid: ba0ee0af-e1cb-4ec6-9552-119708387a39
 langcode: en
 status: true
 dependencies:
   config:
-    - views.view.localgov_geo_library
+    - views.view.geo_entity_library
   module:
     - entity_browser_entity_form
     - views
 _core:
-  default_config_hash: VpwzHKKqCY4zSHnbnxTd5z3CNRrwaGPhMBEbKE7-8rE
-name: localgov_geo_library
+  default_config_hash: AfPUo4oTBXNDhZGHbhEMceILDlrXnvoIwIia9dYaP-M
+name: geo_entity_library
 label: 'Geo Browser'
 display: modal
 display_configuration:
@@ -26,7 +26,7 @@ widgets:
     settings:
       submit_text: 'Select location'
       auto_select: false
-      view: localgov_geo_library
+      view: geo_entity_library
       view_display: entity_browser_1
     uuid: d5750416-1d97-43b9-95b1-f843724c8ecd
     weight: 1
@@ -35,7 +35,7 @@ widgets:
   3edf0a0f-cb61-4324-8d36-1898e23a16ed:
     settings:
       submit_text: 'Save address'
-      entity_type: localgov_geo
+      entity_type: geo_entity
       bundle: address
       form_mode: inline
     uuid: 3edf0a0f-cb61-4324-8d36-1898e23a16ed
@@ -45,7 +45,7 @@ widgets:
   beda8d11-9000-4069-95e7-dbb4282941db:
     settings:
       submit_text: 'Save area'
-      entity_type: localgov_geo
+      entity_type: geo_entity
       bundle: area
       form_mode: inline
     uuid: beda8d11-9000-4069-95e7-dbb4282941db

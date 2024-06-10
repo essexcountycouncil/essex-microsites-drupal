@@ -145,7 +145,8 @@ content:
     type: address_default
     weight: 6
     region: content
-    settings: {  }
+    settings:
+      wrapper_type: details
     third_party_settings: {  }
   localgov_directory_banner:
     type: paragraphs
@@ -294,4 +295,11 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-hidden: {  }
+  url_redirects:
+    weight: 50
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  publish_on: true
+  unpublish_on: true

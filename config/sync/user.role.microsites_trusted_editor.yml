@@ -8,9 +8,9 @@ dependencies:
     - media.type.remote_video
   module:
     - domain_path
-    - entity_browser
+    - file
+    - geo_entity
     - localgov_directories
-    - localgov_geo
     - localgov_sa11y
     - media
     - node
@@ -28,7 +28,6 @@ label: 'Microsites trusted editor'
 weight: 3
 is_admin: null
 permissions:
-  - 'access localgov_geo_library entity browser pages'
   - 'access media overview'
   - 'access responsive preview'
   - 'access toolbar'
@@ -43,6 +42,7 @@ permissions:
   - 'delete all revisions'
   - 'delete directory facets'
   - 'delete geo'
+  - 'delete own files'
   - 'edit any document media'
   - 'edit any image media'
   - 'edit any remote_video media'
