@@ -155,6 +155,9 @@
             },
             "drupal/group_term": {
                 "restore term relationships": "https://git.drupalcode.org/project/group_term/-/merge_requests/12.patch"
+            },
+            "localgovdrupal/localgov_microsites_group": {
+                "Fix duplicit $domainNegotiator property fatal error": "patches/localgov_microsites_group-domainNegotiator.patch"
             }
         }
     },

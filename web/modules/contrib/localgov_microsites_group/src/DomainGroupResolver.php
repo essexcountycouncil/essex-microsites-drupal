@@ -36,13 +36,6 @@ class DomainGroupResolver implements DomainGroupResolverInterface {
   protected $entityTypeManager;
 
   /**
-   * The domain negotiator service.
-   *
-   * @var \Drupal\Domain\DomainNegotiatorInterface
-   */
-  protected $domainNegotiator;
-
-  /**
    * DomainGroupHelper constructor.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager

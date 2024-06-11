@@ -1,0 +1,18 @@
+diff --git a/src/DomainGroupResolver.php b/src/DomainGroupResolver.php
+index fd44e2e2a..92b7dcc63 100644
+--- a/src/DomainGroupResolver.php
++++ b/src/DomainGroupResolver.php
+@@ -35,13 +35,6 @@ class DomainGroupResolver implements DomainGroupResolverInterface {
+    */
+   protected $entityTypeManager;
+ 
+-  /**
+-   * The domain negotiator service.
+-   *
+-   * @var \Drupal\Domain\DomainNegotiatorInterface
+-   */
+-  protected $domainNegotiator;
+-
+   /**
+    * DomainGroupHelper constructor.
+    *
