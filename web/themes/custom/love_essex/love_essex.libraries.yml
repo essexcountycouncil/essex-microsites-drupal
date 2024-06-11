@@ -132,6 +132,11 @@ logo-lists:
     theme:
       css/components/logo-lists.css: {}
 
+le-quote:
+  css:
+    theme:
+      css/components/le-quote.css: {}
+
 waste-search:
   css:
     theme:

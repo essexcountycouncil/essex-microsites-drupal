@@ -1,0 +1,5 @@
+.paragraph--type--le-quote {
+  .field--name-localgov-image {
+    border-radius: var(--border-radius);
+  }
+}
