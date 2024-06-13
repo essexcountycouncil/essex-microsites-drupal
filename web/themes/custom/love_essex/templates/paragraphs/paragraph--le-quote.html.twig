@@ -53,7 +53,14 @@
 {% block paragraph %}
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
-      {{ content }}
+      {% if paragraph.localgov_image.value %}
+        <div class="le-quote--image-wrapper">
+          {{ content.localgov_image }}
+        </div>
+      {% endif %}
+      <div class="le-quote--content-wrapper">
+          {{ content|without('localgov_image') }}
+      </div>
     {% endblock %}
   </div>
 {% endblock paragraph %}
