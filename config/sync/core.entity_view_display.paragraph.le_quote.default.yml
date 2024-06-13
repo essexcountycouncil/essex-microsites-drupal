@@ -1,0 +1,48 @@
+uuid: 4256801f-8ad7-42ad-9e4a-edb1ea634849
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.le_quote.field_p_quote_heading
+    - field.field.paragraph.le_quote.field_p_quote_text
+    - field.field.paragraph.le_quote.localgov_image
+    - image.style.freestyle_xs
+    - paragraphs.paragraphs_type.le_quote
+  module:
+    - field_formatter_class
+    - media
+id: paragraph.le_quote.default
+targetEntityType: paragraph
+bundle: le_quote
+mode: default
+content:
+  field_p_quote_heading:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_p_quote_text:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  localgov_image:
+    type: media_thumbnail
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: freestyle_xs
+      image_loading:
+        attribute: lazy
+    third_party_settings:
+      field_formatter_class:
+        class: ''
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true
