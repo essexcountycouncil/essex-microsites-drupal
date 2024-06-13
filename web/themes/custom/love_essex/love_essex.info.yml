@@ -54,6 +54,7 @@ regions:
   content_bottom: "Content bottom"
   sidebar_first: "Sidebar first"
   sidebar_second: "Sidebar second"
+  pre_footer: "Pre footer"
   footer_menu: "Footer menu"
   footer: "Footer"
   disabled: "Disabled"

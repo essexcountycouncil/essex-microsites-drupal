@@ -1,0 +1,8 @@
+uuid: 0b6e972b-84eb-48bb-9921-6d48c9d0a053
+langcode: en
+status: true
+dependencies: {  }
+id: text_block
+label: 'Text block'
+revision: 0
+description: ''
