@@ -8,6 +8,15 @@
   background-repeat: no-repeat;
   background-position: right center;
   background-size: contain;
+  .did-you-know__inner {
+    h2.did-you-know__heading,
+    .field--name-field-p-dyk-factoid p {
+      color: var(--color-white);
+    }
+    .did-you-know__content .did-you-know__link a {
+      color: var(--color-accent);
+    }
+  }
 }
 .paragraph--type--did-you-know {
   display: none;
@@ -30,12 +39,6 @@
     margin: auto;
     margin-bottom: 2em
   }
-}
-
-.paragraph--type--did-you-know a,
-.paragraph--type--did-you-know h2,
-.paragraph--type--did-you-know p {
-  color: var(--color-white);
 }
 
 .did-you-know__link a {
