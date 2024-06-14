@@ -17,3 +17,10 @@
 .region-microsites-header .menu a:focus {
   color: var(--color-black);
 }
+
+.path-frontpage .region-microsites-header .microsite-header__logo a:focus img {
+  outline: 1px dashed var(--color-white);
+}
+.region-microsites-header .microsite-header__logo a:focus img {
+  outline: 1px dashed var(--color-accent);
+}
