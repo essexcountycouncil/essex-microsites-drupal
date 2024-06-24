@@ -10435,51 +10435,66 @@
             "install-path": "../itamair/geophp"
         },
         {
-            "name": "joachim-n/composer-manifest",
-            "version": "1.1.5",
-            "version_normalized": "1.1.5.0",
+            "name": "jean85/pretty-package-versions",
+            "version": "2.0.6",
+            "version_normalized": "2.0.6.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/joachim-n/composer-manifest.git",
-                "reference": "95da909b377c69087c63fb2a17ef7a285f6f39b2"
+                "url": "https://github.com/Jean85/pretty-package-versions.git",
+                "reference": "f9fdd29ad8e6d024f52678b570e5593759b550b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joachim-n/composer-manifest/zipball/95da909b377c69087c63fb2a17ef7a285f6f39b2",
-                "reference": "95da909b377c69087c63fb2a17ef7a285f6f39b2",
+                "url": "https://api.github.com/repos/Jean85/pretty-package-versions/zipball/f9fdd29ad8e6d024f52678b570e5593759b550b4",
+                "reference": "f9fdd29ad8e6d024f52678b570e5593759b550b4",
                 "shasum": ""
             },
             "require": {
-                "composer-plugin-api": "^1.0 || ^2.0",
-                "symfony/yaml": "^3.4 || ^4.2 || ^5.4 || ^6.1"
+                "composer-runtime-api": "^2.0.0",
+                "php": "^7.1|^8.0"
             },
             "require-dev": {
-                "composer/composer": "^1.0 || ^2.0",
-                "symfony/var-dumper": "^4.2"
+                "friendsofphp/php-cs-fixer": "^3.2",
+                "jean85/composer-provided-replaced-stub-package": "^1.0",
+                "phpstan/phpstan": "^1.4",
+                "phpunit/phpunit": "^7.5|^8.5|^9.4",
+                "vimeo/psalm": "^4.3"
             },
-            "time": "2022-08-09T15:38:25+00:00",
-            "type": "composer-plugin",
+            "time": "2024-03-08T09:58:59+00:00",
+            "type": "library",
             "extra": {
-                "class": "ComposerManifest\\Plugin"
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
             },
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "ComposerManifest\\": ""
+                    "Jean85\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
             "authors": [
                 {
-                    "name": "Joachim Noreiko",
-                    "email": "joachim@107701.no-reply.drupal.org"
+                    "name": "Alessandro Lai",
+                    "email": "alessandro.lai85@gmail.com"
                 }
             ],
+            "description": "A library to get pretty versions strings of installed dependencies",
+            "keywords": [
+                "composer",
+                "package",
+                "release",
+                "versions"
+            ],
             "support": {
-                "issues": "https://github.com/joachim-n/composer-manifest/issues",
-                "source": "https://github.com/joachim-n/composer-manifest/tree/1.1.5"
+                "issues": "https://github.com/Jean85/pretty-package-versions/issues",
+                "source": "https://github.com/Jean85/pretty-package-versions/tree/2.0.6"
             },
-            "install-path": "../joachim-n/composer-manifest"
+            "install-path": "../jean85/pretty-package-versions"
         },
         {
             "name": "justinrainbow/json-schema",
@@ -13165,7 +13180,7 @@
                 "source": "https://github.com/php-http/guzzle7-adapter/tree/1.0.0"
             },
             "abandoned": "guzzlehttp/guzzle or php-http/guzzle7-adapter",
-            "install-path": "../php-http/guzzle6-adapter"
+            "install-path": "../php-http/guzzle7-adapter"
         },
         {
             "name": "php-http/httplug",

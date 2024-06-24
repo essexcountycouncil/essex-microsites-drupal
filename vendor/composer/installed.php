@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'localgovdrupal/localgov_microsites_project',
-        'pretty_version' => 'dev-main',
-        'version' => 'dev-main',
-        'reference' => 'd022f4822df3bcc9927a3d7d9a118f9cfd27517d',
+        'pretty_version' => 'dev-develop',
+        'version' => 'dev-develop',
+        'reference' => 'bba20e034abdda816c091158da9c17045f7b6c4b',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -1494,14 +1494,14 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-        'joachim-n/composer-manifest' => array(
-            'pretty_version' => '1.1.5',
-            'version' => '1.1.5.0',
-            'reference' => '95da909b377c69087c63fb2a17ef7a285f6f39b2',
-            'type' => 'composer-plugin',
-            'install_path' => __DIR__ . '/../joachim-n/composer-manifest',
+        'jean85/pretty-package-versions' => array(
+            'pretty_version' => '2.0.6',
+            'version' => '2.0.6.0',
+            'reference' => 'f9fdd29ad8e6d024f52678b570e5593759b550b4',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../jean85/pretty-package-versions',
             'aliases' => array(),
-            'dev_requirement' => false,
+            'dev_requirement' => true,
         ),
         'justinrainbow/json-schema' => array(
             'pretty_version' => 'v5.2.13',
@@ -1648,9 +1648,9 @@
             'dev_requirement' => false,
         ),
         'localgovdrupal/localgov_microsites_project' => array(
-            'pretty_version' => 'dev-main',
-            'version' => 'dev-main',
-            'reference' => 'd022f4822df3bcc9927a3d7d9a118f9cfd27517d',
+            'pretty_version' => 'dev-develop',
+            'version' => 'dev-develop',
+            'reference' => 'bba20e034abdda816c091158da9c17045f7b6c4b',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

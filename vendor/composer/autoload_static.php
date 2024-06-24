@@ -248,7 +248,6 @@ class ComposerStaticInitcce25de4590bfe895ad0d55b50c12c2f
             'Composer\\ClassMapGenerator\\' => 27,
             'Composer\\CaBundle\\' => 18,
             'Composer\\' => 9,
-            'ComposerManifest\\' => 17,
             'CommerceGuys\\Addressing\\' => 24,
             'ColinODell\\PsrTestLogger\\' => 25,
             'Clue\\StreamFilter\\' => 18,
@@ -275,6 +274,14 @@ class ComposerStaticInitcce25de4590bfe895ad0d55b50c12c2f
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+        ),
+        'phootwork\\lang\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phootwork/lang',
+        ),
+        'phootwork\\collection\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phootwork/collection',
         ),
         'mglaman\\PHPStanDrupal\\' => 
         array (
@@ -624,8 +631,7 @@ class ComposerStaticInitcce25de4590bfe895ad0d55b50c12c2f
         ),
         'Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/php-http/message-factory/src',
-            1 => __DIR__ . '/..' . '/php-http/message/src',
+            0 => __DIR__ . '/..' . '/php-http/message/src',
         ),
         'Http\\Discovery\\' => 
         array (
@@ -831,10 +837,6 @@ class ComposerStaticInitcce25de4590bfe895ad0d55b50c12c2f
         'Composer\\' => 
         array (
             0 => __DIR__ . '/..' . '/composer/composer/src/Composer',
-        ),
-        'ComposerManifest\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/joachim-n/composer-manifest',
         ),
         'CommerceGuys\\Addressing\\' => 
         array (
