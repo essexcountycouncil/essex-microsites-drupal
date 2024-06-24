@@ -5,3 +5,7 @@
 .full h2.full__title {
   font-size: var(--font-size-h1);
 }
+
+article p > a {
+  color: var(--color-text-link);
+}
