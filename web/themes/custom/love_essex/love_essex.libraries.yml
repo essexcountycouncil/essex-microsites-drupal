@@ -142,6 +142,11 @@ waste-search:
     theme:
       css/components/waste-search.css: {}
 
+webform:
+  css:
+    theme:
+      css/components/webform.css: {}
+
 # View modes
 teaser:
   css:
