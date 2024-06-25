@@ -1,0 +1,24 @@
+uuid: d8318313-571a-49b4-aacb-83f11f0a1fb7
+langcode: en
+status: true
+dependencies:
+  module:
+    - localgov_alert_banner
+  theme:
+    - localgov_microsites_base
+_core:
+  default_config_hash: c5Nv0PZKydd9-pQ54lM9MgaoFiqJOoq4vQftaru3YvM
+id: localgov_alert_banner_microsites_base
+theme: localgov_microsites_base
+region: header
+weight: -10
+provider: null
+plugin: localgov_alert_banner_block
+settings:
+  id: localgov_alert_banner_block
+  label: 'Alert banner'
+  label_display: '0'
+  provider: localgov_alert_banner
+  include_types:
+    localgov_alert_banner: '0'
+visibility: {  }

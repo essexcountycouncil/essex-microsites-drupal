@@ -16,6 +16,7 @@ global_role: anonymous
 group_type: microsite
 permissions:
   - 'create group_webform:microsite_contact entity'
+  - 'view group_localgov_alert_banner:localgov_alert_banner entity'
   - 'view group_media:document entity'
   - 'view group_media:image entity'
   - 'view group_media:remote_video entity'

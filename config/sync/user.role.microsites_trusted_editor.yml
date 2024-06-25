@@ -3,13 +3,17 @@ langcode: en
 status: true
 dependencies:
   config:
+    - localgov_alert_banner.localgov_alert_banner_type.localgov_alert_banner
     - media.type.document
     - media.type.image
     - media.type.remote_video
+    - workflows.workflow.localgov_alert_banners
   module:
+    - content_moderation
     - domain_path
     - file
     - geo_entity
+    - localgov_alert_banner
     - localgov_directories
     - localgov_sa11y
     - media
@@ -28,6 +32,7 @@ label: 'Microsites trusted editor'
 weight: 3
 is_admin: null
 permissions:
+  - 'access localgov alert banner listing page'
   - 'access media overview'
   - 'access responsive preview'
   - 'access toolbar'
@@ -52,16 +57,23 @@ permissions:
   - 'edit own document media'
   - 'edit own image media'
   - 'edit own remote_video media'
+  - 'manage localgov alert banner localgov_alert_banner entities'
   - 'override all published option'
   - 'override localgov_news_article promote to front page option'
   - 'replicate entities'
   - 'revert all revisions'
   - 'update any media'
   - 'update media'
+  - 'use localgov_alert_banners transition create_new_draft'
+  - 'use localgov_alert_banners transition publish'
+  - 'use localgov_alert_banners transition unpublish'
   - use_localgov_sa11y
+  - 'view all localgov alert banner entities'
+  - 'view all localgov alert banner entity pages'
   - 'view all media revisions'
   - 'view all revisions'
   - 'view directory facets'
+  - 'view localgov alert banner localgov_alert_banner pages'
   - 'view media'
   - 'view own unpublished media'
   - 'view the administration theme'

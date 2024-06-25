@@ -15,6 +15,7 @@ scope: outsider
 global_role: authenticated
 group_type: microsite
 permissions:
+  - 'view group_localgov_alert_banner:localgov_alert_banner entity'
   - 'view group_media:document entity'
   - 'view group_media:image entity'
   - 'view group_media:remote_video entity'
