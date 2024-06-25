@@ -3333,6 +3333,69 @@
             "install-path": "../drupal/coder"
         },
         {
+            "name": "drupal/condition_field",
+            "version": "2.0.4",
+            "version_normalized": "2.0.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/condition_field.git",
+                "reference": "2.0.4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/condition_field-2.0.4.zip",
+                "reference": "2.0.4",
+                "shasum": "0c74cdd9dc4f89599eebcf7a6bc6bebcd79d11b5"
+            },
+            "require": {
+                "drupal/core": "^9 || ^10 || ^11"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "2.0.4",
+                    "datestamp": "1715948754",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "installation-source": "dist",
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "aludescher",
+                    "homepage": "https://www.drupal.org/user/93768"
+                },
+                {
+                    "name": "lhangea",
+                    "homepage": "https://www.drupal.org/user/2743803"
+                },
+                {
+                    "name": "mr.york",
+                    "homepage": "https://www.drupal.org/user/52785"
+                },
+                {
+                    "name": "nagy.balint",
+                    "homepage": "https://www.drupal.org/user/1763952"
+                },
+                {
+                    "name": "olivier.br",
+                    "homepage": "https://www.drupal.org/user/2809663"
+                }
+            ],
+            "description": "Defines a field type for Condition Plugins",
+            "homepage": "https://www.drupal.org/project/condition_field",
+            "support": {
+                "source": "https://git.drupalcode.org/project/condition_field"
+            },
+            "install-path": "../../web/modules/contrib/condition_field"
+        },
+        {
             "name": "drupal/core",
             "version": "10.2.7",
             "version_normalized": "10.2.7.0",
@@ -10778,6 +10841,49 @@
                 "source": "https://github.com/localgovdrupal/group_webform/tree/1.0.0-beta2"
             },
             "install-path": "../../web/modules/contrib/group_webform"
+        },
+        {
+            "name": "localgovdrupal/localgov_alert_banner",
+            "version": "1.7.8",
+            "version_normalized": "1.7.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/localgovdrupal/localgov_alert_banner.git",
+                "reference": "4b9d451e4298cb87fc542de1060cb778673e2b66"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/localgovdrupal/localgov_alert_banner/zipball/4b9d451e4298cb87fc542de1060cb778673e2b66",
+                "reference": "4b9d451e4298cb87fc542de1060cb778673e2b66",
+                "shasum": ""
+            },
+            "require": {
+                "drupal/condition_field": "^2.0",
+                "drupal/core": "^9.4 || ^10.0"
+            },
+            "require-dev": {
+                "drupal/group": "^3.2",
+                "drupal/scheduled_transitions": "^2.1"
+            },
+            "suggest": {
+                "drupal/group": "For Group integration.",
+                "drupal/scheduled_transitions": "Gives the ability to schedule the publishing and unpublishing of alert banners",
+                "localgovdrupal/localgov_core": "^1 || ^2"
+            },
+            "time": "2024-06-13T15:04:31+00:00",
+            "type": "drupal-module",
+            "installation-source": "dist",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "description": "LocalGovDrupal distribution: Alert banner.",
+            "homepage": "https://github.com/localgovdrupal/localgov_alert_banner",
+            "support": {
+                "issues": "https://github.com/localgovdrupal/localgov_alert_banner/issues",
+                "source": "https://github.com/localgovdrupal/localgov_alert_banner/tree/1.7.8"
+            },
+            "install-path": "../../web/modules/contrib/localgov_alert_banner"
         },
         {
             "name": "localgovdrupal/localgov_base",

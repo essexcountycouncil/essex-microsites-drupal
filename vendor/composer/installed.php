@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'localgovdrupal/localgov_microsites_project',
-        'pretty_version' => 'dev-develop',
-        'version' => 'dev-develop',
-        'reference' => '7095fd765e8d1ba0dcf88a395d0732532947d632',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '7d8a0c8d734fa913242f89ca5733d4e211ba2770',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -423,6 +423,15 @@
             'install_path' => __DIR__ . '/../drupal/coder',
             'aliases' => array(),
             'dev_requirement' => true,
+        ),
+        'drupal/condition_field' => array(
+            'pretty_version' => '2.0.4',
+            'version' => '2.0.4.0',
+            'reference' => '2.0.4',
+            'type' => 'drupal-module',
+            'install_path' => __DIR__ . '/../../web/modules/contrib/condition_field',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'drupal/core' => array(
             'pretty_version' => '10.2.7',
@@ -1539,6 +1548,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'localgovdrupal/localgov_alert_banner' => array(
+            'pretty_version' => '1.7.8',
+            'version' => '1.7.8.0',
+            'reference' => '4b9d451e4298cb87fc542de1060cb778673e2b66',
+            'type' => 'drupal-module',
+            'install_path' => __DIR__ . '/../../web/modules/contrib/localgov_alert_banner',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'localgovdrupal/localgov_base' => array(
             'pretty_version' => '1.5.0',
             'version' => '1.5.0.0',
@@ -1648,9 +1666,9 @@
             'dev_requirement' => false,
         ),
         'localgovdrupal/localgov_microsites_project' => array(
-            'pretty_version' => 'dev-develop',
-            'version' => 'dev-develop',
-            'reference' => '7095fd765e8d1ba0dcf88a395d0732532947d632',
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '7d8a0c8d734fa913242f89ca5733d4e211ba2770',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
