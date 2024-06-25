@@ -82,6 +82,11 @@ directory-facets-block:
   js:
     js/directory-facets-block.js: {}
 
+alerts:
+  css:
+    theme:
+      css/components/alerts.css: {}
+
 # Paragraphs
 page-sections:
   css:

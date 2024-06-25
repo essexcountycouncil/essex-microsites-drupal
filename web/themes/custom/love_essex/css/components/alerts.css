@@ -1,0 +1,36 @@
+.localgov-alert-banner__inner {
+  justify-content: flex-start;
+}
+
+.localgov-alert-banner .localgov-alert-banner__inner::before {
+  border-radius: 50%;
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  line-height: 1.5em;
+  font-weight: bold;
+  text-align: center;
+  margin: 1em;
+  margin-top: 0.25em;
+}
+
+.localgov-alert-banner--major .localgov-alert-banner__inner::before {
+  content: "!";
+  background: var(--alert-banner-color-major);
+  color: var(--alert-banner-bg-color-major);
+}
+
+.localgov-alert-banner--minor .localgov-alert-banner__inner::before {
+  content: "!";
+  background: var(--alert-banner-color-minor);
+  color: var(--alert-banner-bg-color-minor);
+}
+
+.localgov-alert-banner--announcement {
+  background-color: var(--alert-banner-bg-color-announcement);
+}
+.localgov-alert-banner--announcement .localgov-alert-banner__inner::before {
+  content: "i";
+  background: var(--alert-banner-color);
+  color: var(--alert-banner-bg-color-announcement);
+}
