@@ -1,0 +1,28 @@
+uuid: a04fe5e0-e727-4f6a-8f57-7d953a49e27b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.localgov_alert_banner.link
+    - localgov_alert_banner.localgov_alert_banner_type.localgov_alert_banner
+  module:
+    - link
+  enforced:
+    module:
+      - localgov_alert_banner
+_core:
+  default_config_hash: QhF_7ja1igYt981XyXs37vYepOu4-Xh6oGcleG2iwuw
+id: localgov_alert_banner.localgov_alert_banner.link
+field_name: link
+entity_type: localgov_alert_banner
+bundle: localgov_alert_banner
+label: Link
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 1
+field_type: link
