@@ -58,6 +58,7 @@ module:
   gnode: 0
   google_tag: 0
   group: 0
+  group_alert_banner: 0
   group_content_menu: 0
   group_context_domain: 0
   group_sites: 0
