@@ -69,15 +69,15 @@
   {{ page.off_canvas }}
 </div>
 
+{% if has_header %}
+  {{ page.header }}
+{% endif %}
+
 {% block header %}
   <header class="microsite-header">
     {% include "@localgov_microsites_base/layout/includes/microsites-header.html.twig" %}
   </header>
 {% endblock %}
-
-{% if has_header %}
-  {{ page.header }}
-{% endif %}
 
 {% if has_breadcrumb %}
   {{ page.breadcrumb }}
