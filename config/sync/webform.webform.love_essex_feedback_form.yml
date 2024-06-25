@@ -37,9 +37,9 @@ elements: |-
     '#type': textarea
     '#title': 'Is there anything else you would like to tell us?'
     '#description': |-
-      Do not enter any personal information in this space. Any submissions containing personal information will be deleted.
+      <p>Do not enter any personal information in this space. Any submissions containing personal information will be deleted.</p>
 
-      Read the data protection and privacy policy and agree to the council using any personal data that you provide in thie form to deal with your request.
+      <p>Read the <a href="https://www.essex.gov.uk/about-essexgovuk/privacy-and-data-protection">data protection and privacy policy</a> and agree to the council using any personal data that you provide in the form to deal with your request.</p>
     '#counter_type': character
     '#counter_maximum': 500
   i_confirm_that_i_have_read_the_data_protection_and_privacy_polic:
