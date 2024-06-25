@@ -134,7 +134,6 @@ module:
   migrate_plus: 0
   migrate_source_csv: 0
   migrate_tools: 0
-  multiple_select: 0
   mysql: 0
   node: 0
   office_hours: 0
