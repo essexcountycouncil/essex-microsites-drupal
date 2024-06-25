@@ -2,10 +2,10 @@
 /bin
 /drush/contrib/
 #/vendor/
-/web/core/
-/web/modules/contrib/
-/web/themes/contrib/
-/web/profiles/contrib/
+#/web/core/
+#/web/modules/contrib/
+#/web/themes/contrib/
+#/web/profiles/contrib/
 /web/libraries/
 
 # Ignore sensitive information
@@ -57,6 +57,9 @@
 *.sql.gz
 *.mysql
 *.mysql.gz
+
+# Ignore Docksal overrides
+.docksal/docksal-local.*
 
 # Ignore Lando overrides
 .lando.local.yml

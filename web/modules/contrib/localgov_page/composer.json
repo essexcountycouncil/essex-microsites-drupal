@@ -1,0 +1,20 @@
+{
+    "name": "localgovdrupal/localgov_page",
+    "description": "A page content type for LocalGov Drupal that allows the building of rich content using Paragraphs.",
+    "type": "drupal-module",
+    "homepage": "https://github.com/localgovdrupal/localgov_page",
+    "license": "GPL-2.0-or-later",
+    "minimum-stability": "dev",
+    "require": {
+        "localgovdrupal/localgov_core": "^2.0",
+        "localgovdrupal/localgov_paragraphs": "^2.0"
+    },
+    "extra": {
+        "enable-patching": true,
+        "composer-exit-on-patch-failure": true,
+        "patchLevel": {
+            "drupal/core": "-p2"
+        },
+        "patches": {}
+    }
+}

@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.search_result
+    - field.field.node.localgov_blog_channel.localgov_blog_channel_featured
+    - node.type.localgov_blog_channel
+  module:
+    - user
+id: node.localgov_blog_channel.search_result
+targetEntityType: node
+bundle: localgov_blog_channel
+mode: search_result
+content:
+  search_api_excerpt:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  links: true
+  localgov_blog_channel_featured: true

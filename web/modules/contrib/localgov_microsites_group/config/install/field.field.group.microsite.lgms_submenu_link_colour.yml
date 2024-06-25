@@ -1,0 +1,19 @@
+uuid: c48f9a04-db73-41dc-bba3-1a154ff7c058
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_submenu_link_colour
+    - group.type.microsite
+id: group.microsite.lgms_submenu_link_colour
+field_name: lgms_submenu_link_colour
+entity_type: group
+bundle: microsite
+label: 'Submenu Link Colour'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

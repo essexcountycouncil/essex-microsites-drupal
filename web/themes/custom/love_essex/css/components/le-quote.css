@@ -1,0 +1,41 @@
+.paragraph--type--le-quote {
+  @media screen and (min-width: 600px) {
+    display: flex;
+  }
+
+  .le-quote--image-wrapper {
+    @media screen and (min-width: 600px) {
+      flex-basis: 30%;
+    }
+    @media screen and (min-width: 768px) {
+      flex-basis: 25%;
+    }
+    margin-right: 10%;
+    align-self: end;
+    .field--name-localgov-image img {
+      border-radius: var(--border-radius);
+    }
+  }
+  .le-quote--content-wrapper {
+    position: relative;
+    flex-basis: 50%;
+    .field--name-field-p-quote-heading {
+      font-size: var(--font-size-h2);
+      font-weight: bold;
+      color: var(--color-accent);
+      margin-bottom: 1em;
+    }
+    &::before {
+      content: open-quote;
+      font-family:'Times New Roman', Times, serif;
+      color: var(--color-accent);
+      display: inline-block;
+      vertical-align: bottom;
+      position: absolute;
+      left: -1em;
+      font-size: var(--font-size-h1);
+      line-height: 1.8em;
+    }
+  }
+
+}

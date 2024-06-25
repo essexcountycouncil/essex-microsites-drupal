@@ -1,0 +1,16 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.microsite
+    - node.type.localgov_directories_page
+  module:
+    - gnode
+    - node
+id: microsite-6d97defe9a7d057d8159c8
+group_type: microsite
+content_plugin: 'group_node:localgov_directories_page'
+plugin_config:
+  group_cardinality: 0
+  entity_cardinality: 1
+  use_creation_wizard: false

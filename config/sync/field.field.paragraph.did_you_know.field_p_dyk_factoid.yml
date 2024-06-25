@@ -12,7 +12,7 @@ field_name: field_p_dyk_factoid
 entity_type: paragraph
 bundle: did_you_know
 label: Factoid
-description: 'The text of the ''did you know...'''
+description: "The text of the 'did you know...'"
 required: false
 translatable: false
 default_value: {  }

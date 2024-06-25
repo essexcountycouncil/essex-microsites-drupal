@@ -6,5 +6,6 @@ dependencies:
     - group
 id: group_config_wrapper.token
 label: Token
+description: ''
 targetEntityType: group_config_wrapper
 cache: true

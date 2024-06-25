@@ -26,7 +26,7 @@ settings:
   views_label: ''
   items_per_page: none
 visibility:
-  node_type:
+  'entity_bundle:node':
     id: 'entity_bundle:node'
     negate: false
     context_mapping:

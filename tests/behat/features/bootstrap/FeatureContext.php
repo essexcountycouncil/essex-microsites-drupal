@@ -110,9 +110,26 @@ class FeatureContext extends RawDrupalContext {
   public function iShouldSeeAtLeastInstancesOfElement($count, $selector)
   {
     $elements = $this->getSession()->getPage()->findAll('css', $selector);
-
+print_r(count($elements));
     if (count($elements) < $count) {
         throw new ExpectationException(sprintf('Expected at least %d instances of the element with selector "%s", but found %d.', $count, $selector, count($elements)), $this->getSession());
     }
   }
+
+  /**
+   * @Then /^I should see an element with selector "(?P<selector>[^"]*)"$/
+   */
+  public function iShouldSeeAnElementWithSelector($count, $selector)
+  {
+    $elements = $this->getSession()->getPage()->findAll('css', $selector);
+
+    if (count($elements) < 1) {
+      throw new ExpectationException(sprintf('Expected at least %d instances of the element with selector "%s", but found %d.', $count, $selector, count($elements)), $this->getSession());
+    }
+  }
 }
+
+
+
+
+

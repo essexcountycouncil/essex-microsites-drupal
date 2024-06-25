@@ -5,10 +5,13 @@ dependencies:
   config:
     - filter.format.webform_default
     - filter.format.wysiwyg
+    - localgov_alert_banner.localgov_alert_banner_type.localgov_alert_banner
   module:
+    - file
     - filter
     - fontawesome
-    - localgov_geo
+    - geo_entity
+    - localgov_alert_banner
     - media
     - system
 _core:
@@ -20,7 +23,10 @@ is_admin: false
 permissions:
   - 'access content'
   - 'access fontawesome additional settings'
+  - 'delete own files'
   - 'use text format webform_default'
   - 'use text format wysiwyg'
+  - 'view all localgov alert banner entities'
   - 'view geo'
+  - 'view localgov alert banner localgov_alert_banner entities'
   - 'view media'

@@ -1,0 +1,3 @@
+access group_webform overview:
+  title: 'Access group weform overview'
+  description: 'Access the overview of all group weforms'

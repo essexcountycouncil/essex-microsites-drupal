@@ -1,0 +1,27 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.localgov_blog_related_posts
+    - node.type.localgov_blog_post
+id: node.localgov_blog_post.localgov_blog_related_posts
+field_name: localgov_blog_related_posts
+entity_type: node
+bundle: localgov_blog_post
+label: 'Related posts'
+description: 'Select up to three related blog posts to be listed with this post.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      localgov_blog_post: localgov_blog_post
+    sort:
+      field: title
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

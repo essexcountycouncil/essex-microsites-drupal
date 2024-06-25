@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_header_text_colour
+    - group.type.microsite
+id: group.microsite.lgms_header_text_colour
+field_name: lgms_header_text_colour
+entity_type: group
+bundle: microsite
+label: 'Header Text Colour'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

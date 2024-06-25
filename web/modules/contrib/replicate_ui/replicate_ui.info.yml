@@ -1,0 +1,14 @@
+name: "Replicate UI"
+core_version_requirement: ^9 || ^10
+type: module
+description: "Provides a UI for Replicate (local tasks, entity operations with a form)"
+package: "Entity"
+dependencies:
+  - drupal:user
+  - replicate:replicate
+configure: replicate_ui.settings
+
+# Information added by Drupal.org packaging script on 2023-03-25
+version: '8.x-1.1'
+project: 'replicate_ui'
+datestamp: 1679704079

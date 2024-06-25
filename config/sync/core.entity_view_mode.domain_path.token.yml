@@ -6,5 +6,6 @@ dependencies:
     - domain_path
 id: domain_path.token
 label: Token
+description: ''
 targetEntityType: domain_path
 cache: true

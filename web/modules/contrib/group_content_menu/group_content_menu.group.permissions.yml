@@ -1,0 +1,12 @@
+access group content menu overview:
+  title: Access group content menu overview
+  description: Access the overview of all menus
+
+manage group_content_menu:
+  title: Manage menus
+  description: Create, update and delete menus
+  restrict access: true
+
+manage group_content_menu menu items:
+  title: Manage menu items
+  description: Create, update and delete menu items within group menus

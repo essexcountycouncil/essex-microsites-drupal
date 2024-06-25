@@ -1,0 +1,150 @@
+<?php
+
+/**
+ * @file
+ * LocalGov Microsites Group Webform module file.
+ */
+
+use Drupal\group\Entity\GroupInterface;
+use Drupal\group\Entity\Storage\GroupRelationshipTypeStorageInterface;
+use Drupal\localgov_microsites_group\RolesHelper;
+
+/**
+ * Implements hook_entity_update().
+ */
+function localgov_microsites_group_webform_entity_update($entity) {
+  // We might need to do something in hook_entity_update() too.
+}
+
+/**
+ * Implements hook_entity_insert().
+ */
+function localgov_microsites_group_webform_entity_insert($entity) {
+
+  // Check for entity type, we only want to act on webform / webform_submission.
+  $entity_type = $entity->getEntityTypeId();
+
+  // For the webform, every time a webform is created, we want to add it to the
+  // microsite group type, to make sure a submission can be assigned to a
+  // group.
+  if ($entity_type == 'webform') {
+
+    // The format of the plugin_id is llike group_webform:contact, the latter
+    // being the webform id.
+    $webform_id = $entity->id();
+    $plugin_id = 'group_webform:' . $webform_id;
+
+    // Now we get the group_type config entity, which we need to pass to
+    // the GroupRelationshipTypeStorageInterface -> createFromPlugin.
+    $group_type_storage = \Drupal::entityTypeManager()->getStorage('group_type');
+    $group_type = $group_type_storage->load('microsite');
+
+    // Got this from lines 145-147 of GroupRelationshipTypeForm.php
+    // https://git.drupalcode.org/project/group/-/blob/3.0.x/src/Entity/Form/GroupRelationshipTypeForm.php#L145-147
+    $storage = \Drupal::entityTypeManager()->getStorage('group_relationship_type');
+    assert($storage instanceof GroupRelationshipTypeStorageInterface);
+    $storage->createFromPlugin($group_type, $plugin_id)->save();
+  }
+
+  // For the webform_submission, we just need to hook into the submission and
+  // add it to the group with $group->addRelationship.
+  if ($entity_type == 'webform_submission') {
+
+    // Get the group from the domain context.
+    $group = localgov_microsites_group_get_by_context();
+
+    // If we have a $group, add a new group relationsship.
+    if ($group instanceof GroupInterface) {
+
+      // Get the webform and then webform_id to generate the expected plugin_id.
+      $webform = $entity->getWebform();
+      $webform_id = $webform->id();
+
+      // The plugin is in the form 'group_webform:contact' for the 'contact'
+      // webform.
+      $plugin_id = "group_webform:" . $webform_id;
+
+      // Add the webform submission to the group.
+      $group->addRelationship($entity, $plugin_id);
+
+    }
+  }
+}
+
+/**
+ * Implements hook_localgov_microsites_roles_default().
+ */
+function localgov_microsites_group_webform_localgov_microsites_roles_default() {
+  return [
+    'global' => [
+      RolesHelper::MICROSITES_CONTROLLER_ROLE => [
+        'access any webform configuration',
+        'access own webform configuration',
+        'access webform help',
+        'access webform overview',
+        'access webform submission user',
+        'administer webform',
+        'administer webform element access',
+        'administer webform submission',
+        'create webform',
+        'delete any webform',
+        'delete any webform submission',
+        'delete own webform',
+        'delete own webform submission',
+        'delete webform submissions any node',
+        'delete webform submissions own node',
+        'edit any webform',
+        'edit any webform submission',
+        'edit own webform',
+        'edit webform assets',
+        'edit webform source',
+        'edit webform submissions any node',
+        'edit webform submissions own node',
+        'edit webform twig',
+        'edit webform variants',
+        'view any webform submission',
+        'view own webform submission',
+        'view webform submissions any node',
+        'view webform submissions own node',
+      ],
+      RolesHelper::MICROSITES_EDITOR_ROLE => [
+        'view webform submissions own node',
+      ],
+    ],
+    'group' => [
+      RolesHelper::GROUP_ADMIN_ROLE => [
+        'create group_node:localgov_webform entity',
+        'delete any group_node:localgov_webform entity',
+        'delete own group_node:localgov_webform entity',
+        'update any group_node:localgov_webform entity',
+        'update own group_node:localgov_webform entity',
+        'view group_node:localgov_webform entity',
+        'create group_webform:microsite_contact entity',
+        'delete any group_webform:microsite_contact entity',
+        'delete own group_webform:microsite_contact entity',
+        'update any group_webform:microsite_contact entity',
+        'update own group_webform:microsite_contact entity',
+        'view group_webform:microsite_contact entity',
+      ],
+      RolesHelper::GROUP_ANONYMOUS_ROLE => [
+        'view group_node:localgov_webform entity',
+        'create group_webform:microsite_contact entity',
+      ],
+      RolesHelper::GROUP_MEMBER_ROLE => [
+        'create group_node:localgov_webform entity',
+        'delete any group_node:localgov_webform entity',
+        'delete own group_node:localgov_webform entity',
+        'update any group_node:localgov_webform entity',
+        'update own group_node:localgov_webform entity',
+        'view group_node:localgov_webform entity',
+        'create group_webform:microsite_contact entity',
+        'delete any group_webform:microsite_contact entity',
+        'delete own group_webform:microsite_contact entity',
+        'update any group_webform:microsite_contact entity',
+        'update own group_webform:microsite_contact entity',
+        'view group_webform:microsite_contact entity',
+      ],
+      RolesHelper::GROUP_OUTSIDER_ROLE => [],
+    ],
+  ];
+}

@@ -4,16 +4,24 @@ status: true
 dependencies:
   config:
     - field.field.node.localgov_page.field_body
+    - field.field.node.localgov_page.field_directory_channel_logo
     - field.field.node.localgov_page.field_page_colour_swatch
+    - field.field.node.localgov_page.localgov_blog_date
+    - field.field.node.localgov_page.localgov_directory_address
     - field.field.node.localgov_page.localgov_hide_summary
     - field.field.node.localgov_page.localgov_page_banner
     - field.field.node.localgov_page.localgov_page_summary
     - field.field.node.localgov_page.localgov_paragraph_content
+    - field.field.node.localgov_page.localgov_proximity_search_cfg
+    - image.style.freestyle_md
     - node.type.localgov_page
   module:
+    - address
     - entity_reference_revisions
+    - field_formatter_class
     - field_group
     - layout_paragraphs
+    - media
     - text
     - user
 third_party_settings:
@@ -43,7 +51,7 @@ third_party_settings:
       label: Banner
       parent_name: ''
       region: content
-      weight: 0
+      weight: 1
       format_type: html_element
       format_settings:
         classes: full__banner
@@ -69,6 +77,26 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 3
+    region: content
+  field_directory_channel_logo:
+    type: media_thumbnail
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: freestyle_md
+      image_loading:
+        attribute: lazy
+    third_party_settings:
+      field_formatter_class:
+        class: ''
+    weight: 0
+    region: content
+  localgov_directory_address:
+    type: address_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 5
     region: content
   localgov_page_banner:
     type: entity_reference_revisions_entity_view
@@ -98,5 +126,7 @@ content:
 hidden:
   field_page_colour_swatch: true
   links: true
+  localgov_blog_date: true
   localgov_hide_summary: true
+  localgov_proximity_search_cfg: true
   search_api_excerpt: true

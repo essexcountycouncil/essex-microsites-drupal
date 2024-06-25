@@ -55,6 +55,7 @@
 
 {{ attach_library('localgov_microsites_base/header') }}
 {{ attach_library('localgov_microsites_base/header-js') }}
+{{ attach_library('love_essex/alerts') }}
 {{ attach_library('localgov_microsites_base/footer') }}
 
 {% if is_front %}
@@ -69,15 +70,15 @@
   {{ page.off_canvas }}
 </div>
 
+{% if has_header %}
+  {{ page.header }}
+{% endif %}
+
 {% block header %}
   <header class="microsite-header">
     {% include "@localgov_microsites_base/layout/includes/microsites-header.html.twig" %}
   </header>
 {% endblock %}
-
-{% if has_header %}
-  {{ page.header }}
-{% endif %}
 
 {% if has_breadcrumb %}
   {{ page.breadcrumb }}
@@ -174,6 +175,9 @@
     </div>
   {% endif %} #}
 {# End Footer Logos #}
+{% if page.pre_footer %}
+  {{ page.pre_footer }}
+{% endif %}
 
 {% block footer %}
   <footer class="microsite-footer">

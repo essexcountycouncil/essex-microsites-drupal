@@ -1,0 +1,57 @@
+<?php
+
+/**
+ * @file
+ * Hook implementations.
+ */
+
+use Drupal\Core\Render\Element;
+
+/**
+ * Implements hook_theme().
+ */
+function localgov_forms_theme() {
+  return [
+    // Form element: localgov_webform_uk_address.
+    'localgov_forms_uk_address_lookup' => [
+      'render element' => 'element',
+    ],
+    // Form element: webform_uk_address.
+    'localgov_forms_uk_address' => [
+      'render element' => 'element',
+    ],
+  ];
+}
+
+/**
+ * Prepares variables for the Address lookup element template.
+ *
+ * Makes sub-elements available within the `content` variable.  Mostly lifted
+ * from _template_preprocess_webform_composite().
+ */
+function template_preprocess_localgov_forms_uk_address_lookup(array &$variables) {
+
+  $element = $variables['element'];
+  foreach (Element::children($element) as $key) {
+    if (!isset($element[$key]['#access']) || $element[$key]['#access']) {
+      $variables['content'][$key] = $element[$key];
+    }
+  }
+
+  $variables['flexbox'] = $element['#flexbox'] ?? FALSE;
+}
+
+/**
+ * Prepares variables for the UK address element template.
+ */
+function template_preprocess_localgov_forms_uk_address(array &$variables) {
+
+  template_preprocess_localgov_forms_uk_address_lookup($variables);
+}
+
+/**
+ * Implements hook_preprocess_hook() for hook_preprocess_webform().
+ */
+function localgov_forms_preprocess_webform(array &$variables) {
+  $variables['#attached']['library'][] = 'localgov_forms/localgov_forms.form_errors';
+}

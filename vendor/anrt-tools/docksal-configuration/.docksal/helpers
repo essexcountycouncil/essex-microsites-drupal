@@ -191,7 +191,7 @@ check_override() {
 
 # If platform.sh get default_branch, fallback to $DEFAULT_BRANCH variable or "master"
 if [[ -n "$PLATFORM_ID" ]]; then
-  DEFAULT_BRANCH=$(platform project:info -p ${PLATFORM_ID} default_branch)
+  DEFAULT_BRANCH=$($PLATFORM_CMD project:info -p ${PLATFORM_ID} default_branch)
 else
   DEFAULT_BRANCH="${DEFAULT_BRANCH:-master}"
 fi

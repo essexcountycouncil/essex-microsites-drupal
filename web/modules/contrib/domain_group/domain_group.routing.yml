@@ -1,0 +1,18 @@
+domain_group.domain_group_settings_form:
+  path: '/group/{group}/domain-settings'
+  defaults:
+    _form: '\Drupal\domain_group\Form\DomainGroupSettingsForm'
+    _title: 'Domain Group Settings'
+  options:
+    _admin_route: TRUE
+  requirements:
+    _custom_access: '\Drupal\domain_group\Form\DomainGroupSettingsForm::access'
+domain_group.domain_group_general_form:
+  path: '/admin/config/domain/domain-group'  
+  defaults:
+    _form: '\Drupal\domain_group\Form\DomainGroupGeneralForm'
+    _title: 'Domain Group Settings'
+  options:
+    _admin_route: TRUE
+  requirements:
+    _permission: 'domain group settings'

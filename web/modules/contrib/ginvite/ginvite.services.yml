@@ -1,0 +1,32 @@
+services:
+  ginvite_event_subscriber:
+    class: Drupal\ginvite\EventSubscriber\GinviteSubscriber
+    tags:
+      - {name: event_subscriber}
+    arguments: ['@ginvite.invitation_loader', '@current_user', '@messenger', '@logger.factory', '@config.factory']
+
+  ginvite.invitation_loader:
+    class: 'Drupal\ginvite\GroupInvitationLoader'
+    arguments: ['@entity_type.manager', '@current_user']
+
+  # Specific group relation handlers.
+  group.relation_handler.operation_provider.group_invitation:
+    class: 'Drupal\ginvite\Plugin\Group\RelationHandler\GroupInvitationOperationProvider'
+    arguments: [ '@group.relation_handler.operation_provider', '@current_user', '@string_translation' ]
+    shared: false
+
+  group.relation_handler.permission_provider.group_invitation:
+    class: 'Drupal\ginvite\Plugin\Group\RelationHandler\GroupInvitationPermissionProvider'
+    arguments: [ '@group.relation_handler.permission_provider' ]
+    shared: false
+
+  group.relation_handler.post_install.group_invitation:
+    class: 'Drupal\ginvite\Plugin\Group\RelationHandler\GroupInvitationPostInstall'
+    arguments: [ '@group.relation_handler.post_install', '@entity_type.manager', '@string_translation' ]
+    shared: false
+
+  group.relation_handler.access_control.group_invitation:
+    class: 'Drupal\ginvite\Plugin\Group\RelationHandler\GroupInvitationAccessControl'
+    arguments: [ '@group.relation_handler.access_control' ]
+    shared: false
+

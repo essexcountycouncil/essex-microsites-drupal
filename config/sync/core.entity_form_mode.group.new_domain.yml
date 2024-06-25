@@ -8,5 +8,6 @@ _core:
   default_config_hash: PfLS7A0bsUJc1xSpeS5zNnVc6G1X5IoSFHMMF3baKIk
 id: group.new_domain
 label: 'New Domain'
+description: ''
 targetEntityType: group
 cache: true

@@ -1,0 +1,3 @@
+access group_term overview:
+  title: 'Access group term overview'
+  description: 'Access the overview of all group terms, regardless of vocabulary'

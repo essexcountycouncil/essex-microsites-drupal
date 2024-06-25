@@ -1,0 +1,33 @@
+uuid: 8508a118-4fc7-43b4-bfaa-00333cd85505
+langcode: en
+status: true
+dependencies:
+  module:
+    - group
+    - options
+id: group.lgms_submenu_icon
+field_name: lgms_submenu_icon
+entity_type: group
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: plus
+      label: Plus
+    -
+      value: chevron-right
+      label: Chevron
+    -
+      value: chevron-right-o
+      label: 'Chevron in a circle'
+    -
+      value: more-vertical-o
+      label: 'Three dots'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -69,5 +69,6 @@
 
 .call-to-action__link a:hover {
   background-color: var(--color-accent-2);
+  color: var(--color-black);
   text-decoration: underline;
 }

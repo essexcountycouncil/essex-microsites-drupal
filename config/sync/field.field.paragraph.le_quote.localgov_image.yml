@@ -1,0 +1,29 @@
+uuid: 0716c3f7-9143-418f-8d21-c9ffae7d6584
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.localgov_image
+    - media.type.image
+    - paragraphs.paragraphs_type.le_quote
+id: paragraph.le_quote.localgov_image
+field_name: localgov_image
+entity_type: paragraph
+bundle: le_quote
+label: Image
+description: Optional
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -1,0 +1,11 @@
+services:
+  access_check.group_content_menu.group_menu_owns_content:
+    class: Drupal\group_content_menu\Access\GroupOwnsMenuContentAccessChecker
+    arguments:
+      - '@entity_type.manager'
+    tags:
+      - { name: access_check, applies_to: _group_menu_owns_content }
+  group.relation_handler.permission_provider.group_content_menu:
+    class: 'Drupal\group_content_menu\Plugin\Group\RelationHandler\GroupContentMenuPermissionProvider'
+    arguments: ['@group.relation_handler.permission_provider']
+    shared: false

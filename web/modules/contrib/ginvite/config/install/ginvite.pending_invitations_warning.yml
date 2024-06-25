@@ -1,0 +1,5 @@
+excluded_routes:
+  - entity.user.canonical
+  - ginvite.invitation.accept
+  - ginvite.invitation.decline
+warning_message: 'You have pending group invitations. <a href="@my_invitations_url">Visit your profile</a> to see them.'

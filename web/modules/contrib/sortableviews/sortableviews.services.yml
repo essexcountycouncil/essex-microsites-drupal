@@ -1,0 +1,6 @@
+services:
+  access_check.sortableviews:
+    class: Drupal\sortableviews\Access\SortableviewsAccess
+    arguments: ['@entity_type.manager', '@views.executable']
+    tags:
+      - { name: access_check, applies_to: _sortableviews, needs_incoming_request: TRUE }

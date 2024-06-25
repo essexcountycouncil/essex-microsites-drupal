@@ -1,0 +1,58 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - media.type.document
+    - media.type.image
+    - media.type.remote_video
+  module:
+    - domain
+    - domain_path
+    - group
+    - group_sites
+    - media
+    - role_delegation
+    - system
+    - toolbar
+    - tour
+id: microsites_controller
+label: 'Microsites controller'
+weight: 2
+is_admin: null
+permissions:
+  - 'access administration pages'
+  - 'access media overview'
+  - 'access microsites overview'
+  - 'access toolbar'
+  - 'access tour'
+  - 'access user profiles'
+  - 'administer domains'
+  - 'administer media'
+  - 'administer users'
+  - 'bypass domain group permissions'
+  - 'cancel account'
+  - 'change own username'
+  - 'create document media'
+  - 'create domains'
+  - 'create image media'
+  - 'create media'
+  - 'create microsite group'
+  - 'create remote_video media'
+  - 'edit any document media'
+  - 'edit any image media'
+  - 'edit any remote_video media'
+  - 'edit domain path entity'
+  - 'edit own document media'
+  - 'edit own image media'
+  - 'edit own remote_video media'
+  - 'select account cancellation method'
+  - 'update any media'
+  - 'update media'
+  - 'use group_sites admin mode'
+  - 'view all media revisions'
+  - 'view assigned domains'
+  - 'view domain list'
+  - 'view media'
+  - 'view own unpublished media'
+  - 'view the administration theme'
+  - 'view user email addresses'

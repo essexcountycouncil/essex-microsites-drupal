@@ -1,0 +1,9 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - group
+id: group.new_domain
+label: 'New Domain'
+targetEntityType: group
+cache: true

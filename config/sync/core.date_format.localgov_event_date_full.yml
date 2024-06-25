@@ -7,4 +7,4 @@ _core:
 id: localgov_event_date_full
 label: 'Event date full'
 locked: false
-pattern: 'l, jS F Y, g.ia'
+pattern: 'l j F Y, g.ia'

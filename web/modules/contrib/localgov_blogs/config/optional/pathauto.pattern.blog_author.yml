@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - taxonomy
+id: blog_author
+label: 'Blog author'
+type: 'canonical_entities:taxonomy_term'
+pattern: 'blog-author/[term:name]'
+selection_criteria:
+  7cbeee31-25a5-4258-8304-d1d1aa506133:
+    id: 'entity_bundle:taxonomy_term'
+    negate: false
+    uuid: 7cbeee31-25a5-4258-8304-d1d1aa506133
+    context_mapping:
+      taxonomy_term: taxonomy_term
+    bundles:
+      localgov_blog_author: localgov_blog_author
+selection_logic: and
+weight: -5
+relationships: {  }

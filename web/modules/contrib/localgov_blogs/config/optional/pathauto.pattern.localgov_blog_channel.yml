@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: localgov_blog_channel
+label: 'Blog channel'
+type: 'canonical_entities:node'
+pattern: '[node:title]'
+selection_criteria:
+  c3887523-1ca1-4d0f-96c8-df16d77ac168:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: c3887523-1ca1-4d0f-96c8-df16d77ac168
+    context_mapping:
+      node: node
+    bundles:
+      localgov_blog_channel: localgov_blog_channel
+selection_logic: and
+weight: -10
+relationships: {  }

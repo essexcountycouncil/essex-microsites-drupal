@@ -19,6 +19,7 @@ use Drupal\Core\TempStore\SharedTempStoreFactory;
 function ecc_waste_views_post_render(ViewExecutable $view, array &$output, CachePluginBase $cache) {
   if ($view->id() == 'disposal_options') {
     $output['#attached']['library'][] = 'ecc_waste/ecc_waste';
+    $output['#attached']['library'][] = 'love_essex/waste-search';
   }
 }
 

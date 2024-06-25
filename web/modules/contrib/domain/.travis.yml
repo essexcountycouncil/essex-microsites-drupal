@@ -1,0 +1,107 @@
+language: php
+sudo: false
+
+services:
+  - mysql
+
+matrix:
+  fast_finish: true
+  include:
+    - env: DRUPAL_BRANCH="8.8.x" drupal" MODULE_LIST="domain domain_access domain_alias domain_config domain_source"
+      php: 7.3
+    - env: DRUPAL_BRANCH="8.9.x" drupal" MODULE_LIST="domain domain_access domain_alias domain_config domain_source"
+      php: 7.3
+    - env: DRUPAL_BRANCH="9.0.x" drupal" MODULE_LIST="domain domain_access domain_alias domain_config domain_source"
+      php: 7.3
+    - env: DRUPAL_BRANCH="9.1.x" drupal" MODULE_LIST="domain domain_access domain_alias domain_config domain_source"
+      php: 7.3
+
+addons:
+  hosts:
+    - example.com
+    - one.example.com
+    - two.example.com
+    - three.example.com
+    - four.example.com
+    - five.example.com
+    - six.example.com
+    - seven.example.com
+    - eight.example.com
+    - nine.example.com
+    - ten.example.com
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+env:
+  global:
+    # add composer's global bin directory to the path
+    # see: https://github.com/drush-ops/drush#install---composer
+    - PATH="$PATH:$HOME/.composer/vendor/bin"
+
+mysql:
+  database: domain
+  username: root
+  encoding: utf8
+
+notifications:
+  email: false
+
+before_install:
+  # Remove Xdebug. Not an issue for PHP 7.
+  - phpenv config-rm xdebug.ini || true
+
+  - composer self-update --1
+
+  # Install Drush.
+  - composer global require --no-interaction drush/drush:8.*
+
+  # Optimize MySQL timeout and max packet size.
+  - echo "mysql.connect_timeout=3000" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - echo "default_socket_timeout=3000" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - mysql -e 'create database domain;'
+  - mysql -e "SET GLOBAL wait_timeout = 36000;"
+  - mysql -e "SET GLOBAL max_allowed_packet = 134209536;"
+
+before_script:
+
+  # Remember the current rules test directory for later use in the Drupal installation.
+  - TESTDIR=$(pwd)
+  # Navigate out of module directory to prevent blown stack by recursive module lookup.
+  - cd ..
+
+  # Download Drupal 8 core.
+  - git clone --depth=1 --branch $DRUPAL_BRANCH https://git.drupal.org/project/drupal.git
+  - cd drupal
+
+  # Install dependencies.
+  - composer install
+
+  # Make the module appear in the correct place
+  - ln -s $TESTDIR modules/domain
+
+  # Install drupal default profile
+  - /usr/bin/env PHP_OPTIONS="-d sendmail_path=$(which true)" drush --yes --verbose site-install minimal --db-url=mysql://root:@127.0.0.1/domain
+  - drush --yes en $MODULE_LIST
+  - drush cr
+
+  # Start a web server on port 8080 in the background.
+  - nohup php -S 0.0.0.0:8080 > /dev/null 2>&1 &
+
+  # Wait until the web server is responding.
+  - until curl -s example.com:8080; do true; done > /dev/null
+
+  # Export PHP Unit vars
+  - export SIMPLETEST_DB='mysql://root:@127.0.0.1/domain'
+  - export SIMPLETEST_BASE_URL='http://example.com:8080'
+  - export SYMFONY_DEPRECATIONS_HELPER='disabled'
+
+script:
+  - vendor/bin/phpunit -c core --group domain modules/domain -v
+  - vendor/bin/phpunit -c core --group domain_access modules/domain -v
+  - vendor/bin/phpunit -c core --group domain_alias modules/domain -v
+  - vendor/bin/phpunit -c core --group domain_config modules/domain -v
+  - vendor/bin/phpunit -c core --group domain_config_ui modules/domain --testsuite functional -v
+  - vendor/bin/phpunit -c core --group domain_content modules/domain -v
+  - vendor/bin/phpunit -c core --group domain_source modules/domain -v

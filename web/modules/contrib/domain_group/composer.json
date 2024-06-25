@@ -1,0 +1,34 @@
+{
+  "name": "drupal/domain_group",
+  "type": "drupal-module",
+  "description": "This module provides integration between Domain and Group modules",
+  "homepage": "http://drupal.org/project/domain_group",
+  "authors": [
+    {
+      "name": "Ivan Duarte",
+      "homepage": "https://www.drupal.org/u/jidrone",
+      "role": "Maintainer"
+    },
+    {
+      "name": "Fabian Sierra",
+      "homepage": "https://www.drupal.org/u/fabiansierra5191",
+      "role": "Co-maintainer"
+    }
+  ],
+  "support": {
+    "issues": "https://drupal.org/project/issues/domain_group",
+    "source": "https://git.drupalcode.org/project/domain_group"
+  },
+  "license": "GPL-2.0+",
+  "minimum-stability": "dev",
+  "require": {
+    "drupal/group": "^3.0@beta",
+    "drupal/domain": "~1.0 || ^2.0@dev"
+  },
+  "require-dev": {
+    "drupal/domain_path": "^1.x-dev"
+  },
+  "suggest": {
+    "drupal/domain_path": "Path aliases per domain."
+  }
+}

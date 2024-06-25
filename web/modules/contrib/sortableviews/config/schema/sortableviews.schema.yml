@@ -1,0 +1,87 @@
+views.style.sortable_html_list:
+  type: views_style
+  label: 'Sortable HTML List'
+  mapping:
+    type:
+      type:  string
+      label: 'List type'
+    wrapper_class:
+      type: string
+      label: 'Wrapper class'
+    class:
+      type: string
+      label: 'List class'
+    weight_field:
+      type: string
+      label: 'Weight field'
+
+views.style.sortable_table:
+  type: views_style
+  label: 'Sortable table'
+  mapping:
+    columns:
+      type: sequence
+      label: 'Columns'
+      sequence:
+        type: string
+        label: 'Columns name'
+    default:
+      type: string
+      label: 'Default sort'
+    info:
+      type: sequence
+      label: 'Columns info'
+      sequence:
+        type: mapping
+        label:  'Column info'
+        mapping:
+          sortable:
+            type: boolean
+            label: 'Sortable'
+          default_sort_order:
+            type: string
+            label: 'Default order'
+          align:
+            type: string
+            label: 'Align'
+          separator:
+            type: string
+            label: 'Separator'
+          empty_column:
+            type: boolean
+            label: 'Hide empty columns'
+          responsive:
+            type: string
+            label: 'Responsive'
+    override:
+      type: boolean
+      label: 'Override normal sorting if click sorting is used'
+    sticky:
+      type: boolean
+      label: 'Enable Drupal style "sticky" table headers (Javascript)'
+    summary:
+      type: label
+      label: 'Summary title'
+    order:
+      type: string
+      label: 'Default order'
+    empty_table:
+      type: boolean
+      label: 'Show the empty text in the table'
+    caption:
+      type: label
+      label: 'Caption for the table'
+    description:
+      type: text
+      label: 'Table description'
+    weight_field:
+      type: string
+      label: 'Weight field'
+
+views.style.sortable_default:
+  type: views_style
+  label: 'Sortable unformatted list'
+  mapping:
+    weight_field:
+      type: string
+      label: 'Weight field'

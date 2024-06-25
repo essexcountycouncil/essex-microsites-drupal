@@ -3,17 +3,21 @@ langcode: en
 status: true
 dependencies:
   config:
+    - localgov_alert_banner.localgov_alert_banner_type.localgov_alert_banner
     - media.type.document
     - media.type.image
     - media.type.remote_video
+    - workflows.workflow.localgov_alert_banners
   module:
+    - content_moderation
     - domain
-    - domain_group
     - domain_path
-    - entity_browser
+    - file
+    - geo_entity
     - group
+    - help
+    - localgov_alert_banner
     - localgov_directories
-    - localgov_geo
     - localgov_microsites_group
     - media
     - redirect
@@ -34,7 +38,8 @@ is_admin: null
 permissions:
   - 'access administration pages'
   - 'access any webform configuration'
-  - 'access localgov_geo_library entity browser pages'
+  - 'access help pages'
+  - 'access localgov alert banner listing page'
   - 'access media overview'
   - 'access microsites overview'
   - 'access own webform configuration'
@@ -54,7 +59,6 @@ permissions:
   - 'administer webform submission'
   - 'assign microsites_controller role'
   - 'assign microsites_trusted_editor role'
-  - 'bypass domain group permissions'
   - 'cancel account'
   - 'change own username'
   - 'create directory facets'
@@ -70,6 +74,7 @@ permissions:
   - 'delete any webform submission'
   - 'delete directory facets'
   - 'delete geo'
+  - 'delete own files'
   - 'delete own webform'
   - 'delete own webform submission'
   - 'delete webform submissions any node'
@@ -92,15 +97,22 @@ permissions:
   - 'edit webform submissions own node'
   - 'edit webform twig'
   - 'edit webform variants'
+  - 'manage localgov alert banner localgov_alert_banner entities'
   - 'replicate entities'
   - 'select account cancellation method'
   - 'update any media'
   - 'update media'
+  - 'use localgov_alert_banners transition create_new_draft'
+  - 'use localgov_alert_banners transition publish'
+  - 'use localgov_alert_banners transition unpublish'
+  - 'view all localgov alert banner entities'
+  - 'view all localgov alert banner entity pages'
   - 'view all media revisions'
   - 'view any webform submission'
   - 'view assigned domains'
   - 'view directory facets'
   - 'view domain list'
+  - 'view localgov alert banner localgov_alert_banner pages'
   - 'view media'
   - 'view own unpublished media'
   - 'view own webform submission'

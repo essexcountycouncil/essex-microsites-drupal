@@ -1,0 +1,61 @@
+uuid: 7e1f8115-5503-481f-a065-bdbf9689bd97
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.localgov_directory_address
+    - node.type.localgov_page
+  module:
+    - address
+id: node.localgov_page.localgov_directory_address
+field_name: localgov_directory_address
+entity_type: node
+bundle: localgov_page
+label: 'Enquiries address'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    langcode: ''
+    country_code: GB
+    administrative_area: null
+    locality: ''
+    dependent_locality: null
+    postal_code: ''
+    sorting_code: null
+    address_line1: ''
+    address_line2: ''
+    organization: null
+    given_name: null
+    additional_name: null
+    family_name: null
+default_value_callback: ''
+settings:
+  available_countries: {  }
+  langcode_override: ''
+  field_overrides:
+    givenName:
+      override: hidden
+    additionalName:
+      override: hidden
+    familyName:
+      override: hidden
+    organization:
+      override: hidden
+    addressLine1:
+      override: optional
+    addressLine2:
+      override: optional
+    postalCode:
+      override: optional
+    sortingCode:
+      override: optional
+    dependentLocality:
+      override: hidden
+    locality:
+      override: optional
+    administrativeArea:
+      override: optional
+  fields: {  }
+field_type: address

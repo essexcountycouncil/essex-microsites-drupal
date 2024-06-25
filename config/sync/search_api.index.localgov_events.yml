@@ -11,7 +11,7 @@ dependencies:
     - core.entity_view_mode.node.search_index
   module:
     - search_api
-    - domain_group
+    - localgov_microsites_group
     - node
 _core:
   default_config_hash: Dl9TdWlJnB_AX1dsT_ct8nFkWCA7DLZ7aN4DrEnJZ24

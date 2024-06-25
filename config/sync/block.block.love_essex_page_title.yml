@@ -9,7 +9,7 @@ _core:
 id: love_essex_page_title
 theme: love_essex
 region: page_title
-weight: -4
+weight: -12
 provider: null
 plugin: page_title_block
 settings:

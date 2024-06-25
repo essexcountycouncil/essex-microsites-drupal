@@ -1,0 +1,15 @@
+localgov_microsites_group_term_ui.taxononmy.list:
+  path: '/group/{group}/taxonomy'
+  defaults:
+    _controller: '\Drupal\localgov_microsites_group_term_ui\Controller\GroupTermUiController::listTaxonomies'
+    _title: 'Taxonomies'
+  requirements:
+    _custom_access: '\Drupal\localgov_microsites_group_term_ui\Controller\GroupTermUiController::listTaxonomiesAccess'
+
+localgov_microsites_group_term_ui.taxononmy.add:
+  path: '/group/{group}/taxonomy/{vid}/add'
+  defaults:
+    _controller: '\Drupal\localgov_microsites_group_term_ui\Controller\GroupTermUiController::addTerm'
+    _title_callback: '\Drupal\localgov_microsites_group_term_ui\Controller\GroupTermUiController::addTermTitle'
+  requirements:
+    _custom_access: '\Drupal\localgov_microsites_group_term_ui\Controller\GroupTermUiController::addTermAccess'

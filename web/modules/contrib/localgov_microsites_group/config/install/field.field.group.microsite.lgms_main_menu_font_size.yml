@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_main_menu_font_size
+    - group.type.microsite
+id: group.microsite.lgms_main_menu_font_size
+field_name: lgms_main_menu_font_size
+entity_type: group
+bundle: microsite
+label: 'Main menu link size'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

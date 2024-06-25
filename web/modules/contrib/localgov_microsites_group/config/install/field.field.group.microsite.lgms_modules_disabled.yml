@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_modules_disabled
+    - group.type.microsite
+id: group.microsite.lgms_modules_disabled
+field_name: lgms_modules_disabled
+entity_type: group
+bundle: microsite
+label: 'Disabled modules'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

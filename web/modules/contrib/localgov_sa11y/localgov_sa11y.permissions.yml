@@ -1,0 +1,3 @@
+use_localgov_sa11y:
+  title: 'Use localgov_sa11y'
+  restrict access: true

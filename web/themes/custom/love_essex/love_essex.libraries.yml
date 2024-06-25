@@ -39,6 +39,11 @@ sidebar:
       css/components/sidebar.css: {}
 
 # Content types
+full:
+  css:
+    theme:
+      css/components/full.css: {}
+
 step-by-step:
   css:
     theme:
@@ -76,6 +81,11 @@ directory-facets-block:
       css/components/directory-facets-block.css: {}
   js:
     js/directory-facets-block.js: {}
+
+alerts:
+  css:
+    theme:
+      css/components/alerts.css: {}
 
 # Paragraphs
 page-sections:
@@ -127,10 +137,20 @@ logo-lists:
     theme:
       css/components/logo-lists.css: {}
 
+le-quote:
+  css:
+    theme:
+      css/components/le-quote.css: {}
+
 waste-search:
   css:
     theme:
       css/components/waste-search.css: {}
+
+webform:
+  css:
+    theme:
+      css/components/webform.css: {}
 
 # View modes
 teaser:

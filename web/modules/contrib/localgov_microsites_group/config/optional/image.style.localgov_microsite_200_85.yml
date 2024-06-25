@@ -1,0 +1,13 @@
+status: true
+dependencies: {  }
+name: localgov_microsite_200_85
+label: 'Microsite 200x85'
+effects:
+  f9240199-bd19-40c7-a5ff-9177befacd40:
+    uuid: f9240199-bd19-40c7-a5ff-9177befacd40
+    id: image_scale
+    weight: 1
+    data:
+      width: 200
+      height: 85
+      upscale: false

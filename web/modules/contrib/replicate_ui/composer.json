@@ -1,0 +1,10 @@
+{
+    "name": "drupal/replicate_ui",
+    "description": "Provides a UI for Replicate (local tasks, entity operations with a form)",
+    "type": "drupal-module",
+    "license": "GPL-2.0+",
+    "require": {
+        "drupal/core": "^9 || ^10",
+        "drupal/replicate": "^1.0"
+    }
+}

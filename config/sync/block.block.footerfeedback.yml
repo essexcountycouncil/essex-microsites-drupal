@@ -1,0 +1,33 @@
+uuid: b6793b4e-e368-4124-ba2d-1e075b25afea
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:text_block:5c9bb24b-bc9e-44b8-9e0a-50e1b1e17160'
+  module:
+    - block_content
+    - domain
+  theme:
+    - love_essex
+id: footerfeedback
+theme: love_essex
+region: pre_footer
+weight: 0
+provider: null
+plugin: 'block_content:5c9bb24b-bc9e-44b8-9e0a-50e1b1e17160'
+settings:
+  id: 'block_content:5c9bb24b-bc9e-44b8-9e0a-50e1b1e17160'
+  label: 'Footer Feedback'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      group_1: group_1

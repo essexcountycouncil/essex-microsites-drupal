@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_footer_items_alignment
+    - group.type.microsite
+  module:
+    - options
+id: group.microsite.lgms_footer_items_alignment
+field_name: lgms_footer_items_alignment
+entity_type: group
+bundle: microsite
+label: 'Footer items alignment'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

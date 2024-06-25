@@ -1,0 +1,8 @@
+administer group domain settings:
+  title: 'Administer group domain settings'
+  description: 'Create, update and delete the group domain'
+  restrict access: TRUE
+administer group domain site settings:
+  title: 'Administer group domain site settings'
+  description: 'Edit the site settings for a group domain'
+  restrict access: TRUE

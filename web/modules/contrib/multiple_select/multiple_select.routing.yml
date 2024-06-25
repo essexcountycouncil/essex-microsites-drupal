@@ -1,0 +1,7 @@
+multiple_select.admin_form:
+  path: '/admin/config/content/multiple-config'
+  defaults:
+    _form: '\Drupal\multiple_select\Form\BulkConfigForm'
+    _title: 'Multiple Select Helper'
+  requirements:
+    _permission: 'access multiple select config page'

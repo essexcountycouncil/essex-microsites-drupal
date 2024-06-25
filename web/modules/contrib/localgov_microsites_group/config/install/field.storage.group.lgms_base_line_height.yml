@@ -1,0 +1,17 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - group
+id: group.lgms_base_line_height
+field_name: lgms_base_line_height
+entity_type: group
+type: float
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

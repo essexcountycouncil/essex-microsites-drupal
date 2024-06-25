@@ -6,15 +6,15 @@ dependencies:
     - field.storage.node.localgov_directory_channels
     - field.storage.node.localgov_directory_facets_select
     - field.storage.node.localgov_directory_title_sort
-    - field.storage.localgov_geo.location
+    - field.storage.geo_entity.location
     - field.storage.node.localgov_location
     - search_api.server.localgov_directories_default
     - core.entity_view_mode.node.directory_index
   module:
-    - localgov_geo
+    - geo_entity
     - search_api_location
     - search_api
-    - domain_group
+    - localgov_microsites_group
     - node
 _core:
   default_config_hash: v5DAYsUm4Cod06JxAK_y4fYqBRkOtcUtaNRdI2mPpv8
@@ -61,10 +61,10 @@ field_settings:
     type: location
     dependencies:
       config:
-        - field.storage.localgov_geo.location
+        - field.storage.geo_entity.location
         - field.storage.node.localgov_location
       module:
-        - localgov_geo
+        - geo_entity
   rendered_item:
     label: 'Rendered HTML output'
     property_path: rendered_item

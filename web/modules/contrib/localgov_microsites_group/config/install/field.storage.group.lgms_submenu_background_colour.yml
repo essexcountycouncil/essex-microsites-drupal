@@ -1,0 +1,21 @@
+uuid: 1f7438c5-c432-4a2a-ac43-01c2d4edfa0d
+langcode: en
+status: true
+dependencies:
+  module:
+    - group
+id: group.lgms_submenu_background_colour
+field_name: lgms_submenu_background_colour
+entity_type: group
+type: string
+settings:
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

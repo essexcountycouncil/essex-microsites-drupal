@@ -9,6 +9,7 @@ dependencies:
     - taxonomy.vocabulary.waste_disposal_service_type
     - taxonomy.vocabulary.waste_item
   module:
+    - file
     - node
     - override_node_options
     - taxonomy
@@ -25,6 +26,7 @@ permissions:
   - 'create terms in waste_item'
   - 'create waste_disposal_option content'
   - 'delete any waste_disposal_option content'
+  - 'delete own files'
   - 'delete own waste_disposal_option content'
   - 'delete terms in county_district'
   - 'delete terms in environmental_rating'

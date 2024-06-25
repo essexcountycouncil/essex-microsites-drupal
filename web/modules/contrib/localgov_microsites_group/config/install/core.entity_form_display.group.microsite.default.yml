@@ -1,0 +1,1109 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.group.microsite.lgms_base_font_size
+    - field.field.group.microsite.lgms_base_line_height
+    - field.field.group.microsite.lgms_base_spacing
+    - field.field.group.microsite.lgms_body_font
+    - field.field.group.microsite.lgms_display_sitewide_search
+    - field.field.group.microsite.lgms_favicon
+    - field.field.group.microsite.lgms_footer_background_colour
+    - field.field.group.microsite.lgms_footer_banner
+    - field.field.group.microsite.lgms_footer_copyright_notice
+    - field.field.group.microsite.lgms_footer_items_alignment
+    - field.field.group.microsite.lgms_footer_link_colour
+    - field.field.group.microsite.lgms_footer_link_hover_colour
+    - field.field.group.microsite.lgms_footer_logos
+    - field.field.group.microsite.lgms_footer_text_block_1
+    - field.field.group.microsite.lgms_footer_text_block_2
+    - field.field.group.microsite.lgms_footer_text_block_3
+    - field.field.group.microsite.lgms_footer_text_block_4
+    - field.field.group.microsite.lgms_footer_text_colour
+    - field.field.group.microsite.lgms_footer_width
+    - field.field.group.microsite.lgms_header_bg_colour
+    - field.field.group.microsite.lgms_header_link_colour
+    - field.field.group.microsite.lgms_header_link_hover_colour
+    - field.field.group.microsite.lgms_header_text_colour
+    - field.field.group.microsite.lgms_header_vertical_alignment
+    - field.field.group.microsite.lgms_header_width
+    - field.field.group.microsite.lgms_heading_1_font
+    - field.field.group.microsite.lgms_heading_1_font_colour
+    - field.field.group.microsite.lgms_heading_1_font_size
+    - field.field.group.microsite.lgms_heading_1_font_weight
+    - field.field.group.microsite.lgms_heading_1_line_height
+    - field.field.group.microsite.lgms_heading_2_font
+    - field.field.group.microsite.lgms_heading_2_font_colour
+    - field.field.group.microsite.lgms_heading_2_font_size
+    - field.field.group.microsite.lgms_heading_2_font_weight
+    - field.field.group.microsite.lgms_heading_2_line_height
+    - field.field.group.microsite.lgms_heading_3_font
+    - field.field.group.microsite.lgms_heading_3_font_colour
+    - field.field.group.microsite.lgms_heading_3_font_size
+    - field.field.group.microsite.lgms_heading_3_font_weight
+    - field.field.group.microsite.lgms_heading_3_line_height
+    - field.field.group.microsite.lgms_heading_4_font
+    - field.field.group.microsite.lgms_heading_4_font_colour
+    - field.field.group.microsite.lgms_heading_4_font_size
+    - field.field.group.microsite.lgms_heading_4_font_weight
+    - field.field.group.microsite.lgms_heading_4_line_height
+    - field.field.group.microsite.lgms_heading_5_font
+    - field.field.group.microsite.lgms_heading_5_font_colour
+    - field.field.group.microsite.lgms_heading_5_font_size
+    - field.field.group.microsite.lgms_heading_5_font_weight
+    - field.field.group.microsite.lgms_heading_5_line_height
+    - field.field.group.microsite.lgms_heading_6_font
+    - field.field.group.microsite.lgms_heading_6_font_colour
+    - field.field.group.microsite.lgms_heading_6_font_size
+    - field.field.group.microsite.lgms_heading_6_font_weight
+    - field.field.group.microsite.lgms_heading_6_line_height
+    - field.field.group.microsite.lgms_heading_font
+    - field.field.group.microsite.lgms_heading_font_weight
+    - field.field.group.microsite.lgms_hide_title
+    - field.field.group.microsite.lgms_link_colour
+    - field.field.group.microsite.lgms_main_logo
+    - field.field.group.microsite.lgms_main_menu_font_size
+    - field.field.group.microsite.lgms_main_menu_font_weight
+    - field.field.group.microsite.lgms_modules_disabled
+    - field.field.group.microsite.lgms_off_canvas_bg_colour
+    - field.field.group.microsite.lgms_off_canvas_menu_icon
+    - field.field.group.microsite.lgms_off_canvas_text_colour
+    - field.field.group.microsite.lgms_page_background_colour
+    - field.field.group.microsite.lgms_powered_by
+    - field.field.group.microsite.lgms_pre_header_bg_colour
+    - field.field.group.microsite.lgms_pre_header_link_colour
+    - field.field.group.microsite.lgms_pre_header_link_hover
+    - field.field.group.microsite.lgms_pre_header_text_colour
+    - field.field.group.microsite.lgms_pre_header_width
+    - field.field.group.microsite.lgms_primary_colour
+    - field.field.group.microsite.lgms_primary_colour_contrast
+    - field.field.group.microsite.lgms_secondary_colour
+    - field.field.group.microsite.lgms_secondary_colour_contrast
+    - field.field.group.microsite.lgms_site_name
+    - field.field.group.microsite.lgms_site_name_font_size
+    - field.field.group.microsite.lgms_site_name_font_weight
+    - field.field.group.microsite.lgms_site_slogan
+    - field.field.group.microsite.lgms_submenu_background_colour
+    - field.field.group.microsite.lgms_submenu_icon
+    - field.field.group.microsite.lgms_submenu_icon_rotation
+    - field.field.group.microsite.lgms_submenu_link_colour
+    - field.field.group.microsite.lgms_teaser_image_style
+    - field.field.group.microsite.lgms_text_colour
+    - group.type.microsite
+  module:
+    - field_group
+    - file
+    - media_library
+    - path
+    - text
+third_party_settings:
+  field_group:
+    group_relationship:
+      children:
+        - group_default_items
+        - group_global_styles
+        - group_heading_overrides
+        - group_pre_header
+        - group_header_content
+        - group_footer
+        - group_advanced
+      label: Content
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: tabs
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        direction: vertical
+        width_breakpoint: 640
+    group_default_items:
+      children:
+        - label
+        - lgms_favicon
+        - path
+        - status
+      label: 'Default Items'
+      region: content
+      parent_name: group_relationship
+      weight: 13
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_pre_header:
+      children:
+        - lgms_pre_header_width
+        - lgms_pre_header_bg_colour
+        - lgms_pre_header_text_colour
+        - lgms_pre_header_link_colour
+        - lgms_pre_header_link_hover
+        - lgms_display_sitewide_search
+      label: Pre-header
+      region: content
+      parent_name: group_relationship
+      weight: 16
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: 'The Pre-header region will contain search. It can also be used to apply a secondary branding colour to the site.'
+        required_fields: true
+    group_header_content:
+      children:
+        - lgms_header_width
+        - lgms_header_bg_colour
+        - lgms_header_text_colour
+        - lgms_header_link_colour
+        - lgms_header_link_hover_colour
+        - lgms_main_logo
+        - lgms_site_name
+        - lgms_site_slogan
+        - lgms_site_name_font_size
+        - lgms_site_name_font_weight
+        - lgms_header_vertical_alignment
+        - group_menu
+      label: Header
+      region: content
+      parent_name: group_relationship
+      weight: 17
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: "Manage your microsite's branding, and site name in this section.\r\nHeader colours etc can be managed in the following section (Header Design)."
+        required_fields: true
+    group_global_styles:
+      children:
+        - group_primary_colour_pair
+        - group_secondary_colour_pair
+        - lgms_heading_font
+        - lgms_body_font
+        - lgms_text_colour
+        - lgms_page_background_colour
+        - lgms_link_colour
+        - lgms_base_font_size
+        - lgms_base_line_height
+        - lgms_base_spacing
+        - lgms_heading_font_weight
+      label: 'Global Styles'
+      region: content
+      parent_name: group_relationship
+      weight: 14
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: 'In this section you can set simple styles for your site. These will be applied generally and you will be able to override some elements in the following sections.'
+        required_fields: true
+    group_heading_overrides:
+      children:
+        - group_heading_1
+        - group_heading_2
+        - group_heading_3
+        - group_heading_4
+        - group_heading_5
+        - group_heading_6
+      label: 'Heading Overrides'
+      region: content
+      parent_name: group_relationship
+      weight: 15
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: "Override individual heading styles in this section.\r\n\r\nBest practice is to use a limited number of fonts and font-weights.\r\n\r\n[[Todo: link to best practice in typography design ]]"
+        required_fields: true
+    group_heading_1:
+      children:
+        - lgms_heading_1_font
+        - lgms_heading_1_font_size
+        - lgms_heading_1_font_weight
+        - lgms_heading_1_font_colour
+        - lgms_heading_1_line_height
+      label: 'Heading 1'
+      region: content
+      parent_name: group_heading_overrides
+      weight: 15
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_heading_2:
+      children:
+        - lgms_heading_2_font
+        - lgms_heading_2_font_size
+        - lgms_heading_2_font_weight
+        - lgms_heading_2_font_colour
+        - lgms_heading_2_line_height
+      label: 'Heading 2'
+      region: content
+      parent_name: group_heading_overrides
+      weight: 16
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_heading_3:
+      children:
+        - lgms_heading_3_font
+        - lgms_heading_3_font_size
+        - lgms_heading_3_font_weight
+        - lgms_heading_3_font_colour
+        - lgms_heading_3_line_height
+      label: 'Heading 3'
+      region: content
+      parent_name: group_heading_overrides
+      weight: 17
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_heading_4:
+      children:
+        - lgms_heading_4_font
+        - lgms_heading_4_font_size
+        - lgms_heading_4_font_weight
+        - lgms_heading_4_font_colour
+        - lgms_heading_4_line_height
+      label: 'Heading 4'
+      region: content
+      parent_name: group_heading_overrides
+      weight: 18
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_heading_5:
+      children:
+        - lgms_heading_5_font
+        - lgms_heading_5_font_size
+        - lgms_heading_5_font_weight
+        - lgms_heading_5_font_colour
+        - lgms_heading_5_line_height
+      label: 'Heading 5'
+      region: content
+      parent_name: group_heading_overrides
+      weight: 19
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_heading_6:
+      children:
+        - lgms_heading_6_font
+        - lgms_heading_6_font_size
+        - lgms_heading_6_font_weight
+        - lgms_heading_6_font_colour
+        - lgms_heading_6_line_height
+      label: 'Heading 6'
+      region: content
+      parent_name: group_heading_overrides
+      weight: 20
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_footer:
+      children:
+        - lgms_footer_background_colour
+        - lgms_footer_text_colour
+        - lgms_footer_width
+        - lgms_footer_link_colour
+        - lgms_footer_link_hover_colour
+        - lgms_footer_banner
+        - group_text_blocks
+        - lgms_footer_logos
+        - lgms_footer_copyright_notice
+        - lgms_powered_by
+      label: Footer
+      region: content
+      parent_name: group_relationship
+      weight: 18
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_text_blocks:
+      children:
+        - lgms_footer_text_block_1
+        - lgms_footer_text_block_2
+        - lgms_footer_text_block_3
+        - lgms_footer_text_block_4
+        - lgms_footer_items_alignment
+      label: 'Text blocks'
+      region: content
+      parent_name: group_footer
+      weight: 28
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        description: ''
+        required_fields: true
+    group_advanced:
+      children:
+        - lgms_teaser_image_style
+        - lgms_hide_title
+      label: Advanced
+      region: content
+      parent_name: group_relationship
+      weight: 19
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_menu:
+      children:
+        - lgms_main_menu_font_size
+        - lgms_main_menu_font_weight
+        - lgms_submenu_background_colour
+        - lgms_submenu_link_colour
+        - lgms_submenu_icon
+        - lgms_submenu_icon_rotation
+        - lgms_off_canvas_menu_icon
+        - lgms_off_canvas_bg_colour
+        - lgms_off_canvas_text_colour
+      label: Menu
+      region: content
+      parent_name: group_header_content
+      weight: 20
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_primary_colour_pair:
+      children:
+        - lgms_primary_colour
+        - lgms_primary_colour_contrast
+      label: 'Primary colour'
+      region: content
+      parent_name: group_global_styles
+      weight: -1
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        description: ''
+        required_fields: true
+    group_secondary_colour_pair:
+      children:
+        - lgms_secondary_colour
+        - lgms_secondary_colour_contrast
+      label: 'Secondary colour'
+      region: content
+      parent_name: group_global_styles
+      weight: 0
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        description: ''
+        required_fields: true
+id: group.microsite.default
+targetEntityType: group
+bundle: microsite
+mode: default
+content:
+  label:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_base_font_size:
+    type: string_textfield
+    weight: 16
+    region: content
+    settings:
+      size: 20
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_base_line_height:
+    type: number
+    weight: 17
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_base_spacing:
+    type: string_textfield
+    weight: 18
+    region: content
+    settings:
+      size: 20
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_body_font:
+    type: options_select
+    weight: 11
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  lgms_display_sitewide_search:
+    type: boolean_checkbox
+    weight: 32
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  lgms_favicon:
+    type: file_generic
+    weight: 3
+    region: content
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+  lgms_footer_background_colour:
+    type: string_textfield
+    weight: 22
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_footer_banner:
+    type: media_library_widget
+    weight: 27
+    region: content
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
+  lgms_footer_copyright_notice:
+    type: text_textarea
+    weight: 30
+    region: content
+    settings:
+      rows: 2
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_footer_items_alignment:
+    type: options_select
+    weight: 25
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  lgms_footer_link_colour:
+    type: string_textfield
+    weight: 25
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_footer_link_hover_colour:
+    type: string_textfield
+    weight: 26
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_footer_logos:
+    type: media_library_widget
+    weight: 29
+    region: content
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
+  lgms_footer_text_block_1:
+    type: text_textarea
+    weight: 21
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_footer_text_block_2:
+    type: text_textarea
+    weight: 22
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_footer_text_block_3:
+    type: text_textarea
+    weight: 23
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_footer_text_block_4:
+    type: text_textarea
+    weight: 24
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_footer_text_colour:
+    type: string_textfield
+    weight: 23
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_footer_width:
+    type: options_select
+    weight: 24
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  lgms_header_bg_colour:
+    type: string_textfield
+    weight: 4
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_header_link_colour:
+    type: string_textfield
+    weight: 6
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_header_link_hover_colour:
+    type: string_textfield
+    weight: 8
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_header_text_colour:
+    type: string_textfield
+    weight: 5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_header_vertical_alignment:
+    type: options_select
+    weight: 16
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  lgms_header_width:
+    type: options_select
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  lgms_heading_1_font:
+    type: options_select
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  lgms_heading_1_font_colour:
+    type: string_textfield
+    weight: 8
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_heading_1_font_size:
+    type: string_textfield
+    weight: 6
+    region: content
+    settings:
+      size: 20
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_heading_1_font_weight:
+    type: options_select
+    weight: 7
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  lgms_heading_1_line_height:
+    type: string_textfield
+    weight: 9
+    region: content
+    settings:
+      size: 20
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_heading_2_font:
+    type: options_select
+    weight: 16
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  lgms_heading_2_font_colour:
+    type: string_textfield
+    weight: 19
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_heading_2_font_size:
+    type: string_textfield
+    weight: 17
+    region: content
+    settings:
+      size: 20
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_heading_2_font_weight:
+    type: options_select
+    weight: 18
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  lgms_heading_2_line_height:
+    type: string_textfield
+    weight: 20
+    region: content
+    settings:
+      size: 20
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_heading_3_font:
+    type: options_select
+    weight: 8
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  lgms_heading_3_font_colour:
+    type: string_textfield
+    weight: 11
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_heading_3_font_size:
+    type: string_textfield
+    weight: 9
+    region: content
+    settings:
+      size: 20
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_heading_3_font_weight:
+    type: options_select
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  lgms_heading_3_line_height:
+    type: string_textfield
+    weight: 12
+    region: content
+    settings:
+      size: 20
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_heading_4_font:
+    type: options_select
+    weight: 9
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  lgms_heading_4_font_colour:
+    type: string_textfield
+    weight: 12
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_heading_4_font_size:
+    type: string_textfield
+    weight: 10
+    region: content
+    settings:
+      size: 20
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_heading_4_font_weight:
+    type: options_select
+    weight: 11
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  lgms_heading_4_line_height:
+    type: string_textfield
+    weight: 13
+    region: content
+    settings:
+      size: 20
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_heading_5_font:
+    type: options_select
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  lgms_heading_5_font_colour:
+    type: string_textfield
+    weight: 13
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_heading_5_font_size:
+    type: string_textfield
+    weight: 11
+    region: content
+    settings:
+      size: 20
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_heading_5_font_weight:
+    type: options_select
+    weight: 12
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  lgms_heading_5_line_height:
+    type: string_textfield
+    weight: 14
+    region: content
+    settings:
+      size: 20
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_heading_6_font:
+    type: options_select
+    weight: 11
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  lgms_heading_6_font_colour:
+    type: string_textfield
+    weight: 14
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_heading_6_font_size:
+    type: string_textfield
+    weight: 12
+    region: content
+    settings:
+      size: 20
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_heading_6_font_weight:
+    type: options_select
+    weight: 13
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  lgms_heading_6_line_height:
+    type: string_textfield
+    weight: 15
+    region: content
+    settings:
+      size: 20
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_heading_font:
+    type: options_select
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  lgms_heading_font_weight:
+    type: options_select
+    weight: 19
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  lgms_hide_title:
+    type: boolean_checkbox
+    weight: 2
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  lgms_link_colour:
+    type: string_textfield
+    weight: 15
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_main_logo:
+    type: media_library_widget
+    weight: 9
+    region: content
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
+  lgms_main_menu_font_size:
+    type: string_textfield
+    weight: 14
+    region: content
+    settings:
+      size: 20
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_main_menu_font_weight:
+    type: options_select
+    weight: 15
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  lgms_off_canvas_bg_colour:
+    type: string_textfield
+    weight: 21
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_off_canvas_menu_icon:
+    type: options_select
+    weight: 20
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  lgms_off_canvas_text_colour:
+    type: string_textfield
+    weight: 22
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_page_background_colour:
+    type: string_textfield
+    weight: 14
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_powered_by:
+    type: boolean_checkbox
+    weight: 31
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  lgms_pre_header_bg_colour:
+    type: string_textfield
+    weight: 11
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_pre_header_link_colour:
+    type: string_textfield
+    weight: 13
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_pre_header_link_hover:
+    type: string_textfield
+    weight: 14
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_pre_header_text_colour:
+    type: string_textfield
+    weight: 12
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_pre_header_width:
+    type: options_select
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  lgms_primary_colour:
+    type: string_textfield
+    weight: 6
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_primary_colour_contrast:
+    type: string_textfield
+    weight: 7
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_secondary_colour:
+    type: string_textfield
+    weight: 8
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_secondary_colour_contrast:
+    type: string_textfield
+    weight: 9
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_site_name:
+    type: boolean_checkbox
+    weight: 10
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  lgms_site_name_font_size:
+    type: string_textfield
+    weight: 12
+    region: content
+    settings:
+      size: 20
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_site_name_font_weight:
+    type: options_select
+    weight: 13
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  lgms_site_slogan:
+    type: boolean_checkbox
+    weight: 11
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  lgms_submenu_background_colour:
+    type: string_textfield
+    weight: 16
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_submenu_icon:
+    type: options_select
+    weight: 18
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  lgms_submenu_icon_rotation:
+    type: options_select
+    weight: 19
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  lgms_submenu_link_colour:
+    type: string_textfield
+    weight: 17
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  lgms_teaser_image_style:
+    type: options_select
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  lgms_text_colour:
+    type: string_textfield
+    weight: 12
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 4
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 5
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+hidden:
+  lgms_modules_disabled: true
+  uid: true

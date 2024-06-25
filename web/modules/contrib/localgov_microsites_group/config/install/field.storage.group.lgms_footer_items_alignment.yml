@@ -1,0 +1,35 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - group
+    - options
+id: group.lgms_footer_items_alignment
+field_name: lgms_footer_items_alignment
+entity_type: group
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: center
+      label: Center
+    -
+      value: start
+      label: Start
+    -
+      value: end
+      label: End
+    -
+      value: space-between
+      label: 'Space between'
+    -
+      value: space-around
+      label: 'Space around'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

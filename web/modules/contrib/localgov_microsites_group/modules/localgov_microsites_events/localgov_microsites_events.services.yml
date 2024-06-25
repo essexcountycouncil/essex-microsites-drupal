@@ -1,0 +1,6 @@
+services:
+  localgov_microsites_events.request_subscriber:
+    class: Drupal\localgov_microsites_events\EventSubscriber\EventsListingCheckEventSubscriber
+    arguments: ['@entity.repository', '@domain.negotiator', '@localgov_microsites_group.content_type_helper']
+    tags:
+      - { name: event_subscriber }

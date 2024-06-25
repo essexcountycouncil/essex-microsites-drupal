@@ -1,0 +1,5 @@
+name: Menu Link Reference
+type: module
+description: Dummy module to fix an issue with the removal of this module from the Group Content Menu module. See https://www.drupal.org/project/group_content_menu/issues/3333968.
+package: LocalGov Drupal
+core_version_requirement: ^9 || ^10

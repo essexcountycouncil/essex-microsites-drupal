@@ -1,0 +1,26 @@
+{
+  "name": "drupal/group_sites",
+  "type": "drupal-module",
+  "description": "This module allows you to create microsites based on groups",
+  "homepage": "http://drupal.org/project/group_sites",
+  "authors": [
+    {
+      "name": "Kristiaan Van den Eynde",
+      "homepage": "https://www.drupal.org/u/kristiaanvandeneynde",
+      "role": "Maintainer"
+    }
+  ],
+  "support": {
+    "issues": "https://drupal.org/project/issues/group_sites",
+    "source": "https://git.drupalcode.org/project/group_sites"
+  },
+  "license": "GPL-2.0-or-later",
+  "minimum-stability": "dev",
+  "require": {
+    "drupal/core": "^9.5 || ^10",
+    "drupal/group": "^2 || ^3"
+  },
+  "require-dev": {
+    "jangregor/phpstan-prophecy": "^1.0"
+  }
+}

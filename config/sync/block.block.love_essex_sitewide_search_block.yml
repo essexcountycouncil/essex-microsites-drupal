@@ -11,7 +11,7 @@ _core:
 id: love_essex_sitewide_search_block
 theme: love_essex
 region: search
-weight: 0
+weight: -12
 provider: null
 plugin: localgov_sitewide_search_block
 settings:

@@ -1,0 +1,32 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.group_relationship.microsite-group_invitation.group_roles
+    - field.field.group_relationship.microsite-group_invitation.invitation_status
+    - field.field.group_relationship.microsite-group_invitation.invitee_mail
+    - group.relationship_type.microsite-group_invitation
+id: group_relationship.microsite-group_invitation.default
+targetEntityType: group_relationship
+bundle: microsite-group_invitation
+mode: default
+content:
+  group_roles:
+    type: options_buttons
+    weight: 31
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  invitee_mail:
+    type: email_default
+    weight: -1
+    region: content
+    settings:
+      placeholder: example@example.com
+      size: 60
+    third_party_settings: {  }
+hidden:
+  entity_id: true
+  invitation_status: true
+  path: true
+  uid: true

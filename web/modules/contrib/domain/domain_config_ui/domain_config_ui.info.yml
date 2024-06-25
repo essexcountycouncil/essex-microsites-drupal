@@ -1,0 +1,13 @@
+name: Domain Configuration UI
+description: 'Allows saving of domain specific configuration through the administrative interface.'
+type: module
+package: Domain
+core_version_requirement: ^9 || ^10
+configure: domain_config_ui.settings
+dependencies:
+  - domain:domain_config
+
+# Information added by Drupal.org packaging script on 2023-06-06
+version: '2.0.0-beta1'
+project: 'domain'
+datestamp: 1686067465

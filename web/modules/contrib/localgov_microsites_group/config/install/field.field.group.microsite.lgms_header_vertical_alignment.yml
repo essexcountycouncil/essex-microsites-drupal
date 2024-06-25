@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_header_vertical_alignment
+    - group.type.microsite
+  module:
+    - options
+id: group.microsite.lgms_header_vertical_alignment
+field_name: lgms_header_vertical_alignment
+entity_type: group
+bundle: microsite
+label: 'Alignment of header items'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

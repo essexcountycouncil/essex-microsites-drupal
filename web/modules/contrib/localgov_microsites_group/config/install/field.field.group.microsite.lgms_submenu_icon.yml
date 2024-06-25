@@ -1,0 +1,21 @@
+uuid: db5794c7-e713-49e8-8bfd-e343af2f619a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_submenu_icon
+    - group.type.microsite
+  module:
+    - options
+id: group.microsite.lgms_submenu_icon
+field_name: lgms_submenu_icon
+entity_type: group
+bundle: microsite
+label: 'Submenu icon'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

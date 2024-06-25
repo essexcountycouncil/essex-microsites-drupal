@@ -18,7 +18,7 @@ class RedirectSubscriber implements EventSubscriberInterface {
 
   protected $membershipLoader;
 
-  public function __construct(GroupMembershipLoaderInterface $membership_loader) {
+  public function __construct($membership_loader) {
     $this->membershipLoader = $membership_loader;
   }
 

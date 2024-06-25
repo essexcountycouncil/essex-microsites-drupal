@@ -1,0 +1,14 @@
+# Schema for the configuration files of the group_sites module.
+group_sites.settings:
+  type: 'config_object'
+  label: 'Group Sites settings'
+  mapping:
+    context_provider:
+      type: 'string'
+      label: 'Context provider'
+    no_site_access_policy:
+      type: 'string'
+      label: 'Access policy when there is no site detected'
+    site_access_policy:
+      type: 'string'
+      label: 'Access policy when there is a site detected'

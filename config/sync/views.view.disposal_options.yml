@@ -10,6 +10,8 @@ dependencies:
     - node.type.waste_disposal_option
     - taxonomy.vocabulary.waste_item
     - views.view.waste_item
+  content:
+    - 'node:localgov_page:240fb948-4f3d-414f-bfb3-41d64c5babfd'
   module:
     - ecc_waste
     - geofield
@@ -336,7 +338,20 @@ display:
             'group_node:webform': '0'
       use_ajax: false
       header: {  }
-      footer: {  }
+      footer:
+        entity_node:
+          id: entity_node
+          table: views
+          field: entity_node
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: entity
+          empty: true
+          target: 240fb948-4f3d-414f-bfb3-41d64c5babfd
+          view_mode: full
+          tokenize: false
+          bypass_access: false
       display_extenders: {  }
     cache_metadata:
       max-age: -1
@@ -344,7 +359,6 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - user
         - 'user.node_grants:view'
         - user.permissions
       tags:
@@ -846,6 +860,7 @@ display:
         filters: false
         filter_groups: false
         header: false
+        footer: true
       relationships:
         group_relationship_1:
           id: group_relationship_1

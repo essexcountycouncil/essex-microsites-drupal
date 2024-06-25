@@ -4,14 +4,20 @@ status: true
 dependencies:
   config:
     - field.field.node.localgov_page.field_body
+    - field.field.node.localgov_page.field_directory_channel_logo
     - field.field.node.localgov_page.field_page_colour_swatch
+    - field.field.node.localgov_page.localgov_blog_date
+    - field.field.node.localgov_page.localgov_directory_address
     - field.field.node.localgov_page.localgov_hide_summary
     - field.field.node.localgov_page.localgov_page_banner
     - field.field.node.localgov_page.localgov_page_summary
     - field.field.node.localgov_page.localgov_paragraph_content
+    - field.field.node.localgov_page.localgov_proximity_search_cfg
     - node.type.localgov_page
   module:
+    - address
     - layout_paragraphs
+    - media_library
     - paragraphs
     - path
     - scheduler
@@ -37,15 +43,29 @@ content:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
+  field_directory_channel_logo:
+    type: media_library_widget
+    weight: 2
+    region: content
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
   field_page_colour_swatch:
     type: options_select
     weight: 6
     region: content
     settings: {  }
     third_party_settings: {  }
+  localgov_directory_address:
+    type: address_default
+    weight: 16
+    region: content
+    settings:
+      wrapper_type: details
+    third_party_settings: {  }
   localgov_hide_summary:
     type: boolean_checkbox
-    weight: 3
+    weight: 4
     region: content
     settings:
       display_label: true
@@ -71,7 +91,7 @@ content:
     third_party_settings: {  }
   localgov_page_summary:
     type: string_textarea
-    weight: 2
+    weight: 3
     region: content
     settings:
       rows: 5
@@ -82,14 +102,23 @@ content:
     weight: 7
     region: content
     settings:
+      view_mode: default
       preview_view_mode: preview
+      form_display_mode: default
       nesting_depth: 0
       require_layouts: 1
       empty_message: ''
     third_party_settings: {  }
+  localgov_proximity_search_cfg:
+    type: boolean_checkbox
+    weight: 13
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
   path:
     type: path
-    weight: 13
+    weight: 14
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -102,12 +131,12 @@ content:
     third_party_settings: {  }
   publish_on:
     type: datetime_timestamp_no_default
-    weight: 16
+    weight: 18
     region: content
     settings: {  }
     third_party_settings: {  }
   scheduler_settings:
-    weight: 15
+    weight: 17
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -145,13 +174,14 @@ content:
     third_party_settings: {  }
   unpublish_on:
     type: datetime_timestamp_no_default
-    weight: 17
+    weight: 19
     region: content
     settings: {  }
     third_party_settings: {  }
   url_redirects:
-    weight: 14
+    weight: 15
     region: content
     settings: {  }
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  localgov_blog_date: true

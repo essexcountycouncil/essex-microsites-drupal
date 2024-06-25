@@ -1,0 +1,6 @@
+domain group settings:
+  title: 'Domain group settings'
+  description: 'Configure gruop domain'
+bypass domain group permissions:
+  title: 'Bypass per group settings permissions'
+  description: 'Allow to administer all groups domain group settings.'

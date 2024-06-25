@@ -1,0 +1,13 @@
+langcode: en
+status: true
+dependencies: {  }
+id: geo_entity_osm
+label: 'OpenStreetMap Nominatim (default demo configuration)'
+plugin: openstreetmap
+configuration:
+  throttle:
+    period: 2
+    limit: 1
+  rootUrl: 'https://nominatim.openstreetmap.org'
+  userAgent: DrupalGeoDefaultConfig
+  referer: 'https://drupal.org/'

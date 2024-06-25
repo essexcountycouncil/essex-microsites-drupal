@@ -1,0 +1,5 @@
+services:
+  group_webform.route_subscriber:
+    class: 'Drupal\group_webform\Routing\RouteSubscriber'
+    tags:
+      - { name: 'event_subscriber' }

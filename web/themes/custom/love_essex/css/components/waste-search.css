@@ -1,3 +1,4 @@
+.block-views-exposed-filter-blockdisposal-options-page-disposal-search form .form-submit,
 .paragraph--type--waste-search .views-exposed-form form .form-submit {
   border: 2px solid var(--color-accent-light);
   background-image: url('../../assets/images/icons/magnifying-glass-white.svg');
@@ -6,8 +7,15 @@
   background-position: right center;
   padding-right: 4em;
 }
+.block-views-exposed-filter-blockdisposal-options-page-disposal-search form .form-submit:hover,
 .paragraph--type--waste-search .views-exposed-form form .form-submit:hover {
   background-image: url('../../assets/images/icons/magnifying-glass-black.svg');
+}
+.block-views-exposed-filter-blockdisposal-options-page-disposal-search input[data-drupal-selector="edit-reset"],
+.block-views-exposed-filter-blockdisposal-options-page-disposal-search input[data-drupal-selector="edit-reset"]:hover
+ {
+  background-image: none;
+  padding-right: 1em;
 }
 
 .paragraph--type--waste-search .views-exposed-form form {
@@ -24,10 +32,93 @@
     display: flex;
     justify-content: center;
   }
+  .block-views-exposed-filter-blockdisposal-options-page-disposal-search form .form-item,
   .paragraph--type--waste-search .views-exposed-form form .form-item {
     max-width: 30%;
-  }
-  .paragraph--type--waste-search .views-exposed-form form .form-item {
     margin-bottom: 0;
+  }
+  .block-views-exposed-filter-blockdisposal-options-page-disposal-search form {
+    display: flex;
+    justify-content: start;
+    gap: 2%;
+    align-items: end;
+    .form-item:first-child {
+      flex: 4;
+      width: 50%;
+    }
+    .form-item-postcode {
+      flex: 1;
+      width: 20%;
+    }
+    .form-item-postcode .description {
+      display: none;
+    }
+    .form-actions {
+      flex: 1;
+    }
+  }
+}
+
+
+.region-content:not(.paragraph--type--waste-search) .block-views-exposed-filter-blockdisposal-options-page-disposal-search {
+  padding-bottom: 4em;
+  border-bottom: 1px solid black;
+  margin-bottom: 2em;
+  position: relative;
+  &::after {
+    content: ' ';
+    display: block;
+    height: 160px;
+    width: 240px;
+    position: absolute;
+    right: 0px;
+    bottom: -70px;
+    background-image: url('../../assets/images/geezer-with-car.svg');
+    background-size: contain;
+  }
+}
+
+.view-disposal-options > .view-header {
+  margin-bottom: 4em;
+}
+
+.view-id-waste_item .field--name-name {
+  display: inline;
+}
+
+.view-disposal-options .view-header .view-waste-item .view-content .views-row {
+  background: none;
+}
+
+article.lgd-teaser--waste-disposal-option.node {
+  background-color: var(--color-white);
+  padding: 1em;
+  border-bottom: none;
+}
+
+.view-disposal-options .view-content .views-row {
+  flex: 1 0 0;
+  justify-content: stretch;
+  background-color: var(--color-white);
+  .lgd-teaser--waste-disposal-option {
+    h3 {
+      font-size: var(--font-size-h4);
+      color: var(--color-accent-light);
+      a {
+        color: var(--color-accent);
+      }
+    }
+  }
+}
+
+.view-disposal-options .view-content h3 {
+  margin-top: var(--spacing-small);
+  margin-bottom: var(--spacing-smallest);
+}
+
+.view-disposal-options .view-footer {
+  .full__title {
+    text-align: center;
+    margin-top: 2em;
   }
 }

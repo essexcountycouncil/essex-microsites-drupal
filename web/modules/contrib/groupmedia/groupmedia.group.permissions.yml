@@ -1,0 +1,3 @@
+access group_media overview:
+  title: 'Access group media overview'
+  description: 'Access the overview of all group media, regardless of media bundle'

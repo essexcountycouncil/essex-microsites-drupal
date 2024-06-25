@@ -1,0 +1,10 @@
+uuid: b9608f21-7ce8-4719-9dc7-30de58d4aa6f
+langcode: en
+status: true
+dependencies: {  }
+id: le_quote
+label: 'LE Quote'
+icon_uuid: null
+icon_default: null
+description: 'A quote-style paragraph component for Love Essex.'
+behavior_plugins: {  }

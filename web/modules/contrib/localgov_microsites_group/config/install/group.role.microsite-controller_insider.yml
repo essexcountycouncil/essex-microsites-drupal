@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.microsite
+    - user.role.microsites_controller
+id: microsite-controller_insider
+label: 'Controller (insider)'
+weight: -98
+admin: true
+scope: insider
+global_role: microsites_controller
+group_type: microsite
+permissions: {  }

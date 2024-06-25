@@ -1,0 +1,74 @@
+<?php
+
+/**
+ * @file
+ * Hook implementations for the group_sites module.
+ */
+
+use Drupal\Component\Utility\UrlHelper;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_toolbar().
+ */
+function group_sites_toolbar() {
+  if (!\Drupal::currentUser()->hasPermission('use group_sites admin mode')) {
+    return [
+      '#cache' => [
+        'contexts' => [
+          'user.permissions',
+        ],
+      ],
+    ];
+  }
+
+  if (_group_sites_admin_mode()->isActive()) {
+    $route = 'group_sites.admin_mode.deactivate';
+    $label = t('Group Sites: Admin mode <span style="color: darkgreen">ON</span>');
+    $title = t('Turn admin mode OFF');
+  }
+  else {
+    $route = 'group_sites.admin_mode.activate';
+    $label = t('Group Sites: Admin mode <span style="color: darkred">OFF</span>');
+    $title = t('Turn admin mode ON');
+  }
+
+  // Always redirect to the current page, keeping the original query arguments,
+  // including the destination so that it can still be followed afterwards.
+  $destination_options = ['query' => UrlHelper::filterQueryParameters(\Drupal::request()->query->all())];
+  $url_options = ['query' => ['destination' => Url::fromRoute('<current>', [], $destination_options)->toString()]];
+
+  $items['group_sites'] = [
+    '#type' => 'toolbar_item',
+    '#cache' => [
+      'contexts' => [
+        'url.query_args',
+        'user.permissions',
+        'user.in_group_sites_admin_mode',
+        'route',
+      ],
+    ],
+    'tab' => [
+      '#type' => 'link',
+      '#title' => $label,
+      '#url' => Url::fromRoute($route, [], $url_options),
+      '#options' => ['attributes' => ['title' => $title]],
+    ],
+    '#weight' => 999,
+  ];
+
+  return $items;
+}
+
+/**
+ * Gets admin mode service.
+ *
+ * @return \Drupal\group_sites\GroupSitesAdminModeInterface
+ *   The admin mode service.
+ *
+ * @internal
+ *   Try to properly inject the service when possible.
+ */
+function _group_sites_admin_mode() {
+  return \Drupal::service('group_sites.admin_mode');
+}

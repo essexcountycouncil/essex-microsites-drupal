@@ -1,0 +1,12 @@
+# Control site indicator.
+control_site_toolbar_override:
+  version: VERSION
+  css:
+    theme:
+      css/control-site-toolbar.css: {}
+
+toolbar_icons:
+  version: VERSION
+  css:
+    theme:
+      css/toolbar-icons.css: {}

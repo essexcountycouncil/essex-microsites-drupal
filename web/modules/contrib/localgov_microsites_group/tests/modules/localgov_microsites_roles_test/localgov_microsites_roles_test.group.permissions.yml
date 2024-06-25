@@ -1,0 +1,11 @@
+administer microsite roles test:
+  title: Administer microsite roles test
+  restrict access: true
+create microsite roles test:
+  title: Create microsite roles test
+delete microsite roles test:
+  title: Delete microsite roles test
+edit microsite roles test:
+  title: Edit microsites roles test
+view microsite roles test:
+  title: View microsites roles test

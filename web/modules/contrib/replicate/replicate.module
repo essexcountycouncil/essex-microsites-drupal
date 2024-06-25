@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * @file
+ * Main methods of Replicate module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function replicate_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.replicate':
+      // Return a line-break version of the module README.txt.
+      return check_markup(file_get_contents(__DIR__ . "/README.txt"));
+  }
+}

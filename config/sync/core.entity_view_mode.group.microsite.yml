@@ -8,5 +8,6 @@ _core:
   default_config_hash: lVof_pPuCTFQoqxmaVdMlegOGNDunTV7Wy7Wtcom43U
 id: group.microsite
 label: Microsite
+description: ''
 targetEntityType: group
 cache: true

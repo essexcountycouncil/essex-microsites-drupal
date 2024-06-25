@@ -1,14 +1,13 @@
 name: LocalGov Drupal Microsites
 type: profile
 description: 'Install LocalGov Drupal Microsites.'
-core_version_requirement: ^9
+core_version_requirement: ^9 || ^10
 
 install:
   # Core
   - drupal:breakpoint
   - drupal:block
   - drupal:block_content
-  - drupal:ckeditor
   - drupal:config
   - drupal:contextual
   - drupal:crop
@@ -27,7 +26,6 @@ install:
   - drupal:options
   - drupal:page_cache
   - drupal:path
-  - drupal:quickedit
   - drupal:taxonomy
   - drupal:toolbar
   - drupal:views
@@ -41,10 +39,8 @@ install:
   - default_content:default_content
   - domain:domain
   - domain:domain_config
-  - domain_group:domain_group
   - domain_path:domain_path
   - group:group
-  - group_permissions:group_permissions
   - metatag:metatag
   - metatag:metatag_open_graph
   - metatag:metatag_twitter_cards
@@ -60,7 +56,6 @@ install:
   - localgov_microsites_group:localgov_microsites_events
   - localgov_microsites_group:localgov_microsites_group
   - localgov_microsites_group:localgov_microsites_news
-  - localgov_microsites_group:localgov_microsites_permissions
   - localgov_microsites_group:localgov_microsites_group_webform
   - localgov_paragraphs:localgov_paragraphs_views
   - localgov_sa11y:localgov_sa11y

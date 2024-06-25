@@ -1,0 +1,22 @@
+uuid: 77690673-ebb4-4d9c-8ee2-cb9e090719a3
+langcode: en
+status: true
+dependencies:
+  module:
+    - localgov_alert_banner
+  theme:
+    - love_essex
+id: love_essex_alertbanner
+theme: love_essex
+region: header
+weight: -12
+provider: null
+plugin: localgov_alert_banner_block
+settings:
+  id: localgov_alert_banner_block
+  label: 'Alert banner'
+  label_display: '0'
+  provider: localgov_alert_banner
+  include_types:
+    localgov_alert_banner: '0'
+visibility: {  }

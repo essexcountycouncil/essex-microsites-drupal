@@ -1,0 +1,8 @@
+domain_path.admin:
+  title: Domain Path List
+  route_name: entity.domain_path.collection
+  base_route: entity.domain_path.collection
+domain_path.settings_tab:
+  title: Domain Path Settings
+  route_name: entity.domain_path_settings
+  base_route: entity.domain_path.collection

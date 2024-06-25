@@ -48,6 +48,8 @@ body {
   --line-height-small: 1.4;
   --font-size: 1.1875rem;
   --border-radius: 24px;
+  --color-text-link: #03592B;
+  --alert-banner-bg-color-announcement: #004F44;
 
   /* Applying Variables */
   --page-background-color: var(--color-accent-lightest);

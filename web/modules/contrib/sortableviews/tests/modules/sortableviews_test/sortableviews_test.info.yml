@@ -1,0 +1,14 @@
+name: 'Sortableviews Test'
+type: module
+description: 'Supports Sortableviews functional tests'
+package: Testing
+core_version_requirement: ^8.8 || ^9 || ^10
+dependencies:
+  - drupal:node
+  - drupal:sortableviews
+  - drupal:user
+
+# Information added by Drupal.org packaging script on 2023-04-28
+version: '8.x-1.1'
+project: 'sortableviews'
+datestamp: 1682673202

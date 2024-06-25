@@ -1,0 +1,9 @@
+# Plugin helper for drupal-check.
+parameters:
+  entityMapping:
+    domain:
+      class: Drupal\domain\Entity\Domain
+      storage: Drupal\domain\DomainStorage
+    domain_alias:
+      class: Drupal\domain_alias\Entity\DomainAlias
+      storage: Drupal\domain_alias\DomainAliasStorage

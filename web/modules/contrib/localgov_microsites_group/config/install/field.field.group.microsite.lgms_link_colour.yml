@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.lgms_link_colour
+    - group.type.microsite
+id: group.microsite.lgms_link_colour
+field_name: lgms_link_colour
+entity_type: group
+bundle: microsite
+label: 'Link colour'
+description: 'Choose a colour to indicate links, which contrasts with the page background colour.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

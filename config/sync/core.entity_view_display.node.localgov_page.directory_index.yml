@@ -1,0 +1,48 @@
+uuid: b0fd89ac-4a14-4b54-86bd-2c826a7a41c5
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.directory_index
+    - field.field.node.localgov_page.field_body
+    - field.field.node.localgov_page.field_directory_channel_logo
+    - field.field.node.localgov_page.field_page_colour_swatch
+    - field.field.node.localgov_page.localgov_blog_date
+    - field.field.node.localgov_page.localgov_directory_address
+    - field.field.node.localgov_page.localgov_hide_summary
+    - field.field.node.localgov_page.localgov_page_banner
+    - field.field.node.localgov_page.localgov_page_summary
+    - field.field.node.localgov_page.localgov_paragraph_content
+    - field.field.node.localgov_page.localgov_proximity_search_cfg
+    - node.type.localgov_page
+  module:
+    - address
+    - user
+id: node.localgov_page.directory_index
+targetEntityType: node
+bundle: localgov_page
+mode: directory_index
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+  localgov_directory_address:
+    type: address_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 6
+    region: content
+hidden:
+  field_body: true
+  field_directory_channel_logo: true
+  field_page_colour_swatch: true
+  localgov_blog_date: true
+  localgov_hide_summary: true
+  localgov_page_banner: true
+  localgov_page_summary: true
+  localgov_paragraph_content: true
+  localgov_proximity_search_cfg: true
+  search_api_excerpt: true

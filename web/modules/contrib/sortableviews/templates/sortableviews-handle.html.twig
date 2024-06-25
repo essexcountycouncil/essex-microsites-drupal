@@ -1,0 +1,14 @@
+{#
+/**
+ * @file
+ * Default twig file for sortableviews_handle.
+ *
+ * Available variables:
+ * - classes: The classes the handle is to have.
+ * - content: Any content that should be printed as well.
+ * - dataid: The id of the entity to move.
+ *
+ * @ingroup themeable
+ */
+#}
+<a {{ attributes }} href="#" title="{{ 'Drag to re-order'|t }}" data-id="{{ dataid }}"><div class="handle">{{ content }}</div></a>

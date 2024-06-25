@@ -1,0 +1,13 @@
+services:
+  replicate.replicator:
+    class: \Drupal\replicate\Replicator
+    arguments: ['@entity_type.manager', '@event_dispatcher']
+  replicate.event_subscriber.path_item:
+    class: \Drupal\replicate\EventSubscriber\ReplicatePathFieldSubscriber
+    tags:
+      - { name: event_subscriber }
+  replicate.event_subscriber.layout_builder:
+    class: \Drupal\replicate\EventSubscriber\ReplicateLayoutBuilderSubscriber
+    arguments: ['@entity_type.manager', '@uuid', '@replicate.replicator' ]
+    tags:
+      - { name: event_subscriber }

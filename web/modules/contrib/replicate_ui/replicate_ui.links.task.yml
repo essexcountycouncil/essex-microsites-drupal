@@ -1,0 +1,3 @@
+replicate_ui.local_tasks:
+  deriver: 'Drupal\replicate_ui\Plugin\Derivative\ReplicateUILocalTasks'
+  weight: 100

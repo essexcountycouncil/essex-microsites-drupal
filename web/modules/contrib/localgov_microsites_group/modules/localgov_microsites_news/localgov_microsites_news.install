@@ -1,0 +1,205 @@
+<?php
+
+/**
+ * @file
+ * LocalGov Microsites News module file.
+ */
+
+use Drupal\search_api\Entity\Index;
+
+/**
+ * Implements hook_install().
+ */
+function localgov_microsites_news_install($is_syncing) {
+
+  if ($is_syncing) {
+    return;
+  }
+
+  // Get display settings for news articles.
+  /** @var \Drupal\Core\Entity\Display\EntityFormDisplayInterface $form_display */
+  $form_display = \Drupal::entityTypeManager()
+    ->getStorage('entity_form_display')
+    ->load('node.localgov_news_article.default');
+  /** @var \Drupal\Core\Entity\Display\EntityViewDisplayInterface $view_display */
+  $view_display = \Drupal::entityTypeManager()
+    ->getStorage('entity_view_display')
+    ->load('node.localgov_news_article.default');
+
+  // Set form display options for paragraph content.
+  if (!$form_display->getComponent('localgov_paragraph_content')) {
+    $form_display->setComponent('localgov_paragraph_content', [
+      'type' => 'layout_paragraphs',
+      'region' => 'content',
+      'settings' => [
+        'preview_view_mode' => 'default',
+        'nesting_depth' => 0,
+        'require_layouts' => 1,
+      ],
+      'weight' => 4,
+    ]);
+    $group_story = $form_display->getThirdPartySetting('field_group', 'group_story');
+    $group_story['children'][] = 'localgov_paragraph_content';
+    $form_display->setThirdPartySetting('field_group', 'group_story', $group_story);
+    $form_display->save();
+  }
+
+  // Set form display options for banner.
+  if (!$form_display->getComponent('lgms_banner')) {
+    $form_display->setComponent('lgms_banner', [
+      'type' => 'entity_reference_paragraphs',
+      'region' => 'content',
+      'settings' => [
+        'edit_mode' => 'closed',
+        'add_mode' => 'button',
+      ],
+      'weight' => 3,
+    ]);
+    $group_story = $form_display->getThirdPartySetting('field_group', 'group_story');
+    $group_story['children'][] = 'lgms_banner';
+    $form_display->setThirdPartySetting('field_group', 'group_story', $group_story);
+    $form_display->save();
+  }
+
+  // Set view display options for paragraph content.
+  if (!$view_display->getComponent('localgov_paragraph_content')) {
+    $view_display->setComponent('localgov_paragraph_content', [
+      'type' => 'layout_paragraphs',
+      'label' => 'hidden',
+      'region' => 'content',
+      'settings' => [
+        'view_mode' => 'default',
+        'link' => '',
+      ],
+      'weight' => 4,
+    ])->save();
+  }
+
+  // Set view display options for banner.
+  if (!$view_display->getComponent('lgms_banner')) {
+    $view_display->setComponent('lgms_banner', [
+      'type' => 'entity_reference_entity_view',
+      'label' => 'hidden',
+      'region' => 'content',
+      'settings' => [
+        'view_mode' => 'responsive_banner',
+        'link' => 'FALSE',
+      ],
+      'weight' => 0,
+    ])->save();
+  }
+
+  // Create field_group for banner section.
+  $group_view_banner = new stdClass();
+  $group_view_banner->group_name = 'group_banner';
+  $group_view_banner->context = 'view';
+  $group_view_banner->entity_type = 'node';
+  $group_view_banner->bundle = 'localgov_news_article';
+  $group_view_banner->mode = 'default';
+  $group_view_banner->label = 'Banner';
+  $group_view_banner->region = 'content';
+  $group_view_banner->parent_name = '';
+  $group_view_banner->weight = '0';
+  $group_view_banner->children = [
+    'lgms_banner',
+  ];
+  $group_view_banner->format_type = 'html_element';
+  $group_view_banner->format_settings = [
+    'classes' => 'full__banner',
+    'show_empty_fields' => FALSE,
+    'id' => '',
+    'element' => 'div',
+    'show_label' => FALSE,
+    'label_element' => 'h3',
+    'label_element_classes' => '',
+    'attributes' => '',
+    'effect' => 'none',
+    'speed' => 'fast',
+  ];
+  field_group_group_save($group_view_banner);
+
+  // Create field_group for page_top section.
+  $group_view_page_top = new stdClass();
+  $group_view_page_top->group_name = 'group_page_top';
+  $group_view_page_top->context = 'view';
+  $group_view_page_top->entity_type = 'node';
+  $group_view_page_top->bundle = 'localgov_news_article';
+  $group_view_page_top->mode = 'default';
+  $group_view_page_top->label = 'Page Top';
+  $group_view_page_top->region = 'content';
+  $group_view_page_top->parent_name = '';
+  $group_view_page_top->weight = '0';
+  $group_view_page_top->children = [
+    'localgov_news_categories',
+    'localgov_news_date',
+  ];
+  $group_view_page_top->format_type = 'html_element';
+  $group_view_page_top->format_settings = [
+    'classes' => 'full__page-top',
+    'show_empty_fields' => FALSE,
+    'id' => '',
+    'element' => 'div',
+    'show_label' => FALSE,
+    'label_element' => 'h3',
+    'label_element_classes' => '',
+    'attributes' => '',
+    'effect' => 'none',
+    'speed' => 'fast',
+  ];
+  field_group_group_save($group_view_page_top);
+
+  // Create field_group for page_top section.
+  $group_view_page_bottom = new stdClass();
+  $group_view_page_bottom->group_name = 'group_page_bottom';
+  $group_view_page_bottom->context = 'view';
+  $group_view_page_bottom->entity_type = 'node';
+  $group_view_page_bottom->bundle = 'localgov_news_article';
+  $group_view_page_bottom->mode = 'default';
+  $group_view_page_bottom->label = 'Page bottom';
+  $group_view_page_bottom->region = 'content';
+  $group_view_page_bottom->parent_name = '';
+  $group_view_page_bottom->weight = '0';
+  $group_view_page_bottom->children = [
+    'localgov_news_related',
+  ];
+  $group_view_page_bottom->format_type = 'html_element';
+  $group_view_page_bottom->format_settings = [
+    'classes' => 'full__page-bottom',
+    'show_empty_fields' => FALSE,
+    'id' => '',
+    'element' => 'div',
+    'show_label' => FALSE,
+    'label_element' => 'h3',
+    'label_element_classes' => '',
+    'attributes' => '',
+    'effect' => 'none',
+    'speed' => 'fast',
+  ];
+  field_group_group_save($group_view_page_bottom);
+
+  // Use the group term reference plugin for the localgov_news_categories field.
+  /** @var \Drupal\field\Entity\FieldConfig $field */
+  $field = Drupal::entityTypeManager()
+    ->getStorage('field_config')
+    ->load('node.localgov_news_article.localgov_news_categories');
+  $field->setSetting('handler', 'group:taxonomy_term');
+  $field->save();
+
+  // Add domain access to exclude other sites results.
+  $index = Index::load('localgov_news');
+  $processor = \Drupal::getContainer()
+    ->get('search_api.plugin_helper')
+    ->createProcessorPlugin($index, 'domain_group_entity_access');
+  $index->addProcessor($processor);
+  $index->save();
+
+  // Update the localgov_embed_views to allow the lgms_embed_view_news view.
+  /** @var \Drupal\field\Entity\FieldConfig $field */
+  $field = Drupal::entityTypeManager()
+    ->getStorage('field_config')
+    ->load('paragraph.localgov_embed_views.localgov_embed_block_view');
+  $preselect_views = $field->getSetting('preselect_views');
+  $preselect_views['lgms_embed_view_news'] = 'lgms_embed_view_news';
+  $field->setSetting('preselect_views', $preselect_views);
+  $field->save();
+}

@@ -6,5 +6,6 @@ dependencies:
     - taxonomy
 id: taxonomy_term.waste_item
 label: 'Waste Item'
+description: ''
 targetEntityType: taxonomy_term
 cache: true

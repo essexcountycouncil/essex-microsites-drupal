@@ -9,9 +9,9 @@
 
 namespace PHP_CodeSniffer\Tests\Core;
 
-use PHP_CodeSniffer\Ruleset;
 use PHP_CodeSniffer\Files\DummyFile;
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Ruleset;
 use PHP_CodeSniffer\Tests\ConfigDouble;
 use PHPUnit\Framework\TestCase;
 
@@ -57,7 +57,8 @@ abstract class AbstractMethodUnitTest extends TestCase
      */
     public static function initializeFile()
     {
-        $config = new ConfigDouble();
+        $_SERVER['argv'] = [];
+        $config          = new ConfigDouble();
         // Also set a tab-width to enable testing tab-replaced vs `orig_content`.
         $config->tabWidth = static::$tabWidth;
 
@@ -73,7 +74,7 @@ abstract class AbstractMethodUnitTest extends TestCase
         $contents .= file_get_contents($pathToTestFile);
 
         self::$phpcsFile = new DummyFile($contents, $ruleset, $config);
-        self::$phpcsFile->process();
+        self::$phpcsFile->parse();
 
     }//end initializeFile()
 

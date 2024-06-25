@@ -1,0 +1,14 @@
+/**
+ * @file
+ * Style rule overrides for the admin toolbar.
+ */
+
+/**
+ * Toolbar background override.
+ *
+ * Blue background for toolbar.  With accessiblity in mind.
+ * @see https://davidmathlogic.com/colorblind/
+ */
+.toolbar .toolbar-bar {
+  background-color: #1E88E5;
+}

@@ -1,0 +1,6 @@
+multiple_select.admin_form:
+  route_name: multiple_select.admin_form
+  title: 'Multiple Select Helper'
+  description: 'Enable entities and fields to show select/unselect all.'
+  parent: system.admin_config_content
+  weight: 10

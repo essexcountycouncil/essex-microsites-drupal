@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.storage.node.localgov_paragraph_content
     - node.type.localgov_event
+    - paragraphs.paragraphs_type.le_quote
     - paragraphs.paragraphs_type.localgov_accordion
     - paragraphs.paragraphs_type.localgov_documents
     - paragraphs.paragraphs_type.localgov_embed_views
@@ -36,6 +37,7 @@ settings:
   handler_settings:
     target_bundles:
       localgov_accordion: localgov_accordion
+      le_quote: le_quote
       localgov_documents: localgov_documents
       localgov_embed_views: localgov_embed_views
       localgov_featured_teasers: localgov_featured_teasers
@@ -49,9 +51,18 @@ settings:
       localgov_video: localgov_video
     negate: 0
     target_bundles_drag_drop:
+      call_to_action:
+        weight: 43
+        enabled: false
+      did_you_know:
+        weight: 44
+        enabled: false
       from_library:
         weight: 37
         enabled: false
+      le_quote:
+        weight: 46
+        enabled: true
       localgov_accordion:
         weight: 38
         enabled: true
@@ -133,6 +144,9 @@ settings:
       localgov_newsroom_teaser:
         weight: 63
         enabled: false
+      localgov_numbered_text:
+        weight: 74
+        enabled: false
       localgov_page_section:
         weight: 64
         enabled: true
@@ -157,4 +171,10 @@ settings:
       localgov_video:
         weight: 71
         enabled: true
+      logo_list:
+        weight: 83
+        enabled: false
+      waste_search:
+        weight: 84
+        enabled: false
 field_type: entity_reference_revisions
