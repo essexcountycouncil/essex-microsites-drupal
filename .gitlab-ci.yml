@@ -51,6 +51,7 @@ build-and-push-images:
     - develop
     - /^release\//
     - feature/pipeline-improvements
+    - main
 
 deploy-to-dev:
   image: mcr.microsoft.com/azure-cli
@@ -116,6 +117,8 @@ deploy-to-dev:
   rules:
     - if: '$CI_COMMIT_BRANCH == "develop"'
       when: manual
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: manual
     - if: '$CI_COMMIT_BRANCH =~ /^release\//'
       when: manual
 
@@ -132,6 +135,8 @@ drush-deploy-dev:
     - timeout 1200 socat EXEC:'az containerapp exec --command /drupal/deploy.sh --name microsites --container drupal --resource-group rg-ecc-microsites-uks-dev',pty,setsid,ctty STDIO,ignoreeof
   rules:
     - if: '$CI_COMMIT_BRANCH == "develop"'
+      when: manual
+    - if: '$CI_COMMIT_BRANCH == "main"'
       when: manual
     - if: '$CI_COMMIT_BRANCH =~ /^release\//'
       when: manual
@@ -192,6 +197,8 @@ deploy-to-preprod:
   rules:
     - if: '$CI_COMMIT_BRANCH =~ /^release\//'
       when: manual
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: manual
 
 drush-deploy-preprod:
   image: mcr.microsoft.com/azure-cli
@@ -206,6 +213,8 @@ drush-deploy-preprod:
     - timeout 1200 socat EXEC:'az containerapp exec --command /drupal/deploy.sh --name microsites --container drupal --resource-group rg-ecc-microsites-uks-pre',pty,setsid,ctty STDIO,ignoreeof
   rules:
     - if: '$CI_COMMIT_BRANCH =~ /^release\//'
+      when: manual
+    - if: '$CI_COMMIT_BRANCH == "main"'
       when: manual
 
 deploy-to-prod:
@@ -264,6 +273,8 @@ deploy-to-prod:
   rules:
     - if: '$CI_COMMIT_BRANCH =~ /^release\//'
       when: manual
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: manual
 
 drush-deploy-prod:
   image: mcr.microsoft.com/azure-cli
@@ -278,4 +289,6 @@ drush-deploy-prod:
     - timeout 1200 socat EXEC:'az containerapp exec --command /drupal/deploy.sh --name microsites --container drupal --resource-group rg-ecc-microsites-uks-prod',pty,setsid,ctty STDIO,ignoreeof
   rules:
     - if: '$CI_COMMIT_BRANCH =~ /^release\//'
+      when: manual
+    - if: '$CI_COMMIT_BRANCH == "main"'
       when: manual
