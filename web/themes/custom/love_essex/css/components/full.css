@@ -6,6 +6,8 @@
   font-size: var(--font-size-h1);
 }
 
-article p > a {
+article p > a ,
+article .full__layout-section ul > li > a,
+article .full__content ul > li > a {
   color: var(--color-text-link);
 }
