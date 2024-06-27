@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "06a28816a40e0c4561d4bb25b4f6c990",
+    "content-hash": "5cc7eaca80dd75cc8f4f5253d5b0be9b",
     "packages": [
         {
             "name": "anrt-tools/docksal-configuration",
@@ -6308,6 +6308,72 @@
             "homepage": "https://www.drupal.org/project/paragraphs",
             "support": {
                 "source": "https://git.drupalcode.org/project/paragraphs"
+            }
+        },
+        {
+            "name": "drupal/path_redirect_import",
+            "version": "2.0.9",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/path_redirect_import.git",
+                "reference": "2.0.9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/path_redirect_import-2.0.9.zip",
+                "reference": "2.0.9",
+                "shasum": "c33d0f9cb1323bdf28432ba67af750f324a2d4c9"
+            },
+            "require": {
+                "drupal/core": ">=9.1",
+                "drupal/migrate_source_csv": "^3.5",
+                "drupal/migrate_tools": "^6.0.2",
+                "drupal/redirect": ">=1.7",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "drupal/migrate_plus": ">=5.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "2.0.9",
+                    "datestamp": "1707311721",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                },
+                "drush": {
+                    "services": {
+                        "drush.services.yml": ">=9"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Pablo López",
+                    "homepage": "https://www.drupal.org/u/plopesc",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "paulocs",
+                    "homepage": "https://www.drupal.org/user/3640109"
+                },
+                {
+                    "name": "plopesc",
+                    "homepage": "https://www.drupal.org/user/282415"
+                }
+            ],
+            "description": "Migrate Drupal redirects from CSV.",
+            "homepage": "https://www.drupal.org/project/path_redirect_import",
+            "support": {
+                "source": "https://git.drupalcode.org/path_redirect_import",
+                "issues": "https://www.drupal.org/project/issues/path_redirect_import"
             }
         },
         {
