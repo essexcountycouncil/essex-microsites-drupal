@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * @file
+ * Update functions for the Path Redirect Import module.
+ */
+
+/**
+ * Enable 2.x version dependencies.
+ */
+function path_redirect_import_update_9001() {
+  // Explicitly enable new dependencies after module update.
+  \Drupal::getContainer()->get('module_installer')->install([
+    'migrate_source_csv',
+    'migrate_tools',
+  ]);
+}

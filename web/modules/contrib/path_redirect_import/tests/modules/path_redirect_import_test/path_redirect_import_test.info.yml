@@ -1,0 +1,10 @@
+name: Migrate Source CSV Test
+type: module
+package: Testing
+dependencies:
+  - path_redirect_import:path_redirect_import
+
+# Information added by Drupal.org packaging script on 2024-02-07
+version: '2.0.9'
+project: 'path_redirect_import'
+datestamp: 1707311722

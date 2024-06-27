@@ -1,0 +1,4 @@
+services:
+  path_redirect_import.redirect_export:
+    class: Drupal\path_redirect_import\RedirectExport
+    arguments: ['@file_system', '@entity_type.manager', '@plugin.manager.migration', '@file.repository']

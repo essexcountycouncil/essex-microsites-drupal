@@ -1,0 +1,12 @@
+redirect.migrate:
+  title: 'Migrate'
+  parent: redirect.list
+  route_name: entity.redirect.migrate
+  description: 'Bulk migration of URL redirects.'
+  menu_name: admin
+redirect.export:
+  title: 'Export'
+  parent: redirect.list
+  route_name: entity.redirect.export
+  description: 'Bulk export of URL redirects.'
+  menu_name: admin

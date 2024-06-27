@@ -1,0 +1,5 @@
+source,destination,language,status_code
+source-path,<front>,und,301
+source-path-other?param=value,/my-path,en,302
+my-source-path,https://example.com,und,304
+path with%20spaces,/new space path,und,301

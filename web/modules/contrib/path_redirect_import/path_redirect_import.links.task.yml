@@ -1,0 +1,10 @@
+redirect.migrate:
+  route_name: entity.redirect.migrate
+  base_route: redirect.list
+  title: Migrate
+  weight: 100
+redirect.export:
+  route_name: entity.redirect.export
+  base_route: redirect.list
+  title: Export
+  weight: 100
