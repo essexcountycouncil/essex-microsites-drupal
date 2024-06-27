@@ -48,6 +48,7 @@
         "drupal/migrate_source_csv": "^3.6",
         "drupal/migrate_tools": "^6.0",
         "drupal/multiple_select": "^2.0",
+        "drupal/path_redirect_import": "^2.0",
         "drupal/replicate_ui": "^1.1",
         "drupal/responsive_preview": "^2.1",
         "drupal/scheduler": "^2.0",
