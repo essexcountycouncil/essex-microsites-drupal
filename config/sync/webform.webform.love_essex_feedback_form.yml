@@ -191,7 +191,9 @@ access:
     users: {  }
     permissions: {  }
   view_any:
-    roles: {  }
+    roles:
+      - microsites_controller
+      - microsites_trusted_editor
     users: {  }
     permissions: {  }
   update_any:
