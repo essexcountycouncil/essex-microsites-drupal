@@ -219,7 +219,7 @@ display:
           group_type: group
           admin_label: ''
           plugin_id: string
-          operator: contains
+          operator: starts
           value: ''
           group: 1
           exposed: true
@@ -237,6 +237,7 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
+              emergency_publisher: '0'
               anonymous: '0'
               microsites_controller: '0'
               microsites_trusted_editor: '0'
@@ -250,6 +251,8 @@ display:
             autocomplete_raw_suggestion: 0
             autocomplete_raw_dropdown: 0
             autocomplete_dependent: 0
+            autocomplete_contextual: 0
+            autocomplete_autosubmit: 0
           is_grouped: false
           group_info:
             label: ''
