@@ -120,7 +120,6 @@ body {
 .love_essex_orange,
 .love_essex_red {
   .lgd-page-section--bg-colour-1,
-  .lgd-page-section--bg-colour-2,
   .lgd-page-section--bg-colour-3,
   .lgd-page-section--no-bg-colour {
     .media-with-text--featured .media-with-text__inner,
@@ -135,6 +134,44 @@ body {
 
         .media-with-text__link {
           color: var(--color-campaign-text-default);
+        }
+      }
+    }
+  }
+  .lgd-page-section--bg-colour-2 {
+    .media-with-text--featured .media-with-text__inner,
+    .media-with-text--default .media-with-text__inner {
+      color: var(--color-ler-header-button-text);
+
+      h2,
+      h3 {
+        color: var(--color-ler-header-button-text);
+      }
+
+      .media-with-text__body {
+        color: var(--color-ler-header-button-text);
+
+        .media-with-text__link {
+          color: var(--color-ler-header-button-text);
+        }
+      }
+    }
+  }
+}
+.love_essex_green {
+
+  .lgd-page-section--bg-colour-1 {
+    .media-with-text--default .media-with-text__inner {
+      h2,
+      h3 {
+        color: var(--color-leg-colour-block-1-text);
+      }
+
+      .media-with-text__body {
+        color: var(--color-leg-colour-block-1-text);
+
+        .media-with-text__link {
+          color: var(--color-leg-colour-block-1-text);
         }
       }
     }
