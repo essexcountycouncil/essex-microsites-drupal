@@ -4,31 +4,51 @@ status: open
 dependencies: {  }
 _core:
   default_config_hash: wPQ3NuLw9E5D19GUfERzLkVZEO0QwvI7i2VQe-d61mQ
+weight: 0
 open: null
 close: null
-weight: 0
 uid: 1
 template: false
 archive: false
 id: microsite_contact
-title: 'Microsite contact'
+title: 'Love Essex Feedback Form'
 description: 'A default contact form that can be embedded in a webform node on any microsite, where important configuration can be overridden, such as target email address and confirmation message.'
 categories: {  }
 elements: |-
-  full_name:
-    '#type': textfield
-    '#title': 'Full name'
-  email_address:
-    '#type': email
-    '#title': 'Email address'
-    '#required': true
-  phone:
-    '#type': tel
-    '#title': Phone
-  message:
+  why_did_you_visit_our_website_today:
     '#type': textarea
-    '#title': Message
+    '#title': 'Why did you visit our website today?'
+    '#counter_type': character
+    '#counter_maximum': 500
+  did_you_find_what_you_needed:
+    '#type': radios
+    '#title': 'Did you find what you needed?'
+    '#options': yes_no
+    '#options_display': side_by_side
+  how_easy_did_you_find_it_to_use_our_website:
+    '#type': radios
+    '#title': 'How easy did you find it to use our website?'
+    '#options':
+      1: '1 -- Very Difficult'
+      2: '2'
+      3: '3'
+      4: '4'
+      5: '5 -- Very Easy'
+    '#options_display': side_by_side
+  is_there_anything_else_you_would_like_to_tell_us:
+    '#type': textarea
+    '#title': 'Is there anything else you would like to tell us?'
+    '#description': |-
+      <p>Do not enter any personal information in this space. Any submissions containing personal information will be deleted.</p>
+
+      <p>Read the <a href="https://www.essex.gov.uk/about-essexgovuk/privacy-and-data-protection">data protection and privacy policy</a> and agree to the council using any personal data that you provide in the form to deal with your request.</p>
+    '#counter_type': character
+    '#counter_maximum': 500
+  i_confirm_that_i_have_read_the_data_protection_and_privacy_polic:
+    '#type': checkbox
+    '#title': 'I confirm that I have read the data protection and privacy policy'
     '#required': true
+    '#required_error': 'You must confirm that you have read the data protection and privacy policy.'
 css: ''
 javascript: ''
 settings:
@@ -213,9 +233,9 @@ access:
 handlers:
   email:
     id: email
+    handler_id: email
     label: Email
     notes: ''
-    handler_id: email
     status: true
     conditions: {  }
     weight: 0
