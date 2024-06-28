@@ -55,6 +55,10 @@ function views_autocomplete_filters_config_schema_info_alter(&$definitions) {
         'type' => 'integer',
         'label' => 'Autosubmit Views Exposed Form on autocomplete suggestion selection',
       ];
+      $definitions[$key]['mapping']['expose']['mapping']['autocomplete_operator'] = [
+        'type' => 'string',
+        'label' => 'Autocomplete uses specified operator',
+      ];
     }
   }
 }

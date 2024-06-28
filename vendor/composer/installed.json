@@ -9138,6 +9138,9 @@
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
                     }
+                },
+                "patches_applied": {
+                    "Use different operator for autocomplete": "https://www.drupal.org/files/issues/2024-06-28/2792223_3_autocomplete_operator.patch"
                 }
             },
             "installation-source": "dist",

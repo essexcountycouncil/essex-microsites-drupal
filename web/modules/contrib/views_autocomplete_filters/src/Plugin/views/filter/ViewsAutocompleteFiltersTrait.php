@@ -31,6 +31,7 @@ trait ViewsAutocompleteFiltersTrait {
       'autocomplete_dependent' => ['default' => FALSE],
       'autocomplete_contextual' => ['default' => FALSE],
       'autocomplete_autosubmit' => ['default' => FALSE],
+      'autocomplete_operator' => ['default' => 'contains'],
     ];
     // Get the existing options from plugin schema.
     /** @var \Drupal\Core\Config\TypedConfigManagerInterface $typed_config_manager */
@@ -154,6 +155,17 @@ trait ViewsAutocompleteFiltersTrait {
         '#default_value' => $this->options['expose']['autocomplete_autosubmit'],
         '#description' => $this->t('The form will be submitted when selecting an element from suggestions list.'),
         '#states' => $states,
+      ];
+    }
+
+    if (array_key_exists('autocomplete_operator', $this->options['expose'])) {
+      $form['expose']['autocomplete_operator'] = [
+        '#type' => 'select',
+        '#title' => t('Autocomplete operator'),
+        '#default_value' => $this->options['expose']['autocomplete_operator'],
+        '#options' => ['contains' => 'contains', 'starts' => 'starts'],
+        '#description' => t('Use a different operator for autocomplete results.'),
+        '#dependency' => array('edit-options-expose-autocomplete-filter' => [TRUE]),
       ];
     }
   }
