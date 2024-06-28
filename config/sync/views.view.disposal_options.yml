@@ -743,7 +743,7 @@ display:
           group_type: group
           admin_label: ''
           plugin_id: string
-          operator: starts
+          operator: '='
           value: ''
           group: 1
           exposed: true
@@ -777,6 +777,7 @@ display:
             autocomplete_dependent: 0
             autocomplete_contextual: 0
             autocomplete_autosubmit: 0
+            autocomplete_operator: contains
             min_placeholder: ''
             max_placeholder: ''
           is_grouped: false
