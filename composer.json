@@ -160,6 +160,9 @@
             },
             "localgovdrupal/localgov_microsites_group": {
                 "Fix duplicit $domainNegotiator property fatal error": "patches/localgov_microsites_group-domainNegotiator.patch"
+            },
+            "drupal/views_autocomplete_filters": {
+              "Use different operator for autocomplete": "https://www.drupal.org/files/issues/2024-06-28/2792223_3_autocomplete_operator.patch"
             }
         }
     },
