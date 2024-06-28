@@ -37,6 +37,7 @@
         "drupal/devel": "^5.1",
         "drupal/domain_group": "3.x-dev@dev",
         "drupal/draggableviews": "^2.1",
+        "drupal/eu_cookie_compliance": "^1.24",
         "drupal/field_formatter_range": "^1.5",
         "drupal/geocoder": "^4.23",
         "drupal/geofield_map": "^3.0",
