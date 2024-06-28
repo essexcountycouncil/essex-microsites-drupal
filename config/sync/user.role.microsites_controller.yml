@@ -12,6 +12,7 @@ dependencies:
     - content_moderation
     - domain
     - domain_path
+    - eu_cookie_compliance
     - file
     - geo_entity
     - group
@@ -79,6 +80,7 @@ permissions:
   - 'delete own webform submission'
   - 'delete webform submissions any node'
   - 'delete webform submissions own node'
+  - 'display eu cookie compliance popup'
   - 'edit any document media'
   - 'edit any image media'
   - 'edit any remote_video media'

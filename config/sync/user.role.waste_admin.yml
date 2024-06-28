@@ -9,6 +9,7 @@ dependencies:
     - taxonomy.vocabulary.waste_disposal_service_type
     - taxonomy.vocabulary.waste_item
   module:
+    - eu_cookie_compliance
     - file
     - node
     - override_node_options
@@ -33,6 +34,7 @@ permissions:
   - 'delete terms in waste_disposal_service_type'
   - 'delete terms in waste_item'
   - 'delete waste_disposal_option revisions'
+  - 'display eu cookie compliance popup'
   - 'edit any waste_disposal_option content'
   - 'edit own waste_disposal_option content'
   - 'edit terms in county_district'

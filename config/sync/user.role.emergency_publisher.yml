@@ -6,6 +6,7 @@ dependencies:
     - workflows.workflow.localgov_alert_banners
   module:
     - content_moderation
+    - eu_cookie_compliance
     - localgov_alert_banner
     - system
   enforced:
@@ -20,6 +21,7 @@ is_admin: null
 permissions:
   - 'access administration pages'
   - 'access localgov alert banner listing page'
+  - 'display eu cookie compliance popup'
   - 'manage all localgov alert banner entities'
   - 'use localgov_alert_banners transition publish'
   - 'use localgov_alert_banners transition unpublish'
