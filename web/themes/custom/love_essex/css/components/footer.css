@@ -13,6 +13,14 @@
 .microsite-footer .microsite-footer__logo {
   max-width: 300px;
   margin-left: auto;
+  img {
+    padding: 3px;
+  }
+  a:focus {
+    img {
+      outline: 1px dashed var(--color-white);
+    }
+  }
 }
 
 .microsite-footer__logos > .field__items {
