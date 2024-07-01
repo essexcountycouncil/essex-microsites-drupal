@@ -163,3 +163,9 @@ wysiwyg-styles:
   css:
     theme:
       css/components/wysiwyg-styles.css: {}
+
+# Cookies
+cookies:
+  css:
+    theme:
+      css/components/cookies.css: {}
