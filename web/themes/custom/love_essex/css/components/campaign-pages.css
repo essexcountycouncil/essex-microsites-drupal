@@ -4,6 +4,10 @@
   margin-top: 1em;
 }
 
+ .page-node-type-localgov-page .full .paragraph--type--localgov-image .field--name-field-media-image .field__item {
+  max-width: var(--width-restricted-width-section);
+}
+
 /* Love Essex Green */
 body {
   --color-campaign-text-default: #000;
