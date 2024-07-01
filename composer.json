@@ -1,6 +1,6 @@
 {
-    "name": "localgovdrupal/localgov_microsites_project",
-    "description": "Project template for the LocalGov Drupal Microsites distribution.",
+  "name": "essexcountycouncil/essex-microsites",
+  "description": "Essex microsites project based on for the LocalGov Drupal Microsites distribution.",
     "type": "project",
     "license": "GPL-2.0-or-later",
     "homepage": "https://github.com/localgovdrupal/localgov_microsites_project",
@@ -24,6 +24,10 @@
         "drupal/group_permissions": {
             "type": "vcs",
             "url": "https://git.drupalcode.org/project/group_permissions.git"
+        },
+        "essexcountycouncil/ecc_cookie_compliance": {
+            "type": "github",
+            "url": "https://github.com/essexcountycouncil/ecc_cookie_compliance"
         }
     },
     "require": {
@@ -59,7 +63,9 @@
         "drupal/views_bulk_operations": "^4.2",
         "drupal/views_data_export": "1.4",
         "drush/drush": "^12.0",
+        "essexcountycouncil/ecc_cookie_compliance": "^1.0",
         "localgovdrupal/localgov_alert_banner": "^1.7",
+        "localgovdrupal/localgov_eu_cookie_compliance": "^1.0",
         "localgovdrupal/localgov_microsites": "^4.0",
         "localgovdrupal/localgov_step_by_step": "^2.1",
         "platformsh/config-reader": "^2.4",

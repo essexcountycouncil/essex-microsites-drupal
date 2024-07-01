@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "07e430861397e57084649f52f7daa417",
+    "content-hash": "422c4bef414536cb8a6686a68b972da0",
     "packages": [
         {
             "name": "anrt-tools/docksal-configuration",
@@ -8159,6 +8159,29 @@
             "time": "2023-10-06T06:47:41+00:00"
         },
         {
+            "name": "essexcountycouncil/ecc_cookie_compliance",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/essexcountycouncil/ecc_cookie_compliance.git",
+                "reference": "d95852802bf305214d56ea5088cec43b0651a9ba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/essexcountycouncil/ecc_cookie_compliance/zipball/d95852802bf305214d56ea5088cec43b0651a9ba",
+                "reference": "d95852802bf305214d56ea5088cec43b0651a9ba",
+                "shasum": ""
+            },
+            "type": "drupal-module",
+            "description": "Shared Drupal eu cookie compliance functionality for Essex County Council",
+            "homepage": "https://github.com/essexcountycouncil/ecc_cookie_compliance",
+            "support": {
+                "source": "https://github.com/essexcountycouncil/ecc_cookie_compliance/tree/1.0.2",
+                "issues": "https://github.com/essexcountycouncil/ecc_cookie_compliance/issues"
+            },
+            "time": "2024-04-12T14:14:46+00:00"
+        },
+        {
             "name": "geocoder-php/common-http",
             "version": "4.6.0",
             "source": {
@@ -9241,6 +9264,36 @@
                 "source": "https://github.com/localgovdrupal/localgov_directories/tree/3.1.5"
             },
             "time": "2024-03-12T13:06:09+00:00"
+        },
+        {
+            "name": "localgovdrupal/localgov_eu_cookie_compliance",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/localgovdrupal/localgov_eu_cookie_compliance.git",
+                "reference": "41bae9a185c312ec0c9b670806cb76c4ee40f35a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/localgovdrupal/localgov_eu_cookie_compliance/zipball/41bae9a185c312ec0c9b670806cb76c4ee40f35a",
+                "reference": "41bae9a185c312ec0c9b670806cb76c4ee40f35a",
+                "shasum": ""
+            },
+            "require": {
+                "drupal/eu_cookie_compliance": "^1.24.0"
+            },
+            "type": "drupal-module",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "description": "Extends the functionality of the eu_cookie_compliance contrib module.",
+            "homepage": "https://github.com/localgovdrupal/localgov_eu_cookie_compliance",
+            "support": {
+                "issues": "https://github.com/localgovdrupal/localgov_eu_cookie_compliance/issues",
+                "source": "https://github.com/localgovdrupal/localgov_eu_cookie_compliance/tree/1.0.1"
+            },
+            "time": "2024-04-12T12:25:41+00:00"
         },
         {
             "name": "localgovdrupal/localgov_events",

@@ -1,0 +1,9 @@
+uuid: 46dc65b9-f437-4fd7-9acb-f55020261bb0
+langcode: en
+status: true
+dependencies: {  }
+id: analytics_cookies
+label: 'Analytics cookies'
+description: 'We use Google Analytics and Hotjar cookies to measure how you use loveessex.org. The data we collect helps us improve the website.'
+checkbox_default_state: unchecked
+weight: -9

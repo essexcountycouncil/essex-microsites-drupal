@@ -1,0 +1,29 @@
+uuid: 7ce59c24-2de4-4644-8ad7-ed48792c543c
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:text_block:be85de00-bf15-4409-8476-c3bbb56e5ece'
+  module:
+    - block_content
+  theme:
+    - love_essex
+id: love_essex_strictlynecessarycookies
+theme: love_essex
+region: content_top
+weight: -1
+provider: null
+plugin: 'block_content:be85de00-bf15-4409-8476-c3bbb56e5ece'
+settings:
+  id: 'block_content:be85de00-bf15-4409-8476-c3bbb56e5ece'
+  label: 'Strictly Necessary Cookies'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /cookies
