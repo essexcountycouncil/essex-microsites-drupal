@@ -275,7 +275,7 @@ deploy-to-prod:
                 secretRef: openid-connect-params
       EOF
     - az containerapp revision copy --name microsites --resource-group rg-ecc-microsites-uks-prod --yaml revision.yml --subscription "Essex County Council (Microsites)"
-    - az containerapp revision copy --name microsites-redirect --resource-group rg-ecc-microsites-uks-prod --yaml revision.yml --subscription "Essex County Council (Microsites)"
+    - az containerapp revision copy --name loveessex-redirect --resource-group rg-ecc-loveessex-redirect-uks-prod --yaml revision.yml --subscription "Essex County Council (Microsites)"
   rules:
     - if: '$CI_COMMIT_BRANCH =~ /^release\//'
       when: manual
