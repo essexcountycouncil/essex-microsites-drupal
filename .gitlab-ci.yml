@@ -235,7 +235,7 @@ deploy-to-prod:
     - echo "Importing image from Pre-Production into Production"
     - az acr import --force --name acreccuksprod --source acreccukspre.azurecr.io/microsites-nginx-drupal:${CI_COMMIT_REF_SLUG} --image microsites-nginx-drupal:${CI_COMMIT_REF_SLUG} --subscription "Essex County Council (Common)"
     - az acr import --force --name acreccuksprod --source acreccukspre.azurecr.io/microsites-drupal-fpm:${CI_COMMIT_REF_SLUG} --image microsites-drupal-fpm:${CI_COMMIT_REF_SLUG} --subscription "Essex County Council (Common)"
-    - az acr import --force --name acreccuksprod --source acreccukspre.azurecr.io/microsites-nginx-redirect:${CI_COMMIT_REF_SLUG} --image microsites-drupal-fpm:${CI_COMMIT_REF_SLUG} --subscription "Essex County Council (Common)"
+    - az acr import --force --name acreccuksprod --source acreccukspre.azurecr.io/microsites-nginx-redirect:${CI_COMMIT_REF_SLUG} --image microsites-nginx-redirect:${CI_COMMIT_REF_SLUG} --subscription "Essex County Council (Common)"
     - echo "Creating new revision of Container App"
     - |
       cat > revision.yml <<EOF
