@@ -3,9 +3,10 @@ langcode: en
 status: true
 dependencies:
   content:
-    - 'block_content:text_block:be85de00-bf15-4409-8476-c3bbb56e5ece'
+    - 'block_content:text_block:a150bc99-ad20-4da4-bbb9-13c732dd8e26'
   module:
     - block_content
+    - system
   theme:
     - love_essex
 id: love_essex_strictlynecessarycookies
@@ -13,9 +14,9 @@ theme: love_essex
 region: content_top
 weight: -1
 provider: null
-plugin: 'block_content:be85de00-bf15-4409-8476-c3bbb56e5ece'
+plugin: 'block_content:a150bc99-ad20-4da4-bbb9-13c732dd8e26'
 settings:
-  id: 'block_content:be85de00-bf15-4409-8476-c3bbb56e5ece'
+  id: 'block_content:a150bc99-ad20-4da4-bbb9-13c732dd8e26'
   label: 'Strictly Necessary Cookies'
   label_display: '0'
   provider: block_content
