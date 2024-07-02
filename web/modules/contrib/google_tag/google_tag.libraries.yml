@@ -1,26 +1,7 @@
-gtag:
+drupal.settings_form:
   js:
-    js/gtag.js: { preprocess: false }
-  drupalSettings:
-    gtag:
-      tagId: null
-      consentMode: true
-      otherIds: []
-      events: []
+    js/google_tag.admin.js: {}
   dependencies:
-    - core/drupalSettings
-gtag.ajax:
-  js:
-    js/gtag.ajax.js: { }
-  dependencies:
-    - core/drupal.ajax
-
-gtm:
-  js:
-    js/gtm.js: { preprocess: false }
-  drupalSettings:
-    gtm:
-      tagId: null
-      settings: []
-  dependencies:
-    - core/drupalSettings
+    - core/jquery
+    - core/drupal
+    - core/drupal.form
