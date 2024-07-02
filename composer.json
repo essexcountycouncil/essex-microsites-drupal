@@ -45,7 +45,7 @@
         "drupal/field_formatter_range": "^1.5",
         "drupal/geocoder": "^4.23",
         "drupal/geofield_map": "^3.0",
-        "drupal/google_tag": "^2.0",
+        "drupal/google_tag": "^1.7",
         "drupal/group_permissions": "^2.0@alpha",
         "drupal/honeypot": "^2.1",
         "drupal/migrate_devel": "^2.3",

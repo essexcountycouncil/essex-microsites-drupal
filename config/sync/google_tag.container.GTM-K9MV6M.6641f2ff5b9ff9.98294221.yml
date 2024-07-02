@@ -5,38 +5,35 @@ dependencies:
   module:
     - domain
 id: GTM-K9MV6M.6641f2ff5b9ff9.98294221
+hostname: www.googletagmanager.com
 label: GTM-K9MV6M
 weight: 0
-tag_container_ids:
-  - GTM-K9MV6M
-advanced_settings:
-  consent_mode: true
-  gtm:
-    GTM-K9MV6M:
-      data_layer: dataLayer
-      include_classes: false
-      allowlist_classes: ''
-      blocklist_classes: ''
-      include_environment: false
-      environment_id: ''
-      environment_token: ''
-dimensions_metrics: {  }
+container_id: GTM-5T65C4H
+data_layer: dataLayer
+include_classes: false
+whitelist_classes: ''
+blacklist_classes: ''
+include_environment: false
+environment_id: ''
+environment_token: ''
+path_toggle: 'exclude listed'
+path_list: |-
+  /admin*
+  /batch*
+  /node/add*
+  /node/*/edit
+  /node/*/delete
+  /user/*/edit*
+  /user/*/cancel*
+role_toggle: 'exclude listed'
+role_list: {  }
+status_toggle: 'exclude listed'
+status_list: |-
+  403
+  404
 conditions:
-  domain:
-    id: domain
+  response_status:
+    id: response_status
     negate: false
-    context_mapping:
-      domain: '@domain.current_domain_context:domain'
-    domains:
-      group_1: group_1
-events:
-  search: {  }
-  login:
-    method: CMS
-  sign_up:
-    method: CMS
-  webform_purchase: {  }
-  generate_lead:
-    value: ''
-    currency: ''
-  custom: {  }
+    status_codes:
+      - 200
