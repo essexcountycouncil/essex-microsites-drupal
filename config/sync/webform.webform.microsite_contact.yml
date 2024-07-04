@@ -49,6 +49,9 @@ elements: |-
     '#title': 'I confirm that I have read the data protection and privacy policy'
     '#required': true
     '#required_error': 'You must confirm that you have read the data protection and privacy policy.'
+  referrer:
+    '#type': hidden
+    '#title': referrer
 css: ''
 javascript: ''
 settings:
