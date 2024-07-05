@@ -1,7 +1,4 @@
 _core:
   default_config_hash: kTj4VrfBBlmTowM6GEcqnV6rS5DvkIeeWJSGHyda1e4
-entity_types:
-  - group_relationship
-  - node
-  - paragraph
+entity_types: {  }
 check_edit_access: false
