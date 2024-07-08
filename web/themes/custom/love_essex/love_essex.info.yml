@@ -38,6 +38,8 @@ libraries-extend:
     - love_essex/teaser
   localgov_base/news:
     - love_essex/news
+  localgov_base/global:
+    - love_essex/cookies
 
 regions:
   tabs: "Tabs"

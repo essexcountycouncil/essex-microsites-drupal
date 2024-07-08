@@ -1,0 +1,6 @@
+services:
+  path_redirect_import.commands:
+    class: \Drupal\path_redirect_import\Drush\Commands\PathRedirectImportCommands
+    arguments: [ '@plugin.manager.migration', '@date.formatter', '@entity_type.manager', '@keyvalue', '@file_system', '@path_redirect_import.redirect_export' ]
+    tags:
+      - { name: drush.command }

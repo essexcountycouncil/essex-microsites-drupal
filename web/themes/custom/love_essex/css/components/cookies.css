@@ -1,0 +1,98 @@
+/*
+This CSS file is used to create a visually distinct cookie notice component, which can be used to inform users about the use of cookies on the website.
+*/
+
+.cookies-notice {
+  text-align: left;
+  color: var(--color-white);
+  background-color: #4179aa;
+}
+
+.cookies-notice .popup-content {
+  max-width: var(--width-container);
+  margin: 0 auto;
+  padding: var(--spacing) 0;
+}
+
+.cookies-notice .row {
+  align-items: center;
+  margin-right: calc(var(--grid-column-spacing) / 2);
+  margin-left: calc(var(--grid-column-spacing) / 2);
+}
+
+@media only screen and (min-width: 768px) {
+  .cookies-notice .row {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+}
+
+.eu-cookie-compliance-message,
+.eu-cookie-compliance-buttons {
+  float: none;
+  max-width: none;
+}
+
+.cookies-notice h2 {
+  color: var(--color-white);
+}
+
+.eu-cookie-compliance-message {
+  margin-right: calc(var(--grid-column-spacing) / 2);
+  margin-bottom: 1.5rem;
+  margin-left: calc(var(--grid-column-spacing) / 2);
+}
+
+@media only screen and (min-width: 768px) {
+  .eu-cookie-compliance-message {
+    margin-right: 1.5rem;
+    margin-bottom: 0;
+    margin-left: 0;
+  }
+}
+
+.eu-cookie-compliance-message p {
+  margin: 0;
+  font-size: 1.125rem;
+}
+
+.eu-cookie-compliance-buttons {
+  min-width: 30%;
+}
+
+.eu-cookie-compliance-buttons a {
+  display: block;
+  padding: var(--spacing-small) 1.25rem;
+  text-decoration: none;
+  color: var(--color-white);
+  border: 1px solid var(--color-white);
+  font-size: 1.125rem;
+}
+
+.eu-cookie-compliance-buttons a:focus {
+  color: var(--color-black);
+}
+
+.eu-cookie-compliance-buttons .agree-button {
+  margin-bottom: 1.25rem;
+  color: #4179aa;
+  border-color: var(--color-white);
+  background-color: var(--color-white);
+}
+
+.eu-cookie-compliance-buttons i {
+  display: none;
+}
+
+/* Cookie page */
+.eu-cookie-compliance-category {
+  margin-bottom: var(--spacing-large);
+}
+
+.eu-cookie-compliance-category h4 {
+  margin-bottom: var(--spacing);
+}
+
+.eu-cookie-compliance-category label {
+  display: inline-block;
+}

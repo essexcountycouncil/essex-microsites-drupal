@@ -1,0 +1,12 @@
+entity.redirect.migrate:
+  path: '/admin/config/search/redirect/migrate'
+  defaults:
+    _form: '\Drupal\path_redirect_import\Form\MigrateRedirectForm'
+  requirements:
+    _permission: 'administer redirects'
+entity.redirect.export:
+  path: '/admin/config/search/redirect/export'
+  defaults:
+    _form: '\Drupal\path_redirect_import\Form\ExportRedirectForm'
+  requirements:
+    _permission: 'administer redirects'

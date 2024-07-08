@@ -84,7 +84,9 @@
   {{ page.breadcrumb }}
 {% endif %}
 
-{{ page.messages }}
+{% if available_messages == true %}
+  {{ page.messages }}
+{% endif %}
 
 <main class="main" id="main-content"> {# The "skip to content" link jumps to here. #}
 

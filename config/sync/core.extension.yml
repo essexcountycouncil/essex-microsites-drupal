@@ -28,6 +28,7 @@ module:
   domain_path: 0
   domain_path_pathauto: 0
   dynamic_page_cache: 0
+  ecc_cookie_compliance: 0
   ecc_microsites_redirect_dashboard: 0
   ecc_waste: 0
   editor: 0
@@ -93,6 +94,7 @@ module:
   localgov_directories_page: 0
   localgov_directories_promo_page: 0
   localgov_directories_venue: 0
+  localgov_eu_cookie_compliance: 0
   localgov_events: 0
   localgov_forms: 0
   localgov_geo: 0
@@ -143,6 +145,7 @@ module:
   paragraphs_library: 0
   path: 0
   path_alias: 0
+  path_redirect_import: 0
   phpass: 0
   redirect: 0
   redirect_404: 0
@@ -190,6 +193,7 @@ module:
   views: 10
   paragraphs: 11
   localgov_microsites: 1000
+  eu_cookie_compliance: 1001
 theme:
   claro: 0
   stable9: 0

@@ -4983,6 +4983,82 @@
             "install-path": "../../web/modules/contrib/entity_usage"
         },
         {
+            "name": "drupal/eu_cookie_compliance",
+            "version": "1.24.0",
+            "version_normalized": "1.24.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/eu-cookie-compliance.git",
+                "reference": "8.x-1.24"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/eu_cookie_compliance-8.x-1.24.zip",
+                "reference": "8.x-1.24",
+                "shasum": "ab8dcd866e5ad95cde6fdf9cbca509c7f399bd23"
+            },
+            "require": {
+                "drupal/core": "^8.9 || ^9 || ^10"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.24",
+                    "datestamp": "1665158185",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "installation-source": "dist",
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Marcin Pajdzik",
+                    "homepage": "https://www.drupal.org/u/marcin-pajdzik",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Sven Berg Ryen",
+                    "homepage": "https://www.drupal.org/u/svenryen",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Neslee Canil Pinto",
+                    "homepage": "https://www.drupal.org/u/neslee-canil-pinto",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "See other contributors",
+                    "homepage": "https://www.drupal.org/node/1538032/committers"
+                },
+                {
+                    "name": "svenryen",
+                    "homepage": "https://www.drupal.org/user/667244"
+                }
+            ],
+            "description": "This module aims at making the website compliant with the new EU cookie regulation.",
+            "homepage": "https://drupal.org/project/eu_cookie_compliance",
+            "keywords": [
+                "Cookie",
+                "CookieCompliance",
+                "Drupal",
+                "GDPR"
+            ],
+            "support": {
+                "source": "https://git.drupalcode.org/project/eu-cookie-compliance",
+                "docs": "https://www.drupal.org/docs/contributed-modules/eu-cookie-compliance",
+                "forum": "https://drupal.stackexchange.com/search?q=eu+cookie+compliance",
+                "issues": "https://www.drupal.org/project/issues/eu_cookie_compliance?version=8.x",
+                "slack": "https://app.slack.com/client/T06GX3JTS/C012XBTH81E"
+            },
+            "install-path": "../../web/modules/contrib/eu_cookie_compliance"
+        },
+        {
             "name": "drupal/facets",
             "version": "2.0.7",
             "version_normalized": "2.0.7.0",
@@ -5994,44 +6070,31 @@
         },
         {
             "name": "drupal/google_tag",
-            "version": "2.0.5",
-            "version_normalized": "2.0.5.0",
+            "version": "1.7.0",
+            "version_normalized": "1.7.0.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/google_tag.git",
-                "reference": "2.0.5"
+                "reference": "8.x-1.7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/google_tag-2.0.5.zip",
-                "reference": "2.0.5",
-                "shasum": "75f5cbdf8ea8c78178a5dfab50cf7ee7777c6491"
+                "url": "https://ftp.drupal.org/files/projects/google_tag-8.x-1.7.zip",
+                "reference": "8.x-1.7",
+                "shasum": "e46c24b62c3c3c6b5d7232f3b679b46b1fe0c7a9"
             },
             "require": {
-                "drupal/core": "^9.5 || ^10",
-                "php": "^7.4 || ^8"
-            },
-            "require-dev": {
-                "drupal/commerce": "^2.0",
-                "drupal/commerce_wishlist": "^3.0@beta",
-                "drupal/csp": "^1.0",
-                "drupal/google_analytics": "^4.0",
-                "drupal/search_api": "^1.28.0",
-                "drupal/token": "^1.11.0",
-                "drupal/webform": "^6.0"
+                "drupal/core": "^8.8 || ^9 || ^10"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "2.0.5",
-                    "datestamp": "1716308134",
+                    "version": "8.x-1.7",
+                    "datestamp": "1710888941",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
                     }
-                },
-                "branch-alias": {
-                    "dev-main": "2.x-dev"
                 }
             },
             "installation-source": "dist",
@@ -6061,7 +6124,7 @@
                     "homepage": "https://www.drupal.org/user/240748"
                 }
             ],
-            "description": "Sets up Google Tag",
+            "description": "Allows your website analytics to be managed using Google Tag Manager.",
             "homepage": "https://www.drupal.org/project/google_tag",
             "support": {
                 "source": "https://git.drupalcode.org/project/google_tag"
@@ -7851,6 +7914,75 @@
             "install-path": "../../web/modules/contrib/paragraphs"
         },
         {
+            "name": "drupal/path_redirect_import",
+            "version": "2.0.9",
+            "version_normalized": "2.0.9.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/path_redirect_import.git",
+                "reference": "2.0.9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/path_redirect_import-2.0.9.zip",
+                "reference": "2.0.9",
+                "shasum": "c33d0f9cb1323bdf28432ba67af750f324a2d4c9"
+            },
+            "require": {
+                "drupal/core": ">=9.1",
+                "drupal/migrate_source_csv": "^3.5",
+                "drupal/migrate_tools": "^6.0.2",
+                "drupal/redirect": ">=1.7",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "drupal/migrate_plus": ">=5.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "2.0.9",
+                    "datestamp": "1707311721",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                },
+                "drush": {
+                    "services": {
+                        "drush.services.yml": ">=9"
+                    }
+                }
+            },
+            "installation-source": "dist",
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Pablo López",
+                    "homepage": "https://www.drupal.org/u/plopesc",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "paulocs",
+                    "homepage": "https://www.drupal.org/user/3640109"
+                },
+                {
+                    "name": "plopesc",
+                    "homepage": "https://www.drupal.org/user/282415"
+                }
+            ],
+            "description": "Migrate Drupal redirects from CSV.",
+            "homepage": "https://www.drupal.org/project/path_redirect_import",
+            "support": {
+                "source": "https://git.drupalcode.org/path_redirect_import",
+                "issues": "https://www.drupal.org/project/issues/path_redirect_import"
+            },
+            "install-path": "../../web/modules/contrib/path_redirect_import"
+        },
+        {
             "name": "drupal/pathauto",
             "version": "1.12.0",
             "version_normalized": "1.12.0.0",
@@ -9069,6 +9201,9 @@
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
                     }
+                },
+                "patches_applied": {
+                    "Use different operator for autocomplete": "https://www.drupal.org/files/issues/2024-06-28/2792223_3_autocomplete_operator.patch"
                 }
             },
             "installation-source": "dist",
@@ -9639,6 +9774,32 @@
                 }
             ],
             "install-path": "../egulias/email-validator"
+        },
+        {
+            "name": "essexcountycouncil/ecc_cookie_compliance",
+            "version": "1.0.2",
+            "version_normalized": "1.0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/essexcountycouncil/ecc_cookie_compliance.git",
+                "reference": "d95852802bf305214d56ea5088cec43b0651a9ba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/essexcountycouncil/ecc_cookie_compliance/zipball/d95852802bf305214d56ea5088cec43b0651a9ba",
+                "reference": "d95852802bf305214d56ea5088cec43b0651a9ba",
+                "shasum": ""
+            },
+            "time": "2024-04-12T14:14:46+00:00",
+            "type": "drupal-module",
+            "installation-source": "dist",
+            "description": "Shared Drupal eu cookie compliance functionality for Essex County Council",
+            "homepage": "https://github.com/essexcountycouncil/ecc_cookie_compliance",
+            "support": {
+                "source": "https://github.com/essexcountycouncil/ecc_cookie_compliance/tree/1.0.2",
+                "issues": "https://github.com/essexcountycouncil/ecc_cookie_compliance/issues"
+            },
+            "install-path": "../../web/modules/contrib/ecc_cookie_compliance"
         },
         {
             "name": "fidry/cpu-core-counter",
@@ -11089,6 +11250,39 @@
                 "source": "https://github.com/localgovdrupal/localgov_directories/tree/3.1.5"
             },
             "install-path": "../../web/modules/contrib/localgov_directories"
+        },
+        {
+            "name": "localgovdrupal/localgov_eu_cookie_compliance",
+            "version": "1.0.1",
+            "version_normalized": "1.0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/localgovdrupal/localgov_eu_cookie_compliance.git",
+                "reference": "41bae9a185c312ec0c9b670806cb76c4ee40f35a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/localgovdrupal/localgov_eu_cookie_compliance/zipball/41bae9a185c312ec0c9b670806cb76c4ee40f35a",
+                "reference": "41bae9a185c312ec0c9b670806cb76c4ee40f35a",
+                "shasum": ""
+            },
+            "require": {
+                "drupal/eu_cookie_compliance": "^1.24.0"
+            },
+            "time": "2024-04-12T12:25:41+00:00",
+            "type": "drupal-module",
+            "installation-source": "dist",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "description": "Extends the functionality of the eu_cookie_compliance contrib module.",
+            "homepage": "https://github.com/localgovdrupal/localgov_eu_cookie_compliance",
+            "support": {
+                "issues": "https://github.com/localgovdrupal/localgov_eu_cookie_compliance/issues",
+                "source": "https://github.com/localgovdrupal/localgov_eu_cookie_compliance/tree/1.0.1"
+            },
+            "install-path": "../../web/modules/contrib/localgov_eu_cookie_compliance"
         },
         {
             "name": "localgovdrupal/localgov_events",

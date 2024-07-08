@@ -1,0 +1,26 @@
+uuid: 5647a4a6-6f75-44d6-a006-22a61d248d9e
+langcode: en
+status: true
+dependencies:
+  module:
+    - domain
+    - localgov_eu_cookie_compliance
+    - system
+  theme:
+    - love_essex
+id: love_essex_eucookiesettingsblock
+theme: love_essex
+region: content_top
+weight: 0
+provider: null
+plugin: cookie_settings_block
+settings:
+  id: cookie_settings_block
+  label: 'EU Cookie settings block'
+  label_display: '0'
+  provider: localgov_eu_cookie_compliance
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /cookies

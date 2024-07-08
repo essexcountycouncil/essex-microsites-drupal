@@ -1,6 +1,6 @@
 {
-    "name": "localgovdrupal/localgov_microsites_project",
-    "description": "Project template for the LocalGov Drupal Microsites distribution.",
+  "name": "essexcountycouncil/essex-microsites",
+  "description": "Essex microsites project based on for the LocalGov Drupal Microsites distribution.",
     "type": "project",
     "license": "GPL-2.0-or-later",
     "homepage": "https://github.com/localgovdrupal/localgov_microsites_project",
@@ -24,6 +24,10 @@
         "drupal/group_permissions": {
             "type": "vcs",
             "url": "https://git.drupalcode.org/project/group_permissions.git"
+        },
+        "essexcountycouncil/ecc_cookie_compliance": {
+            "type": "github",
+            "url": "https://github.com/essexcountycouncil/ecc_cookie_compliance"
         }
     },
     "require": {
@@ -37,10 +41,11 @@
         "drupal/devel": "^5.1",
         "drupal/domain_group": "3.x-dev@dev",
         "drupal/draggableviews": "^2.1",
+        "drupal/eu_cookie_compliance": "^1.24",
         "drupal/field_formatter_range": "^1.5",
         "drupal/geocoder": "^4.23",
         "drupal/geofield_map": "^3.0",
-        "drupal/google_tag": "^2.0",
+        "drupal/google_tag": "^1.7",
         "drupal/group_permissions": "^2.0@alpha",
         "drupal/honeypot": "^2.1",
         "drupal/migrate_devel": "^2.3",
@@ -48,6 +53,7 @@
         "drupal/migrate_source_csv": "^3.6",
         "drupal/migrate_tools": "^6.0",
         "drupal/multiple_select": "^2.0",
+        "drupal/path_redirect_import": "^2.0",
         "drupal/replicate_ui": "^1.1",
         "drupal/responsive_preview": "^2.1",
         "drupal/scheduler": "^2.0",
@@ -57,7 +63,9 @@
         "drupal/views_bulk_operations": "^4.2",
         "drupal/views_data_export": "1.4",
         "drush/drush": "^12.0",
+        "essexcountycouncil/ecc_cookie_compliance": "^1.0",
         "localgovdrupal/localgov_alert_banner": "^1.7",
+        "localgovdrupal/localgov_eu_cookie_compliance": "^1.0",
         "localgovdrupal/localgov_microsites": "^4.0",
         "localgovdrupal/localgov_step_by_step": "^2.1",
         "platformsh/config-reader": "^2.4",
@@ -159,6 +167,9 @@
             },
             "localgovdrupal/localgov_microsites_group": {
                 "Fix duplicit $domainNegotiator property fatal error": "patches/localgov_microsites_group-domainNegotiator.patch"
+            },
+            "drupal/views_autocomplete_filters": {
+              "Use different operator for autocomplete": "https://www.drupal.org/files/issues/2024-06-28/2792223_3_autocomplete_operator.patch"
             }
         }
     },

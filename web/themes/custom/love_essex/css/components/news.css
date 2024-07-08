@@ -1,4 +1,5 @@
-.lgd-teaser--localgov-news-article img {
+.lgd-teaser--localgov-news-article img,
+.node--type-localgov-news-article .full__content img {
   border-radius: var(--border-radius);
 }
 

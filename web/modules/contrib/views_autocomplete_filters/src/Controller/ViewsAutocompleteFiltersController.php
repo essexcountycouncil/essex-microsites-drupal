@@ -119,8 +119,14 @@ class ViewsAutocompleteFiltersController implements ContainerInjectionInterface 
     if (empty($filters[$filter_name]['exposed']) || empty($filters[$filter_name]['expose']['autocomplete_filter'])) {
       throw new NotFoundHttpException();
     }
-    $current_filter = $filters[$filter_name];
+    $current_filter = &$filters[$filter_name];
     $expose_options = $current_filter['expose'];
+
+     // Use autocomplete operator if set
+    if (!empty($expose_options['autocomplete_operator'])) {
+      $current_filter['operator'] = $expose_options['autocomplete_operator'];
+      $display_handler->setOption('filters', $filters);
+    }
 
     // We must set a null coalescing variable until we can be sure that the
     // config value has been created (via an update hook when merged).

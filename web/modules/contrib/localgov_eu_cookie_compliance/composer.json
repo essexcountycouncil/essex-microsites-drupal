@@ -1,0 +1,11 @@
+{
+  "name": "localgovdrupal/localgov_eu_cookie_compliance",
+  "description": "Extends the functionality of the eu_cookie_compliance contrib module.",
+  "type": "drupal-module",
+  "homepage": "https://github.com/localgovdrupal/localgov_eu_cookie_compliance",
+  "license": "GPL-2.0-or-later",
+  "minimum-stability": "dev",
+  "require": {
+    "drupal/eu_cookie_compliance": "^1.24.0"
+  }
+}

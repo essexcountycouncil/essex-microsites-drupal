@@ -1,0 +1,54 @@
+id: path_redirect_import
+migration_tags:
+  - CSV
+  - Path Redirect
+label: 'Path Redirect Import'
+source:
+  plugin: csv_redirect
+  path: temporary://path_redirect_import/migrate.csv
+  header_row_count: 1
+  ids:
+    - source
+    - language
+  fields:
+    -
+      name: source
+      label: 'Source path'
+    -
+      name: destination
+      label: 'Destination path'
+    -
+      name: language
+      label: 'Redirect language'
+    -
+      name: status_code
+      label: 'Status code'
+process:
+  uid:
+    plugin: default_value
+    default_value: 1
+  redirect_source:
+    -
+      plugin: callback
+      callable: urldecode
+      source: source
+    -
+      plugin: callback
+      callable:
+        - '\Drupal\Component\Utility\UrlHelper'
+        - parse
+  redirect_redirect/uri:
+    plugin: link_uri
+    validate_route: false
+    source: destination
+  status_code:
+    -
+      plugin: get
+      source: status_code
+    -
+      plugin: default_value
+      default_value: 301
+  language: language
+destination:
+  plugin: 'entity:redirect'
+migration_dependencies: null

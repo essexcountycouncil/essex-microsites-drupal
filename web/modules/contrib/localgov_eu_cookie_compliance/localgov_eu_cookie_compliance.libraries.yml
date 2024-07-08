@@ -1,0 +1,16 @@
+localgov_eu_cookie_compliance:
+  js:
+    js/localgov_eu_cookie_compliance.js: {}
+  css:
+    theme:
+      css/eu-cookie-compliance.css: {}
+  dependencies:
+    - eu_cookie_compliance/eu_cookie_compliance_bare
+
+# @see eu_cookie_compiance.settings.disabled_javascripts Drupal config.
+deferred-scripts:
+  js:
+    js/deferred-hotjar-script-runner.js: {}
+    js/deferred-ga-script.js-runner: {}
+  dependencies:
+    - core/drupalSettings

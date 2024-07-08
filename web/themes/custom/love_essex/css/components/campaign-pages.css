@@ -4,6 +4,10 @@
   margin-top: 1em;
 }
 
+ .page-node-type-localgov-page .full .paragraph--type--localgov-image .field--name-field-media-image .field__item {
+  max-width: var(--width-restricted-width-section);
+}
+
 /* Love Essex Green */
 body {
   --color-campaign-text-default: #000;
@@ -120,7 +124,6 @@ body {
 .love_essex_orange,
 .love_essex_red {
   .lgd-page-section--bg-colour-1,
-  .lgd-page-section--bg-colour-2,
   .lgd-page-section--bg-colour-3,
   .lgd-page-section--no-bg-colour {
     .media-with-text--featured .media-with-text__inner,
@@ -135,6 +138,44 @@ body {
 
         .media-with-text__link {
           color: var(--color-campaign-text-default);
+        }
+      }
+    }
+  }
+  .lgd-page-section--bg-colour-2 {
+    .media-with-text--featured .media-with-text__inner,
+    .media-with-text--default .media-with-text__inner {
+      color: var(--color-ler-header-button-text);
+
+      h2,
+      h3 {
+        color: var(--color-ler-header-button-text);
+      }
+
+      .media-with-text__body {
+        color: var(--color-ler-header-button-text);
+
+        .media-with-text__link {
+          color: var(--color-ler-header-button-text);
+        }
+      }
+    }
+  }
+}
+.love_essex_green {
+
+  .lgd-page-section--bg-colour-1 {
+    .media-with-text--default .media-with-text__inner {
+      h2,
+      h3 {
+        color: var(--color-leg-colour-block-1-text);
+      }
+
+      .media-with-text__body {
+        color: var(--color-leg-colour-block-1-text);
+
+        .media-with-text__link {
+          color: var(--color-leg-colour-block-1-text);
         }
       }
     }
@@ -500,8 +541,9 @@ body {
 .love_essex_red .lgd-page-section--bg-colour-1 button {
   color: var(--color-ler-colour-block-1-heading-text);
 }
-.love_essex_red .lgd-page-section--bg-colour-1 .featured-teaser h3 {
-  color: inherit;
+.love_essex_red .lgd-page-section--bg-colour-1 .featured-teaser h3,
+.love_essex_red .lgd-page-section--bg-colour-1 .featured-teaser .field--name-localgov-text {
+  color: var(--color-ler-page-text);
 }
 
 .love_essex_red .lgd-page-section .lgd-page-section--bg-colour-1 a {

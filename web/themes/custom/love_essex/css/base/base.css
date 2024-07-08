@@ -13,3 +13,7 @@ h6, .h6 {
   height: 100%;
   aspect-ratio: 16 / 9;
 }
+
+article p > a {
+  color: var(--color-text-link);
+}

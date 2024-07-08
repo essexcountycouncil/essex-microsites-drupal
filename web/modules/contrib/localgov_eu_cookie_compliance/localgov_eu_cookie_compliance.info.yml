@@ -1,0 +1,8 @@
+name: LocalGov EU Cookie compliance
+type: module
+description: Provides a Drupal block that embeds the EU Cookie settings form.
+package: LocalGov Drupal 
+core_version_requirement: ^8.8 || ^9 || ^10
+configure: localgov_eu_cookie_compliance.settings
+dependencies:
+- drupal:eu_cookie_compliance

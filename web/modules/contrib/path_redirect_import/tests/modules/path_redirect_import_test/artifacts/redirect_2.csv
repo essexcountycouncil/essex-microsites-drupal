@@ -1,0 +1,3 @@
+source,destination,language,status_code
+source-path,<front>,und,301
+source-path-other?param=value,/my-path,en,302
