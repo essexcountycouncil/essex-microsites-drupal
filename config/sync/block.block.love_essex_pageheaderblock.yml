@@ -1,0 +1,25 @@
+uuid: 50b43f77-ec0e-4b4f-96d7-a539999d32b3
+langcode: en
+status: true
+dependencies:
+  module:
+    - localgov_core
+    - system
+  theme:
+    - love_essex
+id: love_essex_pageheaderblock
+theme: love_essex
+region: content_top
+weight: -2
+provider: null
+plugin: localgov_page_header_block
+settings:
+  id: localgov_page_header_block
+  label: 'Page header block'
+  label_display: '0'
+  provider: localgov_core
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /cookies

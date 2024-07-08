@@ -1,0 +1,9 @@
+uuid: c05ddf1f-852b-41b5-b034-3516d2fa4658
+langcode: en
+status: true
+dependencies: {  }
+id: marketing_cookies
+label: 'Marketing cookies'
+description: 'These cookies may be set by third party websites and do things like measure how you view YouTube videos that are on loveessex.org.'
+checkbox_default_state: unchecked
+weight: -8

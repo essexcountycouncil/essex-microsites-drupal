@@ -4,6 +4,10 @@
   margin-top: 1em;
 }
 
+ .page-node-type-localgov-page .full .paragraph--type--localgov-image .field--name-field-media-image .field__item {
+  max-width: var(--width-restricted-width-section);
+}
+
 /* Love Essex Green */
 body {
   --color-campaign-text-default: #000;
@@ -537,8 +541,9 @@ body {
 .love_essex_red .lgd-page-section--bg-colour-1 button {
   color: var(--color-ler-colour-block-1-heading-text);
 }
-.love_essex_red .lgd-page-section--bg-colour-1 .featured-teaser h3 {
-  color: inherit;
+.love_essex_red .lgd-page-section--bg-colour-1 .featured-teaser h3,
+.love_essex_red .lgd-page-section--bg-colour-1 .featured-teaser .field--name-localgov-text {
+  color: var(--color-ler-page-text);
 }
 
 .love_essex_red .lgd-page-section .lgd-page-section--bg-colour-1 a {

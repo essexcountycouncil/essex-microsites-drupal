@@ -1,0 +1,25 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - localgov_eu_cookie_compliance
+    - system
+  theme:
+    - localgov_scarfolk
+id: eucookiesettingsblock
+theme: localgov_scarfolk
+region: content
+weight: 5
+provider: null
+plugin: cookie_settings_block
+settings:
+  id: cookie_settings_block
+  label: 'EU Cookie settings block'
+  provider: localgov_eu_cookie_compliance
+  label_display: '0'
+visibility:
+  request_path:
+    id: request_path
+    pages: /cookies
+    negate: false
+    context_mapping: {  }

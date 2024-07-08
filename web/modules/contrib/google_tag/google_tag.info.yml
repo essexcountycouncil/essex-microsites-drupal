@@ -1,9 +1,11 @@
-name: Google Tag
-description: Sets up Google Tag
+name: 'Google Tag Manager'
 type: module
-core_version_requirement: ^9.5 || ^10
+description: 'Allows your website analytics to be managed using Google Tag Manager.'
+package: 'Statistics'
+core_version_requirement: ^8.8 || ^9 || ^10
 configure: google_tag.settings_form
-# Information added by Drupal.org packaging script on 2024-05-21
-version: '2.0.5'
+
+# Information added by Drupal.org packaging script on 2024-03-19
+version: '8.x-1.7'
 project: 'google_tag'
-datestamp: 1716308137
+datestamp: 1710888943

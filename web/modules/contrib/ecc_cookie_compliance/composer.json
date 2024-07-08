@@ -1,0 +1,6 @@
+{
+    "name": "essexcountycouncil/ecc_cookie_compliance",
+    "description": "Shared Drupal eu cookie compliance functionality for Essex County Council",
+    "type": "drupal-module",
+    "homepage": "https://github.com/essexcountycouncil/ecc_cookie_compliance"
+}
