@@ -7,16 +7,12 @@ dependencies:
     - field.field.node.localgov_page.field_body
     - field.field.node.localgov_page.field_directory_channel_logo
     - field.field.node.localgov_page.field_page_colour_swatch
-    - field.field.node.localgov_page.localgov_blog_date
-    - field.field.node.localgov_page.localgov_directory_address
     - field.field.node.localgov_page.localgov_hide_summary
     - field.field.node.localgov_page.localgov_page_banner
     - field.field.node.localgov_page.localgov_page_summary
     - field.field.node.localgov_page.localgov_paragraph_content
-    - field.field.node.localgov_page.localgov_proximity_search_cfg
     - node.type.localgov_page
   module:
-    - address
     - layout_paragraphs
     - text
     - user
@@ -27,13 +23,6 @@ targetEntityType: node
 bundle: localgov_page
 mode: search_index
 content:
-  localgov_directory_address:
-    type: address_default
-    label: hidden
-    settings: {  }
-    third_party_settings: {  }
-    weight: 7
-    region: content
   localgov_page_summary:
     type: text_default
     label: hidden
@@ -54,8 +43,6 @@ hidden:
   field_directory_channel_logo: true
   field_page_colour_swatch: true
   links: true
-  localgov_blog_date: true
   localgov_hide_summary: true
   localgov_page_banner: true
-  localgov_proximity_search_cfg: true
   search_api_excerpt: true

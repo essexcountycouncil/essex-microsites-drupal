@@ -5,10 +5,10 @@ dependencies:
   module:
     - domain
 id: GTM-K9MV6M.6641f2ff5b9ff9.98294221
-hostname: www.googletagmanager.com
 label: GTM-K9MV6M
 weight: 0
 container_id: GTM-5T65C4H
+hostname: www.googletagmanager.com
 data_layer: dataLayer
 include_classes: false
 whitelist_classes: ''
