@@ -3,7 +3,7 @@
         'name' => 'essexcountycouncil/essex-microsites',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '521959b72308cc7774ab42dd515950bc19cd52a6',
+        'reference' => 'cea66b768c2f45819f973c46990053e5d46cf78f',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -1419,7 +1419,7 @@
         'essexcountycouncil/essex-microsites' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '521959b72308cc7774ab42dd515950bc19cd52a6',
+            'reference' => 'cea66b768c2f45819f973c46990053e5d46cf78f',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

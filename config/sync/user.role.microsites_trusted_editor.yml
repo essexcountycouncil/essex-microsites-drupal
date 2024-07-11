@@ -25,6 +25,7 @@ dependencies:
     - responsive_preview
     - system
     - toolbar
+    - webform
     - webform_node
 _core:
   default_config_hash: uY5zC72qQsoq3ZOZ7z8oFuj0PaP7QMqzVbTBrIiqqaI
@@ -46,6 +47,7 @@ permissions:
   - 'create media'
   - 'create remote_video media'
   - 'delete all revisions'
+  - 'delete any webform submission'
   - 'delete directory facets'
   - 'delete geo'
   - 'delete own files'

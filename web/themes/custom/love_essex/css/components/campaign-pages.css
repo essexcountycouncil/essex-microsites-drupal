@@ -273,6 +273,11 @@ body {
       background-color: var(--color-accent-lightest);
       color: var(--color-black);
     }
+    &.lgd-page-section--no-bg-colour {
+      .text-component:not(.text-component--bg-text-bg-colour-1):not(.text-component--bg-text-bg-colour-2):not(.text-component--bg-text-bg-colour-3):not(.text-component--bg-text-bg-colour-4) a:not(.btn) {
+        color: var(--color-text-link);
+      }
+    }
   }
 
 }

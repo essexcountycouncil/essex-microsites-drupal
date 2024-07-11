@@ -1,6 +1,5 @@
 _core:
   default_config_hash: cvh7di-mJogXOBiv_AoDN22DXIg3-OtzE5iLCIFAQ1s
-use_collection: false
 uri: 'public:/'
 compact_snippet: true
 include_file: true
@@ -37,4 +36,5 @@ _default_container:
   status_list: |-
     403
     404
+use_collection: false
 default_google_tag_entity: GTM-K9MV6M.6641f2ff5b9ff9.98294221

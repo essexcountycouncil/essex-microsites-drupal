@@ -23,3 +23,7 @@
   border: none;
   background: none;
 }
+
+.webform-submission-form .webform-type-radios .form-item label:not(.form-required):after {
+  content: '';
+}
