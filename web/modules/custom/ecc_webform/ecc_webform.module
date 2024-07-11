@@ -11,23 +11,3 @@ use Drupal\webform\WebformSubmissionInterface;
 function ecc_webform_form_alter(&$form, &$form_state, $form_id) {
   $form['#attached']['library'][] = 'ecc_webform/referrer';
 }
-
-
-// /**
-//  * Modify a Webform submission, prior to saving it in the database.
-//  *
-//  * @param $node
-//  *   The Webform node on which this submission was made.
-//  * @param $submission
-//  *   The Webform submission that is about to be saved to the database.
-//  */
-// function ecc_webform_webform_submission_presave(WebformSubmissionInterface $webform_submission) {
-//   if ($webform_submission->get('webform_id')->getValue()[0]['target_id'] === 'microsite_contact') {
-//     // Update referrer's value before it is saved.
-//     $data = $webform_submission->getData();
-//     if (array_key_exists('referrer', $data))
-//     $referrer = \Drupal::request()->headers->get('referer');
-//     $data['referrer'] = $referrer;
-//     $webform_submission->setData($data);
-//   }
-// }
