@@ -201,11 +201,13 @@ access:
     users: {  }
     permissions: {  }
   update_any:
-    roles: {  }
+    roles:
+      - microsites_trusted_editor
     users: {  }
     permissions: {  }
   delete_any:
-    roles: {  }
+    roles:
+      - microsites_trusted_editor
     users: {  }
     permissions: {  }
   purge_any:
