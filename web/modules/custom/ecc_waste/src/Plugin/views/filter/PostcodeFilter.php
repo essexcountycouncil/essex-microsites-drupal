@@ -115,7 +115,6 @@ class PostcodeFilter extends FilterPluginBase {
     $form['value'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Essex Postcode'),
-      '#description' => $this->t('Enter an Essex postcode.'),
       '#required' => FALSE,
       '#placeholder' => 'Postcode',
     ];
