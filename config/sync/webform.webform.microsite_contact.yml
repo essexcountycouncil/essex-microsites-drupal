@@ -50,8 +50,10 @@ elements: |-
     '#required': true
     '#required_error': 'You must confirm that you have read the data protection and privacy policy.'
   referrer:
-    '#type': hidden
+    '#type': url
     '#title': referrer
+    '#wrapper_attributes':
+      style: 'display:none'
 css: ''
 javascript: ''
 settings:
