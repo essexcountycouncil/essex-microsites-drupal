@@ -174,8 +174,10 @@
         }
     },
     "scripts": {
-        "tests-required": [
-            "composer validate"
-        ]
+      "phpcs": "bin/phpcs --standard=Drupal,DrupalPractice --ignore=*.js web/modules/custom",
+      "phpcbf": "bin/phpcbf --standard=Drupal,DrupalPractice --ignore=*.js web/modules/custom",
+      "tests-required": [
+        "composer validate"
+      ]
     }
 }

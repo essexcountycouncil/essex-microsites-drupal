@@ -21,7 +21,7 @@ final class GeneratedConfig
         0 => 'phpstan/rules.neon',
       ),
     ),
-    'version' => '2.7.6',
+    'version' => '2.7.7',
     'phpstanVersionConstraint' => NULL,
   ),
   'mglaman/phpstan-drupal' => 
