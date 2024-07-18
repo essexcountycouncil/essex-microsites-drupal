@@ -13,6 +13,9 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class RedirectSubscriber implements EventSubscriberInterface {
 
+  /**
+   * {@inheritdoc}
+   */
   public static function getSubscribedEvents() {
     return [
       KernelEvents::REQUEST => 'redirectGroupNodes',
