@@ -2,12 +2,10 @@
 
 namespace Drupal\ecc_waste\Plugin\Action;
 
-use Drupal\Core\Action\ActionBase;
-use Drupal\Core\Session\AccountInterface;
-use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\views_bulk_operations\Action\ViewsBulkOperationsActionBase;
 use Drupal\Core\Plugin\PluginFormInterface;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\views_bulk_operations\Action\ViewsBulkOperationsActionBase;
 
 /**
  * Applies a user-selected waste item taxonomy term to a set of nodes.
@@ -42,10 +40,10 @@ class ApplyWasteItem extends ViewsBulkOperationsActionBase implements PluginForm
       $current_terms = $node->get($field_name)->getValue();
 
       // Check if the term is already attached.
-      $term_exists = false;
+      $term_exists = FALSE;
       foreach ($current_terms as $term) {
         if ($term['target_id'] == $tid) {
-          $term_exists = true;
+          $term_exists = TRUE;
           break;
         }
       }
