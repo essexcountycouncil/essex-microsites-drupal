@@ -2,19 +2,11 @@
 
 namespace Drupal\ecc_waste\Plugin\views\filter;
 
-use Drupal\views\Plugin\views\filter\FilterPluginBase;
-use Drupal\views\Plugin\views\display\DisplayPluginBase;
-use Drupal\views\ViewExecutable;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\views\Plugin\views\filter\StringFilter;
-use Drupal\views\Views;
-use GuzzleHttp\Client;
+use Drupal\views\Plugin\views\display\DisplayPluginBase;
+use Drupal\views\Plugin\views\filter\FilterPluginBase;
+use Drupal\views\ViewExecutable;
 use GuzzleHttp\Exception\RequestException;
-use Drupal\Core\TempStore\SharedTempStoreFactory;
-use Drupal\taxonomy\Entity\Term;
-use Drupal\group\Entity\Group;
-use Drupal\group\GroupContextInterface;
-use Drupal\group\Entity\GroupInterface;
 
 /**
  * Custom Views filter to make cURL request and filter based on taxonomy term.
@@ -107,7 +99,6 @@ class PostcodeFilter extends FilterPluginBase {
     }
   }
 
-
   /**
    * {@inheritdoc}
    */
@@ -139,8 +130,9 @@ class PostcodeFilter extends FilterPluginBase {
   }
 
   /**
-   * Helper function to poll 3rd party datasource for postcode
-   * and get a taxonomy ID.
+   * Helper function to poll 3rd party datasource for postcode.
+   *
+   * Returns a taxonomy ID.
    */
   public function getTermIdFromPostcode($value) {
     if (!empty($value)) {
@@ -155,9 +147,9 @@ class PostcodeFilter extends FilterPluginBase {
         // Stash the location data for later, so create a session.
         $session = \Drupal::service('session');
         $session->save();
-        /** @var SharedTempStoreFactory $shared_tempstore */
+        /** @var Drupal\Core\TempStore\SharedTempStoreFactory $shared_tempstore */
         $shared_tempstore = \Drupal::service('tempstore.shared');
-        $store =  $shared_tempstore->get('ecc_waste');
+        $store = $shared_tempstore->get('ecc_waste');
         if (!empty($result['results'])) {
           foreach ($result['results'] as $i => $item) {
             if ($i === 0) {
@@ -171,9 +163,9 @@ class PostcodeFilter extends FilterPluginBase {
               $terms = \Drupal::entityTypeManager()
                 ->getStorage('taxonomy_term')
                 ->loadByProperties([
-                        'vid' => $vid,
-                        'name' => $district,
-                    ]);
+                  'vid' => $vid,
+                  'name' => $district,
+                ]);
               foreach ($terms as $term) {
                 $term_id = $term->id();
               }
@@ -194,7 +186,7 @@ class PostcodeFilter extends FilterPluginBase {
         }
       }
       catch (RequestException $e) {
-        // log exception
+        // Log exception.
         \Drupal::messenger()->addError($this->t('The postcode search service appears to be unavailable.'));
         \Drupal::logger('Postcode search')->error('The postcode search service appears to be unavailable.');
       }
