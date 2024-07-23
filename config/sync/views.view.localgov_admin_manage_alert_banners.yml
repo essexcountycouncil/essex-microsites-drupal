@@ -858,7 +858,7 @@ display:
     position: 1
     display_options:
       display_extenders: {  }
-      path: admin/content/alert-banner
+      path: admin/content/alert-banners
       menu:
         type: normal
         title: 'Alert banners'
