@@ -20,7 +20,7 @@ class EccSwapValues extends ProcessPluginBase {
    */
   public function transform($value, MigrateExecutableInterface $migrateExecutable, Row $row, $destinationProperty) {
     // Split the value into A and B.
-    list($a, $b) = explode(',', $value);
+    [$a, $b] = explode(',', $value);
 
     // Concatenate the elements.
     $result = $b . ',' . $a;
