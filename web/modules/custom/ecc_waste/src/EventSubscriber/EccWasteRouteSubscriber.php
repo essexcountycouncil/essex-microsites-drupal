@@ -5,8 +5,6 @@ namespace Drupal\ecc_waste\EventSubscriber;
 use Drupal\Core\Routing\RouteSubscriberBase;
 use Drupal\Core\Routing\RoutingEvents;
 use Symfony\Component\Routing\RouteCollection;
-use Drupal\Core\Access\AccessResult;
-use Drupal\Core\Routing\Access\AccessInterface;
 
 /**
  * Route subscriber.
@@ -38,4 +36,5 @@ class EccWasteRouteSubscriber extends RouteSubscriberBase {
 
     return $events;
   }
+
 }

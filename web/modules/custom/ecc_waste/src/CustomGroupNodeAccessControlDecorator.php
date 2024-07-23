@@ -2,23 +2,30 @@
 
 namespace Drupal\ecc_waste;
 
-use Drupal\group\Plugin\Group\RelationHandler\AccessControlInterface;
-use Drupal\group\Plugin\Group\RelationHandler\AccessControlTrait;
-use Drupal\group\Plugin\Group\RelationHandler\GroupNodeAccessControlHandlerDecorator;
+use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\group\Entity\GroupInterface;
-use Drupal\Core\Access\AccessResult;
+use Drupal\group\Plugin\Group\RelationHandler\AccessControlInterface;
+use Drupal\group\Plugin\Group\RelationHandler\AccessControlTrait;
 
-
+/**
+ * {@inheritdoc}
+ */
 class CustomGroupNodeAccessControlDecorator implements AccessControlInterface {
 
   use AccessControlTrait;
 
+  /**
+   * {@inheritdoc}
+   */
   public $groups;
 
+  /**
+   * {@inheritdoc}
+   */
   public function __construct(AccessControlInterface $parent) {
     $this->parent = $parent;
-    $this->groups =  \Drupal::config('ecc_waste.settings')->get('allowed_groups');
+    $this->groups = \Drupal::config('ecc_waste.settings')->get('allowed_groups');
   }
 
   /**

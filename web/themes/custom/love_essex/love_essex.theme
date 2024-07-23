@@ -4,8 +4,11 @@
  * @file
  * Theme function for the Love Essex theme.
  */
+
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\localgov_microsites_group\Entity\MicrositeGroupInterface;
 use Drupal\node\Entity\Node;
+use Drupal\node\NodeInterface;
 
 /**
  * Implements hook_preprocess_HOOK().
@@ -25,7 +28,6 @@ function love_essex_preprocess_page(&$variables) {
     $variables['available_messages'] = TRUE;
   }
 
-
   $parent_group_id = \Drupal::service('domain_group_resolver')->getActiveDomainGroupId();
   if ($parent_group_id) {
     $group = \Drupal::entityTypeManager()->getStorage('group')->load($parent_group_id);
@@ -44,7 +46,8 @@ function love_essex_preprocess_page(&$variables) {
         '#uri' => '/themes/custom/love_essex/assets/images/logos/love-essex-logo-white.png',
         '#alt' => t('Love Essex'),
       ];
-    } else {
+    }
+    else {
       $variables['microsites']['header']['items']['lgms_main_logo'] = [
         '#theme' => 'image',
         '#uri' => '/themes/custom/love_essex/assets/images/logos/love-essex-logo-transparent.png',
@@ -106,8 +109,11 @@ function love_essex_preprocess_page(&$variables) {
  *
  * Prevent unwanted values from printing on directory channel pages.
  *
- * @param  array $variables
+ * @param array $variables
+ *   An array of node data.
+ *
  * @return void
+ *   Variables passed by reference, so nothing to return.
  */
 function love_essex_preprocess_node(&$variables) {
   if ($variables['view_mode'] === 'full' && $variables['page'] === TRUE) {
@@ -133,9 +139,7 @@ function love_essex_preprocess_breadcrumb(&$variables) {
     $variables['breadcrumb'] = [];
   }
   else {
-    $variables['breadcrumb'][] = array(
-      'text' => $page_title
-    );
+    $variables['breadcrumb'][] = ['text' => $page_title];
   }
 }
 
@@ -149,7 +153,7 @@ function love_essex_preprocess_html(array &$attachments) {
   if (\Drupal::routeMatch()->getRouteName() == 'entity.node.canonical') {
     // Load the current node.
     $node = \Drupal::routeMatch()->getParameter('node');
-    if ($node instanceof \Drupal\node\NodeInterface) {
+    if ($node instanceof NodeInterface) {
       // Check if the node has the field you are interested in.
       // There's 3 different possible paragraph fields.
       // If it exists, get the referenced entities.
@@ -189,11 +193,11 @@ function love_essex_preprocess_html(array &$attachments) {
 }
 
 /**
- * Implements hook_form_alter()
+ * Implements hook_form_alter().
  *
  * Hide some field titles on the home page.
  */
-function love_essex_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+function love_essex_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   if (\Drupal::service('path.matcher')->isFrontPage()) {
     if ($form['#id'] === 'views-exposed-form-disposal-options-page-disposal-search') {
       $form['item']['#title_display'] = 'invisible';

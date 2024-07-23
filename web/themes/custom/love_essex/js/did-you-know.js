@@ -1,4 +1,3 @@
-
 (function didYouKnow(Drupal) {
   Drupal.behaviors.didYouKnow = {
     attach: function (context) {
