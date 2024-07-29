@@ -3,7 +3,7 @@
         'name' => 'essexcountycouncil/essex-microsites',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '3f72e1f79293d28c78e6cb08abc4cb1e14dd3390',
+        'reference' => 'ce2d9ff5cfefeaccf3a3dab8f38e3b948a2559bd',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -1290,6 +1290,15 @@
             ),
             'dev_requirement' => false,
         ),
+        'drupal/simple_sitemap' => array(
+            'pretty_version' => '4.1.9',
+            'version' => '4.1.9.0',
+            'reference' => '4.1.9',
+            'type' => 'drupal-module',
+            'install_path' => __DIR__ . '/../../web/modules/contrib/simple_sitemap',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'drupal/sortableviews' => array(
             'pretty_version' => '1.1.0',
             'version' => '1.1.0.0',
@@ -1419,7 +1428,7 @@
         'essexcountycouncil/essex-microsites' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '3f72e1f79293d28c78e6cb08abc4cb1e14dd3390',
+            'reference' => 'ce2d9ff5cfefeaccf3a3dab8f38e3b948a2559bd',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
