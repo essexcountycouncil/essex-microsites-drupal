@@ -59,6 +59,7 @@
         "drupal/scheduler": "^2.0",
         "drupal/simple_sitemap": "^4.1",
         "drupal/sortableviews": "^1.1",
+        "drupal/ultimate_cron": "^2.0@alpha",
         "drupal/upgrade_status": "^4.0",
         "drupal/views_autocomplete_filters": "^2.0",
         "drupal/views_bulk_operations": "^4.2",

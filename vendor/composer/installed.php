@@ -3,7 +3,7 @@
         'name' => 'essexcountycouncil/essex-microsites',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'ce2d9ff5cfefeaccf3a3dab8f38e3b948a2559bd',
+        'reference' => 'b0298684cdb9d32cb263244fd7122e8258789dfd',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -1335,6 +1335,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'drupal/ultimate_cron' => array(
+            'pretty_version' => '2.0.0-alpha7',
+            'version' => '2.0.0.0-alpha7',
+            'reference' => '8.x-2.0-alpha7',
+            'type' => 'drupal-module',
+            'install_path' => __DIR__ . '/../../web/modules/contrib/ultimate_cron',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'drupal/upgrade_status' => array(
             'pretty_version' => '4.3.2',
             'version' => '4.3.2.0',
@@ -1428,7 +1437,7 @@
         'essexcountycouncil/essex-microsites' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'ce2d9ff5cfefeaccf3a3dab8f38e3b948a2559bd',
+            'reference' => 'b0298684cdb9d32cb263244fd7122e8258789dfd',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
