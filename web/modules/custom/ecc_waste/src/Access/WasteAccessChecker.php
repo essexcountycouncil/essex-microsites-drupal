@@ -4,6 +4,7 @@ namespace Drupal\ecc_waste\Access;
 
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Routing\Access\AccessInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
 use Symfony\Component\Routing\Route;
 
 /**
@@ -22,9 +23,13 @@ class WasteAccessChecker implements AccessInterface {
    */
   public function access(Route $route) {
     $groups = \Drupal::config('ecc_waste.settings')->get('allowed_groups');
-    $plugin_id = 'group_node:waste_disposal_option';
-
-    return AccessResult::allowedIf($plugin_id == 'group_node:waste_disposal_option' && in_array(\Drupal::routeMatch()->getParameter('group')->id(), $groups));
+    $plugin_id = \Drupal::routeMatch()->getParameter('plugin_id');
+    if ($plugin_id === 'group_node:waste_disposal_option') {
+      return AccessResult::allowedIf($plugin_id == 'group_node:waste_disposal_option' && in_array(\Drupal::routeMatch()->getParameter('group')->id(), $groups));
+    }
+    else {
+      return AccessResult::allowedIf(TRUE);
+    }
   }
 
 }
