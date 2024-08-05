@@ -1,0 +1,11 @@
+uuid: ee389d39-2e53-4397-8bc4-3292b2f71130
+langcode: en
+status: true
+dependencies:
+  config:
+    - simple_sitemap.type.default_hreflang
+id: love-essex
+label: 'Love Essex'
+description: ''
+type: default_hreflang
+weight: 0
