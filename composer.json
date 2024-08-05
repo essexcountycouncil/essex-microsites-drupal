@@ -68,9 +68,9 @@
         "essexcountycouncil/ecc_cookie_compliance": "^1.0",
         "localgovdrupal/localgov_alert_banner": "^1.7",
         "localgovdrupal/localgov_eu_cookie_compliance": "^1.0",
+        "localgovdrupal/localgov_microsites": "^4.0",
         "localgovdrupal/localgov_publications": "^1.0",
         "localgovdrupal/localgov_services": "^2.1",
-        "localgovdrupal/localgov_microsites": "^4.0",
         "localgovdrupal/localgov_step_by_step": "^2.1",
         "platformsh/config-reader": "^2.4",
         "topfloor/composer-cleanup-vcs-dirs": "^1.1"
@@ -171,6 +171,9 @@
             },
             "localgovdrupal/localgov_microsites_group": {
                 "Fix duplicit $domainNegotiator property fatal error": "patches/localgov_microsites_group-domainNegotiator.patch"
+            },
+            "localgovdrupal/localgov_publications": {
+                "Declare permissions for LocalGov Publications": "patches/localgov_publications.patch"
             },
             "drupal/views_autocomplete_filters": {
               "Use different operator for autocomplete": "https://www.drupal.org/files/issues/2024-06-28/2792223_3_autocomplete_operator.patch"

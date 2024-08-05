@@ -12029,6 +12029,9 @@
                     "web/libraries/{$name}": [
                         "type:drupal-library"
                     ]
+                },
+                "patches_applied": {
+                    "Declare permissions for LocalGov Publications": "patches/localgov_publications.patch"
                 }
             },
             "installation-source": "dist",
