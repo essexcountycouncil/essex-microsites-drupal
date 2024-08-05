@@ -253,7 +253,7 @@ deploy-to-prod:
                 volumeName: filesharevol
               env:
               - name: X_ROBOTS_TAG
-                value: noindex
+                value: all
             - image: acreccuksprod.azurecr.io/microsites-drupal-fpm:${CI_COMMIT_REF_SLUG}
               name: drupal
               resources:
