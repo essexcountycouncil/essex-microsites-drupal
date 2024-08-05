@@ -32,6 +32,7 @@ field_settings:
         - anonymous
       view_mode:
         'entity:node':
+          book: search_index
           localgov_blog_channel: search_index
           localgov_blog_post: search_index
           localgov_directories_page: search_index
@@ -42,6 +43,10 @@ field_settings:
           localgov_news_article: search_index
           localgov_newsroom: search_index
           localgov_page: search_index
+          localgov_publication_cover_page: search_index
+          localgov_publication_page: search_index
+          localgov_services_landing: search_index
+          localgov_services_sublanding: search_index
           localgov_step_by_step_overview: search_index
           localgov_step_by_step_page: search_index
           localgov_webform: search_index

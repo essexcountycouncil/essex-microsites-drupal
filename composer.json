@@ -68,6 +68,8 @@
         "essexcountycouncil/ecc_cookie_compliance": "^1.0",
         "localgovdrupal/localgov_alert_banner": "^1.7",
         "localgovdrupal/localgov_eu_cookie_compliance": "^1.0",
+        "localgovdrupal/localgov_publications": "^1.0",
+        "localgovdrupal/localgov_services": "^2.1",
         "localgovdrupal/localgov_microsites": "^4.0",
         "localgovdrupal/localgov_step_by_step": "^2.1",
         "platformsh/config-reader": "^2.4",
