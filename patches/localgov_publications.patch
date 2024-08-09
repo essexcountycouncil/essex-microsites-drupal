@@ -1,0 +1,14 @@
+diff --git a/localgov_publications.install b/localgov_publications.install
+index 1322cca..eaaaf74 100644
+--- a/localgov_publications.install
++++ b/localgov_publications.install
+@@ -90,6 +90,9 @@ function localgov_publications_install_blocks(): void {
+ 
+     // Get info about the theme, so we can check we're placing blocks into
+     // regions that actually exist.
++    if (!$themeHandler->themeExists($theme)) {
++      continue;
++    }
+     $themeInfo = $themeHandler->getTheme($theme);
+     if (empty($themeInfo)) {
+       continue;

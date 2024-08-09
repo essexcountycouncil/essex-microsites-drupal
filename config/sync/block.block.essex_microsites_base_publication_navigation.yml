@@ -1,0 +1,30 @@
+uuid: f2a68a28-4d4e-4d91-bb3d-19154eb13fb2
+langcode: en
+status: true
+dependencies:
+  module:
+    - localgov_publications
+    - node
+  theme:
+    - essex_microsites_base
+id: essex_microsites_base_publication_navigation
+theme: essex_microsites_base
+region: sidebar_first
+weight: 0
+provider: null
+plugin: publication_navigation
+settings:
+  id: publication_navigation
+  label: 'Publication navigation'
+  label_display: visible
+  provider: localgov_publications
+  context_mapping:
+    node: '@node.node_route_context:node'
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      localgov_publication_page: localgov_publication_page

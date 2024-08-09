@@ -1,0 +1,359 @@
+<?php
+
+/**
+ * @file
+ * Module file for the LocalGov Publications module.
+ */
+
+use Drupal\block\Entity\Block;
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Config\Entity\ConfigDependencyManager;
+use Drupal\Core\Config\FileStorage;
+use Drupal\Core\Config\InstallStorage;
+use Drupal\Core\Config\StorageInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Url;
+use Drupal\localgov_roles\RolesHelper;
+use Drupal\node\Entity\Node;
+use Drupal\node\NodeInterface;
+
+/**
+ * Implements hook_theme().
+ */
+function localgov_publications_theme($existing, $type, $theme, $path): array {
+  return [
+    'book_navigation__publication' => [
+      'template' => 'book-navigation--publication',
+      'base hook' => 'book_navigation__publication',
+    ],
+    'localgov_publication_page_header_block' => [
+      'variables' => [
+        'title' => '',
+        'node_title' => '',
+        'published_date' => NULL,
+        'last_updated_date' => NULL,
+      ],
+    ],
+    'paragraph__localgov_publications_banner' => [
+      'template' => 'paragraph--localgov-publications-banner',
+      'base hook' => 'paragraph',
+    ],
+    'media__document__publication' => [
+      'template' => 'media--document--publication',
+      'base hook' => 'media',
+    ],
+    'field__localgov_publication' => [
+      'template' => 'publication-html-reference',
+      'base hook' => 'field',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_localgov_role_default().
+ */
+function localgov_publications_localgov_roles_default(): array {
+  return [
+    RolesHelper::EDITOR_ROLE => [
+      'add content to books',
+      'administer book outlines',
+      'create new books',
+      'create localgov_publication_page content',
+      'create localgov_publication_cover_page content',
+      'delete any localgov_publication_page content',
+      'delete any localgov_publication_cover_page content',
+      'delete localgov_publication_page revisions',
+      'delete localgov_publication_cover_page revisions',
+      'delete own localgov_publication_page content',
+      'delete own localgov_publication_cover_page content',
+      'edit any localgov_publication_page content',
+      'edit any localgov_publication_cover_page content',
+      'edit own localgov_publication_page content',
+      'edit own localgov_publication_cover_page content',
+      'revert localgov_publication_page revisions',
+      'revert localgov_publication_cover_page revisions',
+      'view localgov_publication_page revisions',
+      'view localgov_publication_cover_page revisions',
+    ],
+  ];
+}
+
+/**
+ * Is the given type one of the publication node types?
+ */
+function localgov_publications_is_publication_type(string $type): bool {
+  return $type === 'localgov_publication_page' || $type === 'localgov_publication_cover_page';
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK().
+ */
+function localgov_publications_theme_suggestions_book_navigation(array $variables): array {
+  $suggestions = [];
+
+  // Only add suggestion on publication pages and publication cover pages.
+  $node = \Drupal::routeMatch()->getParameter('node');
+  if (localgov_publications_is_publication_type($node->getType())) {
+    $suggestions[] = $variables['theme_hook_original'] . '__' . 'publication';
+  }
+
+  return $suggestions;
+}
+
+/**
+ * Implements hook_block_access().
+ */
+function localgov_publications_block_access(Block $block, $operation, AccountInterface $account) {
+  if ($block->getPluginId() == 'localgov_page_header_block' && $operation == 'view') {
+    $node = \Drupal::routeMatch()->getParameter('node');
+    if ($node instanceof NodeInterface && localgov_publications_is_publication_type($node->getType())) {
+      return AccessResult::forbiddenIf(TRUE)->addCacheableDependency($block);
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for book_admin_edit.
+ */
+function localgov_publications_form_book_admin_edit_alter(&$form, FormStateInterface $form_state, $form_id): void {
+
+  // If we're on the route this module uses for this form, change some wording.
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  if ($route_name === 'publication.admin_edit') {
+    $form['save']['#value'] = t('Save publication pages');
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function localgov_publications_form_alter(&$form, FormStateInterface $form_state, $form_id): void {
+  $forms_to_alter = [
+    'node_localgov_publication_cover_page_form',
+    'node_localgov_publication_cover_page_edit_form',
+    'node_localgov_publication_page_form',
+    'node_localgov_publication_page_edit_form',
+  ];
+
+  if (!in_array($form_id, $forms_to_alter)) {
+    return;
+  }
+
+  // Get the node.
+  $node = $form_state->getFormObject()->getEntity();
+
+  // Attach JS.
+  if ($form['book']['#attached']['library'][0] == 'book/drupal.book') {
+    unset($form['book']['#attached']['library']);
+    $form['book']['#attached']['library'][0] = 'localgov_publications/localgov-publications';
+  }
+
+  // Get form state values.
+  $book_values = $form_state->getValue('book');
+
+  // Alter the book outline form title.
+  $form['book']['#title'] = t('Publication outline');
+
+  // Alter the select element.
+  $form['book']['bid']['#title'] = t('Publication');
+
+  // Change "Create new book" to "Create a new publication".
+  if (!empty($form['book']['bid']['#options']['new'])) {
+    $form['book']['bid']['#options']['new'] = t('- Create a new publication -');
+  }
+
+  $form['book']['bid']['#description'] = t('Your page will be part of the selected publication');
+
+  // Alter "No book selected".
+  if (empty($book_values)) {
+    $form['book']['pid']['#prefix'] = '<div id="edit-book-plid-wrapper"><em>No publication selected.</em>';
+  }
+  else {
+    switch ($book_values['bid']) {
+      case '0':
+        $form['book']['pid']['#prefix'] = '<div id="edit-book-plid-wrapper"><em>No publication selected.</em>';
+        break;
+
+      case 'new':
+      case $node->id():
+        $form['book']['pid']['#prefix'] = '<div id="edit-book-plid-wrapper"><em>This will be the top-level page in this publication.</em>';
+        break;
+
+      default:
+        $form['book']['pid']['#description'] = t(
+          'The parent page in the publication. The maximum depth for a publication and all child pages is @maxdepth. Some pages in the selected publication may not be available as parents if selecting them would exceed this limit.',
+          ['@maxdepth' => $form['book']['parent_depth_limit']['#value']],
+        );
+        break;
+    }
+  }
+
+  if ($form_id == 'node_localgov_publication_page_form' || $form_id == 'node_localgov_publication_page_edit_form') {
+    $form['#validate'][] = 'localgov_publications_validate_node_form';
+  }
+}
+
+/**
+ * Form validation function.
+ *
+ * Ensures that either 'Create a new publication', or an existing publication
+ * has been chosen from the book field.
+ */
+function localgov_publications_validate_node_form(&$form, FormStateInterface $form_state): void {
+
+  if ($form_state->hasValue('book')) {
+    $book = $form_state->getValue('book');
+    if ($book['bid'] === '0') {
+      $form_state->setErrorByName('book', t("Please choose either 'Create a new publication', or one of your existing publications for this page to be part of."));
+    }
+  }
+}
+
+/**
+ * Implements hook_node_links_alter().
+ *
+ * If book module has added the "Add child page" link, and we're on a
+ * publication type page, alter the link, so it creates a
+ * localgov_publication_page, instead of the default book type.
+ */
+function localgov_publications_node_links_alter(array &$links, NodeInterface $node, array &$context): void {
+
+  if (localgov_publications_is_publication_type($node->getType()) && !empty($links['book']['#links']['book_add_child'])) {
+    $links['book']['#links']['book_add_child']['url'] = Url::fromRoute('node.add', ['node_type' => 'localgov_publication_page'], ['query' => ['parent' => $node->id()]]);
+  }
+}
+
+/**
+ * Implements hook_preprocess_node().
+ */
+function localgov_publications_preprocess_node(&$variables): void {
+  $view_mode = $variables['elements']['#view_mode'];
+  /** @var \Drupal\node\NodeInterface $node */
+  $node = $variables['elements']['#node'];
+
+  if ($view_mode === 'full' && localgov_publications_is_publication_type($node->getType())) {
+    $variables['content']['#attached']['library'][] = 'localgov_publications/localgov-publications';
+  }
+}
+
+/**
+ * Implements hook_modules_installed().
+ */
+function localgov_publications_modules_installed($modules, $is_syncing) {
+  if (!$is_syncing && in_array('book', $modules)) {
+    // If book module is being installed, prevent the 'book' node type and its
+    // dependencies from being installed from its config (or rather, delete it
+    // -- there's no way to intercept it within the config API).
+    $extension_path = \Drupal::service('extension.path.resolver')->getPath('module', 'book');
+    $optional_install_path = $extension_path . '/' . InstallStorage::CONFIG_OPTIONAL_DIRECTORY;
+
+    // Get all of book module's optional config.
+    $storage = new FileStorage($optional_install_path, StorageInterface::DEFAULT_COLLECTION);
+    $list = $storage->listAll();
+    $config_to_create = $storage->readMultiple($list);
+
+    // Filter this to those config entities that depend on the 'book' node type.
+    $dependency_manager = new ConfigDependencyManager();
+    $dependency_manager->setData($config_to_create);
+    $dependencies = $dependency_manager->getDependentEntities('config', 'node.type.book');
+
+    foreach (array_keys($dependencies) as $config_name) {
+      \Drupal::configFactory()->getEditable($config_name)->delete();
+    }
+    \Drupal::configFactory()->getEditable('node.type.book')->delete();
+
+    // The mapping of fields to bundles is stored in the key-value store. As we
+    // removed the content type and its fields on a config level, we also need
+    // to clear out the book data from here, as it won't be done for us like it
+    // is when you delete a content type via the UI.
+    $kvStore = \Drupal::keyValue('entity.definitions.bundle_field_map');
+    $fieldMap = $kvStore->get('node');
+    unset($fieldMap['body']['bundles']['book']);
+    $kvStore->set('node', $fieldMap);
+
+    // Clear all caches to ensure there are no references to the Book node left.
+    drupal_flush_all_caches();
+  }
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ *
+ * Moves our implementations of hook_entity_insert and hook_entity_update to the
+ * end of the list, so they run after pathauto. If they run before pathauto, we
+ * don't pick up changes to the URL of cover pages when generating URL aliases
+ * for the rest of the publication.
+ */
+function localgov_publications_module_implements_alter(&$implementations, $hook): void {
+  switch ($hook) {
+    case 'entity_insert':
+    case 'entity_update':
+      $group = $implementations['localgov_publications'];
+      unset($implementations['localgov_publications']);
+      $implementations['localgov_publications'] = $group;
+      break;
+  }
+}
+
+/**
+ * Implements hook_entity_insert().
+ *
+ * NB that we don't implement hook_node_insert to ensure we run after pathauto.
+ */
+function localgov_publications_entity_insert(EntityInterface $entity): void {
+  if ($entity instanceof NodeInterface) {
+    localgov_publications_update_path_aliases($entity);
+  }
+}
+
+/**
+ * Implements hook_entity_update().
+ *
+ * NB that we don't implement hook_node_update to ensure we run after pathauto.
+ */
+function localgov_publications_entity_update(EntityInterface $entity): void {
+  if ($entity instanceof NodeInterface) {
+    localgov_publications_update_path_aliases($entity);
+  }
+}
+
+/**
+ * Updates the path alias of every page in a publication.
+ *
+ * @param \Drupal\node\NodeInterface $node
+ *   Cover page node.
+ */
+function localgov_publications_update_path_aliases(NodeInterface $node): void {
+  // Only do anything if we're saving a cover page.
+  if ($node->getType() !== 'localgov_publication_cover_page') {
+    return;
+  }
+
+  /** @var \Drupal\book\BookManager $bookManager */
+  $bookManager = \Drupal::service('book.manager');
+
+  /** @var \Drupal\node\NodeInterface[] $publication */
+  $publications = $node->get('localgov_publication')->referencedEntities();
+
+  $publicationPages = [];
+
+  foreach ($publications as $publication) {
+    if (isset($publication->book)) {
+      // Find the ID of every node in the publication.
+      $bookPages = $bookManager->bookTreeGetFlat($publication->book);
+      $publicationPages = array_merge($publicationPages, array_keys($bookPages));
+    }
+  }
+
+  if (empty($publicationPages)) {
+    return;
+  }
+
+  $nodes = Node::loadMultiple($publicationPages);
+  $pathAutoGenerator = \Drupal::service('pathauto.generator');
+  foreach ($nodes as $node) {
+    $pathAutoGenerator->updateEntityAlias($node, 'update');
+  }
+}

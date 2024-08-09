@@ -8,4 +8,5 @@ id: global
 label: Global
 tags:
   canonical_url: '[current-page:url]'
+  google_site_verification: 4NpmGKbm2WDhSlnpAn8sUsi00YZ3usv22eCxfVBHTmA
   title: '[current-page:title] | [site:name]'

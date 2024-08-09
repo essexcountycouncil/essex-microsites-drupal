@@ -1,0 +1,15 @@
+localgov-publications:
+  css:
+    theme:
+      css/localgov-publications.css: {}
+  js:
+    js/localgov-publications.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/drupal.form
+
+localgov-publications-icons:
+  css:
+    theme:
+      css/localgov-publications-icons.css: {}
