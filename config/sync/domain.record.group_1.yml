@@ -1,0 +1,16 @@
+uuid: ffe290bd-79b4-4735-9525-8bc488305d20
+langcode: en
+status: true
+dependencies:
+  module:
+    - group_context_domain
+third_party_settings:
+  group_context_domain:
+    group_uuid: 3ecb98d7-e832-4eab-9ee8-e2a42b13783c
+id: group_1
+domain_id: 4567776
+hostname: www.loveessex.org
+name: 'Love Essex'
+scheme: variable
+weight: 2
+is_default: false

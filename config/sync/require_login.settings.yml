@@ -10,6 +10,7 @@ requirements:
     context_mapping:
       domain: '@domain.current_domain_context:domain'
     domains:
+      group_1: group_1
       group_2: group_2
   group_type:
     id: group_type
@@ -22,6 +23,10 @@ requirements:
     id: request_path
     negate: false
     pages: ''
+  response_status:
+    id: response_status
+    negate: false
+    status_codes: {  }
   webform:
     id: webform
     negate: false

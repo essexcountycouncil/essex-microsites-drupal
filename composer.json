@@ -57,7 +57,9 @@
         "drupal/replicate_ui": "^1.1",
         "drupal/responsive_preview": "^2.1",
         "drupal/scheduler": "^2.0",
+        "drupal/simple_sitemap": "^4.1",
         "drupal/sortableviews": "^1.1",
+        "drupal/ultimate_cron": "^2.0@alpha",
         "drupal/upgrade_status": "^4.0",
         "drupal/views_autocomplete_filters": "^2.0",
         "drupal/views_bulk_operations": "^4.2",
@@ -174,8 +176,10 @@
         }
     },
     "scripts": {
-        "tests-required": [
-            "composer validate"
-        ]
+      "phpcs": "bin/phpcs --standard=Drupal,DrupalPractice --ignore=*.js web/modules/custom",
+      "phpcbf": "bin/phpcbf --standard=Drupal,DrupalPractice --ignore=*.js web/modules/custom",
+      "tests-required": [
+        "composer validate"
+      ]
     }
 }
