@@ -97,6 +97,36 @@ function ecc_waste_form_node_waste_disposal_option_edit_form_alter(&$form, \Drup
   $form['field_disposal_option_items']['widget']['#weight'] = 1;
 }
 
+/**
+ * Implements hook_form_alter().
+ */
+function ecc_waste_form_views_exposed_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if ($form['#id'] === 'views-exposed-form-disposal-options-page-disposal-search') {
+    $form['#validate'][] = '_ecc_waste_form_views_exposed_form_validate';
+    //$form['#cache']['contexts'][] = 'url.query_args:item';
+  }
+}
+
+/**
+ * Validate the Disposal Options view exposed form.
+ *
+ * @param array $form
+ *   Form.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   Form state.
+ *
+ * @return void
+ */
+function _ecc_waste_form_views_exposed_form_validate(&$form, FormStateInterface $form_state): void {
+  if (\Drupal::routeMatch()->getRouteName() !== 'views_filters.autocomplete') {
+    $item_text = $form_state->getValue('item');
+    $taxonomy_storage = \Drupal::entityTypeManager()
+      ->getStorage('taxonomy_term');
+    if (!$taxonomy_storage->loadByProperties(['name' => $item_text])) {
+      $form_state->setErrorByName('item', t('Item not recognised, please start typing an item and then select from the drop down list'));
+    }
+  }
+}
 
 /**
  * Implements hook_views_data_alter().
