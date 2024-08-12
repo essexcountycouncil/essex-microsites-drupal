@@ -1,14 +1,4 @@
 services:
-  ecc_waste.route_subscriber:
-    class: Drupal\ecc_waste\EventSubscriber\EccWasteRouteSubscriber
-    tags:
-      - { name: event_subscriber }
-
-  access_check.ecc_waste.microsite:
-    class: Drupal\ecc_waste\Access\WasteAccessChecker
-    tags:
-      - { name: access_check, applies_to: _waste_microsite_access_check }
-
   ecc_waste.group_node_access_control_decorator:
     class: Drupal\ecc_waste\CustomGroupNodeAccessControlDecorator
     decorates: 'group.relation_handler.access_control.group_node'
