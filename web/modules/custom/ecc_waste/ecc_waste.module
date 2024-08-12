@@ -122,7 +122,7 @@ function _ecc_waste_form_views_exposed_form_validate(&$form, FormStateInterface 
     $taxonomy_storage = \Drupal::entityTypeManager()
       ->getStorage('taxonomy_term');
     if (!$taxonomy_storage->loadByProperties(['name' => $item_text])) {
-      $form_state->setErrorByName('item', t('Item not recognised, please start typing an item and then select from the drop down list'));
+      $form_state->setErrorByName('item', t('Item not recognised, please start typing an item and then select from the drop down list.'));
     }
   }
 }
