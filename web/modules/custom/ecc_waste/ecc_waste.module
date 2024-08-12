@@ -103,7 +103,6 @@ function ecc_waste_form_node_waste_disposal_option_edit_form_alter(&$form, \Drup
 function ecc_waste_form_views_exposed_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   if ($form['#id'] === 'views-exposed-form-disposal-options-page-disposal-search') {
     $form['#validate'][] = '_ecc_waste_form_views_exposed_form_validate';
-    //$form['#cache']['contexts'][] = 'url.query_args:item';
   }
 }
 
