@@ -42,13 +42,20 @@ function localgov_microsites_group_content_clone_form_submit(array &$form, FormS
   $node->save();
 
   // Add this replicated node to the current microsite.
+  /** @var \Drupal\domain\DomainInterface $current_domain */
   $current_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
-  if ($current_domain && !empty($current_domain->get('third_party_settings'))) {
-    $current_group_id = $current_domain->get('third_party_settings')['domain_group']['group'];
-    $current_group = \Drupal::entityTypeManager()->getStorage('group')->load($current_group_id);
+  if (!empty($current_domain)) {
+    $group_uuid = $current_domain->getThirdPartySetting('group_context_domain', 'group_uuid');
+    if (!empty($group_uuid)) {
+      /** @var \Drupal\group\Entity\GroupInterface $group */
+      $group = \Drupal::service('entity.repository')
+        ->loadEntityByUuid('group', $group_uuid);
 
-    // Add relationship between the current group and the node that was cloned.
-    $current_group->addRelationship($node, 'group_node:' . $node->getType());
-    $current_group->save();
+      // Add relationship between the current group and the cloned node.
+      if (!empty($group)) {
+        $group->addRelationship($node, 'group_node:' . $node->getType());
+        $group->save();
+      }
+    }
   }
 }
