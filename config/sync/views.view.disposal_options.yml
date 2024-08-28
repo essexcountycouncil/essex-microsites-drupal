@@ -188,7 +188,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: 'Please enter an item and a postcode in Essex to find disposal options.'
+            value: '<h3>No results found.</h3> <p>For best results:</p> <ol><li>Start typing an item in the <em>‘what do you want to get rid of box’</em> </li><li>then select from the items displayed </li><li>and enter a postcode in Essex.</li></ol>'
             format: wysiwyg
           tokenize: false
       sorts:
