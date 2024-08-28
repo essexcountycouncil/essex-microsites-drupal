@@ -292,3 +292,12 @@ function ecc_waste_theme_suggestions_alter(array &$suggestions, array &$variable
     }
   }
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function ecc_waste_form_views_exposed_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if ($form['#id'] === 'views-exposed-form-disposal-options-page-disposal-search') {
+    $form['#suffix'] = '<p>Start typing and select an item</p>';
+  }
+}
