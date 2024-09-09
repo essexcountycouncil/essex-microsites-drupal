@@ -211,6 +211,7 @@ display:
         options:
           view_modes:
             'entity:node':
+              book: search_result
               localgov_blog_channel: search_result
               localgov_blog_post: search_result
               localgov_directories_page: search_result
@@ -221,6 +222,10 @@ display:
               localgov_news_article: search_result
               localgov_newsroom: search_result
               localgov_page: search_result
+              localgov_publication_cover_page: search_result
+              localgov_publication_page: search_result
+              localgov_services_landing: search_result
+              localgov_services_sublanding: search_result
               localgov_step_by_step_overview: search_result
               localgov_step_by_step_page: search_result
               localgov_webform: search_result

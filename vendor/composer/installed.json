@@ -3516,6 +3516,9 @@
                         "[web-root]/profiles/README.txt": "assets/scaffold/files/profiles.README.txt",
                         "[web-root]/themes/README.txt": "assets/scaffold/files/themes.README.txt"
                     }
+                },
+                "patches_applied": {
+                    "node_access filters out accessible nodes when node is left joined (1349080)": "https://git.drupalcode.org/project/drupal/-/commit/c271adb.diff"
                 }
             },
             "installation-source": "dist",
@@ -11896,6 +11899,45 @@
             "install-path": "../../web/modules/contrib/localgov_page"
         },
         {
+            "name": "localgovdrupal/localgov_page_components",
+            "version": "1.1.5",
+            "version_normalized": "1.1.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/localgovdrupal/localgov_page_components.git",
+                "reference": "8998684dd00223b14ad2081b1b7062175836d290"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/localgovdrupal/localgov_page_components/zipball/8998684dd00223b14ad2081b1b7062175836d290",
+                "reference": "8998684dd00223b14ad2081b1b7062175836d290",
+                "shasum": ""
+            },
+            "require": {
+                "drupal/entity_browser": "^2.5",
+                "drupal/inline_entity_form": "^1.0-rc6",
+                "drupal/linkit": "~6.0.2 || ^6.1.1",
+                "drupal/paragraphs": "^1.11"
+            },
+            "time": "2024-07-09T12:08:16+00:00",
+            "type": "drupal-module",
+            "extra": {
+                "patches": []
+            },
+            "installation-source": "dist",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "description": "Provides reusable paragraph page components for the LocalGovDrupal distribution.",
+            "homepage": "https://github.com/localgovdrupal/localgov_page_components",
+            "support": {
+                "issues": "https://github.com/localgovdrupal/localgov_page_components/issues",
+                "source": "https://github.com/localgovdrupal/localgov_page_components/tree/1.1.5"
+            },
+            "install-path": "../../web/modules/contrib/localgov_page_components"
+        },
+        {
             "name": "localgovdrupal/localgov_paragraphs",
             "version": "2.4.4",
             "version_normalized": "2.4.4.0",
@@ -11957,6 +11999,53 @@
                 "source": "https://github.com/localgovdrupal/localgov_paragraphs/tree/2.4.4"
             },
             "install-path": "../../web/modules/contrib/localgov_paragraphs"
+        },
+        {
+            "name": "localgovdrupal/localgov_publications",
+            "version": "1.0.4",
+            "version_normalized": "1.0.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/localgovdrupal/localgov_publications.git",
+                "reference": "8bc6683264e2510dd7ffeac2a3162b8c3d6d2e62"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/localgovdrupal/localgov_publications/zipball/8bc6683264e2510dd7ffeac2a3162b8c3d6d2e62",
+                "reference": "8bc6683264e2510dd7ffeac2a3162b8c3d6d2e62",
+                "shasum": ""
+            },
+            "require": {
+                "localgovdrupal/localgov_core": ">=2.1.10",
+                "localgovdrupal/localgov_paragraphs": ">=2.4.0"
+            },
+            "require-dev": {
+                "drupal/coder": "*"
+            },
+            "time": "2024-07-23T12:28:11+00:00",
+            "type": "drupal-module",
+            "extra": {
+                "installer-paths": {
+                    "web/libraries/{$name}": [
+                        "type:drupal-library"
+                    ]
+                },
+                "patches_applied": {
+                    "Declare permissions for LocalGov Publications": "patches/localgov_publications.patch"
+                }
+            },
+            "installation-source": "dist",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "description": "HTML publications for the LocalGovDrupal distribution.",
+            "homepage": "https://github.com/localgovdrupal/localgov_publications",
+            "support": {
+                "issues": "https://github.com/localgovdrupal/localgov_publications/issues",
+                "source": "https://github.com/localgovdrupal/localgov_publications/tree/1.0.4"
+            },
+            "install-path": "../../web/modules/contrib/localgov_publications"
         },
         {
             "name": "localgovdrupal/localgov_sa11y",
@@ -12034,6 +12123,55 @@
                 "source": "https://github.com/localgovdrupal/localgov_search/tree/1.2.2"
             },
             "install-path": "../../web/modules/contrib/localgov_search"
+        },
+        {
+            "name": "localgovdrupal/localgov_services",
+            "version": "2.1.11",
+            "version_normalized": "2.1.11.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/localgovdrupal/localgov_services.git",
+                "reference": "afb0e907ffd426028a8d3875bd16149724b0517f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/localgovdrupal/localgov_services/zipball/afb0e907ffd426028a8d3875bd16149724b0517f",
+                "reference": "afb0e907ffd426028a8d3875bd16149724b0517f",
+                "shasum": ""
+            },
+            "require": {
+                "drupal/condition_field": "^2.0",
+                "drupal/entity_browser": "^2.5",
+                "drupal/field_group": "~3.0",
+                "drupal/link_attributes": "^1.2",
+                "drupal/pathauto": "~1.0",
+                "localgovdrupal/localgov_core": "^2.12",
+                "localgovdrupal/localgov_page_components": "^1.1",
+                "localgovdrupal/localgov_paragraphs": "^2.3",
+                "localgovdrupal/localgov_topics": "^1.0"
+            },
+            "time": "2024-06-18T12:08:43+00:00",
+            "type": "drupal-module",
+            "extra": {
+                "enable-patching": true,
+                "patches": {
+                    "drupal/core": {
+                        "node_access filters out accessible nodes when node is left joined (1349080)": "https://git.drupalcode.org/project/drupal/-/commit/c271adb.diff"
+                    }
+                }
+            },
+            "installation-source": "dist",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "description": "LocalGovDrupal distribution: Services features.",
+            "homepage": "https://github.com/localgovdrupal/localgov_services",
+            "support": {
+                "issues": "https://github.com/localgovdrupal/localgov_services/issues",
+                "source": "https://github.com/localgovdrupal/localgov_services/tree/2.1.11"
+            },
+            "install-path": "../../web/modules/contrib/localgov_services"
         },
         {
             "name": "localgovdrupal/localgov_step_by_step",

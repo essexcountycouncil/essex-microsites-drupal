@@ -4,6 +4,7 @@ status: true
 dependencies:
   module:
     - localgov_search
+    - system
   theme:
     - love_essex
 _core:
@@ -19,4 +20,9 @@ settings:
   label: 'Sitewide search block'
   label_display: '0'
   provider: localgov_search
-visibility: {  }
+visibility:
+  response_status:
+    id: response_status
+    negate: false
+    status_codes:
+      - 200
