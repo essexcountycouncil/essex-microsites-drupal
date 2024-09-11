@@ -5,6 +5,7 @@ dependencies:
   config:
     - media.type.image
     - node.type.localgov_news_article
+    - taxonomy.vocabulary.media_category
   module:
     - eu_cookie_compliance
     - file
@@ -12,6 +13,7 @@ dependencies:
     - node
     - override_node_options
     - system
+    - taxonomy
     - toolbar
   enforced:
     module:
@@ -28,6 +30,7 @@ permissions:
   - 'access toolbar'
   - 'create image media'
   - 'create localgov_news_article content'
+  - 'create terms in media_category'
   - 'delete any localgov_news_article content'
   - 'delete own files'
   - 'delete own image media'
@@ -37,6 +40,7 @@ permissions:
   - 'edit any localgov_news_article content'
   - 'edit own image media'
   - 'edit own localgov_news_article content'
+  - 'edit terms in media_category'
   - 'override localgov_news_article promote to front page option'
   - 'revert localgov_news_article revisions'
   - 'view localgov_news_article revisions'
