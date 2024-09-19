@@ -1,0 +1,14 @@
+#main-content .field--name-field-p-map-locations-data {
+  height: 40em;
+}
+
+#main-content .leaflet-marker-number__wrapper .marker-number {
+  position: relative;
+  top: -60px;
+  left: 8px;
+  width: 25px;
+  text-align: center;
+  color: var(--color-white);
+  font-size: 14px;
+  font-weight: var(--font-weight-bold);
+}

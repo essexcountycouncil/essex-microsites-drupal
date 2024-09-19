@@ -1,0 +1,9 @@
+name: 'ECC Map'
+type: module
+description: 'A map component for rich content'
+package: Custom
+core_version_requirement: ^10 || ^11
+dependencies:
+  - geofield:geofield
+  - leaflet:leaflet
+  - paragraphs:paragraphs

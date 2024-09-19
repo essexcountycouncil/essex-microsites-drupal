@@ -1,0 +1,24 @@
+
+{% set current_path = path('<current>') %}
+
+{% if '/node' in current_path and '/edit' in current_path %}
+  {# do not attach #}
+{% else %}
+  {{ attach_library('ecc_map/ecc_map') }}
+{% endif %}
+
+{%
+  set classes = [
+    'paragraph',
+    'paragraph--type--' ~ paragraph.bundle|clean_class,
+    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
+    not paragraph.isPublished() ? 'paragraph--unpublished'
+  ]
+%}
+{% block paragraph %}
+  <div{{ attributes.addClass(classes) }}>
+    {% block content %}
+      {{ content }}
+    {% endblock %}
+  </div>
+{% endblock paragraph %}
