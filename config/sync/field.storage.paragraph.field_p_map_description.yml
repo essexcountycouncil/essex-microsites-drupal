@@ -1,0 +1,19 @@
+uuid: c81b6263-0f77-49ee-9d0d-3045e705c3fe
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs
+    - text
+id: paragraph.field_p_map_description
+field_name: field_p_map_description
+entity_type: paragraph
+type: text_long
+settings: {  }
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

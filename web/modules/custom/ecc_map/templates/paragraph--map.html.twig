@@ -3,6 +3,8 @@
 
 {% if '/node' in current_path and '/edit' in current_path %}
   {# do not attach #}
+{% elseif '/layout-paragraphs-builder' in current_path and '/edit' in current_path %}
+  {# do not attach #}
 {% else %}
   {{ attach_library('ecc_map/ecc_map') }}
 {% endif %}

@@ -1,0 +1,20 @@
+uuid: 79eb32cb-a73a-441e-98ca-0e537866a0c0
+langcode: en
+status: true
+dependencies:
+  module:
+    - geofield
+    - paragraphs
+id: paragraph.field_p_map_location_location
+field_name: field_p_map_location_location
+entity_type: paragraph
+type: geofield
+settings:
+  backend: geofield_backend_default
+module: geofield
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

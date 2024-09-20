@@ -29,29 +29,29 @@
         // This variable is going to be used later on for a calculation of bounds.
         let activeMarkers = [];
 
-        // Show More functionality.
-        const maxShopsPerPage = 9
-        const hiddenShop = 'js-hidden-shop';
+        // // Show More functionality.
+        // const maxShopsPerPage = 9
+        // const hiddenShop = 'js-hidden-shop';
 
-        // Classes for different button stylings
-        const buttonTransparentWhiteText = 'button-color--transparent-white-text-borders';
-        const buttonTransparentWhiteAltText = 'button-color--transparent-white-alt-text-borders';
-        const buttonTransparentGreenText = 'button-color--transparent-green-text-borders';
-        const buttonActive = 'js-button-active';
+        // // Classes for different button stylings
+        // const buttonTransparentWhiteText = 'button-color--transparent-white-text-borders';
+        // const buttonTransparentWhiteAltText = 'button-color--transparent-white-alt-text-borders';
+        // const buttonTransparentGreenText = 'button-color--transparent-green-text-borders';
+        // const buttonActive = 'js-button-active';
 
-        // Classes for different type of Oxfam shops location cards
-        const shopLocation = 'location-card__shops';
-        const donationPointLocation = 'location-card__donation-point';
-        const donationPointLocationActive = 'js-location-card__donation-point--active';
-        const shopLocationActive = 'js-location-card__shop--active';
+        // // Classes for different type of Oxfam shops location cards
+        // const shopLocation = 'location-card__shops';
+        // const donationPointLocation = 'location-card__donation-point';
+        // const donationPointLocationActive = 'js-location-card__donation-point--active';
+        // const shopLocationActive = 'js-location-card__shop--active';
 
-        // We are setting icons for locations; different based on the type of
-        // the Oxfam shop and the state (active or non-active)
+        // // We are setting icons for locations; different based on the type of
+        // // the Oxfam shop and the state (active or non-active)
         const markerIcon = '/modules/custom/ecc_map/images/map-marker-01-min.png';
 
         var latlongs = [];
         eccLocations.forEach((eccLocation, index) => {
-          console.log(eccLocation);
+
           let marker;
           const latitude = eccLocation.querySelector('.latlon-lat').textContent;
           const longitude = eccLocation.querySelector('.latlon-lon').textContent;
