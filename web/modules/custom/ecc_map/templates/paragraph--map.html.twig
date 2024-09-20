@@ -19,8 +19,11 @@
 %}
 {% block paragraph %}
   <div{{ attributes.addClass(classes) }}>
+    {% if content.field_p_map_title %}
+      <h2>{{ content.field_p_map_title }}</h2>
+    {% endif %}
     {% block content %}
-      {{ content }}
+      {{ content|without('field_p_map_title') }}
     {% endblock %}
   </div>
 {% endblock paragraph %}
