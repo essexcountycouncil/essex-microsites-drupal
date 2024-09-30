@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.media.image.field_media_category
     - field.field.media.image.field_media_image
     - image.style.thumbnail
     - media.type.image
@@ -15,6 +16,16 @@ targetEntityType: media
 bundle: image
 mode: default
 content:
+  field_media_category:
+    type: entity_reference_autocomplete
+    weight: 1
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   field_media_image:
     type: image_widget_crop
     weight: 1
@@ -60,4 +71,6 @@ hidden:
   created: true
   moderation_state: true
   path: true
+  publish_on: true
   uid: true
+  unpublish_on: true
