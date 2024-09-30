@@ -16,14 +16,6 @@ targetEntityType: media
 bundle: image
 mode: default
 content:
-  field_media_category:
-    type: entity_reference_label
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 2
-    region: content
   field_media_image:
     type: responsive_image
     label: visually_hidden
@@ -33,10 +25,11 @@ content:
       image_loading:
         attribute: eager
     third_party_settings: {  }
-    weight: 1
+    weight: 0
     region: content
 hidden:
   created: true
+  field_media_category: true
   name: true
   search_api_excerpt: true
   thumbnail: true
