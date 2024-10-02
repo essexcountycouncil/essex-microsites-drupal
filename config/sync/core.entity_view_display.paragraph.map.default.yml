@@ -9,6 +9,7 @@ dependencies:
     - paragraphs.paragraphs_type.map
   module:
     - entity_reference_revisions
+    - field_formatter_class
     - text
 id: paragraph.map.default
 targetEntityType: paragraph
@@ -36,7 +37,9 @@ content:
     label: hidden
     settings:
       link_to_entity: false
-    third_party_settings: {  }
+    third_party_settings:
+      field_formatter_class:
+        class: heading-2
     weight: 0
     region: content
 hidden:

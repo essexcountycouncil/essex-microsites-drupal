@@ -3,17 +3,27 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.map_location.field_map_location_link
     - field.field.paragraph.map_location.field_p_map_location_description
     - field.field.paragraph.map_location.field_p_map_location_location
     - field.field.paragraph.map_location.field_p_map_location_title
     - paragraphs.paragraphs_type.map_location
   module:
     - geofield_map
+    - link
 id: paragraph.map_location.default
 targetEntityType: paragraph
 bundle: map_location
 mode: default
 content:
+  field_map_location_link:
+    type: link_default
+    weight: 3
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
   field_p_map_location_description:
     type: string_textarea
     weight: 1
