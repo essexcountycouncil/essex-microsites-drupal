@@ -38,7 +38,16 @@
           const latitude = eccLocation.querySelector('.latlon-lat').textContent;
           const longitude = eccLocation.querySelector('.latlon-lon').textContent;
           const locationTitle = eccLocation.querySelector('.field--name-field-p-map-location-title').textContent;
-          console.log(locationTitle);
+          var locationLink = null;
+          if (eccLocation.querySelector('.field--name-field-map-location-link')  !=  null) {
+            locationLink = eccLocation.querySelector('.field--name-field-map-location-link a').href;
+            console.log(locationLink);
+          }
+          var locationDescription = null;
+          if (eccLocation.querySelector('.field--name-field-p-map-location-description') != null) {
+            locationDescription = eccLocation.querySelector('.field--name-field-p-map-location-description').textContent;
+          }
+
           if (latitude != null && longitude != null && locationTitle != null) {
             latlongs.push([latitude, longitude]);
 
@@ -87,11 +96,20 @@
               });
 
               this.setZIndexOffset(999);
-              map.setZoom(18);
+              map.setZoom(14);
               map.panTo(this.getLatLng());
             });
-
-            marker.bindPopup(`<a href="/">${locationTitle.trim()}</a>`);
+            var popupContent = '';
+            if (locationLink != null) {
+              popupContent = `<h4><a href="${locationLink.trim()}">${locationTitle.trim()}</a></h4>`;
+            }
+            else {
+              popupContent = `<h4>${locationTitle.trim()}</h4>`;
+            }
+            if (locationDescription != null) {
+              popupContent += `<p>${locationDescription.trim()}</p>`;
+            }
+            marker.bindPopup(popupContent);
 
             // Adding each marker to an array of markers
             markers.push(marker);
