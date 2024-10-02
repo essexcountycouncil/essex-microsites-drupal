@@ -1,0 +1,17 @@
+uuid: b73e3f4a-3995-40f8-82a8-4b2c4c3b388a
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.microsite
+    - taxonomy.vocabulary.media_category
+  module:
+    - group_term
+    - taxonomy
+id: microsite-234e2130c3c050ade3add2
+group_type: microsite
+content_plugin: 'group_term:media_category'
+plugin_config:
+  group_cardinality: 0
+  entity_cardinality: 1
+  use_creation_wizard: false

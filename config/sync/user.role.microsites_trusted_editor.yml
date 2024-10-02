@@ -7,6 +7,7 @@ dependencies:
     - media.type.document
     - media.type.image
     - media.type.remote_video
+    - taxonomy.vocabulary.media_category
     - workflows.workflow.localgov_alert_banners
   module:
     - content_moderation
@@ -24,6 +25,7 @@ dependencies:
     - replicate_ui
     - responsive_preview
     - system
+    - taxonomy
     - toolbar
     - webform
     - webform_node
@@ -46,6 +48,7 @@ permissions:
   - 'create image media'
   - 'create media'
   - 'create remote_video media'
+  - 'create terms in media_category'
   - 'delete all revisions'
   - 'delete any webform submission'
   - 'delete directory facets'
@@ -61,6 +64,7 @@ permissions:
   - 'edit own document media'
   - 'edit own image media'
   - 'edit own remote_video media'
+  - 'edit terms in media_category'
   - 'manage localgov alert banner localgov_alert_banner entities'
   - 'override all published option'
   - 'override localgov_news_article promote to front page option'
