@@ -1,6 +1,21 @@
 {% extends "@localgov_base/layout/status-pages/page-status.html.twig" %}
 
 {% block header %}
+    {{ attach_library('localgov_microsites_base/header') }}
+    {{ attach_library('localgov_microsites_base/header-js') }}
+    {{ attach_library('love_essex/alerts') }}
+    {{ attach_library('localgov_microsites_base/footer') }}
+    {% if is_front %}
+      {{ attach_library('love_essex/front') }}
+    {% endif %}
+
+    <div class="off-canvas" id="off-canvas" data-expanded="false">
+      {{ page.off_canvas }}
+    </div>
+
+    {% if has_header %}
+      {{ page.header }}
+    {% endif %}
     <header class="microsite-header">
         {% include "@localgov_microsites_base/layout/includes/microsites-header.html.twig" %}
     </header>
