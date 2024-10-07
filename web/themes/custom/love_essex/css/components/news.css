@@ -1,6 +1,8 @@
 .lgd-teaser--localgov-news-article img,
 .node--type-localgov-news-article .full__content img {
   border-radius: var(--border-radius);
+  margin-top: var(--spacing-large);
+  margin-bottom: var(--spacing-large);
 }
 
 .newsroom .block-system-breadcrumb-block {
