@@ -41,7 +41,6 @@
           var locationLink = null;
           if (eccLocation.querySelector('.field--name-field-map-location-link')  !=  null) {
             locationLink = eccLocation.querySelector('.field--name-field-map-location-link a').href;
-            console.log(locationLink);
           }
           var locationDescription = null;
           if (eccLocation.querySelector('.field--name-field-p-map-location-description') != null) {
@@ -98,6 +97,13 @@
               this.setZIndexOffset(999);
               map.setZoom(14);
               map.panTo(this.getLatLng());
+            });
+            marker.addEventListener('popupopen', function () {
+              var popup_close = document.querySelector('.leaflet-popup-close-button');
+              popup_close.addEventListener('click', function () {
+                var bounds = L.latLngBounds(latlongs).pad(0.1);
+                map.fitBounds(bounds);
+              });
             });
             var popupContent = '';
             if (locationLink != null) {
