@@ -1,0 +1,21 @@
+uuid: be499eaa-8b73-40d3-9bfd-2286534287b9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_p_map_location_location
+    - paragraphs.paragraphs_type.map_location
+  module:
+    - geofield
+id: paragraph.map_location.field_p_map_location_location
+field_name: field_p_map_location_location
+entity_type: paragraph
+bundle: map_location
+label: Location
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: geofield

@@ -1,0 +1,11 @@
+# Custom library for general purposes.
+ecc_map:
+  js:
+    js/ecc_map.js: {}
+  css:
+    component:
+      css/ecc_map.css: {}
+  dependencies:
+    - core/drupal
+    - core/once
+    - leaflet/leaflet-drupal

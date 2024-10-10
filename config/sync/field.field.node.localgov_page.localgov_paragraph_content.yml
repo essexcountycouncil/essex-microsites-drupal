@@ -23,6 +23,7 @@ dependencies:
     - paragraphs.paragraphs_type.localgov_text
     - paragraphs.paragraphs_type.localgov_video
     - paragraphs.paragraphs_type.logo_list
+    - paragraphs.paragraphs_type.map
     - paragraphs.paragraphs_type.waste_search
   module:
     - entity_reference_revisions
@@ -61,6 +62,7 @@ settings:
       localgov_text: localgov_text
       localgov_video: localgov_video
       waste_search: waste_search
+      map: map
     negate: 0
     target_bundles_drag_drop:
       call_to_action:
@@ -186,6 +188,12 @@ settings:
       logo_list:
         weight: -57
         enabled: true
+      map:
+        weight: 86
+        enabled: true
+      map_location:
+        weight: 87
+        enabled: false
       waste_search:
         weight: -44
         enabled: true

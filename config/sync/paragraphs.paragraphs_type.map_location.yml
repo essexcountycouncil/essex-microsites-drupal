@@ -1,0 +1,10 @@
+uuid: 06f2dcda-53b5-4e18-8c7d-37b9377bf171
+langcode: en
+status: true
+dependencies: {  }
+id: map_location
+label: 'Map Location'
+icon_uuid: null
+icon_default: null
+description: 'Represents a location on the map component.'
+behavior_plugins: {  }
