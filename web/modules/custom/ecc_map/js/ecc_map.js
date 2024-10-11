@@ -69,12 +69,7 @@
               createIcon: function () {
                 let numberDiv = document.createElement('div');
                 let image = this._createImg(this.options['iconUrl']);
-                image.setAttribute('alt', locationTitle.trim())
-                let innerNumberDiv = document.createElement('div');
-                innerNumberDiv.setAttribute('class', 'marker-number');
-                innerNumberDiv.innerHTML = this.options['number'] || '';
                 numberDiv.appendChild(image);
-                numberDiv.appendChild(innerNumberDiv);
                 this._setIconStyles(numberDiv, 'icon');
                 return numberDiv;
               },
