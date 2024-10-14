@@ -234,11 +234,11 @@ geocoder_provider.configuration.nominatim:
     userAgent:
       type: string
       label: "User agent"
-      description: "Value of the User-Agent header"
+      description: 'Value of the User-Agent header, for example "Drupal example.org". Replace "example.org" with your URL.'
     referer:
       type: string
       label: "Referer"
-      description: "Value of the Referer header"
+      description: 'Value of the Referer header, for example "https://example.org". Replace with your URL.'
 
 geocoder_provider.configuration.pelias:
   type: geocoder_provider_configuration
@@ -328,11 +328,11 @@ geocoder_provider.configuration.openstreetmap:
     userAgent:
       type: string
       label: "User agent"
-      description: "Value of the User-Agent header"
+      description: 'Value of the User-Agent header, for example "Drupal example.org". Replace "example.org" with your URL.'
     referer:
       type: string
       label: "Referer"
-      description: "Value of the Referer header"
+      description: 'Value of the Referer header, for example "https://example.org". Replace with your URL.'
 
 geocoder_provider.configuration.photon:
   type: geocoder_provider_configuration

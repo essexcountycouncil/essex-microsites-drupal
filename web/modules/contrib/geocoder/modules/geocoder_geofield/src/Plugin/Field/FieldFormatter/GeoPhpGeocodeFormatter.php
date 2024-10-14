@@ -77,7 +77,7 @@ abstract class GeoPhpGeocodeFormatter extends FileGeocodeFormatter {
     LinkGeneratorInterface $link_generator,
     EntityTypeManagerInterface $entity_type_manager,
     PreprocessorPluginManager $preprocessor_manager,
-    GeoPHPInterface $geophp_wrapper
+    GeoPHPInterface $geophp_wrapper,
   ) {
     parent::__construct(
       $plugin_id,

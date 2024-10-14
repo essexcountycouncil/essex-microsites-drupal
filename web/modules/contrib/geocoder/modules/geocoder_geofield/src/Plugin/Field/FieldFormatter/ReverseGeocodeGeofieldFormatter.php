@@ -82,7 +82,7 @@ class ReverseGeocodeGeofieldFormatter extends GeocodeFormatter {
     RendererInterface $renderer,
     LinkGeneratorInterface $link_generator,
     EntityTypeManagerInterface $entity_type_manager,
-    GeoPHPInterface $geophp_wrapper
+    GeoPHPInterface $geophp_wrapper,
   ) {
     parent::__construct(
       $plugin_id,

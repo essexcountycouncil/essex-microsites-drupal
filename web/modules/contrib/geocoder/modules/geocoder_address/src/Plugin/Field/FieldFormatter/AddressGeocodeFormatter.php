@@ -82,7 +82,7 @@ class AddressGeocodeFormatter extends GeocodeFormatter {
     RendererInterface $renderer,
     LinkGeneratorInterface $link_generator,
     EntityTypeManagerInterface $entity_type_manager,
-    AddressService $address_service
+    AddressService $address_service,
   ) {
     parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $label, $view_mode, $third_party_settings, $geocoder, $provider_plugin_manager, $dumper_plugin_manager, $renderer, $link_generator, $entity_type_manager);
     $this->addressService = $address_service;

@@ -1,11 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Cannot call method getApcuPrefix\\(\\) on class\\-string\\|object\\.$#"
-			count: 1
-			path: geocoder.module
-
-		-
 			message: "#^Call to an undefined method Drupal\\\\Core\\\\Form\\\\FormInterface\\:\\:getEntity\\(\\)\\.$#"
 			count: 1
 			path: modules/geocoder_field/geocoder_field.module

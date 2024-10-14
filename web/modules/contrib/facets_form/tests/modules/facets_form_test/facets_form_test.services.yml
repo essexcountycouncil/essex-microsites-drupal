@@ -1,0 +1,5 @@
+services:
+  facets_form_test.subscriber:
+    class: Drupal\facets_form_test\FacetsFormsTestSubscriber
+    tags:
+      - { name: event_subscriber }

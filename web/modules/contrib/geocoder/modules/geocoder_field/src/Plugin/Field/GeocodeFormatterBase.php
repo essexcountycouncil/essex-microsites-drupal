@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Drupal\geocoder_field\Plugin\Field;
 
@@ -121,7 +121,7 @@ abstract class GeocodeFormatterBase extends FormatterBase implements ContainerFa
     DumperPluginManager $dumper_plugin_manager,
     RendererInterface $renderer,
     LinkGeneratorInterface $link_generator,
-    EntityTypeManagerInterface $entity_type_manager
+    EntityTypeManagerInterface $entity_type_manager,
   ) {
     parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $label, $view_mode, $third_party_settings);
     $this->geocoder = $geocoder;

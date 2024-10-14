@@ -49,7 +49,7 @@ class AddressText extends DumperBase {
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    FormatterPluginManager $geocoder_formatter_plugin_manager
+    FormatterPluginManager $geocoder_formatter_plugin_manager,
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->geocoderFormatterPluginManager = $geocoder_formatter_plugin_manager;

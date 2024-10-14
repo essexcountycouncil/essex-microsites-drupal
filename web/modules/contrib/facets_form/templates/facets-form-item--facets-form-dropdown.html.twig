@@ -1,0 +1,22 @@
+{#
+/**
+ * @file
+ * Default theme implementation of a facet result item for dropdown widget.
+ *
+ * Available variables:
+ * - facet: The facet instance.
+ * - widget: The widget instance.
+ * - facet_source: The facet instance.
+ * - value: The item value.
+ * - label: The item label.
+ * - show_count: If this item shows count.
+ * - count: The amount of results.
+ * - depth: The item depth.
+ * - indent: The indent character.
+ *
+ * @see template_preprocess_facets_form_item__facets_form_dropdown()
+ *
+ * @ingroup themeable
+ */
+#}
+{%- if depth > 0 %}{% for i in 1..depth %}{{ indent|replace({' ': '&nbsp;'})|raw }}{% endfor %} {% endif %}{{ label }}{% if show_count %} ({{ count }}){% endif -%}
