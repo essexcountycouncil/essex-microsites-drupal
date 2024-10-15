@@ -13790,7 +13790,6 @@
                 "issues": "https://github.com/php-http/guzzle7-adapter/issues",
                 "source": "https://github.com/php-http/guzzle7-adapter/tree/1.0.0"
             },
-            "abandoned": "guzzlehttp/guzzle or php-http/guzzle7-adapter",
             "install-path": "../php-http/guzzle7-adapter"
         },
         {
