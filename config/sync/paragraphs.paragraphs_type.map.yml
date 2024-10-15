@@ -1,0 +1,10 @@
+uuid: a5646d4e-41b3-4a18-8dd3-27f75547004f
+langcode: en
+status: true
+dependencies: {  }
+id: map
+label: Map
+icon_uuid: null
+icon_default: null
+description: 'Allows the inclusion of arbitrary data points which are represented on a map.'
+behavior_plugins: {  }

@@ -1,0 +1,19 @@
+uuid: d79cec47-b2ee-4f68-853c-e3471d9909a5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_p_map_location_description
+    - paragraphs.paragraphs_type.map_location
+id: paragraph.map_location.field_p_map_location_description
+field_name: field_p_map_location_description
+entity_type: paragraph
+bundle: map_location
+label: Description
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long
