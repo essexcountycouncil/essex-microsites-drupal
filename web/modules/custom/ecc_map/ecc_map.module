@@ -5,19 +5,17 @@
  * Primary module hooks for ECC Map module.
  */
 
-
 /**
  * Implements hook_theme().
  *
  * Use a module-provided template.
  */
 function ecc_map_theme($existing, $type, $theme, $path) {
-  $current_request_path = \Drupal::requestStack()->getCurrentRequest()->getPathInfo();
-    return [
+  return [
     'paragraph__map' => [
       'template' => 'paragraph--map',
       'base hook' => 'paragraph',
       'path' => $path . '/templates',
-      ],
-    ];
+    ],
+  ];
 }
