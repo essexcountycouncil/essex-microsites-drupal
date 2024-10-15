@@ -6,6 +6,7 @@ dependencies:
     - node.type.waste_disposal_option
     - taxonomy.vocabulary.county_district
     - taxonomy.vocabulary.environmental_rating
+    - taxonomy.vocabulary.media_category
     - taxonomy.vocabulary.waste_disposal_service_type
     - taxonomy.vocabulary.waste_item
   module:
@@ -23,6 +24,7 @@ permissions:
   - 'access taxonomy overview'
   - 'create terms in county_district'
   - 'create terms in environmental_rating'
+  - 'create terms in media_category'
   - 'create terms in waste_disposal_service_type'
   - 'create terms in waste_item'
   - 'create waste_disposal_option content'
@@ -39,6 +41,7 @@ permissions:
   - 'edit own waste_disposal_option content'
   - 'edit terms in county_district'
   - 'edit terms in environmental_rating'
+  - 'edit terms in media_category'
   - 'edit terms in waste_disposal_service_type'
   - 'edit terms in waste_item'
   - 'enter waste_disposal_option revision log entry'

@@ -1,0 +1,16 @@
+uuid: 2bfa5417-9abc-4041-8a11-4316f0f1aebe
+langcode: en
+status: true
+dependencies:
+  module:
+    - group_context_domain
+third_party_settings:
+  group_context_domain:
+    group_uuid: f1bc3b4d-fea2-4ba2-bdfe-a8eab2da388c
+id: two_beta_essex_microsites_nomensa_xyz
+domain_id: 15484488
+hostname: two.beta.essex-microsites.nomensa.xyz
+name: Two
+scheme: https
+weight: 6
+is_default: false

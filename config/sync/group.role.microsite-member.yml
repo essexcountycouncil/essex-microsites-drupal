@@ -228,6 +228,7 @@ permissions:
   - 'view group_term:localgov_event_locality entity'
   - 'view group_term:localgov_event_price entity'
   - 'view group_term:localgov_topic entity'
+  - 'view group_term:media_category entity'
   - 'view group_term:waste_disposal_service_type entity'
   - 'view group_term:waste_item entity'
   - 'view group_webform:microsite_contact entity'

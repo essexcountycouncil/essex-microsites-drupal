@@ -1,0 +1,6 @@
+name: 'Love Essex Microsite'
+mail: mark+controller@annertech.com
+page:
+  front: /node/2
+  403: /node/460
+  404: /node/460

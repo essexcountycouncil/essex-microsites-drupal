@@ -36,3 +36,4 @@ permissions:
   - 'view group_term:localgov_event_locality entity'
   - 'view group_term:localgov_event_price entity'
   - 'view group_term:localgov_topic entity'
+  - 'view group_term:media_category entity'
