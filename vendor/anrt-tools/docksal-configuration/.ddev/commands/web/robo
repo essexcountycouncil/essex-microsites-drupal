@@ -1,6 +1,0 @@
-#!/bin/bash
-## Description: Run robo inside the web container
-## Usage: robo [flags] [args]
-## Example: "ddev robo init"
-
-robo "$@"

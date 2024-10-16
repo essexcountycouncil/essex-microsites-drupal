@@ -1,7 +1,0 @@
-sortableviews.sortable:
-  title: 'Sortable views script'
-  js:
-    js/sortable.js: {}
-  dependencies:
-    - core/drupal.ajax
-    - core/sortable

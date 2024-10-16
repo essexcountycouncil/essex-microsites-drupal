@@ -1,9 +1,0 @@
-langcode: en
-status: true
-dependencies:
-  module:
-    - group
-id: group.microsite
-label: Microsite
-targetEntityType: group
-cache: true

@@ -1,2 +1,0 @@
-permission_callbacks:
-  - '\Drupal\group_test\GroupTestPermissions::buildPermissions'

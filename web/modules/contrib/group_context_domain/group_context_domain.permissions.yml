@@ -1,3 +1,0 @@
-set domain group:
-  title: 'Set domain group'
-  description: 'Allows you to assign a group entity to a domain entity. Requires that you have access to edit both the domain record and the group entity.'

@@ -1,6 +1,0 @@
-services:
-  # Alter page header.
-  localgov_news.page_header:
-    class: Drupal\localgov_news\EventSubscriber\PageHeaderSubscriber
-    tags:
-      - { name: 'event_subscriber' }

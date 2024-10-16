@@ -1,7 +1,0 @@
-timestamp:
-  js:
-    js/honeypot_timestamp.js: {}
-  dependencies:
-    - core/jquery
-    - core/once
-    - core/drupalSettings

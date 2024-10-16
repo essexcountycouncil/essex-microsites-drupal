@@ -1,4 +1,0 @@
-create any group_term entity:
-  title: 'Create any group term entity'
-  description: 'Creat any group term entity regardless of permission restrictions.'
-  restrict access: true

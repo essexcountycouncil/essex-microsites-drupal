@@ -1,6 +1,0 @@
-entity_browser:
-  css:
-    component:
-      css/page_components_entity_browser.css: {}
-  dependencies:
-    - entity_browser/entity_reference

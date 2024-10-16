@@ -1,4 +1,0 @@
-override group permissions:
-  title: 'Override group permissions'
-  description: 'Allows to override group permissions.'
-  restrict access: TRUE

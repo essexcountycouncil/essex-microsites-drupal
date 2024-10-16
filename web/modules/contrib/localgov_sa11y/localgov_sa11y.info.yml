@@ -1,5 +1,0 @@
-name: LocalGov Sa11y
-type: module
-description: Applies the Sa11y accessibility checker to LocalGov Drupal websites.
-package: LocalGov Drupal
-core_version_requirement: ^9 || ^10

@@ -1,8 +1,0 @@
-<?php
-
-/**
- * @file
- * Hook implementations.
- */
-
-declare(strict_types=1);

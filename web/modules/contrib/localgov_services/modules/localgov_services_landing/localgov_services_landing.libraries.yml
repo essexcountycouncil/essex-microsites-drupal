@@ -1,5 +1,0 @@
-
-twitter_timeline:
-  version: 1.x
-  js:
-    https://platform.twitter.com/widgets.js: { type: external, minified: true }

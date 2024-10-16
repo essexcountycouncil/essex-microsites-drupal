@@ -1,9 +1,0 @@
-parameters:
-  ignoreErrors:
-    -
-      message: """
-        #^Usage of deprecated trait Symfony\\\\Component\\\\DependencyInjection\\\\ContainerAwareTrait in class Drupal\\\\group_sites\\\\Access\\\\GroupSitesAccessPolicy\\:
-        since Symfony 6\\.4, use dependency injection instead$#
-      """
-      count: 1
-      path: src/Access/GroupSitesAccessPolicy.php

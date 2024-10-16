@@ -1,9 +1,0 @@
-block.settings.localgov_alert_banner_block:
-  type: block_settings
-  label: 'LocalGov alert banner block settings'
-  mapping:
-    include_types:
-      type: sequence
-      label: 'Displayed alert types'
-      sequence:
-        type: string

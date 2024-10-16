@@ -1,6 +1,0 @@
-group_sites.settings:
-  title: 'Group Sites settings'
-  description: 'Configure the Group Sites module settings.'
-  route_name: 'group_sites.settings'
-  parent: 'system.admin_group'
-  weight: 10

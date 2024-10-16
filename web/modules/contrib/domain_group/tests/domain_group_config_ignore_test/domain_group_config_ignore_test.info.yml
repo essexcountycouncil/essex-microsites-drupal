@@ -1,4 +1,0 @@
-name: 'Domain group config ignore test'
-type: module
-package: Testing
-description: Testing module to check domain config is not exported.

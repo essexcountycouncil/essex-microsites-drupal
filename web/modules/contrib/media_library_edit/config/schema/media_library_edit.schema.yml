@@ -1,7 +1,0 @@
-field.widget.third_party.media_library_edit:
-  type: mapping
-  label: 'Media library edit settings'
-  mapping:
-    show_edit:
-      type: string
-      label: 'Show edit button'

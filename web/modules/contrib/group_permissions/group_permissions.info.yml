@@ -1,8 +1,0 @@
-name: 'Group permissions'
-type: module
-description: 'Group permissions module allows to override permissions per group'
-core_version_requirement: ^9 || ^10
-package: 'Group'
-
-dependencies:
-  - group:group
