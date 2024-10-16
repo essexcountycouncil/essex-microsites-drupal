@@ -1,0 +1,15 @@
+name: Facets Form Live Total
+description: Provides live results count for the facets summary.
+package: Search
+type: module
+core_version_requirement: ^9.2 || ^10
+lifecycle: deprecated
+lifecycle_link: https://www.drupal.org/project/facets_form/releases/1.0.0-alpha4
+dependencies:
+  - facets_form:facets_form
+  - facets:facets_summary
+
+# Information added by Drupal.org packaging script on 2024-07-18
+version: '1.0.0'
+project: 'facets_form'
+datestamp: 1721288351

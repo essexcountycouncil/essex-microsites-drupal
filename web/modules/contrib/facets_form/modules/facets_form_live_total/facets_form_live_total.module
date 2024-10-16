@@ -1,0 +1,43 @@
+<?php
+
+/**
+ * @file
+ * Hook implementations for Facets Form Live Total module.
+ */
+
+declare(strict_types = 1);
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\facets_form_live_total\FacetsFormLiveTotalBlock;
+
+/**
+ * Implements hook_block_alter().
+ */
+function facets_form_live_total_block_alter(array &$definitions): void {
+  foreach ($definitions as &$definition) {
+    if ($definition['id'] === 'facets_form') {
+      $definition['class'] = FacetsFormLiveTotalBlock::class;
+      break;
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function facets_form_live_total_form_facets_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
+  if ($form_state->get('block_settings')['live_total']) {
+    $form['#attached']['library'][] = 'facets_form_live_total/update_total';
+    $form['#attributes']['data-drupal-facets-form-live-total'] = 'true';
+  }
+}
+
+/**
+ * Implements hook_config_schema_info_alter().
+ */
+function facets_form_live_total_config_schema_info_alter(array &$definitions): void {
+  $definitions['block.settings.facets_form:*:*']['mapping']['live_total'] = [
+    'type' => 'boolean',
+    'label' => 'Live total',
+  ];
+}

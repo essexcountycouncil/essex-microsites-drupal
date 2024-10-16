@@ -1,0 +1,10 @@
+services:
+  facets_form_live_total.serach_api.query_subscriber:
+    class: Drupal\facets_form_live_total\EventSubscriber\SearchApiSubscriber
+    arguments: ['@facets.manager']
+    tags:
+      - { name: event_subscriber }
+  facets_form_live_total.enable_live_total_subscriber:
+    class: Drupal\facets_form_live_total\EventSubscriber\EnableLiveTotalSubscriber
+    tags:
+      - { name: event_subscriber }

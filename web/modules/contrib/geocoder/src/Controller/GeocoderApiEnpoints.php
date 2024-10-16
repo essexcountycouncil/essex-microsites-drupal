@@ -206,7 +206,7 @@ class GeocoderApiEnpoints extends ControllerBase {
     EntityTypeManagerInterface $entity_type_manager,
     Geocoder $geocoder,
     DumperPluginManager $dumper_plugin_manager,
-    FormatterPluginManager $geocoder_formatter_plugin_manager
+    FormatterPluginManager $geocoder_formatter_plugin_manager,
   ) {
     $this->config = $config_factory->get('geocoder.settings');
     $this->entityTypeManager = $entity_type_manager;

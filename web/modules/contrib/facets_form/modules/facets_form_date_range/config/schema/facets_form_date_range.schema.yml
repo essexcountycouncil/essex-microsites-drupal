@@ -1,0 +1,27 @@
+facet.widget.config.facets_form_date_range:
+  type: facet.widget.default_config
+  label: 'Date range (inside form) widget configuration'
+  mapping:
+    date_type:
+      type: string
+      label: 'Date type'
+    label:
+      type: mapping
+      label: 'Date labels'
+      mapping:
+        from:
+          type: label
+          label: 'From date/time'
+        to:
+          type: label
+          label: 'To date/time'
+    date_format:
+      type: mapping
+      label: 'Date format'
+      mapping:
+        type:
+          type: string
+          label: 'Format'
+        custom:
+          type: string
+          label: 'Custom format'

@@ -1,0 +1,16 @@
+uuid: 348b860a-e98e-4ef5-89ef-af90a84801ca
+langcode: en
+status: true
+dependencies:
+  module:
+    - group_context_domain
+third_party_settings:
+  group_context_domain:
+    group_uuid: 1c7bdd39-71b2-462a-a517-f2409c06c5fa
+id: three_beta_essex_microsites_nomensa_xyz
+domain_id: 258159
+hostname: three.beta.essex-microsites.nomensa.xyz
+name: Three
+scheme: https
+weight: 7
+is_default: false

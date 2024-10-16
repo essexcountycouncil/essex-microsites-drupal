@@ -1,0 +1,7 @@
+test:
+  js:
+    js/facets_form_test.js:
+      attributes:
+        defer: true
+  dependencies:
+    - facets_form/plugin_base

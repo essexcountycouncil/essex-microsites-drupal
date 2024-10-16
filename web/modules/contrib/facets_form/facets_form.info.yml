@@ -1,0 +1,12 @@
+type: module
+name: Facets Form
+description: Place the facets of a given facets source in a form.
+core_version_requirement: ^9.2 || ^10
+package: Search
+dependencies:
+  - facets:facets
+
+# Information added by Drupal.org packaging script on 2024-07-18
+version: '1.0.0'
+project: 'facets_form'
+datestamp: 1721288351

@@ -2,12 +2,12 @@
 
 namespace Drupal\geocoder;
 
+use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Render\RendererInterface;
-use Drupal\Core\Serialization\Yaml;
 use Drupal\Core\StringTranslation\PluralTranslatableMarkup;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslationInterface;
@@ -79,7 +79,7 @@ class ProviderPluginManager extends GeocoderPluginManagerBase {
     RendererInterface $renderer,
     LinkGeneratorInterface $link_generator,
     EntityTypeManagerInterface $entity_type_manager,
-    MessengerInterface $messenger
+    MessengerInterface $messenger,
   ) {
     parent::__construct('Plugin/Geocoder/Provider', $namespaces, $module_handler, ProviderInterface::class, GeocoderProvider::class);
     $this->alterInfo('geocoder_provider_info');

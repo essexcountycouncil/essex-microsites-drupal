@@ -1,0 +1,13 @@
+name: 'Facets Form Search API dependecy'
+type: module
+description: 'Provides a Search API dependecy.'
+package: 'Testing'
+hidden: true
+dependencies:
+    - search_api:search_api_db
+    - drupal:views
+
+# Information added by Drupal.org packaging script on 2024-07-18
+version: '1.0.0'
+project: 'facets_form'
+datestamp: 1721288351

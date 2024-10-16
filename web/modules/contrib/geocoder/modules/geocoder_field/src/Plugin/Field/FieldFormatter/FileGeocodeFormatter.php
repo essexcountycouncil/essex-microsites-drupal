@@ -92,7 +92,7 @@ class FileGeocodeFormatter extends GeocodeFormatterBase {
     RendererInterface $renderer,
     LinkGeneratorInterface $link_generator,
     EntityTypeManagerInterface $entity_type_manager,
-    PreprocessorPluginManager $preprocessor_manager
+    PreprocessorPluginManager $preprocessor_manager,
   ) {
     parent::__construct(
       $plugin_id,

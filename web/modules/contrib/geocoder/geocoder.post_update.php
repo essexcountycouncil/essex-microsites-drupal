@@ -5,7 +5,7 @@
  * Post update functions for Geocoder.
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\geocoder\Entity\GeocoderProvider;

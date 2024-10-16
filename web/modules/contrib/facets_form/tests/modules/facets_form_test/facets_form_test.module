@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * @file
+ * Hook implementations for Facets Form Test module.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * @file
+ * Hook implementations for facets_form_test module.
+ */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function facets_form_test_form_facets_form_alter(array &$form, FormStateInterface $form_state): void {
+  $form['#attached']['library'][] = 'facets_form_test/test';
+}

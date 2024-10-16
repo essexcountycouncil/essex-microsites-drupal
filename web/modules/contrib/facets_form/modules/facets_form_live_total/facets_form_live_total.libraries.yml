@@ -1,0 +1,10 @@
+update_total:
+  js:
+    js/update_total.js:
+      attributes:
+        defer: true
+  dependencies:
+    - core/drupal
+    - core/drupal.ajax
+    - core/once
+    - facets_form/plugin_base

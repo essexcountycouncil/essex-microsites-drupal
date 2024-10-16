@@ -1,0 +1,6 @@
+facets_form_live_total.controller:
+  path: '/facets-form-live-total'
+  defaults:
+    _controller: Drupal\facets_form_live_total\Controller\FacetFormAjaxController::getLiveTotal
+  requirements:
+    _custom_access: Drupal\facets_form_live_total\Controller\FacetFormAjaxController::access

@@ -1,0 +1,141 @@
+<?php
+
+/**
+ * @file
+ * Hook implementations for Facets Form module.
+ */
+
+declare(strict_types = 1);
+
+use Drupal\facets_form\FacetsFormWidgetInterface;
+
+/**
+ * Implements hook_theme().
+ */
+function facets_form_theme(): array {
+  return [
+    'facets_form_item' => [
+      'render element' => 'elements',
+      'variables' => [
+        'facet' => NULL,
+        'facet_source' => NULL,
+        'widget' => NULL,
+        'value' => NULL,
+        'label' => '',
+        'show_count' => FALSE,
+        'count' => NULL,
+        'depth' => 0,
+      ],
+    ],
+    'facets_form_item__facets_form_dropdown' => [
+      'base hook' => 'facets_form_item',
+    ],
+    'facets_form_item__facets_form_checkbox' => [
+      'base hook' => 'facets_form_item',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK().
+ */
+function facets_form_theme_suggestions_facets_form_item(array $variables): array {
+  return [
+    "facets_form_item__{$variables['widget']->getPluginId()}",
+    "facets_form_item__{$variables['widget']->getPluginId()}__" . str_replace(':', '__', $variables['facet_source']->getPluginId()),
+  ];
+}
+
+/**
+ * Prepares variables for facets_form_item__facets_form_dropdown templates.
+ *
+ * Default template: facets-form-item--facets-form-dropdown.html.twig.
+ *
+ * @param array $variables
+ *   The template variables.
+ */
+function template_preprocess_facets_form_item__facets_form_dropdown(array &$variables): void {
+  // Pass the character used for indent.
+  $variables['indent'] = $variables['widget']->getConfiguration()['child_items_prefix'];
+}
+
+/**
+ * Implements hook_library_info_build().
+ *
+ * Dynamically build the library definition attached to widget plugins. Modules
+ * providing facets form widget plugins can place the Javascript file under
+ * their `js/plugin/` directory. The file name should match the widget plugin ID
+ * with `.js` as extension. See the `js/facets_form_checkbox.js` file for an
+ * example. This function will auto-discover such files and will create a
+ * library entry. For instance, the `facets_form_checkbox` plugin will create
+ * this library definition:
+ * @code
+ * plugin.facets_form_checkbox:
+ *   js:
+ *     js/plugin/facets_form_checkbox.js: {  }
+ *   dependencies:
+ *     - core/drupal
+ *     - core/jquery
+ *     - core/once
+ * @endcode
+ */
+function facets_form_library_info_alter(array &$libraries, string $extension): void {
+  foreach (facets_form_get_plugins_with_js_snippet() as $definition) {
+    if ($definition['provider'] === $extension) {
+      $plugin_js_file = "js/plugin/{$definition['id']}.js";
+      $libraries["plugin.{$definition['id']}"] = [
+        'js' => [
+          $plugin_js_file => [],
+        ],
+        'dependencies' => [
+          'core/drupal',
+        ],
+      ];
+    }
+  }
+
+  // Add the base plugin only if there are plugins with Javascript snippets.
+  if ($extension === 'facets_form') {
+    // Switch to vanilla Javascript when Drupal 9.1 support is dropped.
+    // @see https://www.drupal.org/node/3158256
+    $jquery_dependencies = [
+      'core/once',
+    ];
+    $dependencies = array_map(function (array $definition): string {
+      return "{$definition['provider']}/plugin.{$definition['id']}";
+    }, facets_form_get_plugins_with_js_snippet());
+    if ($dependencies) {
+      $libraries['plugin_base'] = [
+        'js' => [
+          'js/plugin_base.js' => ['attributes' => ['defer' => TRUE]],
+        ],
+        // The base library should depend on all plugin libraries.
+        'dependencies' => array_merge($jquery_dependencies, $dependencies),
+      ];
+    }
+  }
+}
+
+/**
+ * Returns a list of definitions for facets form plugin exposing a JS snippet.
+ *
+ * @return array
+ *   A list of definitions for facets form plugin exposing a JS snippet.
+ */
+function facets_form_get_plugins_with_js_snippet(): array {
+  static $definitions;
+  if (!isset($definitions)) {
+    /** @var \Drupal\Component\Plugin\PluginManagerInterface $widget_manager */
+    $widget_manager = \Drupal::service('plugin.manager.facets.widget');
+    $definitions = [];
+    foreach ($widget_manager->getDefinitions() as $id => $definition) {
+      if (is_subclass_of($definition['class'], FacetsFormWidgetInterface::class)) {
+        // @todo Extract the type of $extension so that we don't limit to modules.
+        if (file_exists(\Drupal::service('extension.list.module')->getPath($definition['provider']) . "/js/plugin/{$definition['id']}.js")) {
+          $definitions[$id] = $definition;
+        }
+      }
+    }
+  }
+  return $definitions;
+}

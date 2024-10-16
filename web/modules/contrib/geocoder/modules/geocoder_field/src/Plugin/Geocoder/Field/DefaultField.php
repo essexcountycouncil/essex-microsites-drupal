@@ -128,7 +128,7 @@ class DefaultField extends PluginBase implements GeocoderFieldPluginInterface, C
     ProviderPluginManager $provider_plugin_manager,
     RendererInterface $renderer,
     LinkGeneratorInterface $link_generator,
-    EntityTypeManagerInterface $entity_type_manager
+    EntityTypeManagerInterface $entity_type_manager,
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->config = $config_factory->get('geocoder.settings');

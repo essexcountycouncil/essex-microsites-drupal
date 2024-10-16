@@ -1,0 +1,9 @@
+type: module
+name: 'Facets Form Test'
+description: 'Support module for Facets Form testing.'
+package: Testing
+
+# Information added by Drupal.org packaging script on 2024-07-18
+version: '1.0.0'
+project: 'facets_form'
+datestamp: 1721288351
