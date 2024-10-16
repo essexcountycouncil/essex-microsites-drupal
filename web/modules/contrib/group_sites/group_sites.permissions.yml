@@ -1,8 +1,0 @@
-configure group_sites:
-  title: 'Configure group sites settings'
-  description: 'Grants access to the settings form where you can configure how Group Sites functions.'
-  restrict access: TRUE
-use group_sites admin mode:
-  title: 'Use admin mode'
-  description: 'Allows you to temporarily bypass access so you can manage all the sites from within one site.'
-  restrict access: TRUE

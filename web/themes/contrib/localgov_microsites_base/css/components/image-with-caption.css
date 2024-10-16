@@ -1,4 +1,0 @@
-.lgd-image__image + * {
-  color: var(--image-with-caption-color);
-  background-color: var(--image-with-caption-bg-color);
-}

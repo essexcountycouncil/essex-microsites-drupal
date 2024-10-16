@@ -1,9 +1,0 @@
-name: 'Domain Group'
-type: module
-description: 'This module provides integration between Domain and Group modules.'
-core_version_requirement: ^9.1 | ^10
-package: 'Domain'
-dependencies:
-  - group:group
-  - domain:domain
-  - domain:domain_config

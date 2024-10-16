@@ -1,8 +1,0 @@
-name: 'Group Webform'
-description: 'Enables Webform functionality for the Node module'
-package: 'Group'
-type: 'module'
-core_version_requirement: ^9 || ^10
-dependencies:
-  - 'weform:webform'
-  - 'group:group'

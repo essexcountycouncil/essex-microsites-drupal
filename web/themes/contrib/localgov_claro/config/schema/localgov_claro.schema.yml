@@ -1,5 +1,0 @@
-# Schema for the configuration files of the Localgov Claro theme.
-
-localgov_claro.settings:
-  type: theme_settings
-  label: 'Localgov Claro settings'

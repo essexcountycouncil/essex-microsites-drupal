@@ -1,5 +1,0 @@
-langcode: en
-status: true
-dependencies: {  }
-id: localgov_full_page
-label: 'Full page'
