@@ -1,5 +1,0 @@
-name: "LocalGov Base Test Support"
-description: "Things to help test localgov_base that have to live in a module."
-type: module
-core_version_requirement: ^8.8 || ^9 || ^10
-hidden: true

@@ -1,5 +1,0 @@
-services:
-  localgov_base_test_support.render_test_block_response_subscriber:
-    class: '\Drupal\localgov_base_test_support\EventSubscriber\RenderTestBlockResponseSubscriber'
-    tags:
-      - { name: 'event_subscriber' }

@@ -1,4 +1,0 @@
-services:
-  domain_path.helper:
-    class: Drupal\domain_path\DomainPathHelper
-    arguments: ['@current_user', '@entity_type.manager', '@path_alias.manager', '@config.factory', '@module_handler']

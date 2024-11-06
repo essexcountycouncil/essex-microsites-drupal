@@ -1,8 +1,0 @@
-domain_group.group_domain_settings:
-  title: 'Domain settings'
-  base_route: 'entity.group.canonical'
-  route_name: 'domain_group.domain_group_settings_form'
-domain_group.general_settings:
-  title: Domains group settings
-  route_name: domain_group.domain_group_general_form
-  base_route: domain.admin

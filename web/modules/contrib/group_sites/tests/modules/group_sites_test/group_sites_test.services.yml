@@ -1,6 +1,0 @@
-services:
-  group_sites_test.hardcoded_group_context:
-    class: 'Drupal\group_sites_test\Context\HardcodedGroupContext'
-    arguments: ['@string_translation']
-    tags:
-      - { name: 'context_provider' }

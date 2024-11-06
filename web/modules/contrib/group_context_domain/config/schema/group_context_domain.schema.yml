@@ -1,7 +1,0 @@
-domain.record.*.third_party.group_context_domain:
-  type: mapping
-  label: 'Group Context: Domain settings'
-  mapping:
-    group_uuid:
-      type: uuid
-      label: 'Group UUID'
