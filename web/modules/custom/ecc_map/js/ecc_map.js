@@ -119,6 +119,9 @@
         // Zoom the map to fit the locations.
         var bounds = L.latLngBounds(latlongs).pad(0.1);
         map.fitBounds(bounds);
+        if (latlongs.length === 1) {
+          map.setZoom(10);
+        }
       }
     },
   };
