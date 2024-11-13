@@ -155,7 +155,6 @@
                 "type:drupal-custom-theme"
             ]
         },
-        "composer-exit-on-patch-failure": true,
         "patchLevel": {
             "drupal/core": "-p2"
         },
