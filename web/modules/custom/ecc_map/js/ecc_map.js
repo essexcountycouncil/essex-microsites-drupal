@@ -6,7 +6,6 @@
       if (mapElementsArray.length > 0) {
         for (var i = 0; i < mapElementsArray.length; i++) {
           let mapElement = mapElementsArray[i];
-          console.log(mapElement);
           // Define an element which contains a map.
           let map = L.map(mapElement, {
             center: [53.3239919, -6.5258808],
