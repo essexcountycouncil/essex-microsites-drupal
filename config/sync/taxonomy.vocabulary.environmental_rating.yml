@@ -6,3 +6,4 @@ name: 'Environmental Rating'
 vid: environmental_rating
 description: 'This is the priority of how organisations will display on the search results page , based on waste hierarchy.'
 weight: 0
+new_revision: false

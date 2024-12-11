@@ -6,3 +6,4 @@ name: 'Waste Disposal Service Type'
 vid: waste_disposal_service_type
 description: 'A disposal option can operate several services. '
 weight: 0
+new_revision: false

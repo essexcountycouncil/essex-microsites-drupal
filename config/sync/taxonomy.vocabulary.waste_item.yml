@@ -6,3 +6,4 @@ name: 'Waste item'
 vid: waste_item
 description: 'A collection of things of which people wish to dispose.'
 weight: 0
+new_revision: false
