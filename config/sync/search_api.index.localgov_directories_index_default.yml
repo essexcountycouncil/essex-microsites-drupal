@@ -3,19 +3,18 @@ langcode: en
 status: true
 dependencies:
   config:
+    - core.entity_view_mode.node.directory_index
+    - field.storage.geo_entity.location
     - field.storage.node.localgov_directory_channels
     - field.storage.node.localgov_directory_facets_select
     - field.storage.node.localgov_directory_title_sort
-    - field.storage.geo_entity.location
     - field.storage.node.localgov_location
     - search_api.server.localgov_directories_default
-    - core.entity_view_mode.node.directory_index
   module:
     - geo_entity
-    - search_api_location
-    - search_api
     - localgov_microsites_group
     - node
+    - search_api_location
 _core:
   default_config_hash: v5DAYsUm4Cod06JxAK_y4fYqBRkOtcUtaNRdI2mPpv8
 id: localgov_directories_index_default

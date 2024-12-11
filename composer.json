@@ -94,16 +94,17 @@
         "sort-packages": true,
         "bin-dir": "vendor/bin/",
         "allow-plugins": {
-            "composer/installers": true,
-            "cweagans/composer-patches": true,
-            "drupal/core-composer-scaffold": true,
-            "drupal/core-project-message": true,
-            "phpstan/extension-installer": true,
-            "dealerdirect/phpcodesniffer-composer-installer": true,
-            "php-http/discovery": true,
-            "topfloor/composer-cleanup-vcs-dirs": true,
-            "joachim-n/composer-manifest": true
-        },
+      "composer/installers": true,
+      "cweagans/composer-patches": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "drupal/core-composer-scaffold": true,
+      "drupal/core-project-message": true,
+      "joachim-n/composer-manifest": true,
+      "php-http/discovery": true,
+      "phpstan/extension-installer": true,
+      "tbachert/spi": true,
+      "topfloor/composer-cleanup-vcs-dirs": true
+    },
         "audit": {
             "ignore": {
                 "GHSA-mg8j-w93w-xjgc": "Apache has been configured to block access to applicable paths"
