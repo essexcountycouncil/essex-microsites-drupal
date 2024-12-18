@@ -28,7 +28,7 @@ _core:
 name: 'Blog post'
 type: localgov_blog_post
 description: 'A blog post page that appears in a blog channel.'
-help: ''
+help: null
 new_revision: true
 preview_mode: 1
 display_submitted: false

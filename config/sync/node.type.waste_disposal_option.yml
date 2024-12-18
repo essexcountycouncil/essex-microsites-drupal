@@ -11,7 +11,7 @@ third_party_settings:
 name: 'Disposal Option'
 type: waste_disposal_option
 description: 'A waste disposal option. E.g. a recycling centre, a bring bank, kerbside collection service, a library, a supermarket.'
-help: ''
+help: null
 new_revision: true
 preview_mode: 0
 display_submitted: false

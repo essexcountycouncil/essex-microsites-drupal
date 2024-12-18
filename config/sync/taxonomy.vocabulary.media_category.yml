@@ -22,3 +22,4 @@ name: 'Media Category'
 vid: media_category
 description: 'For the purpose of tagging Media to facilitate the creation of content'
 weight: 0
+new_revision: false

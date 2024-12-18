@@ -3,14 +3,13 @@ langcode: en
 status: true
 dependencies:
   config:
+    - core.entity_view_mode.node.search_index
     - field.storage.node.localgov_event_categories
     - field.storage.node.localgov_event_date
     - field.storage.node.localgov_event_locality
     - field.storage.node.localgov_event_price
     - search_api.server.localgov_events
-    - core.entity_view_mode.node.search_index
   module:
-    - search_api
     - localgov_microsites_group
     - node
 _core:

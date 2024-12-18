@@ -72,7 +72,7 @@ settings:
         - '<h4 id>'
         - '<h5 id>'
         - '<h6 id>'
-        - '<a hreflang data-entity-substitution data-entity-type data-entity-uuid title>'
+        - '<a hreflang title>'
         - '<ul type>'
         - '<img data-entity-type data-entity-uuid data-caption>'
         - '<drupal-media data-caption title>'
@@ -127,9 +127,3 @@ settings:
       allow_view_mode_override: true
 image_upload:
   status: false
-  scheme: public
-  directory: inline-images
-  max_size: ''
-  max_dimensions:
-    width: 0
-    height: 0

@@ -4,5 +4,5 @@ status: true
 dependencies: {  }
 id: text_block
 label: 'Text block'
-revision: 0
+revision: false
 description: ''

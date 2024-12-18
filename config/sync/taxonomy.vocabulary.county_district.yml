@@ -4,5 +4,6 @@ status: true
 dependencies: {  }
 name: 'County District'
 vid: county_district
-description: ''
+description: null
 weight: 0
+new_revision: false
