@@ -1,6 +1,6 @@
 {
-  "name": "essexcountycouncil/essex-microsites",
-  "description": "Essex microsites project based on for the LocalGov Drupal Microsites distribution.",
+    "name": "essexcountycouncil/essex-microsites",
+    "description": "Essex microsites project based on for the LocalGov Drupal Microsites distribution.",
     "type": "project",
     "license": "GPL-2.0-or-later",
     "homepage": "https://github.com/localgovdrupal/localgov_microsites_project",
@@ -94,17 +94,17 @@
         "sort-packages": true,
         "bin-dir": "vendor/bin/",
         "allow-plugins": {
-      "composer/installers": true,
-      "cweagans/composer-patches": true,
-      "dealerdirect/phpcodesniffer-composer-installer": true,
-      "drupal/core-composer-scaffold": true,
-      "drupal/core-project-message": true,
-      "joachim-n/composer-manifest": true,
-      "php-http/discovery": true,
-      "phpstan/extension-installer": true,
-      "tbachert/spi": true,
-      "topfloor/composer-cleanup-vcs-dirs": true
-    },
+            "composer/installers": true,
+            "cweagans/composer-patches": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "drupal/core-composer-scaffold": true,
+            "drupal/core-project-message": true,
+            "joachim-n/composer-manifest": true,
+            "php-http/discovery": true,
+            "phpstan/extension-installer": true,
+            "tbachert/spi": true,
+            "topfloor/composer-cleanup-vcs-dirs": true
+        },
         "audit": {
             "ignore": {
                 "GHSA-mg8j-w93w-xjgc": "Apache has been configured to block access to applicable paths"
@@ -183,16 +183,16 @@
                 "Declare permissions for LocalGov Publications": "patches/localgov_publications.patch"
             },
             "drupal/views_autocomplete_filters": {
-              "Use different operator for autocomplete": "https://www.drupal.org/files/issues/2024-06-28/2792223_3_autocomplete_operator.patch"
+                "Use different operator for autocomplete": "https://www.drupal.org/files/issues/2024-06-28/2792223_3_autocomplete_operator.patch"
             }
         }
     },
     "scripts": {
-      "phpcs": "bin/phpcs --standard=Drupal,DrupalPractice --ignore=*.js web/modules/custom",
-      "phpcbf": "bin/phpcbf --standard=Drupal,DrupalPractice --ignore=*.js web/modules/custom",
-      "tests-required": [
-          "composer validate",
-          "composer audit"
-      ]
+        "phpcs": "bin/phpcs --standard=Drupal,DrupalPractice --ignore=*.js web/modules/custom",
+        "phpcbf": "bin/phpcbf --standard=Drupal,DrupalPractice --ignore=*.js web/modules/custom",
+        "tests-required": [
+            "composer validate",
+            "composer audit"
+        ]
     }
 }
