@@ -1,5 +1,7 @@
 <?php
 
+use \Drupal\Core\Url;
+
 /**
  * @file
  * Primary module hooks for LGD Theme Fixes module.
@@ -35,5 +37,10 @@ function lgd_theme_fixes_form_alter(&$form, &$form_state, $form_id) {
         $form['actions']['reset']['#access'] = TRUE;
       }
     }
+  }
+
+  if ($form['#form_id'] === 'localgov_alert_banner_localgov_alert_banner_add_form') {
+    $destination_url = Url::fromUserInput('/admin/content/alert-banner');
+    $form_state->setRedirectUrl($destination_url);
   }
 }
