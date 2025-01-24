@@ -1,9 +1,9 @@
 <?php
 
-use \Drupal\Core\Url;
-use Drupal\group\Entity\Group;
-use Drupal\group\Context\GroupContext;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\Core\Url;
+use Drupal\group\Context\GroupContext;
+use Drupal\group\Entity\Group;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -51,8 +51,10 @@ function lgd_theme_fixes_form_alter(&$form, &$form_state, $form_id) {
 /**
  * Custom submit function for microsite alert banner creation.
  *
- * @param  array $form
- * @param  array $form_state
+ * @param array $form
+ *   A structured array representing the form itself.
+ * @param array $form_state
+ *   An array representing the form state.
  * @return void
  */
 function microsite_create_alert_redirect_submit($form, &$form_state) {
@@ -66,7 +68,13 @@ function microsite_create_alert_redirect_submit($form, &$form_state) {
         ->loadEntityByUuid('group', $group_uuid);
     }
   }
-  $destination_path = '/group/' . $group->id() . '/alert-banners';
+  if (!empty($group)) {
+    $destination_path = '/group/' . $group->id() . '/alert-banners';
+  }
+  else {
+    // If we can't find the group, just go to the homepage.
+    $destination_path = '/';
+  }
   $destination_url = Url::fromUserInput($destination_path);
   $form_state->setRedirectUrl($destination_url);
 }
