@@ -23,7 +23,7 @@ settings:
       - '|'
       - undo
       - redo
-      - '|'
+      - '-'
       - link
       - '|'
       - bulletedList
