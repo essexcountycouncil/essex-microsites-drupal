@@ -39,6 +39,7 @@
         "drupal/core-project-message": "^10.1",
         "drupal/core-recommended": "^10.2.8",
         "drupal/devel": "^5.1",
+        "drupal/domain": "^2.0@beta",
         "drupal/domain_group": "3.x-dev@dev",
         "drupal/draggableviews": "^2.1",
         "drupal/eu_cookie_compliance": "^1.24",

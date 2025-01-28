@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fbfa5c62a699ced93d240d606f80420f",
+    "content-hash": "32b9eb3e9d337a6701ef755d6ea73079",
     "packages": [
         {
             "name": "anrt-tools/docksal-configuration",
@@ -2954,20 +2954,20 @@
         },
         {
             "name": "drupal/domain",
-            "version": "2.0.0-beta1",
+            "version": "2.0.0-beta2",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/domain.git",
-                "reference": "2.0.0-beta1"
+                "reference": "2.0.0-beta2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/domain-2.0.0-beta1.zip",
-                "reference": "2.0.0-beta1",
-                "shasum": "0edbc9d6c79cb0a61c08c656e9258c2450710664"
+                "url": "https://ftp.drupal.org/files/projects/domain-2.0.0-beta2.zip",
+                "reference": "2.0.0-beta2",
+                "shasum": "af75edc81a41544296260e4ab21ed1ab8f7531e0"
             },
             "require": {
-                "drupal/core": "^9 || ^10"
+                "drupal/core": "^9 || ^10 || ^11"
             },
             "require-dev": {
                 "drupal/domain_access": "*",
@@ -2976,8 +2976,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "2.0.0-beta1",
-                    "datestamp": "1686067462",
+                    "version": "2.0.0-beta2",
+                    "datestamp": "1726699929",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Beta releases are not covered by Drupal security advisories."
@@ -2996,6 +2996,10 @@
                 {
                     "name": "nonsie",
                     "homepage": "https://www.drupal.org/user/29899"
+                },
+                {
+                    "name": "webflo",
+                    "homepage": "https://www.drupal.org/user/254778"
                 }
             ],
             "description": "Creates domain records within a Drupal installation.",
@@ -19904,6 +19908,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "anrt-tools/docksal-configuration": 20,
+        "drupal/domain": 10,
         "drupal/domain_group": 20,
         "drupal/group_permissions": 15,
         "drupal/ultimate_cron": 15
