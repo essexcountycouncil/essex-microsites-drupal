@@ -7348,26 +7348,26 @@
         },
         {
             "name": "drupal/sortableviews",
-            "version": "1.1.0",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/sortableviews.git",
-                "reference": "8.x-1.1"
+                "reference": "8.x-1.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/sortableviews-8.x-1.1.zip",
-                "reference": "8.x-1.1",
-                "shasum": "272c8cdec60625cdb5ee4b493d297bf01e07b353"
+                "url": "https://ftp.drupal.org/files/projects/sortableviews-8.x-1.3.zip",
+                "reference": "8.x-1.3",
+                "shasum": "e00af8d49ea76d3e6fc94b720fd9dd2fc71232af"
             },
             "require": {
-                "drupal/core": "^8.8 || ^9 || ^10"
+                "drupal/core": "^8.8 || ^9 || ^10 || ^11"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.1",
-                    "datestamp": "1682673199",
+                    "version": "8.x-1.3",
+                    "datestamp": "1723559494",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
