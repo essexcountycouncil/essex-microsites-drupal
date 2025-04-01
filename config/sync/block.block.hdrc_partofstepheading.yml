@@ -1,0 +1,20 @@
+uuid: 3a012120-fb5f-401e-949d-9a8b21ffaa4d
+langcode: en
+status: true
+dependencies:
+  module:
+    - localgov_step_by_step
+  theme:
+    - hdrc
+id: hdrc_partofstepheading
+theme: hdrc
+region: sidebar_second
+weight: 0
+provider: null
+plugin: step_part_of_block
+settings:
+  id: step_part_of_block
+  label: 'Part of step heading'
+  label_display: '0'
+  provider: localgov_step_by_step
+visibility: {  }

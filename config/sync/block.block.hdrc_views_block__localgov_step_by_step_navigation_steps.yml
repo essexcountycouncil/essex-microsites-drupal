@@ -1,0 +1,25 @@
+uuid: 3be59161-33bd-4ae1-98cf-869aea8cd3bb
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.localgov_step_by_step_navigation
+  module:
+    - views
+  theme:
+    - hdrc
+id: hdrc_views_block__localgov_step_by_step_navigation_steps
+theme: hdrc
+region: sidebar_second
+weight: 0
+provider: null
+plugin: 'views_block:localgov_step_by_step_navigation-steps'
+settings:
+  id: 'views_block:localgov_step_by_step_navigation-steps'
+  label: ''
+  label_display: '0'
+  provider: views
+  context_mapping: {  }
+  views_label: ''
+  items_per_page: none
+visibility: {  }

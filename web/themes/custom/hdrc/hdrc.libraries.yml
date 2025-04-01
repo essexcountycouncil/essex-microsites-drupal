@@ -1,0 +1,11 @@
+# Main theme library.
+global:
+  version: 1.0.0
+  css:
+    base:
+      # This is called in your essex_microsites_base.info.yml file via `libraries-extend`.
+      # This ensures that in the cascade, your variables come after the base theme's
+      # variables.
+      css/base/variables.css: {}
+    component:
+      css/component/header.css: {}

@@ -1,0 +1,20 @@
+uuid: efd0e89a-7c27-432b-8caf-6474eb4dcd9e
+langcode: en
+status: true
+dependencies:
+  theme:
+    - hdrc
+_core:
+  default_config_hash: 7EXWAwg1nS_-vBjr2MeAe_CQ6K6psm7fet4TugM5JrA
+id: hdrc_page_title
+theme: hdrc
+region: page_title
+weight: -13
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  label_display: '0'
+  provider: core
+visibility: {  }

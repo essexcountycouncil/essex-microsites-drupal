@@ -1,0 +1,10 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * @file
+ * Functions to support theming in the HDRC theme.
+ *
+ * There's nothing happening here yet. It's just a placeholder for now.
+ */

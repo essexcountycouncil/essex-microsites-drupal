@@ -1,0 +1,22 @@
+uuid: 5fbb0ebe-fa1d-48e2-977c-d48f0afaf472
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - hdrc
+_core:
+  default_config_hash: EczozzKn1Ia4oRFm_sGdUCCYy3smq8CcquVkRbN1GSY
+id: hdrc_messages
+theme: hdrc
+region: messages
+weight: -13
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: Messages
+  label_display: '0'
+  provider: system
+visibility: {  }

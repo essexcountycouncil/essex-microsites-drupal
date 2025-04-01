@@ -1,0 +1,22 @@
+uuid: a53a1085-4e26-4e54-ae39-0bfd5012112f
+langcode: en
+status: true
+dependencies:
+  theme:
+    - hdrc
+_core:
+  default_config_hash: lGhzh0rE1PVDN7rGPrLcFzUnHSmiQOzqsNCFn-EhDXY
+id: hdrc_tabs
+theme: hdrc
+region: tabs
+weight: -13
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: Tabs
+  label_display: '0'
+  provider: core
+  primary: true
+  secondary: true
+visibility: {  }

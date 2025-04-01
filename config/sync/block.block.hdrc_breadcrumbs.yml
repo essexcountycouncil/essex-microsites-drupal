@@ -1,0 +1,24 @@
+uuid: 46e4a623-8f44-41a6-900b-1612eb6b05ba
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - hdrc
+id: hdrc_breadcrumbs
+theme: hdrc
+region: breadcrumb
+weight: 0
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  label_display: '0'
+  provider: system
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    pages: '<front>'

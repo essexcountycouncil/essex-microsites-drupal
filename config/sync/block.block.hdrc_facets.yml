@@ -1,0 +1,32 @@
+uuid: 842ba131-03d7-4744-ad65-5e18d754b7f8
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.localgov_directories_facets
+  module:
+    - facets
+    - node
+  theme:
+    - hdrc
+id: hdrc_facets
+theme: hdrc
+region: sidebar_first
+weight: 0
+provider: null
+plugin: 'facet_block:localgov_directories_facets'
+settings:
+  id: 'facet_block:localgov_directories_facets'
+  label: Facets
+  label_display: '0'
+  provider: facets
+  context_mapping: {  }
+  block_id: facets
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      localgov_directory: localgov_directory
