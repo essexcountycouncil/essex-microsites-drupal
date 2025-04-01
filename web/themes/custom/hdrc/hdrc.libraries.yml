@@ -1,8 +1,5 @@
 # Main theme library.
 global:
-  js:
-    js/hdrc.js: {}
-
   css:
     base:
       # This is called in your essex_microsites_base.info.yml file via `libraries-extend`.

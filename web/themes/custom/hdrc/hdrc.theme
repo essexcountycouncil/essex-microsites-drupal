@@ -5,25 +5,6 @@ declare(strict_types=1);
 /**
  * @file
  * Functions to support theming in the HDRC theme.
+ *
+ * There's nothing happening here yet. It's just a placeholder for now.
  */
-
-/**
- * Implements hook_preprocess_HOOK() for html.html.twig.
- */
-function hdrc_preprocess_html(array &$variables): void {
-
-}
-
-/**
- * Implements hook_preprocess_HOOK() for page.html.twig.
- */
-function hdrc_preprocess_page(array &$variables): void {
-
-}
-
-/**
- * Implements hook_preprocess_HOOK() for node.html.twig.
- */
-function hdrc_preprocess_node(array &$variables): void {
-
-}
