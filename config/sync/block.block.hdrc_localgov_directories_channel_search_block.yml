@@ -1,0 +1,32 @@
+uuid: 7f283f23-9870-4a9c-9970-cbd5d98b8492
+langcode: en
+status: true
+dependencies:
+  module:
+    - localgov_directories
+    - node
+  theme:
+    - hdrc
+_core:
+  default_config_hash: MLsLgTNEeJcGMU_wbjpiyMd09XtlYP9egfUbaOczoos
+id: hdrc_localgov_directories_channel_search_block
+theme: hdrc
+region: sidebar_first
+weight: 0
+provider: null
+plugin: localgov_directories_channel_search_block
+settings:
+  id: localgov_directories_channel_search_block
+  label: 'Directory channel search'
+  label_display: '0'
+  provider: localgov_directories
+  context_mapping:
+    node: '@node.node_route_context:node'
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      localgov_directory: localgov_directory

@@ -1,0 +1,29 @@
+uuid: 0179ee1e-fe0c-410e-9902-e73c7f0895b5
+langcode: en
+status: true
+dependencies:
+  config:
+    - group_content_menu.group_content_menu_type.lgms_utility_menu
+  module:
+    - group_content_menu
+  theme:
+    - hdrc
+_core:
+  default_config_hash: sH_DtsGGJx5fn1SpXL7kp8_YYhnp1OzbE-cK-PcdUuk
+id: hdrc_utility_menu
+theme: hdrc
+region: off_canvas
+weight: -12
+provider: null
+plugin: 'group_content_menu:lgms_utility_menu'
+settings:
+  id: 'group_content_menu:lgms_utility_menu'
+  label: 'Utility menu'
+  label_display: '0'
+  provider: group_content_menu
+  context_mapping:
+    group: '@domain_group.domain_group_context:group'
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility: {  }

@@ -1,0 +1,29 @@
+uuid: 1e410868-1df0-47f7-8dc5-1824a2bc0a39
+langcode: en
+status: true
+dependencies:
+  config:
+    - group_content_menu.group_content_menu_type.lgms_main_menu
+  module:
+    - group_content_menu
+  theme:
+    - hdrc
+_core:
+  default_config_hash: MWeWI_xupAj5b4CXW-230-ZMvP96IlOexkk9x35rl18
+id: hdrc_main_menu
+theme: hdrc
+region: off_canvas
+weight: -13
+provider: null
+plugin: 'group_content_menu:lgms_main_menu'
+settings:
+  id: 'group_content_menu:lgms_main_menu'
+  label: 'Main menu'
+  label_display: '0'
+  provider: group_content_menu
+  context_mapping:
+    group: '@domain_group.domain_group_context:group'
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility: {  }

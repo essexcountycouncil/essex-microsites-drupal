@@ -1,0 +1,22 @@
+uuid: be4ed7ec-b3a6-4d04-977a-d5bd3cf9840e
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - hdrc
+_core:
+  default_config_hash: ArvC1EhXmlkTir18Pef9hMJ2__Ma9op-Cz8o2viG2jc
+id: hdrc_main_page_content
+theme: hdrc
+region: content
+weight: -11
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  label_display: '0'
+  provider: system
+visibility: {  }

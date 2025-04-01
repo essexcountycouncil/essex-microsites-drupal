@@ -1,0 +1,28 @@
+uuid: 744ca52a-38c6-4dd5-8e20-6be634a2c850
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.disposal_options
+  module:
+    - system
+    - views
+  theme:
+    - hdrc
+id: hdrc_exposedformdisposal_optionspage_disposal_search_2
+theme: hdrc
+region: content
+weight: -8
+provider: null
+plugin: 'views_exposed_filter_block:disposal_options-page_disposal_search'
+settings:
+  id: 'views_exposed_filter_block:disposal_options-page_disposal_search'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /disposal-options

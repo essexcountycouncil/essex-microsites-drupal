@@ -1,0 +1,29 @@
+uuid: a14da429-432e-4d01-aea8-00d17d227b32
+langcode: en
+status: true
+dependencies:
+  config:
+    - group_content_menu.group_content_menu_type.lgms_footer_housekeeping
+  module:
+    - group_content_menu
+  theme:
+    - hdrc
+_core:
+  default_config_hash: xahzWQaPs0Y_K9CkA0OOnVkhLY-MPIgelGGJvv2d8NM
+id: hdrc_footer_housekeeping_menu
+theme: hdrc
+region: footer_menu
+weight: -13
+provider: null
+plugin: 'group_content_menu:lgms_footer_housekeeping'
+settings:
+  id: 'group_content_menu:lgms_footer_housekeeping'
+  label: 'Footer housekeeping'
+  label_display: '0'
+  provider: group_content_menu
+  context_mapping:
+    group: '@domain_group.domain_group_context:group'
+  level: 1
+  depth: 1
+  expand_all_items: false
+visibility: {  }

@@ -1,0 +1,30 @@
+uuid: ced91d90-55aa-4ee9-b723-3bea2a0eabcb
+langcode: en
+status: true
+dependencies:
+  module:
+    - localgov_publications
+    - node
+  theme:
+    - hdrc
+id: hdrc_publication_navigation
+theme: hdrc
+region: sidebar_first
+weight: 0
+provider: null
+plugin: publication_navigation
+settings:
+  id: publication_navigation
+  label: 'Publication navigation'
+  label_display: visible
+  provider: localgov_publications
+  context_mapping:
+    node: '@node.node_route_context:node'
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      localgov_publication_page: localgov_publication_page
