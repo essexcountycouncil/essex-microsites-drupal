@@ -15,3 +15,9 @@ step-by-step:
   css:
     theme:
       css/components/step-by-step.css: {}
+
+# Cookies
+cookies:
+  css:
+    theme:
+      css/components/cookies.css: {}

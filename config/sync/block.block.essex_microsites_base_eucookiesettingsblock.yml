@@ -1,0 +1,25 @@
+uuid: 54c5dbbb-a42b-4e2c-ace1-4ecc00936899
+langcode: en
+status: true
+dependencies:
+  module:
+    - localgov_eu_cookie_compliance
+    - system
+  theme:
+    - essex_microsites_base
+id: essex_microsites_base_eucookiesettingsblock
+theme: essex_microsites_base
+region: content_top
+weight: -12
+provider: null
+plugin: cookie_settings_block
+settings:
+  id: cookie_settings_block
+  label: 'EU Cookie settings block'
+  label_display: '0'
+  provider: localgov_eu_cookie_compliance
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/cookies\r\n/cookies-1"

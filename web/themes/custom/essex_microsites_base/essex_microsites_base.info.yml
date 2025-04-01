@@ -11,6 +11,8 @@ libraries-extend:
   # Libraries that extend Localgov Base
   localgov_base/step-by-step:
     - essex_microsites_base/step-by-step
+  localgov_base/global:
+    - essex_microsites_base/cookies
 
 regions:
   tabs: "Tabs"
