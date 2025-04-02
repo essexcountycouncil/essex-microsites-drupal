@@ -185,6 +185,9 @@
             },
             "drupal/views_autocomplete_filters": {
                 "Use different operator for autocomplete": "https://www.drupal.org/files/issues/2024-06-28/2792223_3_autocomplete_operator.patch"
+            },
+            "essexcountycouncil/ecc_cookie_compliance": {
+                "Cookie popup fails to close when gtm is not installed/not configured": "patches/sanity_check_gtm.patch"
             }
         }
     },
