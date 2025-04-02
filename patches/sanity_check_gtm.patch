@@ -1,0 +1,16 @@
+diff --git a/js/live_handler.js b/js/live_handler.js
+index 778b29e..3073353 100644
+--- a/js/live_handler.js
++++ b/js/live_handler.js
+@@ -7,9 +7,9 @@
+ (function ($, Drupal) {
+ 
+     $(document).on('eu_cookie_compliance.changePreferences', function (event, categories) {
+-      if (categories.indexOf('analytics_cookies') >= 0) {
++      if (categories.indexOf('analytics_cookies') >= 0 && typeof window.gtm === "function") {
+         window.gtm();
+-      };
++      }
+ 
+       // Enforce cookie validity every time category approvals change
+       // This way, any blocked cookies are removed as early as possible
