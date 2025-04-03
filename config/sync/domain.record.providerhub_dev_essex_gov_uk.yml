@@ -1,0 +1,16 @@
+uuid: 730cb208-e09b-4848-b5cd-19e1c8be47fb
+langcode: en
+status: true
+dependencies:
+  module:
+    - group_context_domain
+third_party_settings:
+  group_context_domain:
+    group_uuid: cfcc8c7a-d4ea-4434-aa41-7ecc421b2282
+id: providerhub_dev_essex_gov_uk
+domain_id: 16609666
+hostname: providerhub-dev.essex.gov.uk
+name: 'Provider Hub'
+scheme: https
+weight: 8
+is_default: false

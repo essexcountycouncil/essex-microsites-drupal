@@ -1,0 +1,16 @@
+uuid: 0013b426-0700-41c8-bd86-b608553bed13
+langcode: en
+status: true
+dependencies:
+  module:
+    - group_context_domain
+third_party_settings:
+  group_context_domain:
+    group_uuid: f31452e0-3e9f-4006-910e-4eef377b6d5a
+id: youressexcommunity_org
+domain_id: 3840966
+hostname: youressexcommunity.org
+name: 'Your Essex Community'
+scheme: https
+weight: 10
+is_default: false

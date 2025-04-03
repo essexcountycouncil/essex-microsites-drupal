@@ -1,0 +1,16 @@
+uuid: ea98c5bc-37fd-4654-ae0e-ed91d1c35a74
+langcode: en
+status: true
+dependencies:
+  module:
+    - group_context_domain
+third_party_settings:
+  group_context_domain:
+    group_uuid: 264eb8eb-d1be-4aa5-917b-0d22fd58fb8e
+id: eyoo_dev_essex_gov_uk
+domain_id: 6096592
+hostname: eyoo-dev.essex.gov.uk
+name: 'Essex Year of Opportunity'
+scheme: https
+weight: 9
+is_default: false

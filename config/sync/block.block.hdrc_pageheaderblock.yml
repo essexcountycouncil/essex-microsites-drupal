@@ -1,0 +1,25 @@
+uuid: eb13db0a-0927-4d69-9fdb-729c0f2f3761
+langcode: en
+status: true
+dependencies:
+  module:
+    - localgov_core
+    - system
+  theme:
+    - hdrc
+id: hdrc_pageheaderblock
+theme: hdrc
+region: content_top
+weight: -15
+provider: null
+plugin: localgov_page_header_block
+settings:
+  id: localgov_page_header_block
+  label: 'Page header block'
+  label_display: '0'
+  provider: localgov_core
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /cookies

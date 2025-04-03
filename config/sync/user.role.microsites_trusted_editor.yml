@@ -36,6 +36,7 @@ label: 'Microsites trusted editor'
 weight: 3
 is_admin: null
 permissions:
+  - 'access geo_entity_library entity browser pages'
   - 'access localgov alert banner listing page'
   - 'access media overview'
   - 'access responsive preview'

@@ -96,3 +96,7 @@ This CSS file is used to create a visually distinct cookie notice component, whi
 .eu-cookie-compliance-category label {
   display: inline-block;
 }
+
+.lgd-ms--6 table th {
+  color: #fff;
+}

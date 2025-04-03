@@ -1,0 +1,30 @@
+uuid: 04d05a8a-38dd-42f5-b7c1-bbbd587313a3
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:text_block:a150bc99-ad20-4da4-bbb9-13c732dd8e26'
+  module:
+    - block_content
+    - system
+  theme:
+    - hdrc
+id: hdrc_strictlynecessarycookies
+theme: hdrc
+region: content_top
+weight: -13
+provider: null
+plugin: 'block_content:a150bc99-ad20-4da4-bbb9-13c732dd8e26'
+settings:
+  id: 'block_content:a150bc99-ad20-4da4-bbb9-13c732dd8e26'
+  label: 'Strictly Necessary Cookies'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /cookies

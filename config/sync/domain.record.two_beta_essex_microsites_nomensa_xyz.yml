@@ -9,7 +9,7 @@ third_party_settings:
     group_uuid: f1bc3b4d-fea2-4ba2-bdfe-a8eab2da388c
 id: two_beta_essex_microsites_nomensa_xyz
 domain_id: 15484488
-hostname: two.beta.essex-microsites.nomensa.xyz
+hostname: warmhomes-dev.essex.gov.uk
 name: Two
 scheme: https
 weight: 6

@@ -1,0 +1,25 @@
+uuid: 07644559-8669-445e-afe6-2406329771d5
+langcode: en
+status: true
+dependencies:
+  module:
+    - localgov_eu_cookie_compliance
+    - system
+  theme:
+    - hdrc
+id: hdrc_eucookiesettingsblock
+theme: hdrc
+region: content_top
+weight: -12
+provider: null
+plugin: cookie_settings_block
+settings:
+  id: cookie_settings_block
+  label: 'EU Cookie settings block'
+  label_display: '0'
+  provider: localgov_eu_cookie_compliance
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /cookies
