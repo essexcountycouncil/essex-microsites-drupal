@@ -31,6 +31,7 @@ module:
   domain_path_pathauto: 0
   dynamic_page_cache: 0
   ecc_cookie_compliance: 0
+  ecc_group_poll: 0
   ecc_map: 0
   ecc_microsites_redirect_dashboard: 0
   ecc_waste: 0
