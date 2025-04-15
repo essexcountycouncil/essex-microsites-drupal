@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - entity_browser.browser.geo_entity_library
     - localgov_alert_banner.localgov_alert_banner_type.localgov_alert_banner
     - media.type.document
     - media.type.image
@@ -12,6 +13,7 @@ dependencies:
   module:
     - content_moderation
     - domain_path
+    - entity_browser
     - eu_cookie_compliance
     - file
     - geo_entity
@@ -21,6 +23,7 @@ dependencies:
     - media
     - node
     - override_node_options
+    - poll
     - redirect
     - replicate_ui
     - responsive_preview
@@ -39,15 +42,19 @@ permissions:
   - 'access geo_entity_library entity browser pages'
   - 'access localgov alert banner listing page'
   - 'access media overview'
+  - 'access poll overview'
+  - 'access polls'
   - 'access responsive preview'
   - 'access toolbar'
   - 'administer media'
+  - 'administer polls'
   - 'administer redirects'
   - 'create directory facets'
   - 'create document media'
   - 'create geo'
   - 'create image media'
   - 'create media'
+  - 'create polls'
   - 'create remote_video media'
   - 'create terms in media_category'
   - 'delete all revisions'
@@ -64,6 +71,7 @@ permissions:
   - 'edit geo'
   - 'edit own document media'
   - 'edit own image media'
+  - 'edit own polls'
   - 'edit own remote_video media'
   - 'edit terms in media_category'
   - 'manage localgov alert banner localgov_alert_banner entities'
@@ -85,5 +93,6 @@ permissions:
   - 'view localgov alert banner localgov_alert_banner pages'
   - 'view media'
   - 'view own unpublished media'
+  - 'view poll results'
   - 'view the administration theme'
   - 'view webform submissions own node'
