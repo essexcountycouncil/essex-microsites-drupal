@@ -1,0 +1,47 @@
+<?php
+
+use Drupal\Core\Url;
+use Drupal\group\Context\GroupContext;
+use Drupal\group\Entity\Group;
+
+
+/**
+ * Implements hook_form_FORM_ID_alter()
+ */
+function ecc_group_poll_form_poll_form_alter(&$form, &$form_state) {
+  $form['actions']['submit']['#submit'][] = 'microsite_create_poll_redirect_submit';
+}
+
+/**
+ * Custom submit function for microsite poll creation.
+ *
+ * Redirects the microsite editor to a sensible play they will expect after
+ * poll creation.
+ *
+ * @param array $form
+ *   A structured array representing the form itself.
+ * @param array $form_state
+ *   An array representing the form state.
+ * @return void
+ */
+function microsite_create_poll_redirect_submit($form, &$form_state) {
+  /** @var \Drupal\domain\DomainInterface $current_domain */
+  $current_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
+  if (!empty($current_domain)) {
+    $group_uuid = $current_domain->getThirdPartySetting('group_context_domain', 'group_uuid');
+    if (!empty($group_uuid)) {
+      /** @var \Drupal\group\Entity\GroupInterface $group */
+      $group = \Drupal::service('entity.repository')
+        ->loadEntityByUuid('group', $group_uuid);
+    }
+  }
+  if (!empty($group)) {
+    $destination_path = '/group/' . $group->id() . '/nodes';
+  }
+  else {
+    // If we can't find the group, just go to the homepage.
+    $destination_path = '/';
+  }
+  $destination_url = Url::fromUserInput($destination_path);
+  $form_state->setRedirectUrl($destination_url);
+}

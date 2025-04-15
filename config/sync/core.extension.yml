@@ -31,14 +31,17 @@ module:
   domain_path_pathauto: 0
   dynamic_page_cache: 0
   ecc_cookie_compliance: 0
+  ecc_group_poll: 0
   ecc_map: 0
   ecc_microsites_redirect_dashboard: 0
   ecc_waste: 0
   ecc_webform: 0
   editor: 0
+  embed: 0
   entity: 0
   entity_browser: 0
   entity_browser_entity_form: 0
+  entity_embed: 0
   entity_reference_facet_link: 0
   entity_reference_revisions: 0
   entity_usage: 0
@@ -155,6 +158,7 @@ module:
   path_alias: 0
   path_redirect_import: 0
   phpass: 0
+  poll: 0
   redirect: 0
   redirect_404: 0
   replicate: 0

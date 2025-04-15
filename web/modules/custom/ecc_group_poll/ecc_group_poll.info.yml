@@ -1,0 +1,5 @@
+name: 'ECC Group Poll'
+type: module
+description: 'Modifications to make poll work within a microsite context.'
+package: Custom
+core_version_requirement: ^10 || ^11

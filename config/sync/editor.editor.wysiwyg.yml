@@ -36,6 +36,7 @@ settings:
       - sourceEditing
       - '|'
       - insertTable
+      - poll
   plugins:
     ckeditor5_alignment:
       enabled_alignments:

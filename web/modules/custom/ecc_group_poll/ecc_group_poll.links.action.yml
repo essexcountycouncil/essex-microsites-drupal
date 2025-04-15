@@ -1,0 +1,6 @@
+ecc_group_poll.poll_list:
+  route_name: 'poll.poll_list'
+  title: 'Polls'
+  appears_on:
+    - 'view.group_nodes.page_1'
+    - 'view.group_nodes.microsite_page'
