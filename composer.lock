@@ -8597,26 +8597,26 @@
         },
         {
             "name": "essexcountycouncil/ecc_cookie_compliance",
-            "version": "1.0.2",
+            "version": "1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/essexcountycouncil/ecc_cookie_compliance.git",
-                "reference": "d95852802bf305214d56ea5088cec43b0651a9ba"
+                "reference": "a282c3854743cfc6667b8fbccf2044b22e686068"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/essexcountycouncil/ecc_cookie_compliance/zipball/d95852802bf305214d56ea5088cec43b0651a9ba",
-                "reference": "d95852802bf305214d56ea5088cec43b0651a9ba",
+                "url": "https://api.github.com/repos/essexcountycouncil/ecc_cookie_compliance/zipball/a282c3854743cfc6667b8fbccf2044b22e686068",
+                "reference": "a282c3854743cfc6667b8fbccf2044b22e686068",
                 "shasum": ""
             },
             "type": "drupal-module",
             "description": "Shared Drupal eu cookie compliance functionality for Essex County Council",
             "homepage": "https://github.com/essexcountycouncil/ecc_cookie_compliance",
             "support": {
-                "source": "https://github.com/essexcountycouncil/ecc_cookie_compliance/tree/1.0.2",
+                "source": "https://github.com/essexcountycouncil/ecc_cookie_compliance/tree/1.0.4",
                 "issues": "https://github.com/essexcountycouncil/ecc_cookie_compliance/issues"
             },
-            "time": "2024-04-12T14:14:46+00:00"
+            "time": "2025-04-28T10:39:39+00:00"
         },
         {
             "name": "geocoder-php/common-http",
